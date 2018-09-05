@@ -1,7 +1,4 @@
 #include "AI.h"
-#include "NameGenerator.h"
-#include "Map.h"
-#include <stdlib.h>
 
 AI::AI() {
 
@@ -35,12 +32,12 @@ void AI::move() {
 	bool up = true, down = true, right = true, left = true;
 	if (this->x == 0) {
 		left = false;
-	}else if (this->x == Map::mapsize - 1) {
+	}else if (this->x == 100) {
 		right = false;
 	}
 	if (this->y == 0) {
 		up = false;
-	}else if (this->y == Map::mapsize - 1) {
+	}else if (this->y == 100) {
 		down = false;
 	}
 

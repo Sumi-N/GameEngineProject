@@ -1,6 +1,4 @@
 #include "NameGenerator.h"
-#include <stdlib.h>
-#include <iostream>
 
 
 

@@ -1,14 +1,16 @@
 #pragma once
-#include "Map.h";
+#include "NameGenerator.h"
+#include <stdlib.h>
+
 class AI
 {
 private:
-	char* namep;
-	char name[256];
 	int x, y;
-	int map[Map::mapsize][Map::mapsize];
+	int map[100][100];
 
 public:
+	char* namep;
+	char name[256];
 	AI();
 	AI(int);
 	~AI();
