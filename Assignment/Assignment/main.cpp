@@ -34,6 +34,7 @@ int main() {
 
 		mapp->showMap();
 
+		std::cout << "press \' a\' to move right \'d\' to move left \'w\' to move up \'s\' to move down \'q\' to quit this game" << std::endl;
 		std::cin >> order;
 		mapp->movePlayer(order);
 		mapp->moveAIs();
