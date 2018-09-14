@@ -27,13 +27,17 @@ private:
 	U data2;
 };
 
+template <class T, class U> Vector2D<T, U>::Vector2D() {
+
+}
+
 template <class T, class U> Vector2D<T,U>::Vector2D(T _data1, U _data2) {
 	data1 = _data1;
 	data2 = _data2;
 }
 
 template <class T, class U> Vector2D<T, U>::~Vector2D() {
-	printf("this instance is deleted \n");
+	printf("this Vector is deleted \n");
 }
 
 template <class T, class U> void Vector2D<T, U>::operator+(Vector2D vec) {

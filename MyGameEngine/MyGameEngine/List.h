@@ -19,12 +19,12 @@ public:
 	List();
 	~List();
 	void add(T data);
-	List* begin() { return this; }
-	List* end() { return NULL; }
+	List* begin() { return next; }
+	List* end() { return nullptr; }
 
 private:
 
-	List * next;
+	List* next;
 	List* prev;
 	T data;
 
@@ -33,14 +33,13 @@ private:
 
 template <class T> List<T>::List()
 {
-	data = NULL;
-	next = NULL;
-	prev = NULL;
+	next = nullptr;
+	prev = nullptr;
 }
 
 template <class T> List<T>::List(List<T>* _prev, T _data) {
 	data = _data;
-	next = NULL;
+	next = nullptr;
 	prev = _prev;
 }
 
@@ -48,19 +47,21 @@ template <class T> List<T>::List(List<T>* _prev, T _data) {
 template <class T> List<T>::~List()
 {
 	delete next;
-	printf("the linked-list: %p is deleting \n", &(this->data));
+	printf("delete the list: %c, and it's address %p \n",this->data, &(this->data));
 }
 
 template <class T> void List<T>::add(T _data)
 {
 	//If this is the first node
+	/*
 	if (data == NULL) {
 		data = _data;
 		return;
 	}
+	*/
 	//If this is the latest node, then add _data
-	if (next == NULL) {
-		next = new List<T>(this, _data);
+	if (next == nullptr) {
+		//next = new List<T>(this, _data);
 		return;
 	}
 	//If this is "not" the last node, then do recursion

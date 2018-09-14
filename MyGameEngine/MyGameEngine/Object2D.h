@@ -11,6 +11,12 @@ public:
 	List<char> name;
 	Vector2D<int, int> pos;
 
+	/*
+	bool operator==(std::nullptr_t){
+		return true;
+	}
+	*/
+
 
 private:
 	void randomName(int);

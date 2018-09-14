@@ -8,7 +8,6 @@ public:
 	Monster();
 	~Monster();
 	Monster(int, int);
-	List<char> name;
 
 };
 
