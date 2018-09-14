@@ -10,27 +10,36 @@
     <Filter Include="Object">
       <UniqueIdentifier>{8e35f844-1e73-4962-9eba-d742d999e690}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{f54f81ef-1d25-4b8c-85f7-90bf108dfd49}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StaticLibTest.cpp">
       <Filter>test1</Filter>
     </ClCompile>
-    <ClCompile Include="Vector2D.cpp">
-      <Filter>DataStructure</Filter>
-    </ClCompile>
     <ClCompile Include="Object2D.cpp">
       <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionDetection.cpp">
+      <Filter>Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StaticLibTest.h">
       <Filter>test1</Filter>
     </ClInclude>
+    <ClInclude Include="Object2D.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="List.h">
+      <Filter>DataStructure</Filter>
+    </ClInclude>
     <ClInclude Include="Vector2D.h">
       <Filter>DataStructure</Filter>
     </ClInclude>
-    <ClInclude Include="Object2D.h">
-      <Filter>Object</Filter>
+    <ClInclude Include="CollisionDetection.h">
+      <Filter>Physics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

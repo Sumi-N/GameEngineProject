@@ -1,18 +1,18 @@
 #pragma once
 #include "Vector2D.h"
+#include "List.h"
 
 class Object2D
 {
 public:
 	Object2D();
 	~Object2D();
-
-	void set(int, int);
-	Vector2D get();
+	Object2D(int x, int y);
+	List<char> name;
+	Vector2D<int, int> pos;
 
 
 private:
-	Vector2D vec;
-
+	void randomName(int);
 };
 
