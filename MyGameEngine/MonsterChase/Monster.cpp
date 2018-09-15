@@ -17,11 +17,15 @@ Monster::Monster(int x, int y) {
 	pos.setY(y);
 }
 
-void Monster::showMonster() {
-	std::cout << "this monster is at (" << this->pos.x() << "," << this->pos.y() << ")" << std::endl;
-}
-
 void Monster::setPositions() {
 	this->pos.setX(rand() % 100);
 	this->pos.setY(rand() % 100);
+}
+
+void Monster::showPosition() {
+	Object2D::showPosition();
+}
+
+void Monster::showName() {
+	Object2D::showName();
 }

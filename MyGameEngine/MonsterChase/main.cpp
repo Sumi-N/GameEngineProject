@@ -23,15 +23,15 @@ int main() {
 	List<Monster> monsters;
 	for (int i = 0; i < mn; i++) {
 		Monster mon;
+		mon.setPositions();
 		monsters.add(mon);
 	}
 	Player player1;
 
-	List<Monster>::Iterator it;
-	it = monsters.begin();
-	while (it != monsters.end()) {
-		(*it).setPositions();
-		it++;
+	List<Monster>::Iterator i;
+	for (i = monsters.begin(); i != monsters.end(); i++) {
+		(*i).showPosition();
+		(*i).showName();
 	}
 	
 
@@ -46,13 +46,6 @@ int main() {
 			turncount = 0;
 			Monster mon;
 			monsters.add(mon);
-		}
-
-		List<Monster>::Iterator it;
-		it = monsters.begin();
-		while (it != monsters.end()) {
-			(*it).showMonster();
-			it++;
 		}
 
 		std::cout << "press \' a\' to move right \'d\' to move left \'w\' to move up \'s\' to move down \'q\' to quit this game" << std::endl;

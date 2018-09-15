@@ -7,10 +7,13 @@ class Object2D
 public:
 	Object2D();
 	~Object2D();
-	Object2D(const Object2D &obj) {}
-	Object2D(int x, int y);
+	Object2D(const Object2D &obj);
+
 	List<char> name;
 	Vector2D<int, int> pos;
+
+	void showPosition();
+	void showName();
 
 private:
 	void randomName(int);

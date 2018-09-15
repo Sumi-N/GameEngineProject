@@ -8,7 +8,8 @@ public:
 	Monster();
 	~Monster();
 	Monster(int, int);
-	void showMonster();
 	void setPositions();
+	void showPosition();
+	void showName();
 };
 

@@ -3,6 +3,12 @@ template <class T> class List
 {
 public:
 
+	List();
+	~List();
+	List(const List <T> & data);
+	void add(T data);
+	List* begin() { return next; }
+	List* end() { return nullptr; }
 	T& getDate() { return data; }
 	List* getNext() { return next; }
 
@@ -15,12 +21,6 @@ public:
 		void operator=(List* ptr) { iter = ptr; }
 		bool operator!=(List* ptr) { return iter != ptr; }
 	};
-
-	List();
-	~List();
-	void add(T data);
-	List* begin() { return next; }
-	List* end() { return nullptr; }
 
 private:
 
@@ -41,6 +41,10 @@ template <class T> List<T>::List(List<T>* _prev, T _data) {
 	data = _data;
 	next = nullptr;
 	prev = _prev;
+}
+
+template <class T> List<T>::List(const List<T> &data) {
+	this.data = data;
 }
 
 

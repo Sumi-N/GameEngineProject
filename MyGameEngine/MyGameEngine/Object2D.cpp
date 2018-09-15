@@ -7,30 +7,15 @@ Object2D::Object2D()
 	//printf("constructor for object2d is called\n");
 }
 
-/*
-Object2D::Object2D(int namelength)
-{
-	randomName(namelength);
-
-	//for debagging
-	List<char>::Iterator it;
-	it = name.begin();
-	while (it != name.end()) {
-		std::cout << *it << std::endl;
-		it++;
-	}
-}
-*/
-
-
 Object2D::~Object2D()
 {
 	//printf("deconstrutor for object2d is called\n");
 }
 
-Object2D::Object2D(int x, int y) {
-	pos.setX(x);
-	pos.setY(y);
+Object2D::Object2D(const Object2D &obj) {
+	pos = obj.pos;
+	name = obj.name;
+	printf("copyconstractor of Object2D is called\n");
 }
 
 void Object2D::randomName(int length) {
@@ -40,4 +25,19 @@ void Object2D::randomName(int length) {
 		name.add(c); 
 	}
 	name.add('\0');
+}
+
+void Object2D::showPosition() {
+	std::cout << "this monster is at (" << this->pos.x() << "," << this->pos.y() << ")" << std::endl;
+}
+
+void Object2D::showName(){
+	randomName(5);
+
+	List<char>::Iterator i;
+	for (i = name.begin(); i != name.end(); i++) {
+		printf("%c", *i);
+	}
+	printf("\n");
+
 }
