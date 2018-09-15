@@ -4,7 +4,6 @@
 
 CollisionDetection::CollisionDetection()
 {
-	printf("this call is not valid construcotr");
 }
 
 
@@ -12,7 +11,19 @@ CollisionDetection::~CollisionDetection()
 {
 }
 
-void CollisionDetection::add(Object2D obj)
+/*
+void CollisionDetection::add(const Object2D &_obj)
 {
-	collision.add(obj);
+	collision.add(_obj);
 }
+*/
+
+void CollisionDetection::add(Object2D* _obj) {
+	collision.add(_obj);
+}
+
+/*
+Object2D* CollisionDetection::check() {
+
+}
+*/

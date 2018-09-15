@@ -47,21 +47,14 @@ template <class T> List<T>::List(List<T>* _prev, T _data) {
 template <class T> List<T>::~List()
 {
 	delete next;
-	printf("delete the list: %c, and it's address %p \n",this->data, &(this->data));
+	//printf("delete the list: %c, and it's address %p \n",this->data, &(this->data));
 }
 
 template <class T> void List<T>::add(T _data)
 {
-	//If this is the first node
-	/*
-	if (data == NULL) {
-		data = _data;
-		return;
-	}
-	*/
 	//If this is the latest node, then add _data
 	if (next == nullptr) {
-		//next = new List<T>(this, _data);
+		next = new List<T>(this, _data);
 		return;
 	}
 	//If this is "not" the last node, then do recursion

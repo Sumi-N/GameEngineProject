@@ -3,51 +3,42 @@
 #include<iostream>
 #include "List.h"
 #include "CollisionDetection.h"
+#include "Monster.h"
+#include "Player.h"
 
 int main() {
 
-	/*
-	List<char> hoge;
-	hoge.add('a');
-	hoge.add('2');
-	hoge.add('b');
-	hoge.add('s');
-	List<int> foo;
-	foo.add(3);
-	foo.add(4);
-	foo.add(5);
+	int mn;
+	char *p;
+	char player[256];
+	p = player;
 
-	std::cout << &hoge << std::endl;
-	std::cout << &foo << std::endl;
+	std::cout << "choose the number of monster" << std::endl;
+	std::cin >> mn;
+	std::cout << "the number of monster pops up : " << mn << std::endl;
+	std::cout << "type your player name" << std::endl;
+	std::cin >> player;
+	std::cout << "your name is " << player << std::endl;
 
-	List<char>::Iterator it;
-	it = hoge.begin();
-	while (it != hoge.end()) {
-		std::cout << *it << std::endl;
-		it++;
-	}
-
-	hoge.~List();
-
-	List<int>::Iterator at;
-	at = foo.begin();
-	while (at != foo.end()) {
-		std::cout << *at << std::endl;
-		at++;
-	}
-	*/
-
-	Object2D a;
-	Object2D b;
-	Object2D c;
+	Monster* monsters = new Monster[mn]();
+	Player player1;
 	
-	std::cout << "hello we start throwing to list" << std::endl;
-	List<Object2D> baa;
-	baa.add(a);
-	baa.add(b);
-	baa.add(c);
-	
-	while (1) {
 
+	int turncount = 0;
+	char order = 'p';
+	while (order != 'q') {
+
+		if (turncount != 3) {
+			turncount++;
+		}
+		else {
+			turncount = 0;
+		}
+
+
+		std::cout << "press \' a\' to move right \'d\' to move left \'w\' to move up \'s\' to move down \'q\' to quit this game" << std::endl;
+		std::cin >> order;
 	}
+
+	return 0;
 }
