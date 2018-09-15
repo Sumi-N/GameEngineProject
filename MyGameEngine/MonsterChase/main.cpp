@@ -20,8 +20,19 @@ int main() {
 	std::cin >> player;
 	std::cout << "your name is " << player << std::endl;
 
-	Monster* monsters = new Monster[mn]();
+	List<Monster> monsters;
+	for (int i = 0; i < mn; i++) {
+		Monster mon;
+		monsters.add(mon);
+	}
 	Player player1;
+
+	List<Monster>::Iterator it;
+	it = monsters.begin();
+	while (it != monsters.end()) {
+		(*it).setPositions();
+		it++;
+	}
 	
 
 	int turncount = 0;
@@ -33,8 +44,16 @@ int main() {
 		}
 		else {
 			turncount = 0;
+			Monster mon;
+			monsters.add(mon);
 		}
 
+		List<Monster>::Iterator it;
+		it = monsters.begin();
+		while (it != monsters.end()) {
+			(*it).showMonster();
+			it++;
+		}
 
 		std::cout << "press \' a\' to move right \'d\' to move left \'w\' to move up \'s\' to move down \'q\' to quit this game" << std::endl;
 		std::cin >> order;

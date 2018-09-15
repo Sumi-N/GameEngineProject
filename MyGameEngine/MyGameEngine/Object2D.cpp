@@ -37,7 +37,7 @@ void Object2D::randomName(int length) {
 	char characters[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	for (int i = 0; i < length; i++) {
 		char c = characters[rand() % (sizeof(characters) - 1)];
-		name.add(c);
+		name.add(c); 
 	}
 	name.add('\0');
 }
