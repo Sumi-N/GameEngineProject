@@ -5,5 +5,6 @@ class Player : Object2D
 public:
 	Player();
 	~Player();
+	bool move(char);
 };
 

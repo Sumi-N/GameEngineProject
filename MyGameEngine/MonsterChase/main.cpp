@@ -24,6 +24,7 @@ int main() {
 	for (int i = 0; i < mn; i++) {
 		Monster mon;
 		mon.setPositions();
+		mon.showName();
 		monsters.add(mon);
 	}
 	Player player1;

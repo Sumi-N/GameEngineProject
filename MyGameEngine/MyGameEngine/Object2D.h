@@ -15,7 +15,8 @@ public:
 	void showPosition();
 	void showName();
 
-private:
 	void randomName(int);
+
+private:
 };
 

@@ -4,18 +4,18 @@
 
 Object2D::Object2D()
 {
-	//printf("constructor for object2d is called\n");
+	printf("constructor for object2D is called\n");
 }
 
 Object2D::~Object2D()
 {
-	//printf("deconstrutor for object2d is called\n");
+	printf("deconstrutor for object2D is called\n");
 }
 
 Object2D::Object2D(const Object2D &obj) {
+	printf("copyconstractor of Object2D is called\n");
 	pos = obj.pos;
 	name = obj.name;
-	printf("copyconstractor of Object2D is called\n");
 }
 
 void Object2D::randomName(int length) {
@@ -32,7 +32,6 @@ void Object2D::showPosition() {
 }
 
 void Object2D::showName(){
-	randomName(5);
 
 	List<char>::Iterator i;
 	for (i = name.begin(); i != name.end(); i++) {

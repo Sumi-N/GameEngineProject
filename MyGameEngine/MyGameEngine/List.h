@@ -27,8 +27,6 @@ private:
 	List* next;
 	List* prev;
 	T data;
-
-	List(List<T>* prev, T data);
 };
 
 template <class T> List<T>::List()
@@ -37,28 +35,27 @@ template <class T> List<T>::List()
 	prev = nullptr;
 }
 
-template <class T> List<T>::List(List<T>* _prev, T _data) {
-	data = _data;
-	next = nullptr;
-	prev = _prev;
+template <class T> List<T>::List(const List<T> &_list) {
+	printf("copy the list: %c, and it's address %p \n", this->data, &(this->data));
+	if (_list.next != nullptr) {
+		List(_list.next);
+	}
+	this.data = _list.data;
 }
-
-template <class T> List<T>::List(const List<T> &data) {
-	this.data = data;
-}
-
 
 template <class T> List<T>::~List()
 {
+	printf("delete the list: %c, and it's address %p \n",this->data, &(this->data));
 	delete next;
-	//printf("delete the list: %c, and it's address %p \n",this->data, &(this->data));
 }
 
 template <class T> void List<T>::add(T _data)
 {
 	//If this is the latest node, then add _data
 	if (next == nullptr) {
-		next = new List<T>(this, _data);
+		next = new List<T>();
+		next->prev = this;
+		next->data = _data;
 		return;
 	}
 	//If this is "not" the last node, then do recursion

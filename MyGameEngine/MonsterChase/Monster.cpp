@@ -5,6 +5,7 @@
 
 Monster::Monster()
 {
+	Object2D::randomName(5);
 }
 
 
