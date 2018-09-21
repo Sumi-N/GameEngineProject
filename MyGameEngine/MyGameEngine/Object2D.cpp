@@ -5,36 +5,24 @@
 Object2D::Object2D()
 {
 	//printf("constructor for object2D is called\n");
+
 }
 
 Object2D::~Object2D()
 {
-	//printf("deconstrutor for object2D is called\n");
-}
-
-Object2D::Object2D(Object2D & obj) {
-	//printf("copyconstractor of Object2D is called\n");
-	pos = obj.pos;
-	name = obj.name;
-}
-
-bool Object2D::operator==(const Object2D & obj)
-{
-	if (this->pos == obj.pos) {
-		return true;
-	}
-	else {
-		return false;
-	}
+	printf("deconstrutor for object2D is called\n");
+	delete[] headofname;
 }
 
 void Object2D::randomName(int length) {
+	namelength = length;
 	char characters[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	name = new char[length+1];
+	headofname = name;
 	for (int i = 0; i < length; i++) {
-		char c = characters[rand() % (sizeof(characters) - 1)];
-		name.add(c); 
+		name[i] = characters[rand() % (sizeof(characters) - 1)];
 	}
-	name.add('\0');
+	name[length] = '\0';
 }
 
 void Object2D::showPosition() {
@@ -42,10 +30,8 @@ void Object2D::showPosition() {
 }
 
 void Object2D::showName(){
-	List<char>::Iterator i;
-	for (i = name.begin(); i != name.end(); i++) {
-		printf("%c", *i);
+	for (int i = 0; i < namelength; i++) {
+		printf("%c", name[i]);
 	}
 	printf("\n");
-
 }

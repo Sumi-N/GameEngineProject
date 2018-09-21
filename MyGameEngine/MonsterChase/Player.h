@@ -7,6 +7,7 @@ public:
 	~Player();
 	bool move(char);
 	void setPositions();
-	Vector2D<int, int> returnPos();
+	void setName(char*);
+	void showName() override;
 };
 

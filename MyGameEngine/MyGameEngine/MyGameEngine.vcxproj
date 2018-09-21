@@ -19,16 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CollisionDetection.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Object2D.h" />
-    <ClInclude Include="StaticLibTest.h" />
     <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CollisionDetection.cpp" />
     <ClCompile Include="Object2D.cpp" />
-    <ClCompile Include="StaticLibTest.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

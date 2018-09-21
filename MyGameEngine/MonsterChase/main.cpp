@@ -1,24 +1,18 @@
+#define _CRTDBG_MAP_ALLOC  
+#include <stdlib.h>  
+#include <crtdbg.h>  
 #include<iostream>
-#include "List.h"
 #include "Object2D.h"
 #include "Monster.h"
 #include "Player.h"
+#include "List.h"
 
-int main() {
+int test() {
 
 	int mn;
 	char *p;
 	char player[256];
 	p = player;
-
-	List<Monster> test;
-	Monster test2;
-	test2.showName();
-	test.add(test2);
-	List<Monster>::Iterator k;
-	for (k = test.begin(); k != test.end(); k++) {
-		(*k).showName();
-	}
 
 	std::cout << "choose the number of monster" << std::endl;
 	std::cin >> mn;
@@ -27,49 +21,21 @@ int main() {
 	std::cin >> player;
 	std::cout << "your name is " << player << std::endl;
 
-	List<Monster> monsters;
+	List<Monster*> monsters;
+
 	for (int i = 0; i < mn; i++) {
-		Monster mon;
-		mon.setPositions();
-		monsters.add(mon);
+		Monster* monster = new Monster;
+		monster->randomName(10);
+		monster->setPositions();
+		monsters.add(monster);
 	}
 
-	Player player1;
-	player1.setPositions();
 
-	List<Monster>::Iterator i;
-	List<Monster>::Iterator j;
+	Player sumi;
+	sumi.setName(p);
+	sumi.showName();
 
-	player1.showPosition();
-
-	for (i = monsters.begin(); i != monsters.end(); i++) {
-		(*i).showPosition();
-		(*i).showName();
-	}
-
-	for (i = monsters.begin(); i != monsters.end(); i++) {
-		if ((*i).pos == player1.pos) {
-			monsters.kill(*i);
-			std::cout << "you hit a Monster\n" << std::endl;
-		}
-	}
-
-	for (i = monsters.begin(); i != monsters.end(); i++) {
-		for (j = monsters.begin(); j != monsters.end(); j++) {
-			if (i == j) continue;
-			if ((*i).pos == (*j).pos) {
-				monsters.kill(*i);
-				monsters.kill(*j);
-				std::cout << "two monsters are killed\n" << std::endl;
-			}
-		}
-	}
-
-	for (i = monsters.begin(); i != monsters.end(); i++) {
-		(*i).showPosition();
-	}
 	
-
 	int turncount = 0;
 	char order = 'p';
 	while (order != 'q') {
@@ -79,13 +45,40 @@ int main() {
 		}
 		else {
 			turncount = 0;
-			Monster mon;
-			monsters.add(mon);
+			Monster* monster = new Monster;
+			monster->randomName(10);
+			monster->setPositions();
+			monsters.add(monster);
+		}
+
+		for (int i = 0; i < mn; i++) {
+			monsters.get(i)->showName();
+			monsters.get(i)->showPosition();
 		}
 
 		std::cout << "press \' a\' to move right \'d\' to move left \'w\' to move up \'s\' to move down \'q\' to quit this game" << std::endl;
 		std::cin >> order;
-	}
 
+		sumi.move(order);
+
+		for (int i = 0; i < mn; i++) {
+			monsters.get(i)->move();
+			if (monsters.get(i)->pos == sumi.pos) {
+				monsters.remove(monsters.get(i));
+			}
+			for (int j = i; j < mn; j++) {
+				if (monsters.get(i)->pos == monsters.get(j)->pos) {
+					monsters.remove(monsters.get(i));
+					monsters.remove(monsters.get(j));
+				}
+			}
+		}
+	}
+	return 0;
+}
+
+int main() {
+	test();
+	_CrtDumpMemoryLeaks();
 	return 0;
 }

@@ -37,7 +37,7 @@ template <class T, class U> Vector2D<T,U>::Vector2D(T _data1, U _data2) {
 }
 
 template <class T, class U> Vector2D<T, U>::~Vector2D() {
-	//printf("destractor of Vector2D is called \n");
+	printf("destractor of Vector2D is called \n");
 }
 
 template <class T, class U> void Vector2D<T, U>::operator+(Vector2D vec) {

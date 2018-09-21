@@ -12,5 +12,6 @@ public:
 	void showPosition();
 	void showName();
 	Vector2D<int,int> returnPos();
+	void move();
 };
 

@@ -1,133 +1,97 @@
 #pragma once
 #include <iostream>
-template <class T> class List
+
+template <class T> class Node
 {
 public:
-
-	List();
-	~List();
-	List(const List <T> & data);
-	List& operator=(List&);
-	bool operator==(const List&);
-
-	void add(T _data);
-	void kill(T _data);
-
-	List* begin() { return next; }
-	List* end() { return nullptr; }
-	T& getDate() { return data; }
-	List* getNext() { return next; }
-
-	class Iterator {
-	private:
-		List* iter;
-	public:
-		void operator++(int){ iter = (iter->getNext()); }
-		T& operator*() { return iter->getDate(); }
-		void operator=(List* ptr) { iter = ptr; }
-		bool operator!=(List* ptr) { return iter != ptr; }
-		bool operator==(Iterator itr) { if (itr.iter == this->iter) { return true; } else { return false; } }
-	};
-
-private:
-
-	List* next;
-	List* prev;
 	T data;
+	Node* next;
+	Node(T _data) {
+		this->data = _data;
+	}
+
+	~Node() {
+		delete data;
+	}	
 };
 
-template <class T> List<T>::List()
+template <class T> class List
 {
-	next = nullptr;
-	prev = nullptr;
-}
+private:
+	int size;
+	Node<T> *head;
 
-template <class T> List<T>::List(const List<T> &_list) {
-	printf("copy constractor for the list is called \n");
-	
-	const List<T>* curr = &_list;
-	List<T>* now = this;
-	prev = nullptr;
+public:
 
-	List<T>* tmp;
+	List() {
+		head = nullptr;
+		size = 0;
+	};
+	~List() {
+		if (head == nullptr) 
+			return;
 
-	while (curr) {
-		tmp = new List<T>();
-		tmp->data = curr->data;
-		now ->next = tmp;
-		curr = curr->next;
-		now = now->next;
-	}
-}
+		Node<T> * curre = head;
+		Node<T> * temp;
 
-template <class T> List<T>& List<T>::operator=(List<T> &_list) {
-	//printf("\'=\' operand is called \n");
-
-	const List<T>* curr = &_list;
-	List<T>* now = this;
-	prev = nullptr;
-
-	List<T>* tmp;
-
-	while (curr) {
-		tmp = new List<T>();
-		tmp->data = curr->data;
-		now = tmp;
-		curr = curr->next;
-		now = now->next;
-	}
-
-	return *this;
-}
-
-template <class T> bool List<T>::operator==(const List<T> &_list) {
-	const List<T>* curr = &_list;
-	List<T>* now = this;
-	while(curr) {
-		if (now->data != curr->data) {
-			return false;
+		while (curre->next != nullptr) {
+			temp = curre;
+			curre = temp->next;
+			delete temp;
 		}
-		curr = curr->next;
-		now = now->next;
+		delete curre;
 	}
-	return true;
-}
 
-template <class T> List<T>::~List()
-{
-	//printf("delete the list: %c, and it's address %p \n",this->data, &(this->data));
-	delete next;
-}
+	void add(T data) {
+		if (head == nullptr) {
+			head = new Node<T>(data);
+			size++;
+			return;
+		}
+		else {
+			Node<T> *curre = head;
+			while (curre->next != nullptr) {
+				curre = curre->next;
+			}
 
-template <class T> void List<T>::add(T _data)
-{
-	//If this is the latest node, then add _data
-	if (next == nullptr) {
-		next = new List<T>();
-		next->prev = this;
-		next->data = _data;
-		return;
+			curre->next = new Node<T>(data);
+			size++;
+		}
 	}
-	//If this is "not" the last node, then do recursion
-	next->add(_data);
-	return;
-}
 
-template <class T> void List<T>::kill(T _data)
-{
-	if (next == nullptr) {
-		printf("there wasn't the node to kill\n");
-		return;
+	bool remove(T data) {
+		Node<T> *curre = head;
+		Node<T> *prev = nullptr;
+		int count = 0;
+		while (curre->next != nullptr) {
+			count++;
+			if (curre->data == data) {
+				if (count == size) {
+					prev = nullptr;
+					delete curre;
+					size--;
+					return true;
+				}
+				Node<T> *tmp = curre;
+				curre->next = curre->next->next;
+				size--;
+				delete tmp;
+				return true;
+			}
+			prev = curre;
+			curre = curre->next;
+		}
+		return false;
 	}
-	if (next->data == _data) {
-		List<T>* targetnode = next;
-		next = next->next;
-		delete targetnode;
-		printf("succesfully deleted the node\n");
-	}
-	else {
-		next->kill(_data);
-	}
-}
 
+	T get(int i) {
+		int count = 0;
+		Node<T> *curre = head;
+		while (count != i) {
+			curre = curre->next;
+			count++;
+		}
+		return curre->data;
+	}
+};
 
