@@ -5,7 +5,6 @@ template <class T, class U> class Vector2D
 public:
 	Vector2D();
 	Vector2D(T, U);
-	Vector2D(const Vector2D <T, U> &vec);
 	~Vector2D();
 	
 	void operator+(Vector2D);
@@ -35,12 +34,6 @@ template <class T, class U> Vector2D<T, U>::Vector2D() {
 template <class T, class U> Vector2D<T,U>::Vector2D(T _data1, U _data2) {
 	data1 = _data1;
 	data2 = _data2;
-}
-
-template <class T, class U> Vector2D<T, U>::Vector2D(const Vector2D &vec) {
-	this->setX(vec.getX);
-	this->setY(vec.getY);
-	printf("copyconstractor of Vector2D is called\n");
 }
 
 template <class T, class U> Vector2D<T, U>::~Vector2D() {

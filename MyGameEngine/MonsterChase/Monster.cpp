@@ -19,8 +19,8 @@ Monster::Monster(int x, int y) {
 }
 
 void Monster::setPositions() {
-	this->pos.setX(rand() % 100);
-	this->pos.setY(rand() % 100);
+	this->pos.setX(rand() % 3);
+	this->pos.setY(rand() % 3);
 }
 
 void Monster::showPosition() {
@@ -29,4 +29,9 @@ void Monster::showPosition() {
 
 void Monster::showName() {
 	Object2D::showName();
+}
+
+Vector2D<int,int> Monster::returnPos()
+{
+	return pos;
 }

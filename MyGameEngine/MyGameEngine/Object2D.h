@@ -5,18 +5,17 @@
 class Object2D
 {
 public:
-	Object2D();
-	~Object2D();
-	Object2D(const Object2D &obj);
-
 	List<char> name;
 	Vector2D<int, int> pos;
+	Object2D();
+	~Object2D();
+	Object2D(Object2D &obj);
+	bool operator==(const Object2D &);
 
 	void showPosition();
 	void showName();
 
 	void randomName(int);
-
 private:
 };
 

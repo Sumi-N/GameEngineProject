@@ -11,6 +11,16 @@ Player::~Player()
 {
 }
 
+void Player::setPositions() {
+	this->pos.setX(rand() % 3);
+	this->pos.setY(rand() % 3);
+}
+
+Vector2D<int, int> Player::returnPos()
+{
+	return pos;
+}
+
 bool Player::move(char order) {
 	if (order == 'w' && this->pos.y() != 0) {
 		int tmp = this->pos.y();
