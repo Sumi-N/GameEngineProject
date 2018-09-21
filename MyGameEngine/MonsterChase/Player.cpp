@@ -1,5 +1,6 @@
 #include "Player.h"
 #include <stdlib.h>
+#include <iostream>
 
 
 
@@ -28,6 +29,11 @@ void Player::showName()
 		printf("%c", name[i]);
 	}
 	printf("\n");
+}
+
+void Player::showPosition()
+{
+	std::cout << "this player is at (" << this->pos.x() << "," << this->pos.y() << ")" << std::endl;
 }
 
 

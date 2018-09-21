@@ -63,23 +63,24 @@ public:
 		Node<T> *curre = head;
 		Node<T> *prev = nullptr;
 		int count = 0;
-		while (curre->next != nullptr) {
-			count++;
+		while (curre != nullptr) {
 			if (curre->data == data) {
-				if (count == size) {
-					prev = nullptr;
+				if (count == size-1) {
+					prev->next = nullptr;
 					delete curre;
 					size--;
 					return true;
 				}
-				Node<T> *tmp = curre;
+				Node<T> *tmp = curre->next;
 				curre->next = curre->next->next;
 				size--;
+				tmp = nullptr;
 				delete tmp;
 				return true;
 			}
 			prev = curre;
 			curre = curre->next;
+			count++;
 		}
 		return false;
 	}
@@ -87,11 +88,15 @@ public:
 	T get(int i) {
 		int count = 0;
 		Node<T> *curre = head;
-		while (count != i) {
+		while (count != i && curre !=nullptr) {
 			curre = curre->next;
 			count++;
 		}
 		return curre->data;
+	}
+
+	int length() {
+		return this->size;
 	}
 };
 

@@ -10,7 +10,7 @@ Object2D::Object2D()
 
 Object2D::~Object2D()
 {
-	printf("deconstrutor for object2D is called\n");
+	//printf("deconstrutor for object2D is called\n");
 	delete[] headofname;
 }
 

@@ -9,5 +9,6 @@ public:
 	void setPositions();
 	void setName(char*);
 	void showName() override;
+	void showPosition() override;
 };
 

@@ -11,7 +11,7 @@ public:
 	Object2D();
 	~Object2D();
 
-	void showPosition();
+	virtual void showPosition();
 	virtual void showName();
 
 	void randomName(int);
