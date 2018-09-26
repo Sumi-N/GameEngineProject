@@ -82,8 +82,8 @@ int test() {
 		}
 
 		for (int i = 0; i < monsters.length(); i++) {
-			monsters.get(i)->showName();
-			monsters.get(i)->showPosition();
+			//monsters.get(i)->showName();
+			//monsters.get(i)->showPosition();
 		}
 		sumi.showPosition();
 		printf("%d\n", monsters.length());
@@ -120,6 +120,6 @@ int test() {
 
 int main() {
 	test();
-	//_CrtDumpMemoryLeaks();
+	_CrtDumpMemoryLeaks();
 	return 0;
 }

@@ -74,7 +74,6 @@ public:
 				Node<T> *tmp = curre->next;
 				curre->next = curre->next->next;
 				size--;
-				tmp = nullptr;
 				delete tmp;
 				return true;
 			}
