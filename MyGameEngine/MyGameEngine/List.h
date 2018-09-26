@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <assert.h>
 
 template <class T> class Node
 {
@@ -74,7 +75,6 @@ public:
 				Node<T> *tmp = curre->next;
 				curre->next = curre->next->next;
 				size--;
-				tmp = nullptr;
 				delete tmp;
 				return true;
 			}
@@ -82,6 +82,7 @@ public:
 			curre = curre->next;
 			count++;
 		}
+		assert(false);
 		return false;
 	}
 

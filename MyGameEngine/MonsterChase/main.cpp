@@ -1,13 +1,14 @@
 #define _CRTDBG_MAP_ALLOC  
-#include <stdlib.h>  
 #include <crtdbg.h>  
 #include<iostream>
-#include "Object2D.h"
 #include "Monster.h"
 #include "Player.h"
 #include "List.h"
+#include "DebugLog.h"
+
 
 int test() {
+	DEBUG_PRINT("hello world");
 
 	int mn;
 	char *p;
@@ -16,6 +17,7 @@ int test() {
 
 	std::cout << "choose the number of monster" << std::endl;
 	std::cin >> mn;
+	assert(typeid(mn).name() != "int");
 	std::cout << "the number of monster pops up : " << mn << std::endl;
 	std::cout << "type your player name" << std::endl;
 	std::cin >> player;
