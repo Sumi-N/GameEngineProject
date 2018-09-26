@@ -7,10 +7,16 @@
     <Filter Include="Object">
       <UniqueIdentifier>{8e35f844-1e73-4962-9eba-d742d999e690}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{39b4dbca-65a8-470e-afe8-f2fbbfd6d653}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Object2D.cpp">
       <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugLog.cpp">
+      <Filter>Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -22,6 +28,9 @@
     </ClInclude>
     <ClInclude Include="List.h">
       <Filter>DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugLog.h">
+      <Filter>Debug</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

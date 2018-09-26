@@ -9,36 +9,6 @@
 
 int test() {
 
-	/*
-	List<Monster*> test;
-
-	for (int i = 0; i < 5; i++) {
-		Monster* monster = new Monster;
-		monster->randomName(10);
-		monster->setPositions();
-		test.add(monster);
-
-		test.get(i)->showName();
-		test.get(i)->showPosition();
-	}
-	Monster* hey = new Monster;
-	hey->randomName(10);
-	hey->setPositions();
-	test.add(hey);
-
-	printf("\n");
-
-	if(test.remove(test.get(2))) {
-		printf("heloo");
-	}
-	test.remove(test.get(2));
-
-	for (int i = 0; i < test.length(); i++) {
-		test.get(i)->showName();
-		test.get(i)->showPosition();
-	}
-	*/
-
 	int mn;
 	char *p;
 	char player[256];
@@ -120,6 +90,6 @@ int test() {
 
 int main() {
 	test();
-	//_CrtDumpMemoryLeaks();
+	_CrtDumpMemoryLeaks();
 	return 0;
 }

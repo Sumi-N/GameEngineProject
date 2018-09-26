@@ -19,11 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DebugLog.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Object2D.h" />
     <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DebugLog.cpp" />
     <ClCompile Include="Object2D.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
