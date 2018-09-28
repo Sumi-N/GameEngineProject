@@ -20,12 +20,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DebugLog.h" />
+    <ClInclude Include="HeapManager.h" />
+    <ClInclude Include="HeapManagerProxy.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Object2D.h" />
     <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DebugLog.cpp" />
+    <ClCompile Include="HeapManager.cpp" />
+    <ClCompile Include="HeapManagerProxy-Sample.cpp" />
+    <ClCompile Include="HeapManager_UnitTest.cpp" />
     <ClCompile Include="Object2D.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

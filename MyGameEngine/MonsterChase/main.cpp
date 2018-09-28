@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "List.h"
 #include "DebugLog.h"
+#include <Windows.h>
 
 
 int test() {
@@ -90,8 +91,13 @@ int test() {
 	return 0;
 }
 
+#include <conio.h>
+extern bool HeapManager_UnitTest();
+
 int main() {
-	test();
-	_CrtDumpMemoryLeaks();
+	//test();
+	//_CrtDumpMemoryLeaks();
+	HeapManager_UnitTest();
+	_getch();
 	return 0;
 }
