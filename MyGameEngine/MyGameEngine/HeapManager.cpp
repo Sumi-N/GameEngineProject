@@ -17,6 +17,9 @@ void HeapManager::destroy()
 void * HeapManager::_alloc(size_t i_size)
 {
 	_current = (HeapManager *)_current + i_size;
+	if (_current >= (HeapManager *)_p + _size) {
+		_current = nullptr;
+	}
 	return _current;
 }
 
@@ -24,6 +27,9 @@ void * HeapManager::_alloc(size_t i_size, unsigned int i_alignment)
 {
 	unsigned int chanks = i_size / i_alignment + 1;
 	_current = (HeapManager *)_current + i_alignment * (size_t)chanks;
+	if (_current >= (HeapManager *)_p + _size) {
+		_current = nullptr;
+	}
 	return _current;
 }
 
