@@ -14,9 +14,10 @@ void HeapManager::destroy()
 {
 }
 
-void * HeapManager::_alloc(size_t)
+void * HeapManager::_alloc(size_t i_size)
 {
-	return nullptr;
+	_current = (HeapManager *)_current + i_size;
+	return _current;
 }
 
 void * HeapManager::_alloc(size_t i_size, unsigned int i_alignment)
