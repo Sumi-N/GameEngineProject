@@ -1,9 +1,13 @@
 #include "HeapManager.h"
 #include "DebugLog.h"
 
-HeapManager * HeapManager::create(void *, size_t, unsigned int)
+HeapManager * HeapManager::create(void * i_pMemory, size_t i_sizeMemory, unsigned int i_numDescriptors)
 {
-	return nullptr;
+	_p = i_pMemory;
+	_current = _p;
+	_size = i_sizeMemory;
+	_desnum = i_numDescriptors;
+	return (HeapManager *)_p;
 }
 
 void HeapManager::destroy()
@@ -15,9 +19,11 @@ void * HeapManager::_alloc(size_t)
 	return nullptr;
 }
 
-void * HeapManager::_alloc(size_t, unsigned int)
+void * HeapManager::_alloc(size_t i_size, unsigned int i_alignment)
 {
-	return nullptr;
+	unsigned int chanks = i_size / i_alignment + 1;
+	_current = (HeapManager *)_current + i_alignment * (size_t)chanks;
+	return _current;
 }
 
 
