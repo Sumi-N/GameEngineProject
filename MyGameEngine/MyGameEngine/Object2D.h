@@ -7,6 +7,7 @@ public:
 	//List<char> name;
 	char *headofname;
 	char *name;
+	int namelength;
 	Vector2D<int, int> pos;
 	Object2D();
 	~Object2D();
@@ -15,7 +16,5 @@ public:
 	virtual void showName();
 
 	void randomName(int);
-private:
-	int namelength;
 };
 
