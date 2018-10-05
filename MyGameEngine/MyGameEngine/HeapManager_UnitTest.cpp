@@ -87,6 +87,7 @@ bool HeapManager_UnitTest()
 	// until it runs out of memory
 	do
 	{
+		printf("hello\n");
 		const size_t		maxTestAllocationSize = 1024;
 
 		size_t			sizeAlloc = 1 + (rand() & (maxTestAllocationSize - 1));

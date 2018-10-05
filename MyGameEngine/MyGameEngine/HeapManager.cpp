@@ -3,15 +3,15 @@
 
 HeapManager * HeapManager::create(void * i_pMemory, size_t i_sizeMemory, unsigned int i_numDescriptors)
 {
-	_head = (HeapManager *)i_pMemory;
-	_current = (HeapManager *)i_pMemory;
+	_head = (unsigned char *)i_pMemory;
+	_current = (unsigned char *)i_pMemory;
 	_size = i_sizeMemory;
 	_desnum = i_numDescriptors;
 
 	Using* tmp = (Using *)i_pMemory;
 	tmp->exit = false;
 	tmp->size = i_sizeMemory;
-	return _head;
+	return (HeapManager *)_current;
 }
 
 void HeapManager::destroy()
@@ -20,8 +20,8 @@ void HeapManager::destroy()
 
 void * HeapManager::_alloc(size_t i_size)
 {
-	_current = (HeapManager *)_current + i_size;
-	if (_current >= (HeapManager *)_head + _size) {
+	_current = _current + i_size;
+	if (_current >= (unsigned char *)_head + _size) {
 		_current = nullptr;
 	}
 	return _current;
@@ -29,25 +29,24 @@ void * HeapManager::_alloc(size_t i_size)
 
 void * HeapManager::_alloc(size_t i_size, unsigned int i_alignment)
 {
+	//check if the pointer for current memory is exit
+	Using * __current = (Using *)_current;
+	if (__current->exit) {
+		_current += __current->size;
+	}
+
 	//check if it won't overflow from the heap
 	if ( _current + i_size >= _head + _size) {
 		return nullptr;
 	}
 
-	Using * current = (Using *)_current;
-	if (current->exit) {
-		//_current += current->size;
-	}
-	else {
-
-	}
 	//calculate number of the chanks it needs
 	unsigned int chanks = (i_size + sizeof(Using))/ i_alignment + 1;
 	//assigne discriptor to the head of the memory
-	Using tmp = {true, chanks * i_alignment};
-	_current = &tmp;
-	
-	_current = (HeapManager *)_current + i_alignment * (size_t)chanks;
+
+	Using* tmp = (Using *)_current;
+	tmp->exit = true;
+	tmp->size = chanks * i_alignment;
 }
 
 

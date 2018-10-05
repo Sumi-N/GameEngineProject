@@ -1,9 +1,8 @@
 #pragma once
-#include "List.h";
 
-static HeapManager * _head;		//head pointer
-static HeapManager * _current; //current pointer
-static size_t _size;	//heap size
+static unsigned char * _head; //head pointer
+static unsigned char * _current; //current pointer
+static size_t _size; //heap size
 static unsigned int _desnum; //descriptors' number
 
 typedef struct Using {
