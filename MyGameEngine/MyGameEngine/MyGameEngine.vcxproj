@@ -29,7 +29,6 @@
   <ItemGroup>
     <ClCompile Include="DebugLog.cpp" />
     <ClCompile Include="HeapManager.cpp" />
-    <ClCompile Include="HeapManagerList.cpp" />
     <ClCompile Include="HeapManagerProxy-Sample.cpp" />
     <ClCompile Include="HeapManager_UnitTest.cpp" />
     <ClCompile Include="Object2D.cpp" />

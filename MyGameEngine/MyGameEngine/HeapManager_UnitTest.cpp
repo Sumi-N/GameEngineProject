@@ -87,7 +87,6 @@ bool HeapManager_UnitTest()
 	// until it runs out of memory
 	do
 	{
-		printf("hello\n");
 		const size_t		maxTestAllocationSize = 1024;
 
 		size_t			sizeAlloc = 1 + (rand() & (maxTestAllocationSize - 1));
@@ -101,7 +100,6 @@ bool HeapManager_UnitTest()
 		const unsigned int	alignment = alignments[index];
 
 		void * pPtr = alloc(pHeapManager, sizeAlloc, alignment);
-
 		// check that the returned address has the requested alignment
 		assert((reinterpret_cast<uintptr_t>(pPtr) & (alignment - 1)) == 0);
 #else
@@ -123,7 +121,6 @@ bool HeapManager_UnitTest()
 			if (pPtr == nullptr)
 				break;
 		}
-
 		AllocatedAddresses.push_back(pPtr);
 		numAllocs++;
 
@@ -136,7 +133,8 @@ bool HeapManager_UnitTest()
 			void * pPtr = AllocatedAddresses.back();
 			AllocatedAddresses.pop_back();
 
-			bool success = Contains(pHeapManager, pPtr) && IsAllocated(pHeapManager, pPtr);
+			bool success = Contains(pHeapManager, pPtr)&& IsAllocated(pHeapManager, pPtr);
+			//printf("the answer for allovated is : %d\n", IsAllocated(pHeapManager, pPtr));
 			assert(success);
 
 			success = free(pHeapManager, pPtr);
