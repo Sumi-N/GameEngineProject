@@ -30,9 +30,6 @@
     <ClCompile Include="HeapManager_UnitTest.cpp">
       <Filter>System</Filter>
     </ClCompile>
-    <ClCompile Include="HeapManagerList.cpp">
-      <Filter>System</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Object2D.h">
