@@ -233,5 +233,6 @@ bool HeapManager_UnitTest()
 	HeapFree(GetProcessHeap(), 0, pHeapMemory);
 
 	// we succeeded
+	printf("we succeeded");
 	return true;
 }

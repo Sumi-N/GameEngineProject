@@ -25,6 +25,9 @@ void * HeapManager::_alloc(size_t i_size)
 	if (_current >= (unsigned char *)_head + _size) {
 		_current = nullptr;
 	}
+	Using * tmp = (Using *)_current;
+	tmp->exit = true;
+	tmp->size = i_size;
 	return _current;
 }
 
@@ -71,6 +74,41 @@ bool HeapManager::_free(void * i_ptr)
 
 void HeapManager::collect()
 { 
+	unsigned char * convertor;
+	Using * curr = (Using *)_head;
+	convertor = (unsigned char *)curr;
+	convertor += curr->size;
+	curr = (Using *)convertor;
+	Using * prev = (Using *)_head;
+
+	while ((unsigned char *)curr <= _head + _size) {
+		if (curr->exit) {
+			prev = curr;
+			convertor = (unsigned char *)curr;
+			convertor += curr->size;
+			curr = (Using *)convertor;
+		}
+		else {
+			if (prev->exit) {
+				prev = curr;
+				convertor = (unsigned char *)curr;
+				convertor += curr->size;
+				curr = (Using *)convertor;
+			}
+			else {
+				prev->size += curr->size;
+				convertor = (unsigned char *)curr;
+				convertor += curr->size;
+				curr = (Using *)convertor;
+			}
+		}
+
+		if (curr->size == 0) {
+			break;
+		}
+	}
+	_current = (unsigned char *)prev;
+	/*
 	unsigned char * convertor;
 	Using * curr = (Using *)_head;
 	convertor = (unsigned char *)curr;
@@ -125,13 +163,13 @@ void HeapManager::collect()
 				curr = (Using *)convertor;
 			}
 		}
-		
-		//printf("%p, %d\n", curr, curr->size);
+
 		if (curr->size == 0) {
 			break;
 		}
 	}
-	_current = (unsigned char *)curr;
+	_current = (unsigned char *)prev;
+	*/
 }
 
 bool HeapManager::Contains(void * i_ptr) const
