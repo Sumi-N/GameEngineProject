@@ -24,7 +24,8 @@ public:
 	size_t getLargestFreeBlock() const;
 	size_t getTotalFreeMemory() const;
 	void ShowFreeBlocks() const;
-	void ShowOutstandingAllocatios();
+	void ShowOutstandingAllocations() const;
+	static size_t s_MinumumToLeave();
 
 private:
 };

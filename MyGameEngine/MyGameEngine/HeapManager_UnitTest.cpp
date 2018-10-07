@@ -1,4 +1,5 @@
 #include "HeapManagerProxy.h"
+#include "HeapManager.h"
 #include <Windows.h>
 
 #include <assert.h>
@@ -8,6 +9,7 @@
 #define SUPPORTS_ALIGNMENT
 #define SUPPORTS_SHOWFREEBLOCKS
 #define SUPPORTS_SHOWOUTSTANDINGALLOCATIONS
+//#define TEST_SINGLE_LARGE_ALLOCATION
 
 bool HeapManager_UnitTest()
 {
@@ -37,7 +39,7 @@ bool HeapManager_UnitTest()
 #endif // SUPPORTS_SHOWFREEBLOCKS
 
 		size_t largestBeforeAlloc = GetLargestFreeBlock(pHeapManager);
-		void * pPtr = alloc(pHeapManager, largestBeforeAlloc - HeapManager::s_MinumumToLeave);
+		void * pPtr = alloc(pHeapManager, largestBeforeAlloc - HeapManager::s_MinumumToLeave());
 
 		if (pPtr)
 		{
