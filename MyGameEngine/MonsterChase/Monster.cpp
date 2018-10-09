@@ -52,6 +52,7 @@ void Monster::move() {
 
 	if (right && left) {
 		pos.setX(rand() % 2 ? pos.x() + 1 : pos.x() - 1);
+		pos = pos + Vector2D<int,int>(1, 1);
 	}
 	else {
 		pos.setX(right ? pos.x() + 1 : pos.x() - 1);
@@ -64,3 +65,4 @@ void Monster::move() {
 		pos.setY(up ? pos.y() + 1 : pos.y() - 1);
 	}
 }
+	 

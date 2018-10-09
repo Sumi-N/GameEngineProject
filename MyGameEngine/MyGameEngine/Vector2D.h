@@ -7,10 +7,11 @@ public:
 	Vector2D(T, U);
 	~Vector2D();
 	
-	void operator+(Vector2D);
+	Vector2D<T,U> & operator+(Vector2D);
 	void operator-(Vector2D);
 	bool operator==(Vector2D);
 	bool operator!=(Vector2D);
+	Vector2D<T, U> & operator=(const Vector2D &);
 
 	T x() { return data1; };
 	U y() { return data2; };
@@ -40,9 +41,10 @@ template <class T, class U> Vector2D<T, U>::~Vector2D() {
 	//printf("destractor of Vector2D is called \n");
 }
 
-template <class T, class U> void Vector2D<T, U>::operator+(Vector2D vec) {
+template <class T, class U> Vector2D<T,U> & Vector2D<T, U>::operator+(Vector2D vec) {
 	data1 += vec.data1;
 	data2 += vec.data2;
+	return *this;
 }
 
 template <class T, class U> void Vector2D<T, U>::operator-(Vector2D vec) {
@@ -61,5 +63,11 @@ template <class T, class U>  bool Vector2D<T, U>::operator==(Vector2D vec) {
 
 template <class T, class U>  bool Vector2D<T, U>::operator!=(Vector2D vec) {
 	return !(this == (vec));
+}
+
+template <class T, class U>  Vector2D<T,U> & Vector2D<T, U>::operator=(const Vector2D<T,U> & vec) {
+	this->data1 = vec.data1;
+	this->data2 = vec.data2;
+	return *this;
 }
 
