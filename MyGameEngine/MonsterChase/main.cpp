@@ -78,6 +78,9 @@ int test() {
 		std::cin >> order;
 
 		sumi.move(order);
+		for (int i = 0; i < monsters.length(); i++) {
+			monsters.get(i)->move();
+		}
 
 		count = 0;
 		for (int i = 0; i < monsters.length(); i++) {
