@@ -1,43 +1,15 @@
 #define _CRTDBG_MAP_ALLOC  
-#include <stdlib.h>  
 #include <crtdbg.h>  
 #include<iostream>
-#include "Object2D.h"
 #include "Monster.h"
 #include "Player.h"
 #include "List.h"
+#include "DebugLog.h"
+#include <Windows.h>
+
 
 int test() {
-
-	/*
-	List<Monster*> test;
-
-	for (int i = 0; i < 5; i++) {
-		Monster* monster = new Monster;
-		monster->randomName(10);
-		monster->setPositions();
-		test.add(monster);
-
-		test.get(i)->showName();
-		test.get(i)->showPosition();
-	}
-	Monster* hey = new Monster;
-	hey->randomName(10);
-	hey->setPositions();
-	test.add(hey);
-
-	printf("\n");
-
-	if(test.remove(test.get(2))) {
-		printf("heloo");
-	}
-	test.remove(test.get(2));
-
-	for (int i = 0; i < test.length(); i++) {
-		test.get(i)->showName();
-		test.get(i)->showPosition();
-	}
-	*/
+	DEBUG_PRINT("hello world");
 
 	int mn;
 	int *deletelist;
@@ -48,6 +20,7 @@ int test() {
 
 	std::cout << "choose the number of monster" << std::endl;
 	std::cin >> mn;
+	assert(typeid(mn).name() != "int");
 	std::cout << "the number of monster pops up : " << mn << std::endl;
 	std::cout << "type your player name" << std::endl;
 	std::cin >> player;
@@ -105,6 +78,9 @@ int test() {
 		std::cin >> order;
 
 		sumi.move(order);
+		for (int i = 0; i < monsters.length(); i++) {
+			monsters.get(i)->move();
+		}
 
 		count = 0;
 		for (int i = 0; i < monsters.length(); i++) {
@@ -142,8 +118,12 @@ int test() {
 	return 0;
 }
 
+#include <conio.h>
+extern bool HeapManager_UnitTest();
+
 int main() {
 	test();
-	_CrtDumpMemoryLeaks();
+	//_CrtDumpMemoryLeaks();
+	//HeapManager_UnitTest();
 	return 0;
 }

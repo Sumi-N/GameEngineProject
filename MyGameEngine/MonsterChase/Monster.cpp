@@ -18,8 +18,8 @@ Monster::Monster(int x, int y) {
 }
 
 void Monster::setPositions() {
-	this->pos.setX(rand() % 10);
-	this->pos.setY(rand() % 10);
+	this->pos.setX(rand() % 100);
+	this->pos.setY(rand() % 100);
 }
 
 void Monster::showPosition() {
