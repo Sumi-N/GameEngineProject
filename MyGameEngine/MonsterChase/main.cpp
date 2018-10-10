@@ -87,6 +87,7 @@ int test() {
 		for (int i = 0; i < monsters.length(); i++) {
 			if (monsters.get(i)->pos == sumi.pos) {
 				*(deletelist + count) = i;
+				printf("monster deleted\n");
 				count++;
 			}
 		}
@@ -103,6 +104,7 @@ int test() {
 				if (monsters.get(i)->pos == monsters.get(j)->pos) {
 					if (i == j) continue;
 					*(deletelist + count) = i;
+					printf("monster deleted\n");
 					count++;
 					break;
 				}
