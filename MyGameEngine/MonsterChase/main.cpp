@@ -42,6 +42,7 @@ int test() {
 		monsters.add(monster);
 	}
 	deletelist = new int[mn];
+	int * headofdelete = deletelist;
 
 
 	Player sumi;
@@ -115,6 +116,8 @@ int test() {
 			//printf("monster is deleted\n");
 		}
 	}
+
+	delete[] headofdelete;
 	return 0;
 }
 
@@ -123,7 +126,7 @@ extern bool HeapManager_UnitTest();
 
 int main() {
 	test();
-	//_CrtDumpMemoryLeaks();
+	_CrtDumpMemoryLeaks();
 	//HeapManager_UnitTest();
 	return 0;
 }
