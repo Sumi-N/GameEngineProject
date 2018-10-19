@@ -91,7 +91,7 @@ public:
 		return false;
 	}
 
-	T get(int i) {
+	T get(const int i) {
 		int count = 0;
 		Node<T> *curre = head;
 		while (count != i && curre !=nullptr) {
