@@ -53,7 +53,7 @@ void * HeapManager::_alloc(size_t i_size, unsigned int i_alignment)
 	}
 
 	//calculate number of the chanks it needs
-	unsigned int chanks = (i_size + sizeof(Using))/ i_alignment + 1;
+	size_t chanks = (i_size + sizeof(Using))/ i_alignment + 1;
 
 	//assigne discriptor to the head of the memory
 	Using * tmp = (Using *)_current;
@@ -240,7 +240,7 @@ void HeapManager::ShowFreeBlocks() const
 			break;
 		}
 		if (!(tmp->exit)) {
-			printf("No%d: address %p, size %d (freed)\n", dn, tmp, tmp->size);
+			printf("No%d: address %p, size %zu (freed)\n", dn, tmp, tmp->size);
 			dn++;
 		}
 		iterator += tmp->size;
@@ -259,7 +259,7 @@ void HeapManager::ShowOutstandingAllocations() const
 			break;
 		}
 		if (tmp->exit) {
-			printf("No%d: address %p, size %d (outstanding) \n", dn, tmp, tmp->size);
+			printf("No%d: address %p, size %zu (outstanding) \n", dn, tmp, tmp->size);
 			dn++;
 		}
 		iterator += tmp->size;
