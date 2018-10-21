@@ -13,9 +13,9 @@ public:
 	bool operator!=(const Vector2D) const;
 	Vector2D<T, U> & operator=(const Vector2D &);
 
-	T x() { return data1; };
-	U y() { return data2; };
-	Vector2D get() { return this; }
+	T x() const { return data1; };
+	U y() const { return data2; };
+	Vector2D get() const { return this; }
 
 	void setX(T _data1) { data1 = _data1; }
 	void setY(U _data2) { data2 = _data2; }

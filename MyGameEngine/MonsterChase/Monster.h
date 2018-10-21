@@ -1,7 +1,6 @@
 #pragma once
 #include "Object2D.h"
 #include "Vector2D.h"
-#include <iostream>
 
 class Monster : public Object2D
 {
@@ -14,8 +13,8 @@ public:
 	};
 	void setPositions();
 	void showPosition() override;
-	void showName();
-	Vector2D<int,int> returnPos();
+	void showName() override;
+	Vector2D<int,int> returnPos() const;
 	void move();
 };
 
@@ -32,7 +31,7 @@ inline void Monster::showName() {
 	Object2D::showName();
 }
 
-inline Vector2D<int, int> Monster::returnPos()
+inline Vector2D<int, int> Monster::returnPos() const
 {
 	return pos;
 }
