@@ -48,7 +48,7 @@ public:
 		delete curre;
 	}
 
-	void add(T data) {
+	void add(const T data) {
 		if (head == nullptr) {
 			head = new Node<T>(data);
 			size++;

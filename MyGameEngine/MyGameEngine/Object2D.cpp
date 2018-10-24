@@ -26,7 +26,6 @@ void Object2D::randomName(int length) {
 }
 
 void Object2D::showPosition() {
-	std::cout << "this monster is at (" << this->pos.x() << "," << this->pos.y() << ")" << std::endl;
 }
 
 void Object2D::showName(){
