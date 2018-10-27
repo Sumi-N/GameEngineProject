@@ -7,6 +7,24 @@
 #include "DebugLog.h"
 #include <Windows.h>
 
+void constCorrect() {
+	Vector2D<int, int> vec1 = Vector2D<int, int>(2, 2);
+	Vector2D<int, int> vec2 = Vector2D<int, int>(1, 3);
+	Vector2D<int, int> vec3 = vec1 + vec2;
+	Vector2D<int, int> vec4 = vec3 - vec2;
+
+	printf("vec4's x is %d, y is %d\n", vec4.x(), vec4.y());
+	
+	vec4.setX(8);
+	vec4.setY(9);
+
+	printf("vec4's x is %d, y is %d\n", vec4.x(), vec4.y());
+
+	vec4.set(Vector2D<int, int>(5, 5));
+
+	printf("vec4's x is %d, y is %d\n", vec4.x(), vec4.y());
+
+}
 
 int test() {
 	DEBUG_PRINT("hello world");
@@ -128,7 +146,8 @@ extern bool HeapManager_UnitTest();
 
 int main() {
 	//HeapManager_UnitTest();
-	test();
+	constCorrect();
+	//test();
 	_CrtDumpMemoryLeaks();
 	return 0;
 }
