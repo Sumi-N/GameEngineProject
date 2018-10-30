@@ -8,24 +8,20 @@
 
 #include "List.h"
 
-char * MakeSentence(char **);
+char * MakeSentence(const char string[][256]);
 
 void query() {
-	char str[256];
-	char * chars[256];
+	char str2[256][256];
 	int num = 0;
 
 	std::cout << "pls type pharases. when you type done, it will proccess" << std::endl;
 	while (1) {
-		if (num > 5) break;
-		std::cin >> str;
-		chars[num] = (char*)malloc(sizeof(char) * strlen(str) + 1);
-		strcpy_s(chars[num], sizeof(char) * strlen(str) + 1, str);
+		gets_s(str2[num], 256);
+		if (str2[num][0] == '\0') break;
 		num++;
 	}
-	chars[num] = NULL;
 
-	char * sentence = MakeSentence(chars);
+	char * sentence = MakeSentence(str2);
 
 	printf("The Sentence is: %s", sentence);
 
@@ -60,13 +56,13 @@ int main(int i_argc, char ** i_argl)
 	return 0;
 }
 
-char * MakeSentence(char ** strings) {
+char * MakeSentence(const char strings[][256]) {
 	int j = 0;
 	int k = 0;
 	int numberofallocation = 0;
 
-	while (&*strings[j] != NULL) {
-		while (*(&(*strings[j]) + k) != '\0') {
+	while (strings[j][0] != '\0') {
+		while (strings[j][k] != '\0') {
 			numberofallocation++;
 			k++;
 		}
@@ -81,8 +77,8 @@ char * MakeSentence(char ** strings) {
 	char* doing = sentence;
 
 	j = 0;
-	while (&*strings[j] != NULL) {
-		while (*(&(*strings[j]) + k) != '\0') {
+	while (strings[j][0] != '\0') {
+		while (strings[j][k] != '\0') {
 			*doing = *(&(*strings[j]) + k);
 			doing++;
 			k++;
