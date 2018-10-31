@@ -4,15 +4,15 @@
 
 HeapManager * HeapManager::create(void * i_pMemory, size_t i_sizeMemory, unsigned int i_numDescriptors)
 {
-	_head = (unsigned char *)i_pMemory;
-	_current = (unsigned char *)i_pMemory;
+	_head = static_cast<unsigned char *>(i_pMemory);
+	_current = static_cast<unsigned char *>(i_pMemory);
 	_size = i_sizeMemory;
 	_desnum = i_numDescriptors;
 
-	Using * tmp = (Using *)i_pMemory;
+	Using * tmp = static_cast<Using *>(i_pMemory);
 	tmp->exit = false;
 	tmp->size = i_sizeMemory;
-	return (HeapManager *)_current;
+	return reinterpret_cast<HeapManager *>(_current);
 }
 
 void HeapManager::destroy()
@@ -22,10 +22,10 @@ void HeapManager::destroy()
 void * HeapManager::_alloc(size_t i_size)
 {
 	_current = _current + i_size;
-	if (_current >= (unsigned char *)_head + _size) {
+	if (_current >= reinterpret_cast<unsigned char *>(_head) + _size) {
 		_current = nullptr;
 	}
-	Using * tmp = (Using *)_current;
+	Using * tmp = reinterpret_cast<Using *>(_current);
 	tmp->exit = true;
 	tmp->size = i_size;
 	return _current;
@@ -34,14 +34,14 @@ void * HeapManager::_alloc(size_t i_size)
 void * HeapManager::_alloc(size_t i_size, unsigned int i_alignment)
 {	
 	//check if the pointer for current memory is exit
-	Using * __current = (Using *)_current;
+	Using * __current = reinterpret_cast<Using *>(_current);
 	if (__current->exit) {
 		_current += __current->size;
 	}
 
 	//make a padding
 	size_t distance = _current - _head ;
-	Using * padding = (Using *)_current;
+	Using * padding = reinterpret_cast<Using *>(_current);
 	padding->exit = false;
 	padding->size = ((distance + sizeof(Using)) / i_alignment + 1) * i_alignment - distance;
 	_current += padding->size;
@@ -53,21 +53,21 @@ void * HeapManager::_alloc(size_t i_size, unsigned int i_alignment)
 	}
 
 	//calculate number of the chanks it needs
-	unsigned int chanks = (i_size + sizeof(Using))/ i_alignment + 1;
+	size_t chanks = (i_size + sizeof(Using))/ i_alignment + 1;
 
 	//assigne discriptor to the head of the memory
-	Using * tmp = (Using *)_current;
+	Using * tmp = reinterpret_cast<Using *>(_current);
 	tmp->exit = true;
 	tmp->size = chanks * i_alignment;
 
 	//printf("the size of alloc %d\n", tmp->size);
-	return (void *)_current;
+	return static_cast<void *>(_current);
 }
 
 
 bool HeapManager::_free(void * i_ptr)
 {
-	Using * tmp = (Using * )i_ptr;
+	Using * tmp = reinterpret_cast<Using *>(i_ptr);
 	tmp->exit = false;
 	return true;
 }
@@ -75,31 +75,31 @@ bool HeapManager::_free(void * i_ptr)
 void HeapManager::collect()
 { 
 	unsigned char * convertor;
-	Using * curr = (Using *)_head;
-	convertor = (unsigned char *)curr;
+	Using * curr = reinterpret_cast<Using *>(_head);
+	convertor = reinterpret_cast<unsigned char *>(curr);
 	convertor += curr->size;
-	curr = (Using *)convertor;
-	Using * prev = (Using *)_head;
+	curr = reinterpret_cast<Using *>(convertor);
+	Using * prev = reinterpret_cast<Using *>(_head);
 
-	while ((unsigned char *)curr <= _head + _size) {
+	while (reinterpret_cast<unsigned char *>(curr) <= _head + _size) {
 		if (curr->exit) {
 			prev = curr;
 			convertor = (unsigned char *)curr;
 			convertor += curr->size;
-			curr = (Using *)convertor;
+			curr = reinterpret_cast<Using *>(convertor);
 		}
 		else {
 			if (prev->exit) {
 				prev = curr;
-				convertor = (unsigned char *)curr;
+				convertor = reinterpret_cast<unsigned char *>(curr);
 				convertor += curr->size;
-				curr = (Using *)convertor;
+				curr = reinterpret_cast<Using *>(convertor);
 			}
 			else {
 				prev->size += curr->size;
-				convertor = (unsigned char *)curr;
+				convertor = reinterpret_cast<unsigned char *>(curr);
 				convertor += curr->size;
-				curr = (Using *)convertor;
+				curr = reinterpret_cast<Using *>(convertor);
 			}
 		}
 
@@ -107,7 +107,7 @@ void HeapManager::collect()
 			break;
 		}
 	}
-	_current = (unsigned char *)prev;
+	_current = reinterpret_cast<unsigned char *>(prev);
 	/*
 	unsigned char * convertor;
 	Using * curr = (Using *)_head;
@@ -182,7 +182,7 @@ bool HeapManager::Contains(void * i_ptr) const
 
 bool HeapManager::IsAllocated(void * i_ptr) const
 {
-	Using * tmp = (Using *)i_ptr;
+	Using * tmp = static_cast<Using *>(i_ptr);
 	if (tmp->exit) {
 		return true;
 	}
@@ -195,7 +195,7 @@ size_t HeapManager::getLargestFreeBlock() const
 	unsigned char * iterator = _head;
 	Using * tmp;
 	while (iterator <= _head + _size) {
-		tmp = (Using *)iterator;
+		tmp = reinterpret_cast<Using *>(iterator);
 		if (tmp->size == 0) {
 			break;
 		}
@@ -216,7 +216,7 @@ size_t HeapManager::getTotalFreeMemory() const
 	unsigned char * iterator = _head;
 	Using * tmp;
 	while (iterator <= _head + _size) {
-		tmp = (Using *)iterator;
+		tmp = reinterpret_cast<Using *>(iterator);
 		if (tmp->size == 0) {
 			break;
 		}
@@ -235,12 +235,12 @@ void HeapManager::ShowFreeBlocks() const
 	int dn = 0;
 	Using * tmp;
 	while (iterator <= _head + _size) {
-		tmp = (Using *)iterator;
+		tmp = reinterpret_cast<Using *>(iterator);
 		if (tmp->size == 0) {
 			break;
 		}
 		if (!(tmp->exit)) {
-			printf("No%d: address %p, size %d (freed)\n", dn, tmp, tmp->size);
+			printf("No%d: address %p, size %zu (freed)\n", dn, tmp, tmp->size);
 			dn++;
 		}
 		iterator += tmp->size;
@@ -254,12 +254,12 @@ void HeapManager::ShowOutstandingAllocations() const
 	int dn = 0;
 	Using * tmp;
 	while (iterator <= _head + _size) {
-		tmp = (Using *)iterator;
+		tmp = reinterpret_cast<Using *>(iterator);
 		if (tmp->size == 0) {
 			break;
 		}
 		if (tmp->exit) {
-			printf("No%d: address %p, size %d (outstanding) \n", dn, tmp, tmp->size);
+			printf("No%d: address %p, size %zu (outstanding) \n", dn, tmp, tmp->size);
 			dn++;
 		}
 		iterator += tmp->size;

@@ -7,20 +7,19 @@ public:
 	Vector2D(T, U);
 	~Vector2D();
 	
-	void operator+(Vector2D);
-	void operator-(Vector2D);
-	bool operator==(Vector2D);
-	bool operator!=(Vector2D);
+	Vector2D<T,U> & operator+(const Vector2D);
+	Vector2D<T,U> & operator-(const Vector2D);
+	bool operator==(const Vector2D) const;
+	bool operator!=(const Vector2D) const;
+	Vector2D<T, U> & operator=(const Vector2D &);
 
-	T x() { return data1; };
-	U y() { return data2; };
+	T x() const { return data1; };
+	U y() const { return data2; };
+	Vector2D get() const { return this; }
 
 	void setX(T _data1) { data1 = _data1; }
 	void setY(U _data2) { data2 = _data2; }
 	void set(Vector2D vec) { data1 = vec.data1; data2 = vec.data2; }
-	T getX() { return data1; }
-	U getY() { return data2; }
-	Vector2D get() { return this; }
 
 private:
 	T data1;
@@ -40,17 +39,19 @@ template <class T, class U> Vector2D<T, U>::~Vector2D() {
 	//printf("destractor of Vector2D is called \n");
 }
 
-template <class T, class U> void Vector2D<T, U>::operator+(Vector2D vec) {
+template <class T, class U> Vector2D<T,U> & Vector2D<T, U>::operator+(const Vector2D vec){
 	data1 += vec.data1;
 	data2 += vec.data2;
+	return *this;
 }
 
-template <class T, class U> void Vector2D<T, U>::operator-(Vector2D vec) {
+template <class T, class U> Vector2D<T,U> & Vector2D<T, U>::operator-(const Vector2D vec){
 	data1 -= vec.data1;
 	data2 -= vec.data2;
+	return *this;
 }
 
-template <class T, class U>  bool Vector2D<T, U>::operator==(Vector2D vec) {
+template <class T, class U>  bool Vector2D<T, U>::operator==(const Vector2D vec) const{
 	if (data1 == vec.data1 && data2 == vec.data2) {
 		return true;
 	}
@@ -59,7 +60,13 @@ template <class T, class U>  bool Vector2D<T, U>::operator==(Vector2D vec) {
 	}
 }
 
-template <class T, class U>  bool Vector2D<T, U>::operator!=(Vector2D vec) {
+template <class T, class U>  bool Vector2D<T, U>::operator!=(const Vector2D vec) const{
 	return !(this == (vec));
+}
+
+template <class T, class U>  Vector2D<T,U> & Vector2D<T, U>::operator=(const Vector2D<T,U> & vec) {
+	this->data1 = vec.data1;
+	this->data2 = vec.data2;
+	return *this;
 }
 
