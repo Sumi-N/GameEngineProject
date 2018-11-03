@@ -104,7 +104,6 @@ bool HeapManager_UnitTest()
 
 		void * pPtr = alloc(pHeapManager, sizeAlloc, alignment);
 		// check that the returned address has the requested alignment
-		printf("%d,%d\n", reinterpret_cast<uintptr_t>(pPtr), alignment - 1);
 		assert((reinterpret_cast<uintptr_t>(pPtr) & (alignment - 1)) == 0);
 #else
 		void * pPtr = alloc(pHeapManager, sizeAlloc);
