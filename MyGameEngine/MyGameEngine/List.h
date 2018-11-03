@@ -12,7 +12,12 @@ public:
 	}
 
 	~Node() {
-		delete data;
+		if (std::is_fundamental<T>::value) {
+
+		}
+		else {
+			delete data;
+		}
 	}	
 };
 

@@ -127,8 +127,9 @@ int test() {
 extern bool HeapManager_UnitTest();
 
 int main() {
-	test();
-	_CrtDumpMemoryLeaks();
-	//HeapManager_UnitTest();
+	//test();
+	//_CrtDumpMemoryLeaks();
+	HeapManager_UnitTest();
+	_getch();
 	return 0;
 }

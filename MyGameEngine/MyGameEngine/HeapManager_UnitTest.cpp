@@ -1,4 +1,5 @@
 #include "HeapManagerProxy.h"
+#include "HeapManager.h"
 #include <Windows.h>
 
 #include <assert.h>
@@ -8,6 +9,7 @@
 #define SUPPORTS_ALIGNMENT
 #define SUPPORTS_SHOWFREEBLOCKS
 #define SUPPORTS_SHOWOUTSTANDINGALLOCATIONS
+//#define TEST_SINGLE_LARGE_ALLOCATION
 
 bool HeapManager_UnitTest()
 {
@@ -37,7 +39,7 @@ bool HeapManager_UnitTest()
 #endif // SUPPORTS_SHOWFREEBLOCKS
 
 		size_t largestBeforeAlloc = GetLargestFreeBlock(pHeapManager);
-		void * pPtr = alloc(pHeapManager, largestBeforeAlloc - HeapManager::s_MinumumToLeave);
+		void * pPtr = alloc(pHeapManager, largestBeforeAlloc - HeapManager::s_MinumumToLeave());
 
 		if (pPtr)
 		{
@@ -100,9 +102,7 @@ bool HeapManager_UnitTest()
 		const unsigned int	alignment = alignments[index];
 
 		void * pPtr = alloc(pHeapManager, sizeAlloc, alignment);
-
 		// check that the returned address has the requested alignment
-		printf("%d", reinterpret_cast<uintptr_t>(pPtr) & (alignment - 1));
 		assert((reinterpret_cast<uintptr_t>(pPtr) & (alignment - 1)) == 0);
 #else
 		void * pPtr = alloc(pHeapManager, sizeAlloc);
@@ -123,7 +123,6 @@ bool HeapManager_UnitTest()
 			if (pPtr == nullptr)
 				break;
 		}
-
 		AllocatedAddresses.push_back(pPtr);
 		numAllocs++;
 
@@ -136,7 +135,8 @@ bool HeapManager_UnitTest()
 			void * pPtr = AllocatedAddresses.back();
 			AllocatedAddresses.pop_back();
 
-			bool success = Contains(pHeapManager, pPtr) && IsAllocated(pHeapManager, pPtr);
+			bool success = Contains(pHeapManager, pPtr)&& IsAllocated(pHeapManager, pPtr);
+			//printf("the answer for allovated is : %d\n", IsAllocated(pHeapManager, pPtr));
 			assert(success);
 
 			success = free(pHeapManager, pPtr);
@@ -233,5 +233,6 @@ bool HeapManager_UnitTest()
 	HeapFree(GetProcessHeap(), 0, pHeapMemory);
 
 	// we succeeded
+	printf("we succeeded");
 	return true;
 }
