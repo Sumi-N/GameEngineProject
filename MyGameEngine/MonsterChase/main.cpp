@@ -87,15 +87,14 @@ int test() {
 		for (int i = 0; i < monsters.length(); i++) {
 			if (monsters.get(i)->pos == sumi.pos) {
 				*(deletelist + count) = i;
-				printf("monster deleted\n");
+				//printf("player vs the monster who will deleted is %d\n",i);
 				count++;
 			}
 		}
 		int hosei = 0;
 		for (int i = 0; i < count; i++) {
 			monsters.remove(monsters.get(*(deletelist + i) - hosei));
-			hosei++;
-			//printf("monster is deleted\n");
+			//printf("player vs the monster is actually deleted is %d\n",*(deletelist + i) - hosei);
 		}
 
 		count = 0;
@@ -104,18 +103,16 @@ int test() {
 				if (monsters.get(i)->pos == monsters.get(j)->pos) {
 					if (i == j) continue;
 					*(deletelist + count) = i;
-					printf("monster deleted\n");
+					//printf("the monster who will deleted is %d\n", i);
 					count++;
 					break;
 				}
 			}
 		}
 
-		int hosei2 = 0;
 		for (int i = 0; i < count; i++) {
-			monsters.remove(monsters.get(*(deletelist + i) - hosei2));
-			hosei2++;
-			//printf("monster is deleted\n");
+			monsters.remove(monsters.get(*(deletelist + i)));
+			//printf("the monster is actually deleted is %d\n", *(deletelist + i) + hosei2);
 		}
 	}
 
@@ -127,9 +124,9 @@ int test() {
 extern bool HeapManager_UnitTest();
 
 int main() {
-	//test();
+	test();
 	//_CrtDumpMemoryLeaks();
-	HeapManager_UnitTest();
-	_getch();
+	//HeapManager_UnitTest();
+	//_getch();
 	return 0;
 }
