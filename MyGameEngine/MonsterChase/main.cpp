@@ -42,6 +42,7 @@ int test() {
 		monsters.add(monster);
 	}
 	deletelist = new int[mn];
+	int * headofdelete = deletelist;
 
 
 	Player sumi;
@@ -78,11 +79,15 @@ int test() {
 		std::cin >> order;
 
 		sumi.move(order);
+		for (int i = 0; i < monsters.length(); i++) {
+			monsters.get(i)->move();
+		}
 
 		count = 0;
 		for (int i = 0; i < monsters.length(); i++) {
 			if (monsters.get(i)->pos == sumi.pos) {
 				*(deletelist + count) = i;
+				printf("monster deleted\n");
 				count++;
 			}
 		}
@@ -99,6 +104,7 @@ int test() {
 				if (monsters.get(i)->pos == monsters.get(j)->pos) {
 					if (i == j) continue;
 					*(deletelist + count) = i;
+					printf("monster deleted\n");
 					count++;
 					break;
 				}
@@ -112,6 +118,8 @@ int test() {
 			//printf("monster is deleted\n");
 		}
 	}
+
+	delete[] headofdelete;
 	return 0;
 }
 
@@ -119,9 +127,8 @@ int test() {
 extern bool HeapManager_UnitTest();
 
 int main() {
-	//test();
-	//_CrtDumpMemoryLeaks();
 	HeapManager_UnitTest();
-	_getch();
+	//test();
+	_CrtDumpMemoryLeaks();
 	return 0;
 }

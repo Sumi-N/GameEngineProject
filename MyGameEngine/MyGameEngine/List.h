@@ -48,7 +48,7 @@ public:
 		delete curre;
 	}
 
-	void add(T data) {
+	void add(const T data) {
 		if (head == nullptr) {
 			head = new Node<T>(data);
 			size++;
@@ -91,7 +91,7 @@ public:
 		return false;
 	}
 
-	T get(int i) {
+	T get(const int i) {
 		int count = 0;
 		Node<T> *curre = head;
 		while (count != i && curre !=nullptr) {
