@@ -9,9 +9,18 @@ HeapManager * HeapManager::create(void * i_pMemory, size_t i_sizeMemory, unsigne
 	_size = i_sizeMemory;
 	_desnum = i_numDescriptors;
 
-	Using * tmp = static_cast<Using *>(i_pMemory);
+	
+	while (reinterpret_cast<uintptr_t>(_head) % 64 != 0) {
+		_head++;
+		_current++;
+		_size--;
+	}
+
+	//Using * tmp = static_cast<Using *>(i_pMemory);
+	Using * tmp = reinterpret_cast<Using *>(_head);
 	tmp->exit = false;
-	tmp->size = i_sizeMemory;
+	//tmp->size = i_sizeMemory;
+	tmp->size = _size;
 	return reinterpret_cast<HeapManager *>(_current);
 }
 
