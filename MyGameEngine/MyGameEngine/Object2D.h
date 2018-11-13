@@ -13,6 +13,7 @@ public:
 	~Object2D();
 
 	virtual void showPosition();
+	virtual void showDirection();
 	virtual void showName();
 
 	void randomName(int);

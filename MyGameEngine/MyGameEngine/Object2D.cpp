@@ -28,6 +28,10 @@ void Object2D::randomName(int length) {
 void Object2D::showPosition() {
 }
 
+void Object2D::showDirection() {
+
+}
+
 void Object2D::showName(){
 	for (int i = 0; i < namelength; i++) {
 		printf("%c", name[i]);
