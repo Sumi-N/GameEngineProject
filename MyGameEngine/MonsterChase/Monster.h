@@ -7,34 +7,30 @@ class Monster : public Object2D
 public:
 	Monster() {};
 	~Monster() {};
+	/*
 	Monster(int x, int y) {
 		pos.setX(x);
 		pos.setY(y);
 	};
-	void setPositions();
-	void showPosition() override;
-	void showName() override;
-	Vector2D<int,int> returnPos() const;
+	*/
+	//void setPositions();
+	//Vector2D<int,int> returnPos() const;
 	void move();
 };
 
+/*
 inline void Monster::setPositions() {
 	this->pos.setX(rand() % 100);
 	this->pos.setY(rand() % 100);
 }
+*/
 
-inline void Monster::showPosition(){
-	std::cout << "this monster is at (" << this->pos.x() << "," << this->pos.y() << ")" << std::endl;
-}
-
-inline void Monster::showName() {
-	Object2D::showName();
-}
-
+/*
 inline Vector2D<int, int> Monster::returnPos() const
 {
 	return pos;
 }
+*/
 
 inline void Monster::move() {
 	bool up = true, down = true, right = true, left = true;

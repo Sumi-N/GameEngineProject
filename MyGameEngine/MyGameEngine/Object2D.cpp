@@ -5,13 +5,32 @@
 Object2D::Object2D()
 {
 	//printf("constructor for object2D is called\n");
-
+	this->pos.setX(rand() % 100);
+	this->pos.setY(rand() % 100);
 }
 
 Object2D::~Object2D()
 {
 	//printf("deconstrutor for object2D is called\n");
 	delete[] headofname;
+}
+
+Object2D::Object2D(const Object2D & obj)
+{
+	*headofname = *obj.headofname;
+	*name = *obj.name;
+	namelength = obj.namelength;
+	pos = obj.pos;
+}
+
+Object2D & Object2D::operator=(const Object2D & obj)
+{	
+	headofname = obj.headofname;
+	name = obj.name;
+	namelength = obj.namelength;
+	pos = obj.pos;
+	//delete &obj;
+	return *this;
 }
 
 void Object2D::randomName(int length) {
@@ -26,10 +45,10 @@ void Object2D::randomName(int length) {
 }
 
 void Object2D::showPosition() {
-}
-
-void Object2D::showDirection() {
-
+	for (int i = 0; i < namelength; i++) {
+		printf("%c", name[i]);
+	}
+	printf(" is at (%d,%d)\n", pos.x(), pos.y() );
 }
 
 void Object2D::showName(){
@@ -37,4 +56,15 @@ void Object2D::showName(){
 		printf("%c", name[i]);
 	}
 	printf("\n");
+}
+
+Vector2D<int, int> Object2D::getPosition()
+{
+	return pos;
+}
+
+void Object2D::setPosition(Vector2D<int, int> pos)
+{
+	this->pos = pos;
+	return;
 }

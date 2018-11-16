@@ -2,7 +2,9 @@
 #include <crtdbg.h>  
 #include<iostream>
 #include "Monster.h"
+#include "MonsterController.h"
 #include "Player.h"
+#include "PlayerController.h"
 #include "List.h"
 #include "DebugLog.h"
 #include <Windows.h>
@@ -38,7 +40,7 @@ int test() {
 	for (int i = 0; i < mn; i++) {
 		Monster* monster = new Monster;
 		monster->randomName(10);
-		monster->setPositions();
+		//monster->setPositions();
 		monsters.add(monster);
 	}
 	deletelist = new int[mn];
@@ -47,9 +49,11 @@ int test() {
 
 	Player sumi;
 	sumi.setName(p);
-	sumi.setPositions();
+	sumi.namelength = namelength + 1;
+	PlayerController pcontroller = PlayerController(sumi);
+	//sumi.setPositions();
 	sumi.showName();
-	sumi.namelength = namelength+1;
+	
 
 	
 	int turncount = 0;
@@ -64,12 +68,12 @@ int test() {
 			turncount = 0;
 			Monster* monster = new Monster;
 			monster->randomName(10);
-			monster->setPositions();
+			//monster->setPositions();
 			monsters.add(monster);
 		}
 
 		for (int i = 0; i < monsters.length(); i++) {
-			monsters.get(i)->showName();
+			//monsters.get(i)->showName();
 			monsters.get(i)->showPosition();
 		}
 		sumi.showPosition();
@@ -78,11 +82,11 @@ int test() {
 		std::cout << "press \' a\' to move right \'d\' to move left \'w\' to move up \'s\' to move down \'q\' to quit this game" << std::endl;
 		std::cin >> order;
 
-		sumi.move(order);
+		//sumi.move(order);
+		pcontroller.moveByOrder(order);
 		for (int i = 0; i < monsters.length(); i++) {
 			monsters.get(i)->move();
 		}
-
 		count = 0;
 		for (int i = 0; i < monsters.length(); i++) {
 			if (monsters.get(i)->pos == sumi.pos) {
@@ -127,8 +131,8 @@ int test() {
 extern bool HeapManager_UnitTest();
 
 int main() {
-	HeapManager_UnitTest();
-	//test();
+	//HeapManager_UnitTest();
+	test();
 	_CrtDumpMemoryLeaks();
 	return 0;
 }
