@@ -68,7 +68,6 @@ void * HeapManager::_alloc(size_t i_size, unsigned int i_alignment)
 	Using * tmp = reinterpret_cast<Using *>(_current);
 	tmp->exit = true;
 	tmp->size = chanks * i_alignment;
-
 	//printf("the size of alloc %d\n", tmp->size);
 	return static_cast<void *>(_current);
 }

@@ -1,4 +1,5 @@
 #include "Object2D.h"
+#include "HeapManager.h"
 #include <stdlib.h>
 #include <iostream>
 
