@@ -6,8 +6,9 @@ class PlayerController : public ObjectController
 public:
 	PlayerController(Object2D obj)
 		: ObjectController(obj) {
-
 	}
+	~PlayerController(){
+	};
 	bool moveByOrder(const char order) override;
 };
 

@@ -17,19 +17,26 @@ Object2D::~Object2D()
 
 Object2D::Object2D(const Object2D & obj)
 {
+	name = new char[11];
+	for (int i = 0; i <= 10; i++) {
+		name[i] = obj.name[i];
+	}
+	headofname = name;
 	*headofname = *obj.headofname;
-	*name = *obj.name;
 	namelength = obj.namelength;
 	pos = obj.pos;
 }
 
 Object2D & Object2D::operator=(const Object2D & obj)
 {	
-	headofname = obj.headofname;
-	name = obj.name;
+	name = new char[11];
+	for (int i = 0; i <= 10; i++) {
+		name[i] = obj.name[i];
+	}
+	headofname = name;
+	*headofname = *obj.headofname;
 	namelength = obj.namelength;
 	pos = obj.pos;
-	//delete &obj;
 	return *this;
 }
 

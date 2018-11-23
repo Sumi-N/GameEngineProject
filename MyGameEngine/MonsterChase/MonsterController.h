@@ -5,6 +5,9 @@
 class MonsterController : public ObjectController
 {
 public:
+	MonsterController(Object2D obj)
+		: ObjectController(obj) {
+	}
 	bool moveRandomly();
 };
 

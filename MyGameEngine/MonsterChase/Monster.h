@@ -6,7 +6,7 @@ class Monster : public Object2D
 {
 public:
 	Monster() {};
-	~Monster() {};
+	~Monster() { printf("hellof monster"); };
 	/*
 	Monster(int x, int y) {
 		pos.setX(x);

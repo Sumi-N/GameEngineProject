@@ -8,7 +8,14 @@ public:
 	T data;
 	Node* next;
 	Node(T _data) {
-		this->data = _data;
+		if (std::is_fundamental<T>::value) {
+
+		}
+		else {
+			data = new T();
+			data = _data;
+		}
+		//this->data = _data;
 	}
 
 	~Node() {

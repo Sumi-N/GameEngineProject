@@ -36,22 +36,24 @@ int test() {
 	}
 
 	List<Monster*> monsters;
+	List<MonsterController*> monstercontrollers;
 
-	for (int i = 0; i < mn; i++) {
+	//for (int i = 0; i < mn; i++) {
+	for (int i = 0; i < 1; i++) {
 		Monster* monster = new Monster;
 		monster->randomName(10);
-		//monster->setPositions();
-		monsters.add(monster);
+		MonsterController mcontroller = MonsterController(*monster);
+		//monsters.add(monster);
+		monstercontrollers.add(&mcontroller);
 	}
+	return 0;
 	deletelist = new int[mn];
 	int * headofdelete = deletelist;
 
 
 	Player sumi;
-	sumi.setName(p);
-	sumi.namelength = namelength + 1;
+	sumi.randomName(10);
 	PlayerController pcontroller = PlayerController(sumi);
-	//sumi.setPositions();
 	sumi.showName();
 	
 
@@ -68,28 +70,25 @@ int test() {
 			turncount = 0;
 			Monster* monster = new Monster;
 			monster->randomName(10);
-			//monster->setPositions();
 			monsters.add(monster);
 		}
 
 		for (int i = 0; i < monsters.length(); i++) {
-			//monsters.get(i)->showName();
 			monsters.get(i)->showPosition();
 		}
-		sumi.showPosition();
+		pcontroller.object.showPosition();
 		printf("%d\n", monsters.length());
 
 		std::cout << "press \' a\' to move right \'d\' to move left \'w\' to move up \'s\' to move down \'q\' to quit this game" << std::endl;
 		std::cin >> order;
 
-		//sumi.move(order);
 		pcontroller.moveByOrder(order);
 		for (int i = 0; i < monsters.length(); i++) {
 			monsters.get(i)->move();
 		}
 		count = 0;
 		for (int i = 0; i < monsters.length(); i++) {
-			if (monsters.get(i)->pos == sumi.pos) {
+			if (monsters.get(i)->pos == pcontroller.object.pos) {
 				*(deletelist + count) = i;
 				printf("monster deleted\n");
 				count++;
