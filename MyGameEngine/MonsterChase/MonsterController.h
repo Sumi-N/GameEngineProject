@@ -39,4 +39,5 @@ inline bool MonsterController::moveRandomly(){
 	else {
 		object.pos.setY(up ? object.pos.y() + 1 : object.pos.y() - 1);
 	}
+	return true;
 }

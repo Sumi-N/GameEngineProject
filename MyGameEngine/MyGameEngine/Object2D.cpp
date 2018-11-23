@@ -7,6 +7,9 @@ Object2D::Object2D()
 	//printf("constructor for object2D is called\n");
 	this->pos.setX(rand() % 100);
 	this->pos.setY(rand() % 100);
+	namelength = 5;
+	name = new char[namelength + 1];
+	headofname = name;
 }
 
 Object2D::~Object2D()
@@ -17,30 +20,32 @@ Object2D::~Object2D()
 
 Object2D::Object2D(const Object2D & obj)
 {
-	name = new char[11];
-	for (int i = 0; i <= 10; i++) {
+	namelength = obj.namelength;
+	pos = obj.pos;
+	name = new char[namelength + 1];
+	for (int i = 0; i <= namelength; i++) {
 		name[i] = obj.name[i];
 	}
 	headofname = name;
-	*headofname = *obj.headofname;
-	namelength = obj.namelength;
-	pos = obj.pos;
+	//*headofname = *obj.headofname;
 }
 
 Object2D & Object2D::operator=(const Object2D & obj)
 {	
-	name = new char[11];
-	for (int i = 0; i <= 10; i++) {
+	delete name;
+	namelength = obj.namelength;
+	pos = obj.pos;
+	name = new char[namelength+1];
+	for (int i = 0; i <= namelength; i++) {
 		name[i] = obj.name[i];
 	}
 	headofname = name;
-	*headofname = *obj.headofname;
-	namelength = obj.namelength;
-	pos = obj.pos;
+	//*headofname = *obj.headofname;
 	return *this;
 }
 
 void Object2D::randomName(int length) {
+	delete name;
 	namelength = length;
 	char characters[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	name = new char[length+1];

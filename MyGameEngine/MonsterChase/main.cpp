@@ -10,7 +10,7 @@
 #include <Windows.h>
 
 
-int test() {
+int monsterchase() {
 	DEBUG_PRINT("hello world");
 
 	int mn;
@@ -35,26 +35,22 @@ int test() {
 		}
 	}
 
-	List<Monster*> monsters;
 	List<MonsterController*> monstercontrollers;
 
-	//for (int i = 0; i < mn; i++) {
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < mn; i++) {
 		Monster* monster = new Monster;
 		monster->randomName(10);
-		MonsterController mcontroller = MonsterController(*monster);
-		//monsters.add(monster);
-		monstercontrollers.add(&mcontroller);
+		MonsterController * mcontroller = new MonsterController(*monster);
+		monstercontrollers.add(mcontroller);
+		delete monster;
 	}
-	return 0;
 	deletelist = new int[mn];
 	int * headofdelete = deletelist;
 
 
 	Player sumi;
-	sumi.randomName(10);
+	sumi.setName(p, namelength);
 	PlayerController pcontroller = PlayerController(sumi);
-	sumi.showName();
 	
 
 	
@@ -70,25 +66,27 @@ int test() {
 			turncount = 0;
 			Monster* monster = new Monster;
 			monster->randomName(10);
-			monsters.add(monster);
+			MonsterController * mcontroller = new MonsterController(*monster);
+			monstercontrollers.add(mcontroller);
+			delete monster;
 		}
 
-		for (int i = 0; i < monsters.length(); i++) {
-			monsters.get(i)->showPosition();
+		for (int i = 0; i < monstercontrollers.length(); i++) {
+			monstercontrollers.get(i)->object.showPosition();
 		}
 		pcontroller.object.showPosition();
-		printf("%d\n", monsters.length());
+		printf("%d\n", monstercontrollers.length());
 
 		std::cout << "press \' a\' to move right \'d\' to move left \'w\' to move up \'s\' to move down \'q\' to quit this game" << std::endl;
 		std::cin >> order;
 
 		pcontroller.moveByOrder(order);
-		for (int i = 0; i < monsters.length(); i++) {
-			monsters.get(i)->move();
+		for (int i = 0; i < monstercontrollers.length(); i++) {
+			monstercontrollers.get(i)->moveRandomly();
 		}
 		count = 0;
-		for (int i = 0; i < monsters.length(); i++) {
-			if (monsters.get(i)->pos == pcontroller.object.pos) {
+		for (int i = 0; i < monstercontrollers.length(); i++) {
+			if (monstercontrollers.get(i)->object.pos == pcontroller.object.pos) {
 				*(deletelist + count) = i;
 				printf("monster deleted\n");
 				count++;
@@ -96,15 +94,14 @@ int test() {
 		}
 		int hosei = 0;
 		for (int i = 0; i < count; i++) {
-			monsters.remove(monsters.get(*(deletelist + i) - hosei));
+			monstercontrollers.remove(monstercontrollers.get(*(deletelist + i) - hosei));
 			hosei++;
-			//printf("monster is deleted\n");
 		}
 
 		count = 0;
-		for (int i = 0; i < monsters.length(); i++) {
-			for (int j = i; j < monsters.length(); j++) {
-				if (monsters.get(i)->pos == monsters.get(j)->pos) {
+		for (int i = 0; i < monstercontrollers.length(); i++) {
+			for (int j = i; j < monstercontrollers.length(); j++) {
+				if (monstercontrollers.get(i)->object.pos == monstercontrollers.get(j)->object.pos) {
 					if (i == j) continue;
 					*(deletelist + count) = i;
 					printf("monster deleted\n");
@@ -116,9 +113,8 @@ int test() {
 
 		int hosei2 = 0;
 		for (int i = 0; i < count; i++) {
-			monsters.remove(monsters.get(*(deletelist + i) - hosei2));
+			monstercontrollers.remove(monstercontrollers.get(*(deletelist + i) - hosei2));
 			hosei2++;
-			//printf("monster is deleted\n");
 		}
 	}
 
@@ -131,7 +127,7 @@ extern bool HeapManager_UnitTest();
 
 int main() {
 	//HeapManager_UnitTest();
-	test();
+	monsterchase();
 	_CrtDumpMemoryLeaks();
 	return 0;
 }
