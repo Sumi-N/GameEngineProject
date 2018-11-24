@@ -10,7 +10,8 @@
 #include <crtdbg.h>  
 #include<iostream>
 
-bool HeapManagerInit() {
+int monsterchase() {
+
 	const size_t 		sizeHeap = 1024 * 1024;
 	const unsigned int 	numDescriptors = 2048;
 
@@ -24,9 +25,7 @@ bool HeapManagerInit() {
 
 	if (pHeapManager == nullptr)
 		return false;
-}
 
-int monsterchase() {
 	DEBUG_PRINT("hello world");
 
 	int mn;
@@ -54,7 +53,7 @@ int monsterchase() {
 	List<MonsterController*> monstercontrollers;
 
 	for (int i = 0; i < mn; i++) {
-		Monster* monster = new Monster;
+		Monster* monster = new(pHeapManager) Monster;
 		monster->randomName(10);
 		MonsterController * mcontroller = new MonsterController(*monster);
 		monstercontrollers.add(mcontroller);
@@ -80,7 +79,7 @@ int monsterchase() {
 		}
 		else {
 			turncount = 0;
-			Monster* monster = new Monster;
+			Monster* monster = new(pHeapManager) Monster;
 			monster->randomName(10);
 			MonsterController * mcontroller = new MonsterController(*monster);
 			monstercontrollers.add(mcontroller);
@@ -143,9 +142,7 @@ extern bool HeapManager_UnitTest();
 
 int main() {
 	//HeapManager_UnitTest();
-	if(HeapManagerInit) {
-		monsterchase();
-	}
+	monsterchase();
 	_CrtDumpMemoryLeaks();
 	return 0;
 }

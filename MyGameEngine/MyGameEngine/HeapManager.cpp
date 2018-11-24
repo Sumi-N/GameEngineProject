@@ -42,6 +42,7 @@ void * HeapManager::_alloc(size_t i_size)
 
 void * HeapManager::_alloc(size_t i_size, unsigned int i_alignment)
 {	
+	printf("yayayaya\n");
 	//check if the pointer for current memory is exit
 	Using * __current = reinterpret_cast<Using *>(_current);
 	if (__current->exit) {
