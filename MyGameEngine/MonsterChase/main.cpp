@@ -8,7 +8,7 @@
 #include "HeapManager.h"
 #include <Windows.h>
 #include <crtdbg.h>  
-#include<iostream>
+#include <iostream>
 
 int monsterchase() {
 
@@ -25,8 +25,6 @@ int monsterchase() {
 
 	if (pHeapManager == nullptr)
 		return false;
-
-	DEBUG_PRINT("hello world");
 
 	int mn;
 	int *deletelist;
@@ -55,7 +53,7 @@ int monsterchase() {
 	for (int i = 0; i < mn; i++) {
 		Monster* monster = new(pHeapManager) Monster;
 		monster->randomName(10);
-		MonsterController * mcontroller = new MonsterController(*monster);
+		MonsterController * mcontroller = new(pHeapManager) MonsterController(*monster);
 		monstercontrollers.add(mcontroller);
 		delete monster;
 	}
@@ -81,7 +79,7 @@ int monsterchase() {
 			turncount = 0;
 			Monster* monster = new(pHeapManager) Monster;
 			monster->randomName(10);
-			MonsterController * mcontroller = new MonsterController(*monster);
+			MonsterController * mcontroller = new(pHeapManager) MonsterController(*monster);
 			monstercontrollers.add(mcontroller);
 			delete monster;
 		}
