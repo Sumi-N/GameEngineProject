@@ -27,9 +27,9 @@ int test() {
 	//std::cout << "your name is " << player << std::endl;
 
 	for (int i = 0; i < 256; i++) {
-		if (player[i] == '\0') {
+		if (player[i] == '\0' || player[i] == ' ') {
 			namelength = i;
-			
+			break;
 		}
 	}
 
@@ -50,6 +50,7 @@ int test() {
 	sumi.setPositions();
 	sumi.showName();
 	sumi.namelength = namelength+1;
+	//printf("hello %d\n", namelength);
 
 	
 	int turncount = 0;
