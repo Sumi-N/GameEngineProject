@@ -10,6 +10,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MonsterChase", "MonsterChas
 		{319D92D9-944C-4793-8BB9-D41497B03345} = {319D92D9-944C-4793-8BB9-D41497B03345}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MakeSentence", "MakeSentence\MakeSentence.vcxproj", "{07B65078-695E-435D-98E8-850F950A28EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -34,6 +36,14 @@ Global
 		{C4BDEE8F-C890-4EA7-A822-A7011A29A6FB}.Release|x64.Build.0 = Release|x64
 		{C4BDEE8F-C890-4EA7-A822-A7011A29A6FB}.Release|x86.ActiveCfg = Release|Win32
 		{C4BDEE8F-C890-4EA7-A822-A7011A29A6FB}.Release|x86.Build.0 = Release|Win32
+		{07B65078-695E-435D-98E8-850F950A28EE}.Debug|x64.ActiveCfg = Debug|x64
+		{07B65078-695E-435D-98E8-850F950A28EE}.Debug|x64.Build.0 = Debug|x64
+		{07B65078-695E-435D-98E8-850F950A28EE}.Debug|x86.ActiveCfg = Debug|Win32
+		{07B65078-695E-435D-98E8-850F950A28EE}.Debug|x86.Build.0 = Debug|Win32
+		{07B65078-695E-435D-98E8-850F950A28EE}.Release|x64.ActiveCfg = Release|x64
+		{07B65078-695E-435D-98E8-850F950A28EE}.Release|x64.Build.0 = Release|x64
+		{07B65078-695E-435D-98E8-850F950A28EE}.Release|x86.ActiveCfg = Release|Win32
+		{07B65078-695E-435D-98E8-850F950A28EE}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
