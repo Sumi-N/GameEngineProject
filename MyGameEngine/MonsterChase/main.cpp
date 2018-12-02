@@ -33,6 +33,12 @@ int test() {
 		}
 	}
 
+	char * newp = new char[namelength + 1]();
+	for (int i = 0; i<namelength; i++) {
+		newp[i] = player[i];
+	}
+	newp[namelength] = '\n';
+
 	List<Monster*> monsters;
 
 	for (int i = 0; i < mn; i++) {
@@ -46,7 +52,7 @@ int test() {
 
 
 	Player sumi;
-	sumi.setName(p);
+	sumi.setName(newp);
 	sumi.setPositions();
 	sumi.showName();
 	sumi.namelength = namelength+1;
