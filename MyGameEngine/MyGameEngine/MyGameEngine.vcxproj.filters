@@ -56,5 +56,8 @@
     <ClInclude Include="ObjectController.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="Allocator.h">
+      <Filter>System</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
