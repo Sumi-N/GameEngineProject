@@ -35,7 +35,7 @@ void * NewHeapManager::_alloc(size_t i_size)
 	iterator->exit = true;
 	iterator->size = i_size;
 	void * rtnpoint = reinterpret_cast<void *>(reinterpret_cast<size_t>(_current) + sizeof(Using));
-	_current = reinterpret_cast<void *> (reinterpret_cast<size_t>(_current) + iterator->size);
+	_current = reinterpret_cast<void *> (reinterpret_cast<size_t>(_current) + iterator->size + sizeof(Using));
 	Using * padding = static_cast<Using *>(_current);
 	padding->exit = false;
 	padding->size = emptyspace - (i_size + sizeof(Using));
@@ -54,21 +54,21 @@ void NewHeapManager::collect()
 {
 	_current = _head;
 	Using * currentdescriptor = static_cast<Using *>(_current);
-	void * _next = reinterpret_cast<void *>(reinterpret_cast<size_t>(_current) + currentdescriptor->size);
+	void * _next = reinterpret_cast<void *>(reinterpret_cast<size_t>(_current) + currentdescriptor->size + sizeof(Using));
 	Using * nextdescriptor = static_cast<Using *>(_next);
 	while(_next <= _over) {
 		if (currentdescriptor->exit == false && nextdescriptor->exit == false) {
-			currentdescriptor = static_cast<Using *>(_current);
-			nextdescriptor = static_cast<Using *>(_next);
-
 			currentdescriptor->size += (nextdescriptor->size + sizeof(Using));
-			_next = reinterpret_cast<void *>(reinterpret_cast<size_t>(_next) + nextdescriptor->size);
+			_next = reinterpret_cast<void *>(reinterpret_cast<size_t>(_next) + nextdescriptor->size + sizeof(Using));
 			nextdescriptor = static_cast<Using *>(_next);
 		}
 		else {
 			_current = _next;
-			_next = reinterpret_cast<void *>(reinterpret_cast<size_t>(_next) + nextdescriptor->size);
+			_next = reinterpret_cast<void *>(reinterpret_cast<size_t>(_next) + nextdescriptor->size + sizeof(Using));
+			currentdescriptor = static_cast<Using *>(_current);
+			nextdescriptor = static_cast<Using *>(_next);
 		}
 	}
+
 	return;
 }

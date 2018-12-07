@@ -142,7 +142,7 @@ bool MemorySystem_UnitTest()
 	char * pNewTest = new char[1024];
 	
 	delete[] pNewTest;
-
 	// we succeeded
+	printf("hello world");
 	return true;
 }
