@@ -2,6 +2,7 @@
 
 static void * _head;
 static void * _current;
+static void * _over;
 static size_t _size;
 
 typedef struct Using {

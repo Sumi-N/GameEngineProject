@@ -16,6 +16,7 @@ bool InitializeMemorySystem(void * i_pHeapMemory, size_t i_sizeHeapMemory, unsig
 
 void Collect()
 {
+	normalmanager.collect();
 	// coalesce free blocks
 	// you may or may not need to do this depending on how you've implemented your HeapManager
 }
@@ -27,6 +28,8 @@ void DestroyMemorySystem()
 
 void * AllocMemory(size_t size)
 {	
+	return normalmanager._alloc(size);
+	/*
 	if (size <= 16) {
 		return	allocator[0].alloc();
 	}
@@ -38,13 +41,15 @@ void * AllocMemory(size_t size)
 	}
 	else 
 	{
-		normalmanager._alloc(size);
+		return normalmanager._alloc(size);
 	}
-	//return nullptr;
+	*/
 }
 
 void FreeMemory(void * i_ptr)
 {
+	normalmanager._free(i_ptr);
+	/*
 	if (i_ptr < p_fixedallocator[0]) {
 		allocator[0].free(i_ptr);
 	}
@@ -58,5 +63,6 @@ void FreeMemory(void * i_ptr)
 	{
 		normalmanager._free(i_ptr);
 	}
+	*/
 }
 
