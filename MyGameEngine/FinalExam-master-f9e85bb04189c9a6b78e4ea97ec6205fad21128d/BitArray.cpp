@@ -1,5 +1,6 @@
 #include "FixedSizeAllocator.h"
 #include <intrin.h>
+#include <stdio.h>
 
 void FixedSizeAllocator::BitArray::ClearAll() {
 	for (int i = 0; i < DESCRIPTOR_SIZE; i++) {
@@ -48,8 +49,9 @@ void FixedSizeAllocator::BitArray::ClearBit(size_t i_size) {
 
 size_t FixedSizeAllocator::BitArray::GetFirstClearBit() const {
 	int index = 0;
-	while ((bytes[index] != 0xff) || (index < DESCRIPTOR_SIZE))
+	while ((bytes[index] == 0xff) && (index < DESCRIPTOR_SIZE)) {
 		index++;
+	}
 	unsigned long clearbit;
 	if (_BitScanForward(&clearbit, ~bytes[index])) {
 		return clearbit + index * UNIT_SIZE;

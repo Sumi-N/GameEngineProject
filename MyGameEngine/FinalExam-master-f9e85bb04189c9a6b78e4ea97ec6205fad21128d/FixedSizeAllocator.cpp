@@ -27,7 +27,7 @@ bool FixedSizeAllocator::free(void * i_ptr)
 	if (i_ptr == nullptr) {
 		return false;
 	}
-	size_t index = (reinterpret_cast<size_t>(i_ptr) - reinterpret_cast<size_t>(begin)) / size;
+	size_t index = (reinterpret_cast<uintptr_t>(i_ptr) - reinterpret_cast<uintptr_t>(begin)) / size;
 	descriptor.ClearBit(index);
 	return true;
 }

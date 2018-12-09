@@ -48,13 +48,13 @@ void * AllocMemory(size_t size)
 
 void FreeMemory(void * i_ptr)
 {
-	if (i_ptr < p_fixedallocator[0]) {
+	if (i_ptr >= p_fixedallocator[0] && p_fixedallocator[1] > i_ptr) {
 		allocator[0].free(i_ptr);
 	}
-	else if (i_ptr < p_fixedallocator[1]) {
+	else if (i_ptr >= p_fixedallocator[1] && p_fixedallocator[2] > i_ptr) {
 		allocator[1].free(i_ptr);
 	}
-	else if (i_ptr < p_fixedallocator[2]) {
+	else if (i_ptr >= p_fixedallocator[2] && _head > i_ptr) {
 		allocator[2].free(i_ptr);
 	}
 	else
