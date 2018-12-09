@@ -5,17 +5,20 @@ bool InitializeMemorySystem(void * i_pHeapMemory, size_t i_sizeHeapMemory, unsig
 {
 	_current = i_pHeapMemory;
 	p_fixedallocator[0] = _current;
-	_current = allocator[0].initialize(_current, 16, 100);
+	_current = allocator[0].initialize(_current, 16, 200);
 	p_fixedallocator[1] = _current;
 	_current = allocator[1].initialize(_current, 32, 200);
 	p_fixedallocator[2] = _current;
-	_current = allocator[2].initialize(_current, 96, 400);
+	_current = allocator[2].initialize(_current, 96, 200);
+	p_fixedallocator[3] = _current;
+	_current = allocator[3].initialize(_current, 96, 200);
 	NewHeapManager::initialize(_current,i_sizeHeapMemory - (16 * 100 + 32 * 200 + 96 * 400));
 	return true;
 }
 
 void Collect()
 {
+	//allocator[0].collect();
 	normalmanager.collect();
 	// coalesce free blocks
 	// you may or may not need to do this depending on how you've implemented your HeapManager
@@ -28,8 +31,6 @@ void DestroyMemorySystem()
 
 void * AllocMemory(size_t size)
 {	
-	return normalmanager._alloc(size);
-	/*
 	if (size <= 16) {
 		return	allocator[0].alloc();
 	}
@@ -43,13 +44,10 @@ void * AllocMemory(size_t size)
 	{
 		return normalmanager._alloc(size);
 	}
-	*/
 }
 
 void FreeMemory(void * i_ptr)
 {
-	normalmanager._free(i_ptr);
-	/*
 	if (i_ptr < p_fixedallocator[0]) {
 		allocator[0].free(i_ptr);
 	}
@@ -63,6 +61,5 @@ void FreeMemory(void * i_ptr)
 	{
 		normalmanager._free(i_ptr);
 	}
-	*/
 }
 

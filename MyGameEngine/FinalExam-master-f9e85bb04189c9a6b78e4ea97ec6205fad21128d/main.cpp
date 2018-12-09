@@ -143,6 +143,5 @@ bool MemorySystem_UnitTest()
 	
 	delete[] pNewTest;
 	// we succeeded
-	printf("hello world");
 	return true;
 }

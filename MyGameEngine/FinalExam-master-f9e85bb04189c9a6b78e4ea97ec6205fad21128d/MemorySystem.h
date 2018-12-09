@@ -6,8 +6,8 @@
 bool InitializeMemorySystem(void * i_pHeapMemory, size_t i_sizeHeapMemory, unsigned int i_OptionalNumDescriptors);
 
 static NewHeapManager normalmanager;
-static FixedSizeAllocator allocator[3];
-static void * p_fixedallocator[3];
+static FixedSizeAllocator allocator[4];
+static void * p_fixedallocator[4];
 
 // Collect - coalesce free blocks in attempt to create larger blocks
 void Collect();

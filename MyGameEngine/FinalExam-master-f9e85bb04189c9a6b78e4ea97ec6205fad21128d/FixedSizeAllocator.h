@@ -1,8 +1,14 @@
 #pragma once
+#include <stdint.h>
+#define DESCRIPTOR_SIZE 25
+#define UNIT_SIZE 8
+#define INVALID 200
+
 class FixedSizeAllocator
 {
 	class BitArray {
 		public:
+			uint8_t bytes[DESCRIPTOR_SIZE];
 			void ClearAll(void);
 			void SetAll(void);
 
@@ -15,23 +21,21 @@ class FixedSizeAllocator
 			void SetBit(size_t);
 			void ClearBit(size_t);
 
-			bool GetFirstClearBit(size_t & o_bitNumber) const;
-			bool GetFirstSetBit(size_t & o_bitNumber) const;
+			size_t GetFirstClearBit(void) const;
+			size_t GetFirstSetBit(void) const;
 
 			bool operator[](size_t i_index) const;
 	};
 
 public:
-	FixedSizeAllocator();
-	~FixedSizeAllocator();
 
-	void* begin;
+	void * begin;
+	size_t size;
+	BitArray descriptor;
 
 	void * initialize(void * i_ptr, size_t i_size, unsigned int blocks);
 
 	void * alloc();
-	void free(void * i_ptr);
-	
-	BitArray descriptor;
+	bool free(void * i_ptr);
 };
 
