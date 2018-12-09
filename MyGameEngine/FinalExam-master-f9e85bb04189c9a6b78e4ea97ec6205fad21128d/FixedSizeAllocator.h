@@ -2,7 +2,7 @@
 #include <stdint.h>
 #define DESCRIPTOR_SIZE 25
 #define UNIT_SIZE 8
-#define INVALID 200
+#define INVALID 255
 
 class FixedSizeAllocator
 {
@@ -29,13 +29,14 @@ class FixedSizeAllocator
 
 public:
 
-	void * begin;
-	size_t size;
-	BitArray descriptor;
+	void * head;
 
-	void * initialize(void * i_ptr, size_t i_size, unsigned int blocks);
-
-	void * alloc();
+	void * initialize(void * i_ptr, size_t i_size);
+	void * alloc(void);
 	bool free(void * i_ptr);
+
+private:
+	BitArray _descriptor;
+	size_t _fixed_unit;
 };
 

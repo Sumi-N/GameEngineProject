@@ -2,20 +2,20 @@
 
 #include <Windows.h>
 
-void * FixedSizeAllocator::initialize(void * i_ptr, size_t i_size, unsigned int blocks)
+void * FixedSizeAllocator::initialize(void * i_ptr, size_t i_size)
 {	
-	begin = i_ptr;
-	size = i_size;
-	descriptor.ClearAll();
-	return reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(i_ptr) + i_size * blocks + sizeof(BitArray));
+	head = i_ptr;
+	_fixed_unit = i_size;
+	_descriptor.ClearAll();
+	return reinterpret_cast<void*>(reinterpret_cast<size_t>(i_ptr) + _fixed_unit * DESCRIPTOR_SIZE * UNIT_SIZE);
 }
 
 void * FixedSizeAllocator::alloc()
 {
-	size_t index = descriptor.GetFirstClearBit();
+	size_t index = _descriptor.GetFirstClearBit();
 	if (index != INVALID) {
-		descriptor.SetBit(index);
-		return reinterpret_cast<void *>(reinterpret_cast<size_t>(begin) + size * index);
+		_descriptor.SetBit(index);
+		return reinterpret_cast<void *>(reinterpret_cast<size_t>(head) + _fixed_unit * index);
 	}
 	else {
 		return nullptr;
@@ -27,7 +27,7 @@ bool FixedSizeAllocator::free(void * i_ptr)
 	if (i_ptr == nullptr) {
 		return false;
 	}
-	size_t index = (reinterpret_cast<uintptr_t>(i_ptr) - reinterpret_cast<uintptr_t>(begin)) / size;
-	descriptor.ClearBit(index);
+	size_t index = (reinterpret_cast<size_t>(i_ptr) - reinterpret_cast<size_t>(head)) / _fixed_unit;
+	_descriptor.ClearBit(index);
 	return true;
 }

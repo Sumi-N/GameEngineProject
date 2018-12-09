@@ -18,7 +18,7 @@ int main(int i_arg, char **)
 {
 	const size_t 		sizeHeap = 1024 * 1024;
 
-	// you may not need this if you don't use a descriptor pool
+	// you may not need this if you don't use a _descriptor pool
 	const unsigned int 	numDescriptors = 2048;
 
 	// Allocate memory for my test heap.
@@ -142,6 +142,7 @@ bool MemorySystem_UnitTest()
 	char * pNewTest = new char[1024];
 	
 	delete[] pNewTest;
+	printf("number of allocation: %d\n", allocator_counter);
 	// we succeeded
 	return true;
 }

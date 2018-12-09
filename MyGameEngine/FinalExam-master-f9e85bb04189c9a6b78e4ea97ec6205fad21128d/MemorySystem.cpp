@@ -4,14 +4,10 @@
 bool InitializeMemorySystem(void * i_pHeapMemory, size_t i_sizeHeapMemory, unsigned int i_OptionalNumDescriptors)
 {
 	_current = i_pHeapMemory;
-	p_fixedallocator[0] = _current;
-	_current = allocator[0].initialize(_current, 16, 200);
-	p_fixedallocator[1] = _current;
-	_current = allocator[1].initialize(_current, 32, 200);
-	p_fixedallocator[2] = _current;
-	_current = allocator[2].initialize(_current, 96, 200);
-	p_fixedallocator[3] = _current;
-	_current = allocator[3].initialize(_current, 96, 200);
+	_current = allocator[0].initialize(_current, 16);
+	_current = allocator[1].initialize(_current, 32);
+	_current = allocator[2].initialize(_current, 96);
+	_current = allocator[3].initialize(_current, 96);
 	NewHeapManager::initialize(_current,i_sizeHeapMemory - (16 * 100 + 32 * 200 + 96 * 400));
 	return true;
 }
@@ -19,7 +15,7 @@ bool InitializeMemorySystem(void * i_pHeapMemory, size_t i_sizeHeapMemory, unsig
 void Collect()
 {
 	//allocator[0].collect();
-	normalmanager.collect();
+	generalmanager.collect();
 	// coalesce free blocks
 	// you may or may not need to do this depending on how you've implemented your HeapManager
 }
@@ -42,24 +38,24 @@ void * AllocMemory(size_t size)
 	}
 	else 
 	{
-		return normalmanager._alloc(size);
+		return generalmanager._alloc(size);
 	}
 }
 
 void FreeMemory(void * i_ptr)
 {
-	if (i_ptr >= p_fixedallocator[0] && p_fixedallocator[1] > i_ptr) {
+	if (i_ptr >= allocator[0].head && allocator[1].head > i_ptr) {
 		allocator[0].free(i_ptr);
 	}
-	else if (i_ptr >= p_fixedallocator[1] && p_fixedallocator[2] > i_ptr) {
+	else if (i_ptr >= allocator[1].head && allocator[2].head > i_ptr) {
 		allocator[1].free(i_ptr);
 	}
-	else if (i_ptr >= p_fixedallocator[2] && _head > i_ptr) {
+	else if (i_ptr >= allocator[2].head && _head > i_ptr) {
 		allocator[2].free(i_ptr);
 	}
 	else
 	{
-		normalmanager._free(i_ptr);
+		generalmanager._free(i_ptr);
 	}
 }
 
