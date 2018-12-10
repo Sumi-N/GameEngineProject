@@ -34,6 +34,9 @@ void * AllocMemory(size_t size)
 		return	allocator[1].alloc();
 	}
 	else if (size <= 96) {
+		if (allocator[2].alloc() == nullptr) {
+			return allocator[3].alloc();
+		}
 		return	allocator[2].alloc();
 	}
 	else 
@@ -51,7 +54,9 @@ void FreeMemory(void * i_ptr)
 		allocator[1].free(i_ptr);
 	}
 	else if (i_ptr >= allocator[2].head && _head > i_ptr) {
-		allocator[2].free(i_ptr);
+		if (allocator[2].free(i_ptr)) {
+			allocator[3].free(i_ptr);
+		}
 	}
 	else
 	{
