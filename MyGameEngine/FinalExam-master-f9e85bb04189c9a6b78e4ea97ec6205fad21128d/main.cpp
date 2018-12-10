@@ -53,7 +53,7 @@ bool MemorySystem_UnitTest()
 	long	numCollects = 0;
 
 	size_t totalAllocated = 0;
-	// allocate memory of random sizes up to 1024 bytes from the heap manager
+	// allocate memory of random sizes up to 1024 _bytes from the heap manager
 	// until it runs out of memory
 	do
 	{
