@@ -2,8 +2,6 @@
 #include "FixedSizeAllocator.h"
 #include "NewHeapManager.h"
 
-static int allocator_counter = 0;
-
 static NewHeapManager generalmanager;
 static FixedSizeAllocator allocator[4];
 

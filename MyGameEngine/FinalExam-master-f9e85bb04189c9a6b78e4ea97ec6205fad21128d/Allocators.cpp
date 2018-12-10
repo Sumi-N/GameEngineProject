@@ -9,7 +9,6 @@ void * __cdecl malloc(size_t i_size)
 {
 	// replace with calls to your HeapManager or FixedSizeAllocators
 	printf("malloc %zu\n", i_size);
-	allocator_counter++;
 	return AllocMemory(i_size);
 }
 
@@ -24,7 +23,6 @@ void * operator new(size_t i_size)
 {
 	// replace with calls to your HeapManager or FixedSizeAllocators
 	printf("new %zu\n", i_size);
-	allocator_counter++;
 	return AllocMemory(i_size);
 }
 
@@ -39,7 +37,6 @@ void * operator new[](size_t i_size)
 {
 	// replace with calls to your HeapManager or FixedSizeAllocators
 	printf("new [] %zu\n", i_size);
-	allocator_counter++;
 	return AllocMemory(i_size);
 }
 

@@ -8,13 +8,12 @@ bool InitializeMemorySystem(void * i_pHeapMemory, size_t i_sizeHeapMemory, unsig
 	_current = allocator[1].initialize(_current, 32);
 	_current = allocator[2].initialize(_current, 96);
 	_current = allocator[3].initialize(_current, 96);
-	NewHeapManager::initialize(_current,i_sizeHeapMemory + (reinterpret_cast<size_t>(_current) - reinterpret_cast<size_t>( i_pHeapMemory)));
+	NewHeapManager::initialize(_current,i_sizeHeapMemory - (16 * 200 + 32 * 200 + 96 * 400));
 	return true;
 }
 
 void Collect()
 {
-	//allocator[0].collect();
 	generalmanager.collect();
 	
 	// coalesce free blocks
