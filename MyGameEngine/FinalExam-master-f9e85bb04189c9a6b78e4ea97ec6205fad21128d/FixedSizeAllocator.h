@@ -2,7 +2,7 @@
 #include <stdint.h>
 #define DESCRIPTOR_SIZE 25
 #define UNIT_SIZE sizeof(uint8_t)
-#define UNIT (sizeof(uint8_t)*8) // 1 byte = 8 bits
+#define UNIT_SIZE_BITS (sizeof(uint8_t)*8) // 1 byte = 8 bits
 #define INVALID 255 // the invalid number which return back to calling function telling them the fixed size allocator is already full 
 
 class FixedSizeAllocator

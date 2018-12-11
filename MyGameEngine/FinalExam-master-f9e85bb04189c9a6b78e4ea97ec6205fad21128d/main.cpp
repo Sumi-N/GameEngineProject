@@ -68,8 +68,7 @@ bool MemorySystem_UnitTest()
 		{
 			Collect();
 
-			//pPtr = new char[sizeAlloc];
-			pPtr = new char[40];
+			pPtr = new char[sizeAlloc];
 
 			// if not we're done. go on to cleanup phase of test
 			if (pPtr == nullptr)
