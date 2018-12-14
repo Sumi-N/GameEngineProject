@@ -23,6 +23,7 @@ void * NewHeapManager::_alloc(size_t i_size)
 	_current = _head;
 	Using * iterator = static_cast<Using *>(_current);
 
+	//check if there is a space to insert block
 	while (iterator->exit == true || iterator->size < i_size + sizeof(Using)) {
 		_current = reinterpret_cast<void *> (reinterpret_cast<size_t>(_current) + iterator->size + sizeof(Using));
 		iterator = static_cast<Using *>(_current);
@@ -31,6 +32,7 @@ void * NewHeapManager::_alloc(size_t i_size)
 		}
 	}
 
+	//make a descriptor and 
 	size_t emptyspace = iterator->size;
 	iterator->exit = true;
 	iterator->size = i_size;

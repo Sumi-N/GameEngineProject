@@ -145,7 +145,6 @@
   <ItemGroup>
     <ClCompile Include="Allocators.cpp" />
     <ClCompile Include="BitArray.cpp" />
-    <ClCompile Include="FixedSizeAllocator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MemorySystem.cpp" />
     <ClCompile Include="NewHeapManager.cpp" />
