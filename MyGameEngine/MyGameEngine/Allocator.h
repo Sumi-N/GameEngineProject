@@ -16,13 +16,13 @@ HeapManager * pHeapManager = HeapManager::create(pHeapMemory, sizeHeap, numDescr
 
 void *operator new(size_t i_size) {
 	void * rtnp = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(pHeapManager->_alloc(i_size, 4)) + sizeof(Using));
-	assert(pHeapManager->_alloc(i_size, 4));
+	//assert(pHeapManager->_alloc(i_size, 4));
 	return rtnp;
 }
 
 void * operator new[](size_t i_size) {
 	void * rtnp = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(pHeapManager->_alloc(i_size, 4)) + sizeof(Using));
-	assert(pHeapManager->_alloc(i_size, 4));
+	//assert(pHeapManager->_alloc(i_size, 4));
 	return rtnp;
 }
 
@@ -43,14 +43,14 @@ void operator delete[](void * iptr) {
 
 void * operator new(size_t i_size, HeapManager * pHeap) {
 	void * rtnp = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(pHeap->_alloc(i_size, 4)) + sizeof(Using));
-	assert(pHeap->_alloc(i_size, 4));
+	//assert(pHeap->_alloc(i_size, 4));
 	DEBUG_PRINT("iwas called");
 	return rtnp;
 }
 
 void * operator new[](size_t i_size, HeapManager * pHeap) {
 	void * rtnp = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(pHeap->_alloc(i_size, 4)) + sizeof(Using));
-	assert(pHeap->_alloc(i_size, 4));
+	//assert(pHeap->_alloc(i_size, 4));
 	return rtnp;
 }
 
