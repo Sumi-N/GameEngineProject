@@ -23,7 +23,7 @@ void * NewHeapManager::_alloc(size_t i_size)
 	_current = _head;
 	Using * iterator = static_cast<Using *>(_current);
 
-	//check if there is a space to insert block
+	//Check if there is a space to insert block
 	while (iterator->exit == true || iterator->size < i_size + sizeof(Using)) {
 		_current = reinterpret_cast<void *> (reinterpret_cast<size_t>(_current) + iterator->size + sizeof(Using));
 		iterator = static_cast<Using *>(_current);
@@ -32,7 +32,7 @@ void * NewHeapManager::_alloc(size_t i_size)
 		}
 	}
 
-	//split one descriptor to two descriptors
+	//Split one descriptor to two descriptors
 	size_t emptyspace = iterator->size;
 	iterator->exit = true;
 	iterator->size = i_size;
@@ -52,6 +52,7 @@ bool NewHeapManager::_free(void * i_ptr)
 	return true;
 }
 
+//check one descriptor and the next descriptor and see if both of them are not used, then coalease them
 void NewHeapManager::collect()
 {
 	_current = _head;
