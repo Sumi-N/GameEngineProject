@@ -5,10 +5,21 @@ static void * _current;
 static void * _over;
 static size_t _size;
 
-typedef struct Using {
-	bool exit;
-	size_t size;
-} Using;
+#ifdef _DEBUG
+	typedef struct Using {
+		//Guardbanding
+		unsigned char tailguardbanding;
+		bool exit;
+		size_t size;
+		//Guard banding
+		unsigned char headguardbanding;
+	} Using;
+#else
+	typedef struct Using {
+		bool exit;
+		size_t size;
+	} Using;
+#endif 
 
 class NewHeapManager
 {

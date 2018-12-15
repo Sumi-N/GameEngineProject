@@ -32,7 +32,7 @@ void * NewHeapManager::_alloc(size_t i_size)
 		}
 	}
 
-	//make a descriptor and 
+	//split one descriptor to two descriptors
 	size_t emptyspace = iterator->size;
 	iterator->exit = true;
 	iterator->size = i_size;

@@ -25,6 +25,7 @@ void DestroyMemorySystem()
 	// Destroy your HeapManager and FixedSizeAllocators
 }
 
+//Allocate memory to certain heap manager depend on how much size the allocation is 
 void * AllocMemory(size_t size)
 {	
 	if (size <= 16) {
@@ -45,6 +46,7 @@ void * AllocMemory(size_t size)
 	}
 }
 
+//Free memory on certain heapmanager
 void FreeMemory(void * i_ptr)
 {
 	if (i_ptr >= allocator[0].head && allocator[1].head > i_ptr) {
