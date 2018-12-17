@@ -18,7 +18,7 @@ int main(int i_arg, char **)
 {
 	const size_t 		sizeHeap = 1024 * 1024;
 
-	// you may not need this if you don't use a _descriptor pool
+	// you may not need this if you don't use a descriptor pool
 	const unsigned int 	numDescriptors = 2048;
 
 	// Allocate memory for my test heap.
@@ -46,6 +46,7 @@ int main(int i_arg, char **)
 
 bool MemorySystem_UnitTest()
 {
+	const size_t maxAllocations = 10 * 1024;
 	std::vector<void *> AllocatedAddresses;
 
 	long	numAllocs = 0;
@@ -53,7 +54,12 @@ bool MemorySystem_UnitTest()
 	long	numCollects = 0;
 
 	size_t totalAllocated = 0;
-	// allocate memory of random sizes up to 1024 _bytes from the heap manager
+
+	// reserve space in AllocatedAddresses for the maximum number of allocation attempts
+	// prevents new returning null when std::vector expands the underlying array
+	AllocatedAddresses.reserve(10 * 1024);
+
+	// allocate memory of random sizes up to 1024 bytes from the heap manager
 	// until it runs out of memory
 	do
 	{
@@ -68,7 +74,7 @@ bool MemorySystem_UnitTest()
 		{
 			Collect();
 
-			pPtr = new char[sizeAlloc];
+			pPtr = malloc(sizeAlloc);
 
 			// if not we're done. go on to cleanup phase of test
 			if (pPtr == nullptr)
@@ -99,7 +105,7 @@ bool MemorySystem_UnitTest()
 			numCollects++;
 		}
 
-	} while (1);
+	} while (numAllocs < maxAllocations);
 
 	// now free those blocks in a random order
 	if (!AllocatedAddresses.empty())
@@ -142,6 +148,7 @@ bool MemorySystem_UnitTest()
 	char * pNewTest = new char[1024];
 	
 	delete[] pNewTest;
+
 	// we succeeded
 	return true;
 }

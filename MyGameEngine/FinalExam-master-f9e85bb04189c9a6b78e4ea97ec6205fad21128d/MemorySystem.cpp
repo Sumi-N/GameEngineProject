@@ -1,8 +1,10 @@
 #include "MemorySystem.h"
 #include "NewHeapManager.h"
+#include <stdio.h>
 
 bool InitializeMemorySystem(void * i_pHeapMemory, size_t i_sizeHeapMemory, unsigned int i_OptionalNumDescriptors)
 {
+
 	_current = i_pHeapMemory;
 	_current = allocator[0].initialize(_current, 16);
 	_current = allocator[1].initialize(_current, 32);
@@ -55,10 +57,11 @@ void FreeMemory(void * i_ptr)
 	else if (i_ptr >= allocator[1].head && allocator[2].head > i_ptr) {
 		allocator[1].free(i_ptr);
 	}
-	else if (i_ptr >= allocator[2].head && _head > i_ptr) {
-		if (allocator[2].free(i_ptr)) {
-			allocator[3].free(i_ptr);
-		}
+	else if (i_ptr >= allocator[2].head && allocator[3].head > i_ptr) {
+		allocator[2].free(i_ptr);
+	}
+	else if (i_ptr >= allocator[3].head && reinterpret_cast<size_t>(allocator[3].head) + 96 * 200 > reinterpret_cast<size_t>(i_ptr)){
+		allocator[3].free(i_ptr);
 	}
 	else
 	{

@@ -1,5 +1,5 @@
 #include "NewHeapManager.h"
-
+#include <stdio.h>
 #include <Windows.h>
 
 void * NewHeapManager::initialize(void * i_ptr, size_t i_size)
