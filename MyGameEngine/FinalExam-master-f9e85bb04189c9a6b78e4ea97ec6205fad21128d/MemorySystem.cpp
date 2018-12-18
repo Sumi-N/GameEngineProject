@@ -10,7 +10,7 @@ bool InitializeMemorySystem(void * i_pHeapMemory, size_t i_sizeHeapMemory, unsig
 	_current = allocator[1].initialize(_current, 32);
 	_current = allocator[2].initialize(_current, 96);
 	_current = allocator[3].initialize(_current, 96);
-	NewHeapManager::initialize(_current,i_sizeHeapMemory - (16 * 200 + 32 * 200 + 96 * 400));
+	NewHeapManager::initialize(reinterpret_cast<void *>(reinterpret_cast<size_t>(_current) + 96 * 200),i_sizeHeapMemory - (16 * 200 + 32 * 200 + 96 * 400));
 	return true;
 }
 
