@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyGameEngine", "MyGameEngine\MyGameEngine.vcxproj", "{319D92D9-944C-4793-8BB9-D41497B03345}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B2AB67DE-B7FA-42BA-B060-959487392AEA} = {B2AB67DE-B7FA-42BA-B060-959487392AEA}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MonsterChase", "MonsterChase\MonsterChase.vcxproj", "{C4BDEE8F-C890-4EA7-A822-A7011A29A6FB}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -13,6 +16,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MakeSentence", "MakeSentence\MakeSentence.vcxproj", "{07B65078-695E-435D-98E8-850F950A28EE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FinalExamSampleProject", "FinalExam-master-f9e85bb04189c9a6b78e4ea97ec6205fad21128d\FinalExamSampleProject.vcxproj", "{41797437-2873-4833-B294-7913DB3A24FE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLib", "GLib\GLib.vcxproj", "{B2AB67DE-B7FA-42BA-B060-959487392AEA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLibTest", "GLibTest\GLibTest.vcxproj", "{983BA8F0-73F6-41AA-B41A-B9F4DE771982}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +61,22 @@ Global
 		{41797437-2873-4833-B294-7913DB3A24FE}.Release|x64.Build.0 = Release|x64
 		{41797437-2873-4833-B294-7913DB3A24FE}.Release|x86.ActiveCfg = Release|Win32
 		{41797437-2873-4833-B294-7913DB3A24FE}.Release|x86.Build.0 = Release|Win32
+		{B2AB67DE-B7FA-42BA-B060-959487392AEA}.Debug|x64.ActiveCfg = Debug|x64
+		{B2AB67DE-B7FA-42BA-B060-959487392AEA}.Debug|x64.Build.0 = Debug|x64
+		{B2AB67DE-B7FA-42BA-B060-959487392AEA}.Debug|x86.ActiveCfg = Debug|Win32
+		{B2AB67DE-B7FA-42BA-B060-959487392AEA}.Debug|x86.Build.0 = Debug|Win32
+		{B2AB67DE-B7FA-42BA-B060-959487392AEA}.Release|x64.ActiveCfg = Release|x64
+		{B2AB67DE-B7FA-42BA-B060-959487392AEA}.Release|x64.Build.0 = Release|x64
+		{B2AB67DE-B7FA-42BA-B060-959487392AEA}.Release|x86.ActiveCfg = Release|Win32
+		{B2AB67DE-B7FA-42BA-B060-959487392AEA}.Release|x86.Build.0 = Release|Win32
+		{983BA8F0-73F6-41AA-B41A-B9F4DE771982}.Debug|x64.ActiveCfg = Debug|x64
+		{983BA8F0-73F6-41AA-B41A-B9F4DE771982}.Debug|x64.Build.0 = Debug|x64
+		{983BA8F0-73F6-41AA-B41A-B9F4DE771982}.Debug|x86.ActiveCfg = Debug|Win32
+		{983BA8F0-73F6-41AA-B41A-B9F4DE771982}.Debug|x86.Build.0 = Debug|Win32
+		{983BA8F0-73F6-41AA-B41A-B9F4DE771982}.Release|x64.ActiveCfg = Release|x64
+		{983BA8F0-73F6-41AA-B41A-B9F4DE771982}.Release|x64.Build.0 = Release|x64
+		{983BA8F0-73F6-41AA-B41A-B9F4DE771982}.Release|x86.ActiveCfg = Release|Win32
+		{983BA8F0-73F6-41AA-B41A-B9F4DE771982}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
