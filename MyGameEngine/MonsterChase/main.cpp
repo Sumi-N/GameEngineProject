@@ -240,8 +240,8 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 		GLib::SetKeyStateChangeCallback(TestKeyCallback);
 
 		// Create a couple of sprites using our own helper routine CreateSprite
-		GLib::Sprites::Sprite * pGoodGuy = CreateSprite("data\\GoodGuy.dds");
-		GLib::Sprites::Sprite * pBadGuy = CreateSprite("data\\BadGuy.dds");
+		GLib::Sprites::Sprite * pGoodGuy = CreateSprite("..\\GlibTest\\data\\GoodGuy.dds");
+		GLib::Sprites::Sprite * pBadGuy = CreateSprite("..\\GlibTest\\data\\BadGuy.dds");
 
 		bool bQuit = false;
 
