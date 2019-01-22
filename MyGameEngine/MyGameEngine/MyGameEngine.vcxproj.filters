@@ -1,42 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="DataStructure">
-      <UniqueIdentifier>{80663509-0eee-410e-946b-d1893a2c5651}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object">
-      <UniqueIdentifier>{8e35f844-1e73-4962-9eba-d742d999e690}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Debug">
       <UniqueIdentifier>{39b4dbca-65a8-470e-afe8-f2fbbfd6d653}</UniqueIdentifier>
     </Filter>
     <Filter Include="System">
       <UniqueIdentifier>{6eb5ee54-708b-4f6c-8db5-f6a54367886a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\HeapManager">
+      <UniqueIdentifier>{e2c8afb7-8e44-4d46-9928-4d0c49fe6764}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{8e35f844-1e73-4962-9eba-d742d999e690}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Components">
+      <UniqueIdentifier>{15461e9f-5711-4c12-942d-709cd23affa7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataStructure">
+      <UniqueIdentifier>{80663509-0eee-410e-946b-d1893a2c5651}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Object2D.cpp">
-      <Filter>Object</Filter>
+      <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="DebugLog.cpp">
       <Filter>Debug</Filter>
     </ClCompile>
     <ClCompile Include="HeapManager.cpp">
-      <Filter>System</Filter>
-    </ClCompile>
-    <ClCompile Include="HeapManagerProxy-Sample.cpp">
-      <Filter>System</Filter>
+      <Filter>System\HeapManager</Filter>
     </ClCompile>
     <ClCompile Include="HeapManager_UnitTest.cpp">
-      <Filter>System</Filter>
+      <Filter>System\HeapManager</Filter>
+    </ClCompile>
+    <ClCompile Include="HeapManagerProxy-Sample.cpp">
+      <Filter>System\HeapManager</Filter>
     </ClCompile>
     <ClCompile Include="ObjectController.cpp">
-      <Filter>Object</Filter>
+      <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Object2D.h">
-      <Filter>Object</Filter>
+      <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Vector2D.h">
       <Filter>DataStructure</Filter>
@@ -47,17 +53,23 @@
     <ClInclude Include="DebugLog.h">
       <Filter>Debug</Filter>
     </ClInclude>
+    <ClInclude Include="Allocator.h">
+      <Filter>System\HeapManager</Filter>
+    </ClInclude>
     <ClInclude Include="HeapManager.h">
-      <Filter>System</Filter>
+      <Filter>System\HeapManager</Filter>
     </ClInclude>
     <ClInclude Include="HeapManagerProxy.h">
-      <Filter>System</Filter>
+      <Filter>System\HeapManager</Filter>
     </ClInclude>
     <ClInclude Include="ObjectController.h">
-      <Filter>Object</Filter>
+      <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Allocator.h">
+    <ClInclude Include="Time.h">
       <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics2D.h">
+      <Filter>Objects\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

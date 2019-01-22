@@ -7,6 +7,8 @@
 #include "DebugLog.h"
 #include "HeapManager.h"
 #include "Allocator.h"
+#include "Time.h"
+#include "Physics2D.h"
 
 #include <Windows.h>
 #include <crtdbg.h>  
@@ -143,9 +145,17 @@ void TestKeyCallback(unsigned int i_VKeyID, bool bWentDown)
 	const size_t	lenBuffer = 65;
 	char			Buffer[lenBuffer];
 
-	sprintf_s(Buffer, lenBuffer, "VKey 0x%04x went %s\n", i_VKeyID, bWentDown ? "down" : "up");
+	//sprintf_s(Buffer, lenBuffer, "VKey 0x%04x went %s\n", i_VKeyID, bWentDown ? "down" : "up");
+	sprintf_s(Buffer, lenBuffer, "VKey %d went %s\n", i_VKeyID, bWentDown ? "down" : "up");
 	OutputDebugStringA(Buffer);
 #endif // __DEBUG
+}
+
+void MakeAccelation(unsigned int i_VkeyID, bool bWentDown) {
+	if (i_VkeyID == 32) {
+		//DEBUG_PRINT("not hello");
+		//acc = 0.01;
+	}
 }
 
 void * LoadFile(const char * i_pFilename, size_t & o_sizeFile)
@@ -232,12 +242,13 @@ GLib::Sprites::Sprite * CreateSprite(const char * i_pFilename)
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmdLine, int i_nCmdShow) {
 	// IMPORTANT: first we need to initialize GLib
-	bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 800, 600);
+	bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 1200, 600);
 
 	if (bSuccess)
 	{
 		// IMPORTANT (if we want keypress info from GLib): Set a callback for notification of key presses
 		GLib::SetKeyStateChangeCallback(TestKeyCallback);
+		GLib::SetKeyStateChangeCallback(MakeAccelation);
 
 		// Create a couple of sprites using our own helper routine CreateSprite
 		GLib::Sprites::Sprite * pGoodGuy = CreateSprite("..\\GlibTest\\data\\GoodGuy.dds");
@@ -245,8 +256,18 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 		bool bQuit = false;
 
+
+		Timer::Init();
+
+		Physics2D cal;
+		Vector2D<double, double> pos = Vector2D<double, double>(0, 0);
+		Vector2D<double, double> vel = Vector2D<double,double>(0,0);
+		Vector2D<double, double> acc = Vector2D<double, double>(0.0005, 0);
+		static GLib::Point2D	Offset = { -220.0f, -100.0f };
 		do
 		{
+			Timer::Run();
+
 			// IMPORTANT: We need to let GLib do it's thing. 
 			GLib::Service(bQuit);
 
@@ -262,14 +283,18 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 					static float			moveDist = .01f;
 					static float			moveDir = moveDist;
 
-					static GLib::Point2D	Offset = { -180.0f, -100.0f };
+					pos.setX(Offset.x);
+					pos.setY(Offset.y);
+					cal.Update(pos,vel,acc,dt);
+					Offset.x = (float)(pos.x());
+					Offset.y = (float)(pos.y());
+					//DEBUG_PRINT("the velocity is %f",vel.x());
+					//if (Offset.x < -220.0f)
+					//	moveDir = moveDist;
+					//else if (Offset.x > -140.0f)
+					//	moveDir = -moveDist;
 
-					if (Offset.x < -220.0f)
-						moveDir = moveDist;
-					else if (Offset.x > -140.0f)
-						moveDir = -moveDist;
-
-					Offset.x += moveDir;
+					//Offset.x += moveDir;
 
 					// Tell GLib to render this sprite at our calculated location
 					GLib::Sprites::RenderSprite(*pGoodGuy, Offset, 0.0f);

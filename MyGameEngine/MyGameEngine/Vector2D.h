@@ -9,9 +9,12 @@ public:
 	
 	Vector2D<T,U> & operator+(const Vector2D);
 	Vector2D<T,U> & operator-(const Vector2D);
+	Vector2D<T,U> & operator*(const int);
+	Vector2D<T, U> & operator*(const double);
+	Vector2D<T, U> & operator/(const int);
+	Vector2D<T,U> & operator=(const Vector2D &);
 	bool operator==(const Vector2D) const;
 	bool operator!=(const Vector2D) const;
-	Vector2D<T, U> & operator=(const Vector2D &);
 
 	T x() const { return data1; };
 	U y() const { return data2; };
@@ -47,6 +50,32 @@ template <class T, class U> Vector2D<T,U> & Vector2D<T, U>::operator+(const Vect
 template <class T, class U> Vector2D<T,U> & Vector2D<T, U>::operator-(const Vector2D vec){
 	data1 -= vec.data1;
 	data2 -= vec.data2;
+	return *this;
+}
+
+template<class T, class U>
+inline Vector2D<T, U>& Vector2D<T, U>::operator*(const int num)
+{
+	Vector2D<T, U> returndata;
+	returndata.data1 = data1 * num;
+	returndata.data2 = data2 * num;
+	return returndata;
+}
+
+template<class T, class U>
+inline Vector2D<T, U>& Vector2D<T, U>::operator*(const double num)
+{
+	Vector2D<T, U> returndata;
+	returndata.data1 = data1 * num;
+	returndata.data2 = data2 * num;
+	return returndata;
+}
+
+template<class T, class U>
+inline Vector2D<T, U>& Vector2D<T, U>::operator/(const int num)
+{
+	data1 = data1 / num;
+	data2 = data2 / num;
 	return *this;
 }
 
