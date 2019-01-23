@@ -43,11 +43,10 @@ int monsterchase() {
 	List<MonsterController*> monstercontrollers;
 
 	for (int i = 0; i < mn; i++) {
-		Monster* monster = new(pHeapManager) Monster;
+		Monster* monster = new Monster;
 		monster->randomName(10);
 		MonsterController * mcontroller = new(pHeapManager) MonsterController(monster);
 		monstercontrollers.add(mcontroller);
-		//delete monster;
 	}
 	deletelist = new int[mn];
 	int * headofdelete = deletelist;
@@ -73,7 +72,6 @@ int monsterchase() {
 			monster->randomName(10);
 			MonsterController * mcontroller = new(pHeapManager) MonsterController(monster);
 			monstercontrollers.add(mcontroller);
-			//delete monster;
 		}
 
 		for (int i = 0; i < monstercontrollers.length(); i++) {

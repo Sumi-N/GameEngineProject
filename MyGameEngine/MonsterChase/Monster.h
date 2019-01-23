@@ -1,6 +1,7 @@
 #pragma once
 #include "Object2D.h"
 #include "Vector2D.h"
+#include "DebugLog.h"
 
 class Monster : public Object2D
 {
