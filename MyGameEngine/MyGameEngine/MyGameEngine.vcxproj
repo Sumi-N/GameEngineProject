@@ -36,7 +36,6 @@
     <ClCompile Include="HeapManagerProxy-Sample.cpp" />
     <ClCompile Include="HeapManager_UnitTest.cpp" />
     <ClCompile Include="Object2D.cpp" />
-    <ClCompile Include="ObjectController.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

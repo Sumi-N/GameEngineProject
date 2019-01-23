@@ -36,9 +36,6 @@
     <ClCompile Include="HeapManagerProxy-Sample.cpp">
       <Filter>System\HeapManager</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectController.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Object2D.h">

@@ -29,7 +29,6 @@ void * operator new[](size_t i_size) {
 void operator delete(void * iptr) {
 	void * rtnp = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(iptr) - sizeof(Using));
 	pHeapManager->_free(rtnp);
-	DEBUG_PRINT("normeal delete");
 	return;
 }
 
@@ -43,21 +42,17 @@ void operator delete[](void * iptr) {
 
 void * operator new(size_t i_size, HeapManager * pHeap) {
 	void * rtnp = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(pHeap->_alloc(i_size, 4)) + sizeof(Using));
-	//assert(pHeap->_alloc(i_size, 4));
-	DEBUG_PRINT("iwas called");
 	return rtnp;
 }
 
 void * operator new[](size_t i_size, HeapManager * pHeap) {
 	void * rtnp = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(pHeap->_alloc(i_size, 4)) + sizeof(Using));
-	//assert(pHeap->_alloc(i_size, 4));
 	return rtnp;
 }
 
 void operator delete(void * iptr, HeapManager * pHeap) {
 	void * rtnp = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(iptr) - sizeof(Using));
 	pHeap->_free(rtnp);
-	DEBUG_PRINT("special delete");
 	return;
 }
 

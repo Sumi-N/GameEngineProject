@@ -45,9 +45,9 @@ int monsterchase() {
 	for (int i = 0; i < mn; i++) {
 		Monster* monster = new(pHeapManager) Monster;
 		monster->randomName(10);
-		MonsterController * mcontroller = new(pHeapManager) MonsterController(*monster);
+		MonsterController * mcontroller = new(pHeapManager) MonsterController(monster);
 		monstercontrollers.add(mcontroller);
-		delete monster;
+		//delete monster;
 	}
 	deletelist = new int[mn];
 	int * headofdelete = deletelist;
@@ -55,7 +55,7 @@ int monsterchase() {
 
 	Player sumi;
 	sumi.setName(p, namelength);
-	PlayerController pcontroller = PlayerController(sumi);
+	PlayerController pcontroller = PlayerController(&sumi);
 	
 
 	
@@ -71,15 +71,15 @@ int monsterchase() {
 			turncount = 0;
 			Monster* monster = new(pHeapManager) Monster;
 			monster->randomName(10);
-			MonsterController * mcontroller = new(pHeapManager) MonsterController(*monster);
+			MonsterController * mcontroller = new(pHeapManager) MonsterController(monster);
 			monstercontrollers.add(mcontroller);
-			delete monster;
+			//delete monster;
 		}
 
 		for (int i = 0; i < monstercontrollers.length(); i++) {
-			monstercontrollers.get(i)->object.showPosition();
+			monstercontrollers.get(i)->object->showPosition();
 		}
-		pcontroller.object.showPosition();
+		pcontroller.object->showPosition();
 		printf("%d\n", monstercontrollers.length());
 
 		std::cout << "press \' a\' to move right \'d\' to move left \'w\' to move up \'s\' to move down \'q\' to quit this game" << std::endl;
@@ -91,7 +91,7 @@ int monsterchase() {
 		}
 		count = 0;
 		for (int i = 0; i < monstercontrollers.length(); i++) {
-			if (monstercontrollers.get(i)->object.pos == pcontroller.object.pos) {
+			if (monstercontrollers.get(i)->object->pos == pcontroller.object->pos) {
 				*(deletelist + count) = i;
 				printf("monster deleted\n");
 				count++;
@@ -106,7 +106,7 @@ int monsterchase() {
 		count = 0;
 		for (int i = 0; i < monstercontrollers.length(); i++) {
 			for (int j = i; j < monstercontrollers.length(); j++) {
-				if (monstercontrollers.get(i)->object.pos == monstercontrollers.get(j)->object.pos) {
+				if (monstercontrollers.get(i)->object->pos == monstercontrollers.get(j)->object->pos) {
 					if (i == j) continue;
 					*(deletelist + count) = i;
 					printf("monster deleted\n");
@@ -130,14 +130,14 @@ int monsterchase() {
 #include <conio.h>
 extern bool HeapManager_UnitTest();
 
-/*
+
 int main() {
 	//HeapManager_UnitTest();
 	monsterchase();
 	_CrtDumpMemoryLeaks();
 	return 0;
 }
-*/
+
 
 void TestKeyCallback(unsigned int i_VKeyID, bool bWentDown)
 {
@@ -240,6 +240,7 @@ GLib::Sprites::Sprite * CreateSprite(const char * i_pFilename)
 	return pSprite;
 }
 
+/*
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmdLine, int i_nCmdShow) {
 	// IMPORTANT: first we need to initialize GLib
 	bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 1200, 600);
@@ -337,3 +338,4 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 	_CrtDumpMemoryLeaks();
 #endif // _DEBUG
 }
+*/
