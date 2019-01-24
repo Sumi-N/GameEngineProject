@@ -11,6 +11,7 @@ public:
 	char *name;
 	int namelength;
 	Vector2D<int, int> pos;
+	Vector2D<double, double> position;
 
 	Object2D();
 	~Object2D();

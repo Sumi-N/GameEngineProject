@@ -9,10 +9,11 @@ class Physics2D
 {
 public:
 	Physics2D();
+	Physics2D(Object2D * obj);
 	~Physics2D();
 
 	Object2D * object;
-	double mass;
+	double mass=0;
 	double friction;
 	double velocity;
 	double acceleration;
@@ -29,6 +30,10 @@ public:
 
 inline Physics2D::Physics2D()
 {
+}
+
+inline Physics2D::Physics2D(Object2D * obj) {
+	object = obj;
 }
 
 inline Physics2D::~Physics2D()
