@@ -1,23 +1,23 @@
 #pragma once
 #include "Vector2D.h"
-#include "HeapManager.h"
-#include "DebugLog.h"
-#include <assert.h>
+#include "CharacterString.h"
 
 class Object2D
 {
 public:
-	char *headofname;
-	char *name;
-	int namelength;
+	//char *headofname;
+	//char *name;
+	//int namelength;
 	Vector2D<int, int> pos;
 	Vector2D<double, double> position;
 
+	CharacterString name;
+
 	Object2D();
 	~Object2D();
-	Object2D(const Object2D & obj);
+	//Object2D(const Object2D & obj);
 
-	Object2D & operator=(const Object2D & obj);
+	//Object2D & operator=(const Object2D & obj);
 
 	virtual void showPosition();
 	virtual void showName();

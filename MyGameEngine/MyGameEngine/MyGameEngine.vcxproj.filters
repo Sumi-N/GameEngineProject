@@ -19,6 +19,9 @@
     <Filter Include="DataStructure">
       <UniqueIdentifier>{80663509-0eee-410e-946b-d1893a2c5651}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UnitTest">
+      <UniqueIdentifier>{aeba3552-a3d6-4697-932e-59918b429028}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Object2D.cpp">
@@ -30,11 +33,11 @@
     <ClCompile Include="HeapManager.cpp">
       <Filter>System\HeapManager</Filter>
     </ClCompile>
-    <ClCompile Include="HeapManager_UnitTest.cpp">
-      <Filter>System\HeapManager</Filter>
-    </ClCompile>
     <ClCompile Include="HeapManagerProxy-Sample.cpp">
       <Filter>System\HeapManager</Filter>
+    </ClCompile>
+    <ClCompile Include="HeapManager_UnitTest.cpp">
+      <Filter>UnitTest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -50,9 +53,6 @@
     <ClInclude Include="DebugLog.h">
       <Filter>Debug</Filter>
     </ClInclude>
-    <ClInclude Include="Allocator.h">
-      <Filter>System\HeapManager</Filter>
-    </ClInclude>
     <ClInclude Include="HeapManager.h">
       <Filter>System\HeapManager</Filter>
     </ClInclude>
@@ -67,6 +67,12 @@
     </ClInclude>
     <ClInclude Include="Physics2D.h">
       <Filter>Objects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Allocator.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterString_UnitTest.h">
+      <Filter>UnitTest</Filter>
     </ClInclude>
     <ClInclude Include="CharacterString.h">
       <Filter>DataStructure</Filter>

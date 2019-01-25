@@ -1,9 +1,12 @@
 #pragma once
+//#define ENABLEHEAP
 #include "HeapManager.h"
 #include "DebugLog.h"
 #include <Windows.h>
 #include <iostream>
 #include <assert.h>
+
+#if defined ENABLEHEAP
 
 const size_t 		sizeHeap = 1024 * 1024;
 const unsigned int 	numDescriptors = 2048;
@@ -61,3 +64,5 @@ void operator delete[](void * iptr, HeapManager * pHeap) {
 	pHeap->_free(rtnp);
 	return;
 }
+
+#endif

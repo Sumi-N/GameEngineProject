@@ -10,8 +10,7 @@ public:
 
 inline void Player::setName(const char * input, const int lengthofname)
 {
-	//name = input;
-	//headofname = name;
+	/*
 	delete name;
 	namelength = lengthofname;
 	name = new char[lengthofname + 1];
@@ -19,4 +18,6 @@ inline void Player::setName(const char * input, const int lengthofname)
 	for (int i = 0; i <= lengthofname; i++) {
 		name[i] = input[i];
 	}
+	*/
+	name = input;
 }

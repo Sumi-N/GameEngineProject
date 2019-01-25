@@ -5,16 +5,14 @@
 #include "PlayerController.h"
 #include "List.h"
 #include "DebugLog.h"
-#include "HeapManager.h"
 #include "Allocator.h"
 #include "Time.h"
 #include "Physics2D.h"
+#include "CharacterString.h"
 
 #include <Windows.h>
 #include <crtdbg.h>  
 #include <iostream>
-
-#include <CharacterString.h>
 
 #include "../GLib/GLib.h"
 
@@ -47,7 +45,7 @@ int monsterchase() {
 	for (int i = 0; i < mn; i++) {
 		Monster* monster = new Monster;
 		monster->randomName(10);
-		MonsterController * mcontroller = new(pHeapManager) MonsterController(monster);
+		MonsterController * mcontroller = new MonsterController(monster);
 		monstercontrollers.add(mcontroller);
 	}
 	deletelist = new int[mn];
@@ -70,9 +68,9 @@ int monsterchase() {
 		}
 		else {
 			turncount = 0;
-			Monster* monster = new(pHeapManager) Monster;
+			Monster* monster = new Monster;
 			monster->randomName(10);
-			MonsterController * mcontroller = new(pHeapManager) MonsterController(monster);
+			MonsterController * mcontroller = new MonsterController(monster);
 			monstercontrollers.add(mcontroller);
 		}
 
@@ -129,11 +127,13 @@ int monsterchase() {
 
 #include <conio.h>
 extern bool HeapManager_UnitTest();
+#include "CharacterString_UnitTest.h"
 
 
 int main() {
 	//HeapManager_UnitTest();
 	monsterchase();
+	//UnitTest::CharacterString_UnitTest();
 	_CrtDumpMemoryLeaks();
 	return 0;
 }
