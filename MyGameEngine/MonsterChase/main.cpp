@@ -14,6 +14,8 @@
 #include <crtdbg.h>  
 #include <iostream>
 
+#include <CharacterString.h>
+
 #include "../GLib/GLib.h"
 
 int monsterchase() {

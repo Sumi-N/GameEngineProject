@@ -68,5 +68,8 @@
     <ClInclude Include="Physics2D.h">
       <Filter>Objects\Components</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterString.h">
+      <Filter>DataStructure</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
