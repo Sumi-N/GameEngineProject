@@ -5,19 +5,10 @@ class Player : public Object2D
 public:
 	Player() {};
 	~Player() {};
-	void setName(const char*, const int);
+	void setName(const char*);
 };
 
-inline void Player::setName(const char * input, const int lengthofname)
+inline void Player::setName(const char * i_name)
 {
-	/*
-	delete name;
-	namelength = lengthofname;
-	name = new char[lengthofname + 1];
-	headofname = name;
-	for (int i = 0; i <= lengthofname; i++) {
-		name[i] = input[i];
-	}
-	*/
-	name = input;
+	name = i_name;
 }

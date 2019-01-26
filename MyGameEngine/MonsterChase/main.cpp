@@ -22,7 +22,6 @@ int monsterchase() {
 	int *deletelist;
 	char *p;
 	char player[256];
-	int namelength;
 	p = player;
 
 	std::cout << "choose the number of monster" << std::endl;
@@ -31,30 +30,21 @@ int monsterchase() {
 	std::cout << "the number of monster pops up : " << mn << std::endl;
 	std::cout << "type your player name" << std::endl;
 	std::cin >> player;
-	//std::cout << "your name is " << player << std::endl;
-
-	for (int i = 0; i < 256; i++) {
-		if (player[i] == '\0' || player[i] == ' ') {
-			namelength = i;
-			break;
-		}
-	}
 
 	List<MonsterController*> monstercontrollers;
 
 	for (int i = 0; i < mn; i++) {
 		Monster* monster = new Monster;
-		monster->randomName(10);
+		monster->randomName(2);
 		MonsterController * mcontroller = new MonsterController(monster);
 		monstercontrollers.add(mcontroller);
 	}
 	deletelist = new int[mn];
 	int * headofdelete = deletelist;
 
-
-	Player sumi;
-	sumi.setName(p, namelength);
-	PlayerController pcontroller = PlayerController(&sumi);
+	Player * sumi = new Player;
+	sumi->setName(p);
+	PlayerController pcontroller = PlayerController(sumi);
 	
 
 	
@@ -120,7 +110,7 @@ int monsterchase() {
 			hosei2++;
 		}
 	}
-
+	
 	delete[] headofdelete;
 	return 0;
 }

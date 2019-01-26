@@ -24,9 +24,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Object2D.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="DebugLog.cpp">
       <Filter>Debug</Filter>
     </ClCompile>

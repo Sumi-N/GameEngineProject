@@ -7,7 +7,6 @@ public:
 	ObjectController(Object2D * obj);
 	~ObjectController();
 
-	//Object2D object;
 	Object2D * object;
 	virtual bool moveTowardObject(Object2D & target);
 	virtual bool moveByOrder(const char order);
@@ -23,6 +22,7 @@ inline ObjectController::ObjectController(Object2D * obj)
 
 inline ObjectController::~ObjectController()
 {
+	delete object;
 }
 
 inline bool ObjectController::moveTowardObject(Object2D & target)

@@ -7,94 +7,107 @@ public:
 	Vector2D(T, U);
 	~Vector2D();
 	
-	Vector2D<T,U> & operator+(const Vector2D);
-	Vector2D<T,U> & operator-(const Vector2D);
-	Vector2D<T,U> & operator*(const int);
-	Vector2D<T, U> & operator*(const double);
-	Vector2D<T, U> & operator/(const int);
+	Vector2D<T,U> operator+(const Vector2D);
+	Vector2D<T,U> operator-(const Vector2D);
+	Vector2D<T,U> operator*(const int);
+	Vector2D<T,U> operator*(const double);
+	Vector2D<T,U> operator/(const int);
+	Vector2D<T,U> operator/(const double);
 	Vector2D<T,U> & operator=(const Vector2D &);
 	bool operator==(const Vector2D) const;
 	bool operator!=(const Vector2D) const;
 
-	T x() const { return data1; };
-	U y() const { return data2; };
 	Vector2D get() const { return this; }
+	void set(Vector2D i_vec) { x = i_vec.x; y = i_vec.y; }
 
-	void setX(T _data1) { data1 = _data1; }
-	void setY(U _data2) { data2 = _data2; }
-	void set(Vector2D vec) { data1 = vec.data1; data2 = vec.data2; }
-
-private:
-	T data1;
-	U data2;
+public:
+	T x;
+	U y;
 };
 
-template <class T, class U> Vector2D<T, U>::Vector2D() {
-
+template <class T, class U> 
+Vector2D<T, U>::Vector2D() {
 }
 
-template <class T, class U> Vector2D<T,U>::Vector2D(T _data1, U _data2) {
-	data1 = _data1;
-	data2 = _data2;
+template <class T, class U> 
+Vector2D<T,U>::Vector2D(T i_data1, U i_data2) {
+	x = i_data1;
+	y = i_data2;
 }
 
-template <class T, class U> Vector2D<T, U>::~Vector2D() {
+template <class T, class U> 
+Vector2D<T, U>::~Vector2D() {
 }
 
-template <class T, class U> Vector2D<T,U> & Vector2D<T, U>::operator+(const Vector2D vec){
-	data1 += vec.data1;
-	data2 += vec.data2;
-	return *this;
+template <class T, class U> 
+Vector2D<T,U> Vector2D<T, U>::operator+(const Vector2D i_vec){
+	Vector2D<T, U> result = Vector2D<T, U>();
+	result.x = this->x + i_vec.x;
+	result.y = this->y + i_vec.y;
+	return result;
 }
 
-template <class T, class U> Vector2D<T,U> & Vector2D<T, U>::operator-(const Vector2D vec){
-	data1 -= vec.data1;
-	data2 -= vec.data2;
-	return *this;
-}
-
-template<class T, class U>
-inline Vector2D<T, U>& Vector2D<T, U>::operator*(const int num)
-{
-	Vector2D<T, U> returndata;
-	returndata.data1 = data1 * num;
-	returndata.data2 = data2 * num;
-	return returndata;
+template <class T, class U> 
+Vector2D<T,U> Vector2D<T, U>::operator-(const Vector2D i_vec){
+	Vector2D<T, U> result = Vector2D<T, U>();
+	result.x = this->x - i_vec.x;
+	result.y = this->y - i_vec.y;
+	return result;
 }
 
 template<class T, class U>
-inline Vector2D<T, U>& Vector2D<T, U>::operator*(const double num)
+inline Vector2D<T, U> Vector2D<T, U>::operator*(const int i_int)
 {
-	Vector2D<T, U> returndata;
-	returndata.data1 = data1 * num;
-	returndata.data2 = data2 * num;
-	return returndata;
+	Vector2D<T, U> result = Vector2D<T, U>();
+	result.x = x * i_int;
+	result.y = y * i_int;
+	return result;
 }
 
 template<class T, class U>
-inline Vector2D<T, U>& Vector2D<T, U>::operator/(const int num)
+inline Vector2D<T, U> Vector2D<T, U>::operator*(const double i_double)
 {
-	data1 = data1 / num;
-	data2 = data2 / num;
-	return *this;
+	Vector2D<T, U> result = Vector2D<T,U>();
+	result.x = x * i_double;
+	result.y = y * i_double;
+	return result;
 }
 
-template <class T, class U>  bool Vector2D<T, U>::operator==(const Vector2D vec) const{
-	if (data1 == vec.data1 && data2 == vec.data2) {
+template<class T, class U>
+inline Vector2D<T, U> Vector2D<T, U>::operator/(const int i_int)
+{
+	Vector2D<T, U> result = Vector2D<T, U>();
+	result.x = x / i_int;
+	result.y = y / i_int;
+	return result;
+}
+
+template<class T, class U>
+inline Vector2D<T, U> Vector2D<T, U>::operator/(const double i_double)
+{
+	Vector2D<T, U> result = Vector2D<T, U>();
+	result.x = x / i_double;
+	result.y = y / i_double;
+	return result;
+}
+
+template <class T, class U>  
+bool Vector2D<T, U>::operator==(const Vector2D vec) const{
+	if (x == vec.x && y == vec.y)
 		return true;
-	}
-	else {
+	else
 		return false;
-	}
 }
 
-template <class T, class U>  bool Vector2D<T, U>::operator!=(const Vector2D vec) const{
+template <class T, class U>  
+bool Vector2D<T, U>::operator!=(const Vector2D vec) const{
 	return !(this == (vec));
 }
 
-template <class T, class U>  Vector2D<T,U> & Vector2D<T, U>::operator=(const Vector2D<T,U> & vec) {
-	this->data1 = vec.data1;
-	this->data2 = vec.data2;
+template <class T, class U>  
+Vector2D<T,U> & Vector2D<T, U>::operator=(const Vector2D<T,U> & vec) {
+	this->x = vec.x;
+	this->y = vec.y;
 	return *this;
 }
 

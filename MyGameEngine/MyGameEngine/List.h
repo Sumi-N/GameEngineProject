@@ -38,12 +38,12 @@ public:
 			return;
 
 		Node<T> * curre = head;
-		Node<T> * temp;
+		Node<T> * tmp;
 
 		while (curre->next != nullptr) {
-			temp = curre;
-			curre = temp->next;
-			delete temp;
+			tmp = curre;
+			curre = tmp->next;
+			delete tmp;
 		}
 		delete curre;
 	}
