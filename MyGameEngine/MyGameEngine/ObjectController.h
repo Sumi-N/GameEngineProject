@@ -27,7 +27,7 @@ inline ObjectController::~ObjectController()
 
 inline bool ObjectController::moveTowardObject(Object2D & target)
 {
-	this->object->setPosition(target.getPosition());
+	this->object->pos = target.pos;
 	return true;
 }
 

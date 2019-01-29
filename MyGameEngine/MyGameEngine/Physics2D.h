@@ -13,6 +13,7 @@ public:
 	~Physics2D();
 
 	Object2D * object;
+
 	double mass=0;
 	double friction;
 	double velocity;
@@ -38,6 +39,7 @@ inline Physics2D::Physics2D(Object2D * obj) {
 
 inline Physics2D::~Physics2D()
 {
+	//No need to delete object;
 }
 
 inline void Physics2D::Update(Vector2D<double, double>& i_pos, Vector2D<double, double>& i_vel, Vector2D<double, double> i_acc, double i_dt)
@@ -46,9 +48,9 @@ inline void Physics2D::Update(Vector2D<double, double>& i_pos, Vector2D<double, 
 	i_vel = i_vel + i_acc * i_dt;
 	i_vel = (i_vel + old_vel) / 2;
 	i_pos = i_pos + i_vel * i_dt;
-	//DEBUG_PRINT("the old velocity is %f", old_vel.x());
-	//DEBUG_PRINT("the new velocity is %f", i_vel.x());
-	//DEBUG_PRINT("the acc is %f", i_acc.x());
+	//DEBUG_PRINT("the old velocity is %f", old_vel.x);
+	//DEBUG_PRINT("the new velocity is %f", i_vel.x);
+	//DEBUG_PRINT("the acc is %f", i_acc.x);
 	//DEBUG_PRINT("the dt is %f", i_dt);
 	return;
 }

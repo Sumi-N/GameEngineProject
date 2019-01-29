@@ -22,6 +22,9 @@
     <Filter Include="UnitTest">
       <UniqueIdentifier>{aeba3552-a3d6-4697-932e-59918b429028}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\EntitySystem">
+      <UniqueIdentifier>{bf6031b8-56cc-4787-a06c-edfaffa2476c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DebugLog.cpp">
@@ -73,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="CharacterString.h">
       <Filter>DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics2DSystem.h">
+      <Filter>System\EntitySystem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

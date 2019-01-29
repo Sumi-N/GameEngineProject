@@ -26,21 +26,21 @@ public:
 };
 
 template <class T, class U> 
-Vector2D<T, U>::Vector2D() {
+inline Vector2D<T, U>::Vector2D() {
 }
 
 template <class T, class U> 
-Vector2D<T,U>::Vector2D(T i_data1, U i_data2) {
+inline Vector2D<T,U>::Vector2D(T i_data1, U i_data2) {
 	x = i_data1;
 	y = i_data2;
 }
 
 template <class T, class U> 
-Vector2D<T, U>::~Vector2D() {
+inline Vector2D<T, U>::~Vector2D() {
 }
 
 template <class T, class U> 
-Vector2D<T,U> Vector2D<T, U>::operator+(const Vector2D i_vec){
+inline Vector2D<T,U> Vector2D<T, U>::operator+(const Vector2D i_vec){
 	Vector2D<T, U> result = Vector2D<T, U>();
 	result.x = this->x + i_vec.x;
 	result.y = this->y + i_vec.y;
@@ -48,7 +48,7 @@ Vector2D<T,U> Vector2D<T, U>::operator+(const Vector2D i_vec){
 }
 
 template <class T, class U> 
-Vector2D<T,U> Vector2D<T, U>::operator-(const Vector2D i_vec){
+inline Vector2D<T,U> Vector2D<T, U>::operator-(const Vector2D i_vec){
 	Vector2D<T, U> result = Vector2D<T, U>();
 	result.x = this->x - i_vec.x;
 	result.y = this->y - i_vec.y;
@@ -92,22 +92,21 @@ inline Vector2D<T, U> Vector2D<T, U>::operator/(const double i_double)
 }
 
 template <class T, class U>  
-bool Vector2D<T, U>::operator==(const Vector2D vec) const{
-	if (x == vec.x && y == vec.y)
+inline bool Vector2D<T, U>::operator==(const Vector2D i_vec) const{
+	if (x == i_vec.x && y == i_vec.y)
 		return true;
 	else
 		return false;
 }
 
 template <class T, class U>  
-bool Vector2D<T, U>::operator!=(const Vector2D vec) const{
-	return !(this == (vec));
+inline bool Vector2D<T, U>::operator!=(const Vector2D i_vec) const{
+	return !(this == (i_vec));
 }
 
 template <class T, class U>  
-Vector2D<T,U> & Vector2D<T, U>::operator=(const Vector2D<T,U> & vec) {
-	this->x = vec.x;
-	this->y = vec.y;
+inline Vector2D<T,U> & Vector2D<T, U>::operator=(const Vector2D<T,U> & i_vec) {
+	this->x = i_vec.x;
+	this->y = i_vec.y;
 	return *this;
 }
-

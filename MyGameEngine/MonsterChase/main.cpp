@@ -8,7 +8,6 @@
 #include "Allocator.h"
 #include "Time.h"
 #include "Physics2D.h"
-#include "CharacterString.h"
 
 #include <Windows.h>
 #include <crtdbg.h>  
@@ -17,6 +16,11 @@
 #include "../GLib/GLib.h"
 
 int monsterchase() {
+
+	double a = 5.32;
+	int b;
+	b = static_cast<int>(a);
+	printf("%d\n", b);
 
 	int mn;
 	int *deletelist;
@@ -65,9 +69,9 @@ int monsterchase() {
 		}
 
 		for (int i = 0; i < monstercontrollers.length(); i++) {
-			monstercontrollers.get(i)->object->showPosition();
+			monstercontrollers.get(i)->object->show();
 		}
-		pcontroller.object->showPosition();
+		pcontroller.object->show();
 		printf("%d\n", monstercontrollers.length());
 
 		std::cout << "press \' a\' to move right \'d\' to move left \'w\' to move up \'s\' to move down \'q\' to quit this game" << std::endl;
@@ -119,7 +123,6 @@ int monsterchase() {
 extern bool HeapManager_UnitTest();
 #include "CharacterString_UnitTest.h"
 
-
 int main() {
 	//HeapManager_UnitTest();
 	monsterchase();
@@ -127,7 +130,6 @@ int main() {
 	_CrtDumpMemoryLeaks();
 	return 0;
 }
-
 
 void TestKeyCallback(unsigned int i_VKeyID, bool bWentDown)
 {
@@ -274,11 +276,11 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 					static float			moveDist = .01f;
 					static float			moveDir = moveDist;
 
-					pos.setX(Offset.x);
-					pos.setY(Offset.y);
+					pos.x = Offset.x;
+					pos.y = Offset.y;
 					cal.Update(pos,vel,acc,dt);
-					Offset.x = (float)(pos.x());
-					Offset.y = (float)(pos.y());
+					Offset.x = (float)pos.x;
+					Offset.y = (float)pos.y;
 					//DEBUG_PRINT("the velocity is %f",vel.x());
 					//if (Offset.x < -220.0f)
 					//	moveDir = moveDist;

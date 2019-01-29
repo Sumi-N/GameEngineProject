@@ -24,6 +24,7 @@
     <ClInclude Include="DebugLog.h" />
     <ClInclude Include="Physics2D.h" />
     <ClInclude Include="CharacterString.h" />
+    <ClInclude Include="Physics2DSystem.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="HeapManager.h" />
     <ClInclude Include="HeapManagerProxy.h" />
