@@ -39,6 +39,9 @@
     <ClCompile Include="HeapManager_UnitTest.cpp">
       <Filter>UnitTest</Filter>
     </ClCompile>
+    <ClCompile Include="SpriteRenderer.cpp">
+      <Filter>Objects\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Object2D.h">
@@ -78,6 +81,12 @@
       <Filter>DataStructure</Filter>
     </ClInclude>
     <ClInclude Include="Physics2DSystem.h">
+      <Filter>System\EntitySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRenderer.h">
+      <Filter>Objects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderEngine.h">
       <Filter>System\EntitySystem</Filter>
     </ClInclude>
   </ItemGroup>
