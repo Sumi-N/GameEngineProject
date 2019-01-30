@@ -141,9 +141,13 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 	if (bSuccess)
 	{
-		// IMPORTANT (if we want keypress info from GLib): Set a callback for notification of key presses
-		//GLib::SetKeyStateChangeCallback(TestKeyCallback);
-		//GLib::SetKeyStateChangeCallback(MakeAccelation);
+		Timer::Init();
+
+		Object2D * obj1 = new Object2D();
+		obj1->setPosition(-220, -100);
+		Object2D * obj2 = new Object2D();
+		obj2->setPosition(180, -100);
+		Physics2D * phy1 = new Physics2D(obj1);
 
 		// Create a couple of sprites using our own helper routine CreateSprite
 		SpriteRenderer GoodGuy;
@@ -151,16 +155,15 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 		SpriteRenderer BadGuy;
 		BadGuy.createSprite("..\\GlibTest\\data\\BadGuy.dds");
 
+		GoodGuy.obj = obj1;
+		BadGuy.obj = obj2;
+
+		Vector2D<double, double> force = Vector2D<double, double>(0.0005, 0);
+
+		// IMPORTANT (if we want keypress info from GLib): Set a callback for notification of key presses
+		//GLib::SetKeyStateChangeCallback(TestKeyCallback);
+
 		bool bQuit = false;
-
-
-		Timer::Init();
-
-		Physics2D cal;
-		Vector2D<double, double> pos = Vector2D<double, double>(0, 0);
-		Vector2D<double, double> vel = Vector2D<double,double>(0,0);
-		Vector2D<double, double> acc = Vector2D<double, double>(0.0005, 0);
-		static GLib::Point2D	Offset = { -220.0f, -100.0f };
 		do
 		{
 			Timer::Run();
@@ -177,34 +180,13 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 				if (GoodGuy.sprite)
 				{
-					static float			moveDist = .01f;
-					static float			moveDir = moveDist;
-
-					pos.x = Offset.x;
-					pos.y = Offset.y;
-					cal.Update(pos,vel,acc,dt);
-					Offset.x = (float)pos.x;
-					Offset.y = (float)pos.y;
-
-					// Tell GLib to render this sprite at our calculated location
-					GLib::Sprites::RenderSprite(*(GoodGuy.sprite), Offset, 0.0f);
+					phy1->update(force,Time::dt);
+					GoodGuy.update();
 				}
 				if (BadGuy.sprite)
 				{
-					static float			moveDist = .02f;
-					static float			moveDir = -moveDist;
-
-					static GLib::Point2D	Offset = { 180.0f, -100.0f };
-
-					if (Offset.x > 200.0f)
-						moveDir = -moveDist;
-					else if (Offset.x < 160.0f)
-						moveDir = moveDist;
-
-					Offset.x += moveDir;
-
 					// Tell GLib to render this sprite at our calculated location
-					GLib::Sprites::RenderSprite(*(BadGuy.sprite), Offset, 0.0f);
+					BadGuy.update();
 				}
 
 				// Tell GLib we're done rendering sprites
@@ -214,10 +196,8 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 			}
 		} while (bQuit == false);
 
-		if (GoodGuy.sprite)
-			GLib::Sprites::Release(GoodGuy.sprite);
-		if (BadGuy.sprite)
-			GLib::Sprites::Release(BadGuy.sprite);
+		GoodGuy.release();
+		BadGuy.release();
 
 		// IMPORTANT:  Tell GLib to shutdown, releasing resources.
 		GLib::Shutdown();

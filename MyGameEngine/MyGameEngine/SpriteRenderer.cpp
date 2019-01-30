@@ -2,8 +2,18 @@
 #include <assert.h>
 #include <stdio.h>
 
-void draw() {
+void SpriteRenderer::update() {
+	assert(obj);
+	offset.x = static_cast<float>(obj->pos.x);
+	offset.y = static_cast<float>(obj->pos.y);
+	GLib::Sprites::RenderSprite(*sprite, offset, 0.0f);
+}
 
+void SpriteRenderer::release()
+{
+	if (sprite) {
+		GLib::Sprites::Release(sprite);
+	}
 }
 
 bool SpriteRenderer::createSprite(const char * i_pFilename)

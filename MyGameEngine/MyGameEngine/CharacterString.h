@@ -12,7 +12,7 @@ public:
 	CharacterString & operator=(const char *);
 	CharacterString & operator=(const CharacterString &);
 
-	char * String();
+	char * String() const;
 	void Random(int);
 private:
 	char * head;
@@ -111,7 +111,7 @@ inline CharacterString & CharacterString::operator=(const char * string)
 	return *this;
 }
 
-inline char * CharacterString::String()
+inline char * CharacterString::String() const 
 {
 	return elements;
 }

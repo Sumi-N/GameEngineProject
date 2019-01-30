@@ -1,10 +1,15 @@
 #pragma once
+#include "Object2D.h"
 #include "../GLib/GLib.h"
 
 class SpriteRenderer {
 public:
-	GLib::Sprites::Sprite * sprite;
-	void draw();
+	void update();
+	void release();
 	bool createSprite(const char * i_pFilename);
 	void * loadFile(const char*, size_t &);
+public:
+	GLib::Sprites::Sprite * sprite;
+	GLib::Point2D offset;
+	Object2D * obj;
 };
