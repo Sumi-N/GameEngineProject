@@ -86,8 +86,5 @@
     <ClInclude Include="SpriteRenderer.h">
       <Filter>Objects\Components</Filter>
     </ClInclude>
-    <ClInclude Include="RenderEngine.h">
-      <Filter>System\EntitySystem</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

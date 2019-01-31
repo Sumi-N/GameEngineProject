@@ -134,6 +134,26 @@ int main() {
 }
 */
 
+Object2D * obj1 = new Object2D();
+Object2D * obj2 = new Object2D();
+Physics2D * phy1 = new Physics2D(obj1);
+
+void TestKeyCallback(unsigned int i_VKeyID, bool bWentDown)
+{
+#ifdef _DEBUG
+	const size_t	lenBuffer = 65;
+	char			Buffer[lenBuffer];
+
+	//sprintf_s(Buffer, lenBuffer, "VKey 0x%04x went %s\n", i_VKeyID, bWentDown ? "down" : "up");
+	sprintf_s(Buffer, lenBuffer, "VKey %d went %s\n", i_VKeyID, bWentDown ? "down" : "up");
+	OutputDebugStringA(Buffer);
+#endif // __DEBUG
+
+	if (i_VKeyID == 32) {
+		phy1->addForce(Vector2D<double, double>(25, 0));
+	}
+}
+
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmdLine, int i_nCmdShow) {
 
 	// IMPORTANT: first we need to initialize GLib
@@ -142,12 +162,8 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 	if (bSuccess)
 	{
 		Timer::Init();
-
-		Object2D * obj1 = new Object2D();
 		obj1->setPosition(-220, -100);
-		Object2D * obj2 = new Object2D();
 		obj2->setPosition(180, -100);
-		Physics2D * phy1 = new Physics2D(obj1);
 
 		// Create a couple of sprites using our own helper routine CreateSprite
 		SpriteRenderer GoodGuy;
@@ -158,10 +174,8 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 		GoodGuy.obj = obj1;
 		BadGuy.obj = obj2;
 
-		Vector2D<double, double> force = Vector2D<double, double>(0.0005, 0);
-
 		// IMPORTANT (if we want keypress info from GLib): Set a callback for notification of key presses
-		//GLib::SetKeyStateChangeCallback(TestKeyCallback);
+		GLib::SetKeyStateChangeCallback(TestKeyCallback);
 
 		bool bQuit = false;
 		do
@@ -180,7 +194,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 				if (GoodGuy.sprite)
 				{
-					phy1->update(force,Time::dt);
+					phy1->update(Time::dt);
 					GoodGuy.update();
 				}
 				if (BadGuy.sprite)
