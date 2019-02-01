@@ -2,6 +2,7 @@
 #include "Vector2D.h"
 #include "DebugLog.h"
 #include "Object2D.h"
+#include "SmartPointers.h"
 
 //#define ENABLE_STATIC_FRICTION
 
@@ -9,14 +10,13 @@ class Physics2D
 {
 public:
 	Physics2D();
-	Physics2D(Object2D * obj);
 	~Physics2D();
 
 	void addForce(Vector2D<double, double>);
 	void update(double i_dt);
 
 public:
-	Object2D * obj;
+	Engine::OwningPointer<Object2D> pointer;
 
 	double mass;
 	double fric;
@@ -43,15 +43,6 @@ inline Physics2D::Physics2D()
 	acc.set(Vector2D<double, double>(0, 0));
 }
 
-inline Physics2D::Physics2D(Object2D * object) 
-{
-	mass = 1;
-	air_fric = 0.02;
-	vel.set(Vector2D<double, double>(0, 0));
-	acc.set(Vector2D<double, double>(0, 0));
-	obj = object;
-}
-
 inline Physics2D::~Physics2D()
 {
 	//No need to delete object;
@@ -59,22 +50,22 @@ inline Physics2D::~Physics2D()
 
 inline void Physics2D::addForce(Vector2D<double, double> i_force)
 {
-	assert(obj);
+	assert(pointer);
 	acc = acc + i_force / mass;
 }
 
 inline void Physics2D::update(double i_dt)
 {
-	assert(obj);
+	assert(pointer);
 	acc = acc - vel * air_fric;
 	old_vel = vel;
 	vel = vel + acc * i_dt;
 	vel = (vel + old_vel) / 2;
-	obj->pos = obj->pos + vel * i_dt;
+	pointer->pos = pointer->pos + vel * i_dt;
 	acc.set(Vector2D<double, double>(0, 0));
 
 	//DEBUG_PRINT("the old velocity is %f", old_vel.x);
-	DEBUG_PRINT("the new velocity is %f", vel.x);
+	//DEBUG_PRINT("the new velocity is %f", vel.x);
 	//DEBUG_PRINT("the acc is %f", acc.x);
 	//DEBUG_PRINT("the dt is %f", i_dt);
 	return;

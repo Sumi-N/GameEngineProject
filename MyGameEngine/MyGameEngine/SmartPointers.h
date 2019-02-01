@@ -38,7 +38,10 @@ namespace Engine {
 
 	public:
 		// Default Constructor
-		OwningPointer() {};
+		OwningPointer() {
+			ref = nullptr;
+			data = nullptr;
+		};
 
 		// Standard Constructor
 		explicit OwningPointer(T * i_ptr) {
@@ -86,10 +89,12 @@ namespace Engine {
 			if (this == &i_other)
 				return *this;
 			else {
-				ref->OwnerReferences--;
-				if (ref->ObserverReferences == 0 && ref->OwnerReferences == 0) {
-					delete ref;
-					delete data;
+				if (ref = nullptr) {
+					ref->OwnerReferences--;
+					if (ref->ObserverReferences == 0 && ref->OwnerReferences == 0) {
+						delete ref;
+						delete data;
+					}
 				}
 				this->ref = i_other.ref;
 				this->data = i_other.data;
@@ -104,10 +109,12 @@ namespace Engine {
 			if (this == &i_other)
 				return *this;
 			else {
-				ref->OwnerReferences--;
-				if (ref->ObserverReferences == 0 && ref->OwnerReferences == 0) {
-					delete ref;
-					delete data;
+				if (ref = nullptr) {
+					ref->OwnerReferences--;
+					if (ref->ObserverReferences == 0 && ref->OwnerReferences == 0) {
+						delete ref;
+						delete data;
+					}
 				}
 				this->ref = i_other.ref;
 				this->data = i_other.data;
@@ -118,10 +125,12 @@ namespace Engine {
 
 		// Assignment Operator - Reassigns an existing Owning Pointer from an existing Observing Pointer
 		OwningPointer & operator=(const ObservingPointer<T> & i_other) {
-			ref->OwnerReferences--;
-			if (ref->ObserverReferences == 0 && ref->OwnerReferences == 0) {
-				delete ref;
-				delete data;
+			if (ref = nullptr) {
+				ref->OwnerReferences--;
+				if (ref->ObserverReferences == 0 && ref->OwnerReferences == 0) {
+					delete ref;
+					delete data;
+				}
 			}
 			this->ref = i_other.ref;
 			this->data = i_other.data;
@@ -132,7 +141,8 @@ namespace Engine {
 		// Assignment Operator - Reassigns an existing Owning Pointer from an existing Observing Pointer of a polymorphic type
 		template<class U>
 		OwningPointer & operator=(const ObservingPointer<U> & i_other) {
-			ref->OwnerReferences--;
+			if (ref = nullptr)
+				ref->OwnerReferences--;
 			ref = i_other.ref;
 			data = i_other.data;
 			ref->OwnerReferences++;
@@ -151,11 +161,14 @@ namespace Engine {
 		// OwningPointer<Base> BasePtr( new Base() );
 		// BasePtr = new Base();
 		OwningPointer & operator=(T * i_ptr) {
-			OwningPointer(i_ptr);
+			data = i_ptr;
+			ref = new ReferenceCounters(1, 0);
+			return *this;
 		};
 
 		// Destructor
 		~OwningPointer() {
+			ref->OwnerReferences--;
 			if (ref->OwnerReferences == 0) {
 				if (ref->ObserverReferences == 0) {
 					delete ref;
@@ -163,9 +176,6 @@ namespace Engine {
 					ref = nullptr;
 					data = nullptr;
 				}
-			}
-			else {
-				ref->OwnerReferences--;
 			}
 		};
 
@@ -301,7 +311,10 @@ namespace Engine {
 
 	public:
 		// Default Constructor
-		ObservingPointer() {};
+		ObservingPointer() {
+			ref = nullptr;
+			data = nullptr;
+		};
 
 		// Copy Constructors
 		ObservingPointer(const ObservingPointer & i_owner) {
@@ -334,6 +347,7 @@ namespace Engine {
 
 		// Destructor
 		~ObservingPointer() {
+			ref->ObserverReferences--;
 			if (ref->ObserverReferences == 0) {
 				if (ref->OwnerReferences == 0) {
 					delete ref;
@@ -341,9 +355,6 @@ namespace Engine {
 					ref = nullptr;
 					data = nullptr;
 				}
-			}
-			else {
-				ref->ObserverReferences--;
 			}
 		};
 
@@ -353,10 +364,12 @@ namespace Engine {
 				return *this;
 			}
 			else {
-				ref->ObserverReferences--;
-				if (ref->OwnerReferences == 0 && ref->ObserverReferences == 0) {
-					delete ref;
-					delete data;
+				if (ref != nullptr) {
+					ref->ObserverReferences--;
+					if (ref->OwnerReferences == 0 && ref->ObserverReferences == 0) {
+						delete ref;
+						delete data;
+					}
 				}
 				ref = i_other.ref;
 				data = i_other.data;
@@ -371,10 +384,12 @@ namespace Engine {
 				return *this;
 			}
 			else {
-				ref->ObserverReferences--;
-				if (ref->OwnerReferences == 0 && ref->ObserverReferences == 0) {
-					delete ref;
-					delete data;
+				if (ref != nullptr) {
+					ref->ObserverReferences--;
+					if (ref->OwnerReferences == 0 && ref->ObserverReferences == 0) {
+						delete ref;
+						delete data;
+					}
 				}
 				ref = i_other.ref;
 				data = i_other.data;
@@ -385,7 +400,8 @@ namespace Engine {
 
 		template<class U>
 		inline ObservingPointer & operator=(const OwningPointer<U> & i_other) {
-			ref->ObserverReferences--;
+			if (ref != nullptr)
+				ref->ObserverReferences--;
 			ref = i_other.ref;
 			data = i_other.data;
 			ref->ObserverReferences++;
@@ -393,10 +409,12 @@ namespace Engine {
 		};
 
 		ObservingPointer<T> & operator=(std::nullptr_t i_null) {
-			ref->ObserverReferences--;
-			if (ref->OwnerReferences == 0 && ref->ObserverReferences == 0) {
-				delete ref;
-				delete data;
+			if (ref != nullptr) {
+				ref->ObserverReferences--;
+				if (ref->OwnerReferences == 0 && ref->ObserverReferences == 0) {
+					delete ref;
+					delete data;
+				}
 			}
 			ref = nullptr;
 			data = nullptr;

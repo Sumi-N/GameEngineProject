@@ -1,5 +1,6 @@
 #pragma once
 #include "Object2D.h"
+#include "SmartPointers.h"
 #include "../GLib/GLib.h"
 
 class SpriteRenderer {
@@ -11,5 +12,5 @@ public:
 public:
 	GLib::Sprites::Sprite * sprite;
 	GLib::Point2D offset;
-	Object2D * obj;
+	Engine::ObservingPointer<Object2D> pointer;
 };

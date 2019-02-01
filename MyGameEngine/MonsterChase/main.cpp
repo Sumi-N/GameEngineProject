@@ -31,10 +31,6 @@ int main() {
 }
 */
 
-Object2D * obj1 = new Object2D();
-Object2D * obj2 = new Object2D();
-Physics2D * phy1 = new Physics2D(obj1);
-
 void TestKeyCallback(unsigned int i_VKeyID, bool bWentDown)
 {
 #ifdef _DEBUG
@@ -47,7 +43,7 @@ void TestKeyCallback(unsigned int i_VKeyID, bool bWentDown)
 #endif // __DEBUG
 
 	if (i_VKeyID == 32) {
-		phy1->addForce(Vector2D<double, double>(25, 0));
+		//phy1->addForce(Vector2D<double, double>(25, 0));
 	}
 }
 
@@ -57,6 +53,14 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 	if (bSuccess)
 	{
+		Object2D * obj1 = new Object2D();
+		Object2D * obj2 = new Object2D();
+		Physics2D * phy1 = new Physics2D();
+		Physics2D * phy2 = new Physics2D();
+
+		phy1->pointer = obj1;
+		phy2->pointer = obj2;
+
 		Timer::Init();
 		obj1->setPosition(-220, -100);
 		obj2->setPosition(180, -100);
@@ -67,8 +71,10 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 		SpriteRenderer BadGuy;
 		BadGuy.createSprite("..\\GlibTest\\data\\BadGuy.dds");
 
-		GoodGuy.obj = obj1;
-		BadGuy.obj = obj2;
+		//GoodGuy.obj = obj1;
+		GoodGuy.pointer = phy1->pointer;
+		//BadGuy.obj = obj2;
+		BadGuy.pointer = phy2->pointer;
 
 		// IMPORTANT (if we want keypress info from GLib): Set a callback for notification of key presses
 		GLib::SetKeyStateChangeCallback(TestKeyCallback);
@@ -111,6 +117,9 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 		// IMPORTANT:  Tell GLib to shutdown, releasing resources.
 		GLib::Shutdown();
+
+		delete phy1;
+		delete phy2;
 	}
 
 #if defined _DEBUG

@@ -3,9 +3,9 @@
 #include <stdio.h>
 
 void SpriteRenderer::update() {
-	assert(obj);
-	offset.x = static_cast<float>(obj->pos.x);
-	offset.y = static_cast<float>(obj->pos.y);
+	assert(pointer);
+	offset.x = static_cast<float>(pointer->pos.x);
+	offset.y = static_cast<float>(pointer->pos.y);
 	GLib::Sprites::RenderSprite(*sprite, offset, 0.0f);
 }
 
