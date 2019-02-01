@@ -86,5 +86,8 @@
     <ClInclude Include="SpriteRenderer.h">
       <Filter>Objects\Components</Filter>
     </ClInclude>
+    <ClInclude Include="SmartPointers.h">
+      <Filter>DataStructure</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

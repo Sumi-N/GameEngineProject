@@ -25,6 +25,7 @@
     <ClInclude Include="Physics2D.h" />
     <ClInclude Include="CharacterString.h" />
     <ClInclude Include="Physics2DSystem.h" />
+    <ClInclude Include="SmartPointers.h" />
     <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="HeapManager.h" />
