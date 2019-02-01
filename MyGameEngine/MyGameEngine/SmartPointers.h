@@ -1,4 +1,5 @@
 #pragma once
+#include "DebugLog.h"
 
 #include <assert.h>
 #include <stdint.h>
@@ -63,43 +64,88 @@ namespace Engine {
 		// Copy Constructor - For creating an Owning Pointer from an Observing Pointer
 		// Will create a OwningPointer that points to nullptr if the referenced object has been destroyet (no more Owners left, just Observers)
 		OwningPointer(const ObservingPointer<T> & i_other) {
-			
+			if (i_other.ref->OwnerReferences != 0) {
+				ref = i_other.ref;
+				data = i_other.data;
+				ref->OwnerReferences++;
+			}
 		};
 
 		// Copy Constructor - For creating an Owning Pointer of a polymorphic type from an Observing Pointer
 		template<class U>
 		OwningPointer(const ObservingPointer<U> & i_other) {
-			
+			if (i_other.ref->OwnerReferences != 0) {
+				ref = i_other.ref;
+				data = i_other.data;
+				ref->OwnerReferences++;
+			}
 		};
 
 		// Assignment Operator
 		OwningPointer & operator=(const OwningPointer & i_other) {
-			this->data = i_other.data;
-			i_other.ref->OwnerReferences++;
+			if (this == &i_other)
+				return *this;
+			else {
+				ref->OwnerReferences--;
+				if (ref->ObserverReferences == 0 && ref->OwnerReferences == 0) {
+					delete ref;
+					delete data;
+				}
+				this->ref = i_other.ref;
+				this->data = i_other.data;
+				ref->OwnerReferences++;
+				return *this;
+			}
 		};
 
 		// Assignment Operator between polymorphic types
 		template<class U>
 		OwningPointer & operator=(const OwningPointer<U> & i_other) {
-			this->data = i_other.data;
-			i_other.ref->OwnerReferences++;
+			if (this == &i_other)
+				return *this;
+			else {
+				ref->OwnerReferences--;
+				if (ref->ObserverReferences == 0 && ref->OwnerReferences == 0) {
+					delete ref;
+					delete data;
+				}
+				this->ref = i_other.ref;
+				this->data = i_other.data;
+				ref->OwnerReferences++;
+				return *this;
+			}
 		};
 
 		// Assignment Operator - Reassigns an existing Owning Pointer from an existing Observing Pointer
 		OwningPointer & operator=(const ObservingPointer<T> & i_other) {
-			
+			ref->OwnerReferences--;
+			if (ref->ObserverReferences == 0 && ref->OwnerReferences == 0) {
+				delete ref;
+				delete data;
+			}
+			this->ref = i_other.ref;
+			this->data = i_other.data;
+			ref->OwnerReferences++;
+			return *this;
 		};
 
 		// Assignment Operator - Reassigns an existing Owning Pointer from an existing Observing Pointer of a polymorphic type
 		template<class U>
 		OwningPointer & operator=(const ObservingPointer<U> & i_other) {
+			ref->OwnerReferences--;
+			ref = i_other.ref;
+			data = i_other.data;
+			ref->OwnerReferences++;
 		};
 
 		// Assignment Operator - null specific
 		// OwningPointer<Base> BasePtr( new Base() );
 		// BasePtr = nullptr;
 		// Don't really need to implement this. If it's not here it'll go through OwningPointer & operator=( OwningPointer & i_other);
-		OwningPointer & operator=(std::nullptr_t i_null);
+		OwningPointer & operator=(std::nullptr_t i_null) {
+			DEBUG_PRINT("The OwningPointer is about to assigned nullptr");
+			assert(false);
+		};
 
 		// Assignment Operator - Assigning directly from an existing pointer
 		// OwningPointer<Base> BasePtr( new Base() );
@@ -111,10 +157,11 @@ namespace Engine {
 		// Destructor
 		~OwningPointer() {
 			if (ref->OwnerReferences == 0) {
-				delete data;
-				data = nullptr;
 				if (ref->ObserverReferences == 0) {
 					delete ref;
+					delete data;
+					ref = nullptr;
+					data = nullptr;
 				}
 			}
 			else {
@@ -141,30 +188,42 @@ namespace Engine {
 
 		// Equality comparison operator for comparing to an Observing Pointer
 		inline bool operator==(const ObservingPointer<T> & i_other) const {
-			
+			if (data == i_other.data)
+				return true;
+			else
+				return false;
 		};
 
 		// Equality comparison operator for comparing to an Observing Pointer of a polymorphic type
 		template<class U>
-		inline bool operator==(const ObservingPointer<U> & i_other) const;
+		inline bool operator==(const ObservingPointer<U> & i_other) const {
+			if (data == i_other.data)
+				return true;
+			else
+				return false;
+		};
 
 		// Inequality comparison operator
 		inline bool operator!=(const OwningPointer<T> & i_other) const {
-			return !(operator==(const OwningPointer<T> & i_other));
+			return !(operator==(i_other));
 		};
 
 		// Inequality comparison operator between pointers to polymorphic types
 		template<class U>
 		inline bool operator!=(const OwningPointer<U> & i_other) const {
-			return !(operator==(const OwningPointer<U> & i_other));
+			return !(operator==(i_other));
 		};
 
 		// Inequality comparison operator for comparing to an Observing Pointer
-		inline bool operator!=(const ObservingPointer<T> & i_other) const;
+		inline bool operator!=(const ObservingPointer<T> & i_other) const {
+			return !(operator==(i_other));
+		};
 
 		// Inequality comparison operator for comparing to an Observing Pointer of a polymorphic type
 		template<class U>
-		inline bool operator!=(const ObservingPointer<U> & i_other) const;
+		inline bool operator!=(const ObservingPointer<U> & i_other) const {
+			return !(operator==(i_other));
+		};
 
 		// Equality comparison operator directly to pointer 
 		inline bool operator==(T * i_ptr) const {
@@ -204,11 +263,16 @@ namespace Engine {
 
 		// Inequality comparison operator for nullptr
 		inline bool operator!=(std::nullptr_t nullp) const {
-			return !(operator==(std::nullptr_t nullp));
+			return !(operator==(nullp));
 		};
 
 		// bool operator - shorthand for != nullptr;
-		inline operator bool() const;
+		inline operator bool() const {
+			if (data == nullptr)
+				return false;
+			else
+				return true;
+		};
 
 		// member access operator
 		T * operator->() {
@@ -217,6 +281,7 @@ namespace Engine {
 
 		// indirection operator
 		T & operator*() {
+			assert(data != nullptr);
 			return *data;
 		};
 
@@ -243,6 +308,7 @@ namespace Engine {
 			if (i_owner.ref->OwnerReferences != 0) {
 				ref = i_owner.ref;
 				data = i_owner.data;
+				ref->ObserverReferences++;
 			}
 			else 
 				assert(false);
@@ -252,6 +318,7 @@ namespace Engine {
 		ObservingPointer(const OwningPointer<U> & i_owner) {
 			ref = i_owner.ref;
 			data = i_owner.data;
+			ref->ObserverReferences++;
 		};
 
 		template<class U>
@@ -259,6 +326,7 @@ namespace Engine {
 			if (i_owner.ref->OwnerReferences != 0){
 				ref = i_owner.ref;
 				data = i_owner.data;
+				ref->ObserverReferences++;
 			}
 			else
 				assert(false);
@@ -269,6 +337,9 @@ namespace Engine {
 			if (ref->ObserverReferences == 0) {
 				if (ref->OwnerReferences == 0) {
 					delete ref;
+					delete data;
+					ref = nullptr;
+					data = nullptr;
 				}
 			}
 			else {
@@ -278,28 +349,68 @@ namespace Engine {
 
 		// Assignment operators
 		ObservingPointer & operator=(const ObservingPointer & i_other) {
-			ref = i_other.ref;
-			data = i_other.data;
+			if (this == &i_other) {
+				return *this;
+			}
+			else {
+				ref->ObserverReferences--;
+				if (ref->OwnerReferences == 0 && ref->ObserverReferences == 0) {
+					delete ref;
+					delete data;
+				}
+				ref = i_other.ref;
+				data = i_other.data;
+				ref->ObserverReferences++;
+				return *this;
+			}
 		};
 
 		template<class U>
 		ObservingPointer & operator=(const ObservingPointer<U> & i_other) {
-			ref = i_other.ref;
-			data = i_other.data;
+			if (this == &i_other) {
+				return *this;
+			}
+			else {
+				ref->ObserverReferences--;
+				if (ref->OwnerReferences == 0 && ref->ObserverReferences == 0) {
+					delete ref;
+					delete data;
+				}
+				ref = i_other.ref;
+				data = i_other.data;
+				ref->ObserverReferences++;
+				return *this;
+			}
 		};
 
 		template<class U>
 		inline ObservingPointer & operator=(const OwningPointer<U> & i_other) {
+			ref->ObserverReferences--;
 			ref = i_other.ref;
 			data = i_other.data;
+			ref->ObserverReferences++;
+			return *this;
 		};
 
-		ObservingPointer<T> & operator=(std::nullptr_t i_null);
+		ObservingPointer<T> & operator=(std::nullptr_t i_null) {
+			ref->ObserverReferences--;
+			if (ref->OwnerReferences == 0 && ref->ObserverReferences == 0) {
+				delete ref;
+				delete data;
+			}
+			ref = nullptr;
+			data = nullptr;
+			return *this;
+		};
 
 		// Create an Owning Pointer from this Observering Pointer
 		inline OwningPointer<T> AcquireOwnership() {
 			OwningPointer<T> tmp = OwningPointer<T>();
-			tmp = this;
+			if (ref->OwnerReferences != 0) {
+				tmp.data = this->data;
+				tmp.ref = this->ref;
+				ref->OwnerReferences++;
+			}
 			return tmp;
 		};
 
@@ -319,7 +430,7 @@ namespace Engine {
 				return false;
 		};
 
-		inline bool operator==(const ObservingPointer<U> & i_other) const {
+		inline bool operator==(const ObservingPointer<T> & i_other) const {
 			if (ref == i_other.ref)
 				return true;
 			else
@@ -359,21 +470,21 @@ namespace Engine {
 
 		// Inequality comparison operators
 		inline bool operator!=(const OwningPointer<T> & i_other) const {
-			return !(operator==(const OwningPointer<T> & i_other));
+			return !(operator==(i_other));
 		};
 
 		template<class U>
 		inline bool operator!=(const OwningPointer<U> & i_other) const {
-			return !(operator==(const OwningPointer<U> & i_other));
+			return !(operator==(i_other));
 		};
 
 		inline bool operator!=(const ObservingPointer<T> & i_other) const {
-			return !(operator==(const ObservingPointer<T> & i_other));
+			return !(operator==(i_other));
 		};
 
 		template<class U>
 		inline bool operator!=(const ObservingPointer<U> & i_other) const {
-			return !(operator==(const ObservingPointer<U> & i_other));
+			return !(operator==(i_other));
 		};
 
 		inline bool operator!=(T * i_ptr) const {
@@ -386,7 +497,12 @@ namespace Engine {
 		};
 
 		// bool operator
-		inline operator bool() const;
+		inline operator bool() const {
+			if (data == nullptr)
+				return false;
+			else
+				return true;
+		};
 
 		// member access operator
 		T * operator->() {
@@ -400,6 +516,7 @@ namespace Engine {
 		// indirection operator
 		T & operator*() {
 			if (ref->OwnerReferences != 0) {
+				assert(data != nullptr);
 				return *data;
 			}
 			else
