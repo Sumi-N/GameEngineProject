@@ -42,6 +42,9 @@
     <ClCompile Include="SpriteRenderer.cpp">
       <Filter>Objects\Components</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectController.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Object2D.h">
@@ -88,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="SmartPointers.h">
       <Filter>DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="InputMap.h">
+      <Filter>System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

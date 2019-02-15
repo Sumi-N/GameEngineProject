@@ -7,6 +7,7 @@
 #include "DebugLog.h"
 #include "Allocator.h"
 #include "Time.h"
+#include "InputMap.h"
 #include "Physics2D.h"
 #include "SpriteRenderer.h"
 #include "SmartPointers.h"
@@ -31,6 +32,7 @@ int main() {
 }
 */
 
+/*
 void TestKeyCallback(unsigned int i_VKeyID, bool bWentDown)
 {
 #ifdef _DEBUG
@@ -46,6 +48,7 @@ void TestKeyCallback(unsigned int i_VKeyID, bool bWentDown)
 		//phy1->addForce(Vector2D<double, double>(25, 0));
 	}
 }
+*/
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmdLine, int i_nCmdShow) {
 	// IMPORTANT: first we need to initialize GLib
@@ -67,17 +70,20 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 		// Create a couple of sprites using our own helper routine CreateSprite
 		SpriteRenderer GoodGuy;
-		GoodGuy.createSprite("..\\GlibTest\\data\\GoodGuy.dds");
+		GoodGuy.createSprite("..\\Assets\\data\\GoodGuy.dds");
 		SpriteRenderer BadGuy;
-		BadGuy.createSprite("..\\GlibTest\\data\\BadGuy.dds");
+		BadGuy.createSprite("..\\Assets\\data\\BadGuy.dds");
 
 		//GoodGuy.obj = obj1;
 		GoodGuy.pointer = phy1->pointer;
 		//BadGuy.obj = obj2;
 		BadGuy.pointer = phy2->pointer;
 
+
+
+		InputMap::InitInputMap();
 		// IMPORTANT (if we want keypress info from GLib): Set a callback for notification of key presses
-		GLib::SetKeyStateChangeCallback(TestKeyCallback);
+		//GLib::SetKeyStateChangeCallback(TestKeyCallback);
 
 		bool bQuit = false;
 		do
@@ -86,6 +92,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 			// IMPORTANT: We need to let GLib do it's thing. 
 			GLib::Service(bQuit);
+			phy1->input();
 
 			if (!bQuit)
 			{
@@ -110,6 +117,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 				// IMPORTANT: Tell GLib we're done rendering
 				GLib::EndRendering();
 			}
+			InputMap::ClearInputMap();
 		} while (bQuit == false);
 
 		GoodGuy.release();

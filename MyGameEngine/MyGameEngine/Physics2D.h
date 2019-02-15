@@ -15,6 +15,7 @@ public:
 	void addForce(Vector2D<double, double>);
 	void update(double i_dt);
 
+	void input(); // implemented in ObjectController.cpp
 public:
 	Engine::OwningPointer<Object2D> pointer;
 
@@ -69,5 +70,12 @@ inline void Physics2D::update(double i_dt)
 	//DEBUG_PRINT("the acc is %f", acc.x);
 	//DEBUG_PRINT("the dt is %f", i_dt);
 	return;
+}
+
+inline void Physics2D::input() {
+	if (InputMap::Map[32] == true) {
+		addForce(Vector2D<double, double>(25, 0));
+		DEBUG_PRINT("%d", InputMap::Map[32]);
+	}
 }
 
