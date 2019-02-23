@@ -16,7 +16,13 @@
 #include <crtdbg.h>  
 #include <iostream>
 
-#include "../GLib/GLib.h"
+#include "GLib.h"
+#include "lua.hpp"
+#include "lauxlib.h"
+#include "lua.h"
+#include "luaconf.h"
+#include "lualib.h"
+
 
 #include <conio.h>
 extern bool HeapManager_UnitTest();
@@ -32,25 +38,32 @@ int main() {
 }
 */
 
-/*
-void TestKeyCallback(unsigned int i_VKeyID, bool bWentDown)
-{
-#ifdef _DEBUG
-	const size_t	lenBuffer = 65;
-	char			Buffer[lenBuffer];
+void yoyoyo() {
+	lua_State * pluastate = luaL_newstate();
+	assert(pluastate);
+	luaL_openlibs(pluastate);
 
-	//sprintf_s(Buffer, lenBuffer, "VKey 0x%04x went %s\n", i_VKeyID, bWentDown ? "down" : "up");
-	sprintf_s(Buffer, lenBuffer, "VKey %d went %s\n", i_VKeyID, bWentDown ? "down" : "up");
-	OutputDebugStringA(Buffer);
-#endif // __DEBUG
+	size_t sizefile = 0;
+	//uint8_t * pfilecontents = loadfile("..\\assets\\editabledatas\\player.lua",sizefile);
+	const char * teststring = "player = { name = \"joe\", class = \"player\", controller = \"inputcontroller\", initial_position = { 1.0, 2.0, 3.0},bounding_box = {offset = {0.0, 0.0, 0.0},size = {10.0, 10.0, 10.0}}}";
 
-	if (i_VKeyID == 32) {
-		//phy1->addForce(Vector2D<double, double>(25, 0));
+	//if (pfilecontents  && sizefile)
+	if (teststring && sizefile )
+	{
+		int 		result = 0;
+
+		// necessary stuff to process our data
+		//result = lual_loadbuffer(pluastate, reinterpret_cast<char *>(pfilecontents), sizefile, nullptr);
+		result = luaL_loadbuffer(pluastate, teststring, sizefile, nullptr);
+		assert(result == 0);
+		result = lua_pcall(pluastate, 0, 0, 0);
+		assert(result == 0);
 	}
 }
-*/
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmdLine, int i_nCmdShow) {
+	yoyoyo();
+
 	// IMPORTANT: first we need to initialize GLib
 	bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 1200, 600);
 

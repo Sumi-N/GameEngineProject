@@ -23,6 +23,7 @@
     <ClInclude Include="CharacterString_UnitTest.h" />
     <ClInclude Include="DebugLog.h" />
     <ClInclude Include="InputMap.h" />
+    <ClInclude Include="Lua_Test.h" />
     <ClInclude Include="Physics2D.h" />
     <ClInclude Include="CharacterString.h" />
     <ClInclude Include="Physics2DSystem.h" />

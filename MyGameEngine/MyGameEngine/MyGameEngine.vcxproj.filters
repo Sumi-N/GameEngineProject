@@ -25,6 +25,9 @@
     <Filter Include="System\EntitySystem">
       <UniqueIdentifier>{bf6031b8-56cc-4787-a06c-edfaffa2476c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\EditableStructureSystem">
+      <UniqueIdentifier>{f0a25661-68d1-4a5b-9849-019f997b8d01}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DebugLog.cpp">
@@ -74,9 +77,6 @@
     <ClInclude Include="Physics2D.h">
       <Filter>Objects\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Allocator.h">
-      <Filter>System</Filter>
-    </ClInclude>
     <ClInclude Include="CharacterString_UnitTest.h">
       <Filter>UnitTest</Filter>
     </ClInclude>
@@ -94,6 +94,12 @@
     </ClInclude>
     <ClInclude Include="InputMap.h">
       <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Allocator.h">
+      <Filter>System\HeapManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua_Test.h">
+      <Filter>System\EditableStructureSystem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
