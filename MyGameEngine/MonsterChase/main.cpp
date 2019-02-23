@@ -44,21 +44,22 @@ void yoyoyo() {
 	luaL_openlibs(pluastate);
 
 	size_t sizefile = 0;
-	//uint8_t * pfilecontents = loadfile("..\\assets\\editabledatas\\player.lua",sizefile);
-	const char * teststring = "player = { name = \"joe\", class = \"player\", controller = \"inputcontroller\", initial_position = { 1.0, 2.0, 3.0},bounding_box = {offset = {0.0, 0.0, 0.0},size = {10.0, 10.0, 10.0}}}";
-
-	//if (pfilecontents  && sizefile)
-	if (teststring && sizefile )
-	{
-		int 		result = 0;
-
-		// necessary stuff to process our data
-		//result = lual_loadbuffer(pluastate, reinterpret_cast<char *>(pfilecontents), sizefile, nullptr);
-		result = luaL_loadbuffer(pluastate, teststring, sizefile, nullptr);
-		assert(result == 0);
-		result = lua_pcall(pluastate, 0, 0, 0);
-		assert(result == 0);
+	const char * filename = "..\\assets\\editabledatas\\player.lua";
+	//uint8_t * pfilecontents = loadfile("..\\assets\\editabledatas\\player.lua");
+	if (luaL_loadfile(pluastate, filename)) {
+		fprintf(stderr, "cannot open %s\n", filename);
+		return;
 	}
+	lua_pcall(pluastate, 0, 0, 0);
+
+	int type = lua_getglobal(pluastate, "Player");
+	assert(type == LUA_TTABLE);
+
+	lua_pushstring(pluastate, "name");
+	int type2 = lua_gettable(pluastate, -2);
+	assert(type2 == LUA_TSTRING);
+	const char * pName = lua_tostring(pluastate, -1);
+	DEBUG_PRINT("%s",pName);
 }
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmdLine, int i_nCmdShow) {
