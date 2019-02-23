@@ -105,6 +105,9 @@
       <Command>
       </Command>
     </PostBuildEvent>
+    <Lib>
+      <OutputFile>$(TargetPath)</OutputFile>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -119,6 +122,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent />
+    <Lib>
+      <OutputFile>$(TargetPath)</OutputFile>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -140,6 +146,9 @@
       <Command>
       </Command>
     </PostBuildEvent>
+    <Lib>
+      <OutputFile>$(TargetPath)</OutputFile>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -158,6 +167,9 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent />
+    <Lib>
+      <OutputFile>$(TargetPath)</OutputFile>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BasicTypes.h" />
