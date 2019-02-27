@@ -3,7 +3,7 @@ Player =
     name = "Joe",
     class = "Player",
     controller = "InputController",
-    initial_position = { 1.0, 2.0, 3.0},
+    initial_position = { 9.0, 2.5, 3.0},
 
     bounding_box = {
         offset = {0.0, 0.0, 0.0},

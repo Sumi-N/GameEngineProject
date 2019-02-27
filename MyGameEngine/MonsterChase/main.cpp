@@ -43,9 +43,7 @@ void yoyoyo() {
 	assert(pluastate);
 	luaL_openlibs(pluastate);
 
-	size_t sizefile = 0;
-	const char * filename = "..\\assets\\editabledatas\\player.lua";
-	//uint8_t * pfilecontents = loadfile("..\\assets\\editabledatas\\player.lua");
+	const char * filename = "..\\Assets\\editabledatas\\player.lua";
 	if (luaL_loadfile(pluastate, filename)) {
 		fprintf(stderr, "cannot open %s\n", filename);
 		return;
@@ -56,10 +54,32 @@ void yoyoyo() {
 	assert(type == LUA_TTABLE);
 
 	lua_pushstring(pluastate, "name");
+
 	int type2 = lua_gettable(pluastate, -2);
+
 	assert(type2 == LUA_TSTRING);
 	const char * pName = lua_tostring(pluastate, -1);
+
 	DEBUG_PRINT("%s",pName);
+	lua_pop(pluastate, 1);
+
+	int test = lua_gettop(pluastate);
+	DEBUG_PRINT("the number of elements in stack is %d", test);
+
+	lua_pushstring(pluastate, "initial_position");
+	type2 = lua_gettable(pluastate, -2);
+	DEBUG_PRINT("%d", type2);
+
+	lua_pushnil(pluastate);
+	lua_next(pluastate, -2);
+	int hey = lua_tonumber(pluastate, -1);
+	DEBUG_PRINT("%d", hey);
+
+	lua_pop(pluastate, 1);
+	lua_next(pluastate, -2);
+	float hey2 = static_cast<float>(lua_tonumber(pluastate, -1));
+	DEBUG_PRINT("%f", hey2);
+	
 }
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmdLine, int i_nCmdShow) {
@@ -88,16 +108,12 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 		SpriteRenderer BadGuy;
 		BadGuy.createSprite("..\\Assets\\data\\BadGuy.dds");
 
-		//GoodGuy.obj = obj1;
 		GoodGuy.pointer = phy1->pointer;
-		//BadGuy.obj = obj2;
 		BadGuy.pointer = phy2->pointer;
 
 
 
 		InputMap::InitInputMap();
-		// IMPORTANT (if we want keypress info from GLib): Set a callback for notification of key presses
-		//GLib::SetKeyStateChangeCallback(TestKeyCallback);
 
 		bool bQuit = false;
 		do

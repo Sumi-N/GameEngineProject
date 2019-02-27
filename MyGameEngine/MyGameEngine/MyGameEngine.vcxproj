@@ -23,10 +23,10 @@
     <ClInclude Include="CharacterString_UnitTest.h" />
     <ClInclude Include="DebugLog.h" />
     <ClInclude Include="InputMap.h" />
-    <ClInclude Include="Lua_Test.h" />
     <ClInclude Include="Physics2D.h" />
     <ClInclude Include="CharacterString.h" />
     <ClInclude Include="Physics2DSystem.h" />
+    <ClInclude Include="ScriptReader.h" />
     <ClInclude Include="SmartPointers.h" />
     <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="Time.h" />
@@ -42,7 +42,6 @@
     <ClCompile Include="HeapManager.cpp" />
     <ClCompile Include="HeapManagerProxy-Sample.cpp" />
     <ClCompile Include="HeapManager_UnitTest.cpp" />
-    <ClCompile Include="ObjectController.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

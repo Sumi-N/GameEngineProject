@@ -45,9 +45,6 @@
     <ClCompile Include="SpriteRenderer.cpp">
       <Filter>Objects\Components</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectController.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Object2D.h">
@@ -98,7 +95,7 @@
     <ClInclude Include="Allocator.h">
       <Filter>System\HeapManager</Filter>
     </ClInclude>
-    <ClInclude Include="Lua_Test.h">
+    <ClInclude Include="ScriptReader.h">
       <Filter>System\EditableStructureSystem</Filter>
     </ClInclude>
   </ItemGroup>
