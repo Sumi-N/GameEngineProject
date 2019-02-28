@@ -1,9 +1,4 @@
 #define _CRTDBG_MAP_ALLOC  
-#include "Monster.h"
-#include "MonsterController.h"
-#include "Player.h"
-#include "PlayerController.h"
-#include "List.h"
 #include "DebugLog.h"
 #include "Allocator.h"
 #include "Time.h"
@@ -11,6 +6,8 @@
 #include "Physics2D.h"
 #include "SpriteRenderer.h"
 #include "SmartPointers.h"
+#include "EntityPhysics2D.h"
+#include "EntitySpriteRenderer.h"
 
 #include <Windows.h>
 #include <crtdbg.h>  
@@ -83,7 +80,7 @@ void yoyoyo() {
 }
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmdLine, int i_nCmdShow) {
-	yoyoyo();
+	//yoyoyo();
 
 	// IMPORTANT: first we need to initialize GLib
 	bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 1200, 600);
@@ -98,6 +95,9 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 		phy1->pointer = obj1;
 		phy2->pointer = obj2;
 
+		Engine::EntityPhysics2D::Register(phy1);
+		Engine::EntityPhysics2D::Register(phy2);
+
 		Timer::Init();
 		obj1->setPosition(-220, -100);
 		obj2->setPosition(180, -100);
@@ -111,7 +111,8 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 		GoodGuy.pointer = phy1->pointer;
 		BadGuy.pointer = phy2->pointer;
 
-
+		Engine::EntitySpriteRenderer::Register(GoodGuy);
+		Engine::EntitySpriteRenderer::Register(BadGuy);
 
 		InputMap::InitInputMap();
 
@@ -126,38 +127,17 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 			if (!bQuit)
 			{
-				// IMPORTANT: Tell GLib that we want to start rendering
-				GLib::BeginRendering();
-				// Tell GLib that we want to render some sprites
-				GLib::Sprites::BeginRendering();
-
-				if (GoodGuy.sprite)
-				{
-					phy1->update(Time::dt);
-					GoodGuy.update();
-				}
-				if (BadGuy.sprite)
-				{
-					// Tell GLib to render this sprite at our calculated location
-					BadGuy.update();
-				}
-
-				// Tell GLib we're done rendering sprites
-				GLib::Sprites::EndRendering();
-				// IMPORTANT: Tell GLib we're done rendering
-				GLib::EndRendering();
+				Engine::EntityPhysics2D::Update(Time::dt);
+				Engine::EntitySpriteRenderer::Update();
 			}
 			InputMap::ClearInputMap();
 		} while (bQuit == false);
 
-		GoodGuy.release();
-		BadGuy.release();
+		Engine::EntitySpriteRenderer::Release();
+		Engine::EntityPhysics2D::Release();
 
 		// IMPORTANT:  Tell GLib to shutdown, releasing resources.
 		GLib::Shutdown();
-
-		delete phy1;
-		delete phy2;
 	}
 
 #if defined _DEBUG

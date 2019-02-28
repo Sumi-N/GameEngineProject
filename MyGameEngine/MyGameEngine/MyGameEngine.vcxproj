@@ -22,10 +22,12 @@
     <ClInclude Include="Allocator.h" />
     <ClInclude Include="CharacterString_UnitTest.h" />
     <ClInclude Include="DebugLog.h" />
+    <ClInclude Include="EntityPhysics2D.h" />
+    <ClInclude Include="EntitySpriteRenderer.h" />
     <ClInclude Include="InputMap.h" />
+    <ClInclude Include="MasterObjectList.h" />
     <ClInclude Include="Physics2D.h" />
     <ClInclude Include="CharacterString.h" />
-    <ClInclude Include="Physics2DSystem.h" />
     <ClInclude Include="ScriptReader.h" />
     <ClInclude Include="SmartPointers.h" />
     <ClInclude Include="SpriteRenderer.h" />

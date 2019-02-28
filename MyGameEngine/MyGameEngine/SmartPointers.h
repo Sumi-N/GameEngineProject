@@ -318,6 +318,7 @@ namespace Engine {
 
 		// Copy Constructors
 		ObservingPointer(const ObservingPointer & i_owner) {
+			assert(i_owner.ref);
 			if (i_owner.ref->OwnerReferences != 0) {
 				ref = i_owner.ref;
 				data = i_owner.data;

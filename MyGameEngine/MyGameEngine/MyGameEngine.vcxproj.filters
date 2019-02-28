@@ -80,9 +80,6 @@
     <ClInclude Include="CharacterString.h">
       <Filter>DataStructure</Filter>
     </ClInclude>
-    <ClInclude Include="Physics2DSystem.h">
-      <Filter>System\EntitySystem</Filter>
-    </ClInclude>
     <ClInclude Include="SpriteRenderer.h">
       <Filter>Objects\Components</Filter>
     </ClInclude>
@@ -97,6 +94,15 @@
     </ClInclude>
     <ClInclude Include="ScriptReader.h">
       <Filter>System\EditableStructureSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityPhysics2D.h">
+      <Filter>System\EntitySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySpriteRenderer.h">
+      <Filter>System\EntitySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="MasterObjectList.h">
+      <Filter>System\EntitySystem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
