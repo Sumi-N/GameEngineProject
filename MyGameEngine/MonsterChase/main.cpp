@@ -87,6 +87,9 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 	if (bSuccess)
 	{
+		InputMap::Map = new std::unordered_map<unsigned int, bool>();
+		InputMap::DeleteList = new std::list<unsigned int>();
+
 		Object2D * obj1 = new Object2D();
 		Object2D * obj2 = new Object2D();
 		Physics2D * phy1 = new Physics2D();
@@ -140,6 +143,9 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 		// IMPORTANT:  Tell GLib to shutdown, releasing resources.
 		GLib::Shutdown();
+
+		delete InputMap::Map;
+		delete InputMap::DeleteList;
 	}
 
 #if defined _DEBUG

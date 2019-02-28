@@ -73,9 +73,9 @@ inline void Physics2D::update(double i_dt)
 }
 
 inline void Physics2D::input() {
-	if (InputMap::Map[32] == true) {
+	if ((InputMap::Map)->at(32) == true) {
 		addForce(Vector2D<double, double>(25, 0));
-		DEBUG_PRINT("%d", InputMap::Map[32]);
+		//DEBUG_PRINT("%d", InputMap::Map[32]);
 	}
 }
 

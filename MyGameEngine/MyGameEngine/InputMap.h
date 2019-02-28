@@ -8,47 +8,50 @@
 
 class InputMap {
 public:
+	static void RegisterInputMap(unsigned int, bool);
 	static void InitInputMap();
 	static void SetupCallback();
 	static void ClearInputMap();
 
-	static std::unordered_map<unsigned int, bool> Map;
-	static std::list<unsigned int> DeleteList;
+	static std::unordered_map<unsigned int, bool> * Map;
+	static std::list<unsigned int> * DeleteList;
 
 private:
-
 };
 
-std::unordered_map<unsigned int, bool> InputMap::Map;
-std::list<unsigned int> InputMap::DeleteList;
+std::unordered_map<unsigned int, bool> * InputMap::Map;
+std::list<unsigned int> * InputMap::DeleteList;
 
-void RegisterInputMap(unsigned int i_VKeyID, bool i_bDown) {
+//std::unordered_map<unsigned int, bool> InputMap::Map;
+//std::list<unsigned int> InputMap::DeleteList;
+
+void InputMap::RegisterInputMap(unsigned int i_VKeyID, bool i_bDown) {
 	if (i_bDown) {
-		InputMap::Map[i_VKeyID] = true;
+		InputMap::Map->at(i_VKeyID) = true;
 	}
 	else {
-		InputMap::Map[i_VKeyID * 2] = true;
+		InputMap::Map->at(i_VKeyID * 2) = true;
 	}
-	InputMap::DeleteList.push_back(i_VKeyID);
+	InputMap::DeleteList->push_back(i_VKeyID);
 }
 
 inline void InputMap::InitInputMap() {
 	for (int i = 0; i < 256 * 2; i++) {
-		Map.insert({i,false});
+		Map->insert({i,false});
 	}
 	SetupCallback();
 }
 
 inline void InputMap::SetupCallback() {
-	GLib::SetKeyStateChangeCallback(RegisterInputMap);
+	GLib::SetKeyStateChangeCallback(InputMap::RegisterInputMap);
 }
 
 inline void InputMap::ClearInputMap() {
-	while (!DeleteList.empty())
+	while (!DeleteList->empty())
 	{
-		unsigned int tmp = DeleteList.front();
-		Map[tmp] = false;
-		DeleteList.pop_front();
+		unsigned int tmp = DeleteList->front();
+		Map->at(tmp) = false;
+		DeleteList->pop_front();
 	}
 }
 
