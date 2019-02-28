@@ -7,35 +7,33 @@
 namespace Engine {
 	class EntityPhysics2D {
 	public:
-		static void Init();
-		static void Register(Physics2D *);
-		static void Update(double);
-		static void Release();
+		void init();
+		void push(Physics2D *);
+		void update(double);
+		void release();
 
 	private:
-		static std::list<Physics2D *> list;
-		static std::list<Physics2D *>::iterator it;
+		std::list<Physics2D *> list;
+		std::list<Physics2D *>::iterator it;
 	};
 }
 
-std::list<Physics2D*> Engine::EntityPhysics2D::list;
-std::list<Physics2D*>::iterator Engine::EntityPhysics2D::it;
 
-inline void Engine::EntityPhysics2D::Init() {
+inline void Engine::EntityPhysics2D::init() {
 
 }
 
-inline void Engine::EntityPhysics2D::Register(Physics2D * i_component) {
+inline void Engine::EntityPhysics2D::push(Physics2D * i_component) {
 	list.push_back(i_component);
 }
 
-inline void Engine::EntityPhysics2D::Update(double dt) {
+inline void Engine::EntityPhysics2D::update(double dt) {
 	for (auto it = list.begin(); it != list.end(); ++it) {
 		(*it)->update(dt);
 	}
 }
 
-inline void Engine::EntityPhysics2D::Release() {
+inline void Engine::EntityPhysics2D::release() {
 	for (auto it = list.begin(); it != list.end(); ++it) {
 		delete (*it);
 	}

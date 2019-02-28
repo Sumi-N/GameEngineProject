@@ -95,8 +95,9 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 		phy1->pointer = obj1;
 		phy2->pointer = obj2;
 
-		Engine::EntityPhysics2D::Register(phy1);
-		Engine::EntityPhysics2D::Register(phy2);
+		Engine::EntityPhysics2D physic_system;
+		physic_system.push(phy1);
+		physic_system.push(phy2);
 
 		Timer::Init();
 		obj1->setPosition(-220, -100);
@@ -111,8 +112,9 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 		GoodGuy.pointer = phy1->pointer;
 		BadGuy.pointer = phy2->pointer;
 
-		Engine::EntitySpriteRenderer::Register(GoodGuy);
-		Engine::EntitySpriteRenderer::Register(BadGuy);
+		Engine::EntitySpriteRenderer renderer_system;
+		renderer_system.push(GoodGuy);
+		renderer_system.push(BadGuy);
 
 		InputMap::InitInputMap();
 
@@ -127,14 +129,14 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 			if (!bQuit)
 			{
-				Engine::EntityPhysics2D::Update(Time::dt);
-				Engine::EntitySpriteRenderer::Update();
+				physic_system.update(Time::dt);
+				renderer_system.update();
 			}
 			InputMap::ClearInputMap();
 		} while (bQuit == false);
 
-		Engine::EntitySpriteRenderer::Release();
-		Engine::EntityPhysics2D::Release();
+		physic_system.release();
+		renderer_system.release();
 
 		// IMPORTANT:  Tell GLib to shutdown, releasing resources.
 		GLib::Shutdown();

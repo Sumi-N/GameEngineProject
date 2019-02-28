@@ -7,30 +7,27 @@
 namespace Engine {
 	class EntitySpriteRenderer {
 	public:
-		static void Init();
-		static void Register(SpriteRenderer &);
-		static void Update();
-		static void Release();
+		void init();
+		void push(SpriteRenderer &);
+		void update();
+		void release();
 
 	private:
-		static std::list<SpriteRenderer> list;
-		static std::list<SpriteRenderer>::iterator it;
+		std::list<SpriteRenderer> list;
+		std::list<SpriteRenderer>::iterator it;
 	};
 }
 
-std::list<SpriteRenderer> Engine::EntitySpriteRenderer::list;
-std::list<SpriteRenderer>::iterator Engine::EntitySpriteRenderer::it;
-
-inline void Engine::EntitySpriteRenderer::Init() {
+inline void Engine::EntitySpriteRenderer::init() {
 
 }
 
-inline void Engine::EntitySpriteRenderer::Register(SpriteRenderer & i_component)
+inline void Engine::EntitySpriteRenderer::push(SpriteRenderer & i_component)
 {
 	list.push_back(i_component);
 }
 
-inline void Engine::EntitySpriteRenderer::Update()
+inline void Engine::EntitySpriteRenderer::update()
 {
 	// IMPORTANT: Tell GLib that we want to start rendering
 	GLib::BeginRendering();
@@ -50,7 +47,7 @@ inline void Engine::EntitySpriteRenderer::Update()
 	GLib::EndRendering();
 }
 
-inline void Engine::EntitySpriteRenderer::Release()
+inline void Engine::EntitySpriteRenderer::release()
 {
 	for (auto it = list.begin(); it != list.end(); ++it) {
 		if ((*it).sprite) {
