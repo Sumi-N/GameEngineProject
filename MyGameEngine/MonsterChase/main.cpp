@@ -6,6 +6,7 @@
 #include "Physics2D.h"
 #include "SpriteRenderer.h"
 #include "SmartPointers.h"
+#include "EntityMaster.h"
 #include "EntityPhysics2D.h"
 #include "EntitySpriteRenderer.h"
 
@@ -87,6 +88,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 	if (bSuccess)
 	{
+		Engine::EntityMaster::Init();
 		InputMap::Map = new std::unordered_map<unsigned int, bool>();
 		InputMap::DeleteList = new std::list<unsigned int>();
 
@@ -101,6 +103,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 		Engine::EntityPhysics2D physic_system;
 		physic_system.push(phy1);
 		physic_system.push(phy2);
+		Engine::EntityMaster::Physics = &physic_system;
 
 		Timer::Init();
 		obj1->setPosition(-220, -100);
@@ -118,6 +121,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 		Engine::EntitySpriteRenderer renderer_system;
 		renderer_system.push(GoodGuy);
 		renderer_system.push(BadGuy);
+		Engine::EntityMaster::SRenderer = &(renderer_system);
 
 		InputMap::InitInputMap();
 
@@ -132,14 +136,12 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 			if (!bQuit)
 			{
-				physic_system.update(Time::dt);
-				renderer_system.update();
+				Engine::EntityMaster::Update(Time::dt);
 			}
 			InputMap::ClearInputMap();
 		} while (bQuit == false);
 
-		physic_system.release();
-		renderer_system.release();
+		Engine::EntityMaster::Release();
 
 		// IMPORTANT:  Tell GLib to shutdown, releasing resources.
 		GLib::Shutdown();

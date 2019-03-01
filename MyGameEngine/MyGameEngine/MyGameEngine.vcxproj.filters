@@ -101,7 +101,7 @@
     <ClInclude Include="EntitySpriteRenderer.h">
       <Filter>System\EntitySystem</Filter>
     </ClInclude>
-    <ClInclude Include="MasterObjectList.h">
+    <ClInclude Include="EntityMaster.h">
       <Filter>System\EntitySystem</Filter>
     </ClInclude>
   </ItemGroup>

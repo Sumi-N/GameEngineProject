@@ -11,9 +11,9 @@ namespace Engine {
 		void push(SpriteRenderer &);
 		void update();
 		void release();
+		std::list<SpriteRenderer> list;
 
 	private:
-		std::list<SpriteRenderer> list;
 		std::list<SpriteRenderer>::iterator it;
 	};
 }

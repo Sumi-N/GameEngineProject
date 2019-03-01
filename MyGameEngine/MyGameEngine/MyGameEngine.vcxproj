@@ -25,7 +25,7 @@
     <ClInclude Include="EntityPhysics2D.h" />
     <ClInclude Include="EntitySpriteRenderer.h" />
     <ClInclude Include="InputMap.h" />
-    <ClInclude Include="MasterObjectList.h" />
+    <ClInclude Include="EntityMaster.h" />
     <ClInclude Include="Physics2D.h" />
     <ClInclude Include="CharacterString.h" />
     <ClInclude Include="ScriptReader.h" />
