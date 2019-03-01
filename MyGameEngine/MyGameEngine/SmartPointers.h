@@ -89,7 +89,7 @@ namespace Engine {
 			if (this == &i_other)
 				return *this;
 			else {
-				if (ref = nullptr) {
+				if (ref != nullptr) {
 					ref->OwnerReferences--;
 					if (ref->ObserverReferences == 0 && ref->OwnerReferences == 0) {
 						delete ref;
@@ -109,7 +109,7 @@ namespace Engine {
 			if (this == &i_other)
 				return *this;
 			else {
-				if (ref = nullptr) {
+				if (ref != nullptr) {
 					ref->OwnerReferences--;
 					if (ref->ObserverReferences == 0 && ref->OwnerReferences == 0) {
 						delete ref;

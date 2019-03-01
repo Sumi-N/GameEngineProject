@@ -97,16 +97,16 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 		Physics2D * phy1 = new Physics2D();
 		Physics2D * phy2 = new Physics2D();
 
-		Engine::OwningPointer<Object2D> obj1p;
-		obj1p = obj1;
-		Engine::OwningPointer<Object2D> obj2p;
-		obj2p = obj2;
+		Engine::EntityObject2D * obj1p = new Engine::EntityObject2D();
+		obj1p->point = obj1;
+		Engine::EntityObject2D * obj2p = new Engine::EntityObject2D();
+		obj2p->point = obj2;
 
 		Engine::EntityMaster::ObjectList->push_back(obj1p);
 		Engine::EntityMaster::ObjectList->push_back(obj2p);
 
-		phy1->pointer = obj1;
-		phy2->pointer = obj2;
+		phy1->pointer = obj1p->point;
+		phy2->pointer = obj2p->point;
 
 		Engine::EntityPhysics2D physic_system;
 		physic_system.push(phy1);

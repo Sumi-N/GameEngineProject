@@ -38,7 +38,6 @@ inline void Engine::EntitySpriteRenderer::update()
 		if ((*it).sprite) {
 			(*it).update();
 		}
-
 	}
 
 	// Tell GLib we're done rendering sprites

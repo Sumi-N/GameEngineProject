@@ -22,6 +22,7 @@
     <ClInclude Include="Allocator.h" />
     <ClInclude Include="CharacterString_UnitTest.h" />
     <ClInclude Include="DebugLog.h" />
+    <ClInclude Include="EntityObject2D.h" />
     <ClInclude Include="EntityPhysics2D.h" />
     <ClInclude Include="EntitySpriteRenderer.h" />
     <ClInclude Include="InputMap.h" />
