@@ -71,7 +71,7 @@ inline Object2D * System::ScriptReader::CreateActor(const char * i_filename) {
 	lua_pop(pluastate, 1);
 
 	obj->setPosition(x,y);
-	lua_pop(pluastate, 1);
+	lua_pop(pluastate, 2);
 
 	//Get Physics Component
 	lua_pushstring(pluastate, "Physics2D_settings");
@@ -87,14 +87,14 @@ inline Object2D * System::ScriptReader::CreateActor(const char * i_filename) {
 		typecheck = lua_gettable(pluastate, -2);
 		assert(typecheck == LUA_TNUMBER);
 		phy->mass = static_cast<double>(lua_tonumber(pluastate, -1));
-		lua_pop(pluastate, 2);
+		lua_pop(pluastate, 1);
 
 		//Get air friction
 		lua_pushstring(pluastate, "air_friction");
 		typecheck = lua_gettable(pluastate, -2);
 		assert(typecheck == LUA_TNUMBER);
 		phy->air_fric = static_cast<double>(lua_tonumber(pluastate, -1));
-		lua_pop(pluastate, 2);
+		lua_pop(pluastate, 1);
 
 		//Get velocity
 		lua_pushstring(pluastate, "velocity");
@@ -116,7 +116,7 @@ inline Object2D * System::ScriptReader::CreateActor(const char * i_filename) {
 		lua_pop(pluastate, 1);
 
 		//Get acceleration
-		lua_pushstring(pluastate, "acceleration");
+		lua_pushstring(pluastate, "accelaration");
 		typecheck = lua_gettable(pluastate, -2);
 		assert(typecheck == LUA_TTABLE);
 
@@ -132,6 +132,7 @@ inline Object2D * System::ScriptReader::CreateActor(const char * i_filename) {
 		phy->acc.set(Vector2D<double, double>(acc_x, acc_y));
 		lua_pop(pluastate, 1);
 
+		lua_pop(pluastate, 1);
 		lua_pop(pluastate, 1);
 	}
 	else if (typecheck != LUA_TNIL) {
@@ -155,6 +156,8 @@ inline Object2D * System::ScriptReader::CreateActor(const char * i_filename) {
 	else if (typecheck != LUA_TNIL) {
 		assert(0);
 	}
+
+	lua_close(pluastate);
 
 	return obj;
 }
