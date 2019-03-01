@@ -6,9 +6,9 @@
 #include <iterator>
 
 namespace Engine {
-	class EntityObject2D {
+	class Object2DMaster {
 	public:
-		OwningPointer<Object2D> point;
+		OwningPointer<Object2D> pointer;
 	private:
 	};
 }

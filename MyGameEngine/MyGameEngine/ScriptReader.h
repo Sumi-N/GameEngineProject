@@ -3,6 +3,8 @@
 #include "Physics2D.h"
 #include "SpriteRenderer.h"
 #include "DebugLog.h"
+#include "Object2DMaster.h"
+#include "EntityMaster.h"
 
 #include "GLib.h"
 #include "lua.hpp"
@@ -33,7 +35,7 @@ inline Object2D * System::ScriptReader::CreateActor(const char * i_filename) {
 
 	if (luaL_loadfile(pluastate, i_filename)) {
 		DEBUG_PRINT("cannot open %s\n", i_filename);
-		return;
+		assert(0);
 	}
 	lua_pcall(pluastate, 0, 0, 0);
 
@@ -43,13 +45,16 @@ inline Object2D * System::ScriptReader::CreateActor(const char * i_filename) {
 
 	//Create Object2D
 	Object2D * obj = new Object2D();
+	Engine::Object2DMaster * objp = new Engine::Object2DMaster();
+	objp->pointer = obj;
+	Engine::EntityMaster::ObjectList->push_back(objp);
 
 	//Get name variable
 	lua_pushstring(pluastate, "name");
 	typecheck = lua_gettable(pluastate, -2);
 	assert(typecheck == LUA_TSTRING);
 	obj->name = CharacterString(lua_tostring(pluastate, -1));
-	lua_pop(pluastate, 2);
+	lua_pop(pluastate, 1);
 
 	//Get Position variable
 	lua_pushstring(pluastate, "initial_position");
@@ -74,7 +79,8 @@ inline Object2D * System::ScriptReader::CreateActor(const char * i_filename) {
 	if (typecheck == LUA_TTABLE) {
 		//Create physics component and connect to obj
 		Physics2D * phy = new Physics2D();
-		phy->pointer = obj;
+		phy->pointer = objp->pointer;
+		Engine::EntityMaster::Physics->push(phy);
 
 		//Get mass
 		lua_pushstring(pluastate, "mass");
@@ -97,14 +103,14 @@ inline Object2D * System::ScriptReader::CreateActor(const char * i_filename) {
 
 		lua_pushnil(pluastate);
 		lua_next(pluastate, -2);
-		double x = static_cast<double>(lua_tonumber(pluastate, -1));
+		double vel_x = static_cast<double>(lua_tonumber(pluastate, -1));
 		lua_pop(pluastate, 1);
 
 		lua_next(pluastate, -2);
-		double y = static_cast<double>(lua_tonumber(pluastate, -1));
+		double vel_y = static_cast<double>(lua_tonumber(pluastate, -1));
 		lua_pop(pluastate, 1);
 
-		phy->vel.set(Vector2D<double, double>(x, y));
+		phy->vel.set(Vector2D<double, double>(vel_x, vel_y));
 		lua_pop(pluastate, 1);
 
 		lua_pop(pluastate, 1);
@@ -116,14 +122,14 @@ inline Object2D * System::ScriptReader::CreateActor(const char * i_filename) {
 
 		lua_pushnil(pluastate);
 		lua_next(pluastate, -2);
-		double x = static_cast<double>(lua_tonumber(pluastate, -1));
+		double acc_x = static_cast<double>(lua_tonumber(pluastate, -1));
 		lua_pop(pluastate, 1);
 
 		lua_next(pluastate, -2);
-		double y = static_cast<double>(lua_tonumber(pluastate, -1));
+		double acc_y = static_cast<double>(lua_tonumber(pluastate, -1));
 		lua_pop(pluastate, 1);
 
-		phy->acc.set(Vector2D<double, double>(x, y));
+		phy->acc.set(Vector2D<double, double>(acc_x, acc_y));
 		lua_pop(pluastate, 1);
 
 		lua_pop(pluastate, 1);
@@ -143,7 +149,8 @@ inline Object2D * System::ScriptReader::CreateActor(const char * i_filename) {
 		srend.createSprite(lua_tostring(pluastate, -1));
 		lua_pop(pluastate, 2);
 
-		srend.pointer = phy->pointer;
+		srend.pointer = objp->pointer;
+		Engine::EntityMaster::SRenderer->push(srend);
 	}
 	else if (typecheck != LUA_TNIL) {
 		assert(0);

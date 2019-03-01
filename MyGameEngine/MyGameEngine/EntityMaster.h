@@ -3,7 +3,7 @@
 #include "EntityPhysics2D.h"
 #include "EntitySpriteRenderer.h"
 #include "SmartPointers.h"
-#include "EntityObject2D.h"
+#include "Object2DMaster.h"
 
 #include <list>
 #include <iterator>
@@ -11,7 +11,7 @@
 namespace Engine {
 	class EntityMaster {
 	public:
-		static std::list<EntityObject2D *> * ObjectList;
+		static std::list<Object2DMaster *> * ObjectList;
 		static EntityPhysics2D * Physics;
 		static EntitySpriteRenderer * SRenderer;
 
@@ -21,12 +21,12 @@ namespace Engine {
 	};
 }
 
-std::list<Engine::EntityObject2D *> * Engine::EntityMaster::ObjectList;
+std::list<Engine::Object2DMaster *> * Engine::EntityMaster::ObjectList;
 Engine::EntityPhysics2D * Engine::EntityMaster::Physics;
 Engine::EntitySpriteRenderer * Engine::EntityMaster::SRenderer;
 
 inline void Engine::EntityMaster::Init() {
-	ObjectList = new std::list<EntityObject2D *>();
+	ObjectList = new std::list<Object2DMaster *>();
 }
 
 inline void Engine::EntityMaster::Update(double dt) {
@@ -37,6 +37,7 @@ inline void Engine::EntityMaster::Update(double dt) {
 inline void Engine::EntityMaster::Release() {
 	Physics->release();
 	SRenderer->release();
+
 	for (auto it = ObjectList->begin(); it != ObjectList->end(); ++it) {
 		delete (*it);
 	}

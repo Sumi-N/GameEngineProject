@@ -104,7 +104,7 @@
     <ClInclude Include="EntityMaster.h">
       <Filter>System\EntitySystem</Filter>
     </ClInclude>
-    <ClInclude Include="EntityObject2D.h">
+    <ClInclude Include="Object2DMaster.h">
       <Filter>System\EntitySystem</Filter>
     </ClInclude>
   </ItemGroup>

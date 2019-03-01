@@ -3,12 +3,12 @@
 #include "Allocator.h"
 #include "Time.h"
 #include "InputMap.h"
-#include "Physics2D.h"
 #include "SpriteRenderer.h"
 #include "SmartPointers.h"
 #include "EntityMaster.h"
 #include "EntityPhysics2D.h"
 #include "EntitySpriteRenderer.h"
+#include "ScriptReader.h"
 
 #include <Windows.h>
 #include <crtdbg.h>  
@@ -88,32 +88,44 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 	if (bSuccess)
 	{
-		Engine::EntityMaster::Init();
+		Timer::Init();
+
 		InputMap::Map = new std::unordered_map<unsigned int, bool>();
 		InputMap::DeleteList = new std::list<unsigned int>();
+		InputMap::InitInputMap();
 
+		Engine::EntityMaster::Init();
+
+		Engine::EntityPhysics2D physic_system;
+		Engine::EntityMaster::Physics = &physic_system;
+
+		Engine::EntitySpriteRenderer renderer_system;
+		Engine::EntityMaster::SRenderer = &(renderer_system);
+
+		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player1.lua");
+		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player2.lua");
+
+		/*
 		Object2D * obj1 = new Object2D();
 		Object2D * obj2 = new Object2D();
 		Physics2D * phy1 = new Physics2D();
 		Physics2D * phy2 = new Physics2D();
 
-		Engine::EntityObject2D * obj1p = new Engine::EntityObject2D();
-		obj1p->point = obj1;
-		Engine::EntityObject2D * obj2p = new Engine::EntityObject2D();
-		obj2p->point = obj2;
+		Engine::Object2DMaster * obj1p = new Engine::Object2DMaster();
+		obj1p->pointer = obj1;
+		Engine::Object2DMaster * obj2p = new Engine::Object2DMaster();
+		obj2p->pointer = obj2;
 
 		Engine::EntityMaster::ObjectList->push_back(obj1p);
 		Engine::EntityMaster::ObjectList->push_back(obj2p);
 
-		phy1->pointer = obj1p->point;
-		phy2->pointer = obj2p->point;
+		phy1->pointer = obj1p->pointer;
+		phy2->pointer = obj2p->pointer;
 
-		Engine::EntityPhysics2D physic_system;
+
 		physic_system.push(phy1);
 		physic_system.push(phy2);
-		Engine::EntityMaster::Physics = &physic_system;
 
-		Timer::Init();
 		obj1->setPosition(-220, -100);
 		obj2->setPosition(180, -100);
 
@@ -126,12 +138,9 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 		GoodGuy.pointer = phy1->pointer;
 		BadGuy.pointer = phy2->pointer;
 
-		Engine::EntitySpriteRenderer renderer_system;
 		renderer_system.push(GoodGuy);
 		renderer_system.push(BadGuy);
-		Engine::EntityMaster::SRenderer = &(renderer_system);
-
-		InputMap::InitInputMap();
+		*/
 
 		bool bQuit = false;
 		do
@@ -140,7 +149,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 			// IMPORTANT: We need to let GLib do it's thing. 
 			GLib::Service(bQuit);
-			phy1->input();
+			//phy1->input();
 
 			if (!bQuit)
 			{

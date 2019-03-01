@@ -1,6 +1,6 @@
 Object2D = {
-    name = "GoodGuy",
-    initial_position = { -220, -100 },
+    name = "BadGuy",
+    initial_position = { 180, -100},
 
     physics2D_settings = {
         mass = "1",
@@ -10,6 +10,6 @@ Object2D = {
     },
 
     render_settings = {
-        path = "..\\Assets\\data\\GoodGuy.dds"
+        path = "..\\Assets\\data\\BadGuy.dds"
     },
 }
