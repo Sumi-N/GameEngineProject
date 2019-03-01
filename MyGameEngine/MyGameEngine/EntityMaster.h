@@ -25,6 +25,7 @@ Engine::EntityPhysics2D * Engine::EntityMaster::Physics;
 Engine::EntitySpriteRenderer * Engine::EntityMaster::SRenderer;
 
 inline void Engine::EntityMaster::Init() {
+	ObjectList = new std::list<OwningPointer<Object2D>>();
 }
 
 inline void Engine::EntityMaster::Update(double dt) {

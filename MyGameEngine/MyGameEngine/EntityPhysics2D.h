@@ -12,9 +12,8 @@ namespace Engine {
 		void update(double);
 		void release();
 
-		std::list<Physics2D *> list;
-
 	private:
+		std::list<Physics2D *> list;
 		std::list<Physics2D *>::iterator it;
 	};
 }
