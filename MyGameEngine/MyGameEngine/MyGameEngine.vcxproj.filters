@@ -19,14 +19,29 @@
     <Filter Include="DataStructure">
       <UniqueIdentifier>{80663509-0eee-410e-946b-d1893a2c5651}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UnitTest">
-      <UniqueIdentifier>{aeba3552-a3d6-4697-932e-59918b429028}</UniqueIdentifier>
-    </Filter>
     <Filter Include="System\EntitySystem">
       <UniqueIdentifier>{bf6031b8-56cc-4787-a06c-edfaffa2476c}</UniqueIdentifier>
     </Filter>
     <Filter Include="System\EditableStructureSystem">
       <UniqueIdentifier>{f0a25661-68d1-4a5b-9849-019f997b8d01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Regacy">
+      <UniqueIdentifier>{56427c0d-15de-4091-88d4-d33a23f43dd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Regacy\Objects">
+      <UniqueIdentifier>{8082f0d5-3cac-417e-832d-33617d9d3f80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Regacy\Components">
+      <UniqueIdentifier>{0156e072-261a-449d-ac4e-dc815c336e69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Regacy\DataStructure">
+      <UniqueIdentifier>{9b18fb73-a6ea-47ff-9ab2-2f23dc671047}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Regacy\UnitTests">
+      <UniqueIdentifier>{e423b87c-9e0e-42c4-b892-8ccd11016186}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTests">
+      <UniqueIdentifier>{aeba3552-a3d6-4697-932e-59918b429028}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -40,20 +55,14 @@
       <Filter>System\HeapManager</Filter>
     </ClCompile>
     <ClCompile Include="HeapManager_UnitTest.cpp">
-      <Filter>UnitTest</Filter>
+      <Filter>UnitTests</Filter>
     </ClCompile>
     <ClCompile Include="SpriteRenderer.cpp">
       <Filter>Objects\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Object2D.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Vector2D.h">
-      <Filter>DataStructure</Filter>
-    </ClInclude>
-    <ClInclude Include="List.h">
       <Filter>DataStructure</Filter>
     </ClInclude>
     <ClInclude Include="DebugLog.h">
@@ -65,20 +74,8 @@
     <ClInclude Include="HeapManagerProxy.h">
       <Filter>System\HeapManager</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectController.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Time.h">
       <Filter>System</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics2D.h">
-      <Filter>Objects\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterString_UnitTest.h">
-      <Filter>UnitTest</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterString.h">
-      <Filter>DataStructure</Filter>
     </ClInclude>
     <ClInclude Include="SpriteRenderer.h">
       <Filter>Objects\Components</Filter>
@@ -106,6 +103,33 @@
     </ClInclude>
     <ClInclude Include="Object2DMaster.h">
       <Filter>System\EntitySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3D.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3D.h">
+      <Filter>DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="Object2D.h">
+      <Filter>Regacy\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics2D.h">
+      <Filter>Regacy\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectController.h">
+      <Filter>Regacy\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="List.h">
+      <Filter>Regacy\DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterString.h">
+      <Filter>Regacy\DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterString_UnitTest.h">
+      <Filter>Regacy\UnitTests</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics3D.h">
+      <Filter>Objects\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

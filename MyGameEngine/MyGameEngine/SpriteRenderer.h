@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Object2D.h"
 #include "SmartPointers.h"
 #include "../GLib/GLib.h"

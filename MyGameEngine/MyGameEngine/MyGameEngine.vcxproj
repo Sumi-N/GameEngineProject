@@ -27,8 +27,10 @@
     <ClInclude Include="EntitySpriteRenderer.h" />
     <ClInclude Include="InputMap.h" />
     <ClInclude Include="EntityMaster.h" />
+    <ClInclude Include="Object3D.h" />
     <ClInclude Include="Physics2D.h" />
     <ClInclude Include="CharacterString.h" />
+    <ClInclude Include="Physics3D.h" />
     <ClInclude Include="ScriptReader.h" />
     <ClInclude Include="SmartPointers.h" />
     <ClInclude Include="SpriteRenderer.h" />
@@ -39,6 +41,7 @@
     <ClInclude Include="Object2D.h" />
     <ClInclude Include="ObjectController.h" />
     <ClInclude Include="Vector2D.h" />
+    <ClInclude Include="Vector3D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DebugLog.cpp" />
