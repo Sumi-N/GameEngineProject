@@ -13,5 +13,5 @@ public:
 };
 
 inline void Object3D::info() const {
-	printf("%s is at (%f, %f, %f)", name, pos.x, pos.y, pos.z);
+	//printf("%s is at (%f, %f, %f)", name, pos.x, pos.y, pos.z);
 }

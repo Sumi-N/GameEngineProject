@@ -72,7 +72,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 			if (!bQuit)
 			{
-				Engine::EntityMaster::Update(Time::dt);
+				Engine::EntityMaster::Update(static_cast<float>(Time::dt));
 			}
 			InputMap::ClearInputMap();
 		} while (bQuit == false);
