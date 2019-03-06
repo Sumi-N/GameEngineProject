@@ -1,9 +1,9 @@
 #pragma once
-#include "Object2D.h"
-#include "Physics2D.h"
+#include "Object3D.h"
+#include "Physics3D.h"
 #include "SpriteRenderer.h"
 #include "DebugLog.h"
-#include "Object2DMaster.h"
+#include "Object3DPointer.h"
 #include "EntityMaster.h"
 
 #include "GLib.h"
@@ -21,14 +21,14 @@
 namespace System {
 	class ScriptReader {
 	public:
-		static Object2D * CreateActor(const char *);
+		static Object3D * CreateActor(const char *);
 
 	private:
 
 	};
 }
 
-inline Object2D * System::ScriptReader::CreateActor(const char * i_filename) {
+inline Object3D * System::ScriptReader::CreateActor(const char * i_filename) {
 	lua_State * pluastate = luaL_newstate();
 	assert(pluastate);
 	luaL_openlibs(pluastate);
@@ -40,12 +40,12 @@ inline Object2D * System::ScriptReader::CreateActor(const char * i_filename) {
 	lua_pcall(pluastate, 0, 0, 0);
 
 	//Get table
-	int typecheck = lua_getglobal(pluastate, "Object2D");
+	int typecheck = lua_getglobal(pluastate, "Object3D");
 	assert(typecheck == LUA_TTABLE);
 
-	//Create Object2D
-	Object2D * obj = new Object2D();
-	Engine::Object2DMaster * objp = new Engine::Object2DMaster();
+	//Create Object3D
+	Object3D * obj = new Object3D();
+	Engine::Object3DPointer * objp = new Engine::Object3DPointer();
 	objp->pointer = obj;
 	Engine::EntityMaster::ObjectList->push_back(objp);
 
@@ -53,7 +53,7 @@ inline Object2D * System::ScriptReader::CreateActor(const char * i_filename) {
 	lua_pushstring(pluastate, "name");
 	typecheck = lua_gettable(pluastate, -2);
 	assert(typecheck == LUA_TSTRING);
-	obj->name = CharacterString(lua_tostring(pluastate, -1));
+	obj->name = lua_tostring(pluastate, -1);
 	lua_pop(pluastate, 1);
 
 	//Get Position variable
@@ -63,14 +63,14 @@ inline Object2D * System::ScriptReader::CreateActor(const char * i_filename) {
 
 	lua_pushnil(pluastate);
 	lua_next(pluastate, -2);
-	double x = static_cast<double>(lua_tonumber(pluastate, -1));
+	float x = static_cast<float>(lua_tonumber(pluastate, -1));
 	lua_pop(pluastate, 1);
 
 	lua_next(pluastate, -2);
-	double y = static_cast<double>(lua_tonumber(pluastate, -1));
+	float y = static_cast<float>(lua_tonumber(pluastate, -1));
 	lua_pop(pluastate, 1);
 
-	obj->setPosition(x,y);
+	obj->pos.set(x, y, 0);
 	lua_pop(pluastate, 2);
 
 	//Get Physics Component
@@ -78,7 +78,7 @@ inline Object2D * System::ScriptReader::CreateActor(const char * i_filename) {
 	typecheck = lua_gettable(pluastate, -2);
 	if (typecheck == LUA_TTABLE) {
 		//Create physics component and connect to obj
-		Physics2D * phy = new Physics2D();
+		Physics3D * phy = new Physics3D();
 		phy->pointer = objp->pointer;
 		Engine::EntityMaster::Physics->push(phy);
 
@@ -86,14 +86,14 @@ inline Object2D * System::ScriptReader::CreateActor(const char * i_filename) {
 		lua_pushstring(pluastate, "mass");
 		typecheck = lua_gettable(pluastate, -2);
 		assert(typecheck == LUA_TNUMBER);
-		phy->mass = static_cast<double>(lua_tonumber(pluastate, -1));
+		phy->mass = static_cast<float>(lua_tonumber(pluastate, -1));
 		lua_pop(pluastate, 1);
 
 		//Get air friction
 		lua_pushstring(pluastate, "air_friction");
 		typecheck = lua_gettable(pluastate, -2);
 		assert(typecheck == LUA_TNUMBER);
-		phy->air_fric = static_cast<double>(lua_tonumber(pluastate, -1));
+		phy->air_fric = static_cast<float>(lua_tonumber(pluastate, -1));
 		lua_pop(pluastate, 1);
 
 		//Get velocity
@@ -103,14 +103,14 @@ inline Object2D * System::ScriptReader::CreateActor(const char * i_filename) {
 
 		lua_pushnil(pluastate);
 		lua_next(pluastate, -2);
-		double vel_x = static_cast<double>(lua_tonumber(pluastate, -1));
+		float vel_x = static_cast<float>(lua_tonumber(pluastate, -1));
 		lua_pop(pluastate, 1);
 
 		lua_next(pluastate, -2);
-		double vel_y = static_cast<double>(lua_tonumber(pluastate, -1));
+		float vel_y = static_cast<float>(lua_tonumber(pluastate, -1));
 		lua_pop(pluastate, 1);
 
-		phy->vel.set(Vector2D<double, double>(vel_x, vel_y));
+		phy->vel.set(vel_x, vel_y, 0);
 		lua_pop(pluastate, 1);
 
 		lua_pop(pluastate, 1);
@@ -122,14 +122,14 @@ inline Object2D * System::ScriptReader::CreateActor(const char * i_filename) {
 
 		lua_pushnil(pluastate);
 		lua_next(pluastate, -2);
-		double acc_x = static_cast<double>(lua_tonumber(pluastate, -1));
+		float acc_x = static_cast<float>(lua_tonumber(pluastate, -1));
 		lua_pop(pluastate, 1);
 
 		lua_next(pluastate, -2);
-		double acc_y = static_cast<double>(lua_tonumber(pluastate, -1));
+		float acc_y = static_cast<float>(lua_tonumber(pluastate, -1));
 		lua_pop(pluastate, 1);
 
-		phy->acc.set(Vector2D<double, double>(acc_x, acc_y));
+		phy->acc.set(acc_x, acc_y,0);
 		lua_pop(pluastate, 1);
 
 		lua_pop(pluastate, 1);

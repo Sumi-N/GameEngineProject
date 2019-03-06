@@ -6,7 +6,7 @@
 #include "SpriteRenderer.h"
 #include "SmartPointers.h"
 #include "EntityMaster.h"
-#include "EntityPhysics2D.h"
+#include "EntityPhysics3D.h"
 #include "EntitySpriteRenderer.h"
 #include "ScriptReader.h"
 
@@ -52,7 +52,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 		Engine::EntityMaster::Init();
 
-		Engine::EntityPhysics2D physic_system;
+		Engine::EntityPhysics3D physic_system;
 		Engine::EntityMaster::Physics = &physic_system;
 
 		Engine::EntitySpriteRenderer renderer_system;

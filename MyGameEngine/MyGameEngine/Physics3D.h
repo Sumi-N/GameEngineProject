@@ -9,7 +9,7 @@ class Physics3D
 public:
 	Physics3D();
 	Physics3D(const Physics3D &) = delete;
-	Physics3D();
+	~Physics3D();
 
 	void addForce(Vector3D);
 	void update(float i_dt);

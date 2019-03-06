@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Object2D.h"
+#include "Object3D.h"
 #include "SmartPointers.h"
 #include "../GLib/GLib.h"
 
@@ -13,5 +13,5 @@ public:
 public:
 	GLib::Sprites::Sprite * sprite;
 	GLib::Point2D offset;
-	Engine::ObservingPointer<Object2D> pointer;
+	Engine::ObservingPointer<Object3D> pointer;
 };

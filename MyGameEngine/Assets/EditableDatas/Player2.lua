@@ -1,4 +1,4 @@
-Object2D = {
+Object3D = {
     name = "BadGuy",
     initial_position = { 180, -100},
 

@@ -43,6 +43,9 @@
     <Filter Include="UnitTests">
       <UniqueIdentifier>{aeba3552-a3d6-4697-932e-59918b429028}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Regacy\System">
+      <UniqueIdentifier>{7d163a49-692e-4c9f-98e7-d544da68145a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DebugLog.cpp">
@@ -92,16 +95,10 @@
     <ClInclude Include="ScriptReader.h">
       <Filter>System\EditableStructureSystem</Filter>
     </ClInclude>
-    <ClInclude Include="EntityPhysics2D.h">
-      <Filter>System\EntitySystem</Filter>
-    </ClInclude>
     <ClInclude Include="EntitySpriteRenderer.h">
       <Filter>System\EntitySystem</Filter>
     </ClInclude>
     <ClInclude Include="EntityMaster.h">
-      <Filter>System\EntitySystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Object2DMaster.h">
       <Filter>System\EntitySystem</Filter>
     </ClInclude>
     <ClInclude Include="Object3D.h">
@@ -130,6 +127,18 @@
     </ClInclude>
     <ClInclude Include="Physics3D.h">
       <Filter>Objects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3DPointer.h">
+      <Filter>System\EntitySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Object2DMaster.h">
+      <Filter>Regacy\System</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityPhysics3D.h">
+      <Filter>System\EntitySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityPhysics2D.h">
+      <Filter>Regacy\System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

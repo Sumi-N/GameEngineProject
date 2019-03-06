@@ -3,7 +3,7 @@
 #include "Vector3D.h"
 #include <string>
 
-class Object3D : public Object2D
+class Object3D
 {
 public:
 	Vector3D pos;

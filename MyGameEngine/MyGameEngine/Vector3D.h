@@ -45,6 +45,8 @@ inline Vector3D & Vector3D::operator=(const Vector3D i_vec) {
 	this->x = i_vec.x;
 	this->y = i_vec.y;
 	this->z = i_vec.z;
+
+	return *this;
 }
 
 inline Vector3D Vector3D::operator+(const Vector3D i_vec) {
