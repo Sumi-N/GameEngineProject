@@ -140,5 +140,8 @@
     <ClInclude Include="EntityPhysics2D.h">
       <Filter>Regacy\System</Filter>
     </ClInclude>
+    <ClInclude Include="Vector4.h">
+      <Filter>DataStructure</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

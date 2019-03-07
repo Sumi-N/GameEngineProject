@@ -44,6 +44,7 @@
     <ClInclude Include="ObjectController.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Vector3D.h" />
+    <ClInclude Include="Vector4.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DebugLog.cpp" />
