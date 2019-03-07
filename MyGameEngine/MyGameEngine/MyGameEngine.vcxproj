@@ -23,6 +23,7 @@
     <ClInclude Include="CharacterString_UnitTest.h" />
     <ClInclude Include="DebugLog.h" />
     <ClInclude Include="EntityPhysics3D.h" />
+    <ClInclude Include="Matrix4.h" />
     <ClInclude Include="Object2DMaster.h" />
     <ClInclude Include="EntityPhysics2D.h" />
     <ClInclude Include="EntitySpriteRenderer.h" />
@@ -44,7 +45,7 @@
     <ClInclude Include="ObjectController.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Vector3D.h" />
-    <ClInclude Include="Vector4.h" />
+    <ClInclude Include="Vector4D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DebugLog.cpp" />
