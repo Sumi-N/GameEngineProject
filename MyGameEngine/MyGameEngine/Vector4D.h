@@ -66,7 +66,7 @@ inline Vector4D Vector4D::operator-(const Vector4D i_vec) {
 	o_vec.x = this->x - i_vec.x;
 	o_vec.y = this->y - i_vec.y;
 	o_vec.z = this->z - i_vec.z;
-	o_vec.w = this->w _ i_vec.w;
+	o_vec.w = this->w - i_vec.w;
 	return o_vec;
 }
 

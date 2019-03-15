@@ -146,5 +146,8 @@
     <ClInclude Include="Vector4D.h">
       <Filter>DataStructure</Filter>
     </ClInclude>
+    <ClInclude Include="Matrix4_UnitTest.h">
+      <Filter>UnitTests</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
