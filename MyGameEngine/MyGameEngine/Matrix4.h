@@ -24,15 +24,27 @@ public:
 
 	Matrix4();
 	Matrix4(float[16]);
-	Matrix4(Vector4D[]);
+	Matrix4(Vector4D[4]);
 	Matrix4(const Matrix4 &);
 
 	Vector4D operator*(const Vector4D) const;
 	Matrix4 operator*(const Matrix4) const;
+	friend Matrix4 operator*(const float, const Matrix4 &);
+	friend Matrix4 operator/(const Matrix4 &, const float);
+	Matrix4 operator+(const Matrix4) const;
+	Matrix4 operator-(const Matrix4) const;
 
 	void tranpose();
 	void inversion();
 	void show();
+
+	static Matrix4 Translation(float, float, float);
+	// Too lazy to implement http://planning.cs.uiuc.edu/node102.html
+	static Matrix4 Roll(float);
+	static Matrix4 Pitch(float);
+	static Matrix4 Yaw(float);
+	static Matrix4 Scaling(float);
+
 private:
 	float ele[16];
 	Row   row[4];
@@ -57,9 +69,6 @@ inline Matrix4::Matrix4() {
 }
 
 inline Matrix4::Matrix4(float i_floats[16]) {
-	if (sizeof(i_floats)/sizeof(*i_floats) != 16) {
-		//assert(0);
-	}
 	for (int i = 0; i < 16; i++) {
 		ele[i] = i_floats[i];
 	}
@@ -111,8 +120,67 @@ inline Matrix4 Matrix4::operator*(const Matrix4 i_matrix) const
 	o_matrix.ele[15] = ele[12] * i_matrix.ele[3] + ele[13] * i_matrix.ele[7] + ele[14] * i_matrix.ele[11] + ele[15] * i_matrix.ele[15];
 
 	for (int i = 0; i < 4; i++) {
-		o_matrix.row[i] = Row(ele[i * 4], ele[i * 4 + 1], ele[i * 4 + 2], ele[i * 4 + 3]);
-		o_matrix.col[i] = Collumn(ele[i], ele[i + 4], ele[i + 8], ele[i + 12]);
+		o_matrix.row[i] = Row(o_matrix.ele[i * 4], o_matrix.ele[i * 4 + 1], o_matrix.ele[i * 4 + 2], o_matrix.ele[i * 4 + 3]);
+		o_matrix.col[i] = Collumn(o_matrix.ele[i], o_matrix.ele[i + 4], o_matrix.ele[i + 8], o_matrix.ele[i + 12]);
+	}
+
+	return o_matrix;
+}
+
+inline Matrix4 operator*(const float i_float, const Matrix4 & i_matrix)
+{
+	Matrix4 o_matrix;
+	for (int i = 0; i < 16; i++) {
+		o_matrix.ele[i] = i_float * i_matrix.ele[i];
+	}
+
+	for (int i = 0; i < 4; i++) {
+		o_matrix.row[i] = Matrix4::Row(o_matrix.ele[i * 4], o_matrix.ele[i * 4 + 1], o_matrix.ele[i * 4 + 2], o_matrix.ele[i * 4 + 3]);
+		o_matrix.col[i] = Matrix4::Collumn(o_matrix.ele[i], o_matrix.ele[i + 4], o_matrix.ele[i + 8], o_matrix.ele[i + 12]);
+	}
+	return o_matrix;
+}
+
+inline Matrix4 operator/(const Matrix4 & i_matrix, const float i_float)
+{
+	Matrix4 o_matrix;
+	for (int i = 0; i < 16; i++) {
+		o_matrix.ele[i] = i_matrix.ele[i] / i_float; 
+	}
+
+	for (int i = 0; i < 4; i++) {
+		o_matrix.row[i] = Matrix4::Row(o_matrix.ele[i * 4], o_matrix.ele[i * 4 + 1], o_matrix.ele[i * 4 + 2], o_matrix.ele[i * 4 + 3]);
+		o_matrix.col[i] = Matrix4::Collumn(o_matrix.ele[i], o_matrix.ele[i + 4], o_matrix.ele[i + 8], o_matrix.ele[i + 12]);
+	}
+	return o_matrix;
+}
+
+
+inline Matrix4 Matrix4::operator+(const Matrix4 i_matrix) const
+{
+	Matrix4 o_matrix;
+	for (int i = 0; i < 16; i++) {
+		o_matrix.ele[i] = this->ele[i] + i_matrix.ele[i];
+	}
+
+	for (int i = 0; i < 4; i++) {
+		o_matrix.row[i] = Row(o_matrix.ele[i * 4], o_matrix.ele[i * 4 + 1], o_matrix.ele[i * 4 + 2], o_matrix.ele[i * 4 + 3]);
+		o_matrix.col[i] = Collumn(o_matrix.ele[i], o_matrix.ele[i + 4], o_matrix.ele[i + 8], o_matrix.ele[i + 12]);
+	}
+
+	return o_matrix;
+}
+
+inline Matrix4 Matrix4::operator-(const Matrix4 i_matrix) const
+{
+	Matrix4 o_matrix;
+	for (int i = 0; i < 16; i++) {
+		o_matrix.ele[i] = this->ele[i] - i_matrix.ele[i];
+	}
+
+	for (int i = 0; i < 4; i++) {
+		o_matrix.row[i] = Row(o_matrix.ele[i * 4], o_matrix.ele[i * 4 + 1], o_matrix.ele[i * 4 + 2], o_matrix.ele[i * 4 + 3]);
+		o_matrix.col[i] = Collumn(o_matrix.ele[i], o_matrix.ele[i + 4], o_matrix.ele[i + 8], o_matrix.ele[i + 12]);
 	}
 
 	return o_matrix;
@@ -157,6 +225,8 @@ inline void Matrix4::inversion()
 						  + ele[8] * ( ele[1] * ele[6] * ele[15] + ele[2] * ele[7] * ele[13] + ele[3] * ele[5] * ele[14] - ele[3] * ele[6] * ele[13] - ele[2] * ele[5] * ele[15] - ele[1] * ele[7] * ele[14]) +
 						  - ele[12] * ( ele[1] * ele[6] * ele[11] + ele[2] * ele[7] * ele[9] + ele[3] * ele[5] * ele[10] - ele[3] * ele[6] * ele[9] - ele[2] * ele[5] * ele[11] - ele[1] * ele[7] * ele[10]);
 
+	assert(absoluteValue != 0);
+
 	Matrix4 tmp;
 
 	tmp.ele[0] = ele[5] * ele[10] * ele[15] + ele[6] * ele[11] * ele[13] + ele[7] * ele[9] * ele[14] - ele[7] * ele[10] * ele[13] - ele[6] * ele[9] * ele[15] - ele[5] * ele[11] * ele[14];
@@ -194,12 +264,12 @@ inline void Matrix4::inversion()
 		tmp.ele[i] =  tmp.ele[i] / absoluteValue;
 	}
 
+	*this = tmp;
+
 	for (int i = 0; i < 4; i++) {
 		row[i] = Row(ele[i * 4], ele[i * 4 + 1], ele[i * 4 + 2], ele[i * 4 + 3]);
 		col[i] = Collumn(ele[i], ele[i + 4], ele[i + 8], ele[i + 12]);
 	}
-
-	*this = tmp;
 
 	return;
 }
@@ -207,4 +277,47 @@ inline void Matrix4::inversion()
 inline void Matrix4::show() {
 	DEBUG_PRINT("{%f,%f,%f,%f,\n     %f,%f,%f,%f,\n     %f,%f,%f,%f,\n     %f,%f,%f,%f}"
 		,ele[0], ele[1], ele[2], ele[3], ele[4], ele[5], ele[6], ele[7], ele[8], ele[9], ele[10], ele[11], ele[12], ele[13], ele[14], ele[15]);
+}
+
+inline Matrix4 Matrix4::Translation(float i_x, float i_y, float i_z)
+{
+	Matrix4 o_matrix;
+	o_matrix.ele[0] = 1;
+	o_matrix.ele[5] = 1;
+	o_matrix.ele[10] = 1;
+	o_matrix.ele[15] = 1;
+
+	o_matrix.ele[3] = i_x;
+	o_matrix.ele[7] = i_y;
+	o_matrix.ele[11] = i_z;
+	return o_matrix;
+}
+
+inline Matrix4 Matrix4::Roll(float)
+{
+	Matrix4 o_matrix;
+	return o_matrix;
+}
+
+inline Matrix4 Matrix4::Pitch(float)
+{
+	Matrix4 o_matrix;
+	return o_matrix;
+}
+
+inline Matrix4 Matrix4::Yaw(float)
+{
+	Matrix4 o_matrix;
+	return o_matrix;
+}
+
+inline Matrix4 Matrix4::Scaling(float i_float)
+{
+	Matrix4 o_matrix;
+	o_matrix.ele[0] = i_float;
+	o_matrix.ele[5] = i_float;
+	o_matrix.ele[10] = i_float;
+	o_matrix.ele[15] = 1;
+
+	return o_matrix;
 }
