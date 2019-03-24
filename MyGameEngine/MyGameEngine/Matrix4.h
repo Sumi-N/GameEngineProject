@@ -1,8 +1,14 @@
 #pragma once
+
+#define _USE_MATH_DEFINES
+
+#include "Vector3D.h"
 #include "Vector4D.h"
 #include "DebugLog.h"
+
 #include <assert.h>
 #include <array>
+#include <math.h>
 
 class Matrix4 
 {
@@ -39,11 +45,11 @@ public:
 	void show();
 
 	static Matrix4 Translation(float, float, float);
-	// Too lazy to implement http://planning.cs.uiuc.edu/node102.html
 	static Matrix4 Roll(float);
 	static Matrix4 Pitch(float);
 	static Matrix4 Yaw(float);
 	static Matrix4 Scaling(float);
+	static Matrix4 Roataion(float, float, float);
 
 private:
 	float ele[16];
@@ -154,7 +160,6 @@ inline Matrix4 operator/(const Matrix4 & i_matrix, const float i_float)
 	}
 	return o_matrix;
 }
-
 
 inline Matrix4 Matrix4::operator+(const Matrix4 i_matrix) const
 {
@@ -290,24 +295,69 @@ inline Matrix4 Matrix4::Translation(float i_x, float i_y, float i_z)
 	o_matrix.ele[3] = i_x;
 	o_matrix.ele[7] = i_y;
 	o_matrix.ele[11] = i_z;
+
+	for (int i = 0; i < 4; i++) {
+		o_matrix.row[i] = Row(o_matrix.ele[i * 4], o_matrix.ele[i * 4 + 1], o_matrix.ele[i * 4 + 2], o_matrix.ele[i * 4 + 3]);
+		o_matrix.col[i] = Collumn(o_matrix.ele[i], o_matrix.ele[i + 4], o_matrix.ele[i + 8], o_matrix.ele[i + 12]);
+	}
+
 	return o_matrix;
 }
 
-inline Matrix4 Matrix4::Roll(float)
+inline Matrix4 Matrix4::Roll(float i_degree)
 {
 	Matrix4 o_matrix;
+	float radian = i_degree * 2 * static_cast<float>(M_PI) / 360;
+	o_matrix.ele[5] = cosf(radian);
+	o_matrix.ele[6] = -sinf(radian);
+	o_matrix.ele[9] = sinf(radian);
+	o_matrix.ele[10] = cosf(radian);
+	o_matrix.ele[0] = 1;
+	o_matrix.ele[15] = 1;
+
+	for (int i = 0; i < 4; i++) {
+		o_matrix.row[i] = Row(o_matrix.ele[i * 4], o_matrix.ele[i * 4 + 1], o_matrix.ele[i * 4 + 2], o_matrix.ele[i * 4 + 3]);
+		o_matrix.col[i] = Collumn(o_matrix.ele[i], o_matrix.ele[i + 4], o_matrix.ele[i + 8], o_matrix.ele[i + 12]);
+	}
+
 	return o_matrix;
 }
 
-inline Matrix4 Matrix4::Pitch(float)
+inline Matrix4 Matrix4::Pitch(float i_degree)
 {
 	Matrix4 o_matrix;
+	float radian = i_degree * 2 * static_cast<float>(M_PI) / 360;
+	o_matrix.ele[0] = cosf(radian);
+	o_matrix.ele[2] = sinf(radian);
+	o_matrix.ele[8] = -sinf(radian);
+	o_matrix.ele[10] = cosf(radian);
+	o_matrix.ele[5] = 1;
+	o_matrix.ele[15] = 1;
+
+	for (int i = 0; i < 4; i++) {
+		o_matrix.row[i] = Row(o_matrix.ele[i * 4], o_matrix.ele[i * 4 + 1], o_matrix.ele[i * 4 + 2], o_matrix.ele[i * 4 + 3]);
+		o_matrix.col[i] = Collumn(o_matrix.ele[i], o_matrix.ele[i + 4], o_matrix.ele[i + 8], o_matrix.ele[i + 12]);
+	}
+
 	return o_matrix;
 }
 
-inline Matrix4 Matrix4::Yaw(float)
+inline Matrix4 Matrix4::Yaw(float i_degree)
 {
 	Matrix4 o_matrix;
+	float radian = i_degree * 2 * static_cast<float>(M_PI) / 360;
+	o_matrix.ele[0] = cosf(radian);
+	o_matrix.ele[1] = -sinf(radian);
+	o_matrix.ele[4] = sinf(radian);
+	o_matrix.ele[5] = cosf(radian);
+	o_matrix.ele[10] = 1;
+	o_matrix.ele[15] = 1;
+
+	for (int i = 0; i < 4; i++) {
+		o_matrix.row[i] = Row(o_matrix.ele[i * 4], o_matrix.ele[i * 4 + 1], o_matrix.ele[i * 4 + 2], o_matrix.ele[i * 4 + 3]);
+		o_matrix.col[i] = Collumn(o_matrix.ele[i], o_matrix.ele[i + 4], o_matrix.ele[i + 8], o_matrix.ele[i + 12]);
+	}
+
 	return o_matrix;
 }
 
@@ -318,6 +368,11 @@ inline Matrix4 Matrix4::Scaling(float i_float)
 	o_matrix.ele[5] = i_float;
 	o_matrix.ele[10] = i_float;
 	o_matrix.ele[15] = 1;
+
+	for (int i = 0; i < 4; i++) {
+		o_matrix.row[i] = Row(o_matrix.ele[i * 4], o_matrix.ele[i * 4 + 1], o_matrix.ele[i * 4 + 2], o_matrix.ele[i * 4 + 3]);
+		o_matrix.col[i] = Collumn(o_matrix.ele[i], o_matrix.ele[i + 4], o_matrix.ele[i + 8], o_matrix.ele[i + 12]);
+	}
 
 	return o_matrix;
 }
