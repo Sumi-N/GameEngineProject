@@ -14,4 +14,7 @@ public:
 	GLib::Sprites::Sprite * sprite;
 	GLib::Point2D offset;
 	Engine::ObservingPointer<Object3D> pointer;
+
+private:
+	void PassAABBInfo(float, float);
 };

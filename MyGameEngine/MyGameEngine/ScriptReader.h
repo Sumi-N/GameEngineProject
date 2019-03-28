@@ -143,6 +143,7 @@ inline Object3D * System::ScriptReader::CreateActor(const char * i_filename) {
 	typecheck = lua_gettable(pluastate, -2);
 	if (typecheck == LUA_TTABLE) {
 		SpriteRenderer srend;
+		srend.pointer = objp->pointer;
 
 		lua_pushstring(pluastate, "path");
 		typecheck = lua_gettable(pluastate, -2);
@@ -150,7 +151,6 @@ inline Object3D * System::ScriptReader::CreateActor(const char * i_filename) {
 		srend.createSprite(lua_tostring(pluastate, -1));
 		lua_pop(pluastate, 2);
 
-		srend.pointer = objp->pointer;
 		Engine::EntityMaster::SRenderer->push(srend);
 	}
 	else if (typecheck != LUA_TNIL) {

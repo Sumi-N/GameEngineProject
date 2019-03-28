@@ -1,4 +1,5 @@
 #include "SpriteRenderer.h"
+#include "DebugLog.h"
 #include <assert.h>
 #include <stdio.h>
 
@@ -44,6 +45,8 @@ bool SpriteRenderer::createSprite(const char * i_pFilename)
 	bool result = GLib::GetDimensions(pTexture, width, height, depth);
 	assert(result == true);
 	assert((width > 0) && (height > 0));
+
+	PassAABBInfo(static_cast<float>(width),static_cast<float>(height));
 
 	// Define the sprite edges
 	GLib::Sprites::SpriteEdges	Edges = { -float(width / 2.0f), float(height), float(width / 2.0f), 0.0f };
@@ -96,4 +99,11 @@ void * SpriteRenderer::loadFile(const char * i_pFilename, size_t & o_sizeFile)
 	o_sizeFile = FileSize;
 
 	return pBuffer;
+}
+
+void SpriteRenderer::PassAABBInfo(float i_width, float i_height)
+{
+	pointer->aabb.center = Vector3D(pointer->pos.x, pointer->pos.y + i_height/2 , pointer->pos.z);
+	pointer->aabb.extent = Vector3D(i_width / 2, i_height / 2, 0);
+	DEBUG_PRINT("%f,%f,%f",pointer->aabb.center.x, pointer->aabb.center.y, pointer->aabb.center.z);
 }

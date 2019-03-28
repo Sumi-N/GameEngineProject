@@ -1,6 +1,6 @@
 Object3D = {
     name = "GoodGuy",
-    initial_position = { -220, -100 },
+    initial_position = { -0, -0 },
 
     Physics2D_settings = {
         mass = 1.0,
