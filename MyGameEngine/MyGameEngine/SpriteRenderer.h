@@ -10,11 +10,14 @@ public:
 	void release();
 	bool createSprite(const char * i_pFilename);
 	void * loadFile(const char*, size_t &);
+
 public:
 	GLib::Sprites::Sprite * sprite;
 	GLib::Point2D offset;
 	Engine::ObservingPointer<Object3D> pointer;
+	void PassAABBInfo();
 
 private:
-	void PassAABBInfo(float, float);
+	float spriteWidth;
+	float spriteHeight;
 };

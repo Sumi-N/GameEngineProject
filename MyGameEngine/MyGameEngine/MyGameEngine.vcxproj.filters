@@ -46,6 +46,12 @@
     <Filter Include="Regacy\System">
       <UniqueIdentifier>{7d163a49-692e-4c9f-98e7-d544da68145a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\EntitySystem\EntitySubSystem">
+      <UniqueIdentifier>{57ec68ef-51ca-4d03-b790-3e96f1af717c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Utility">
+      <UniqueIdentifier>{6bf8538c-f347-40a4-be60-74daceed27c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DebugLog.cpp">
@@ -63,6 +69,9 @@
     <ClCompile Include="SpriteRenderer.cpp">
       <Filter>Objects\Components</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionDetection.cpp">
+      <Filter>System\EntitySystem\EntitySubSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector2D.h">
@@ -77,17 +86,11 @@
     <ClInclude Include="HeapManagerProxy.h">
       <Filter>System\HeapManager</Filter>
     </ClInclude>
-    <ClInclude Include="Time.h">
-      <Filter>System</Filter>
-    </ClInclude>
     <ClInclude Include="SpriteRenderer.h">
       <Filter>Objects\Components</Filter>
     </ClInclude>
     <ClInclude Include="SmartPointers.h">
       <Filter>DataStructure</Filter>
-    </ClInclude>
-    <ClInclude Include="InputMap.h">
-      <Filter>System</Filter>
     </ClInclude>
     <ClInclude Include="Allocator.h">
       <Filter>System\HeapManager</Filter>
@@ -128,9 +131,6 @@
     <ClInclude Include="Physics3D.h">
       <Filter>Objects\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Object3DPointer.h">
-      <Filter>System\EntitySystem</Filter>
-    </ClInclude>
     <ClInclude Include="Object2DMaster.h">
       <Filter>Regacy\System</Filter>
     </ClInclude>
@@ -148,6 +148,18 @@
     </ClInclude>
     <ClInclude Include="Matrix4_UnitTest.h">
       <Filter>UnitTests</Filter>
+    </ClInclude>
+    <ClInclude Include="InputMap.h">
+      <Filter>System\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>System\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionDetection.h">
+      <Filter>System\EntitySystem\EntitySubSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3DPointer.h">
+      <Filter>System\EntitySystem\EntitySubSystem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
