@@ -28,7 +28,6 @@ extern bool HeapManager_UnitTest();
 #include "Matrix4_UnitTest.h"
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmdLine, int i_nCmdShow) {
-	UnitTest::MatrixUnitTest();
 
 	// IMPORTANT: first we need to initialize GLib
 	bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 1200, 600);

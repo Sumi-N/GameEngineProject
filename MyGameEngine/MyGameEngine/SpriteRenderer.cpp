@@ -46,6 +46,7 @@ bool SpriteRenderer::createSprite(const char * i_pFilename)
 	assert(result == true);
 	assert((width > 0) && (height > 0));
 
+	//Pass the information to object component for collision detection
 	PassAABBInfo(static_cast<float>(width),static_cast<float>(height));
 
 	// Define the sprite edges
