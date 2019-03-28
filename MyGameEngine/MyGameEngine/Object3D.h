@@ -5,9 +5,15 @@
 
 class Object3D
 {
+	struct AABB {
+		Vector3D center;
+		Vector3D extent;
+	};
+
 public:
 	Vector3D pos;
 	std::string name;
+	AABB aabb;
 
 	void info() const;
 };

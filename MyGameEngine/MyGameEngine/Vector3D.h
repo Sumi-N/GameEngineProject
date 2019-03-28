@@ -10,6 +10,7 @@ public:
 
 	Vector3D();
 	Vector3D(const Vector3D &);
+	Vector3D(const float, const float, const float);
 	~Vector3D();
 
 	Vector3D & operator=(const Vector3D);
@@ -35,6 +36,13 @@ inline Vector3D::Vector3D(const Vector3D & i_vec) {
 	this->x = i_vec.x;
 	this->y = i_vec.y;
 	this->z = i_vec.z;
+}
+
+inline Vector3D::Vector3D(const float i_x, const float i_y, const float i_z)
+{
+	this->x = i_x;
+	this->y = i_y;
+	this->z = i_z;
 }
 
 inline Vector3D::~Vector3D() {
