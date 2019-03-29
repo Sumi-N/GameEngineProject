@@ -186,7 +186,7 @@ inline Object3D * System::ScriptReader::CreateActor(const char * i_filename) {
 		srend.pointer = objp->pointer;
 		Engine::EntityMaster::SRenderer->push(srend);
 
-		// Just for temporaly, pass the AABB information
+		// Just for temporal solution, pass the AABB information
 		srend.PassAABBInfo();
 	}
 	else if (typecheck != LUA_TNIL) {

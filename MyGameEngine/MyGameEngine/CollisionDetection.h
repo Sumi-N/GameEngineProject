@@ -12,6 +12,7 @@ namespace Engine {
 		static Boundary TranslateToLocal(Physics3D *, Physics3D *);
 		static bool CastToXAxis(Physics3D *, Boundary);
 		static bool CastToYAxis(Physics3D *, Boundary);
+		static void Collide(Physics3D *, Physics3D *);
 	};
 }
 

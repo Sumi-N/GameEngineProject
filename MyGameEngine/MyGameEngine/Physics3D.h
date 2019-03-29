@@ -45,11 +45,11 @@ inline void Physics3D::addForce(Vector3D i_force) {
 
 inline void Physics3D::update(float i_dt) {
 	assert(pointer);
-	acc = acc - vel * air_fric;
+	acc = acc - air_fric * vel;
 	old_vel = vel;
-	vel = vel + acc * i_dt;
+	vel = vel + i_dt * acc;
 	vel = (vel + old_vel) / 2;
-	pointer->pos = pointer->pos + vel * i_dt;
+	pointer->pos = pointer->pos + i_dt * vel;
 
 	//DEBUG_PRINT("the old velocity is %f", old_vel.x);
 	//DEBUG_PRINT("the new velocity is %f", vel.x);

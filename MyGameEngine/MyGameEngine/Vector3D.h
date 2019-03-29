@@ -17,7 +17,7 @@ public:
 	Vector3D operator+(const Vector3D);
 	Vector3D operator-(const Vector3D);
 	Vector3D operator*(const Vector3D);
-	Vector3D operator*(const float);
+	friend Vector3D operator*(const float, const Vector3D);
 	Vector3D operator/(const Vector3D);
 	Vector3D operator/(const float);
 	bool operator==(const Vector3D) const;
@@ -77,12 +77,12 @@ inline Vector3D Vector3D::operator*(const Vector3D) {
 
 }
 
-inline Vector3D Vector3D::operator*(const float i_float)
+inline Vector3D operator*(const float i_float, const Vector3D i_vector)
 {
 	Vector3D o_vec;
-	o_vec.x = this->x * i_float;
-	o_vec.y = this->y * i_float;
-	o_vec.z = this->z * i_float;
+	o_vec.x = i_vector.x * i_float;
+	o_vec.y = i_vector.y * i_float;
+	o_vec.z = i_vector.z * i_float;
 	return o_vec;
 }
 

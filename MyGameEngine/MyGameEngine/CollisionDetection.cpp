@@ -20,6 +20,7 @@ void Engine::CollisionDetection::For2D(Physics3D * i_phyA, Physics3D * i_phyB)
 			if (CastToXAxis(i_phyB, ainb)) {
 				if (CastToYAxis(i_phyB, ainb)) {
 					DEBUG_PRINT("IT'S COLLIGIND!!!!");
+					Collide(i_phyA, i_phyB);
 					return;
 				}
 				else {
@@ -47,9 +48,9 @@ void Engine::CollisionDetection::UpdateBoundary(Physics3D * i_phy)
 {
 	Engine::OwningPointer<Object3D> * obj = &(i_phy->pointer);
 	(*obj)->boundary.ur = Matrix4::Yaw((*obj)->rot.z) * ((*obj)->aabb.extent_width + (*obj)->aabb.extent_height) + (*obj)->aabb.extent_height + (*obj)->pos;
-	(*obj)->boundary.ul = Matrix4::Yaw((*obj)->rot.z) * ((*obj)->aabb.extent_width * -1 + (*obj)->aabb.extent_height) + (*obj)->aabb.extent_height + (*obj)->pos;
-	(*obj)->boundary.lr = Matrix4::Yaw((*obj)->rot.z) * ((*obj)->aabb.extent_width + (*obj)->aabb.extent_height * -1) + (*obj)->aabb.extent_height + (*obj)->pos;
-	(*obj)->boundary.ll = Matrix4::Yaw((*obj)->rot.z) * ((*obj)->aabb.extent_width * -1 + (*obj)->aabb.extent_height * -1) + (*obj)->aabb.extent_height + (*obj)->pos;
+	(*obj)->boundary.ul = Matrix4::Yaw((*obj)->rot.z) * ( -1 * (*obj)->aabb.extent_width + (*obj)->aabb.extent_height) + (*obj)->aabb.extent_height + (*obj)->pos;
+	(*obj)->boundary.lr = Matrix4::Yaw((*obj)->rot.z) * ((*obj)->aabb.extent_width + -1 * (*obj)->aabb.extent_height) + (*obj)->aabb.extent_height + (*obj)->pos;
+	(*obj)->boundary.ll = Matrix4::Yaw((*obj)->rot.z) * ( -1 * (*obj)->aabb.extent_width + -1 * (*obj)->aabb.extent_height) + (*obj)->aabb.extent_height + (*obj)->pos;
 }
 
 Boundary Engine::CollisionDetection::TranslateToLocal(Physics3D * i_base, Physics3D *  i_translated)
@@ -122,4 +123,12 @@ bool Engine::CollisionDetection::CastToYAxis(Physics3D * i_phy, Boundary i_boun)
 		return true;
 	else
 		return false;
+}
+
+void Engine::CollisionDetection::Collide(Physics3D * i_phyA, Physics3D * i_phyB)
+{
+	Vector3D tmp_vel_A = ((i_phyA->mass - i_phyB->mass) * i_phyA->vel + 2 * i_phyB->mass * i_phyB->vel) / (i_phyA->mass + i_phyB->mass);
+	Vector3D tmp_vel_B = ((i_phyB->mass - i_phyA->mass) * i_phyB->vel + 2 * i_phyA->mass * i_phyA->vel) / (i_phyA->mass + i_phyB->mass);
+	i_phyA->vel = tmp_vel_A;
+	i_phyB->vel = tmp_vel_B;
 }
