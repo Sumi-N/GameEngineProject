@@ -1,16 +1,16 @@
 #include "CollisionDetection.h"
 #include "Matrix4.h"
 
-void Engine::CollisionDetection::Update(float dt, Physics3D * i_phyA, Physics3D * i_phyB)
+void Engine::CollisionDetection::Update(const float dt, Physics3D * i_phyA, Physics3D * i_phyB)
 {
-	For2D(i_phyA,i_phyB);
+	For2D(dt, i_phyA,i_phyB);
 }
 
-void Engine::CollisionDetection::For2D(Physics3D * i_phyA, Physics3D * i_phyB)
+void Engine::CollisionDetection::For2D(const float dt, Physics3D * i_phyA, Physics3D * i_phyB)
 {
 	// Update boundary information
-	UpdateBoundary(i_phyA);
-	UpdateBoundary(i_phyB);
+	i_phyA->pointer->updateBoundary();
+	i_phyB->pointer->updateBoundary();
 
 	// Collision Detection
 	Boundary bina = TranslateToLocal(i_phyA, i_phyB);
@@ -44,15 +44,6 @@ void Engine::CollisionDetection::For2D(Physics3D * i_phyA, Physics3D * i_phyB)
 	}
 }
 
-void Engine::CollisionDetection::UpdateBoundary(Physics3D * i_phy)
-{
-	Engine::OwningPointer<Object3D> * obj = &(i_phy->pointer);
-	(*obj)->boundary.ur = Matrix4::Yaw((*obj)->rot.z) * ((*obj)->aabb.extent_width + (*obj)->aabb.extent_height) + (*obj)->aabb.extent_height + (*obj)->pos;
-	(*obj)->boundary.ul = Matrix4::Yaw((*obj)->rot.z) * ( -1 * (*obj)->aabb.extent_width + (*obj)->aabb.extent_height) + (*obj)->aabb.extent_height + (*obj)->pos;
-	(*obj)->boundary.lr = Matrix4::Yaw((*obj)->rot.z) * ((*obj)->aabb.extent_width + -1 * (*obj)->aabb.extent_height) + (*obj)->aabb.extent_height + (*obj)->pos;
-	(*obj)->boundary.ll = Matrix4::Yaw((*obj)->rot.z) * ( -1 * (*obj)->aabb.extent_width + -1 * (*obj)->aabb.extent_height) + (*obj)->aabb.extent_height + (*obj)->pos;
-}
-
 Boundary Engine::CollisionDetection::TranslateToLocal(Physics3D * i_base, Physics3D *  i_translated)
 {
 	Engine::OwningPointer<Object3D> * obj_base = &(i_base->pointer);
@@ -73,6 +64,16 @@ Boundary Engine::CollisionDetection::TranslateToLocal(Physics3D * i_base, Physic
 	boundary_translated.ll = boundary_translated.ll - ((*obj_base)->aabb.extent_height + (*obj_base)->pos);
 
 	return boundary_translated;
+}
+
+void Engine::CollisionDetection::CordinationTranslation(const float dt, Physics3D * phy_base, Physics3D * phy_translated, Boundary & translated_before, Boundary & translated_after)
+{
+	Engine::OwningPointer<Object3D> * obj_base = &(phy_base->pointer);
+	Engine::OwningPointer<Object3D> * obj_translated = &(phy_translated->pointer);
+}
+
+void Engine::CollisionDetection::CastToAxis(Axis, Physics3D *, Physics3D *, Vector2D<float, float>&, Vector2D<float, float>&)
+{
 }
 
 bool Engine::CollisionDetection::CastToXAxis(Physics3D * i_phy, Boundary i_boun)
@@ -123,6 +124,11 @@ bool Engine::CollisionDetection::CastToYAxis(Physics3D * i_phy, Boundary i_boun)
 		return true;
 	else
 		return false;
+}
+
+bool Engine::CollisionDetection::CompareMinMax(const float, Vector2D<float, float>, Vector2D<float, float>, Vector2D<float, float>, Vector2D<float, float>)
+{
+	return false;
 }
 
 void Engine::CollisionDetection::Collide(Physics3D * i_phyA, Physics3D * i_phyB)
