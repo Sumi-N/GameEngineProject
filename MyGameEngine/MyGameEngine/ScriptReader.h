@@ -70,7 +70,32 @@ inline Object3D * System::ScriptReader::CreateActor(const char * i_filename) {
 	float y = static_cast<float>(lua_tonumber(pluastate, -1));
 	lua_pop(pluastate, 1);
 
-	obj->pos.set(x, y, 0);
+	lua_next(pluastate, -2);
+	float z = static_cast<float>(lua_tonumber(pluastate, -1));
+	lua_pop(pluastate, 1);
+
+	obj->pos.set(x, y, z);
+	lua_pop(pluastate, 2);
+
+	//Get Rotation variable
+	lua_pushstring(pluastate, "initial_rotation");
+	typecheck = lua_gettable(pluastate, -2);
+	assert(typecheck == LUA_TTABLE);
+
+	lua_pushnil(pluastate);
+	lua_next(pluastate, -2);
+	float roll = static_cast<float>(lua_tonumber(pluastate, -1));
+	lua_pop(pluastate, 1);
+
+	lua_next(pluastate, -2);
+	float pitch = static_cast<float>(lua_tonumber(pluastate, -1));
+	lua_pop(pluastate, 1);
+
+	lua_next(pluastate, -2);
+	float yaw = static_cast<float>(lua_tonumber(pluastate, -1));
+	lua_pop(pluastate, 1);
+
+	obj->rot.set(roll, pitch, yaw);
 	lua_pop(pluastate, 2);
 
 	//Get Physics Component
@@ -110,7 +135,11 @@ inline Object3D * System::ScriptReader::CreateActor(const char * i_filename) {
 		float vel_y = static_cast<float>(lua_tonumber(pluastate, -1));
 		lua_pop(pluastate, 1);
 
-		phy->vel.set(vel_x, vel_y, 0);
+		lua_next(pluastate, -2);
+		float vel_z = static_cast<float>(lua_tonumber(pluastate, -1));
+		lua_pop(pluastate, 1);
+
+		phy->vel.set(vel_x, vel_y, vel_z);
 		lua_pop(pluastate, 1);
 
 		lua_pop(pluastate, 1);
@@ -129,7 +158,11 @@ inline Object3D * System::ScriptReader::CreateActor(const char * i_filename) {
 		float acc_y = static_cast<float>(lua_tonumber(pluastate, -1));
 		lua_pop(pluastate, 1);
 
-		phy->acc.set(acc_x, acc_y,0);
+		lua_next(pluastate, -2);
+		float acc_z = static_cast<float>(lua_tonumber(pluastate, -1));
+		lua_pop(pluastate, 1);
+
+		phy->acc.set(acc_x, acc_y, acc_z);
 		lua_pop(pluastate, 1);
 
 		lua_pop(pluastate, 1);

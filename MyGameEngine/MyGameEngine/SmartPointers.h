@@ -52,6 +52,7 @@ namespace Engine {
 		// Copy Constructor
 		OwningPointer(const OwningPointer & i_other) {
 			this->data = i_other.data;
+			this->ref = i_other.ref;
 			i_other.ref->OwnerReferences++;
 		};
 
@@ -61,6 +62,7 @@ namespace Engine {
 		template<class U>
 		OwningPointer(const OwningPointer<U> & i_other) {
 			this->data = i_other.data;
+			this->ref = i_other.ref;
 			i_other.ref->OwnerReferences++;
 		};
 

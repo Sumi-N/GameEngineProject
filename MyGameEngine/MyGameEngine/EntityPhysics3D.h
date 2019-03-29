@@ -34,9 +34,10 @@ inline void Engine::EntityPhysics3D::update(float dt) {
 
 	// Physics for collision
 	for (auto it1 = list.begin(); it1 != list.end(); ++it1) {
+
 		for (auto it2 = it1; it2 != list.end(); ++it2) {
 			if (it1 == it2) continue;
-			Engine::CollisionDetection::For2D(*it1, *it2);
+			Engine::CollisionDetection::Update(dt, *it1, *it2);
 		}
 	}
 }

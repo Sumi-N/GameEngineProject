@@ -34,6 +34,7 @@ public:
 	Matrix4(const Matrix4 &);
 
 	Vector4D operator*(const Vector4D) const;
+	Vector3D operator*(const Vector3D) const;
 	Matrix4 operator*(const Matrix4) const;
 	friend Matrix4 operator*(const float, const Matrix4 &);
 	friend Matrix4 operator/(const Matrix4 &, const float);
@@ -103,6 +104,14 @@ inline Vector4D Matrix4::operator*(const Vector4D i_vector) const
 	o_vector.z = ele[8] * i_vector.x + ele[9] * i_vector.y + ele[10] * i_vector.z + ele[11] * i_vector.w;
 	o_vector.w = ele[12] * i_vector.x + ele[13] * i_vector.y + ele[14] * i_vector.z + ele[15] * i_vector.w;
 	return o_vector;
+}
+
+inline Vector3D Matrix4::operator*(const Vector3D i_vector) const
+{
+	Vector4D tmp_vec4d = Vector4D(i_vector.x, i_vector.y, i_vector.z, 1);
+	tmp_vec4d = (*this) * tmp_vec4d;
+	Vector3D o_vec = Vector3D(tmp_vec4d.x, tmp_vec4d.y, tmp_vec4d.z);
+	return o_vec;
 }
 
 inline Matrix4 Matrix4::operator*(const Matrix4 i_matrix) const

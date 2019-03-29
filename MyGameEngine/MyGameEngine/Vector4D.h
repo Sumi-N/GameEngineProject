@@ -10,6 +10,7 @@ public:
 
 	Vector4D();
 	Vector4D(const Vector4D &);
+	Vector4D(const float, const float, const float, const float);
 	~Vector4D();
 
 	Vector4D & operator=(const Vector4D);
@@ -37,6 +38,14 @@ inline Vector4D::Vector4D(const Vector4D & i_vec) {
 	this->y = i_vec.y;
 	this->z = i_vec.z;
 	this->w = i_vec.w;
+}
+
+inline Vector4D::Vector4D(const float i_x, const float i_y, const float i_z, const float i_w)
+{
+	this->x = i_x;
+	this->y = i_y;
+	this->z = i_z;
+	this->w = i_w;
 }
 
 inline Vector4D::~Vector4D() {
