@@ -25,8 +25,8 @@ namespace Engine {
 		static void CordinationTranslation(const float, const float, Physics3D *, Boundary &, Boundary &);
 		static void CastToAxis(Axis, Boundary &, Boundary &, Vector2D<float, float> &, Vector2D<float, float> &);
 		static void GetMinMax(Vector2D<float,float> &, float, float, float, float);
-		static bool CheckOverlapping(Vector2D<float,float>,Vector2D<float,float>);
-		static float CalculateCollisionTiming(const float,Vector2D<float,float>, Vector2D<float,float>, Vector2D<float, float>, Vector2D<float, float>);
+		static bool CheckOverlapping(Vector2D<float,float>,Vector2D<float,float>, Vector2D<float,float>);
+		static float CalculateCollisionTiming(const float,Vector2D<float,float>, Vector2D<float, float>, Vector2D<float, float>);
 		static void Collide(Physics3D *, Physics3D *);
 
 		///////////Legacy///////////
