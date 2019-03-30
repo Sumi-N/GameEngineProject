@@ -51,6 +51,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player1.lua");
 		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player2.lua");
 		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player3.lua");
+		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player4.lua");
 
 		bool bQuit = false;
 		do

@@ -27,10 +27,6 @@ inline void Engine::EntityPhysics3D::push(Physics3D * i_component) {
 }
 
 inline void Engine::EntityPhysics3D::update(float dt) {
-	// Physics for velocity
-	for (auto it = list.begin(); it != list.end(); ++it) {
-		(*it)->update(dt);
-	}
 
 	// Physics for collision
 	for (auto it1 = list.begin(); it1 != list.end(); ++it1) {
@@ -39,6 +35,11 @@ inline void Engine::EntityPhysics3D::update(float dt) {
 			if (it1 == it2) continue;
 			Engine::CollisionDetection::Update(dt, *it1, *it2);
 		}
+	}
+
+	// Physics for velocity
+	for (auto it = list.begin(); it != list.end(); ++it) {
+		(*it)->update(dt);
 	}
 }
 

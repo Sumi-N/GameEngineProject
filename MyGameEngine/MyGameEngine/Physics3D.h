@@ -12,7 +12,9 @@ public:
 	~Physics3D();
 
 	void addForce(Vector3D);
-	void update(float i_dt);
+	void update(const float i_dt);
+	void updatePosition(const float);
+	void updateRotation(const float);
 
 public:
 	Engine::OwningPointer<Object3D> pointer;
@@ -22,6 +24,8 @@ public:
 	float air_fric;
 	Vector3D vel;
 	Vector3D acc;
+	Vector3D ang_vel;
+	Vector3D ang_acc;
 
 private:
 	Vector3D old_vel;
@@ -32,6 +36,8 @@ inline Physics3D::Physics3D() {
 	air_fric = 0.02f;
 	vel.set(0, 0, 0);
 	acc.set(0, 0, 0);
+	ang_vel.set(0, 0, 0);
+	ang_acc.set(0, 0, 0);
 }
 
 inline Physics3D::~Physics3D() {
@@ -43,13 +49,11 @@ inline void Physics3D::addForce(Vector3D i_force) {
 	acc = acc + i_force / mass;
 }
 
-inline void Physics3D::update(float i_dt) {
+inline void Physics3D::update(const float i_dt) {
 	assert(pointer);
-	acc = acc - air_fric * vel;
-	old_vel = vel;
-	vel = vel + i_dt * acc;
-	vel = (vel + old_vel) / 2;
-	pointer->pos = pointer->pos + i_dt * vel;
+
+	updatePosition(i_dt);
+	updateRotation(i_dt);
 
 	//DEBUG_PRINT("the old velocity is %f", old_vel.x);
 	//DEBUG_PRINT("the new velocity is %f", vel.x);
@@ -58,4 +62,17 @@ inline void Physics3D::update(float i_dt) {
 
 	acc.set(0, 0, 0);
 	return;
+}
+
+inline void Physics3D::updatePosition(const float i_dt)
+{
+	acc = acc - air_fric * vel;
+	old_vel = vel;
+	vel = vel + i_dt * acc;
+	vel = (vel + old_vel) / 2;
+	pointer->pos = pointer->pos + i_dt * vel;
+}
+
+inline void Physics3D::updateRotation(const float)
+{
 }

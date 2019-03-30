@@ -1,12 +1,12 @@
 #include "CollisionDetection.h"
 #include "Matrix4.h"
 
-void Engine::CollisionDetection::Update(const float dt, Physics3D * i_phyA, Physics3D * i_phyB)
+void Engine::CollisionDetection::Update(const float i_dt, Physics3D * i_phyA, Physics3D * i_phyB)
 {
-	For2D(dt, i_phyA,i_phyB);
+	For2D(i_dt, i_phyA,i_phyB);
 }
 
-void Engine::CollisionDetection::For2D(const float dt, Physics3D * i_phyA, Physics3D * i_phyB)
+void Engine::CollisionDetection::For2D(const float i_dt, Physics3D * i_phyA, Physics3D * i_phyB)
 {
 	// Update boundary information
 	i_phyA->pointer->updateBoundary();
@@ -44,6 +44,93 @@ void Engine::CollisionDetection::For2D(const float dt, Physics3D * i_phyA, Physi
 	}
 }
 
+void Engine::CollisionDetection::For2D2(const float i_ddt, const float i_dt, Physics3D * i_phyA, Physics3D * i_phyB)
+{
+	Boundary bounA_now;
+	Boundary bounA_future;
+	Boundary bounB_now;
+	Boundary bounB_future;
+
+	// Update boundary information
+	UpdateBoundary(i_ddt, i_dt, i_phyA, bounA_now, bounA_future);
+	UpdateBoundary(i_ddt, i_dt, i_phyB, bounB_now, bounB_future);
+
+	// Tranlate the one's cordination to the base object's cordination
+	CordinationTranslation(i_ddt, i_dt, i_phyA, bounB_now, bounB_future);
+	CordinationTranslation(i_ddt, i_dt, i_phyB, bounA_now, bounA_future);
+
+	Vector2D<float, float> minmax_X_AinB_now;
+	Vector2D<float, float> minmax_X_AinB_future;
+	Vector2D<float, float> minmax_Y_AinB_now;
+	Vector2D<float, float> minmax_Y_AinB_future;
+
+	
+	Vector2D<float, float> minmax_X_BinA_now;
+	Vector2D<float, float> minmax_X_BinA_future;
+	Vector2D<float, float> minmax_Y_BinA_now;
+	Vector2D<float, float> minmax_Y_BinA_future;
+
+	CastToAxis(X, bounA_now, bounA_future, minmax_X_AinB_now, minmax_X_AinB_future);
+	CastToAxis(Y, bounA_now, bounA_future, minmax_Y_AinB_now, minmax_Y_AinB_future);
+	CastToAxis(X, bounB_now, bounB_future, minmax_X_BinA_now, minmax_X_BinA_future);
+	CastToAxis(Y, bounB_now, bounB_future, minmax_Y_BinA_now, minmax_Y_BinA_future);
+
+	// Collision Detection
+	Boundary bina = TranslateToLocal(i_phyA, i_phyB);
+	Boundary ainb = TranslateToLocal(i_phyB, i_phyA);
+	if (CastToXAxis(i_phyA, bina)) {
+		if (CastToYAxis(i_phyA, bina)) {
+			if (CastToXAxis(i_phyB, ainb)) {
+				if (CastToYAxis(i_phyB, ainb)) {
+					DEBUG_PRINT("IT'S COLLIGIND!!!!");
+					Collide(i_phyA, i_phyB);
+					return;
+				}
+				else {
+					//DEBUG_PRINT("Nop4");
+					return;
+				}
+			}
+			else {
+				//DEBUG_PRINT("Nop3");
+				return;
+			}
+		}
+		else {
+			//DEBUG_PRINT("Nop2");
+			return;
+		}
+	}
+	else {
+		//DEBUG_PRINT("Nop1");
+		return;
+	}
+}
+
+// This update boundary function doesn't consider the rotation of the object for reducing the additional calculation in the later part of collision detection;
+void Engine::CollisionDetection::UpdateBoundary(const float i_ddt, const float i_dt,Physics3D * i_phy, Boundary & o_boun_now, Boundary & o_boun_future)
+{
+	Vector3D center_initial = i_phy->pointer->pos + i_phy->pointer->aabb.extent_height;
+
+	Vector3D center_now = center_initial + i_ddt * i_phy->vel;
+	Vector3D center_future = center_initial + i_dt * i_phy->vel;
+
+	Vector3D width = i_phy->pointer->aabb.extent_width;
+	Vector3D height = i_phy->pointer->aabb.extent_height;
+
+	o_boun_now.ur = center_now +  1 * width +  1 * height;
+	o_boun_now.ul = center_now + -1 * width +  1 * height;
+	o_boun_now.lr = center_now +  1 * width + -1 * height;
+	o_boun_now.ll = center_now + -1 * width + -1 * height;
+
+	o_boun_future.ur = center_future +  1 * width +  1 * height;
+	o_boun_future.ul = center_future + -1 * width +  1 * height;
+	o_boun_future.lr = center_future +  1 * width + -1 * height;
+	o_boun_future.ll = center_future + -1 * width + -1 * height;
+
+	return;
+}
+
 Boundary Engine::CollisionDetection::TranslateToLocal(Physics3D * i_base, Physics3D *  i_translated)
 {
 	Engine::OwningPointer<Object3D> * obj_base = &(i_base->pointer);
@@ -66,14 +153,43 @@ Boundary Engine::CollisionDetection::TranslateToLocal(Physics3D * i_base, Physic
 	return boundary_translated;
 }
 
-void Engine::CollisionDetection::CordinationTranslation(const float dt, Physics3D * phy_base, Physics3D * phy_translated, Boundary & translated_before, Boundary & translated_after)
+void Engine::CollisionDetection::CordinationTranslation(const float i_ddt, const float i_dt,Physics3D * i_phy_base, Boundary & o_boun_translated_now, Boundary & o_boun_translated_future)
 {
-	Engine::OwningPointer<Object3D> * obj_base = &(phy_base->pointer);
-	Engine::OwningPointer<Object3D> * obj_translated = &(phy_translated->pointer);
+	Engine::OwningPointer<Object3D> * obj_base = &(i_phy_base->pointer);
+
+	float rotation_angle_now    = -1 * ((*obj_base)->rot.z);
+	float rotation_angle_future = -1 * ((*obj_base)->rot.z); // This line should be changed onece the rotation update function ih physics3d has done.
+
+	o_boun_translated_now.ur = Matrix4::Yaw(rotation_angle_now) * o_boun_translated_now.ur;
+	o_boun_translated_now.ul = Matrix4::Yaw(rotation_angle_now) * o_boun_translated_now.ul;
+	o_boun_translated_now.lr = Matrix4::Yaw(rotation_angle_now) * o_boun_translated_now.lr;
+	o_boun_translated_now.ll = Matrix4::Yaw(rotation_angle_now) * o_boun_translated_now.ll;
+
+	o_boun_translated_future.ur = Matrix4::Yaw(rotation_angle_future) * o_boun_translated_future.ur;
+	o_boun_translated_future.ul = Matrix4::Yaw(rotation_angle_future) * o_boun_translated_future.ul;
+	o_boun_translated_future.lr = Matrix4::Yaw(rotation_angle_future) * o_boun_translated_future.lr;
+	o_boun_translated_future.ll = Matrix4::Yaw(rotation_angle_future) * o_boun_translated_future.ll;
+
+	Vector3D base_center_initial = (*obj_base)->pos + (*obj_base)->aabb.extent_height;
+	Vector3D base_center_now = base_center_initial + i_ddt * i_phy_base->vel;
+	Vector3D base_center_future = base_center_initial + i_dt * i_phy_base->vel;
+
+	o_boun_translated_now.ur = o_boun_translated_now.ur - base_center_now;
+	o_boun_translated_now.ul = o_boun_translated_now.ul - base_center_now;
+	o_boun_translated_now.lr = o_boun_translated_now.lr - base_center_now;
+	o_boun_translated_now.ll = o_boun_translated_now.ll - base_center_now;
+
+	o_boun_translated_future.ur = o_boun_translated_future.ur - base_center_future;
+	o_boun_translated_future.ul = o_boun_translated_future.ul - base_center_future;
+	o_boun_translated_future.lr = o_boun_translated_future.lr - base_center_future;
+	o_boun_translated_future.ll = o_boun_translated_future.ll - base_center_future;
 }
 
-void Engine::CollisionDetection::CastToAxis(Axis, Physics3D *, Physics3D *, Vector2D<float, float>&, Vector2D<float, float>&)
+void Engine::CollisionDetection::CastToAxis(Axis axis, Boundary & i_boun_now, Boundary & i_boun_future, Vector2D<float, float>& minmax_now, Vector2D<float, float>& minmax_future)
 {
+	if (axis == Axis::X) {
+
+	}
 }
 
 bool Engine::CollisionDetection::CastToXAxis(Physics3D * i_phy, Boundary i_boun)
