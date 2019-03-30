@@ -4,41 +4,31 @@
 #include "Matrix4.h"
 #include <string>
 
-// For Collision Detection
-struct Boundary
-{
-	Vector3D ur; // Upper right
-	Vector3D ul; // Upper left
-	Vector3D lr; // Lower right
-	Vector3D ll; // Lower left
-};
-
 class Object3D
 {
-	struct AABB {
-		Vector3D extent_width;
-		Vector3D extent_height;
-	};
 
 public:
 	Vector3D pos;
 	Vector3D rot;
 	std::string name;
-	AABB aabb;
-	Boundary boundary;
 
-	void updateBoundary();
+	//For collision detection
+	Vector3D extent_width;
+	Vector3D extent_height;
+	//Boundary boundary;     <- This is a depriciated membaer, the Boundary class moved to CollisionDetection.h 
+	//void updateBoundary(); <- This is a depriciated membaer, the Boundary class moved to CollisionDetection.h 
+
 	void info() const;
 };
 
-inline void Object3D::updateBoundary()
-{
-	Vector3D center = pos + aabb.extent_height;
-	boundary.ur = center + Matrix4::Yaw(rot.z) * ( 1 * aabb.extent_width +  1 * aabb.extent_height);
-	boundary.ul = center + Matrix4::Yaw(rot.z) * (-1 * aabb.extent_width +  1 * aabb.extent_height);
-	boundary.lr = center + Matrix4::Yaw(rot.z) * ( 1 * aabb.extent_width + -1 * aabb.extent_height);
-	boundary.ll = center + Matrix4::Yaw(rot.z) * (-1 * aabb.extent_width + -1 * aabb.extent_height);
-}
+//inline void Object3D::updateBoundary()
+//{
+//	Vector3D center = pos + extent_height;
+//	boundary.ur = center + Matrix4::Yaw(rot.z) * ( 1 * extent_width +  1 * extent_height);
+//	boundary.ul = center + Matrix4::Yaw(rot.z) * (-1 * extent_width +  1 * extent_height);
+//	boundary.lr = center + Matrix4::Yaw(rot.z) * ( 1 * extent_width + -1 * extent_height);
+//	boundary.ll = center + Matrix4::Yaw(rot.z) * (-1 * extent_width + -1 * extent_height);
+//}
 
 inline void Object3D::info() const {
 	//printf("%s is at (%f, %f, %f)", name, pos.x, pos.y, pos.z);

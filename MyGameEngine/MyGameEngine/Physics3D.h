@@ -59,8 +59,6 @@ inline void Physics3D::update(const float i_dt) {
 	//DEBUG_PRINT("the new velocity is %f", vel.x);
 	//DEBUG_PRINT("the acc is %f", acc.x);
 	//DEBUG_PRINT("the dt is %f", i_dt);
-
-	acc.set(0, 0, 0);
 	return;
 }
 
@@ -71,6 +69,7 @@ inline void Physics3D::updatePosition(const float i_dt)
 	vel = vel + i_dt * acc;
 	vel = (vel + old_vel) / 2;
 	pointer->pos = pointer->pos + i_dt * vel;
+	acc.set(0, 0, 0);
 }
 
 inline void Physics3D::updateRotation(const float)
