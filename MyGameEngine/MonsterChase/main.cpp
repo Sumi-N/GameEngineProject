@@ -54,6 +54,9 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player4.lua");
 
 		bool bQuit = false;
+
+		Engine::EntityMaster yoyo;
+
 		do
 		{
 			Timer::Run();

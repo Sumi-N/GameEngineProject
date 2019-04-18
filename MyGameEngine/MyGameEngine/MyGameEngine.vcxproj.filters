@@ -161,5 +161,8 @@
     <ClInclude Include="Object3DPointer.h">
       <Filter>System\EntitySystem\EntitySubSystem</Filter>
     </ClInclude>
+    <ClInclude Include="Delegates.h">
+      <Filter>System\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

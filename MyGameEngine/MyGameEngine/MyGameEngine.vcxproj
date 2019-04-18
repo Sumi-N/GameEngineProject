@@ -23,6 +23,7 @@
     <ClInclude Include="CharacterString_UnitTest.h" />
     <ClInclude Include="CollisionDetection.h" />
     <ClInclude Include="DebugLog.h" />
+    <ClInclude Include="Delegates.h" />
     <ClInclude Include="EntityPhysics3D.h" />
     <ClInclude Include="Matrix4.h" />
     <ClInclude Include="Matrix4_UnitTest.h" />
