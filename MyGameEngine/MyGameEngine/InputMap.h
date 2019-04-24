@@ -22,9 +22,6 @@ private:
 std::unordered_map<unsigned int, bool> * InputMap::Map;
 std::list<unsigned int> * InputMap::DeleteList;
 
-//std::unordered_map<unsigned int, bool> InputMap::Map;
-//std::list<unsigned int> InputMap::DeleteList;
-
 void InputMap::RegisterInputMap(unsigned int i_VKeyID, bool i_bDown) {
 	if (i_bDown) {
 		InputMap::Map->at(i_VKeyID) = true;

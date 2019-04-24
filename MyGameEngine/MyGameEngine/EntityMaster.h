@@ -1,4 +1,5 @@
 #pragma once
+#include "DebugLog.h"
 #include "Object3D.h"
 #include "EntityPhysics3D.h"
 #include "EntitySpriteRenderer.h"
@@ -35,7 +36,7 @@ inline void Engine::EntityMaster::registerfunction() {
 }
 
 inline void Engine::EntityMaster::testfunction(int i) {
-	printf("%d", i);
+	DEBUG_PRINT("%d", i);
 }
 
 std::list<Engine::Object3DPointer *> * Engine::EntityMaster::ObjectList;

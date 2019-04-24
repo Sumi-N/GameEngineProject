@@ -1,4 +1,5 @@
-#define _CRTDBG_MAP_ALLOC  
+#define _CRTDBG_MAP_ALLOC
+#include "Delegates.h"
 #include "DebugLog.h"
 #include "Allocator.h"
 #include "Time.h"
@@ -56,6 +57,14 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 		bool bQuit = false;
 
 		Engine::EntityMaster yoyo;
+		yoyo.registerfunction();
+
+		Engine::Delegate<int> delegatetest;
+		delegatetest = Engine::Delegate<int>::Create<Engine::EntityMaster, &Engine::EntityMaster::testfunction>(&yoyo);
+
+		Engine::MultiCastDelegate<int> multicastdelegatetest;
+		multicastdelegatetest.AddDelegate(delegatetest);
+		multicastdelegatetest.ExecuteOnBound(5);
 
 		do
 		{
