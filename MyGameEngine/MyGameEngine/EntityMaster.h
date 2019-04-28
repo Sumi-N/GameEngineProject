@@ -60,4 +60,6 @@ inline void Engine::EntityMaster::Release() {
 		delete (*it);
 	}
 	delete ObjectList;
+	delete Physics;
+	delete SRenderer;
 }

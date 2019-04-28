@@ -164,5 +164,8 @@
     <ClInclude Include="Delegates.h">
       <Filter>System\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Process.h">
+      <Filter>System\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

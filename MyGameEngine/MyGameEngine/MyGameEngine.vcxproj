@@ -37,6 +37,7 @@
     <ClInclude Include="Physics2D.h" />
     <ClInclude Include="CharacterString.h" />
     <ClInclude Include="Physics3D.h" />
+    <ClInclude Include="Process.h" />
     <ClInclude Include="ScriptReader.h" />
     <ClInclude Include="SmartPointers.h" />
     <ClInclude Include="SpriteRenderer.h" />

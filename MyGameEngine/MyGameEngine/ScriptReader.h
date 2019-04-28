@@ -1,9 +1,8 @@
 #pragma once
+#include "DebugLog.h"
 #include "Object3D.h"
 #include "Physics3D.h"
 #include "SpriteRenderer.h"
-#include "DebugLog.h"
-#include "Object3DPointer.h"
 #include "EntityMaster.h"
 
 #include "GLib.h"
@@ -106,7 +105,6 @@ inline Object3D * System::ScriptReader::CreateActor(const char * i_filename) {
 		Physics3D * phy = new Physics3D();
 		phy->pointer = objp->pointer;
 		Engine::EntityMaster::Physics->push(phy);
-
 		//Get mass
 		lua_pushstring(pluastate, "mass");
 		typecheck = lua_gettable(pluastate, -2);
@@ -185,7 +183,6 @@ inline Object3D * System::ScriptReader::CreateActor(const char * i_filename) {
 
 		srend.pointer = objp->pointer;
 		Engine::EntityMaster::SRenderer->push(srend);
-
 		// Just for temporal solution, pass the AABB information
 		srend.PassAABBInfo();
 	}

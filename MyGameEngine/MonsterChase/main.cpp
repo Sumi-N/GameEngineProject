@@ -1,14 +1,8 @@
 #define _CRTDBG_MAP_ALLOC
-#include "Delegates.h"
+#pragma once
 #include "DebugLog.h"
 #include "Allocator.h"
-#include "Time.h"
-#include "InputMap.h"
-#include "SpriteRenderer.h"
-#include "SmartPointers.h"
-#include "EntityMaster.h"
-#include "EntityPhysics3D.h"
-#include "EntitySpriteRenderer.h"
+#include "Process.h"
 #include "ScriptReader.h"
 
 #include <Windows.h>
@@ -35,19 +29,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 	if (bSuccess)
 	{
-		Timer::Init();
-
-		InputMap::Map = new std::unordered_map<unsigned int, bool>();
-		InputMap::DeleteList = new std::list<unsigned int>();
-		InputMap::InitInputMap();
-
-		Engine::EntityMaster::Init();
-
-		Engine::EntityPhysics3D physic_system;
-		Engine::EntityMaster::Physics = &physic_system;
-
-		Engine::EntitySpriteRenderer renderer_system;
-		Engine::EntityMaster::SRenderer = &(renderer_system);
+		System::Process::Init();
 
 		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player1.lua");
 		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player2.lua");
@@ -55,16 +37,6 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player4.lua");
 
 		bool bQuit = false;
-
-		Engine::EntityMaster yoyo;
-		yoyo.registerfunction();
-
-		Engine::Delegate<int> delegatetest;
-		delegatetest = Engine::Delegate<int>::Create<Engine::EntityMaster, &Engine::EntityMaster::testfunction>(&yoyo);
-
-		Engine::MultiCastDelegate<int> multicastdelegatetest;
-		multicastdelegatetest.AddDelegate(delegatetest);
-		multicastdelegatetest.ExecuteOnBound(5);
 
 		do
 		{
@@ -77,17 +49,12 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 			if (!bQuit)
 			{
 				Engine::EntityMaster::Update(static_cast<float>(Time::dt));
+				//System::Observer::Messenger.ExecuteOnBound(.2f);
 			}
 			InputMap::ClearInputMap();
 		} while (bQuit == false);
 
-		Engine::EntityMaster::Release();
-
-		// IMPORTANT:  Tell GLib to shutdown, releasing resources.
-		GLib::Shutdown();
-
-		delete InputMap::Map;
-		delete InputMap::DeleteList;
+		System::Process::Quit();
 	}
 
 #if defined _DEBUG

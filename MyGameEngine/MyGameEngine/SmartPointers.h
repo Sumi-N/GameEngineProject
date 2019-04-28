@@ -530,8 +530,10 @@ namespace Engine {
 			if (ref->OwnerReferences != 0) {
 				return data;
 			}
-			else
+			else {
 				assert(false);
+				return nullptr;
+			}
 		};
 
 		// indirection operator
