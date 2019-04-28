@@ -1,9 +1,10 @@
-#define _CRTDBG_MAP_ALLOC
 #pragma once
+#define _CRTDBG_MAP_ALLOC
 #include "DebugLog.h"
 #include "Allocator.h"
 #include "Process.h"
 #include "ScriptReader.h"
+#include "EntityMaster.h"
 
 #include <Windows.h>
 #include <crtdbg.h>  
@@ -44,12 +45,15 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 			// IMPORTANT: We need to let GLib do it's thing. 
 			GLib::Service(bQuit);
-			//phy1->input();
 
 			if (!bQuit)
 			{
 				Engine::EntityMaster::Update(static_cast<float>(Time::dt));
-				//System::Observer::Messenger.ExecuteOnBound(.2f);
+
+				if ((InputMap::Map)->at(32) == true) {
+					//auto begine = Engine::EntityMaster::Physics
+					//std::find_if()
+				}
 			}
 			InputMap::ClearInputMap();
 		} while (bQuit == false);

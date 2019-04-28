@@ -9,6 +9,7 @@
 
 #include <list>
 #include <iterator>
+#include <string>
 
 namespace Engine {
 	class EntityMaster {
