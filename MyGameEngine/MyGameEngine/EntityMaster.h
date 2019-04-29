@@ -21,23 +21,7 @@ namespace Engine {
 		static void Init();
 		static void Update(float);
 		static void Release();
-
-		void testfunction(int);
-		void registerfunction();
-
-		Delegate<int> delegate;
 	};
-}
-
-inline void Engine::EntityMaster::registerfunction() {
-	delegate = Delegate<int>::Create<Engine::EntityMaster, &Engine::EntityMaster::testfunction>(&(*this));
-	
-	//test = Delegate<void *,void(int,float)>(converttovoid, &testtest);
-	//test = Delegate<void *, void(int, float)>();
-}
-
-inline void Engine::EntityMaster::testfunction(int i) {
-	DEBUG_PRINT("%d", i);
 }
 
 std::list<Engine::Object3DPointer *> * Engine::EntityMaster::ObjectList;
