@@ -12,6 +12,8 @@ namespace Engine {
 		void push(Physics3D *);
 		void update(float);
 		void release();
+
+		std::list<Physics3D*> getList();
 		
 	private:
 		std::list<Physics3D *> list;
@@ -47,4 +49,9 @@ inline void Engine::EntityPhysics3D::release() {
 	for (auto it = list.begin(); it != list.end(); ++it) {
 		delete (*it);
 	}
+}
+
+inline std::list<Physics3D*> Engine::EntityPhysics3D::getList()
+{
+	return list;
 }

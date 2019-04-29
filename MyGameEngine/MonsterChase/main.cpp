@@ -5,10 +5,14 @@
 #include "Process.h"
 #include "ScriptReader.h"
 #include "EntityMaster.h"
+#include "Physics3D.h"
+#include "SmartPointers.h"
+#include "EntityPhysics3D.h"
 
 #include <Windows.h>
 #include <crtdbg.h>  
 #include <iostream>
+#include <list>
 
 #include "GLib.h"
 #include "lua.hpp"
@@ -36,6 +40,14 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player2.lua");
 		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player3.lua");
 		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player4.lua");
+		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player1.lua");
+		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player2.lua");
+		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player3.lua");
+		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player4.lua");
+		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player1.lua");
+		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player2.lua");
+		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player3.lua");
+		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player4.lua");
 
 		bool bQuit = false;
 
@@ -51,8 +63,10 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 				Engine::EntityMaster::Update(static_cast<float>(Time::dt));
 
 				if ((InputMap::Map)->at(32) == true) {
-					//auto begine = Engine::EntityMaster::Physics
-					//std::find_if()
+					std::string pn = "player1";
+					std::list<Physics3D *> test = Engine::EntityMaster::Physics->getList();
+					auto result = std::find_if(test.begin(), test.end(), [](Physics3D * e) {auto objpointer = e->pointer; return objpointer->name == "GoodGuy"; });
+					(*result)->addForce(Vector3D(-1,0,0));
 				}
 			}
 			InputMap::ClearInputMap();

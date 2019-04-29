@@ -65,6 +65,8 @@ namespace Engine {
 		}
 
 		void RemoveDelegate(Delegate<Params ...> & i_Delegate) {
+			Receivers.erase(std::remove_if(Receivers.begin(), Receivers.end(), [&i_Delegate](const Delegate<Params ...> & i_Entry) {return i_Entry == i_Delegate; }),
+				Receivers.end());
 
 		}
 

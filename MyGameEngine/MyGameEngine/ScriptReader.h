@@ -52,7 +52,9 @@ inline Object3D * System::ScriptReader::CreateActor(const char * i_filename) {
 	lua_pushstring(pluastate, "name");
 	typecheck = lua_gettable(pluastate, -2);
 	assert(typecheck == LUA_TSTRING);
-	obj->name = lua_tostring(pluastate, -1);
+	//DEBUG_PRINT("%s", lua_tostring(pluastate, -1));
+	obj->name = std::string(lua_tostring(pluastate, -1));
+	//DEBUG_PRINT("%s", obj->name);
 	lua_pop(pluastate, 1);
 
 	//Get Position variable
