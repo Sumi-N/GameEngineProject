@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyGameEngine", "MyGameEngine\MyGameEngine.vcxproj", "{319D92D9-944C-4793-8BB9-D41497B03345}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BDF98E69-FC1B-4010-B9D7-8DB75E26A245} = {BDF98E69-FC1B-4010-B9D7-8DB75E26A245}
+		{B2AB67DE-B7FA-42BA-B060-959487392AEA} = {B2AB67DE-B7FA-42BA-B060-959487392AEA}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MonsterChase", "MonsterChase\MonsterChase.vcxproj", "{C4BDEE8F-C890-4EA7-A822-A7011A29A6FB}"
 	ProjectSection(ProjectDependencies) = postProject
