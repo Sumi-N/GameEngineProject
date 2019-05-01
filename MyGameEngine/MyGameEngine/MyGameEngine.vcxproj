@@ -49,6 +49,7 @@
     <ClInclude Include="ObjectController.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Vector3D.h" />
+    <ClInclude Include="Vector3_UnitTest.h" />
     <ClInclude Include="Vector4D.h" />
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +58,7 @@
     <ClCompile Include="HeapManager.cpp" />
     <ClCompile Include="HeapManagerProxy-Sample.cpp" />
     <ClCompile Include="HeapManager_UnitTest.cpp" />
+    <ClCompile Include="Matrix4.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

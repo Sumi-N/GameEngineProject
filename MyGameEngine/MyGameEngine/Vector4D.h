@@ -14,12 +14,12 @@ public:
 	~Vector4D();
 
 	Vector4D & operator=(const Vector4D);
-	Vector4D operator+(const Vector4D);
-	Vector4D operator-(const Vector4D);
-	Vector4D operator*(const Vector4D);
-	Vector4D operator*(const float);
-	Vector4D operator/(const Vector4D);
-	Vector4D operator/(const float);
+	Vector4D operator+(const Vector4D &);
+	Vector4D operator-(const Vector4D &);
+	Vector4D operator*(const Vector4D &);
+	Vector4D operator*(const float &);
+	Vector4D operator/(const Vector4D &);
+	Vector4D operator/(const float &);
 	bool operator==(const Vector4D) const;
 	bool operator!=(const Vector4D) const;
 
@@ -61,7 +61,7 @@ inline Vector4D & Vector4D::operator=(const Vector4D i_vec) {
 	return *this;
 }
 
-inline Vector4D Vector4D::operator+(const Vector4D i_vec) {
+inline Vector4D Vector4D::operator+(const Vector4D & i_vec) {
 	Vector4D o_vec;
 	o_vec.x = this->x + i_vec.x;
 	o_vec.y = this->y + i_vec.y;
@@ -70,7 +70,7 @@ inline Vector4D Vector4D::operator+(const Vector4D i_vec) {
 	return o_vec;
 }
 
-inline Vector4D Vector4D::operator-(const Vector4D i_vec) {
+inline Vector4D Vector4D::operator-(const Vector4D & i_vec) {
 	Vector4D o_vec;
 	o_vec.x = this->x - i_vec.x;
 	o_vec.y = this->y - i_vec.y;
@@ -79,11 +79,11 @@ inline Vector4D Vector4D::operator-(const Vector4D i_vec) {
 	return o_vec;
 }
 
-inline Vector4D Vector4D::operator*(const Vector4D) {
+inline Vector4D Vector4D::operator*(const Vector4D &) {
 
 }
 
-inline Vector4D Vector4D::operator*(const float i_float)
+inline Vector4D Vector4D::operator*(const float & i_float)
 {
 	Vector4D o_vec;
 	o_vec.x = this->x * i_float;
@@ -93,11 +93,11 @@ inline Vector4D Vector4D::operator*(const float i_float)
 	return o_vec;
 }
 
-inline Vector4D Vector4D::operator/(const Vector4D) {
+inline Vector4D Vector4D::operator/(const Vector4D &) {
 
 }
 
-inline Vector4D Vector4D::operator/(const float i_float) {
+inline Vector4D Vector4D::operator/(const float & i_float) {
 	Vector4D o_vec;
 	o_vec.x = this->x / i_float;
 	o_vec.y = this->y / i_float;

@@ -14,18 +14,10 @@
 #include <iostream>
 #include <list>
 
-#include "GLib.h"
-#include "lua.hpp"
-#include "lauxlib.h"
-#include "lua.h"
-#include "luaconf.h"
-#include "lualib.h"
-
-
-#include <conio.h>
-extern bool HeapManager_UnitTest();
+//extern bool HeapManager_UnitTest();
 #include "CharacterString_UnitTest.h"
 #include "Matrix4_UnitTest.h"
+#include "Vector3_UnitTest.h"
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmdLine, int i_nCmdShow) {
 
@@ -36,6 +28,10 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 	{
 		System::Process::Init();
 
+		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player1.lua");
+		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player2.lua");
+		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player3.lua");
+		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player4.lua");
 		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player1.lua");
 		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player2.lua");
 		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player3.lua");

@@ -38,4 +38,20 @@ namespace UnitTest {
 		yoyoyo = yoyoyo - hi;
 		yoyoyo.show();
 	}
+
+//#define INTRIN
+	void MatrixProfilingTest() {
+		float randomFloats[16];
+		for (int i = 0; i < 16; i++) {
+			randomFloats[i] = static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / 5));
+		}
+		Matrix4 randomMatrix = Matrix4(randomFloats);
+		Matrix4 result;
+
+#if defined INTRIN
+		randomMatrix.inverseSSE(result);
+#else
+		randomMatrix.inversion();
+#endif
+	}
 }
