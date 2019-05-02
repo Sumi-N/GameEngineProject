@@ -3,6 +3,7 @@
 #include "DebugLog.h"
 
 #include <intrin.h>
+#include <xmmintrin.h>
 
 class Vector3D
 {
@@ -10,13 +11,13 @@ public:
 	union 
 	{
 		__m128 _m_vec;
-		struct 
+		struct
 		{
-			float x, y, z, w;
+			float x, y, z;
 		};
 	};
 	
-
+	
 	Vector3D();
 	Vector3D(const Vector3D &);
 	Vector3D(const float, const float, const float);
@@ -68,10 +69,10 @@ inline Vector3D & Vector3D::operator=(const Vector3D i_vec) {
 
 inline Vector3D Vector3D::operator+(const Vector3D & i_vec) {
 	Vector3D o_vec;
-	o_vec.x = this->x + i_vec.x;
-	o_vec.y = this->y + i_vec.y;
-	o_vec.z = this->z + i_vec.z;
-	//o_vec._m_vec = _mm_add_ps(this->_m_vec, i_vec._m_vec);
+	//o_vec.x = this->x + i_vec.x;
+	//o_vec.y = this->y + i_vec.y;
+	//o_vec.z = this->z + i_vec.z;
+	o_vec._m_vec = _mm_add_ps(this->_m_vec, i_vec._m_vec);
 	return o_vec;
 }
 

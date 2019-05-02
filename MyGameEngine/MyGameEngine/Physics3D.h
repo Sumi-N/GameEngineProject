@@ -4,7 +4,7 @@
 #include "SmartPointers.h"
 #include "DebugLog.h"
 
-class Physics3D
+__declspec(align(16))  class Physics3D
 {
 public:
 	Physics3D();
@@ -26,6 +26,9 @@ public:
 	Vector3D acc;
 	Vector3D ang_vel;
 	Vector3D ang_acc;
+
+	void* operator new(size_t);
+	void operator delete(void *);
 
 private:
 	Vector3D old_vel;
@@ -74,4 +77,14 @@ inline void Physics3D::updatePosition(const float i_dt)
 
 inline void Physics3D::updateRotation(const float)
 {
+}
+
+inline void * Physics3D::operator new(size_t i)
+{
+	return _mm_malloc(i,16);
+}
+
+inline void Physics3D::operator delete(void * p)
+{
+	_mm_free(p);
 }

@@ -45,6 +45,7 @@ public:
 	void inversion();
 	void show();
 	void inverseSSE(Matrix4 &) const;
+	void multiplySSE(const Matrix4 &, Matrix4 &) const;
 
 	static Matrix4 Translation(float, float, float);
 	static Matrix4 Roll(float);

@@ -154,3 +154,71 @@ void Matrix4::inverseSSE(Matrix4 & o_out) const
 	_mm_storeh_pi(reinterpret_cast<__m64 *>(&o_out.m_43), minor3);
 
 }
+
+void Matrix4::multiplySSE(const Matrix4 & i_other, Matrix4 & o_out) const
+{
+	// load i_other
+	__m128 rhs_row1 = _mm_load_ps(&i_other.m_11);
+	__m128 rhs_row2 = _mm_load_ps(&i_other.m_21);
+	__m128 rhs_row3 = _mm_load_ps(&i_other.m_31);
+	__m128 rhs_row4 = _mm_load_ps(&i_other.m_41);
+
+	__m128 acc;
+
+	// (*this).col1 * i_other
+	// m_11 * i_other.row1
+	acc = _mm_mul_ps(_mm_load1_ps(&m_11), rhs_row1);
+	// m_12 * i_other.row2
+	acc = _mm_add_ps(acc, _mm_mul_ps(_mm_load1_ps(&m_12), rhs_row2));
+	// m_13 * i_other.row3
+	acc = _mm_add_ps(acc, _mm_mul_ps(_mm_load1_ps(&m_13), rhs_row3));
+	// m_14 * i_other.row4
+	acc = _mm_add_ps(acc, _mm_mul_ps(_mm_load1_ps(&m_14), rhs_row4));
+
+	// write result
+	_mm_storel_pi(reinterpret_cast<__m64 *>(&o_out.m_11), acc);
+	_mm_storeh_pi(reinterpret_cast<__m64 *>(&o_out.m_13), acc);
+
+	// (*this).col2 * i_other
+	// m_21 * i_other.row1
+	acc = _mm_mul_ps(_mm_load1_ps(&m_21), rhs_row1);
+	// m_22 * i_other.row2
+	acc = _mm_add_ps(acc, _mm_mul_ps(_mm_load1_ps(&m_22), rhs_row2));
+	// m_23 * i_other.row3
+	acc = _mm_add_ps(acc, _mm_mul_ps(_mm_load1_ps(&m_23), rhs_row3));
+	// m_24 * i_other.row4
+	acc = _mm_add_ps(acc, _mm_mul_ps(_mm_load1_ps(&m_24), rhs_row4));
+
+	// write result
+	_mm_storel_pi(reinterpret_cast<__m64 *>(&o_out.m_21), acc);
+	_mm_storeh_pi(reinterpret_cast<__m64 *>(&o_out.m_23), acc);
+
+	// (*this).col3 * i_other
+	// m_31 * i_other.row1
+	acc = _mm_mul_ps(_mm_load1_ps(&m_31), rhs_row1);
+	// m_32 * i_other.row2
+	acc = _mm_add_ps(acc, _mm_mul_ps(_mm_load1_ps(&m_32), rhs_row2));
+	// m_33 * i_other.row3
+	acc = _mm_add_ps(acc, _mm_mul_ps(_mm_load1_ps(&m_33), rhs_row3));
+	// m_34 * i_other.row4
+	acc = _mm_add_ps(acc, _mm_mul_ps(_mm_load1_ps(&m_34), rhs_row4));
+
+	// write result
+	_mm_storel_pi(reinterpret_cast<__m64 *>(&o_out.m_31), acc);
+	_mm_storeh_pi(reinterpret_cast<__m64 *>(&o_out.m_33), acc);
+
+	// (*this).col4 * i_other
+	// m_41 * i_other.row1
+	acc = _mm_mul_ps(_mm_load1_ps(&m_41), rhs_row1);
+	// m_42 * i_other.row2
+	acc = _mm_add_ps(acc, _mm_mul_ps(_mm_load1_ps(&m_42), rhs_row2));
+	// m_43 * i_other.row3
+	acc = _mm_add_ps(acc, _mm_mul_ps(_mm_load1_ps(&m_43), rhs_row3));
+	// m_44 * i_other.row4
+	acc = _mm_add_ps(acc, _mm_mul_ps(_mm_load1_ps(&m_44), rhs_row4));
+
+	// write result
+	_mm_storel_pi(reinterpret_cast<__m64 *>(&o_out.m_41), acc);
+	_mm_storeh_pi(reinterpret_cast<__m64 *>(&o_out.m_43), acc);
+
+}

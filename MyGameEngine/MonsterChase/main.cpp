@@ -21,6 +21,10 @@
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmdLine, int i_nCmdShow) {
 
+	while (1) {
+		UnitTest::MatrixProfilingTest();
+	}
+
 	// IMPORTANT: first we need to initialize GLib
 	bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 1200, 600);
 
@@ -28,18 +32,6 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 	{
 		System::Process::Init();
 
-		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player1.lua");
-		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player2.lua");
-		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player3.lua");
-		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player4.lua");
-		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player1.lua");
-		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player2.lua");
-		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player3.lua");
-		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player4.lua");
-		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player1.lua");
-		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player2.lua");
-		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player3.lua");
-		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player4.lua");
 		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player1.lua");
 		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player2.lua");
 		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player3.lua");

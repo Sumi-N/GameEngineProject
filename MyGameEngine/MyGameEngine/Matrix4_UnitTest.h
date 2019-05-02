@@ -39,7 +39,7 @@ namespace UnitTest {
 		yoyoyo.show();
 	}
 
-//#define INTRIN
+#define INTRIN
 	void MatrixProfilingTest() {
 		float randomFloats[16];
 		for (int i = 0; i < 16; i++) {
