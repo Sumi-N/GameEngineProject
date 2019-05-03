@@ -23,15 +23,15 @@ public:
 	Vector3D(const float, const float, const float);
 	~Vector3D();
 
-	Vector3D & operator=(const Vector3D);
-	Vector3D operator+(const Vector3D &);
-	Vector3D operator-(const Vector3D &);
-	Vector3D operator*(const Vector3D &);
+	Vector3D & operator=(const Vector3D &);
+	Vector3D operator+(const Vector3D &) const;
+	Vector3D operator-(const Vector3D &) const;
+	Vector3D operator*(const Vector3D &) const;
 	friend Vector3D operator*(const float, const Vector3D);
-	Vector3D operator/(const Vector3D &);
-	Vector3D operator/(const float &);
-	bool operator==(const Vector3D) const;
-	bool operator!=(const Vector3D) const;
+	Vector3D operator/(const Vector3D &) const;
+	Vector3D operator/(const float &) const;
+	bool operator==(const Vector3D &) const;
+	bool operator!=(const Vector3D &) const;
 
 	void set(float,float,float);
 };
@@ -59,7 +59,7 @@ inline Vector3D::~Vector3D() {
 
 }
 
-inline Vector3D & Vector3D::operator=(const Vector3D i_vec) {
+inline Vector3D & Vector3D::operator=(const Vector3D & i_vec){
 	this->x = i_vec.x;
 	this->y = i_vec.y;
 	this->z = i_vec.z;
@@ -67,7 +67,7 @@ inline Vector3D & Vector3D::operator=(const Vector3D i_vec) {
 	return *this;
 }
 
-inline Vector3D Vector3D::operator+(const Vector3D & i_vec) {
+inline Vector3D Vector3D::operator+(const Vector3D & i_vec) const {
 	Vector3D o_vec;
 	//o_vec.x = this->x + i_vec.x;
 	//o_vec.y = this->y + i_vec.y;
@@ -76,7 +76,7 @@ inline Vector3D Vector3D::operator+(const Vector3D & i_vec) {
 	return o_vec;
 }
 
-inline Vector3D Vector3D::operator-(const Vector3D & i_vec) {
+inline Vector3D Vector3D::operator-(const Vector3D & i_vec) const {
 	Vector3D o_vec;
 	o_vec.x = this->x - i_vec.x;
 	o_vec.y = this->y - i_vec.y;
@@ -84,7 +84,7 @@ inline Vector3D Vector3D::operator-(const Vector3D & i_vec) {
 	return o_vec;
 }
 
-inline Vector3D Vector3D::operator*(const Vector3D &) {
+inline Vector3D Vector3D::operator*(const Vector3D &) const {
 
 }
 
@@ -97,11 +97,11 @@ inline Vector3D operator*(const float i_float, const Vector3D i_vector)
 	return o_vec;
 }
 
-inline Vector3D Vector3D::operator/(const Vector3D & Vector3D) {
+inline Vector3D Vector3D::operator/(const Vector3D & Vector3D) const {
 
 }
 
-inline Vector3D Vector3D::operator/(const float & i_float) {
+inline Vector3D Vector3D::operator/(const float & i_float) const {
 	Vector3D o_vec;
 	o_vec.x = this->x / i_float;
 	o_vec.y = this->y / i_float;
@@ -109,7 +109,7 @@ inline Vector3D Vector3D::operator/(const float & i_float) {
 	return o_vec;
 }
 
-inline bool Vector3D::operator==(const Vector3D i_vec) const {
+inline bool Vector3D::operator==(const Vector3D & i_vec) const {
 	if (this->x == i_vec.x && this->y == i_vec.y && this->z == i_vec.z) {
 		return true;
 	}
@@ -117,7 +117,7 @@ inline bool Vector3D::operator==(const Vector3D i_vec) const {
 		return false;
 }
 
-inline bool Vector3D::operator!=(const Vector3D i_vec) const {
+inline bool Vector3D::operator!=(const Vector3D & i_vec) const {
 	return !( *this == i_vec);
 }
 

@@ -52,7 +52,7 @@ inline void InputMap::ClearInputMap() {
 	}
 }
 
-/*
+/* Those are hex numbers
 VK_KEY_0	0x30 ('0')	0
 VK_KEY_1	0x31 ('1')	1
 VK_KEY_2	0x32 ('2')	2

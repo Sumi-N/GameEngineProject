@@ -33,17 +33,16 @@ public:
 	Matrix4(Vector4D[4]);
 	Matrix4(const Matrix4 &);
 
-	Vector4D operator*(const Vector4D) const;
-	Vector3D operator*(const Vector3D) const;
-	Matrix4 operator*(const Matrix4) const;
+	Vector4D operator*(const Vector4D &) const;
+	Vector3D operator*(const Vector3D &) const;
+	Matrix4 operator*(const Matrix4 &) const;
 	friend Matrix4 operator*(const float, const Matrix4 &);
 	friend Matrix4 operator/(const Matrix4 &, const float);
-	Matrix4 operator+(const Matrix4) const;
-	Matrix4 operator-(const Matrix4) const;
-
+	Matrix4 operator+(const Matrix4 &) const;
+	Matrix4 operator-(const Matrix4 &) const;
 	void tranpose();
 	void inversion();
-	void show();
+	void show() const;
 	void inverseSSE(Matrix4 &) const;
 	void multiplySSE(const Matrix4 &, Matrix4 &) const;
 
@@ -96,7 +95,7 @@ inline Matrix4::Matrix4(const Matrix4 & i_matrix4)
 	}
 }
 
-inline Vector4D Matrix4::operator*(const Vector4D i_vector) const
+inline Vector4D Matrix4::operator*(const Vector4D & i_vector) const
 {
 	Vector4D o_vector;
 	o_vector.x = ele[0] * i_vector.x + ele[1] * i_vector.y + ele[2] * i_vector.z + ele[3] * i_vector.w;
@@ -106,7 +105,7 @@ inline Vector4D Matrix4::operator*(const Vector4D i_vector) const
 	return o_vector;
 }
 
-inline Vector3D Matrix4::operator*(const Vector3D i_vector) const
+inline Vector3D Matrix4::operator*(const Vector3D & i_vector) const
 {
 	Vector4D tmp_vec4d = Vector4D(i_vector.x, i_vector.y, i_vector.z, 1);
 	tmp_vec4d = (*this) * tmp_vec4d;
@@ -114,7 +113,7 @@ inline Vector3D Matrix4::operator*(const Vector3D i_vector) const
 	return o_vec;
 }
 
-inline Matrix4 Matrix4::operator*(const Matrix4 i_matrix) const
+inline Matrix4 Matrix4::operator*(const Matrix4 & i_matrix) const
 {
 	Matrix4 o_matrix;
 	o_matrix.ele[0] = ele[0] * i_matrix.ele[0] + ele[1] * i_matrix.ele[4] + ele[2] * i_matrix.ele[8] + ele[3] * i_matrix.ele[12];
@@ -155,7 +154,7 @@ inline Matrix4 operator/(const Matrix4 & i_matrix, const float i_float)
 	return o_matrix;
 }
 
-inline Matrix4 Matrix4::operator+(const Matrix4 i_matrix) const
+inline Matrix4 Matrix4::operator+(const Matrix4 & i_matrix) const
 {
 	Matrix4 o_matrix;
 	for (int i = 0; i < 16; i++) {
@@ -165,7 +164,7 @@ inline Matrix4 Matrix4::operator+(const Matrix4 i_matrix) const
 	return o_matrix;
 }
 
-inline Matrix4 Matrix4::operator-(const Matrix4 i_matrix) const
+inline Matrix4 Matrix4::operator-(const Matrix4 & i_matrix) const
 {
 	Matrix4 o_matrix;
 	for (int i = 0; i < 16; i++) {
@@ -202,7 +201,7 @@ inline void Matrix4::tranpose()
 	ele[11] = tmp;
 }
 
-inline void Matrix4::show() {
+inline void Matrix4::show() const {
 	DEBUG_PRINT("{%f,%f,%f,%f,\n     %f,%f,%f,%f,\n     %f,%f,%f,%f,\n     %f,%f,%f,%f}"
 		,ele[0], ele[1], ele[2], ele[3], ele[4], ele[5], ele[6], ele[7], ele[8], ele[9], ele[10], ele[11], ele[12], ele[13], ele[14], ele[15]);
 }
