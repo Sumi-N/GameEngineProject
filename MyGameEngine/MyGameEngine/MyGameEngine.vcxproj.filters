@@ -52,6 +52,9 @@
     <Filter Include="System\Utility">
       <UniqueIdentifier>{6bf8538c-f347-40a4-be60-74daceed27c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Messenger/Delegate">
+      <UniqueIdentifier>{535c669d-f24f-4d64-af89-21bd5dce30f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DebugLog.cpp">
@@ -74,6 +77,15 @@
     </ClCompile>
     <ClCompile Include="Matrix4.cpp">
       <Filter>DataStructure</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptReader.cpp">
+      <Filter>System\EditableStructureSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityMaster.cpp">
+      <Filter>System\EntitySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Messenger.cpp">
+      <Filter>System\Messenger/Delegate</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -164,14 +176,17 @@
     <ClInclude Include="Object3DPointer.h">
       <Filter>System\EntitySystem\EntitySubSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Delegates.h">
-      <Filter>System\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="Process.h">
       <Filter>System\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Vector3_UnitTest.h">
       <Filter>UnitTests</Filter>
+    </ClInclude>
+    <ClInclude Include="Delegates.h">
+      <Filter>System\Messenger/Delegate</Filter>
+    </ClInclude>
+    <ClInclude Include="Messenger.h">
+      <Filter>System\Messenger/Delegate</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -24,10 +24,6 @@ namespace Engine {
 	};
 }
 
-std::list<Engine::Object3DPointer *> * Engine::EntityMaster::ObjectList;
-Engine::EntityPhysics3D * Engine::EntityMaster::Physics;
-Engine::EntitySpriteRenderer * Engine::EntityMaster::SRenderer;
-
 inline void Engine::EntityMaster::Init() {
 	ObjectList = new std::list<Object3DPointer *>();
 }
@@ -35,16 +31,4 @@ inline void Engine::EntityMaster::Init() {
 inline void Engine::EntityMaster::Update(float dt) {
 	Physics->update(dt);
 	SRenderer->update();
-}
-
-inline void Engine::EntityMaster::Release() {
-	Physics->release();
-	SRenderer->release();
-
-	for (auto it = ObjectList->begin(); it != ObjectList->end(); ++it) {
-		delete (*it);
-	}
-	delete ObjectList;
-	delete Physics;
-	delete SRenderer;
 }

@@ -27,6 +27,7 @@
     <ClInclude Include="EntityPhysics3D.h" />
     <ClInclude Include="Matrix4.h" />
     <ClInclude Include="Matrix4_UnitTest.h" />
+    <ClInclude Include="Messenger.h" />
     <ClInclude Include="Object2DMaster.h" />
     <ClInclude Include="EntityPhysics2D.h" />
     <ClInclude Include="EntitySpriteRenderer.h" />
@@ -55,10 +56,13 @@
   <ItemGroup>
     <ClCompile Include="CollisionDetection.cpp" />
     <ClCompile Include="DebugLog.cpp" />
+    <ClCompile Include="EntityMaster.cpp" />
     <ClCompile Include="HeapManager.cpp" />
     <ClCompile Include="HeapManagerProxy-Sample.cpp" />
     <ClCompile Include="HeapManager_UnitTest.cpp" />
     <ClCompile Include="Matrix4.cpp" />
+    <ClCompile Include="Messenger.cpp" />
+    <ClCompile Include="ScriptReader.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -8,6 +8,7 @@
 #include "Physics3D.h"
 #include "SmartPointers.h"
 #include "EntityPhysics3D.h"
+#include "Messenger.h"
 
 #include <Windows.h>
 #include <crtdbg.h>  
@@ -20,10 +21,6 @@
 #include "Vector3_UnitTest.h"
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmdLine, int i_nCmdShow) {
-
-	while (1) {
-		UnitTest::MatrixProfilingTest();
-	}
 
 	// IMPORTANT: first we need to initialize GLib
 	bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 1200, 600);
@@ -56,6 +53,8 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 					auto result = std::find_if(test.begin(), test.end(), [](Physics3D * e) {auto objpointer = e->pointer; return objpointer->name == "GoodGuy"; });
 					(*result)->addForce(Vector3D(-1,0,0));
 				}
+
+				System::Messenger::BroadCastMessages();
 			}
 			InputMap::ClearInputMap();
 		} while (bQuit == false);
