@@ -174,7 +174,8 @@ void Engine::CollisionDetection::GetMinMax(Vector2D<float, float> & o_minmax, fl
 
 bool Engine::CollisionDetection::CheckOverlapping(Vector2D<float, float> minmax_base, Vector2D<float, float> minmax_trans_cf, Vector2D<float, float> minmax_trans_ef)
 {
-	if ((minmax_base.x <= minmax_trans_ef.x && minmax_trans_ef.x <= minmax_base.y) || (minmax_base.x <= minmax_trans_ef.y && minmax_trans_ef.y <= minmax_base.y))
+	if ((minmax_base.x <= minmax_trans_ef.x && minmax_trans_ef.x <= minmax_base.y) || (minmax_base.x <= minmax_trans_ef.y && minmax_trans_ef.y <= minmax_base.y) 
+		|| (minmax_trans_ef.x <= minmax_base.x && minmax_base.x <= minmax_trans_ef.y) || (minmax_trans_ef.x <= minmax_base.y && minmax_base.y <= minmax_trans_ef.y))
 		return true;
 	else if (((minmax_trans_cf.y < minmax_base.x) && (minmax_trans_ef.x > minmax_base.y)) || ((minmax_trans_cf.x > minmax_base.y) && (minmax_trans_ef.y < minmax_base.x)))
 		return true;

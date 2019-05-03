@@ -55,13 +55,15 @@ inline void Physics3D::addForce(Vector3D i_force) {
 inline void Physics3D::update(const float i_dt) {
 	assert(pointer);
 
+	//DEBUG_PRINT("the old velocity is %f", old_vel.x);
+	//DEBUG_PRINT("the new velocity is %f", vel.x);
+	//if(acc.x != 0.0f)
+		//DEBUG_PRINT("the acc is %f", acc.x);
+	//DEBUG_PRINT("the dt is %f", i_dt);
+
 	updatePosition(i_dt);
 	updateRotation(i_dt);
 
-	//DEBUG_PRINT("the old velocity is %f", old_vel.x);
-	//DEBUG_PRINT("the new velocity is %f", vel.x);
-	//DEBUG_PRINT("the acc is %f", acc.x);
-	//DEBUG_PRINT("the dt is %f", i_dt);
 	return;
 }
 

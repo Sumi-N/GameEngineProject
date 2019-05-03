@@ -37,6 +37,16 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 		bool bQuit = false;
 
+		// Get components
+		std::list<Physics3D *> phy_list = Engine::EntityMaster::Physics->getList();
+		auto phy_player = std::find_if(phy_list.begin(), phy_list.end(), [](Physics3D * e) {auto objpointer = e->pointer; return objpointer->name == "GoodGuy"; });
+
+		std::list<Engine::Object3DPointer *> obj_list = *Engine::EntityMaster::ObjectList;
+		auto obj_enemy = std::find_if(obj_list.begin(), obj_list.end(), [&](Engine::Object3DPointer* e) {return e->pointer->name == "BadGuy"; });
+		auto obj_player = std::find_if(obj_list.begin(), obj_list.end(), [&](Engine::Object3DPointer* e) {return e->pointer->name == "GoodGuy"; });
+
+		float timer = 0.0f;
+
 		do
 		{
 			Timer::Run();
@@ -44,32 +54,47 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 			// IMPORTANT: We need to let GLib do it's thing. 
 			GLib::Service(bQuit);
 
-			// Get player1's physics component
-			std::list<Physics3D *> test = Engine::EntityMaster::Physics->getList();
-			auto result = std::find_if(test.begin(), test.end(), [](Physics3D * e) {auto objpointer = e->pointer; return objpointer->name == "GoodGuy"; });
-
-			std::string pn2 = "BadGuy";
-			std::list<Engine::Object3DPointer *> test2 = *Engine::EntityMaster::ObjectList;
-			auto result2 = std::find_if(test2.begin(), test2.end(), [&](Engine::Object3DPointer* e) {return e->pointer->name == "BadGuy"; });
-
-
 			if (!bQuit)
 			{
 				Engine::EntityMaster::Update(static_cast<float>(Time::dt));
 
-				DEBUG_PRINT("%f" (*result2)->pointer->position.x);
+				timer += static_cast<float>(Time::dt);
+				if (timer < 10000) {
+					DEBUG_PRINT("%f", timer/1000);
+				}
+
+				Vector3D pos_player = (*obj_player)->pointer->pos;
+				Vector3D pos_enemy = (*obj_enemy)->pointer->pos;
+				
+				if (pos_enemy.x >= pos_player.x) {
+					(*obj_enemy)->pointer->pos.x -= 0.01f;
+				}
+				else {
+					(*obj_enemy)->pointer->pos.x += 0.01f;
+				}
+
+				if (pos_enemy.y >= pos_player.y) {
+					(*obj_enemy)->pointer->pos.y -= 0.01f;
+				}
+				else {
+					(*obj_enemy)->pointer->pos.y += 0.01f;
+				}
 
 				if ((InputMap::Map)->at(68) == true) {
-					(*result)->addForce(Vector3D(20,0,0));
+					(*phy_player)->addForce(Vector3D(20,0,0));
+					//DEBUG_PRINT("right");
 				}
 				else if ((InputMap::Map)->at(65) == true) {
-					(*result)->addForce(Vector3D(-20, 0, 0));
+					(*phy_player)->addForce(Vector3D(-20, 0, 0));
+					//DEBUG_PRINT("left", timer);
 				}
 				else if ((InputMap::Map)->at(87) == true) {
-					(*result)->addForce(Vector3D(0, 20, 0));
+					(*phy_player)->addForce(Vector3D(0, 20, 0));
+					//DEBUG_PRINT("up", timer);
 				}
 				else if ((InputMap::Map)->at(83) == true) {
-					(*result)->addForce(Vector3D(0, -20, 0));
+					(*phy_player)->addForce(Vector3D(0, -20, 0));
+					//DEBUG_PRINT("down", timer);
 				}
 
 				System::Messenger::BroadCastMessages();

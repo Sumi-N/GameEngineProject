@@ -13,7 +13,7 @@ namespace Engine {
 		void update(float);
 		void release();
 
-		std::list<Physics3D*> getList();
+		std::list<Physics3D*> & getList();
 		
 	private:
 		std::list<Physics3D *> list;
@@ -51,7 +51,7 @@ inline void Engine::EntityPhysics3D::release() {
 	}
 }
 
-inline std::list<Physics3D*> Engine::EntityPhysics3D::getList()
+inline std::list<Physics3D*> & Engine::EntityPhysics3D::getList()
 {
 	return list;
 }
