@@ -31,4 +31,9 @@ inline void Engine::EntityMaster::Init() {
 inline void Engine::EntityMaster::Update(float dt) {
 	Physics->update(dt);
 	SRenderer->update();
+
+	for each (auto object in Objectlist)
+	{
+
+	}
 }

@@ -1,14 +1,13 @@
 #pragma once
-#include "Object2D.h"
-class Player : public Object2D
+#include "Object3D.h"
+
+
+class Player : public Object3D
 {
 public:
-	Player() {};
-	~Player() {};
-	void setName(const char*);
+	void update();
 };
 
-inline void Player::setName(const char * i_name)
-{
-	name = i_name;
+inline void Player::update() {
+	
 }

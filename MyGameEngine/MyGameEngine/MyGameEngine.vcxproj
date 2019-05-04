@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AdvancedScriptReader.h" />
     <ClInclude Include="Allocator.h" />
     <ClInclude Include="CharacterString_UnitTest.h" />
     <ClInclude Include="CollisionDetection.h" />

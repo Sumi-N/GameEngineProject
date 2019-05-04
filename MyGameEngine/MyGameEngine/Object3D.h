@@ -20,6 +20,7 @@ public:
 	void operator delete(void *);
 
 	void info() const;
+	virtual void update();
 };
 
 inline void * Object3D::operator new(size_t i)
@@ -35,3 +36,8 @@ inline void Object3D::operator delete(void * p)
 inline void Object3D::info() const {
 	//printf("%s is at (%f, %f, %f)", name, pos.x, pos.y, pos.z);
 }
+
+//inline void Object3D::update()
+//{
+//	DEBUG_PRINT("Calling object3d update");
+//}

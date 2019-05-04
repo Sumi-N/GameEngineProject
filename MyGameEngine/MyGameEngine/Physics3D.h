@@ -2,6 +2,7 @@
 #include "Vector3D.h"
 #include "Object3D.h"
 #include "SmartPointers.h"
+#include "Delegates.h"
 #include "DebugLog.h"
 
 __declspec(align(16))  class Physics3D
@@ -15,6 +16,8 @@ public:
 	void update(const float i_dt);
 	void updatePosition(const float);
 	void updateRotation(const float);
+	
+	virtual void collision(Physics3D *);
 
 public:
 	Engine::OwningPointer<Object3D> pointer;
@@ -31,7 +34,7 @@ public:
 	void operator delete(void *);
 
 private:
-	Vector3D old_vel;
+	Vector3D old_vel;	
 };
 
 inline Physics3D::Physics3D() {
@@ -79,6 +82,11 @@ inline void Physics3D::updatePosition(const float i_dt)
 
 inline void Physics3D::updateRotation(const float)
 {
+}
+
+inline void Physics3D::collision(Physics3D *)
+{
+	DEBUG_PRINT("Calling physics3d collision");
 }
 
 inline void * Physics3D::operator new(size_t i)

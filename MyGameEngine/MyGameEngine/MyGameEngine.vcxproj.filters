@@ -188,5 +188,8 @@
     <ClInclude Include="Messenger.h">
       <Filter>System\Messenger/Delegate</Filter>
     </ClInclude>
+    <ClInclude Include="AdvancedScriptReader.h">
+      <Filter>System\EditableStructureSystem</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

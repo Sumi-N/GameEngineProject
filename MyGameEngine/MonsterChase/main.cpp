@@ -4,12 +4,15 @@
 #include "Allocator.h"
 #include "Process.h"
 #include "ScriptReader.h"
+#include "AdvancedScriptReader.h"
 #include "Messenger.h"
 #include "EntityMaster.h"
 #include "Physics3D.h"
 #include "SmartPointers.h"
 #include "EntityPhysics3D.h"
 #include "Object3DPointer.h"
+#include "Player.h"
+#include "PlayerPhysics.h"
 
 #include <Windows.h>
 #include <crtdbg.h>  
@@ -30,8 +33,8 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 	{
 		System::Process::Init();
 
-		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player1.lua");
-		System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player2.lua");
+		System::AdvancedScriptReader<Player, PlayerPhysics>::CreateObject("..\\Assets\\editabledatas\\player1.lua");
+		System::AdvancedScriptReader<Player, PlayerPhysics>::CreateObject("..\\Assets\\editabledatas\\player2.lua");
 		//System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player3.lua");
 		//System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player4.lua");
 
