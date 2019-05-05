@@ -3,14 +3,13 @@
 #include "DebugLog.h"
 #include "Allocator.h"
 #include "Process.h"
-#include "ScriptReader.h"
 #include "AdvancedScriptReader.h"
-#include "Messenger.h"
 #include "EntityMaster.h"
 
 #include "Player.h"
 #include "PlayerPhysics.h"
 #include "Monster.h"
+#include "MonsterPhysics.h"
 
 #include <Windows.h>
 #include <crtdbg.h>  
@@ -32,7 +31,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 		System::Process::Boot();
 
 		System::AdvancedScriptReader<Player, PlayerPhysics>::CreateObject("..\\Assets\\editabledatas\\player1.lua");
-		System::AdvancedScriptReader<Monster, PlayerPhysics>::CreateObject("..\\Assets\\editabledatas\\player2.lua");
+		System::AdvancedScriptReader<Monster, MonsterPhysics>::CreateObject("..\\Assets\\editabledatas\\player2.lua");
 
 		System::Process::GameInit();
 

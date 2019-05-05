@@ -149,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Monster.h" />
+    <ClInclude Include="MonsterPhysics.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerPhysics.h" />
   </ItemGroup>

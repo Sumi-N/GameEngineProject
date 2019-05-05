@@ -29,5 +29,8 @@
     <ClInclude Include="PlayerPhysics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MonsterPhysics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
