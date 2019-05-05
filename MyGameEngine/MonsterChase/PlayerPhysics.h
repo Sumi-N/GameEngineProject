@@ -1,4 +1,5 @@
 #pragma once
+#include "DebugLog.h"
 #include "Physics3D.h"
 
 class PlayerPhysics : public Physics3D {
@@ -7,5 +8,4 @@ public:
 };
 
 inline void PlayerPhysics::collision(Physics3D *) {
-
 }

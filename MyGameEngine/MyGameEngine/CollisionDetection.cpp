@@ -59,8 +59,9 @@ void Engine::CollisionDetection::Collision2D(const float i_ddt, const float i_dt
 		if (CheckOverlapping(minmax_Y_AinA, minmax_Y_BinA_cf, minmax_Y_BinA_ef)) {
 			if (CheckOverlapping(minmax_X_BinB, minmax_X_AinB_cf, minmax_X_AinB_ef)) {
 				if (CheckOverlapping(minmax_Y_BinB, minmax_Y_AinB_cf, minmax_Y_AinB_ef)) {
-					DEBUG_PRINT("IT'S COLLIGIND!!!!");
-					Collide(i_phyA, i_phyB);
+					//DEBUG_PRINT("IT'S COLLIGIND!!!!");
+					//FullElasticCollision(i_phyA, i_phyB);
+					CollisionRespoince(i_phyA, i_phyB);
 					return;
 				}
 				else {
@@ -189,7 +190,12 @@ float Engine::CollisionDetection::CalculateCollisionTiming(const float rf, Vecto
 	return false;
 }
 
-void Engine::CollisionDetection::Collide(Physics3D * i_phyA, Physics3D * i_phyB)
+void Engine::CollisionDetection::CollisionRespoince(Physics3D * i_phyA, Physics3D * i_phyB) {
+	i_phyA->collision(i_phyB);
+	i_phyB->collision(i_phyA);
+}
+
+void Engine::CollisionDetection::FullElasticCollision(Physics3D * i_phyA, Physics3D * i_phyB)
 {
 	Vector3D tmp_vel_A = ((i_phyA->mass - i_phyB->mass) * i_phyA->vel + 2 * i_phyB->mass * i_phyB->vel) / (i_phyA->mass + i_phyB->mass);
 	Vector3D tmp_vel_B = ((i_phyB->mass - i_phyA->mass) * i_phyB->vel + 2 * i_phyA->mass * i_phyA->vel) / (i_phyA->mass + i_phyB->mass);

@@ -13,10 +13,11 @@ public:
 	~Physics3D();
 
 	void addForce(Vector3D);
-	void update(const float i_dt);
+	void update(const float);
 	void updatePosition(const float);
 	void updateRotation(const float);
 	
+	virtual void init();
 	virtual void collision(Physics3D *);
 
 public:
@@ -82,6 +83,10 @@ inline void Physics3D::updatePosition(const float i_dt)
 
 inline void Physics3D::updateRotation(const float)
 {
+}
+
+inline void Physics3D::init() {
+
 }
 
 inline void Physics3D::collision(Physics3D *)

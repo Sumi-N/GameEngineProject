@@ -20,20 +20,14 @@ namespace Engine {
 
 		static void Init();
 		static void Update(float);
-		static void Release();
+		static void Release(); 
 	};
 }
 
 inline void Engine::EntityMaster::Init() {
-	ObjectList = new std::list<Object3DPointer *>();
-}
-
-inline void Engine::EntityMaster::Update(float dt) {
-	Physics->update(dt);
-	SRenderer->update();
-
-	for each (auto object in Objectlist)
-	{
-
+	for (auto it = ObjectList->begin(); it != ObjectList->end(); ++it) {
+		(*it)->pointer->init();
 	}
+
+	Physics->init();
 }

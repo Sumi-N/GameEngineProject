@@ -27,7 +27,9 @@ namespace Engine {
 		static void GetMinMax(Vector2D<float,float> &, float, float, float, float);
 		static bool CheckOverlapping(Vector2D<float,float>,Vector2D<float,float>, Vector2D<float,float>);
 		static float CalculateCollisionTiming(const float,Vector2D<float,float>, Vector2D<float, float>, Vector2D<float, float>);
-		static void Collide(Physics3D *, Physics3D *);
+
+		static void CollisionRespoince(Physics3D *, Physics3D *);
+		static void FullElasticCollision(Physics3D *, Physics3D *);
 
 		///////////Legacy///////////
 		//static void For2D(const float, Physics3D *, Physics3D *);

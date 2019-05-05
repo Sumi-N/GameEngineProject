@@ -3,7 +3,6 @@
 #include "SmartPointers.h"
 
 #include <list>
-#include <iterator>
 
 namespace Engine {
 	class Object3DPointer {

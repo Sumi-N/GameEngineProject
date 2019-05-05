@@ -20,6 +20,8 @@ public:
 	void operator delete(void *);
 
 	void info() const;
+
+	virtual void init();
 	virtual void update();
 };
 
@@ -37,7 +39,11 @@ inline void Object3D::info() const {
 	//printf("%s is at (%f, %f, %f)", name, pos.x, pos.y, pos.z);
 }
 
-//inline void Object3D::update()
-//{
-//	DEBUG_PRINT("Calling object3d update");
-//}
+inline void Object3D::init() {
+	DEBUG_PRINT("Calling object3d init");
+}
+
+inline void Object3D::update()
+{
+	DEBUG_PRINT("Calling object3d update");
+}

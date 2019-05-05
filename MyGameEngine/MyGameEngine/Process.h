@@ -1,6 +1,7 @@
 #pragma once
 #include "InputMap.h"
 #include "Time.h"
+#include "Object3DPointer.h"
 #include "EntityMaster.h"
 #include "EntityPhysics3D.h"
 #include "EntitySpriteRenderer.h"
@@ -8,13 +9,19 @@
 
 namespace System {
 	class Process {
-		public:
-		static void Init();
-		static void Quit();
+	public:
+		static bool BQuit;
+		static void Boot();
+		static void GameInit();
+		static void Run();
+		static void LateRun();
+		static void ShutDown();
 	};
 }
 
-inline void System::Process::Init() {
+bool System::Process::BQuit;
+
+inline void System::Process::Boot() {
 	Timer::Init();
 
 	System::Messenger::Init();
@@ -23,7 +30,7 @@ inline void System::Process::Init() {
 	InputMap::DeleteList = new std::list<unsigned int>();
 	InputMap::InitInputMap();
 
-	Engine::EntityMaster::Init();
+	Engine::EntityMaster::ObjectList = new std::list<Engine::Object3DPointer *>();
 
 	Engine::EntityPhysics3D * physic_system = new Engine::EntityPhysics3D();
 	Engine::EntityMaster::Physics = physic_system;
@@ -32,7 +39,7 @@ inline void System::Process::Init() {
 	Engine::EntityMaster::SRenderer = renderer_system;
 }
 
-inline void System::Process::Quit() {
+inline void System::Process::ShutDown() {
 	Engine::EntityMaster::Release();
 
 	// IMPORTANT:  Tell GLib to shutdown, releasing resources.
@@ -42,4 +49,18 @@ inline void System::Process::Quit() {
 	delete InputMap::DeleteList;
 
 	System::Messenger::Release();
+}
+
+inline void System::Process::Run() {
+	Timer::Run();
+	System::Messenger::BroadCastMessages();
+	GLib::Service(BQuit);
+}
+
+inline void System::Process::LateRun() {
+	InputMap::ClearInputMap();
+}
+
+inline void System::Process::GameInit() {
+	Engine::EntityMaster::Init();
 }

@@ -21,7 +21,9 @@ namespace Engine {
 }
 
 inline void Engine::EntityPhysics3D::init() {
-
+	for (auto it = list.begin(); it != list.end(); ++it) {
+		(*it)->init();
+	}
 }
 
 inline void Engine::EntityPhysics3D::push(Physics3D * i_component) {

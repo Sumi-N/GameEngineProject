@@ -17,3 +17,12 @@ void Engine::EntityMaster::Release() {
 	delete Physics;
 	delete SRenderer;
 }
+
+void Engine::EntityMaster::Update(float dt) {
+	Physics->update(dt);
+	SRenderer->update();
+
+	for (auto it = ObjectList->begin(); it != ObjectList->end(); ++it) {
+		(*it)->pointer->update();
+	}
+}

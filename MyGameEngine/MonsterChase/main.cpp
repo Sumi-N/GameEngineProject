@@ -7,12 +7,10 @@
 #include "AdvancedScriptReader.h"
 #include "Messenger.h"
 #include "EntityMaster.h"
-#include "Physics3D.h"
-#include "SmartPointers.h"
-#include "EntityPhysics3D.h"
-#include "Object3DPointer.h"
+
 #include "Player.h"
 #include "PlayerPhysics.h"
+#include "Monster.h"
 
 #include <Windows.h>
 #include <crtdbg.h>  
@@ -31,84 +29,37 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 	if (bSuccess)
 	{
-		System::Process::Init();
+		System::Process::Boot();
 
 		System::AdvancedScriptReader<Player, PlayerPhysics>::CreateObject("..\\Assets\\editabledatas\\player1.lua");
-		System::AdvancedScriptReader<Player, PlayerPhysics>::CreateObject("..\\Assets\\editabledatas\\player2.lua");
-		//System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player3.lua");
-		//System::ScriptReader::CreateActor("..\\Assets\\editabledatas\\player4.lua");
+		System::AdvancedScriptReader<Monster, PlayerPhysics>::CreateObject("..\\Assets\\editabledatas\\player2.lua");
 
-		bool bQuit = false;
-
-		// Get components
-		std::list<Physics3D *> phy_list = Engine::EntityMaster::Physics->getList();
-		auto phy_player = std::find_if(phy_list.begin(), phy_list.end(), [](Physics3D * e) {auto objpointer = e->pointer; return objpointer->name == "GoodGuy"; });
-
-		std::list<Engine::Object3DPointer *> obj_list = *Engine::EntityMaster::ObjectList;
-		auto obj_enemy = std::find_if(obj_list.begin(), obj_list.end(), [&](Engine::Object3DPointer* e) {return e->pointer->name == "BadGuy"; });
-		auto obj_player = std::find_if(obj_list.begin(), obj_list.end(), [&](Engine::Object3DPointer* e) {return e->pointer->name == "GoodGuy"; });
+		System::Process::GameInit();
 
 		float timer = 0.0f;
 
 		do
 		{
-			Timer::Run();
+			System::Process::Run();
 
-			// IMPORTANT: We need to let GLib do it's thing. 
-			GLib::Service(bQuit);
-
-			if (!bQuit)
+			if (!System::Process::BQuit)
 			{
 				Engine::EntityMaster::Update(static_cast<float>(Time::dt));
 
 				timer += static_cast<float>(Time::dt);
 				if (timer < 10000) {
-					DEBUG_PRINT("%f", timer/1000);
+					//DEBUG_PRINT("%f", timer/1000);
 				}
 
-				Vector3D pos_player = (*obj_player)->pointer->pos;
-				Vector3D pos_enemy = (*obj_enemy)->pointer->pos;
-				
-				if (pos_enemy.x >= pos_player.x) {
-					(*obj_enemy)->pointer->pos.x -= 0.01f;
-				}
-				else {
-					(*obj_enemy)->pointer->pos.x += 0.01f;
-				}
-
-				if (pos_enemy.y >= pos_player.y) {
-					(*obj_enemy)->pointer->pos.y -= 0.01f;
-				}
-				else {
-					(*obj_enemy)->pointer->pos.y += 0.01f;
-				}
-
-				if ((InputMap::Map)->at(68) == true) {
-					(*phy_player)->addForce(Vector3D(20,0,0));
-					//DEBUG_PRINT("right");
-				}
-				else if ((InputMap::Map)->at(65) == true) {
-					(*phy_player)->addForce(Vector3D(-20, 0, 0));
-					//DEBUG_PRINT("left", timer);
-				}
-				else if ((InputMap::Map)->at(87) == true) {
-					(*phy_player)->addForce(Vector3D(0, 20, 0));
-					//DEBUG_PRINT("up", timer);
-				}
-				else if ((InputMap::Map)->at(83) == true) {
-					(*phy_player)->addForce(Vector3D(0, -20, 0));
-					//DEBUG_PRINT("down", timer);
-				}
-
-				System::Messenger::BroadCastMessages();
 			}
-			InputMap::ClearInputMap();
-		} while (bQuit == false);
 
-		System::Process::Quit();
+			System::Process::LateRun();
+		} while (System::Process::BQuit == false);
+
+		System::Process::ShutDown();
 	}
 
 #if defined _DEBUG
 	_CrtDumpMemoryLeaks();
-#endif // _DEBUG
+#endif
 }
