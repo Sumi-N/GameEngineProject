@@ -1,3 +1,4 @@
+#pragma once
 #include "CollisionDetection.h"
 #include "Matrix4.h"
 

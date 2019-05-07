@@ -173,13 +173,16 @@ inline Object3D * System::AdvancedScriptReader<ObjectDerived, PhysicsDerived>::C
 		lua_pushstring(pluastate, "path");
 		typecheck = lua_gettable(pluastate, -2);
 		assert(typecheck == LUA_TSTRING);
-		srend.createSprite(lua_tostring(pluastate, -1));
-		lua_pop(pluastate, 2);
+		const char * path = lua_tostring(pluastate, -1);
+		if (path != "") {
+			srend.createSprite(path);
+			lua_pop(pluastate, 2);
 
-		srend.pointer = objp->pointer;
-		Engine::EntityMaster::SRenderer->push(srend);
-		// Just for temporal solution, pass the AABB information
-		srend.PassAABBInfo();
+			srend.pointer = objp->pointer;
+			Engine::EntityMaster::SRenderer->push(srend);
+			// Just for temporal solution, pass the AABB information
+			srend.PassAABBInfo();
+		}
 	}
 	else if (typecheck != LUA_TNIL) {
 		assert(0);

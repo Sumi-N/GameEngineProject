@@ -10,6 +10,7 @@
 #include "PlayerPhysics.h"
 #include "Monster.h"
 #include "MonsterPhysics.h"
+#include "CountDown.h"
 
 #include <Windows.h>
 #include <crtdbg.h>  
@@ -32,10 +33,9 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 
 		System::AdvancedScriptReader<Player, PlayerPhysics>::CreateObject("..\\Assets\\editabledatas\\player1.lua");
 		System::AdvancedScriptReader<Monster, MonsterPhysics>::CreateObject("..\\Assets\\editabledatas\\player2.lua");
+		System::AdvancedScriptReader<CountDown, Physics3D>::CreateObject("..\\Assets\\editabledatas\\Timer.lua");
 
 		System::Process::GameInit();
-
-		float timer = 0.0f;
 
 		do
 		{
@@ -44,11 +44,6 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 			if (!System::Process::BQuit)
 			{
 				Engine::EntityMaster::Update(static_cast<float>(Time::dt));
-
-				timer += static_cast<float>(Time::dt);
-				if (timer < 10000) {
-					//DEBUG_PRINT("%f", timer/1000);
-				}
 
 			}
 

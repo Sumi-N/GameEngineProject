@@ -1,13 +1,14 @@
+#pragma once
 #include "DebugLog.h"
 
 #include <Windows.h>
 
 namespace Time {
-	static double frequencypermillisecond;
-	static LARGE_INTEGER lpFrequency;
-	static LARGE_INTEGER lpPerformanceCount_begin;
-	static LARGE_INTEGER lpPerformanceCount_end;
-	static double dt;
+	extern double frequencypermillisecond;
+	extern LARGE_INTEGER lpFrequency;
+	extern LARGE_INTEGER lpPerformanceCount_begin;
+	extern LARGE_INTEGER lpPerformanceCount_end;
+	extern double dt;
 }
 
 class Timer {
