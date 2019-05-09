@@ -26,14 +26,10 @@ public:
 };
 
 template <class T, class U> 
-inline Vector2D<T, U>::Vector2D() {
-}
+inline Vector2D<T, U>::Vector2D() {}
 
 template <class T, class U> 
-inline Vector2D<T,U>::Vector2D(T i_data1, U i_data2) {
-	x = i_data1;
-	y = i_data2;
-}
+inline Vector2D<T,U>::Vector2D(T i_data1, U i_data2): x(i_data1), y(i_data2) {}
 
 template <class T, class U> 
 inline Vector2D<T, U>::~Vector2D() {

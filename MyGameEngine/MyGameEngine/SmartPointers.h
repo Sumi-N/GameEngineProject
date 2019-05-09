@@ -38,21 +38,16 @@ namespace Engine {
 
 	public:
 		// Default Constructor
-		OwningPointer() {
-			ref = nullptr;
-			data = nullptr;
-		};
+		OwningPointer(): ref(nullptr), data(nullptr) {};
 
 		// Standard Constructor
-		explicit OwningPointer(T * i_ptr) {
+		explicit OwningPointer(T * i_ptr){
 			data = i_ptr;
 			ref = new ReferenceCounters(1,0);
 		};
 
 		// Copy Constructor
-		OwningPointer(const OwningPointer & i_other) {
-			this->data = i_other.data;
-			this->ref = i_other.ref;
+		OwningPointer(const OwningPointer & i_other): data(i_other.data), ref(i_other.ref) {
 			i_other.ref->OwnerReferences++;
 		};
 
@@ -60,9 +55,7 @@ namespace Engine {
 		// OwningPointer<Base> BasePtr( new Base() );
 		// OwningPointer<Default> DefaultPtr = BasePtr; <-- Used here
 		template<class U>
-		OwningPointer(const OwningPointer<U> & i_other) {
-			this->data = i_other.data;
-			this->ref = i_other.ref;
+		OwningPointer(const OwningPointer<U> & i_other) : data(i_other.data), ref(i_other.ref) {
 			i_other.ref->OwnerReferences++;
 		};
 
@@ -313,10 +306,7 @@ namespace Engine {
 
 	public:
 		// Default Constructor
-		ObservingPointer() {
-			ref = nullptr;
-			data = nullptr;
-		};
+		ObservingPointer(): ref(nullptr), data(nullptr) {};
 
 		// Copy Constructors
 		ObservingPointer(const ObservingPointer & i_owner) {
@@ -331,9 +321,7 @@ namespace Engine {
 		};
 
 		template<class U>
-		ObservingPointer(const OwningPointer<U> & i_owner) {
-			ref = i_owner.ref;
-			data = i_owner.data;
+		ObservingPointer(const OwningPointer<U> & i_owner): ref(i_owner.ref), data(i_owner.data){
 			ref->ObserverReferences++;
 		};
 

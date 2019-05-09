@@ -37,9 +37,8 @@ private:
 
 
 inline Physics2D::Physics2D()
+	: mass(1), air_fric(0.02)
 {
-	mass = 1;
-	air_fric = 0.02;
 	vel.set(Vector2D<double, double>(0, 0));
 	acc.set(Vector2D<double, double>(0, 0));
 }

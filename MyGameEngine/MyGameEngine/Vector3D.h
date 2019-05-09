@@ -36,28 +36,16 @@ public:
 	void set(float,float,float);
 };
 
-inline Vector3D::Vector3D() {
-	this->x = 0.0f;
-	this->y = 0.0f;
-	this->z = 0.0f;
-}
+inline Vector3D::Vector3D()
+	: x(0.0f),y(0.0f),z(0.0f) {}
 
-inline Vector3D::Vector3D(const Vector3D & i_vec) {
-	this->x = i_vec.x;
-	this->y = i_vec.y;
-	this->z = i_vec.z;
-}
+inline Vector3D::Vector3D(const Vector3D & i_vec)
+	: x(i_vec.x), y(i_vec.y), z(i_vec.z) {}
 
 inline Vector3D::Vector3D(const float i_x, const float i_y, const float i_z)
-{
-	this->x = i_x;
-	this->y = i_y;
-	this->z = i_z;
-}
+	: x(i_x), y(i_y), z(i_z) {}
 
-inline Vector3D::~Vector3D() {
-
-}
+inline Vector3D::~Vector3D() {}
 
 inline Vector3D & Vector3D::operator=(const Vector3D & i_vec){
 	this->x = i_vec.x;
