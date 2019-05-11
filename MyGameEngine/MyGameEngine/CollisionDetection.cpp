@@ -20,7 +20,7 @@ void Engine::CollisionDetection::For2D(Physics3D * i_phyA, Physics3D * i_phyB)
 			if (CastToXAxis(i_phyB, ainb)) {
 				if (CastToYAxis(i_phyB, ainb)) {
 					DEBUG_PRINT("IT'S COLLIGIND!!!!");
-					Collide(i_phyA, i_phyB);
+					//Collide(i_phyA, i_phyB);
 					return;
 				}
 				else {
