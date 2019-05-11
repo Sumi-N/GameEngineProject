@@ -1,133 +1,59 @@
-#define _CRTDBG_MAP_ALLOC  
-#include "Monster.h"
-#include "MonsterController.h"
-#include "Player.h"
-#include "PlayerController.h"
-#include "List.h"
+#pragma once
+#define _CRTDBG_MAP_ALLOC
 #include "DebugLog.h"
-#include "HeapManager.h"
 #include "Allocator.h"
+#include "Process.h"
+#include "AdvancedScriptReader.h"
+#include "EntityMaster.h"
+
+#include "Player.h"
+#include "PlayerPhysics.h"
+#include "Monster.h"
+#include "MonsterPhysics.h"
+#include "CountDown.h"
+
 #include <Windows.h>
 #include <crtdbg.h>  
 #include <iostream>
+#include <list>
 
-int monsterchase() {
+//extern bool HeapManager_UnitTest();
+#include "CharacterString_UnitTest.h"
+#include "Matrix4_UnitTest.h"
+#include "Vector3_UnitTest.h"
 
-	int mn;
-	int *deletelist;
-	char *p;
-	char player[256];
-	int namelength;
-	p = player;
+int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmdLine, int i_nCmdShow) {
 
-	std::cout << "choose the number of monster" << std::endl;
-	std::cin >> mn;
-	assert(typeid(mn).name() != "int");
-	std::cout << "the number of monster pops up : " << mn << std::endl;
-	std::cout << "type your player name" << std::endl;
-	std::cin >> player;
-	//std::cout << "your name is " << player << std::endl;
+	// IMPORTANT: first we need to initialize GLib
+	bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 1200, 600);
 
-	for (int i = 0; i < 256; i++) {
-		if (player[i] == '\0' || player[i] == ' ') {
-			namelength = i;
-			break;
-		}
-	}
+	if (bSuccess)
+	{
+		System::Process::Boot();
 
-	List<MonsterController*> monstercontrollers;
+		System::AdvancedScriptReader<Player, PlayerPhysics>::CreateObject("..\\Assets\\editabledatas\\player1.lua");
+		System::AdvancedScriptReader<Monster, MonsterPhysics>::CreateObject("..\\Assets\\editabledatas\\player2.lua");
+		System::AdvancedScriptReader<CountDown, Physics3D>::CreateObject("..\\Assets\\editabledatas\\Timer.lua");
 
-	for (int i = 0; i < mn; i++) {
-		Monster* monster = new(pHeapManager) Monster;
-		monster->randomName(10);
-		MonsterController * mcontroller = new(pHeapManager) MonsterController(*monster);
-		monstercontrollers.add(mcontroller);
-		delete monster;
-	}
-	deletelist = new int[mn];
-	int * headofdelete = deletelist;
+		System::Process::GameInit();
 
+		do
+		{
+			System::Process::Run();
 
-	Player sumi;
-	sumi.setName(p, namelength);
-	PlayerController pcontroller = PlayerController(sumi);
-	
+			if (!System::Process::BQuit)
+			{
+				Engine::EntityMaster::Update(static_cast<float>(Time::dt));
 
-	
-	int turncount = 0;
-	char order = 'p';
-	int count;
-	while (order != 'q') {
-
-		if (turncount != 3) {
-			turncount++;
-		}
-		else {
-			turncount = 0;
-			Monster* monster = new(pHeapManager) Monster;
-			monster->randomName(10);
-			MonsterController * mcontroller = new(pHeapManager) MonsterController(*monster);
-			monstercontrollers.add(mcontroller);
-			delete monster;
-		}
-
-		for (int i = 0; i < monstercontrollers.length(); i++) {
-			monstercontrollers.get(i)->object.showPosition();
-		}
-		pcontroller.object.showPosition();
-		printf("%d\n", monstercontrollers.length());
-
-		std::cout << "press \' a\' to move right \'d\' to move left \'w\' to move up \'s\' to move down \'q\' to quit this game" << std::endl;
-		std::cin >> order;
-
-		pcontroller.moveByOrder(order);
-		for (int i = 0; i < monstercontrollers.length(); i++) {
-			monstercontrollers.get(i)->moveRandomly();
-		}
-		count = 0;
-		for (int i = 0; i < monstercontrollers.length(); i++) {
-			if (monstercontrollers.get(i)->object.pos == pcontroller.object.pos) {
-				*(deletelist + count) = i;
-				printf("monster deleted\n");
-				count++;
 			}
-		}
-		int hosei = 0;
-		for (int i = 0; i < count; i++) {
-			monstercontrollers.remove(monstercontrollers.get(*(deletelist + i) - hosei));
-			hosei++;
-		}
 
-		count = 0;
-		for (int i = 0; i < monstercontrollers.length(); i++) {
-			for (int j = i; j < monstercontrollers.length(); j++) {
-				if (monstercontrollers.get(i)->object.pos == monstercontrollers.get(j)->object.pos) {
-					if (i == j) continue;
-					*(deletelist + count) = i;
-					printf("monster deleted\n");
-					count++;
-					break;
-				}
-			}
-		}
+			System::Process::LateRun();
+		} while (System::Process::BQuit == false);
 
-		int hosei2 = 0;
-		for (int i = 0; i < count; i++) {
-			monstercontrollers.remove(monstercontrollers.get(*(deletelist + i) - hosei2));
-			hosei2++;
-		}
+		System::Process::ShutDown();
 	}
 
-	delete[] headofdelete;
-	return 0;
-}
-
-#include <conio.h>
-extern bool HeapManager_UnitTest();
-
-int main() {
-	//HeapManager_UnitTest();
-	monsterchase();
+#if defined _DEBUG
 	_CrtDumpMemoryLeaks();
-	return 0;
+#endif
 }

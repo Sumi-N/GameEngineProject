@@ -1,0 +1,22 @@
+Since I didn't use any Matrix Vector multiplication in my collision system (I am using rotation(yaw) to tranlate to the other cordination system),
+I have made an inverse unit test script and while looping the unit test to see how fast it becomes after putting the intrinsic orders. Below is the result.
+
+1. This is the non optimized Matrix inverse
+https://imgur.com/hcU0HNC
+
+2. This is the optimized Matrix inverse
+https://imgur.com/NZulKhp
+
+It gets 10% percent faster when it is an intrinsic function
+
+///////////////////////////////////////////////////////
+
+Meanwhile, when I made Vector3 Vector3 addition, it rather became slower
+
+1. This is the non optimided Vector3 Vector3 addition
+https://imgur.com/8O53PRH
+
+2. This is the optimided Vector3 Vector3 addition
+https://imgur.com/6wBjMV4
+
+and I don't know why.

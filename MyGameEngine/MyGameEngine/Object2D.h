@@ -1,27 +1,41 @@
 #pragma once
 #include "Vector2D.h"
-#include "HeapManager.h"
-#include "DebugLog.h"
-#include <assert.h>
+#include "CharacterString.h"
 
 class Object2D
 {
 public:
-	char *headofname;
-	char *name;
-	int namelength;
-	Vector2D<int, int> pos;
+	CharacterString name;
+	Vector2D<double, double> pos;
 
 	Object2D();
 	~Object2D();
-	Object2D(const Object2D & obj);
 
-	Object2D & operator=(const Object2D & obj);
-
-	virtual void showPosition();
-	virtual void showName();
-	virtual Vector2D<int, int> getPosition();
-	virtual void setPosition(Vector2D<int, int> pos);
+	virtual void show() const;
 	void randomName(int);
+	void setPosition(const double,const double);
 };
 
+inline Object2D::Object2D()
+{
+	pos.x = rand() % 100;
+	pos.y = rand() % 100;
+}
+
+inline Object2D::~Object2D()
+{
+}
+
+inline void Object2D::randomName(int length) {
+	name.Random(length);
+}
+
+inline void Object2D::show() const
+{
+	printf("%s is at (%f,%f)\n", name.String(), pos.x, pos.y);
+}
+
+inline void Object2D::setPosition(const double i_x, const double i_y) {
+	pos.x = i_x;
+	pos.y = i_y;
+}

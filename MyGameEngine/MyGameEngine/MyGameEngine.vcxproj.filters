@@ -1,63 +1,198 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="DataStructure">
-      <UniqueIdentifier>{80663509-0eee-410e-946b-d1893a2c5651}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object">
-      <UniqueIdentifier>{8e35f844-1e73-4962-9eba-d742d999e690}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Debug">
       <UniqueIdentifier>{39b4dbca-65a8-470e-afe8-f2fbbfd6d653}</UniqueIdentifier>
     </Filter>
     <Filter Include="System">
       <UniqueIdentifier>{6eb5ee54-708b-4f6c-8db5-f6a54367886a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\HeapManager">
+      <UniqueIdentifier>{e2c8afb7-8e44-4d46-9928-4d0c49fe6764}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{8e35f844-1e73-4962-9eba-d742d999e690}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Components">
+      <UniqueIdentifier>{15461e9f-5711-4c12-942d-709cd23affa7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataStructure">
+      <UniqueIdentifier>{80663509-0eee-410e-946b-d1893a2c5651}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\EntitySystem">
+      <UniqueIdentifier>{bf6031b8-56cc-4787-a06c-edfaffa2476c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\EditableStructureSystem">
+      <UniqueIdentifier>{f0a25661-68d1-4a5b-9849-019f997b8d01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Regacy">
+      <UniqueIdentifier>{56427c0d-15de-4091-88d4-d33a23f43dd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Regacy\Objects">
+      <UniqueIdentifier>{8082f0d5-3cac-417e-832d-33617d9d3f80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Regacy\Components">
+      <UniqueIdentifier>{0156e072-261a-449d-ac4e-dc815c336e69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Regacy\DataStructure">
+      <UniqueIdentifier>{9b18fb73-a6ea-47ff-9ab2-2f23dc671047}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Regacy\UnitTests">
+      <UniqueIdentifier>{e423b87c-9e0e-42c4-b892-8ccd11016186}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTests">
+      <UniqueIdentifier>{aeba3552-a3d6-4697-932e-59918b429028}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Regacy\System">
+      <UniqueIdentifier>{7d163a49-692e-4c9f-98e7-d544da68145a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\EntitySystem\EntitySubSystem">
+      <UniqueIdentifier>{57ec68ef-51ca-4d03-b790-3e96f1af717c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Utility">
+      <UniqueIdentifier>{6bf8538c-f347-40a4-be60-74daceed27c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Messenger/Delegate">
+      <UniqueIdentifier>{535c669d-f24f-4d64-af89-21bd5dce30f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Object2D.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
     <ClCompile Include="DebugLog.cpp">
       <Filter>Debug</Filter>
     </ClCompile>
     <ClCompile Include="HeapManager.cpp">
-      <Filter>System</Filter>
+      <Filter>System\HeapManager</Filter>
     </ClCompile>
     <ClCompile Include="HeapManagerProxy-Sample.cpp">
-      <Filter>System</Filter>
+      <Filter>System\HeapManager</Filter>
     </ClCompile>
     <ClCompile Include="HeapManager_UnitTest.cpp">
-      <Filter>System</Filter>
+      <Filter>UnitTests</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectController.cpp">
-      <Filter>Object</Filter>
+    <ClCompile Include="SpriteRenderer.cpp">
+      <Filter>Objects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionDetection.cpp">
+      <Filter>System\EntitySystem\EntitySubSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix4.cpp">
+      <Filter>DataStructure</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptReader.cpp">
+      <Filter>System\EditableStructureSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityMaster.cpp">
+      <Filter>System\EntitySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Messenger.cpp">
+      <Filter>System\Messenger/Delegate</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>System\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Object2D.h">
-      <Filter>Object</Filter>
-    </ClInclude>
     <ClInclude Include="Vector2D.h">
-      <Filter>DataStructure</Filter>
-    </ClInclude>
-    <ClInclude Include="List.h">
       <Filter>DataStructure</Filter>
     </ClInclude>
     <ClInclude Include="DebugLog.h">
       <Filter>Debug</Filter>
     </ClInclude>
     <ClInclude Include="HeapManager.h">
-      <Filter>System</Filter>
+      <Filter>System\HeapManager</Filter>
     </ClInclude>
     <ClInclude Include="HeapManagerProxy.h">
-      <Filter>System</Filter>
+      <Filter>System\HeapManager</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectController.h">
-      <Filter>Object</Filter>
+    <ClInclude Include="SpriteRenderer.h">
+      <Filter>Objects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SmartPointers.h">
+      <Filter>DataStructure</Filter>
     </ClInclude>
     <ClInclude Include="Allocator.h">
-      <Filter>System</Filter>
+      <Filter>System\HeapManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptReader.h">
+      <Filter>System\EditableStructureSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySpriteRenderer.h">
+      <Filter>System\EntitySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityMaster.h">
+      <Filter>System\EntitySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3D.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3D.h">
+      <Filter>DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="Object2D.h">
+      <Filter>Regacy\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics2D.h">
+      <Filter>Regacy\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectController.h">
+      <Filter>Regacy\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="List.h">
+      <Filter>Regacy\DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterString.h">
+      <Filter>Regacy\DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterString_UnitTest.h">
+      <Filter>Regacy\UnitTests</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics3D.h">
+      <Filter>Objects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Object2DMaster.h">
+      <Filter>Regacy\System</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityPhysics3D.h">
+      <Filter>System\EntitySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityPhysics2D.h">
+      <Filter>Regacy\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix4.h">
+      <Filter>DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4D.h">
+      <Filter>DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix4_UnitTest.h">
+      <Filter>UnitTests</Filter>
+    </ClInclude>
+    <ClInclude Include="InputMap.h">
+      <Filter>System\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>System\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionDetection.h">
+      <Filter>System\EntitySystem\EntitySubSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3DPointer.h">
+      <Filter>System\EntitySystem\EntitySubSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Process.h">
+      <Filter>System\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3_UnitTest.h">
+      <Filter>UnitTests</Filter>
+    </ClInclude>
+    <ClInclude Include="Delegates.h">
+      <Filter>System\Messenger/Delegate</Filter>
+    </ClInclude>
+    <ClInclude Include="Messenger.h">
+      <Filter>System\Messenger/Delegate</Filter>
+    </ClInclude>
+    <ClInclude Include="AdvancedScriptReader.h">
+      <Filter>System\EditableStructureSystem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

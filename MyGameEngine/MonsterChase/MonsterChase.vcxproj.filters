@@ -26,10 +26,13 @@
     <ClInclude Include="Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MonsterController.h">
+    <ClInclude Include="PlayerPhysics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerController.h">
+    <ClInclude Include="MonsterPhysics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CountDown.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
