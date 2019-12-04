@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyGameEngine", "MyGameEngine\MyGameEngine.vcxproj", "{319D92D9-944C-4793-8BB9-D41497B03345}"
 	ProjectSection(ProjectDependencies) = postProject
 		{BDF98E69-FC1B-4010-B9D7-8DB75E26A245} = {BDF98E69-FC1B-4010-B9D7-8DB75E26A245}
+		{C8572E70-1B3F-469B-BB92-96DD46C72504} = {C8572E70-1B3F-469B-BB92-96DD46C72504}
 		{B2AB67DE-B7FA-42BA-B060-959487392AEA} = {B2AB67DE-B7FA-42BA-B060-959487392AEA}
 	EndProjectSection
 EndProject
@@ -20,7 +21,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLib", "GLib\GLib.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lua-WinLibs", "Lua\Lua-WinLibs.vcxproj", "{BDF98E69-FC1B-4010-B9D7-8DB75E26A245}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Math", "Core\Math\Math\Math.vcxproj", "{C8572E70-1B3F-469B-BB92-96DD46C72504}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Math", "Core\Math\Math.vcxproj", "{C8572E70-1B3F-469B-BB92-96DD46C72504}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

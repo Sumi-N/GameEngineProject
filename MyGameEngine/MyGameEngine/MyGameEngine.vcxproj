@@ -68,7 +68,7 @@
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Math\Math\Math.vcxproj">
+    <ProjectReference Include="..\Core\Math\Math.vcxproj">
       <Project>{c8572e70-1b3f-469b-bb92-96dd46c72504}</Project>
     </ProjectReference>
   </ItemGroup>
@@ -76,7 +76,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{319D92D9-944C-4793-8BB9-D41497B03345}</ProjectGuid>
     <RootNamespace>MyGameEngine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -133,7 +133,7 @@
       <PreprocessorDefinitions>__DEBUG_BUILD__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <BrowseInformation>true</BrowseInformation>
-      <AdditionalIncludeDirectories>$(SolutionDir)GLib;$(SolutionDir)Lua\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GLib;$(SolutionDir)Lua\src;$(SolutionDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -151,7 +151,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>__DEBUG_BUILD__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>$(SolutionDir)GLib;$(SolutionDir)Lua\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GLib;$(SolutionDir)Lua\src;$(SolutionDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>GLib.lib;lua-5.3.2-Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -167,7 +167,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>__RELEASE_BUILD__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)GLib;$(SolutionDir)Lua\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GLib;$(SolutionDir)Lua\src;$(SolutionDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -187,7 +187,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>__RELEASE_BUILD__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)GLib;$(SolutionDir)Lua\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GLib;$(SolutionDir)Lua\src;$(SolutionDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

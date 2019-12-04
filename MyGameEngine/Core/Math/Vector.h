@@ -26,10 +26,10 @@ namespace Math {
 		template <typename U> explicit Vec3(Vec3<U> const& u) : x(static_cast<T>(u.x)), y(static_cast<T>(u.y)), z(static_cast<T>(u.z)) {}
 
 		//!@ Operator with constant value
-		friend Vec3 operator+(T t, Vec3 const& u) { Vec3 o_v; o_v.x = t + u.x; o_v.y = t + u.y; o_v.z = t + u.z; return o_v; }
-		friend Vec3 operator-(T t, Vec3 const& u) { Vec3 o_v; o_v.x = t - u.x; o_v.y = t - u.y; o_v.z = t - u.z; return o_v; }
-		friend Vec3 operator*(T t, Vec3 const& u) { Vec3 o_v; o_v.x = t * u.x; o_v.y = t * u.y; o_v.z = t * u.z; return o_v; }
-		       Vec3 operator/(T const t)  const { Vec3 o_v; o_v.x = x / t; o_v.y = y / t; o_v.z = z / t; return o_v; }
+		friend Vec3 operator + (T t, Vec3 const& u) { Vec3 o_v; o_v.x = t + u.x; o_v.y = t + u.y; o_v.z = t + u.z; return o_v; }
+		friend Vec3 operator - (T t, Vec3 const& u) { Vec3 o_v; o_v.x = t - u.x; o_v.y = t - u.y; o_v.z = t - u.z; return o_v; }
+		friend Vec3 operator * (T t, Vec3 const& u) { Vec3 o_v; o_v.x = t * u.x; o_v.y = t * u.y; o_v.z = t * u.z; return o_v; }
+		       Vec3 operator / (T const t)  const { Vec3 o_v; o_v.x = x / t; o_v.y = y / t; o_v.z = z / t; return o_v; }
 
 		//!@ Binary operators
 		Vec3 operator + (Vec3 const& i_v) const { Vec3 o_v; o_v.x = x + i_v.x; o_v.y = y + i_v.y; o_v.z = z + i_v.z; return o_v; }
@@ -66,6 +66,16 @@ namespace Math {
 			struct { float x, y, z; };
 			struct { float r, g, b; };
 		};
+
+		Vec3<float> operator + (Vec3<float> const& i_v) const { Vec3<float> o_v; o_v.m_vec = _mm_add_ps(m_vec, i_v.m_vec); return o_v;}
 	};
 
 } // <- namespace Math
+
+
+//typedef Math::Vec3<unsigned short>   Vec3us;
+//typedef Math::Vec3<short>            Vec3s;
+//typedef Math::Vec3<unsigned int>     Vec3ui;
+//typedef Math::Vec3<int>              Vec3i;
+typedef Math::Vec3<float>            Vec3f;
+typedef Math::Vec3<double>           Vec3d;
