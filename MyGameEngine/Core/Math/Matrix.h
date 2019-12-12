@@ -30,5 +30,14 @@ namespace Math
 		};
 
 		Matrix4() = default;
+
+		Vec4<T> operator * (Vec4<T> const & i_v) const;
 	};
+
+	template<typename T>
+	inline Vec4<T> Matrix4<T>::operator*(Vec4<T> const & i_v) const
+	{
+
+		return Vec4<T>();
+	}
 }

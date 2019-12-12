@@ -67,8 +67,24 @@ namespace Math {
 			struct { float r, g, b; };
 		};
 
-		Vec3<float> operator + (Vec3<float> const& i_v) const { Vec3<float> o_v; o_v.m_vec = _mm_add_ps(m_vec, i_v.m_vec); return o_v;}
+		//!@ Constructor
+		Vec3() = default;
+		Vec3(float i_x, float i_y, float i_z) : x(i_x), y(i_y), z(i_z) {}
+
+		Vec3<float> operator + (Vec3<float> const& i_v) const;
 	};
+
+	inline Vec3<float> Vec3<float>::operator+ (Vec3<float> const& i_v) const 
+	{
+		Vec3<float> o_v;
+
+#ifdef  __AVX__
+		o_v.m_vec = _mm_add_ps(m_vec, i_v.m_vec); 		
+#else
+		o_v = Vec3(this->x + i_v.x, this->y + i_v.y, z + i_v.z);
+#endif //  __AVX__
+		return o_v;
+	}
 
 } // <- namespace Math
 
