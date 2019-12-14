@@ -123,9 +123,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="Matrix.intrinsic.cpp" />
     <ClCompile Include="Vector.cpp" />
+    <ClCompile Include="Vector.intrinsic.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Define.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>

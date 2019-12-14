@@ -68,7 +68,7 @@ inline Object3D * System::AdvancedScriptReader<ObjectDerived, PhysicsDerived>::C
 	float z = static_cast<float>(lua_tonumber(pluastate, -1));
 	lua_pop(pluastate, 1);
 
-	obj->pos.set(x, y, z);
+	obj->pos.Set(x, y, z);
 	lua_pop(pluastate, 2);
 
 	//Get Rotation variable
@@ -89,7 +89,7 @@ inline Object3D * System::AdvancedScriptReader<ObjectDerived, PhysicsDerived>::C
 	float yaw = static_cast<float>(lua_tonumber(pluastate, -1));
 	lua_pop(pluastate, 1);
 
-	obj->rot.set(roll, pitch, yaw);
+	obj->rot.Set(roll, pitch, yaw);
 	lua_pop(pluastate, 2);
 
 	//Get Physics Component
@@ -132,7 +132,7 @@ inline Object3D * System::AdvancedScriptReader<ObjectDerived, PhysicsDerived>::C
 		float vel_z = static_cast<float>(lua_tonumber(pluastate, -1));
 		lua_pop(pluastate, 1);
 
-		phy->vel.set(vel_x, vel_y, vel_z);
+		phy->vel.Set(vel_x, vel_y, vel_z);
 		lua_pop(pluastate, 1);
 
 		lua_pop(pluastate, 1);
@@ -155,7 +155,7 @@ inline Object3D * System::AdvancedScriptReader<ObjectDerived, PhysicsDerived>::C
 		float acc_z = static_cast<float>(lua_tonumber(pluastate, -1));
 		lua_pop(pluastate, 1);
 
-		phy->acc.set(acc_x, acc_y, acc_z);
+		phy->acc.Set(acc_x, acc_y, acc_z);
 		lua_pop(pluastate, 1);
 
 		lua_pop(pluastate, 1);

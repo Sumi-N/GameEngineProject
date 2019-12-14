@@ -1,8 +1,9 @@
 #pragma once
-#include "CollisionDetection.h"
-#include "Matrix4.h"
 
+#include <Core/Math/Matrix.h>
 #include <math.h>
+
+#include "CollisionDetection.h"
 
 /*
  ef == end time of the frame
@@ -117,15 +118,15 @@ void Engine::CollisionDetection::CordinationTranslation(const float i_ddt, const
 	float rotation_angle_cf    = -1 * ((*obj_base)->rot.z);
 	float rotation_angle_ef = -1 * ((*obj_base)->rot.z); // This line should be changed onece the rotation update function ih physics3d has done.
 
-	o_boun_trans_cf.ur = Matrix4::Yaw(rotation_angle_cf) * o_boun_trans_cf.ur;
-	o_boun_trans_cf.ul = Matrix4::Yaw(rotation_angle_cf) * o_boun_trans_cf.ul;
-	o_boun_trans_cf.lr = Matrix4::Yaw(rotation_angle_cf) * o_boun_trans_cf.lr;
-	o_boun_trans_cf.ll = Matrix4::Yaw(rotation_angle_cf) * o_boun_trans_cf.ll;
+	o_boun_trans_cf.ur = Matrix4f::Yaw(rotation_angle_cf) * o_boun_trans_cf.ur;
+	o_boun_trans_cf.ul = Matrix4f::Yaw(rotation_angle_cf) * o_boun_trans_cf.ul;
+	o_boun_trans_cf.lr = Matrix4f::Yaw(rotation_angle_cf) * o_boun_trans_cf.lr;
+	o_boun_trans_cf.ll = Matrix4f::Yaw(rotation_angle_cf) * o_boun_trans_cf.ll;
 
-	o_boun_trans_ef.ur = Matrix4::Yaw(rotation_angle_ef) * o_boun_trans_ef.ur;
-	o_boun_trans_ef.ul = Matrix4::Yaw(rotation_angle_ef) * o_boun_trans_ef.ul;
-	o_boun_trans_ef.lr = Matrix4::Yaw(rotation_angle_ef) * o_boun_trans_ef.lr;
-	o_boun_trans_ef.ll = Matrix4::Yaw(rotation_angle_ef) * o_boun_trans_ef.ll;
+	o_boun_trans_ef.ur = Matrix4f::Yaw(rotation_angle_ef) * o_boun_trans_ef.ur;
+	o_boun_trans_ef.ul = Matrix4f::Yaw(rotation_angle_ef) * o_boun_trans_ef.ul;
+	o_boun_trans_ef.lr = Matrix4f::Yaw(rotation_angle_ef) * o_boun_trans_ef.lr;
+	o_boun_trans_ef.ll = Matrix4f::Yaw(rotation_angle_ef) * o_boun_trans_ef.ll;
 
 	Vec3f base_center_initial = (*obj_base)->pos + (*obj_base)->extent_height;
 	Vec3f base_center_cf = base_center_initial + i_ddt * i_phy_base->vel;

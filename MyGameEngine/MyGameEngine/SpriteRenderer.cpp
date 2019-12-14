@@ -105,8 +105,8 @@ void * SpriteRenderer::loadFile(const char * i_pFilename, size_t & o_sizeFile)
 
 void SpriteRenderer::PassAABBInfo()
 {
-	pointer->extent_width = Vector3D(spriteWidth / 2, 0, 0);
-	pointer->extent_height = Vector3D(0, spriteHeight / 2, 0);
+	pointer->extent_width = Vec3f(spriteWidth / 2, 0, 0);
+	pointer->extent_height = Vec3f(0, spriteHeight / 2, 0);
 
 	//DEBUG_PRINT("%f,%f,%f",pointer->aabb.center.x, pointer->aabb.center.y, pointer->aabb.center.z);
 }

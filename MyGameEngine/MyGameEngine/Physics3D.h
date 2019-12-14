@@ -1,5 +1,8 @@
 #pragma once
-#include "Vector3D.h"
+
+//#include <Core/Math/Vector.h>
+#include "../Core/Math/Vector.h"
+
 #include "Object3D.h"
 #include "SmartPointers.h"
 #include "Delegates.h"
@@ -12,7 +15,7 @@ public:
 	Physics3D(const Physics3D &) = delete;
 	~Physics3D();
 
-	void addForce(Vector3D);
+	void addForce(Vec3f);
 	void update(const float);
 	void updatePosition(const float);
 	void updateRotation(const float);
@@ -26,16 +29,16 @@ public:
 	float mass;
 	float fric;
 	float air_fric;
-	Vector3D vel;
-	Vector3D acc;
-	Vector3D ang_vel;
-	Vector3D ang_acc;
+	Vec3f vel;
+	Vec3f acc;
+	Vec3f ang_vel;
+	Vec3f ang_acc;
 
 	void* operator new(size_t);
 	void operator delete(void *);
 
 private:
-	Vector3D old_vel;	
+	Vec3f old_vel;	
 };
 
 inline Physics3D::Physics3D()
@@ -43,7 +46,7 @@ inline Physics3D::Physics3D()
 
 inline Physics3D::~Physics3D() {}
 
-inline void Physics3D::addForce(Vector3D i_force) {
+inline void Physics3D::addForce(Vec3f i_force) {
 	assert(pointer);
 	acc = acc + i_force / mass;
 }
@@ -69,7 +72,7 @@ inline void Physics3D::updatePosition(const float i_dt)
 	vel = vel + acc;
 	vel = (vel + old_vel) / 2;
 	pointer->pos = pointer->pos + i_dt * vel;
-	acc.set(0, 0, 0);
+	acc.Zero();
 }
 
 inline void Physics3D::updateRotation(const float)

@@ -56,6 +56,7 @@ namespace Math {
 		bool operator == (Vec3 const& i_v) const { return x == i_v.x && y == i_v.y && z == i_v.z; }
 		bool operator != (Vec3 const& i_v) const { return x != i_v.x && y != i_v.y && z != i_v.z; }
 
+		void Set       (T i_x, T i_y, T i_z) {x = i_x, y = i_y, z = i_z;}
 		void Zero      ()       { x = 0; y = 0; z = 0; }
 		bool IsZero    () const { return x == static_cast<T>(0) && y == static_cast<T>(0) && z == static_cast<T>(0); }
 		void Normalize ()       { *this /= Length(); }
@@ -77,10 +78,41 @@ namespace Math {
 		Vec3() = default;
 		Vec3(float i_x, float i_y, float i_z) : x(i_x), y(i_y), z(i_z) {}
 
+		template <typename U>
+		explicit Vec3(Vec3<U> const& u) : x(static_cast<float>(u.x)), y(static_cast<float>(u.y)), z(static_cast<float>(u.z)){}
+		template <typename U>
+		explicit Vec3(Vec4<U> const& t) : x(t.x), y(t.y), z(t.z) {}
+
+		//!@ Operator with constant value
+		friend Vec3 operator + (float t, Vec3 const& u)	{Vec3 o_v; o_v.x = t + u.x; o_v.y = t + u.y; o_v.z = t + u.z; return o_v;}
+		friend Vec3 operator - (float t, Vec3 const& u) {Vec3 o_v; o_v.x = t - u.x; o_v.y = t - u.y; o_v.z = t - u.z; return o_v;}
+		friend Vec3 operator * (float t, Vec3 const& u) {Vec3 o_v; o_v.x = t * u.x; o_v.y = t * u.y; o_v.z = t * u.z; return o_v;}
+		Vec3 operator / (float const t)  const	{Vec3 o_v; o_v.x = x / t; o_v.y = y / t; o_v.z = z / t; return o_v;	}
+
+		//!@ Binary operators
 		Vec3<float> operator + (Vec3<float> const& i_v) const;
 		Vec3<float> operator - (Vec3<float> const& i_v) const;
 		Vec3<float> operator * (Vec3<float> const& i_v) const;
 		Vec3<float> operator / (Vec3<float> const& i_v) const;
+
+		//!@ Assignment operators
+		Vec3 const& operator += (Vec3 const& i_v) { x += i_v.x; y += i_v.y; z += i_v.z; return *this; }
+		Vec3 const& operator -= (Vec3 const& i_v) { x -= i_v.x; y -= i_v.y; z -= i_v.z; return *this; }
+		Vec3 const& operator *= (Vec3 const& i_v) { x *= i_v.x; y *= i_v.y; z *= i_v.z; return *this; }
+		Vec3 const& operator /= (Vec3 const& i_v) { x /= i_v.x; y /= i_v.y; z /= i_v.z; return *this; }
+		Vec3 const& operator += (float    const  t) { x += t; y += t; z += t; return *this; }
+		Vec3 const& operator -= (float    const  t) { x -= t; y -= t; z -= t; return *this; }
+		Vec3 const& operator *= (float    const  t) { x *= t; y *= t; z *= t; return *this; }
+		Vec3 const& operator /= (float    const  t) { x /= t; y /= t; z /= t; return *this; }
+
+		bool operator == (Vec3 const& i_v) const { return x == i_v.x && y == i_v.y && z == i_v.z; }
+		bool operator != (Vec3 const& i_v) const { return x != i_v.x && y != i_v.y && z != i_v.z; }
+
+		void  Set(float i_x, float i_y, float i_z){x = i_x, y = i_y, z = i_z;}
+		void  Zero      ()       { x = 0; y = 0; z = 0; }
+		bool  IsZero    () const { return x == static_cast<float>(0) && y == static_cast<float>(0) && z == static_cast<float>(0); }
+		void  Normalize ()       { *this /= Length(); }
+		float Length() const { return Sqrt(static_cast<float>(x)* static_cast<float>(x) + static_cast<float>(y)* static_cast<float>(y) + static_cast<float>(z)* static_cast<float>(z)); }
 	};
 
 	template <typename T>
