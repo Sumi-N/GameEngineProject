@@ -48,7 +48,7 @@ inline Physics3D::~Physics3D() {}
 
 inline void Physics3D::addForce(Vec3f i_force) {
 	assert(pointer);
-	acc = acc + i_force / mass;
+	acc += i_force / mass;
 }
 
 inline void Physics3D::update(const float i_dt) {

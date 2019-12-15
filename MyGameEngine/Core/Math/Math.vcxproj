@@ -123,15 +123,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Matrix.cpp" />
-    <ClCompile Include="Matrix.intrinsic.cpp" />
-    <ClCompile Include="Vector.cpp" />
-    <ClCompile Include="Vector.intrinsic.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Define.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Vector.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Matrix.inl" />
+    <None Include="Matrix.intrinsic.inl" />
+    <None Include="Vector.inl" />
+    <None Include="Vector.intrinsic.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -180,6 +180,10 @@ namespace Math {
 		Vec4() = default;
 		Vec4(float i_x, float i_y, float i_z, float i_w) : x(i_x), y(i_y), z(i_z), w(i_w) {}
 
+		template <typename U>
+		explicit Vec4(Vec4<U> const& u) : x(static_cast<float>(u.x)), y(static_cast<float>(u.y)), z(static_cast<float>(u.z)), z(static_cast<float>(u.w)) {}
+		explicit Vec4(Vec3<float> const& t) : x(t.x), y(t.y), z(t.z), w(0) {}
+
 		Vec4<float> operator + (Vec4<float> const& i_v) const;
 		Vec4<float> operator - (Vec4<float> const& i_v) const;
 		Vec4<float> operator * (Vec4<float> const& i_v) const;
@@ -197,3 +201,6 @@ typedef Math::Vec3<double>           Vec3d;
 
 typedef Math::Vec4<float>            Vec4f;
 typedef Math::Vec4<double>           Vec4d;
+
+#include "Vector.inl"
+#include "Vector.intrinsic.inl"

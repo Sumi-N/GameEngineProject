@@ -1,9 +1,8 @@
-#include "Matrix.h"
 
 namespace Math {
 
 	template<typename T>
-	Matrix4<T> Matrix4<T>::operator*(Matrix4<T> const& i_m) const
+	inline Matrix4<T> Matrix4<T>::operator*(Matrix4<T> const& i_m) const
 	{
 		Matrix4 o_m;
 
@@ -28,15 +27,15 @@ namespace Math {
 	}
 
 	template<typename T>
-	Vec3<T> Matrix4<T>::operator*(Vec3<T> const& i_v) const
+	inline Vec3<T> Matrix4<T>::operator*(Vec3<T> const& i_v) const
 	{
 		Vec4<T> i_v4 = Vec4<T>(i_v);
-		Vec3<T> o_v3 = Vec3<T>(this * i_v4);
+		Vec3<T> o_v3 = Vec3<T>((*this) * i_v4);
 		return o_v3;
 	}
 
 	template<typename T>
-	Vec4<T> Matrix4<T>::operator*(Vec4<T> const& i_v) const
+	inline Vec4<T> Matrix4<T>::operator*(Vec4<T> const& i_v) const
 	{
 		Vec4<T> o_v;
 		o_v.x = ele[0]  * i_v.x + ele[1]  * i_v.y + ele[2]  * i_v.z + ele[3] *  i_v.w;
@@ -47,7 +46,7 @@ namespace Math {
 	}
 
 	template<typename T>
-	void Math::Matrix4<T>::Transpose() const
+	inline void Math::Matrix4<T>::Transpose() const
 	{
 		T tmp = ele[4];		ele[4] = ele[1];		ele[1] = tmp;
 		tmp = ele[2];		ele[2] = ele[8];		ele[8] = tmp;
@@ -58,7 +57,7 @@ namespace Math {
 	}
 
 	template<typename T>
-	void Math::Matrix4<T>::Inverse() const
+	inline void Math::Matrix4<T>::Inverse() const
 	{
 		T absvalue = ele[0] * (ele[5] * ele[10] * ele[15] + ele[6] * ele[11] * ele[13] + ele[7] * ele[9] * ele[14] - ele[7] * ele[10] * ele[13] - ele[6] * ele[9] * ele[15] - ele[5] * ele[11] * ele[14])
 			           - ele[4] * (ele[1] * ele[10] * ele[15] + ele[2] * ele[11] * ele[13] + ele[3] * ele[9] * ele[14] - ele[3] * ele[10] * ele[13] - ele[2] * ele[9] * ele[15] - ele[1] * ele[11] * ele[14])
@@ -103,7 +102,7 @@ namespace Math {
 	}
 
 	template<typename T>
-	Matrix4<T> Matrix4<T>::Roll(T const i_a)
+	inline Matrix4<T> Matrix4<T>::Roll(T const i_a)
 	{
 		Matrix4 o_m;
 		float radian = i_a * 2 * static_cast<T>(Math::Pi()) / 360;
@@ -118,7 +117,7 @@ namespace Math {
 	}
 
 	template<typename T>
-	Matrix4<T> Matrix4<T>::Pitch(T const i_a)
+	inline Matrix4<T> Matrix4<T>::Pitch(T const i_a)
 	{
 		Matrix4 o_m;
 		float radian = i_a * 2 * static_cast<T>(Math::Pi()) / 360;
@@ -133,10 +132,10 @@ namespace Math {
 	}
 
 	template<typename T>
-	Matrix4<T> Matrix4<T>::Yaw(T const i_a)
+	inline Matrix4<T> Matrix4<T>::Yaw(T const i_a)
 	{
 		Matrix4 o_m;
-		float radian = i_a * 2 * static_cast<T>(Math::Pi()) / 360;
+		float radian = i_a * 2 * static_cast<T>(Math::Pi<T>()) / 360;
 		o_m.ele[0] = cosf(radian);
 		o_m.ele[1] = -sinf(radian);
 		o_m.ele[4] = sinf(radian);
@@ -153,7 +152,7 @@ namespace Math {
 namespace Math 
 {
 	template<typename T>
-	Matrix4<T> Matrix4<T>::operator+(Matrix4<T> const& i_m) const
+	inline Matrix4<T> Matrix4<T>::operator+(Matrix4<T> const& i_m) const
 	{
 		Matrix4 o_m;
 		for (int i = 0; i < 16; i++)
@@ -164,7 +163,7 @@ namespace Math
 	}
 
 	template<typename T>
-	Matrix4<T> Matrix4<T>::operator-(Matrix4<T> const& i_m) const
+	inline Matrix4<T> Matrix4<T>::operator-(Matrix4<T> const& i_m) const
 	{
 		Matrix4 o_m;
 		for (int i = 0; i < 16; i++)
@@ -175,7 +174,7 @@ namespace Math
 	}
 
 	template<typename T>
-	Matrix4<T> Math::Matrix4<T>::operator/(T const& i_v) const
+	inline Matrix4<T> Math::Matrix4<T>::operator/(T const& i_v) const
 	{
 		Matrix4 o_m;
 		for (int i = 0; i < 16; i++)

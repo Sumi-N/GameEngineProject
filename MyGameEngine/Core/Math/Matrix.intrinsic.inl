@@ -1,11 +1,9 @@
-#include "Matrix.h"
-
 #ifdef _USEINTRINSIC_
 
 namespace Math 
 {
 	template<typename T>
-	Matrix4<T> Matrix4<T>::operator+(Matrix4<T> const& i_m) const
+	inline Matrix4<T> Matrix4<T>::operator+(Matrix4<T> const& i_m) const
 	{
 		Matrix4 o_m;
 
@@ -16,7 +14,7 @@ namespace Math
 	}
 
 	template<typename T>
-	Matrix4<T> Matrix4<T>::operator-(Matrix4<T> const& i_m) const
+	inline Matrix4<T> Matrix4<T>::operator-(Matrix4<T> const& i_m) const
 	{
 		Matrix4 o_m;
 
@@ -27,7 +25,7 @@ namespace Math
 	}
 
 	template<typename T>
-	Matrix4<T> Math::Matrix4<T>::operator/(T const& i_v) const
+	inline Matrix4<T> Math::Matrix4<T>::operator/(T const& i_v) const
 	{
 		Matrix4 o_m;
 

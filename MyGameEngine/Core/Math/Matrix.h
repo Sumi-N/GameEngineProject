@@ -51,3 +51,7 @@ namespace Math
 }
 
 typedef Math::Matrix4<float> Matrix4f;
+
+
+#include "Matrix.inl"
+#include "Matrix.intrinsic.inl"
