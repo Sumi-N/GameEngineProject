@@ -182,7 +182,8 @@ namespace Math {
 
 		template <typename U>
 		explicit Vec4(Vec4<U> const& u) : x(static_cast<float>(u.x)), y(static_cast<float>(u.y)), z(static_cast<float>(u.z)), z(static_cast<float>(u.w)) {}
-		explicit Vec4(Vec3<float> const& t) : x(t.x), y(t.y), z(t.z), w(0) {}
+		template <typename U>
+		explicit Vec4(Vec3<U> const& t) : x(t.x), y(t.y), z(t.z), w(0) {}
 
 		Vec4<float> operator + (Vec4<float> const& i_v) const;
 		Vec4<float> operator - (Vec4<float> const& i_v) const;
