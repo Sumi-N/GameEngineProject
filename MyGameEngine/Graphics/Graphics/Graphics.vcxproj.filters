@@ -26,5 +26,8 @@
     <ClInclude Include="ValidationLayer.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Utilities.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
