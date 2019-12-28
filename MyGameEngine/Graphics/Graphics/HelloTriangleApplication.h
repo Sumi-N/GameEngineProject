@@ -93,10 +93,10 @@ public:
 	bool framebufferResized = false;
 
 	const std::vector<Vertex> vertices = {
-		{{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f}},
-		{{ 0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f}},
-		{{ 0.5f,  0.5f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}},
-		{{-0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
+		{{-0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}},
+		{{ 0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
+		{{ 0.5f,  0.5f}, {0.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
+		{{-0.5f,  0.5f}, {1.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
 	};
 
 	const std::vector<uint16_t> indices = {
@@ -773,8 +773,8 @@ private:
 		//auto vertShaderCode = readFile("../../Assets/shaders/vertexshaders/vert3.spv");
 		//auto fragShaderCode = readFile("../../Assets/shaders/fragmentshaders/frag.spv");
 
-		auto vertShaderCode = readFile("C:/Users/sumil/source/repos/GameEngineProject/MyGameEngine/Assets/shaders/vertexshaders/vert3.spv");
-		auto fragShaderCode = readFile("C:\\Users\\sumil\\source\\repos\\GameEngineProject\\MyGameEngine\\Assets\\shaders\\fragmentshaders\\frag.spv");
+		auto vertShaderCode = readFile("C:/Users/sumil/source/repos/GameEngineProject/MyGameEngine/Assets/shaders/vertexshaders/vert4.spv");
+		auto fragShaderCode = readFile("C:\\Users\\sumil\\source\\repos\\GameEngineProject\\MyGameEngine\\Assets\\shaders\\fragmentshaders\\frag3.spv");
 
 		VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
 		VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
