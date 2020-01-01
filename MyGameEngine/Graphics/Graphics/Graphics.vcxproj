@@ -78,7 +78,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN64\include\;%(AdditionalIncludeDirectories);$(SolutionDir)Graphics\glm\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Include\;$(SolutionDir)Graphics\stb\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN64\include\;%(AdditionalIncludeDirectories);$(SolutionDir)Graphics\glm\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Include\;$(SolutionDir)Graphics\stb\;$(SolutionDir)Graphics\tinyobjloader\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN32\include\;%(AdditionalIncludeDirectories);$(SolutionDir)Graphics\glm\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Include\;$(SolutionDir)Graphics\stb\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN32\include\;%(AdditionalIncludeDirectories);$(SolutionDir)Graphics\glm\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Include\;$(SolutionDir)Graphics\stb\;$(SolutionDir)Graphics\tinyobjloader\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -110,7 +110,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN64\include\;%(AdditionalIncludeDirectories);$(SolutionDir)Graphics\glm\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Include\;$(SolutionDir)Graphics\stb\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN64\include\;%(AdditionalIncludeDirectories);$(SolutionDir)Graphics\glm\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Include\;$(SolutionDir)Graphics\stb\;$(SolutionDir)Graphics\tinyobjloader\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -127,7 +127,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN32\include\;%(AdditionalIncludeDirectories);$(SolutionDir)Graphics\glm\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Include\;$(SolutionDir)Graphics\stb\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN32\include\;%(AdditionalIncludeDirectories);$(SolutionDir)Graphics\glm\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Include\;$(SolutionDir)Graphics\stb\;$(SolutionDir)Graphics\tinyobjloader\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
