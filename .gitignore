@@ -260,4 +260,5 @@ paket-files/
 __pycache__/
 *.pyc
 
-!MyGameEngine/Assets/*
+# Exculde from ignoring certain obj files for models in a certain directory
+!MyGameEngine/Assets/models/*
