@@ -35,8 +35,17 @@ const int WIDTH = 800;
 const int HEIGHT = 600;
 const int MAX_FRAMES_IN_FLIGHT = 2;
 
-const std::string MODEL_PATH = "C:\\Users\\sumil\\source\\repos\\GameEngineProject\\MyGameEngine\\Assets\\models\\chalet.obj";
-const std::string TEXTURE_PATH = "C:\\Users\\sumil\\source\\repos\\GameEngineProject\\MyGameEngine\\Assets\\textures\\chalet.jpg";
+//// Absolute Path
+//const std::string MODEL_PATH = "C:\\Users\\sumil\\source\\repos\\GameEngineProject\\MyGameEngine\\Assets\\models\\chalet.obj";
+//const std::string TEXTURE_PATH = "C:\\Users\\sumil\\source\\repos\\GameEngineProject\\MyGameEngine\\Assets\\textures\\chalet.jpg";
+//const std::string VERTEX_SHADER_PATH = "C:/Users/sumil/source/repos/GameEngineProject/MyGameEngine/Assets/shaders/vertexshaders/vert5.spv";
+//const std::string FRAGMENT_SHADER_PATH = "C:\\Users\\sumil\\source\\repos\\GameEngineProject\\MyGameEngine\\Assets\\shaders\\fragmentshaders\\frag3.spv";
+
+// Relative Path
+const std::string MODEL_PATH = "../../Assets/models/chalet.obj";
+const std::string TEXTURE_PATH = "../../Assets/textures/chalet.jpg";
+const std::string VERTEX_SHADER_PATH = "../../Assets/shaders/vertexshaders/vert5.spv";
+const std::string FRAGMENT_SHADER_PATH = "../../Assets/shaders/fragmentshaders/frag3.spv";
 
 class HelloTriangleApplication
 {
@@ -800,8 +809,8 @@ private:
 		//auto vertShaderCode = readFile("../../Assets/shaders/vertexshaders/vert3.spv");
 		//auto fragShaderCode = readFile("../../Assets/shaders/fragmentshaders/frag.spv");
 
-		auto vertShaderCode = readFile("C:/Users/sumil/source/repos/GameEngineProject/MyGameEngine/Assets/shaders/vertexshaders/vert5.spv");
-		auto fragShaderCode = readFile("C:\\Users\\sumil\\source\\repos\\GameEngineProject\\MyGameEngine\\Assets\\shaders\\fragmentshaders\\frag3.spv");
+		auto vertShaderCode = readFile(VERTEX_SHADER_PATH);
+		auto fragShaderCode = readFile(FRAGMENT_SHADER_PATH);
 
 		VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
 		VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
