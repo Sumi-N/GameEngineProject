@@ -142,7 +142,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="HelloTriangleApplication.h" />
+    <ClInclude Include="Graphic_Vulkan.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="ValidationLayer.h" />
   </ItemGroup>
