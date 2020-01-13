@@ -25,6 +25,7 @@
 // Graphic test
 //#include "Graphics/Graphic_Vulkan.h"
 #include "Graphics/Graphic.h"
+#include "Graphics/Graphic_Vulkan.h"
 #include <thread>
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmdLine, int i_nCmdShow) {
@@ -35,8 +36,6 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmd
 	//std::thread graphicThread(testThread);
 	Graphic::Vulkan testGraphics;
 	testGraphics.testThread();
-
-
 
 	if (1)
 	{

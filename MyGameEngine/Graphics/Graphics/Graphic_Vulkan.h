@@ -36,10 +36,10 @@ const int MAX_FRAMES_IN_FLIGHT = 2;
 //const std::string FRAGMENT_SHADER_PATH = "C:\\Users\\sumil\\source\\repos\\GameEngineProject\\MyGameEngine\\Assets\\shaders\\fragmentshaders\\frag3.spv";
 
 // Relative Path
-const std::string MODEL_PATH = "../../Assets/models/chalet.obj";
-const std::string TEXTURE_PATH = "../../Assets/textures/chalet.jpg";
-const std::string VERTEX_SHADER_PATH = "../../Assets/shaders/vertexshaders/vert5.spv";
-const std::string FRAGMENT_SHADER_PATH = "../../Assets/shaders/fragmentshaders/frag3.spv";
+const std::string MODEL_PATH = "../Assets/models/chalet.obj";
+const std::string TEXTURE_PATH = "../Assets/textures/chalet.jpg";
+const std::string VERTEX_SHADER_PATH = "../Assets/shaders/vertexshaders/vert5.spv";
+const std::string FRAGMENT_SHADER_PATH = "../Assets/shaders/fragmentshaders/frag3.spv";
 
 class HelloTriangleApplication
 {
