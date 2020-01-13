@@ -3,7 +3,7 @@
 #include "DebugLog.h"
 #include "Allocator.h"
 #include "Process.h"
-#include "AdvancedScriptReader.h"
+//#include "AdvancedScriptReader.h"
 #include "EntityMaster.h"
 
 #include "Player.h"
@@ -22,18 +22,29 @@
 #include "Matrix4_UnitTest.h"
 #include "Vector3_UnitTest.h"
 
+// Graphic test
+//#include "Graphics/Graphic_Vulkan.h"
+#include "Graphics/Graphic.h"
+#include <thread>
+
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, PWSTR pCmdLine, int i_nCmdShow) {
 
 	// IMPORTANT: first we need to initialize GLib
-	bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 1200, 600);
+	//bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 1200, 600);
 
-	if (bSuccess)
+	//std::thread graphicThread(testThread);
+	Graphic::Vulkan testGraphics;
+	testGraphics.testThread();
+
+
+
+	if (1)
 	{
 		System::Process::Boot();
 
-		System::AdvancedScriptReader<Player, PlayerPhysics>::CreateObject("..\\Assets\\editabledatas\\player1.lua");
-		System::AdvancedScriptReader<Monster, MonsterPhysics>::CreateObject("..\\Assets\\editabledatas\\player2.lua");
-		System::AdvancedScriptReader<CountDown, Physics3D>::CreateObject("..\\Assets\\editabledatas\\Timer.lua");
+		//System::AdvancedScriptReader<Player, PlayerPhysics>::CreateObject("..\\Assets\\editabledatas\\player1.lua");
+		//System::AdvancedScriptReader<Monster, MonsterPhysics>::CreateObject("..\\Assets\\editabledatas\\player2.lua");
+		//System::AdvancedScriptReader<CountDown, Physics3D>::CreateObject("..\\Assets\\editabledatas\\Timer.lua");
 
 		System::Process::GameInit();
 

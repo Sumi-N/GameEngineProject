@@ -43,7 +43,7 @@ inline void System::Process::ShutDown() {
 	Engine::EntityMaster::Release();
 
 	// IMPORTANT:  Tell GLib to shutdown, releasing resources.
-	GLib::Shutdown();
+	//GLib::Shutdown();
 
 	delete InputMap::Map;
 	delete InputMap::DeleteList;
@@ -54,7 +54,7 @@ inline void System::Process::ShutDown() {
 inline void System::Process::Run() {
 	Timer::Run();
 	System::Messenger::BroadCastMessages();
-	GLib::Service(BQuit);
+	//GLib::Service(BQuit);
 }
 
 inline void System::Process::LateRun() {

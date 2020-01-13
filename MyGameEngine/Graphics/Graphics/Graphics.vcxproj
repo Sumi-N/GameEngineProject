@@ -139,9 +139,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Graphic.cpp" />
+    <ClCompile Include="Graphic_Vulkan.cpp" />
+    <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Graphic.h" />
     <ClInclude Include="Graphic_Vulkan.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="ValidationLayer.h" />

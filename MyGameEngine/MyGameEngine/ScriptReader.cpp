@@ -3,7 +3,7 @@
 #include "Physics3D.h"
 #include "SpriteRenderer.h"
 
-#include "GLib.h"
+//#include "GLib.h"
 #include "lua.hpp"
 #include "lauxlib.h"
 #include "lua.h"
