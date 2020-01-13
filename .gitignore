@@ -259,3 +259,6 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+# Exculde from ignoring certain obj files for models in a certain directory
+!MyGameEngine/Assets/models/*

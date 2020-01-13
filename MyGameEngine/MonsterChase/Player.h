@@ -20,15 +20,15 @@ inline void Player::init() {
 
 inline void Player::update() {
 	if ((InputMap::Map)->at(68) == true) {
-		phy_player->addForce(Vector3D(5, 0, 0));
+		phy_player->addForce(Vec3f(5, 0, 0));
 	}
 	else if ((InputMap::Map)->at(65) == true) {
-		phy_player->addForce(Vector3D(-5, 0, 0));
+		phy_player->addForce(Vec3f(-5, 0, 0));
 	}
 	else if ((InputMap::Map)->at(87) == true) {
-		phy_player->addForce(Vector3D(0, 5, 0));
+		phy_player->addForce(Vec3f(0, 5, 0));
 	}
 	else if ((InputMap::Map)->at(83) == true) {
-		phy_player->addForce(Vector3D(0, -5, 0));
+		phy_player->addForce(Vec3f(0, -5, 0));
 	}
 }

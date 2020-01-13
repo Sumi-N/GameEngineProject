@@ -1,8 +1,9 @@
 #pragma once
-#include "CollisionDetection.h"
-#include "Matrix4.h"
 
+#include <Core/Math/Matrix.h>
 #include <math.h>
+
+#include "CollisionDetection.h"
 
 /*
  ef == end time of the frame
@@ -89,13 +90,13 @@ void Engine::CollisionDetection::Collision2D(const float i_ddt, const float i_dt
 // This update boundary function doesn't consider the rotation of the object for reducing the additional calculation in the later part of collision detection;
 void Engine::CollisionDetection::UpdateBoundary(const float i_ddt, const float i_dt,Physics3D * i_phy, Boundary & o_boun_cf, Boundary & o_boun_ef)
 {
-	Vector3D center_initial = i_phy->pointer->pos + i_phy->pointer->extent_height;
+	Vec3f center_initial = i_phy->pointer->pos + i_phy->pointer->extent_height;
 
-	Vector3D center_cf = center_initial + i_ddt * i_phy->vel;
-	Vector3D center_ef = center_initial + i_dt * i_phy->vel;
+	Vec3f center_cf = center_initial + i_ddt * i_phy->vel;
+	Vec3f center_ef = center_initial + i_dt * i_phy->vel;
 
-	Vector3D width = i_phy->pointer->extent_width;
-	Vector3D height = i_phy->pointer->extent_height;
+	Vec3f width = i_phy->pointer->extent_width;
+	Vec3f height = i_phy->pointer->extent_height;
 
 	o_boun_cf.ur = center_cf +  1 * width +  1 * height;
 	o_boun_cf.ul = center_cf + -1 * width +  1 * height;
@@ -117,19 +118,19 @@ void Engine::CollisionDetection::CordinationTranslation(const float i_ddt, const
 	float rotation_angle_cf    = -1 * ((*obj_base)->rot.z);
 	float rotation_angle_ef = -1 * ((*obj_base)->rot.z); // This line should be changed onece the rotation update function ih physics3d has done.
 
-	o_boun_trans_cf.ur = Matrix4::Yaw(rotation_angle_cf) * o_boun_trans_cf.ur;
-	o_boun_trans_cf.ul = Matrix4::Yaw(rotation_angle_cf) * o_boun_trans_cf.ul;
-	o_boun_trans_cf.lr = Matrix4::Yaw(rotation_angle_cf) * o_boun_trans_cf.lr;
-	o_boun_trans_cf.ll = Matrix4::Yaw(rotation_angle_cf) * o_boun_trans_cf.ll;
+	o_boun_trans_cf.ur = Matrix4f::Yaw(rotation_angle_cf) * o_boun_trans_cf.ur;
+	o_boun_trans_cf.ul = Matrix4f::Yaw(rotation_angle_cf) * o_boun_trans_cf.ul;
+	o_boun_trans_cf.lr = Matrix4f::Yaw(rotation_angle_cf) * o_boun_trans_cf.lr;
+	o_boun_trans_cf.ll = Matrix4f::Yaw(rotation_angle_cf) * o_boun_trans_cf.ll;
 
-	o_boun_trans_ef.ur = Matrix4::Yaw(rotation_angle_ef) * o_boun_trans_ef.ur;
-	o_boun_trans_ef.ul = Matrix4::Yaw(rotation_angle_ef) * o_boun_trans_ef.ul;
-	o_boun_trans_ef.lr = Matrix4::Yaw(rotation_angle_ef) * o_boun_trans_ef.lr;
-	o_boun_trans_ef.ll = Matrix4::Yaw(rotation_angle_ef) * o_boun_trans_ef.ll;
+	o_boun_trans_ef.ur = Matrix4f::Yaw(rotation_angle_ef) * o_boun_trans_ef.ur;
+	o_boun_trans_ef.ul = Matrix4f::Yaw(rotation_angle_ef) * o_boun_trans_ef.ul;
+	o_boun_trans_ef.lr = Matrix4f::Yaw(rotation_angle_ef) * o_boun_trans_ef.lr;
+	o_boun_trans_ef.ll = Matrix4f::Yaw(rotation_angle_ef) * o_boun_trans_ef.ll;
 
-	Vector3D base_center_initial = (*obj_base)->pos + (*obj_base)->extent_height;
-	Vector3D base_center_cf = base_center_initial + i_ddt * i_phy_base->vel;
-	Vector3D base_center_ef = base_center_initial + i_dt * i_phy_base->vel;
+	Vec3f base_center_initial = (*obj_base)->pos + (*obj_base)->extent_height;
+	Vec3f base_center_cf = base_center_initial + i_ddt * i_phy_base->vel;
+	Vec3f base_center_ef = base_center_initial + i_dt * i_phy_base->vel;
 
 	o_boun_trans_cf.ur = o_boun_trans_cf.ur - base_center_cf;
 	o_boun_trans_cf.ul = o_boun_trans_cf.ul - base_center_cf;
@@ -198,8 +199,8 @@ void Engine::CollisionDetection::CollisionRespoince(Physics3D * i_phyA, Physics3
 
 void Engine::CollisionDetection::FullElasticCollision(Physics3D * i_phyA, Physics3D * i_phyB)
 {
-	Vector3D tmp_vel_A = ((i_phyA->mass - i_phyB->mass) * i_phyA->vel + 2 * i_phyB->mass * i_phyB->vel) / (i_phyA->mass + i_phyB->mass);
-	Vector3D tmp_vel_B = ((i_phyB->mass - i_phyA->mass) * i_phyB->vel + 2 * i_phyA->mass * i_phyA->vel) / (i_phyA->mass + i_phyB->mass);
+	Vec3f tmp_vel_A = ((i_phyA->mass - i_phyB->mass) * i_phyA->vel + 2 * i_phyB->mass * i_phyB->vel) / (i_phyA->mass + i_phyB->mass);
+	Vec3f tmp_vel_B = ((i_phyB->mass - i_phyA->mass) * i_phyB->vel + 2 * i_phyA->mass * i_phyA->vel) / (i_phyA->mass + i_phyB->mass);
 	i_phyA->vel = tmp_vel_A;
 	i_phyB->vel = tmp_vel_B;
 }

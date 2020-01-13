@@ -1,20 +1,22 @@
 #pragma once
+
+//#include <Core/Math/Vector.h>
+#include "../Core/Math/Vector.h"
+
 #include "Object2D.h"
-#include "Vector3D.h"
-#include "Matrix4.h"
 #include <string>
 
 __declspec(align(16))  class Object3D
 {
 
 public:
-	Vector3D pos;
-	Vector3D rot;
+	Vec3f pos;
+	Vec3f rot;
 	std::string name;
 
 	//For collision detection
-	Vector3D extent_width;
-	Vector3D extent_height;
+	Vec3f extent_width;
+	Vec3f extent_height;
 
 	void* operator new(size_t);
 	void operator delete(void *);
@@ -40,10 +42,10 @@ inline void Object3D::info() const {
 }
 
 inline void Object3D::init() {
-	DEBUG_PRINT("Calling object3d init");
+	//DEBUG_PRINT("Calling object3d init");
 }
 
 inline void Object3D::update()
 {
-	DEBUG_PRINT("Calling object3d update");
+	//DEBUG_PRINT("Calling object3d update");
 }

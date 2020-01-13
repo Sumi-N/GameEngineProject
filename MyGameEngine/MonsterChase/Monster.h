@@ -14,8 +14,8 @@ public:
 	void update();
 private:
 	Engine::Object3DPointer *obj_player;
-	Vector3D * pos_player;
-	Vector3D * pos_enemy;
+	Vec3f * pos_player;
+	Vec3f * pos_enemy;
 };
 
 inline void Monster::init() {

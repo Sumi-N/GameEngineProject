@@ -1,14 +1,22 @@
 #pragma once
+
+//#include <Core/Math/Vector.h>
+#include "../Core/Math/Vector.h"
+
 #include "DebugLog.h"
 #include "Physics3D.h"
 
 // For Collision Detection
 struct Boundary
 {
-	Vector3D ur; // Upper right
-	Vector3D ul; // Upper left
-	Vector3D lr; // Lower right
-	Vector3D ll; // Lower left
+	Vec3f ur; // Upper right
+	Vec3f ul; // Upper left
+	Vec3f lr; // Lower right
+	Vec3f ll; // Lower left
+	//Vector3D ur; // Upper right
+	//Vector3D ul; // Upper left
+	//Vector3D lr; // Lower right
+	//Vector3D ll; // Lower left
 };
 
 namespace Engine {
