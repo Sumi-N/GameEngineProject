@@ -5,15 +5,19 @@
 
 class Thread
 {
-	static std::mutex MutexGame;
-	static std::mutex MutexRender;
-	static std::condition_variable ConditionGame;
-	static std::condition_variable ConditionRender;
-	static bool brenderready;
-	static bool bgameready;
+public:
+	static std::mutex Mutex_Game;
+	static std::mutex Mutex_Render;
 
-	void Init();
-	void Run();
-	void PassData(Thread);
+	static std::condition_variable Condition_Game;
+	static std::condition_variable Condition_Render;
+
+	static bool b_game_ready;
+	static bool b_render_ready;
+
+	virtual void Init();
+	virtual void Run();
+	virtual void CleanUp();
+	virtual void PassDataTo(Thread);
 };
 

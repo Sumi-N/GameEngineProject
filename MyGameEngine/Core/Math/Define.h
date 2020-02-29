@@ -1,5 +1,5 @@
 #pragma once
-
+#include <cmath>
 #include <math.h>
 #include <intrin.h>
 #include <xmmintrin.h>
