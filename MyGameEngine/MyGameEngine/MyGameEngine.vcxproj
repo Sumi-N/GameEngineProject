@@ -43,7 +43,6 @@
     <ClInclude Include="ScriptReader.h" />
     <ClInclude Include="SmartPointers.h" />
     <ClInclude Include="SpriteRenderer.h" />
-    <ClInclude Include="Time.h" />
     <ClInclude Include="HeapManager.h" />
     <ClInclude Include="HeapManagerProxy.h" />
     <ClInclude Include="List.h" />
@@ -65,7 +64,6 @@
     <ClCompile Include="Messenger.cpp" />
     <ClCompile Include="ScriptReader.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
-    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Math\Math.vcxproj">

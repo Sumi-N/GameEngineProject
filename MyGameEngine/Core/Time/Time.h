@@ -15,14 +15,21 @@ public:
 	static void Update();
 
 private:
-	static double frequencypermillisecond;
-
 #ifdef  ENGINE_PLATFORM_WINDOWS
+	static double frequencypermillisecond;
 	static LARGE_INTEGER lpFrequency;
 	static LARGE_INTEGER lpPerformanceCount_begin;
 	static LARGE_INTEGER lpPerformanceCount_end;
 #endif
 };
+
+#ifdef  ENGINE_PLATFORM_WINDOWS
+double        Time::dt;
+double        Time::frequencypermillisecond;
+LARGE_INTEGER Time::lpFrequency;
+LARGE_INTEGER Time::lpPerformanceCount_begin;
+LARGE_INTEGER Time::lpPerformanceCount_end;
+#endif
 
 inline void Time::Init()
 {

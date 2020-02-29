@@ -4,18 +4,6 @@
 
 namespace System
 {
-	void Boot()
-	{
-
-		Thread::b_game_ready = false;
-		Thread::b_render_ready = false;
-
-		std::thread gamethread(BootGameThread);
-		BootRenderThread();
-
-		return;
-	}
-
 	void BootRenderThread()
 	{
 		{
@@ -52,5 +40,17 @@ namespace System
 		}
 
 		Thread_Game.Run();
+	}
+
+	void Boot()
+	{
+
+		Thread::b_game_ready = false;
+		Thread::b_render_ready = false;
+
+		std::thread gamethread(BootGameThread);
+		BootRenderThread();
+
+		return;
 	}
 }

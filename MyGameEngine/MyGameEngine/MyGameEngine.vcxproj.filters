@@ -87,9 +87,6 @@
     <ClCompile Include="Messenger.cpp">
       <Filter>System\Messenger/Delegate</Filter>
     </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>System\Utility</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector2D.h">
@@ -168,9 +165,6 @@
       <Filter>UnitTests</Filter>
     </ClInclude>
     <ClInclude Include="InputMap.h">
-      <Filter>System\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Time.h">
       <Filter>System\Utility</Filter>
     </ClInclude>
     <ClInclude Include="CollisionDetection.h">
