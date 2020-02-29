@@ -30,27 +30,27 @@ inline void Engine::EntitySpriteRenderer::push(SpriteRenderer & i_component)
 inline void Engine::EntitySpriteRenderer::update()
 {
 	// IMPORTANT: Tell GLib that we want to start rendering
-	GLib::BeginRendering();
+	//GLib::BeginRendering();
 	// Tell GLib that we want to render some sprites
-	GLib::Sprites::BeginRendering();
+	//GLib::Sprites::BeginRendering();
 
-	for (auto it = list.begin(); it != list.end(); ++it) {
-		if ((*it).sprite) {
-			(*it).update();
-		}
-	}
+	//for (auto it = list.begin(); it != list.end(); ++it) {
+	//	if ((*it).sprite) {
+	//		(*it).update();
+	//	}
+	//}
 
 	// Tell GLib we're done rendering sprites
-	GLib::Sprites::EndRendering();
+	//GLib::Sprites::EndRendering();
 	// IMPORTANT: Tell GLib we're done rendering
-	GLib::EndRendering();
+	//GLib::EndRendering();
 }
 
 inline void Engine::EntitySpriteRenderer::release()
 {
-	for (auto it = list.begin(); it != list.end(); ++it) {
-		if ((*it).sprite) {
-			(*it).release();
-		}
-	}
+	//for (auto it = list.begin(); it != list.end(); ++it) {
+	//	if ((*it).sprite) {
+	//		(*it).release();
+	//	}
+	//}
 }

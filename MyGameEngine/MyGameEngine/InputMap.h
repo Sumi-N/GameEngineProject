@@ -3,7 +3,7 @@
 
 #include <unordered_map>
 
-#include "../GLib/GLib.h"
+//#include "../GLib/GLib.h"
 
 
 class InputMap {
@@ -40,7 +40,7 @@ inline void InputMap::InitInputMap() {
 }
 
 inline void InputMap::SetupCallback() {
-	GLib::SetKeyStateChangeCallback(InputMap::RegisterInputMap);
+	//GLib::SetKeyStateChangeCallback(InputMap::RegisterInputMap);
 }
 
 inline void InputMap::ClearInputMap() {

@@ -55,6 +55,7 @@ public:
 
 private:
 	union {
+		float ele[16];
 		struct
 		{
 			float m_11, m_12, m_13, m_14,
@@ -62,7 +63,6 @@ private:
 				  m_31, m_32, m_33, m_34,
 				  m_41, m_42, m_43, m_44;
 		};
-		float ele[16];
 
 		Row   row[4];
 		Collumn col[4]; // This is not correct, need to be fixed later

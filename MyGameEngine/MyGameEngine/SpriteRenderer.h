@@ -2,7 +2,7 @@
 
 #include "Object3D.h"
 #include "SmartPointers.h"
-#include "../GLib/GLib.h"
+//#include "../GLib/GLib.h"
 
 class SpriteRenderer {
 public:
@@ -12,8 +12,8 @@ public:
 	void * loadFile(const char*, size_t &);
 
 public:
-	GLib::Sprites::Sprite * sprite;
-	GLib::Point2D offset;
+	//GLib::Sprites::Sprite * sprite;
+	//GLib::Point2D offset;
 	Engine::ObservingPointer<Object3D> pointer;
 	void PassAABBInfo();
 
