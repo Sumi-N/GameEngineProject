@@ -1,9 +1,8 @@
 #pragma once
-//#include "Graphic_Vulkan.h"
+#include "Define.h"
 
-namespace Graphic {
-	class Vulkan {
-	public:
-		int testThread();
-	};
-}
+class Graphic
+{
+public:
+	static void Init();
+};

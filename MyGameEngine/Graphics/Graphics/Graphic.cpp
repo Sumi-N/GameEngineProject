@@ -1,25 +1,24 @@
 #pragma  once
 
-#include "Graphic_Vulkan.h"
 #include "Graphic.h"
 
 
-int Graphic::Vulkan::testThread()
-{
-	HelloTriangleApplication app;
-
-	try
-	{
-		app.run();
-	}
-	catch (const std::exception & e)
-	{
-		std::cerr << e.what() << std::endl;
-		return EXIT_FAILURE;
-	}
-
-	return EXIT_SUCCESS;;
-}
+//int Graphic::Vulkan::testThread()
+//{
+//	HelloTriangleApplication app;
+//
+//	try
+//	{
+//		app.run();
+//	}
+//	catch (const std::exception & e)
+//	{
+//		std::cerr << e.what() << std::endl;
+//		return EXIT_FAILURE;
+//	}
+//
+//	return EXIT_SUCCESS;;
+//}
 
 //int main()
 //{

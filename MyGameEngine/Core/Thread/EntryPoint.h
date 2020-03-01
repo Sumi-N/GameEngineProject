@@ -44,7 +44,6 @@ namespace System
 
 	void Boot()
 	{
-
 		Thread::b_game_ready = false;
 		Thread::b_render_ready = false;
 
