@@ -1,0 +1,21 @@
+#pragma once
+
+////////////////////////////
+// Graphic API configuration
+////////////////////////////
+#define ENGINE_GRAPHIC_OPENGL
+#define SCREEN_WIDTH 1000
+#define SCREEN_HEIGHT 1000
+
+
+///////////////////////////
+//  Math configuration
+///////////////////////////
+#define _USEINTRINSIC_
+
+
+////////////////////////////
+//  Platform configuration
+////////////////////////////
+#define ENGINE_PLATFORM_WINDOWS
+

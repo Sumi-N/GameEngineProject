@@ -1,6 +1,6 @@
 #pragma once
 
-#define ENGINE_PLATFORM_WINDOWS
+#include "Define.h"
 
 #ifdef  ENGINE_PLATFORM_WINDOWS
 #include <Windows.h>

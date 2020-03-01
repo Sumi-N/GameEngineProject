@@ -1,8 +1,5 @@
 #pragma once
-
-#define ENGINE_GRAPHIC_OPENGL
-#define SCREEN_WIDTH 1000
-#define SCREEN_HEIGHT 1000
+#include <../Configuration/Configuration.h>
 
 #ifdef ENGINE_GRAPHIC_OPENGL
 	#pragma comment( lib, "Opengl32.lib" )

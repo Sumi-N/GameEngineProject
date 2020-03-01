@@ -1,10 +1,10 @@
 #pragma once
+#include <Configuration/Configuration.h>
+
 #include <cmath>
 #include <math.h>
 #include <intrin.h>
 #include <xmmintrin.h>
-
-#define _USEINTRINSIC_
 
 namespace Math
 {
