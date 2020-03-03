@@ -61,6 +61,11 @@ namespace Math {
 		bool IsZero    () const { return x == static_cast<T>(0) && y == static_cast<T>(0) && z == static_cast<T>(0); }
 		void Normalize ()       { *this /= Length(); }
 		T    Length    () const { return Sqrt(static_cast<T>(x)* static_cast<T>(x) + static_cast<T>(y)* static_cast<T>(y) + static_cast<T>(z)* static_cast<T>(z)); }
+		float Dot       (Vec3 i_v)       { return x * i_v.x + y * i_v.y + z * i_v.z;}
+		Vec3  Cross     (Vec3 i_v)       { return Vec3(y * i_v.z - z * i_v.y, z * i_v.x - x * i_v.z, x * i_v.y - y * i_v.x);}
+
+		static float Length   (Vec3 i_v) { return Sqrt(static_cast<T>(i_v.x)* static_cast<T>(i_v.x) + static_cast<T>(i_v.y)* static_cast<T>(i_v.y) + static_cast<T>(i_v.z)* static_cast<T>(i_v.z));}
+		static Vec3 Normalize (Vec3 i_v) { return i_v/Length(i_v); }
 	};
 
 	template <>
@@ -113,6 +118,11 @@ namespace Math {
 		bool  IsZero    () const { return x == static_cast<float>(0) && y == static_cast<float>(0) && z == static_cast<float>(0); }
 		void  Normalize ()       { *this /= Length(); }
 		float Length() const { return Sqrt(static_cast<float>(x)* static_cast<float>(x) + static_cast<float>(y)* static_cast<float>(y) + static_cast<float>(z)* static_cast<float>(z)); }
+		float Dot       (Vec3 i_v)       {return x * i_v.x + y * i_v.y + z * i_v.z;}
+		Vec3  Cross     (Vec3 i_v)       {return Vec3(y * i_v.z - z * i_v.y, z * i_v.x - x * i_v.z, x * i_v.y - y * i_v.x);}
+
+		static float Length   (Vec3 i_v) { return Sqrt(static_cast<float>(i_v.x)* static_cast<float>(i_v.x) + static_cast<float>(i_v.y)* static_cast<float>(i_v.y) + static_cast<float>(i_v.z)* static_cast<float>(i_v.z));}
+		static Vec3 Normalize (Vec3 i_v) { return i_v/Length(i_v); }
 	};
 
 	template <typename T>
