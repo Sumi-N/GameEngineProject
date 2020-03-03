@@ -161,6 +161,7 @@
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="Graphic_OpenGL.cpp" />
     <ClCompile Include="Graphic_Vulkan.cpp" />
+    <ClCompile Include="Shader.OpenGL.cpp" />
     <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +169,7 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="Graphic_Vulkan.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="ValidationLayer.h" />
   </ItemGroup>

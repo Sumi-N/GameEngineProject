@@ -1,6 +1,5 @@
 #pragma once
 #include "Define.h"
-#include <GL/glew.h>
 #include <Math/Matrix.h>
 
 namespace ConstantData
