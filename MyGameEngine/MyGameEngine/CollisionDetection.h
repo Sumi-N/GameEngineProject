@@ -3,7 +3,7 @@
 //#include <Core/Math/Vector.h>
 #include "../Core/Math/Vector.h"
 
-#include "DebugLog.h"
+//#include "DebugLog.h"
 #include "Physics3D.h"
 
 // For Collision Detection

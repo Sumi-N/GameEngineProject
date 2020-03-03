@@ -50,7 +50,7 @@ namespace Math
 
 }
 
-typedef Math::Matrix4<float> Matrix4f;
+typedef Math::Matrix4<float> Mat4f;
 
 
 #include "Matrix.inl"

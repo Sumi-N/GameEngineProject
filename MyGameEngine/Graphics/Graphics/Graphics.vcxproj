@@ -78,7 +78,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN64\include\;%(AdditionalIncludeDirectories);$(SolutionDir)Graphics\glm\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Include\;$(SolutionDir)Graphics\stb\;$(SolutionDir)Graphics\tinyobjloader\;$(SolutionDir)Core\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN64\include\;%(AdditionalIncludeDirectories);$(SolutionDir)Graphics\glm\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Include\;$(SolutionDir)Graphics\stb\;$(SolutionDir)Graphics\tinyobjloader\;$(SolutionDir)Core\;$(SolutionDir)Core\;$(SolutionDir)\APIs\Graphics\glew-2.1.0\include\;$(SolutionDir)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -89,8 +89,8 @@
       <AdditionalDependencies>glfw3.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>glfw3.lib;vulkan-1.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN64\lib-vc2019\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;vulkan-1.lib;opengl32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN64\lib-vc2019\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Lib\;$(SolutionDir)APIs\Graphics\glew-2.1.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -99,7 +99,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN32\include\;%(AdditionalIncludeDirectories);$(SolutionDir)Graphics\glm\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Include\;$(SolutionDir)Graphics\stb\;$(SolutionDir)Graphics\tinyobjloader\;$(SolutionDir)Core\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN32\include\;%(AdditionalIncludeDirectories);$(SolutionDir)Graphics\glm\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Include\;$(SolutionDir)Graphics\stb\;$(SolutionDir)Graphics\tinyobjloader\;$(SolutionDir)Core\;$(SolutionDir)\APIs\Graphics\glew-2.1.0\include\;$(SolutionDir)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -108,8 +108,8 @@
       <AdditionalDependencies>glfw3.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Lib32\;$(SolutionDir)Graphics\glfw-3.3.bin.WIN32\lib-vc2019\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;vulkan-1.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Lib32\;$(SolutionDir)Graphics\glfw-3.3.bin.WIN32\lib-vc2019\;$(SolutionDir)\APIs\Graphics\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;vulkan-1.lib;opengl32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -118,7 +118,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN64\include\;%(AdditionalIncludeDirectories);$(SolutionDir)Graphics\glm\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Include\;$(SolutionDir)Graphics\stb\;$(SolutionDir)Graphics\tinyobjloader\;$(SolutionDir)Core\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN64\include\;%(AdditionalIncludeDirectories);$(SolutionDir)Graphics\glm\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Include\;$(SolutionDir)Graphics\stb\;$(SolutionDir)Graphics\tinyobjloader\;$(SolutionDir)Core\;$(SolutionDir)Core\;$(SolutionDir)\APIs\Graphics\glew-2.1.0\include\;$(SolutionDir)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -127,10 +127,10 @@
       <AdditionalDependencies>glfw3.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>glfw3.lib;vulkan-1.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;vulkan-1.lib;opengl32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN64\lib-vc2019\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN64\lib-vc2019\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Lib\;$(SolutionDir)APIs\Graphics\glew-2.1.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -141,7 +141,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN32\include\;%(AdditionalIncludeDirectories);$(SolutionDir)Graphics\glm\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Include\;$(SolutionDir)Graphics\stb\;$(SolutionDir)Graphics\tinyobjloader\;$(SolutionDir)Core\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN32\include\;%(AdditionalIncludeDirectories);$(SolutionDir)Graphics\glm\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Include\;$(SolutionDir)Graphics\stb\;$(SolutionDir)Graphics\tinyobjloader\;$(SolutionDir)Core\;$(SolutionDir)\APIs\Graphics\glew-2.1.0\include\;$(SolutionDir)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -152,17 +152,19 @@
       <AdditionalDependencies>glfw3.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Lib32\;$(SolutionDir)Graphics\glfw-3.3.bin.WIN32\lib-vc2019\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;vulkan-1.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Lib32\;$(SolutionDir)Graphics\glfw-3.3.bin.WIN32\lib-vc2019\;$(SolutionDir)\APIs\Graphics\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;vulkan-1.lib;opengl32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ConstantBuffer.OpenGL.cpp" />
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="Graphic_OpenGL.cpp" />
     <ClCompile Include="Graphic_Vulkan.cpp" />
     <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="Graphic_Vulkan.h" />
@@ -175,6 +177,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Debug\Debug.vcxproj">
       <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Math\Math.vcxproj">
+      <Project>{c8572e70-1b3f-469b-bb92-96dd46c72504}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

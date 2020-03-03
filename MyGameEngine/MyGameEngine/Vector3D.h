@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DebugLog.h"
+//#include "DebugLog.h"
 
 #include <intrin.h>
 #include <xmmintrin.h>

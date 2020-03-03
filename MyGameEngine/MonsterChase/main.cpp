@@ -1,6 +1,6 @@
 #pragma once
 #define _CRTDBG_MAP_ALLOC
-#include "DebugLog.h"
+//#include "DebugLog.h"
 #include "Allocator.h"
 #include "Process.h"
 //#include "AdvancedScriptReader.h"

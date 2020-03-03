@@ -1,5 +1,5 @@
 #pragma once
-#include "DebugLog.h"
+//#include "DebugLog.h"
 
 #include <assert.h>
 #include <stdint.h>

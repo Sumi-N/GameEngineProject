@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <algorithm>
 #include <vector>
-#include "DebugLog.h"
+//#include "DebugLog.h"
 
 #define SUPPORTS_ALIGNMENT
 #define SUPPORTS_SHOWFREEBLOCKS
