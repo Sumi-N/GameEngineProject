@@ -1,6 +1,5 @@
 #include "Define.h"
 
-//#include "Debug/DebugLog.h"
 #include "Graphic.h"
 
 #ifdef  ENGINE_GRAPHIC_OPENGL
@@ -9,7 +8,7 @@ void Graphic::Init()
 {
 	if (glfwInit() == GL_FALSE)
 	{
-		//DEBUG_PRINT("Cannot initialize GLFW");
+		DEBUG_PRINT("Cannot initialize GLFW");
 		return;
 	}
 
@@ -27,7 +26,7 @@ void Graphic::Init()
 	if (!window)
 	{
 		// If the window is not created
-		//DEBUG_PRINT("Cannot create GLFW window");
+		DEBUG_PRINT("Cannot create GLFW window");
 		glfwTerminate();
 		return;
 	}
@@ -38,7 +37,7 @@ void Graphic::Init()
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
 	{
-		//DEBUG_PRINT("Cannot initialize GLFW");
+		DEBUG_PRINT("Cannot initialize GLFW");
 		return;
 	}
 

@@ -99,7 +99,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN32\include\;%(AdditionalIncludeDirectories);$(SolutionDir)Graphics\glm\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Include\;$(SolutionDir)Graphics\stb\;$(SolutionDir)Graphics\tinyobjloader\;$(SolutionDir)Core\;$(SolutionDir)\APIs\Graphics\glew-2.1.0\include\;$(SolutionDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN32\include\;%(AdditionalIncludeDirectories);$(SolutionDir)Graphics\glm\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Include\;$(SolutionDir)Graphics\stb\;$(SolutionDir)Graphics\tinyobjloader\;$(SolutionDir)Core\;$(SolutionDir)APIs\Graphics\glew-2.1.0\include\;$(SolutionDir)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -141,7 +141,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN32\include\;%(AdditionalIncludeDirectories);$(SolutionDir)Graphics\glm\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Include\;$(SolutionDir)Graphics\stb\;$(SolutionDir)Graphics\tinyobjloader\;$(SolutionDir)Core\;$(SolutionDir)\APIs\Graphics\glew-2.1.0\include\;$(SolutionDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Graphics\glfw-3.3.bin.WIN32\include\;%(AdditionalIncludeDirectories);$(SolutionDir)Graphics\glm\;$(SolutionDir)Graphics\VulkanSDK\1.1.126.0\Include\;$(SolutionDir)Graphics\stb\;$(SolutionDir)Graphics\tinyobjloader\;$(SolutionDir)Core\;$(SolutionDir)APIs\Graphics\glew-2.1.0\include\;$(SolutionDir)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>

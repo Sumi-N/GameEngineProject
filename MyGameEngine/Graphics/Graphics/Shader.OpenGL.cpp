@@ -59,7 +59,7 @@ void Shader::LoadShader(Shader & io_shader, const char* i_vert, const char* i_fr
 
 	if (PrintProgramInfoLog(io_shader.programid))
 	{
-		//printf("succeed the shader compiling process\n");
+		DEBUG_PRINT("succeed compiling the shader %s and %s \n", i_vert, i_frag);
 	}
 	//glDeleteProgram(programid);
 }
@@ -74,7 +74,7 @@ bool Shader::ReadShaderSource(const char* i_file, std::vector<GLchar>& io_buffer
 	std::ifstream file(i_file, std::ios::binary);
 	if (file.fail())
 	{
-		//std::cerr << "Error: Can't open source file" << filename << std::endl;
+		DEBUG_PRINT("Error: Can't open source file: %s \n", i_file);
 		return false;
 	}
 
@@ -88,7 +88,7 @@ bool Shader::ReadShaderSource(const char* i_file, std::vector<GLchar>& io_buffer
 
 	if (file.fail())
 	{
-		//std::cerr << "Error: Could not read source file:" << filename << std::endl;
+		DEBUG_PRINT("Error: Could not read source file: %s \n", i_file);
 		file.close();
 		return false;
 	}
@@ -102,7 +102,9 @@ GLboolean Shader::PrintShaderInfoLog(GLuint shader, const char* str)
 	// Get compile status
 	GLint status;
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
-	//if (status == GL_FALSE) std::cerr << "Compile Error in " << str << std::endl;
+	if (status == GL_FALSE)
+		DEBUG_PRINT("Compile Error in: %s \n", str);
+
 	// Get the length of the compile log
 	GLsizei bufSize;
 	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &bufSize);
@@ -112,7 +114,7 @@ GLboolean Shader::PrintShaderInfoLog(GLuint shader, const char* str)
 		std::vector<GLchar> infoLog(bufSize);
 		GLsizei length;
 		glGetShaderInfoLog(shader, bufSize, &length, &infoLog[0]);
-		//std::cerr << &infoLog[0] << std::endl;
+		DEBUG_PRINT("%s \n", infoLog[0]);
 	}
 	return static_cast<GLboolean>(status);
 }

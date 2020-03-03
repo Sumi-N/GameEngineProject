@@ -261,5 +261,6 @@ __pycache__/
 *.pyc
 
 # Exculde from ignoring certain obj files for models in a certain directory
-!MyGameEngine/Assets/models/*
+!MyGameEngine/Assets/**
 !MyGameEngine/Core/*
+!MyGameEngine/APIs/**
