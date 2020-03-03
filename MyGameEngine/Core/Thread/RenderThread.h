@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Graphics/Graphics/Graphic.h>
+#include <Graphics/Graphic.h>
 
 #include "Thread.h"
 

@@ -152,7 +152,7 @@
     <ClInclude Include="Thread.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Graphics\Graphics\Graphics.vcxproj">
+    <ProjectReference Include="..\..\Graphics\Graphics.vcxproj">
       <Project>{6809ac33-2d2c-4a2f-9a7f-c187a9307703}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Time\Time.vcxproj">
