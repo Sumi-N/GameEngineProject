@@ -1,5 +1,5 @@
 #pragma once
-#include "DebugLog.h"
+//#include "DebugLog.h"
 #include "Object3D.h"
 #include "EntityPhysics3D.h"
 #include "EntitySpriteRenderer.h"

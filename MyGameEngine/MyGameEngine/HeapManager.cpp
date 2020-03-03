@@ -1,5 +1,5 @@
 #include "HeapManager.h"
-#include "DebugLog.h"
+//#include "DebugLog.h"
 #include <stdio.h>
 
 HeapManager * HeapManager::create(void * i_pMemory, size_t i_sizeMemory, unsigned int i_numDescriptors)
