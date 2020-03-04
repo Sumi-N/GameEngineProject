@@ -15,12 +15,16 @@ public:
 
 	virtual void Init();
 	virtual void Update(float i_dt);
+	virtual void CleanUp();
 };
 
 inline void Object::Init() {}
+
 inline void Object::Update(float i_dt) 
 {
 	pos += i_dt * vel;
 }
+
+inline void Object::CleanUp() {}
 
 

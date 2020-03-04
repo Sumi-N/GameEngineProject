@@ -26,8 +26,9 @@ public:
 
 		// The parameters for lookAt function are position, target, up vector
 		// target is equal to forwardvector + position;
-		//view = glm::lookAt(pos, pos + forwardvec, upvec);
-		//perspective = glm::perspective(glm::radians(fov), (float)WIDTH / HEIGHT, nearestclip, farestclip);
+		view = Mat4f::LookAt(pos, pos + forwardvec, upvec);
+
+		perspective = Mat4f::Perspective(fov, SCREEN_WIDTH / SCREEN_HEIGHT, nearestclip, farestclip);
 		//orthographics = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.0f, 100.0f);
 	}
 
@@ -35,7 +36,7 @@ public:
 	{
 		//forwardvec = glm::rotate(forwardvec, -1 * glm::radians(amount), axis);
 		//upvec = glm::rotate(upvec, -1 * glm::radians(amount), axis);
-		//rightvec = glm::cross(forwardvec, upvec);
+		rightvec = Vec3f::Normalize(forwardvec.Cross(upvec));
 	}
 
 	void MoveCamera(float amount, Vec3f& dir)
@@ -46,7 +47,7 @@ public:
 	void Update(float dt)
 	{
 		pos += (float)dt * vel;
-		//view = glm::lookAt(pos, pos + forwardvec, upvec);
+		view = Mat4f::LookAt(pos, pos + forwardvec, upvec);
 		view_perspective_mat = perspective * view;
 	}
 };

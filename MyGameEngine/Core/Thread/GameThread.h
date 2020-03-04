@@ -1,8 +1,6 @@
 #pragma once
 
-#include <Core/Time/Time.h>
-
-#include "Thread.h"
+#include "Define.h"
 
 class GameThread : public Thread
 {
@@ -23,6 +21,7 @@ inline void GameThread::Run()
 	while (true)
 	{
 
+		Entity::Update(Time::dt);
 
 		{
 			std::unique_lock<std::mutex> unique_lock_guard(Mutex_Render);

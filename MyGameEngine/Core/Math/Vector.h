@@ -138,6 +138,7 @@ namespace Math {
 
 		//!@ Constructor
 		Vec4() = default;
+		Vec4(Vec3<T> i_v, T i_w) : x(i_v.x), y(i_v.y), z(i_v.z), w(i_w) {}
 		Vec4(T i_x, T i_y, T i_z, T i_w) : x(i_x), y(i_y), z(i_z), w(i_w) {}
 
 		template <typename U> 
@@ -188,6 +189,7 @@ namespace Math {
 
 		//!@ Constructor
 		Vec4() = default;
+		Vec4(Vec3<float> i_v, float i_w) : x(i_v.x), y(i_v.y), z(i_v.z), w(i_w) {}
 		Vec4(float i_x, float i_y, float i_z, float i_w) : x(i_x), y(i_y), z(i_z), w(i_w) {}
 
 		template <typename U>

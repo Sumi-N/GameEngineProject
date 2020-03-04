@@ -155,6 +155,9 @@
     <ProjectReference Include="..\..\Graphics\Graphics.vcxproj">
       <Project>{6809ac33-2d2c-4a2f-9a7f-c187a9307703}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\EntitySystem\EntitySystem.vcxproj">
+      <Project>{8d7d6eb2-5151-4527-934b-d775d58f0994}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Time\Time.vcxproj">
       <Project>{e613ebe4-86fb-4cb5-8e04-e4558231d013}</Project>
     </ProjectReference>

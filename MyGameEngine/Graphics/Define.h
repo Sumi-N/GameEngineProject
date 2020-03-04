@@ -9,7 +9,6 @@
 #include <iostream>
 
 #ifdef ENGINE_GRAPHIC_OPENGL
-	//#pragma comment( lib, "Opengl32.lib" )
 	#include <GraphicAPI/glew-2.1.0/include/GL/glew.h>
 	#include <GraphicAPI/glfw-3.3.bin.WIN32/include/GLFW/glfw3.h>
 #endif // ENGINE_GRAPHIC_OPENGL

@@ -19,7 +19,7 @@ namespace Math
 		union
 		{
 			T ele[16];
-			Vec4<T> column;
+			Vec4<T> column[4];
 			struct
 			{
 				T   ele_11, ele_12, ele_13, ele_14,
@@ -45,6 +45,9 @@ namespace Math
 		static Matrix4<T> Roll (T const i_a);
 		static Matrix4<T> Pitch(T const i_a);
 		static Matrix4<T> Yaw  (T const i_a);
+
+		static Matrix4<T> LookAt(Vec3<T> i_pos, Vec3<T> i_target, Vec3<T> i_upvec);
+		static Matrix4<T> Perspective(T i_fov, T i_aspectratio, T i_near, T i_far);
 	};
 
 

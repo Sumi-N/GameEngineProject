@@ -6,6 +6,8 @@
 #include <intrin.h>
 #include <xmmintrin.h>
 
+#define _USE_MATH_DEFINES
+
 namespace Math
 {
 	template <typename T> inline T     Sqrt(T const &i)           { return (T)std::sqrt(i); }
