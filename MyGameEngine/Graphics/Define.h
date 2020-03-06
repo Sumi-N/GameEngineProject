@@ -2,6 +2,8 @@
 #include <Configuration/Configuration.h>
 
 #include <Debug/DebugLog.h>
+#include <Math/Matrix.h>
+#include <Parts/MeshComponent.h>
 
 // For reading shader data in shader class
 #include <vector>

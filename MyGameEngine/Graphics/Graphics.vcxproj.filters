@@ -34,6 +34,9 @@
     <ClInclude Include="Graphic_Vulkan.h">
       <Filter>Vulkan</Filter>
     </ClInclude>
+    <ClInclude Include="SceneProxy.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConstantBuffer.OpenGL.cpp">
@@ -42,14 +45,17 @@
     <ClCompile Include="Shader.OpenGL.cpp">
       <Filter>OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="Graphic_OpenGL.cpp">
-      <Filter>OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="Graphic_Vulkan.cpp">
       <Filter>Vulkan</Filter>
     </ClCompile>
     <ClCompile Include="Graphic.cpp">
       <Filter>Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneProxy.OpenGL.cpp">
+      <Filter>OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic.OpenGL.cpp">
+      <Filter>OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

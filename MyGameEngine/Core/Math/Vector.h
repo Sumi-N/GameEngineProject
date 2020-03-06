@@ -13,6 +13,60 @@ namespace Math {
 	template <typename T> class Vec4;
 
 	template <typename T>
+	class Vec2
+	{
+	public:
+		union
+		{
+			struct { T x, y;};
+			T ele[2];
+		};
+
+		//!@ Constructor
+		Vec2() = default;
+		Vec2(T i_x, T i_y) : x(i_x), y(i_y) {}
+
+		template <typename U> 
+		explicit Vec2(Vec2<U> const& u) : x(static_cast<T>(u.x)), y(static_cast<T>(u.y)) {}
+		explicit Vec2(Vec3<T> const& t) : x(t.x), y(t.y) {}
+
+		//!@ Operator with constant value
+		friend Vec2 operator + (T t, Vec2 const& u) { Vec2 o_v; o_v.x = t + u.x; o_v.y = t + u.y; return o_v; }
+		friend Vec2 operator - (T t, Vec2 const& u) { Vec2 o_v; o_v.x = t - u.x; o_v.y = t - u.y; return o_v; }
+		friend Vec2 operator * (T t, Vec2 const& u) { Vec2 o_v; o_v.x = t * u.x; o_v.y = t * u.y; return o_v; }
+		       Vec2 operator / (T const t)  const { Vec2 o_v; o_v.x = x / t; o_v.y = y / t; return o_v; }
+
+		//!@ Binary operators
+		Vec2 operator + (Vec2 const& i_v) const { Vec2 o_v; o_v.x = x + i_v.x; o_v.y = y + i_v.y; return o_v; }
+		Vec2 operator - (Vec2 const& i_v) const { Vec2 o_v; o_v.x = x - i_v.x; o_v.y = y - i_v.y; return o_v; }
+		Vec2 operator * (Vec2 const& i_v) const { Vec2 o_v; o_v.x = x * i_v.x; o_v.y = y * i_v.y; return o_v; }
+		Vec2 operator / (Vec2 const& i_v) const { Vec2 o_v; o_v.x = x / i_v.x; o_v.y = y / i_v.y; return o_v; }
+
+		//!@ Assignment operators
+		Vec2 const& operator += (Vec2 const& i_v) { x += i_v.x; y += i_v.y; return *this; }
+		Vec2 const& operator -= (Vec2 const& i_v) { x -= i_v.x; y -= i_v.y; return *this; }
+		Vec2 const& operator *= (Vec2 const& i_v) { x *= i_v.x; y *= i_v.y; return *this; }
+		Vec2 const& operator /= (Vec2 const& i_v) { x /= i_v.x; y /= i_v.y; return *this; }
+		Vec2 const& operator += (T    const  t) { x += t; y += t; return *this; }
+		Vec2 const& operator -= (T    const  t) { x -= t; y -= t; return *this; }
+		Vec2 const& operator *= (T    const  t) { x *= t; y *= t; return *this; }
+		Vec2 const& operator /= (T    const  t) { x /= t; y /= t; return *this; }
+
+		bool operator == (Vec2 const& i_v) const { return x == i_v.x && y == i_v.y; }
+		bool operator != (Vec2 const& i_v) const { return x != i_v.x && y != i_v.y; }
+
+		void Set       (T i_x, T i_y) {x = i_x, y = i_y; }
+		void Zero      ()       { x = 0; y = 0; }
+		bool IsZero    () const { return x == static_cast<T>(0) && y == static_cast<T>(0); }
+		void Normalize ()       { *this /= Length(); }
+		T    Length    () const { return Sqrt(static_cast<T>(x)* static_cast<T>(x) + static_cast<T>(y)* static_cast<T>(y)); }
+		float Dot       (Vec2 i_v)       { return x * i_v.x + y * i_v.y; }
+
+		static float Length   (Vec2 i_v) { return Sqrt(static_cast<T>(i_v.x)* static_cast<T>(i_v.x) + static_cast<T>(i_v.y)* static_cast<T>(i_v.y)); }
+		static Vec2 Normalize (Vec2 i_v) { return i_v/Length(i_v); }
+	};
+
+	template <typename T>
 	class Vec3
 	{
 	public:
@@ -61,10 +115,10 @@ namespace Math {
 		bool IsZero    () const { return x == static_cast<T>(0) && y == static_cast<T>(0) && z == static_cast<T>(0); }
 		void Normalize ()       { *this /= Length(); }
 		T    Length    () const { return Sqrt(static_cast<T>(x)* static_cast<T>(x) + static_cast<T>(y)* static_cast<T>(y) + static_cast<T>(z)* static_cast<T>(z)); }
-		float Dot       (Vec3 i_v)       { return x * i_v.x + y * i_v.y + z * i_v.z;}
-		Vec3  Cross     (Vec3 i_v)       { return Vec3(y * i_v.z - z * i_v.y, z * i_v.x - x * i_v.z, x * i_v.y - y * i_v.x);}
+		float Dot       (Vec3 i_v)       { return x * i_v.x + y * i_v.y + z * i_v.z; }
+		Vec3  Cross     (Vec3 i_v)       { return Vec3(y * i_v.z - z * i_v.y, z * i_v.x - x * i_v.z, x * i_v.y - y * i_v.x); }
 
-		static float Length   (Vec3 i_v) { return Sqrt(static_cast<T>(i_v.x)* static_cast<T>(i_v.x) + static_cast<T>(i_v.y)* static_cast<T>(i_v.y) + static_cast<T>(i_v.z)* static_cast<T>(i_v.z));}
+		static float Length   (Vec3 i_v) { return Sqrt(static_cast<T>(i_v.x)* static_cast<T>(i_v.x) + static_cast<T>(i_v.y)* static_cast<T>(i_v.y) + static_cast<T>(i_v.z)* static_cast<T>(i_v.z)); }
 		static Vec3 Normalize (Vec3 i_v) { return i_v/Length(i_v); }
 	};
 
@@ -118,10 +172,10 @@ namespace Math {
 		bool  IsZero    () const { return x == static_cast<float>(0) && y == static_cast<float>(0) && z == static_cast<float>(0); }
 		void  Normalize ()       { *this /= Length(); }
 		float Length() const { return Sqrt(static_cast<float>(x)* static_cast<float>(x) + static_cast<float>(y)* static_cast<float>(y) + static_cast<float>(z)* static_cast<float>(z)); }
-		float Dot       (Vec3 i_v)       {return x * i_v.x + y * i_v.y + z * i_v.z;}
-		Vec3  Cross     (Vec3 i_v)       {return Vec3(y * i_v.z - z * i_v.y, z * i_v.x - x * i_v.z, x * i_v.y - y * i_v.x);}
+		float Dot       (Vec3 i_v)       {return x * i_v.x + y * i_v.y + z * i_v.z; }
+		Vec3  Cross     (Vec3 i_v)       {return Vec3(y * i_v.z - z * i_v.y, z * i_v.x - x * i_v.z, x * i_v.y - y * i_v.x); }
 
-		static float Length   (Vec3 i_v) { return Sqrt(static_cast<float>(i_v.x)* static_cast<float>(i_v.x) + static_cast<float>(i_v.y)* static_cast<float>(i_v.y) + static_cast<float>(i_v.z)* static_cast<float>(i_v.z));}
+		static float Length   (Vec3 i_v) { return Sqrt(static_cast<float>(i_v.x)* static_cast<float>(i_v.x) + static_cast<float>(i_v.y)* static_cast<float>(i_v.y) + static_cast<float>(i_v.z)* static_cast<float>(i_v.z)); }
 		static Vec3 Normalize (Vec3 i_v) { return i_v/Length(i_v); }
 	};
 
@@ -204,6 +258,9 @@ namespace Math {
 	};
 
 } // <- namespace Math
+
+
+typedef Math::Vec2<float>            Vec2f;
 
 //typedef Math::Vec3<unsigned short>   Vec3us;
 //typedef Math::Vec3<short>            Vec3s;

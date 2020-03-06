@@ -1,5 +1,7 @@
 #include "Assert.h"
 
+#ifdef ENGINE_PLATFORM_WINDOWS
+
 bool DEBUG::AssertionCheckPlatoformSpecific(std::ostringstream& io_message, bool& i_ignorethisinthefuture)
 {
 
@@ -22,3 +24,5 @@ bool DEBUG::AssertionCheckPlatoformSpecific(std::ostringstream& io_message, bool
 		return false;
 	}
 }
+
+#endif // ENGINE_PLATFORM_WINDOWS

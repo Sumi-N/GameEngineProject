@@ -1,13 +1,6 @@
 #pragma once
-#include <sstream>
-#include <intrin.h>
 
 #include "Define.h"
-
-#ifdef ENGINE_PLATFORM_WINDOWS
-	#include <intrin.h>
-	#include <Windows.h>
-#endif
 
 namespace DEBUG
 {
@@ -16,10 +9,10 @@ namespace DEBUG
 }
 
 #if defined(_DEBUG)
-#define DEBUG_ASSERT(i_assertion)\
+#define DEBUG_ASSERT(i_assertion, ...)\
 	{\
 		static auto ignorethisinthefuture = false;\
-		if( static_cast<bool>(i_assertion) && AssertionCheck(__LINE__, __FILE__, "", ignorethisinthefuture, __VA_ARGS__))\
+		if( !static_cast<bool>(i_assertion) && DEBUG::AssertionCheck(__LINE__, __FILE__, "", ignorethisinthefuture, __VA_ARGS__) )\
 		{\
 			__debugbreak();\
 		}\

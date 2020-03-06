@@ -159,8 +159,9 @@
   <ItemGroup>
     <ClCompile Include="ConstantBuffer.OpenGL.cpp" />
     <ClCompile Include="Graphic.cpp" />
-    <ClCompile Include="Graphic_OpenGL.cpp" />
+    <ClCompile Include="Graphic.OpenGL.cpp" />
     <ClCompile Include="Graphic_Vulkan.cpp" />
+    <ClCompile Include="SceneProxy.OpenGL.cpp" />
     <ClCompile Include="Shader.OpenGL.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +169,7 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="Graphic_Vulkan.h" />
+    <ClInclude Include="SceneProxy.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="ValidationLayer.h" />
@@ -176,11 +178,17 @@
     <ProjectReference Include="..\Configuration\Configuration.vcxproj">
       <Project>{5a56dd68-b309-44ca-82eb-13614baeda69}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Core\BoneStructure\BoneStructure.vcxproj">
+      <Project>{4de6446c-e0a9-4b48-9d06-821a246ef395}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Debug\Debug.vcxproj">
       <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Core\Math\Math.vcxproj">
       <Project>{c8572e70-1b3f-469b-bb92-96dd46c72504}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Parts\Parts.vcxproj">
+      <Project>{f0dcb746-4531-4351-9a6e-140c336a3c35}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

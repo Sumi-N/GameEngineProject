@@ -167,7 +167,7 @@ public:
 	OwningPointer& operator=(std::nullptr_t i_null)
 	{
 		DEBUG_PRINT("The OwningPointer is about to assigned nullptr");
-		//DEBUG_ASSERT(false);
+		DEBUG_ASSERT(false);
 	};
 
 	// Assignment Operator - Assigning directly from an existing pointer
@@ -325,7 +325,7 @@ public:
 	// indirection operator
 	T& operator*()
 	{
-		//DEBUG_ASSERT(data != nullptr);
+		DEBUG_ASSERT(data != nullptr);
 		return *data;
 	};
 
@@ -352,15 +352,15 @@ public:
 	// Copy Constructors
 	ObservingPointer(const ObservingPointer& i_owner)
 	{
-		//DEBUG_ASSERT(i_owner.ref);
+		DEBUG_ASSERT(i_owner.ref);
 		if (i_owner.ref->OwnerReferences != 0)
 		{
 			ref = i_owner.ref;
 			data = i_owner.data;
 			ref->ObserverReferences++;
 		}
-		//else
-			//DEBUG_ASSERT(false);
+		else
+			DEBUG_ASSERT(false);
 	};
 
 	template<class U>
@@ -378,8 +378,8 @@ public:
 			data = i_owner.data;
 			ref->ObserverReferences++;
 		}
-		//else
-			//DEBUG_ASSERT(false);
+		else
+			DEBUG_ASSERT(false);
 	};
 
 	// Destructor
@@ -602,7 +602,7 @@ public:
 		}
 		else
 		{
-			//DEBUG_ASSERT(false);
+			DEBUG_ASSERT(false);
 			return nullptr;
 		}
 	};
@@ -612,10 +612,10 @@ public:
 	{
 		if (ref->OwnerReferences != 0)
 		{
-			//DEBUG_ASSERT(data != nullptr);
+			DEBUG_ASSERT(data != nullptr);
 			return *data;
 		}
-		//else
-			//DEBUG_ASSERT(false);
+		else
+			DEBUG_ASSERT(false);
 	};
 };
