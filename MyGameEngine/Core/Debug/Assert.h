@@ -9,10 +9,19 @@ namespace DEBUG
 }
 
 #if defined(_DEBUG)
-#define DEBUG_ASSERT(i_assertion, ...)\
+#define DEBUG_ASSERT(i_assertion)\
 	{\
 		static auto ignorethisinthefuture = false;\
-		if( !static_cast<bool>(i_assertion) && DEBUG::AssertionCheck(__LINE__, __FILE__, "", ignorethisinthefuture, __VA_ARGS__) )\
+		if( !static_cast<bool>(i_assertion) && DEBUG::AssertionCheck(__LINE__, __FILE__, "", ignorethisinthefuture, ignorethisinthefuture) )\
+		{\
+			__debugbreak();\
+		}\
+	}
+
+#define DEBUG_ASSERT_WITHMESSAGE(i_assertion, i_messagetodisplay, ...)\
+	{\
+		static auto ignorethisinthefuture = false;\
+		if( !static_cast<bool>(i_assertion) && DEBUG::AssertionCheck(__LINE__, __FILE__, i_messagetodisplay, ignorethisinthefuture, __VA_ARGS__) )\
 		{\
 			__debugbreak();\
 		}\
