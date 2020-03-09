@@ -3,6 +3,8 @@
 
 #ifdef  ENGINE_GRAPHIC_OPENGL
 
+GLFWwindow * Graphic::window;
+
 void Graphic::Init()
 {
 	if (glfwInit() == GL_FALSE)
@@ -20,7 +22,7 @@ void Graphic::Init()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Creating a window
-	GLFWwindow * window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Tempest", NULL, NULL);
+	window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Tempest", NULL, NULL);
 
 	if (!window)
 	{
@@ -54,6 +56,17 @@ void Graphic::Init()
 	// Set up culling
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_STENCIL_TEST);
+}
+
+void Graphic::Load(ObservingPointer<MeshComponent>)
+{
+
+}
+
+void Graphic::Update()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glfwSwapBuffers(window);
 }
 
 #endif //  

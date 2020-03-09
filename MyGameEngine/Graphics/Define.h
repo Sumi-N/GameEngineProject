@@ -4,6 +4,7 @@
 #include <Debug/DebugLog.h>
 #include <Math/Matrix.h>
 #include <Parts/MeshComponent.h>
+#include <BoneStructure/SmartPointer.h>
 
 // For reading shader data in shader class
 #include <vector>

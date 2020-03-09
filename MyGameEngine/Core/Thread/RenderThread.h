@@ -1,21 +1,27 @@
 #pragma once
 
-#include <Graphics/Graphic.h>
-
+#include "Define.h"
 #include "Thread.h"
 
 class RenderThread : public Thread
 {
 public:
+	void Boot() override;
 	void Init() override;
 	void Run() override;
 	void CleanUp() override;
 	void PassDataTo(Thread) override;
 };
 
-inline void RenderThread::Init()
+inline void RenderThread::Boot()
 {
 	Graphic::Init();
+}
+
+
+inline void RenderThread::Init()
+{
+	
 }
 
 inline void RenderThread::Run()
@@ -35,6 +41,7 @@ inline void RenderThread::Run()
 			Condition_Render.notify_one();
 		}
 
+		Graphic::Update();
 	}
 }
 

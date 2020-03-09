@@ -15,9 +15,12 @@ public:
 	static bool b_game_ready;
 	static bool b_render_ready;
 
+	virtual void Boot(){};
 	virtual void Init(){};
 	virtual void Run(){};
 	virtual void CleanUp(){};
+	virtual void Eject(){};
+
 	virtual void PassDataTo(Thread){};
 };
 

@@ -3,6 +3,13 @@
 
 std::vector<ObjectHandler> Entity::ObjectList;
 
+ObjectHandler Entity::Register(Object * i_obj)
+{
+	ObjectHandler objhandler(i_obj);
+	ObjectList.push_back(objhandler);
+	return objhandler;
+}
+
 void Entity::Init()
 {
 	for (auto it = ObjectList.begin(); it != ObjectList.end(); ++it)

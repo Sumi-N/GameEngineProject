@@ -1,19 +1,28 @@
 #pragma once
 
 #include "Define.h"
+#include "Thread.h"
 
 class GameThread : public Thread
 {
 public:
+	void Boot() override;
 	void Init() override;
 	void Run() override;
 	void CleanUp() override;
+	void Eject() override;
+
 	void PassDataTo(Thread) override;
 };
+
+inline void GameThread::Boot()
+{
+}
 
 inline void GameThread::Init()
 {
 	Time::Init();
+	Entity::Init();
 }
 
 inline void GameThread::Run()
@@ -36,6 +45,11 @@ inline void GameThread::Run()
 }
 
 inline void GameThread::CleanUp()
+{
+
+}
+
+inline void GameThread::Eject()
 {
 
 }
