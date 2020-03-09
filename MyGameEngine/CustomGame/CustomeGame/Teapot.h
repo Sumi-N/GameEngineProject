@@ -12,7 +12,7 @@ inline void Teapot::Init()
 
 }
 
-inline void Update(float i_dt)
+inline void Teapot::Update(float i_dt)
 {
 
 }

@@ -16,6 +16,7 @@ struct MeshData
 class MeshComponent : public Component
 {
 public:
+	ObservingPointer<Object> owner;
 	std::vector<MeshData> data;
 	std::vector<int>   index;
 
@@ -24,6 +25,7 @@ public:
 
 	void Load(const char* filename);
 	void Init() override;
+	void Update(float i_dt) override;
 	void CleanUp() override;
 };
 

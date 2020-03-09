@@ -44,3 +44,18 @@ void MeshComponent::Load(const char* filename)
 		}
 	}
 }
+
+void MeshComponent::Init()
+{
+
+}
+
+void MeshComponent::Update(float i_dt)
+{
+
+}
+
+void MeshComponent::CleanUp()
+{
+
+}

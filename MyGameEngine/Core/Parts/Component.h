@@ -15,6 +15,6 @@ public:
 
 inline void Component::Init() {}
 
-inline void Component::Update(float dt) {}
+inline void Component::Update(float i_dt) {}
 
 inline void Component::CleanUp() {}
