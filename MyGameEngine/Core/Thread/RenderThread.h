@@ -21,7 +21,7 @@ inline void RenderThread::Boot()
 
 inline void RenderThread::Init()
 {
-	
+	Graphic::PostInit();
 }
 
 inline void RenderThread::Run()

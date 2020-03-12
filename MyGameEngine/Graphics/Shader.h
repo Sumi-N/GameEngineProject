@@ -5,9 +5,10 @@ class Shader
 {
 #ifdef ENGINE_GRAPHIC_OPENGL
 public:
-	GLuint programid = 0;
-
 	static void LoadShader(Shader & io_shader, const char* i_vert, const char* i_frag);
+
+	GLuint programid = 0;
+	void BindShader();
 
 private:
 	static bool ReadShaderSource(const char* i_file, std::vector<GLchar> & io_buffer);

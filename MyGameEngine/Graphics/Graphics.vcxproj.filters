@@ -37,6 +37,9 @@
     <ClInclude Include="SceneProxy.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="SceneFormat.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConstantBuffer.OpenGL.cpp">
@@ -56,6 +59,15 @@
     </ClCompile>
     <ClCompile Include="Graphic.OpenGL.cpp">
       <Filter>OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneProxy.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneFormat.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

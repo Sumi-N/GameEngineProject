@@ -5,15 +5,18 @@
 class SceneProxy
 {
 public:
-	void Init(MeshComponent i_mesh);
+
+	void Init();
 	void Draw();
 	void CleanUp();
+
+	OwningPointer<MeshComponent> mesh;
 
 private:
 
 	void InitBuffer();
 	void CleanUpBuffer();
-	void BindMeshData(MeshComponent i_mesh);
+	void BindMeshData();
 
 #ifdef ENGINE_GRAPHIC_OPENGL
 	GLuint vertexarrayid   = 0;
@@ -22,14 +25,3 @@ private:
 	unsigned int indexsize = 0;
 #endif // ENGINE_GRAPHIC_OPENGL
 };
-
-inline void SceneProxy::Init(MeshComponent i_mesh)
-{
-	InitBuffer();
-	BindMeshData(i_mesh);
-}
-
-inline void SceneProxy::CleanUp()
-{
-
-}

@@ -23,22 +23,22 @@ void SceneProxy::Draw()
 	glDrawElements(GL_TRIANGLES, indexsize, GL_UNSIGNED_INT, (void*)0);
 }
 
-void SceneProxy::BindMeshData(MeshComponent i_mesh)
+void SceneProxy::BindMeshData()
 {
 	// Set vertex data to vertex buffer
-	glBufferData(GL_ARRAY_BUFFER, i_mesh.data.size() * sizeof(i_mesh.data[0]), i_mesh.data.data(), GL_STATIC_DRAW);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, i_mesh.index.size() * sizeof(i_mesh.index[0]), i_mesh.index.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, mesh->data.size() * sizeof(mesh->data[0]), mesh->data.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->index.size() * sizeof(mesh->index[0]), mesh->index.data(), GL_STATIC_DRAW);
 
 	// Enable vertex attribute
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(i_mesh.data[0]), (void*)(0));
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(i_mesh.data[0]), (void*)(sizeof(Vec3f)));
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(i_mesh.data[0]), (void*)(2 * sizeof(Vec3f)));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(mesh->data[0]), (void*)(0));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(mesh->data[0]), (void*)(sizeof(Vec3f)));
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(mesh->data[0]), (void*)(2 * sizeof(Vec3f)));
 
 	// Memorize index size for Draw() fucntion
-	indexsize = i_mesh.index.size() * sizeof(i_mesh.index[0]);
+	indexsize = mesh->index.size() * sizeof(mesh->index[0]);
 }
 
 void SceneProxy::CleanUpBuffer()
