@@ -2,6 +2,9 @@
 
 #include "Graphic.h"
 
+ConstantBuffer Graphic::buffer_camera;
+ConstantBuffer Graphic::buffer_light;
+
 
 //int Graphic::Vulkan::testThread()
 //{

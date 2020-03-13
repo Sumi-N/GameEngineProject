@@ -151,7 +151,7 @@ namespace Math {
 	inline Matrix4<T> Matrix4<T>::LookAt(Vec3<T> i_pos, Vec3<T> i_target, Vec3<T> i_upvec) 
 	{
 		Vec4<T> forwardvec = Vec4<T>(Vec3<T>::Normalize(i_target - i_pos), 0);
-		Vec4<T> rightvec = Vec4<T>(Vec3<T>::Normalize(forwardvec.Cross(i_upvec)), 0);
+		Vec4<T> rightvec = Vec4<T>(Vec3<T>::Normalize(Vec3<T>(forwardvec).Cross(i_upvec)), 0);
 		Vec4<T> upvec = Vec4<T>(Vec3<T>::Normalize(i_upvec), 0);
 		Vec4<T> posvec = Vec4<T>(i_pos, 1);
 
@@ -167,24 +167,24 @@ namespace Math {
 	inline Matrix4<T> Matrix4<T>::Perspective(T i_fov, T i_aspectratio, T i_near, T i_far)
 	{
 		T range = i_near - i_far;
-		T tanhalffov = tan(i_fov * M_PI / 2.0 * 180);
+		T tanhalffov = static_cast<T>(i_fov * M_PI / 2.0 * 180);
 
 		Matrix4 o_m;
 
-		o_m.ele[0] = 1.0 / (tanhalffov * i_aspectratio);
+		o_m.ele[0] = static_cast<T>(1.0 / tanhalffov * i_aspectratio);
 		o_m.ele[1] = 0;
 		o_m.ele[2] = 0;
 		o_m.ele[3] = 0;
 
 		o_m.ele[0] = 0;
-		o_m.ele[1] = 1.0 / tanhalffov;
+		o_m.ele[1] = static_cast<T>(1.0 / tanhalffov);
 		o_m.ele[2] = 0;
 		o_m.ele[3] = 0;
 
 		o_m.ele[0] = 0;
 		o_m.ele[1] = 0;
-		o_m.ele[2] = (-1 * i_near + -1 * i_far) / range;
-		o_m.ele[3] = 2.0 * i_far * i_near / range;
+		o_m.ele[2] = static_cast<T>((-1 * i_near + -1 * i_far) / range);
+		o_m.ele[3] = static_cast <T>(2.0 * i_far * i_near / range);
 
 		o_m.ele[0] = 0;
 		o_m.ele[1] = 0;

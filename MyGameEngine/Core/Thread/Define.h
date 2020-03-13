@@ -4,6 +4,7 @@
 #include <Core/EntitySystem/Entity.h>
 
 #include <Graphics/Graphic.h>
+#include <Graphics/ConstantBuffer.h>
 
 
 /////////////// Global variables

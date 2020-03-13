@@ -55,12 +55,24 @@ void Graphic::Init()
 
 	// Set up culling
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_STENCIL_TEST);
+	
+
+	// Init uniform buffers
+	buffer_camera.Init(ConstantData::Index::Camera, ConstantData::Size::Camera);
+	buffer_light.Init(ConstantData::Index::Light, ConstantData::Size::Light);
 }
 
-void Graphic::Update()
+void Graphic::Update(GraphicRequiredData * i_data)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+	// Update uniform data common for frame
+	// Submit Camera Information
+	auto& data_camera = i_data->camera;
+	buffer_camera.Update(&data_camera);
+	// Submit Light Information
+	auto& data_light = i_data->light;
+	buffer_light.Update(&data_light);
 
 	SceneFormat::Draw();
 

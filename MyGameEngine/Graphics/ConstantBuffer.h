@@ -42,7 +42,7 @@ namespace ConstantData
 
 	/////////////////// Don't forget to add index and size data after adding a new uniform data //////////////
 
-	enum class Index
+	enum class Index : uint8_t
 	{
 		Camera = 0,
 		Object = 1,
@@ -51,7 +51,7 @@ namespace ConstantData
 		Image = 4,
 	};
 
-	enum class Size
+	enum class Size : uint8_t
 	{
 		Camera = sizeof(ConstantData::Camera),
 		Object = sizeof(ConstantData::Model),

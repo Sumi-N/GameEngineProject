@@ -3,6 +3,7 @@
 #include <Core/Thread/EntryPoint.h>
 #include <Parts/MeshComponent.h>
 #include <Parts/Object.h>
+#include <Parts/Camera.h>
 #include <EntitySystem/Entity.h>
 #include <Graphics/Shader.h>
 #include <Graphics/SceneFormat.h>
@@ -17,8 +18,10 @@ int main()
 	MeshComponent teapotmesh;
 	Entity::Register(&teapot);
 	teapotmesh.owner = Entity::ObjectList[0].p;
-	//teapotmesh.Load("../../Assets/models/teapot.obj");
-	teapotmesh.Load("../../Assets/models/plane.obj");
+	teapotmesh.Load("../../Assets/models/teapot.obj");
+	//teapotmesh.Load("../../Assets/models/plane.obj");
+
+	Camera camera;
 
 	SceneProxy proxy;
 	proxy.mesh = &teapotmesh;

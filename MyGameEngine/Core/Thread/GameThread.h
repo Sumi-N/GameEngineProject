@@ -30,7 +30,7 @@ inline void GameThread::Run()
 	while (true)
 	{
 
-		Entity::Update(Time::dt);
+		Entity::Update(static_cast<float>(Time::dt));
 
 		{
 			std::unique_lock<std::mutex> unique_lock_guard(Mutex_Render);
