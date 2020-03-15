@@ -2,12 +2,18 @@
 #include "Entity.h"
 
 std::vector<ObjectHandler> Entity::ObjectList;
+OwningPointer<Camera>      Entity::CurrentCamera;
 
 ObjectHandler Entity::Register(Object * i_obj)
 {
 	ObjectHandler objhandler(i_obj);
 	ObjectList.push_back(objhandler);
 	return objhandler;
+}
+
+void Entity::RegisterCamera(Camera* i_camera)
+{
+	CurrentCamera = i_camera;
 }
 
 void Entity::Init()
@@ -24,6 +30,9 @@ void Entity::Update(float i_dt)
 	{
 		(*it).p->Update(i_dt);
 	}
+
+	if(CurrentCamera)
+		CurrentCamera->Update(i_dt);
 }
 
 void Entity::CleanUp()

@@ -15,7 +15,7 @@ public:
 	void Init() override;
 	void Run() override;
 	void CleanUp() override;
-	void PassDataTo(Thread) override;
+	void PassDataTo(Thread *) override;
 };
 
 inline void RenderThread::Boot()
@@ -45,7 +45,14 @@ inline void RenderThread::Run()
 			Condition_Render.notify_one();
 		}
 
+		Graphic::PreUpdate();
+
 		Graphic::Update(data_render_own);
+
+		Graphic::PostUpdate();
+
+		// Cleanup section
+		data_render_own->model_data.clear();
 	}
 }
 
@@ -54,7 +61,7 @@ inline void RenderThread::CleanUp()
 
 }
 
-inline void RenderThread::PassDataTo(Thread i_thread)
+inline void RenderThread::PassDataTo(Thread * i_thread)
 {
 
 }

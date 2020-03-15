@@ -60,22 +60,40 @@ void Graphic::Init()
 	// Init uniform buffers
 	buffer_camera.Init(ConstantData::Index::Camera, ConstantData::Size::Camera);
 	buffer_light.Init(ConstantData::Index::Light, ConstantData::Size::Light);
+	buffer_model.Init(ConstantData::Index::Model, ConstantData::Size::Model);
+}
+
+void Graphic::PreUpdate()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
 void Graphic::Update(GraphicRequiredData * i_data)
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 	// Update uniform data common for frame
 	// Submit Camera Information
 	auto& data_camera = i_data->camera;
 	buffer_camera.Update(&data_camera);
+
 	// Submit Light Information
 	auto& data_light = i_data->light;
 	buffer_light.Update(&data_light);
+	
+	for (auto it = SceneFormat::List.begin(); it != SceneFormat::List.end(); ++it)
+	{
+		auto& data_model = i_data->model_data[it - SceneFormat::List.begin()];
+		data_model.model_view_perspective_matrix = data_camera.perspective_matrix * data_camera.view_matrix * data_model.model_position_matrix;
+		buffer_model.Update(&data_model);
 
-	SceneFormat::Draw();
+		(*it).shader->BindShader();
+		(*it).proxy->Draw();
+	}
+	
+}
 
+void Graphic::PostUpdate()
+{
 	glfwSwapBuffers(window);
 }
 

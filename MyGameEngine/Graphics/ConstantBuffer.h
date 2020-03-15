@@ -45,7 +45,7 @@ namespace ConstantData
 	enum class Index : uint8_t
 	{
 		Camera = 0,
-		Object = 1,
+		Model = 1,
 		Material = 2,
 		Light = 3,
 		Image = 4,
@@ -54,7 +54,7 @@ namespace ConstantData
 	enum class Size : uint8_t
 	{
 		Camera = sizeof(ConstantData::Camera),
-		Object = sizeof(ConstantData::Model),
+		Model = sizeof(ConstantData::Model),
 		Material = sizeof(ConstantData::Material),
 		Light = sizeof(ConstantData::Light),
 		Image = sizeof(ConstantData::Image),

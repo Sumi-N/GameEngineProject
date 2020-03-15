@@ -1,5 +1,6 @@
 #pragma once
 #include <Parts/Object.h>
+#include <Core/Math/Vector.h>
 
 class Teapot : public Object 
 {
@@ -9,7 +10,7 @@ class Teapot : public Object
 
 inline void Teapot::Init()
 {
-
+	this->pos = Vec3f(0, 0, -50);
 }
 
 inline void Teapot::Update(float i_dt)

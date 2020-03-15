@@ -108,7 +108,19 @@ void MeshComponent::Init()
 
 void MeshComponent::Update(float i_dt)
 {
+	//translation_mat = glm::translate(glm::mat4(1.0), owner->pos);
 
+	//rotation_mat = glm::rotate(glm::mat4(1.0), glm::radians(owner->rot.x), glm::vec3(1, 0, 0));
+	//rotation_mat = glm::rotate(rotation_mat, glm::radians(owner->rot.y), glm::vec3(0, 1, 0));
+	//rotation_mat = glm::rotate(rotation_mat, glm::radians(owner->rot.z), glm::vec3(0, 0, 1));
+
+	//scale_mat = glm::scale(glm::mat4(1.0), owner->scale);
+
+
+	//model_pos_mat = translation_mat * rotation_mat * scale_mat;
+	//model_inverse_transpose_matrix = glm::transpose(glm::inverse(model_pos_mat));
+
+	model_inverse_transpose_mat = Mat4f::Transpose(Mat4f::Inverse(model_mat));
 }
 
 void MeshComponent::CleanUp()

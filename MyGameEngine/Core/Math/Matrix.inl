@@ -163,6 +163,7 @@ namespace Math {
 
 		return o_m;
 	}
+
 	template<typename T>
 	inline Matrix4<T> Matrix4<T>::Perspective(T i_fov, T i_aspectratio, T i_near, T i_far)
 	{
@@ -191,6 +192,24 @@ namespace Math {
 		o_m.ele[2] = 1.0;
 		o_m.ele[3] = 0;
 
+		return o_m;
+	}
+
+	template<typename T>
+	inline Matrix4<T> Matrix4<T>::Transpose(Matrix4<T> i_m)
+	{
+		Matrix4 o_m;
+		o_m = i_m;
+		o_m.Transpose();
+		return o_m;
+	}
+
+	template<typename T>
+	inline Matrix4<T> Matrix4<T>::Inverse(Matrix4<T> i_m)
+	{
+		Matrix4 o_m;
+		o_m = i_m;
+		o_m.Inverse();
 		return o_m;
 	}
 }

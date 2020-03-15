@@ -48,6 +48,9 @@ namespace Math
 
 		static Matrix4<T> LookAt(Vec3<T> i_pos, Vec3<T> i_target, Vec3<T> i_upvec);
 		static Matrix4<T> Perspective(T i_fov, T i_aspectratio, T i_near, T i_far);
+
+		static Matrix4<T> Transpose(Matrix4<T> i_m);
+		static Matrix4<T> Inverse  (Matrix4<T> i_m);
 	};
 
 

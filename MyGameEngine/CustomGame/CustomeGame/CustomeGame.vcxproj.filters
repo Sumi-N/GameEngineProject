@@ -23,5 +23,8 @@
     <ClInclude Include="Teapot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MyCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

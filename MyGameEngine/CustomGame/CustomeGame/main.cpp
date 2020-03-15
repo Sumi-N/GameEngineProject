@@ -3,17 +3,18 @@
 #include <Core/Thread/EntryPoint.h>
 #include <Parts/MeshComponent.h>
 #include <Parts/Object.h>
-#include <Parts/Camera.h>
 #include <EntitySystem/Entity.h>
 #include <Graphics/Shader.h>
 #include <Graphics/SceneFormat.h>
 
 #include "Teapot.h"
+#include "MyCamera.h"
 
 #include <stdio.h>
 
 int main()
 {
+	// Setting up teapot
 	Teapot teapot;
 	MeshComponent teapotmesh;
 	Entity::Register(&teapot);
@@ -21,13 +22,15 @@ int main()
 	teapotmesh.Load("../../Assets/models/teapot.obj");
 	//teapotmesh.Load("../../Assets/models/plane.obj");
 
-	Camera camera;
-
 	SceneProxy proxy;
 	proxy.mesh = &teapotmesh;
 
 	Shader shader;
 	SceneFormat::Register(&proxy, &shader);
+
+	// Setting up camera
+	MyCamera camera;
+	Entity::RegisterCamera(&camera);
 
 	System::Boot();
 
