@@ -246,6 +246,12 @@ namespace Math {
 		Vec4(Vec3<float> i_v, float i_w) : x(i_v.x), y(i_v.y), z(i_v.z), w(i_w) {}
 		Vec4(float i_x, float i_y, float i_z, float i_w) : x(i_x), y(i_y), z(i_z), w(i_w) {}
 
+		//!@ Operator with constant value
+		friend Vec4 operator + (float t, Vec4 const& u) { Vec4 o_v; o_v.x = t + u.x; o_v.y = t + u.y; o_v.z = t + u.z; o_v.w = t + u.w; return o_v; }
+		friend Vec4 operator - (float t, Vec4 const& u) { Vec4 o_v; o_v.x = t - u.x; o_v.y = t - u.y; o_v.z = t - u.z; o_v.w = t - u.w; return o_v; }
+		friend Vec4 operator * (float t, Vec4 const& u) { Vec4 o_v; o_v.x = t * u.x; o_v.y = t * u.y; o_v.z = t * u.z; o_v.w = t * u.w; return o_v; }
+		Vec4 operator / (float const t)  const { Vec4 o_v; o_v.x = x / t; o_v.y = y / t; o_v.z = z / t; o_v.w = w / t; return o_v; }
+
 		template <typename U>
 		explicit Vec4(Vec4<U> const& u) : x(static_cast<float>(u.x)), y(static_cast<float>(u.y)), z(static_cast<float>(u.z)), z(static_cast<float>(u.w)) {}
 		template <typename U>

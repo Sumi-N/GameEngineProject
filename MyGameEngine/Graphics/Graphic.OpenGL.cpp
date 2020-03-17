@@ -86,6 +86,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 		{
 			auto& data_model = i_data->model_data[std::distance(SceneFormat::List.begin(), it)];
 			data_model.model_view_perspective_matrix = data_camera.perspective_matrix * data_camera.view_matrix * data_model.model_position_matrix;
+			data_model.model_view_perspective_matrix.Transpose();
 			buffer_model.Update(&data_model);
 
 			(*it).shader->BindShader();

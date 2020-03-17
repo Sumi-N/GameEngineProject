@@ -52,7 +52,6 @@ namespace Math {
 		o_v.y = ele[4]  * i_v.x + ele[5]  * i_v.y + ele[6]  * i_v.z + ele[7] *  i_v.w;
 		o_v.z = ele[8]  * i_v.x + ele[9]  * i_v.y + ele[10] * i_v.z + ele[11] * i_v.w;
 		o_v.w = ele[12] * i_v.x + ele[13] * i_v.y + ele[14] * i_v.z + ele[15] * i_v.w;
-
 		return o_v;
 	}
 
