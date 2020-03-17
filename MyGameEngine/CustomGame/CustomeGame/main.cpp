@@ -16,8 +16,14 @@ int main()
 {
 	// Setting up teapot
 	Teapot teapot;
-	MeshComponent teapotmesh;
+	teapot.pos = Vec3f(0, 0, -50);
+	teapot.scale = Vec3f(1.0, 1.0, 1.0);
+
 	Entity::Register(&teapot);
+
+	MeshComponent teapotmesh;
+	Entity::RegisterMeshComponent(&teapotmesh);
+
 	teapotmesh.owner = Entity::ObjectList[0].p;
 	teapotmesh.Load("../../Assets/models/teapot.obj");
 	//teapotmesh.Load("../../Assets/models/plane.obj");

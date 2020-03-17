@@ -82,12 +82,15 @@ void Graphic::Update(GraphicRequiredData * i_data)
 	
 	for (auto it = SceneFormat::List.begin(); it != SceneFormat::List.end(); ++it)
 	{
-		auto& data_model = i_data->model_data[it - SceneFormat::List.begin()];
-		data_model.model_view_perspective_matrix = data_camera.perspective_matrix * data_camera.view_matrix * data_model.model_position_matrix;
-		buffer_model.Update(&data_model);
+		if (i_data->model_data.size() != 0)
+		{
+			auto& data_model = i_data->model_data[std::distance(SceneFormat::List.begin(), it)];
+			data_model.model_view_perspective_matrix = data_camera.perspective_matrix * data_camera.view_matrix * data_model.model_position_matrix;
+			buffer_model.Update(&data_model);
 
-		(*it).shader->BindShader();
-		(*it).proxy->Draw();
+			(*it).shader->BindShader();
+			(*it).proxy->Draw();
+		}
 	}
 	
 }
@@ -97,4 +100,4 @@ void Graphic::PostUpdate()
 	glfwSwapBuffers(window);
 }
 
-#endif //  
+#endif // ENGINE_GRAPHIC_OPENGL

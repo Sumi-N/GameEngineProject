@@ -3,6 +3,15 @@
 namespace Math {
 
 	template<typename T>
+	inline Matrix4<T>::Matrix4()
+	{
+		this->ele_11 = static_cast<T>(1); this->ele_12 = 0; this->ele_13 = 0; this->ele_14 = 0;
+		this->ele_21 = 0; this->ele_22 = static_cast<T>(1); this->ele_23 = 0; this->ele_24 = 0;
+		this->ele_31 = 0; this->ele_32 = 0; this->ele_33 = static_cast<T>(1); this->ele_34 = 0;
+		this->ele_41 = 0; this->ele_42 = 0; this->ele_43 = 0; this->ele_44 = static_cast<T>(1);
+	}
+
+	template<typename T>
 	inline Matrix4<T> Matrix4<T>::operator*(Matrix4<T> const& i_m) const
 	{
 		Matrix4 o_m;
@@ -47,7 +56,7 @@ namespace Math {
 	}
 
 	template<typename T>
-	inline void Math::Matrix4<T>::Transpose() const
+	inline void Math::Matrix4<T>::Transpose() 
 	{
 		T tmp = ele[4];		ele[4] = ele[1];		ele[1] = tmp;
 		tmp = ele[2];		ele[2] = ele[8];		ele[8] = tmp;
@@ -58,14 +67,14 @@ namespace Math {
 	}
 
 	template<typename T>
-	inline void Math::Matrix4<T>::Inverse() const
+	inline void Math::Matrix4<T>::Inverse() 
 	{
 		T absvalue = ele[0] * (ele[5] * ele[10] * ele[15] + ele[6] * ele[11] * ele[13] + ele[7] * ele[9] * ele[14] - ele[7] * ele[10] * ele[13] - ele[6] * ele[9] * ele[15] - ele[5] * ele[11] * ele[14])
 			           - ele[4] * (ele[1] * ele[10] * ele[15] + ele[2] * ele[11] * ele[13] + ele[3] * ele[9] * ele[14] - ele[3] * ele[10] * ele[13] - ele[2] * ele[9] * ele[15] - ele[1] * ele[11] * ele[14])
 			           + ele[8] * (ele[1] * ele[6]  * ele[15] + ele[2] * ele[7]  * ele[13] + ele[3] * ele[5] * ele[14] - ele[3] * ele[6]  * ele[13] - ele[2] * ele[5] * ele[15] - ele[1] * ele[7]  * ele[14]) 
 			           -ele[12] * (ele[1] * ele[6]  * ele[11] + ele[2] * ele[7]  * ele[9]  + ele[3] * ele[5] * ele[10] - ele[3] * ele[6]  * ele[9]  - ele[2] * ele[5] * ele[11] - ele[1] * ele[7]  * ele[10]);
 
-		assert(absvalue != 0);
+		DEBUG_ASSERT(absvalue != 0);
 
 		Matrix4 tmp;
 
@@ -168,29 +177,29 @@ namespace Math {
 	inline Matrix4<T> Matrix4<T>::Perspective(T i_fov, T i_aspectratio, T i_near, T i_far)
 	{
 		T range = i_near - i_far;
-		T tanhalffov = static_cast<T>(i_fov * M_PI / 2.0 * 180);
+		T tanhalffov = static_cast<T>(i_fov * M_PI / (2.0 * 180));
 
 		Matrix4 o_m;
 
-		o_m.ele[0] = static_cast<T>(1.0 / tanhalffov * i_aspectratio);
+		o_m.ele[0] = static_cast<T>(1.0 / (tanhalffov * i_aspectratio));
 		o_m.ele[1] = 0;
 		o_m.ele[2] = 0;
 		o_m.ele[3] = 0;
 
-		o_m.ele[0] = 0;
-		o_m.ele[1] = static_cast<T>(1.0 / tanhalffov);
-		o_m.ele[2] = 0;
-		o_m.ele[3] = 0;
+		o_m.ele[4] = 0;
+		o_m.ele[5] = static_cast<T>(1.0 / tanhalffov);
+		o_m.ele[6] = 0;
+		o_m.ele[7] = 0;
 
-		o_m.ele[0] = 0;
-		o_m.ele[1] = 0;
-		o_m.ele[2] = static_cast<T>((-1 * i_near + -1 * i_far) / range);
-		o_m.ele[3] = static_cast <T>(2.0 * i_far * i_near / range);
+		o_m.ele[8] = 0;
+		o_m.ele[9] = 0;
+		o_m.ele[10] = static_cast<T>((-1 * i_near + -1 * i_far) / range);
+		o_m.ele[11] = static_cast <T>(2.0 * i_far * i_near / range);
 
-		o_m.ele[0] = 0;
-		o_m.ele[1] = 0;
-		o_m.ele[2] = 1.0;
-		o_m.ele[3] = 0;
+		o_m.ele[12] = 0;
+		o_m.ele[13] = 0;
+		o_m.ele[14] = 1.0;
+		o_m.ele[15] = 0;
 
 		return o_m;
 	}
@@ -210,6 +219,22 @@ namespace Math {
 		Matrix4 o_m;
 		o_m = i_m;
 		o_m.Inverse();
+		return o_m;
+	}
+
+	template<typename T>
+	inline Matrix4<T> Matrix4<T>::Translate(Vec3<T> i_v)
+	{
+		Matrix4 o_m;
+		o_m.ele_14 = i_v.x; o_m.ele_24 = i_v.y; o_m.ele_34 = i_v.z; o_m.ele_44 = static_cast<T>(1);
+		return o_m;
+	}
+
+	template<typename T>
+	inline Matrix4<T> Matrix4<T>::Scale(Vec3<T> i_v)
+	{
+		Matrix4 o_m;
+		o_m.ele_11 = i_v.x; o_m.ele_22 = i_v.y; o_m.ele_33 = i_v.z;
 		return o_m;
 	}
 }

@@ -51,9 +51,6 @@
     <ClCompile Include="Graphic_Vulkan.cpp">
       <Filter>Vulkan</Filter>
     </ClCompile>
-    <ClCompile Include="Graphic.cpp">
-      <Filter>Vulkan</Filter>
-    </ClCompile>
     <ClCompile Include="SceneProxy.OpenGL.cpp">
       <Filter>OpenGL</Filter>
     </ClCompile>
@@ -67,6 +64,9 @@
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="SceneFormat.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic.cpp">
       <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>

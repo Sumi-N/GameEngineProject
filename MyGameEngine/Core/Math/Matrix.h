@@ -29,7 +29,7 @@ namespace Math
 			};
 		};
 
-		Matrix4() = default;
+		Matrix4();
 
 		Matrix4<T> operator +(Matrix4<T> const & i_m) const;
 		Matrix4<T> operator -(Matrix4<T> const & i_m) const;
@@ -39,8 +39,8 @@ namespace Math
 		Vec3<T> operator * (Vec3<T> const & i_v) const;
 		Vec4<T> operator * (Vec4<T> const & i_v) const;
 
-		void Transpose() const;
-		void Inverse()   const;
+		void Transpose();
+		void Inverse();
 
 		static Matrix4<T> Roll (T const i_a);
 		static Matrix4<T> Pitch(T const i_a);
@@ -51,6 +51,8 @@ namespace Math
 
 		static Matrix4<T> Transpose(Matrix4<T> i_m);
 		static Matrix4<T> Inverse  (Matrix4<T> i_m);
+		static Matrix4<T> Translate(Vec3<T> i_v);
+		static Matrix4<T> Scale(Vec3<T> i_v);
 	};
 
 

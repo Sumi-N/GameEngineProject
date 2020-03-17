@@ -18,13 +18,9 @@ struct SceneFormat
 	SceneProxy* proxy;
 	Shader* shader;
 
-	Mat4f model_mat;
-	Mat4f model_inverse_transpose_mat;
-
 	static std::vector<SceneFormat> List;
 	static void Register(SceneProxy*, Shader*);
 	static void Init();
-	static void Update();
 };
 
 inline void SceneFormat::Register(SceneProxy* i_proxy, Shader* i_shader)

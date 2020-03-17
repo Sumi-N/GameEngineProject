@@ -17,6 +17,7 @@ class Graphic
 public:
 	static void Init();
 	static void PostInit();
+	static void PreUpdate();
 	static void Update(GraphicRequiredData*);
 	static void PostUpdate();
 	static void CleanUP();

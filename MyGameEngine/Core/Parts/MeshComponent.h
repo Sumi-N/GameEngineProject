@@ -17,6 +17,8 @@ class MeshComponent : public Component
 {
 public:
 	ObservingPointer<Object> owner;
+
+	// Index data
 	std::vector<MeshData> data;
 	std::vector<int>   index;
 

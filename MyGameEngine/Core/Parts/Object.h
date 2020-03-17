@@ -7,6 +7,8 @@
 class Object
 {
 public:
+	Object();
+
 	Vec3f pos, scale, rot;
 	Vec3f vel, acc;
 	Vec3f angvel, angacc;
@@ -17,6 +19,18 @@ public:
 	virtual void Update(float i_dt);
 	virtual void CleanUp();
 };
+
+inline Object::Object()
+{
+	pos    = Vec3f(0.0, 0.0, 0.0);
+	scale  = Vec3f(1.0, 1.0, 1.0);
+	rot    = Vec3f(0.0, 0.0, 0.0);
+			 
+	vel    = Vec3f(0.0, 0.0, 0.0);
+	acc    = Vec3f(0.0, 0.0, 0.0);
+	angvel = Vec3f(0.0, 0.0, 0.0);
+	angacc = Vec3f(0.0, 0.0, 0.0);
+}
 
 inline void Object::Init() {}
 

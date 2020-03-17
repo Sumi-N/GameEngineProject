@@ -28,7 +28,7 @@ public:
 		// target is equal to forwardvector + position;
 		view = Mat4f::LookAt(pos, pos + forwardvec, upvec);
 
-		perspective = Mat4f::Perspective(fov, SCREEN_WIDTH / SCREEN_HEIGHT, nearestclip, farestclip);
+		perspective = Mat4f::Perspective(fov, (float)SCREEN_WIDTH / SCREEN_HEIGHT, nearestclip, farestclip);
 		//orthographics = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.0f, 100.0f);
 	}
 
