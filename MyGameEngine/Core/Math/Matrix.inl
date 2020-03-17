@@ -5,10 +5,10 @@ namespace Math {
 	template<typename T>
 	inline Matrix4<T>::Matrix4()
 	{
-		this->ele_11 = static_cast<T>(1); this->ele_12 = 0; this->ele_13 = 0; this->ele_14 = 0;
-		this->ele_21 = 0; this->ele_22 = static_cast<T>(1); this->ele_23 = 0; this->ele_24 = 0;
-		this->ele_31 = 0; this->ele_32 = 0; this->ele_33 = static_cast<T>(1); this->ele_34 = 0;
-		this->ele_41 = 0; this->ele_42 = 0; this->ele_43 = 0; this->ele_44 = static_cast<T>(1);
+		this->ele[0] = static_cast<T>(1); this->ele[1] = 0; this->ele[2] = 0; this->ele[3] = 0;
+		this->ele[4] = 0; this->ele[5] = static_cast<T>(1); this->ele[6] = 0; this->ele[7] = 0;
+		this->ele[8] = 0; this->ele[9] = 0; this->ele[10] = static_cast<T>(1); this->ele[11] = 0;
+		this->ele[12] = 0; this->ele[13] = 0; this->ele[14] = 0; this->ele[15] = static_cast<T>(1);
 	}
 
 	template<typename T>
@@ -16,22 +16,22 @@ namespace Math {
 	{
 		Matrix4 o_m;
 
-		o_m.ele[0]  = ele[0]  * i_m.ele[0] + ele[1]  * i_m.ele[4] + ele[2]  * i_m.ele[8]  + ele[3]  * i_m.ele[12];
-		o_m.ele[1]  = ele[0]  * i_m.ele[1] + ele[1]  * i_m.ele[5] + ele[2]  * i_m.ele[9]  + ele[3]  * i_m.ele[13];
-		o_m.ele[2]  = ele[0]  * i_m.ele[2] + ele[1]  * i_m.ele[6] + ele[2]  * i_m.ele[10] + ele[3]  * i_m.ele[14];
-		o_m.ele[3]  = ele[0]  * i_m.ele[3] + ele[1]  * i_m.ele[7] + ele[2]  * i_m.ele[11] + ele[3]  * i_m.ele[15];
-		o_m.ele[4]  = ele[4]  * i_m.ele[0] + ele[5]  * i_m.ele[4] + ele[6]  * i_m.ele[8]  + ele[7]  * i_m.ele[12];
-		o_m.ele[5]  = ele[4]  * i_m.ele[1] + ele[5]  * i_m.ele[5] + ele[6]  * i_m.ele[9]  + ele[7]  * i_m.ele[13];
-		o_m.ele[6]  = ele[4]  * i_m.ele[2] + ele[5]  * i_m.ele[6] + ele[6]  * i_m.ele[10] + ele[7]  * i_m.ele[14];
-		o_m.ele[7]  = ele[4]  * i_m.ele[3] + ele[5]  * i_m.ele[7] + ele[6]  * i_m.ele[11] + ele[7]  * i_m.ele[15];
-		o_m.ele[8]  = ele[8]  * i_m.ele[0] + ele[9]  * i_m.ele[4] + ele[10] * i_m.ele[8]  + ele[11] * i_m.ele[12];
-		o_m.ele[9]  = ele[8]  * i_m.ele[1] + ele[9]  * i_m.ele[5] + ele[10] * i_m.ele[9]  + ele[11] * i_m.ele[13];
-		o_m.ele[10] = ele[8]  * i_m.ele[2] + ele[9]  * i_m.ele[6] + ele[10] * i_m.ele[10] + ele[11] * i_m.ele[14];
-		o_m.ele[11] = ele[8]  * i_m.ele[3] + ele[9]  * i_m.ele[7] + ele[10] * i_m.ele[11] + ele[11] * i_m.ele[15];
-		o_m.ele[12] = ele[12] * i_m.ele[0] + ele[13] * i_m.ele[4] + ele[14] * i_m.ele[8]  + ele[15] * i_m.ele[12];
-		o_m.ele[13] = ele[12] * i_m.ele[1] + ele[13] * i_m.ele[5] + ele[14] * i_m.ele[9]  + ele[15] * i_m.ele[13];
-		o_m.ele[14] = ele[12] * i_m.ele[2] + ele[13] * i_m.ele[6] + ele[14] * i_m.ele[10] + ele[15] * i_m.ele[14];
-		o_m.ele[15] = ele[12] * i_m.ele[3] + ele[13] * i_m.ele[7] + ele[14] * i_m.ele[11] + ele[15] * i_m.ele[15];
+		o_m.ele[0]  = ele[0] * i_m.ele[0]  + ele[4]  * i_m.ele[1]  + ele[8]  * i_m.ele[2]  + ele[12]  * i_m.ele[3];
+		o_m.ele[4]  = ele[0] * i_m.ele[4]  + ele[4]  * i_m.ele[5]  + ele[8]  * i_m.ele[6]  + ele[12]  * i_m.ele[7];
+		o_m.ele[8]  = ele[0] * i_m.ele[8]  + ele[4]  * i_m.ele[9]  + ele[8]  * i_m.ele[10] + ele[12]  * i_m.ele[11];
+		o_m.ele[12]  = ele[0] * i_m.ele[12] + ele[4]  * i_m.ele[13] + ele[8]  * i_m.ele[14] + ele[12]  * i_m.ele[15];
+		o_m.ele[1]  = ele[1] * i_m.ele[0]  + ele[5]  * i_m.ele[1]  + ele[9]  * i_m.ele[2]  + ele[13]  * i_m.ele[3];
+		o_m.ele[5]  = ele[1] * i_m.ele[4]  + ele[5]  * i_m.ele[5]  + ele[9]  * i_m.ele[6]  + ele[13]  * i_m.ele[7];
+		o_m.ele[9]  = ele[1] * i_m.ele[8]  + ele[5]  * i_m.ele[9]  + ele[9]  * i_m.ele[10] + ele[13]  * i_m.ele[11];
+		o_m.ele[13]  = ele[1] * i_m.ele[12] + ele[5]  * i_m.ele[13] + ele[9]  * i_m.ele[14] + ele[13]  * i_m.ele[15];
+		o_m.ele[2]  = ele[2] * i_m.ele[0]  + ele[6]  * i_m.ele[1]  + ele[10] * i_m.ele[2]  + ele[14]  * i_m.ele[3];
+		o_m.ele[6]  = ele[2] * i_m.ele[4]  + ele[6]  * i_m.ele[5]  + ele[10] * i_m.ele[6]  + ele[14]  * i_m.ele[7];
+		o_m.ele[10] = ele[2] * i_m.ele[8]  + ele[6]  * i_m.ele[9]  + ele[10] * i_m.ele[10] + ele[14]  * i_m.ele[11];
+		o_m.ele[14] = ele[2] * i_m.ele[12] + ele[6]  * i_m.ele[13] + ele[10] * i_m.ele[14] + ele[14]  * i_m.ele[15];
+		o_m.ele[3] = ele[3] * i_m.ele[0]  + ele[7]  * i_m.ele[1]  + ele[11] * i_m.ele[2]  + ele[15]  * i_m.ele[3];
+		o_m.ele[7] = ele[3] * i_m.ele[4]  + ele[7]  * i_m.ele[5]  + ele[11] * i_m.ele[6]  + ele[15]  * i_m.ele[7];
+		o_m.ele[11] = ele[3] * i_m.ele[8]  + ele[7]  * i_m.ele[9]  + ele[11] * i_m.ele[10] + ele[15]  * i_m.ele[11];
+		o_m.ele[15] = ele[3] * i_m.ele[12] + ele[7]  * i_m.ele[13] + ele[11] * i_m.ele[14] + ele[15]  * i_m.ele[15];
 
 		return o_m;
 	}
@@ -48,10 +48,10 @@ namespace Math {
 	inline Vec4<T> Matrix4<T>::operator*(Vec4<T> const& i_v) const
 	{
 		Vec4<T> o_v;
-		o_v.x = ele[0]  * i_v.x + ele[1]  * i_v.y + ele[2]  * i_v.z + ele[3] *  i_v.w;
-		o_v.y = ele[4]  * i_v.x + ele[5]  * i_v.y + ele[6]  * i_v.z + ele[7] *  i_v.w;
-		o_v.z = ele[8]  * i_v.x + ele[9]  * i_v.y + ele[10] * i_v.z + ele[11] * i_v.w;
-		o_v.w = ele[12] * i_v.x + ele[13] * i_v.y + ele[14] * i_v.z + ele[15] * i_v.w;
+		o_v.x = ele[0] * i_v.x + ele[4] * i_v.y + ele[8]  * i_v.z + ele[12] *  i_v.w;
+		o_v.y = ele[1] * i_v.x + ele[5] * i_v.y + ele[9]  * i_v.z + ele[13] *  i_v.w;
+		o_v.z = ele[2] * i_v.x + ele[6] * i_v.y + ele[10] * i_v.z + ele[14] * i_v.w;
+		o_v.w = ele[3] * i_v.x + ele[7] * i_v.y + ele[11] * i_v.z + ele[15] * i_v.w;
 
 		return o_v;
 	}
@@ -108,7 +108,7 @@ namespace Math {
 		tmp.ele[12] = -1 * tmp.ele[12];
 		tmp.ele[14] = -1 * tmp.ele[14];
 
-		tmp.Transpose();
+		//tmp.Transpose();
 		*this = tmp / absvalue;
 	}
 
@@ -118,8 +118,8 @@ namespace Math {
 		Matrix4 o_m;
 		float radian = i_a * 2 * static_cast<T>(Math::Pi()) / 360;
 		o_m.ele[5] = cosf(radian);
-		o_m.ele[6] = -sinf(radian);
-		o_m.ele[9] = sinf(radian);
+		o_m.ele[6] = sinf(radian);
+		o_m.ele[9] = -sinf(radian);
 		o_m.ele[10] = cosf(radian);
 		o_m.ele[0] = 1;
 		o_m.ele[15] = 1;
@@ -133,8 +133,8 @@ namespace Math {
 		Matrix4 o_m;
 		float radian = i_a * 2 * static_cast<T>(Math::Pi()) / 360;
 		o_m.ele[0] = cosf(radian);
-		o_m.ele[2] = sinf(radian);
-		o_m.ele[8] = -sinf(radian);
+		o_m.ele[2] = -sinf(radian);
+		o_m.ele[8] = sinf(radian);
 		o_m.ele[10] = cosf(radian);
 		o_m.ele[5] = 1;
 		o_m.ele[15] = 1;
@@ -148,8 +148,8 @@ namespace Math {
 		Matrix4 o_m;
 		float radian = i_a * 2 * static_cast<T>(Math::Pi<T>()) / 360;
 		o_m.ele[0] = cosf(radian);
-		o_m.ele[1] = -sinf(radian);
-		o_m.ele[4] = sinf(radian);
+		o_m.ele[1] = sinf(radian);
+		o_m.ele[4] = -sinf(radian);
 		o_m.ele[5] = cosf(radian);
 		o_m.ele[10] = 1;
 		o_m.ele[15] = 1;
@@ -183,18 +183,13 @@ namespace Math {
 		Matrix4 o_m;
 
 		o_m.ele[0] = static_cast<T>(1.0 / (tanhalffov * i_aspectratio));
-		//o_m.ele[1] = 0; //o_m.ele[2] = 0; //o_m.ele[3] = 0;
 
-		//o_m.ele[4] = 0;
 		o_m.ele[5] = static_cast<T>(1.0 / tanhalffov);
-		//o_m.ele[6] = 0; //o_m.ele[7] = 0;
 
-		//o_m.ele[8] = 0; //o_m.ele[9] = 0;
 		o_m.ele[10] = -1 * static_cast<T>((i_far + i_near) / range);
-		o_m.ele[11] = -1 * static_cast<T>(2 * (i_near * i_far) / range);
+		o_m.ele[11] = -1.0;
+		o_m.ele[14] = -1 * static_cast<T>(2 * (i_near * i_far) / range);
 
-		//o_m.ele[12] = 0; //o_m.ele[13] = 0;
-		o_m.ele[14] = -1.0;
 		o_m.ele[15] = 0;
 
 		return o_m;
@@ -222,7 +217,7 @@ namespace Math {
 	inline Matrix4<T> Matrix4<T>::Translate(Vec3<T> i_v)
 	{
 		Matrix4 o_m;
-		o_m.ele_14 = i_v.x; o_m.ele_24 = i_v.y; o_m.ele_34 = i_v.z; o_m.ele_44 = static_cast<T>(1);
+		o_m.ele[12] = i_v.x; o_m.ele[13] = i_v.y; o_m.ele[14] = i_v.z; o_m.ele[15] = static_cast<T>(1);
 		return o_m;
 	}
 
@@ -230,7 +225,7 @@ namespace Math {
 	inline Matrix4<T> Matrix4<T>::Scale(Vec3<T> i_v)
 	{
 		Matrix4 o_m;
-		o_m.ele_11 = i_v.x; o_m.ele_22 = i_v.y; o_m.ele_33 = i_v.z;
+		o_m.ele[0] = i_v.x; o_m.ele[5] = i_v.y; o_m.ele[10] = i_v.z;
 		return o_m;
 	}
 }

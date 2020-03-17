@@ -11,22 +11,15 @@ namespace Math
 	{
 	public:
 
-		// Elements of the matrix are row-major:
-		// [ 0, 1, 2, 3] 
-		// [ 4, 5, 6, 7]  
-		// [ 8, 9,10,11] 
-		// [12,13,14,15] 
+		// Elements of the matrix are column-major:
+		// [ 0, 4,  8, 12]  [ 0, 4, 8, 12] 
+		// [ 1, 5,  9, 13]  [ 1, 5, 9, 13] 
+		// [ 2, 6, 10, 14]  [ 2, 6,10, 14] 
+		// [ 3, 7, 11, 15]  [ 3, 7,11, 15] 
 		union
 		{
 			T ele[16];
 			Vec4<T> column[4];
-			struct
-			{
-				T   ele_11, ele_12, ele_13, ele_14,
-					ele_21, ele_22, ele_23, ele_24,
-					ele_31, ele_32, ele_33, ele_34,
-					ele_41, ele_42, ele_43, ele_44;
-			};
 		};
 
 		Matrix4();
