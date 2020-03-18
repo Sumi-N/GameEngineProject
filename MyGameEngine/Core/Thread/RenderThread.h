@@ -2,11 +2,11 @@
 
 #include "Define.h"
 #include "Thread.h"
+#include "GameThread.h"
 
-//Data required for render thread
-GraphicRequiredData  container_render[2];
-GraphicRequiredData* data_game_own = &container_render[0];
-GraphicRequiredData* data_render_own = &container_render[1];
+#ifdef ENGINE_GRAPHIC_OPENGL
+	#include "Input.OpenGL.h"
+#endif // ENGINE_GRAPHIC_OPENGL
 
 class RenderThread : public Thread
 {
@@ -21,17 +21,30 @@ public:
 inline void RenderThread::Boot()
 {
 	Graphic::Init();
+
+#ifdef ENGINE_GRAPHIC_OPENGL
+	// Set up callback
+	glfwSetKeyCallback(Graphic::window, GLFW_INPUT::KeyCallback);
+	glfwSetMouseButtonCallback(Graphic::window, GLFW_INPUT::MouseButtonCallback);
+	glfwSetCursorPosCallback(Graphic::window, GLFW_INPUT::CursorPositionCallback);
+#endif // ENGINE_GRAPHIC_OPENGL
+	
 }
 
 
 inline void RenderThread::Init()
 {
 	Graphic::PostInit();
+
+	input_render_own->Init();
+	//input_render_own->Init();
 }
 
 inline void RenderThread::Run()
 {
-	while (true)
+	bool brunning = true;
+
+	while (brunning)
 	{
 		// Critical Section
 		{
@@ -39,13 +52,20 @@ inline void RenderThread::Run()
 
 			{
 				std::swap(data_game_own, data_render_own);
+				//std::swap(input_game_own, input_render_own);
 			}
 
 			b_render_ready = true;
 			Condition_Render.notify_one();
 		}
 
-		Graphic::PreUpdate();
+		// Cleanup input info
+		input_render_own->Clear();
+
+		if (!Graphic::PreUpdate())
+		{
+			brunning = false;
+		}
 
 		Graphic::Update(data_render_own);
 

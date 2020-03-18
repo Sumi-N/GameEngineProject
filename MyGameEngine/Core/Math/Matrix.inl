@@ -19,17 +19,17 @@ namespace Math {
 		o_m.ele[0]  = ele[0] * i_m.ele[0]  + ele[4]  * i_m.ele[1]  + ele[8]  * i_m.ele[2]  + ele[12]  * i_m.ele[3];
 		o_m.ele[4]  = ele[0] * i_m.ele[4]  + ele[4]  * i_m.ele[5]  + ele[8]  * i_m.ele[6]  + ele[12]  * i_m.ele[7];
 		o_m.ele[8]  = ele[0] * i_m.ele[8]  + ele[4]  * i_m.ele[9]  + ele[8]  * i_m.ele[10] + ele[12]  * i_m.ele[11];
-		o_m.ele[12]  = ele[0] * i_m.ele[12] + ele[4]  * i_m.ele[13] + ele[8]  * i_m.ele[14] + ele[12]  * i_m.ele[15];
+		o_m.ele[12] = ele[0] * i_m.ele[12] + ele[4]  * i_m.ele[13] + ele[8]  * i_m.ele[14] + ele[12]  * i_m.ele[15];
 		o_m.ele[1]  = ele[1] * i_m.ele[0]  + ele[5]  * i_m.ele[1]  + ele[9]  * i_m.ele[2]  + ele[13]  * i_m.ele[3];
 		o_m.ele[5]  = ele[1] * i_m.ele[4]  + ele[5]  * i_m.ele[5]  + ele[9]  * i_m.ele[6]  + ele[13]  * i_m.ele[7];
 		o_m.ele[9]  = ele[1] * i_m.ele[8]  + ele[5]  * i_m.ele[9]  + ele[9]  * i_m.ele[10] + ele[13]  * i_m.ele[11];
-		o_m.ele[13]  = ele[1] * i_m.ele[12] + ele[5]  * i_m.ele[13] + ele[9]  * i_m.ele[14] + ele[13]  * i_m.ele[15];
+		o_m.ele[13] = ele[1] * i_m.ele[12] + ele[5]  * i_m.ele[13] + ele[9]  * i_m.ele[14] + ele[13]  * i_m.ele[15];
 		o_m.ele[2]  = ele[2] * i_m.ele[0]  + ele[6]  * i_m.ele[1]  + ele[10] * i_m.ele[2]  + ele[14]  * i_m.ele[3];
 		o_m.ele[6]  = ele[2] * i_m.ele[4]  + ele[6]  * i_m.ele[5]  + ele[10] * i_m.ele[6]  + ele[14]  * i_m.ele[7];
 		o_m.ele[10] = ele[2] * i_m.ele[8]  + ele[6]  * i_m.ele[9]  + ele[10] * i_m.ele[10] + ele[14]  * i_m.ele[11];
 		o_m.ele[14] = ele[2] * i_m.ele[12] + ele[6]  * i_m.ele[13] + ele[10] * i_m.ele[14] + ele[14]  * i_m.ele[15];
-		o_m.ele[3] = ele[3] * i_m.ele[0]  + ele[7]  * i_m.ele[1]  + ele[11] * i_m.ele[2]  + ele[15]  * i_m.ele[3];
-		o_m.ele[7] = ele[3] * i_m.ele[4]  + ele[7]  * i_m.ele[5]  + ele[11] * i_m.ele[6]  + ele[15]  * i_m.ele[7];
+		o_m.ele[3]  = ele[3] * i_m.ele[0]  + ele[7]  * i_m.ele[1]  + ele[11] * i_m.ele[2]  + ele[15]  * i_m.ele[3];
+		o_m.ele[7]  = ele[3] * i_m.ele[4]  + ele[7]  * i_m.ele[5]  + ele[11] * i_m.ele[6]  + ele[15]  * i_m.ele[7];
 		o_m.ele[11] = ele[3] * i_m.ele[8]  + ele[7]  * i_m.ele[9]  + ele[11] * i_m.ele[10] + ele[15]  * i_m.ele[11];
 		o_m.ele[15] = ele[3] * i_m.ele[12] + ele[7]  * i_m.ele[13] + ele[11] * i_m.ele[14] + ele[15]  * i_m.ele[15];
 

@@ -48,11 +48,6 @@ void Graphic::Init()
 	// Set background color
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-	// Set up callback
-	//glfwSetKeyCallback(window, Input::keyCallback);
-	//glfwSetMouseButtonCallback(window, Input::mouseButtonCallback);
-	//glfwSetCursorPosCallback(window, Input::cursorPositionCallback);
-
 	// Set up culling
 	glEnable(GL_DEPTH_TEST);
 	
@@ -63,9 +58,16 @@ void Graphic::Init()
 	buffer_model.Init(ConstantData::Index::Model, ConstantData::Size::Model);
 }
 
-void Graphic::PreUpdate()
+bool Graphic::PreUpdate()
 {
+	if (glfwWindowShouldClose(window) == GL_TRUE)
+		return false;
+
+	glfwPollEvents();
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+	return true;
 }
 
 void Graphic::Update(GraphicRequiredData * i_data)
@@ -86,7 +88,6 @@ void Graphic::Update(GraphicRequiredData * i_data)
 		{
 			auto& data_model = i_data->model_data[std::distance(SceneFormat::List.begin(), it)];
 			data_model.model_view_perspective_matrix = data_camera.perspective_matrix * data_camera.view_matrix * data_model.model_position_matrix;
-			//data_model.model_view_perspective_matrix.Transpose();
 			buffer_model.Update(&data_model);
 
 			(*it).shader->BindShader();

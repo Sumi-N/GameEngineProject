@@ -142,12 +142,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Define.cpp" />
+    <ClCompile Include="Input.OpenGL.cpp" />
     <ClCompile Include="Thread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h" />
     <ClInclude Include="EntryPoint.h" />
     <ClInclude Include="GameThread.h" />
+    <ClInclude Include="Input.OpenGL.h" />
     <ClInclude Include="RenderThread.h" />
     <ClInclude Include="Thread.h" />
   </ItemGroup>

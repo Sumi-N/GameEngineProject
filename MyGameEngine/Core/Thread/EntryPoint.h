@@ -1,6 +1,8 @@
 #pragma once
 #include "Define.h"
 #include "Thread.h"
+#include "GameThread.h"
+#include "RenderThread.h"
 
 namespace System
 {

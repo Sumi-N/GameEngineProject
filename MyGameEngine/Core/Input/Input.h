@@ -5,37 +5,36 @@ class Input
 {
 public:
 	//static void RegisterKey(unsigned int, bool);
-	static void Init();
-	static void SetupCallback();
-	static void Clear();
+	void Init();
+	void SetupCallback();
+	void RegisterKey(unsigned int i_VKeyID, bool i_bDown);
+	void Clear();
 
-	static std::unordered_map<unsigned int, bool>* State;
-	static std::list<unsigned int>* DeleteList;
+	std::unordered_map<unsigned int, bool> state;
+	std::list<unsigned int> deletelist;
 
 private:
 };
 
-std::unordered_map<unsigned int, bool>* Input::State;
-std::list<unsigned int>* Input::DeleteList;
-
-//void Input::RegisterKey(unsigned int i_VKeyID, bool i_bDown)
-//{
-//	if (i_bDown)
-//	{
-//		Input::State->at(i_VKeyID) = true;
-//	}
-//	else
-//	{
-//		Input::State->at(i_VKeyID * 2) = true;
-//	}
-//	Input::DeleteList->push_back(i_VKeyID);
-//}
+inline void Input::RegisterKey(unsigned int i_VKeyID, bool i_bDown)
+{
+	if (i_bDown)
+	{
+		state.at(i_VKeyID) = true;
+		deletelist.push_back(i_VKeyID);
+	}
+	else
+	{
+		state.at(i_VKeyID + 0x5A) = true;
+		deletelist.push_back(i_VKeyID + 0x5A);
+	}
+}
 
 inline void Input::Init()
 {
 	for (int i = 0; i < 256 * 2; i++)
 	{
-		State->insert({ i,false });
+		state.insert({ i,false });
 	}
 	SetupCallback();
 }
@@ -47,11 +46,11 @@ inline void Input::SetupCallback()
 
 inline void Input::Clear()
 {
-	while (!DeleteList->empty())
+	while (!deletelist.empty())
 	{
-		unsigned int tmp = DeleteList->front();
-		State->at(tmp) = false;
-		DeleteList->pop_front();
+		unsigned int tmp = deletelist.front();
+		state.at(tmp) = false;
+		deletelist.pop_front();
 	}
 }
 
