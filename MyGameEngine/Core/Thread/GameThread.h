@@ -4,8 +4,6 @@
 #include "Thread.h"
 #include "RenderThread.h"
 
-extern RenderThread Thread_Render;
-
 class GameThread : public Thread
 {
 public:
@@ -26,13 +24,16 @@ inline void GameThread::Init()
 {
 	Time::Init();
 	Entity::Init();
+	UserInput.Init();
 }
 
 inline void GameThread::Run()
 {
 	while (true)
 	{
+		UserInput.Populate(*input_update_list_game_own);
 
+		Time::Update();
 		Entity::Update(static_cast<float>(Time::dt));
 
 		{

@@ -13,8 +13,10 @@ extern class RenderThread Thread_Render;
 extern GraphicRequiredData* data_game_own;
 extern GraphicRequiredData* data_render_own;
 
-extern Input* input_game_own;
-extern Input* input_render_own;
+extern Input UserInput;
+
+extern std::vector<std::pair<unsigned int, bool>>* input_update_list_game_own;
+extern std::vector<std::pair<unsigned int, bool>>* input_update_list_render_own;
 
 //////////////// For Input
 #ifdef ENGINE_GRAPHIC_OPENGL

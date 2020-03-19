@@ -8,15 +8,17 @@ void GLFW_INPUT::KeyCallback(GLFWwindow* window, int key, int scancode, int acti
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	}
 
-	for (int i = 32; i < 90; i++)
+	for (int i = 0; i < 256; i++)
 	{
-		if (key == i && (action == GLFW_PRESS || action == GLFW_REPEAT))
+		if (key == i && action == GLFW_PRESS)
 		{
-			input_render_own->RegisterKey(i, true);
+			std::pair<unsigned int, bool> pair = {i, true};
+			input_update_list_render_own->push_back(pair);
 		}
-		else
+		else if(key == i && action == GLFW_RELEASE)
 		{
-			input_render_own->RegisterKey(i, false);
+			std::pair<unsigned int, bool> pair = {i, false};
+			input_update_list_render_own->push_back(pair);
 		}
 	}
 }

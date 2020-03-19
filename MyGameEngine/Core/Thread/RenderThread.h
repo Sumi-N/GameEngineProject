@@ -35,9 +35,6 @@ inline void RenderThread::Boot()
 inline void RenderThread::Init()
 {
 	Graphic::PostInit();
-
-	input_render_own->Init();
-	//input_render_own->Init();
 }
 
 inline void RenderThread::Run()
@@ -52,7 +49,7 @@ inline void RenderThread::Run()
 
 			{
 				std::swap(data_game_own, data_render_own);
-				//std::swap(input_game_own, input_render_own);
+				std::swap(input_update_list_game_own, input_update_list_render_own);
 			}
 
 			b_render_ready = true;
@@ -60,7 +57,7 @@ inline void RenderThread::Run()
 		}
 
 		// Cleanup input info
-		input_render_own->Clear();
+		input_update_list_render_own->clear();
 
 		if (!Graphic::PreUpdate())
 		{
