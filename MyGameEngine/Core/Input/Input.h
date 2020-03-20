@@ -80,15 +80,24 @@ inline void Input::Init()
 
 inline void Input::Populate(InputFormat & i_input)
 {
-	past_xpos = xpos; past_ypos = ypos;
-	xpos = i_input.x; ypos = i_input.y;
+	if (i_input.x != -1 && i_input.y != -1)
+	{
+		past_xpos = xpos; past_ypos = ypos;
+		xpos = i_input.x; ypos = i_input.y;
+	}
+	else
+	{
+		past_xpos = xpos; past_ypos = ypos;
+	}
 
 	for (auto& ele : i_input.keys)
 	{
 		state.at(ele.first) = ele.second;
 	}
 
+	// Reset input format data
 	i_input.keys.clear();
+	i_input.x = -1; i_input.y = -1;
 }
 
 inline bool Input::QueryKey(unsigned int i_VKeyID, bool i_bDown)

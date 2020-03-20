@@ -37,7 +37,7 @@ public:
 		//forwardvec = glm::rotate(forwardvec, -1 * glm::radians(amount), axis);
 		//upvec = glm::rotate(upvec, -1 * glm::radians(amount), axis);
 		forwardvec = forwardvec.Rotate(axis, amount);
-		upvec = upvec.Rotate(upvec, amount);
+		upvec = upvec.Rotate(axis, amount);
 		rightvec = Vec3f::Normalize(forwardvec.Cross(upvec));
 	}
 

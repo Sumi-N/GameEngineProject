@@ -61,8 +61,8 @@ void GLFW_INPUT::MouseButtonCallback(GLFWwindow* window, int button, int action,
 
 void GLFW_INPUT::CursorPositionCallback(GLFWwindow* window, double xpos, double ypos)
 {
-	input_update_list_render_own->x = xpos;
-	input_update_list_render_own->y = ypos;
+	input_update_list_render_own->x = static_cast<float>(xpos);
+	input_update_list_render_own->y = static_cast<float>(ypos);
 
 	return;
 }
