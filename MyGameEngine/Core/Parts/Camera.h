@@ -34,10 +34,10 @@ public:
 
 	void RotateAround(float amount, Vec3f& axis)
 	{
-		//forwardvec = glm::rotate(forwardvec, -1 * glm::radians(amount), axis);
-		//upvec = glm::rotate(upvec, -1 * glm::radians(amount), axis);
+
 		forwardvec = forwardvec.Rotate(axis, amount);
 		upvec = upvec.Rotate(axis, amount);
+
 		rightvec = Vec3f::Normalize(forwardvec.Cross(upvec));
 	}
 
@@ -49,6 +49,7 @@ public:
 	void Update(float dt)
 	{
 		pos += (float)dt * vel;
+
 		view = Mat4f::LookAt(pos, pos + forwardvec, upvec);
 		view_perspective_mat = perspective * view;
 	}

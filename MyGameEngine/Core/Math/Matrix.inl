@@ -163,13 +163,14 @@ namespace Math {
 		Vec4<T> forwardvec = Vec4<T>(Vec3<T>::Normalize(i_target - i_pos), 0);
 		Vec4<T> rightvec = Vec4<T>(Vec3<T>::Normalize(Vec3<T>(forwardvec).Cross(i_upvec)), 0);
 		Vec4<T> upvec = Vec4<T>(Vec3<T>::Normalize(i_upvec), 0);
-		Vec4<T> posvec = Vec4<T>(i_pos, 1);
 
 		Matrix4 o_m;
 		o_m.column[0] = rightvec;
 		o_m.column[1] = upvec;
 		o_m.column[2] = -1 * forwardvec;
-		o_m.column[3] = posvec;
+		o_m.ele[12] = -1 * Vec3<T>(rightvec).Dot(i_pos);
+		o_m.ele[13] = -1 * Vec3<T>(upvec).Dot(i_pos);
+		o_m.ele[14] = -1 * Vec3<T>(forwardvec).Dot(i_pos);
 
 		return o_m;
 	}

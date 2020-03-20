@@ -19,22 +19,22 @@ inline void MyCamera::Update(float i_dt)
 
 	if (UserInput.QueryKey((unsigned int)VirtualKey::KEY_W, true))
 	{
-		MoveCamera(-0.01f, forwardvec);
+		MoveCamera(0.01f, forwardvec);
 	}
 
 	if (UserInput.QueryKey((unsigned int)VirtualKey::KEY_S, true))
 	{
-		MoveCamera(+0.01f, forwardvec);
+		MoveCamera(-0.01f, forwardvec);
 	}
 
 	if (UserInput.QueryKey((unsigned int)VirtualKey::KEY_A, true))
 	{
-		MoveCamera(0.01f, rightvec);
+		MoveCamera(-0.01f, rightvec);
 	}
 
 	if (UserInput.QueryKey((unsigned int)VirtualKey::KEY_D, true))
 	{
-		MoveCamera(-0.01f, rightvec);
+		MoveCamera(0.01f, rightvec);
 	}
 
 	if (UserInput.QueryKey((unsigned int)VirtualKey::KEY_SPACE, true))
