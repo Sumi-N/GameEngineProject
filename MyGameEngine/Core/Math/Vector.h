@@ -117,6 +117,7 @@ namespace Math {
 		T    Length    () const { return Sqrt(static_cast<T>(x)* static_cast<T>(x) + static_cast<T>(y)* static_cast<T>(y) + static_cast<T>(z)* static_cast<T>(z)); }
 		float Dot       (Vec3 i_v)       { return x * i_v.x + y * i_v.y + z * i_v.z; }
 		Vec3  Cross     (Vec3 i_v)       { return Vec3(y * i_v.z - z * i_v.y, z * i_v.x - x * i_v.z, x * i_v.y - y * i_v.x); }
+		Vec3  Rotate    (Vec3 i_axis, T i_angle ) {return  cos(M_PI * i_angle / 180) * (*this) + sin(M_PI * i_angle / 180) * this->Cross(i_axis) + (i_axis.Dot(*this)) * (1 - cos(M_PI * i_angle / 180)) * i_axis;}
 
 		static float Length   (Vec3 i_v) { return Sqrt(static_cast<T>(i_v.x)* static_cast<T>(i_v.x) + static_cast<T>(i_v.y)* static_cast<T>(i_v.y) + static_cast<T>(i_v.z)* static_cast<T>(i_v.z)); }
 		static Vec3 Normalize (Vec3 i_v) { return i_v/Length(i_v); }
@@ -174,6 +175,7 @@ namespace Math {
 		float Length() const { return Sqrt(static_cast<float>(x)* static_cast<float>(x) + static_cast<float>(y)* static_cast<float>(y) + static_cast<float>(z)* static_cast<float>(z)); }
 		float Dot       (Vec3 i_v)       {return x * i_v.x + y * i_v.y + z * i_v.z; }
 		Vec3  Cross     (Vec3 i_v)       {return Vec3(y * i_v.z - z * i_v.y, z * i_v.x - x * i_v.z, x * i_v.y - y * i_v.x); }
+		Vec3  Rotate    (Vec3 i_axis, float i_angle ) {return  cos(static_cast<float>(M_PI) * i_angle / 180) * (*this) + sin(static_cast<float>(M_PI) * i_angle / 180) * this->Cross(i_axis) + (i_axis.Dot(*this)) * (1 - cos(static_cast<float>(M_PI) * i_angle / 180)) * i_axis;}
 
 		static float Length   (Vec3 i_v) { return Sqrt(static_cast<float>(i_v.x)* static_cast<float>(i_v.x) + static_cast<float>(i_v.y)* static_cast<float>(i_v.y) + static_cast<float>(i_v.z)* static_cast<float>(i_v.z)); }
 		static Vec3 Normalize (Vec3 i_v) { return i_v/Length(i_v); }

@@ -8,63 +8,61 @@ void GLFW_INPUT::KeyCallback(GLFWwindow* window, int key, int scancode, int acti
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	}
 
+	std::pair<unsigned int, bool> pair;
+
 	for (int i = 0; i < 256; i++)
 	{
 		if (key == i && action == GLFW_PRESS)
 		{
-			std::pair<unsigned int, bool> pair = {i, true};
-			input_update_list_render_own->push_back(pair);
+			pair = {i, true};
+			input_update_list_render_own->keys.push_back(pair);
 		}
 		else if(key == i && action == GLFW_RELEASE)
 		{
-			std::pair<unsigned int, bool> pair = {i, false};
-			input_update_list_render_own->push_back(pair);
+			pair = {i, false};
+			input_update_list_render_own->keys.push_back(pair);
 		}
 	}
 }
 
 void GLFW_INPUT::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 {
+
+	std::pair<unsigned int, bool> pair;
+
 	if (button == GLFW_MOUSE_BUTTON_RIGHT)
 	{
-		if (action == GLFW_PRESS || action == GLFW_REPEAT)
+		if (action == GLFW_PRESS)
 		{
-			//mousestate.isRightButtonPressing = true;
+			pair = { 0x02, true };
+			input_update_list_render_own->keys.push_back(pair);
 		}
-		else
+		else if(action == GLFW_RELEASE)
 		{
-			//mousestate.isRightButtonPressing = false;
+			pair = { 0x02, false };
+			input_update_list_render_own->keys.push_back(pair);
 		}
 	}
 
 	if (button == GLFW_MOUSE_BUTTON_LEFT)
 	{
-		if (action == GLFW_PRESS || action == GLFW_REPEAT)
+		if (action == GLFW_PRESS)
 		{
-			//mousestate.isLeftButtonPressing = true;
+			pair = { 0x01, true };
+			input_update_list_render_own->keys.push_back(pair);
 		}
 		else if (action == GLFW_RELEASE)
 		{
-			//mousestate.isLeftButtonPressing = false;
+			pair = { 0x01, false };
+			input_update_list_render_own->keys.push_back(pair);
 		}
 	}
 }
 
 void GLFW_INPUT::CursorPositionCallback(GLFWwindow* window, double xpos, double ypos)
 {
-	//mousestate.oldxpos = mousestate.xpos;
-	//mousestate.oldypos = mousestate.ypos;
-	//mousestate.xpos = xpos;
-	//mousestate.ypos = ypos;
-
-	//if (mousestate.isRightButtonPressing)
-	//{
-	//	float rotationratex = (float)(mousestate.xpos - mousestate.oldxpos);
-	//	float rotationratey = (float)(mousestate.ypos - mousestate.oldypos);
-
-	//	BeginSubmittedByRenderThread->rotationratex = rotationratex;
-	//	BeginSubmittedByRenderThread->rotationratey = rotationratey;
-	//}
+	input_update_list_render_own->x = xpos;
+	input_update_list_render_own->y = ypos;
 
 	return;
 }

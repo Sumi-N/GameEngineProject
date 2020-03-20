@@ -56,9 +56,6 @@ inline void RenderThread::Run()
 			Condition_Render.notify_one();
 		}
 
-		// Cleanup input info
-		input_update_list_render_own->clear();
-
 		if (!Graphic::PreUpdate())
 		{
 			brunning = false;

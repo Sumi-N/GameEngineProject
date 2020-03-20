@@ -15,8 +15,8 @@ extern GraphicRequiredData* data_render_own;
 
 extern Input UserInput;
 
-extern std::vector<std::pair<unsigned int, bool>>* input_update_list_game_own;
-extern std::vector<std::pair<unsigned int, bool>>* input_update_list_render_own;
+extern struct InputFormat* input_update_list_game_own;
+extern struct InputFormat* input_update_list_render_own;
 
 //////////////// For Input
 #ifdef ENGINE_GRAPHIC_OPENGL

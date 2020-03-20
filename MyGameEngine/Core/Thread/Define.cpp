@@ -16,7 +16,9 @@ GraphicRequiredData* data_render_own = &container_render[1];
 
 Input UserInput;
 
-std::vector<std::pair<unsigned int, bool>> input_update_list[2];
-std::vector<std::pair<unsigned int, bool>>* input_update_list_game_own = &input_update_list[0];
-std::vector<std::pair<unsigned int, bool>>* input_update_list_render_own = &input_update_list[1];
+InputFormat input_update_list[2];
+InputFormat* input_update_list_game_own = &input_update_list[0];
+InputFormat* input_update_list_render_own = &input_update_list[1];
+
+
 
