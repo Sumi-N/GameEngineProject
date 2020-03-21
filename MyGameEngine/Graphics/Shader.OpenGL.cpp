@@ -114,7 +114,7 @@ GLboolean Shader::PrintShaderInfoLog(GLuint shader, const char* str)
 		std::vector<GLchar> infoLog(bufSize);
 		GLsizei length;
 		glGetShaderInfoLog(shader, bufSize, &length, &infoLog[0]);
-		DEBUG_PRINT("%s \n", infoLog[0]);
+		DEBUG_PRINT("%s \n", &infoLog[0]);
 	}
 	return static_cast<GLboolean>(status);
 }

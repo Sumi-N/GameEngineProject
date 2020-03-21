@@ -75,10 +75,34 @@ inline void GameThread::PassDataTo(Thread * io_thread)
 		data_game_own->camera.view_matrix            = Entity::CurrentCamera->view;
 	}
 
-	// Submit model matrix
+	// Submit lights data
+	{
+		data_game_own->ambientlight.ambient_intensity = Vec4f(Entity::Ambient->intensity);
+
+		for (auto it = Entity::PointLightList.begin(); it != Entity::PointLightList.end(); ++it)
+		{
+			data_game_own->pointlight.point_intensity = Vec4f((*it)->intensity);
+			data_game_own->pointlight.point_position  = Vec4f((*it)->pos);
+		}
+
+		for (auto it = Entity::DirectionalLightList.begin(); it != Entity::DirectionalLightList.end(); ++it)
+		{
+			data_game_own->directionallight.directional_intensity = Vec4f((*it)->intensity);
+			data_game_own->directionallight.directional_direction = Vec4f((*it)->direction);
+		}
+	}
+
+	// Submit object data
 	{
 		for (auto it = SceneFormat::List.begin(); it != SceneFormat::List.end(); ++it)
 		{
+			// Submit material data
+			ConstantData::Material material;
+			material.diffuse                     = Vec4f((*it).proxy->mesh->material->Kd, 1.0f);
+			material.specular                    = Vec4f((*it).proxy->mesh->material->Ks, (*it).proxy->mesh->material->Ns);
+			data_game_own->material_data.push_back(material);
+
+			// Submit mesh data
 			ConstantData::Model model;
 			model.model_inverse_transpose_matrix = (*it).proxy->mesh->model_inverse_transpose_mat;
 			model.model_position_matrix          = (*it).proxy->mesh->model_mat;

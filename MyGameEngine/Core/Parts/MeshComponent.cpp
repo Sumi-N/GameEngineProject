@@ -134,3 +134,8 @@ void MeshComponent::CleanUp()
 {
 
 }
+
+void MeshComponent::SetMaterial(MaterialAttribute* i_material)
+{
+	material = i_material;
+}

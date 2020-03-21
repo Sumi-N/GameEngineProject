@@ -14,6 +14,7 @@ public:
 	void Boot() override;
 	void Init() override;
 	void Run() override;
+	void Refresh();
 	void CleanUp() override;
 	void PassDataTo(Thread *) override;
 };
@@ -65,9 +66,15 @@ inline void RenderThread::Run()
 
 		Graphic::PostUpdate();
 
-		// Cleanup section
-		data_render_own->model_data.clear();
+		Refresh();
 	}
+}
+
+inline void RenderThread::Refresh()
+{
+	// Cleanup section
+	data_render_own->model_data.clear();
+	data_render_own->material_data.clear();
 }
 
 inline void RenderThread::CleanUp()

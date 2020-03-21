@@ -8,13 +8,23 @@ layout (std140, binding = 2) uniform const_material
 	vec4 specular;
 };
 
-layout (std140, binding = 3) uniform const_light
+layout (std140, binding = 3) uniform const_ambient
 {
-	vec4 light_ambient_intensity;
-	vec4 light_point_intensity;
-	vec4 light_point_position;
-	vec4 light_padding;
-	mat4 light_view_perspective_matrix;
+	vec4 ambient_intensity;
+};
+
+layout (std140, binding = 4) uniform const_point
+{
+	mat4 point_view_perspective_matrix;
+	vec4 point_intensity;
+	vec4 point_position;
+};
+
+layout (std140, binding = 5) uniform const_directional
+{
+	mat4 directional_view_perspective_matrix;
+	vec4 directional_intensity;
+	vec4 directional_direction;
 };
 
 uniform sampler2D texture0;
@@ -50,19 +60,20 @@ bool ShadowCalculation(vec4 fragPosLightSpace)
 void main()
 {
 	// Ambient light
-	//color = texture2D(texture0, texcoord.st) * diffuse * light_ambient_intensity;
-	color = diffuse * light_ambient_intensity;
+	//color = texture2D(texture0, texcoord.st) * diffuse * ambient_intensity;
+	color = diffuse * ambient_intensity;
 
-	if(ShadowCalculation(light_space_position_depth))
-	{
-		return;
-	}
+	// if(ShadowCalculation(light_space_position_depth))
+	// {
+	// 	return;
+	// }
 
 	float cos_theta_1 = dot(world_normal, world_pointlight_direction);
 	
 	if (cos_theta_1 > 0)
 	{
-		color += texture2D(texture0, texcoord.st)  * cos_theta_1 * diffuse * light_point_intensity;
+		//color += texture2D(texture0, texcoord.st)  * cos_theta_1 * diffuse * point_intensity;
+		color += cos_theta_1 * diffuse * point_intensity;
 	
 		vec3 h = normalize(world_object_direction + world_pointlight_direction);
 
@@ -70,7 +81,8 @@ void main()
 		{
 			vec3 reflection = -1 * world_object_direction + 2 * dot(world_object_direction, world_normal) * world_normal;
 
-			color +=  (texture2D(texture1, texcoord.st) + texture(skybox, reflection)) * vec4(vec3(light_point_intensity) * vec3(specular) * pow(dot(h, world_normal), specular.w), 1.0);
+			//color +=  (texture2D(texture1, texcoord.st) + texture(skybox, reflection)) * vec4(vec3(point_intensity) * vec3(specular) * pow(dot(h, world_normal), specular.w), 1.0);
+			color +=  vec4(vec3(point_intensity) * vec3(specular) * pow(dot(h, world_normal), specular.w), 1.0);
 		}
 	}
 }

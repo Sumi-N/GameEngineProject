@@ -9,6 +9,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Attributes">
+      <UniqueIdentifier>{ea11198e-808d-4348-94f6-d628d891ef86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Object.h">
@@ -26,6 +29,12 @@
     </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>Compontnes</Filter>
+    </ClInclude>
+    <ClInclude Include="Attribute.h">
+      <Filter>Attributes</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialAttribute.h">
+      <Filter>Attributes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

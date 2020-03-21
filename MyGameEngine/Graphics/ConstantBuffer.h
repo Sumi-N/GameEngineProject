@@ -9,7 +9,6 @@ namespace ConstantData
 		Mat4f view_matrix;
 		Mat4f perspective_matrix;
 		Vec3f camera_position_vector;
-
 		float padding;
 	};
 
@@ -26,13 +25,23 @@ namespace ConstantData
 		Vec4f specular;
 	};
 
-	struct Light
+	struct AmbientLight
 	{
-		Vec4f light_ambient_intensity;
-		Vec4f light_point_intensity;
-		Vec4f light_point_position;
-		Vec4f padding;
-		Mat4f light_view_perspective_matrix;
+		Vec4f ambient_intensity;
+	};
+
+	struct PointLight
+	{
+		Mat4f point_view_perspective_matrix;
+		Vec4f point_intensity;
+		Vec4f point_position;
+	};
+
+	struct DirectionalLight
+	{
+		Mat4f directional_view_perspective_matrix;
+		Vec4f directional_intensity;
+		Vec4f directional_direction;
 	};
 
 	struct Image
@@ -47,17 +56,21 @@ namespace ConstantData
 		Camera = 0,
 		Model = 1,
 		Material = 2,
-		Light = 3,
-		Image = 4,
+		AmbientLight = 3,
+		PointLight = 4,
+		DirectionalLight = 5,
+		Image = 6,
 	};
 
 	enum class Size : uint8_t
 	{
-		Camera = sizeof(ConstantData::Camera),
-		Model = sizeof(ConstantData::Model),
-		Material = sizeof(ConstantData::Material),
-		Light = sizeof(ConstantData::Light),
-		Image = sizeof(ConstantData::Image),
+		Camera           = sizeof(ConstantData::Camera),
+		Model            = sizeof(ConstantData::Model),
+		Material         = sizeof(ConstantData::Material),
+		AmbientLight     = sizeof(ConstantData::AmbientLight),
+		PointLight       = sizeof(ConstantData::PointLight),
+		DirectionalLight = sizeof(ConstantData::DirectionalLight),
+		Image            = sizeof(ConstantData::Image),
 	};
 }
 

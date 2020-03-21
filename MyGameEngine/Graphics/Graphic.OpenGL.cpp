@@ -50,12 +50,6 @@ void Graphic::Init()
 
 	// Set up culling
 	glEnable(GL_DEPTH_TEST);
-	
-
-	// Init uniform buffers
-	buffer_camera.Init(ConstantData::Index::Camera, ConstantData::Size::Camera);
-	buffer_light.Init(ConstantData::Index::Light, ConstantData::Size::Light);
-	buffer_model.Init(ConstantData::Index::Model, ConstantData::Size::Model);
 }
 
 bool Graphic::PreUpdate()
@@ -78,9 +72,15 @@ void Graphic::Update(GraphicRequiredData * i_data)
 	auto& data_camera = i_data->camera;
 	buffer_camera.Update(&data_camera);
 
-	// Submit Light Information
-	auto& data_light = i_data->light;
-	buffer_light.Update(&data_light);
+	// Submit ambient light uniform data
+	auto& data_ambientlight = i_data->ambientlight;
+	buffer_ambientlight.Update(&data_ambientlight);
+	// Submit point light uniform data
+	auto& data_pointlight = i_data->pointlight;
+	buffer_pointlight.Update(&data_pointlight);
+	//// Submit directional light uniform data
+	//auto& data_directionallight = i_data->directionallight;
+	//buffer_directionallight.Update(&data_directionallight);
 	
 	for (auto it = SceneFormat::List.begin(); it != SceneFormat::List.end(); ++it)
 	{
@@ -89,6 +89,9 @@ void Graphic::Update(GraphicRequiredData * i_data)
 			auto& data_model = i_data->model_data[std::distance(SceneFormat::List.begin(), it)];
 			data_model.model_view_perspective_matrix = data_camera.perspective_matrix * data_camera.view_matrix * data_model.model_position_matrix;
 			buffer_model.Update(&data_model);
+
+			auto& data_material = i_data->material_data[std::distance(SceneFormat::List.begin(), it)];
+			buffer_material.Update(&data_material);
 
 			(*it).shader->BindShader();
 			(*it).proxy->Draw();

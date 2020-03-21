@@ -108,7 +108,7 @@ namespace Math {
 		tmp.ele[12] = -1 * tmp.ele[12];
 		tmp.ele[14] = -1 * tmp.ele[14];
 
-		//tmp.Transpose();
+		tmp.Transpose();
 		*this = tmp / absvalue;
 	}
 

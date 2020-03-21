@@ -3,6 +3,9 @@
 
 std::vector<ObjectHandler> Entity::ObjectList;
 std::vector<OwningPointer<MeshComponent>> Entity::MeshComponentList;
+std::vector<OwningPointer<PointLight>> Entity::PointLightList;
+std::vector<OwningPointer<DirectionalLight>> Entity::DirectionalLightList;
+OwningPointer<AmbientLight> Entity::Ambient;
 OwningPointer<Camera>      Entity::CurrentCamera;
 
 ObjectHandler Entity::Register(Object * i_obj)
@@ -15,6 +18,25 @@ ObjectHandler Entity::Register(Object * i_obj)
 void Entity::RegisterCamera(Camera* i_camera)
 {
 	CurrentCamera = i_camera;
+}
+
+void Entity::RegisterAmbientLight(AmbientLight* i_ambient)
+{
+	Ambient = i_ambient;
+}
+
+void Entity::RegisterPointLight(PointLight* i_point)
+{
+	OwningPointer<PointLight> light_handler;
+	light_handler = i_point;
+	PointLightList.push_back(light_handler);
+}
+
+void Entity::RegisterDirectionalLight(DirectionalLight* i_directional)
+{
+	OwningPointer<DirectionalLight> light_handler;
+	light_handler = i_directional;
+	DirectionalLightList.push_back(light_handler);
 }
 
 void Entity::RegisterMeshComponent(MeshComponent * i_component)
