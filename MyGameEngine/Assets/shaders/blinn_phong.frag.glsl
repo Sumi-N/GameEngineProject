@@ -42,9 +42,9 @@ layout (std140, binding = 3) uniform const_light
 	int  point_num;
 };
 
-layout(binding = 4) uniform sampler2D texture0;
-uniform sampler2D texture1;
-uniform samplerCube skybox;
+layout(binding = 0)uniform samplerCube skybox;
+layout(binding = 1) uniform sampler2D texture0;
+layout(binding = 2) uniform sampler2D texture1;
 uniform sampler2D shadowmap;
 
 //////////////////////////////////////////////////////////////////////////////
@@ -63,14 +63,14 @@ bool ShadowCalculation(vec4 fragPosLightSpace)
 } 
 
 /////////////////////////////////////////////////////////////////////////////
-vec4 calcPointLightShading(vec3 world_normal, vec3 world_pointlight_direction, vec4 diffuse, vec4 specular, vec4 point_intensity, vec3 world_object_direction){
+vec4 calcPointLightShading(vec3 world_normal, vec3 world_pointlight_direction, vec4 diffuse, vec4 specular, vec4 point_intensity, vec3 world_object_direction, sampler2D texture0, vec2 texcoord, sampler2D texture1){
 	vec4 color;
 
 	float cos_theta_1 = dot(world_normal, world_pointlight_direction);
 	
 	if (cos_theta_1 > 0)
 	{
-		color += cos_theta_1 * diffuse * point_intensity;
+		color += texture2D(texture0, texcoord.st)  * cos_theta_1 * diffuse * point_intensity;
 	
 		vec3 h = normalize(world_object_direction + world_pointlight_direction);
 
@@ -78,7 +78,7 @@ vec4 calcPointLightShading(vec3 world_normal, vec3 world_pointlight_direction, v
 		{
 			vec3 reflection = -1 * world_object_direction + 2 * dot(world_object_direction, world_normal) * world_normal;
 
-			color +=  vec4(vec3(point_intensity) * vec3(specular) * pow(dot(h, world_normal), specular.w), 1.0);
+			color +=  texture2D(texture1, texcoord.st) * vec4(vec3(point_intensity) * vec3(specular) * pow(dot(h, world_normal), specular.w), 1.0);
 		}
 	}
 
@@ -90,33 +90,9 @@ vec4 calcPointLightShading(vec3 world_normal, vec3 world_pointlight_direction, v
 void main()
 {
 	// Ambient light
-	//color = texture2D(texture0, texcoord.st) * diffuse * ambient_intensity;
-	color = diffuse * ambient_intensity;
-
-	// if(ShadowCalculation(light_space_position_depth))
-	// {
-	// 	return;
-	// }
-
-	// float cos_theta_1 = dot(world_normal, world_pointlight_direction);
-	
-	// if (cos_theta_1 > 0)
-	// {
-	// 	//color += texture2D(texture0, texcoord.st)  * cos_theta_1 * diffuse * point_intensity;
-	// 	color += cos_theta_1 * diffuse * point_intensity;
-	
-	// 	vec3 h = normalize(world_object_direction + world_pointlight_direction);
-
-	// 	if (dot(h, world_normal) > 0)
-	// 	{
-	// 		vec3 reflection = -1 * world_object_direction + 2 * dot(world_object_direction, world_normal) * world_normal;
-
-	// 		//color +=  (texture2D(texture1, texcoord.st) + texture(skybox, reflection)) * vec4(vec3(point_intensity) * vec3(specular) * pow(dot(h, world_normal), specular.w), 1.0);
-	// 		color +=  vec4(vec3(point_intensity) * vec3(specular) * pow(dot(h, world_normal), specular.w), 1.0);
-	// 	}
-	// }
+	color = texture2D(texture0, texcoord.st) * diffuse * ambient_intensity;
 
 	for(int i = 0; i < point_num; i++){
-		color += calcPointLightShading(world_normal, world_pointlight_direction[i], diffuse, specular, pointlights[i].point_intensity, world_object_direction);
+		color += calcPointLightShading(world_normal, world_pointlight_direction[i], diffuse, specular, pointlights[i].point_intensity, world_object_direction, texture0, texcoord, texture1);
 	}
 }

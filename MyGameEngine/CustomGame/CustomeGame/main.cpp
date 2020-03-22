@@ -25,7 +25,10 @@ int main()
 	teapotmesh.SetMaterial(&teapotmaterial);
 	TextureAttribute teapottexture;
 	teapottexture.Load("../../Assets/textures/brick.png");
+	TextureAttribute teapottexture2;
+	teapottexture2.Load("../../Assets/textures/brick-specular.png");
 	teapotmesh.SetTexture(&teapottexture);
+	teapotmesh.SetTexture(&teapottexture2);
 
 
 	// Setting up camera

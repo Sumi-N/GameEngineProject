@@ -2,6 +2,18 @@
 
 #ifdef ENGINE_GRAPHIC_OPENGL
 
+void SceneProxy::Draw()
+{
+	for (int i = 0; i < textureunits.size(); i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + textureunits[i]);
+		glBindTexture(GL_TEXTURE_2D, textureids[i]);
+	}
+
+	glBindVertexArray(vertexarrayid);
+	glDrawElements(GL_TRIANGLES, indexsize, GL_UNSIGNED_INT, (void*)0);
+}
+
 void SceneProxy::InitBuffer()
 {
 	// Create vertex array 
@@ -17,10 +29,24 @@ void SceneProxy::InitBuffer()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbufferid);
 }
 
-void SceneProxy::Draw()
+void SceneProxy::InitTexture()
 {
-	glBindVertexArray(vertexarrayid);
-	glDrawElements(GL_TRIANGLES, indexsize, GL_UNSIGNED_INT, (void*)0);
+	textureids.resize(mesh->textures.size());
+	textureunits.resize(mesh->textures.size());
+
+	for (int i = 0; i < textureunits.size(); i++)
+	{
+		textureunits[i] = i + TEXTUREUNITBINDINGSTARTPOINT;
+		glGenTextures(1, &textureids[i]);
+		glActiveTexture(GL_TEXTURE0 + textureunits[i]);
+		glBindTexture(GL_TEXTURE_2D, textureids[i]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, mesh->textures[i]->width, mesh->textures[i]->height, 0, GL_RGB, GL_UNSIGNED_BYTE, mesh->textures[i]->pixels.data());
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
 }
 
 void SceneProxy::InitMeshData()

@@ -16,3 +16,8 @@
 	#include <APIs/GraphicAPI/glew-2.1.0/include/GL/glew.h>
 	#include <APIs/GraphicAPI/glfw-3.3.bin.WIN32/include/GLFW/glfw3.h>
 #endif // ENGINE_GRAPHIC_OPENGL
+
+
+///////////////////
+#define SKYBOXBINDINGUNIT 0
+#define TEXTUREUNITBINDINGSTARTPOINT 1

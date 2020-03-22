@@ -15,8 +15,9 @@ public:
 private:
 
 	void InitBuffer();
-	void CleanUpBuffer();
 	void InitMeshData();
+	void InitTexture();
+	void CleanUpBuffer();
 
 #ifdef ENGINE_GRAPHIC_OPENGL
 
@@ -25,6 +26,10 @@ private:
 	GLuint vertexbufferid  = 0;
 	GLuint indexbufferid   = 0;
 	unsigned int indexsize = 0;
+
+	// Texture data
+	std::vector<GLuint> textureids;
+	std::vector<GLuint> textureunits;
 
 #endif // ENGINE_GRAPHIC_OPENGL
 };

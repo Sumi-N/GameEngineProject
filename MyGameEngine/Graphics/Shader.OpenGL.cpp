@@ -2,10 +2,6 @@
 
 #ifdef ENGINE_GRAPHIC_OPENGL
 
-void Shader::InitTexture(OwningPointer<MeshComponent> i_meshcomponent)
-{
-
-}
 
 void Shader::BindShader()
 {
