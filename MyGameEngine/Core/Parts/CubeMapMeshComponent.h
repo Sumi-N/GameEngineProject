@@ -5,39 +5,41 @@
 
 class CubeMapMeshComponent : public MeshComponent
 {
+public:
+	void Boot() override;
 	void Init() override;
 };
 
-inline void CubeMapMeshComponent::Init()
+inline void CubeMapMeshComponent::Boot()
 {
-	Load(MESH_PATH FILENAME_CUBEMAP);
+	Load(PATH_SUFFIX MESH_PATH FILENAME_CUBEMAP);
 
 	// This part can be optimize
 
-	TextureAttribute posx;
-	posx.Load(SKYBOX_PATH  SKYBOX_POSX);
+	TextureAttribute* posx = new TextureAttribute();
+	posx->Load(PATH_SUFFIX SKYBOX_PATH SKYBOX_POSX);
 
-	TextureAttribute negx;
-	negx.Load(SKYBOX_PATH  SKYBOX_POSX);
+	TextureAttribute* negx = new TextureAttribute();
+	negx->Load(PATH_SUFFIX SKYBOX_PATH SKYBOX_NEGX);
 
-	TextureAttribute posy;
-	posy.Load(SKYBOX_PATH  SKYBOX_POSX);
+	TextureAttribute* posy = new TextureAttribute();
+	posy->Load(PATH_SUFFIX SKYBOX_PATH SKYBOX_POSY);
 
-	TextureAttribute negy;
-	negy.Load(SKYBOX_PATH  SKYBOX_POSX);
+	TextureAttribute* negy = new TextureAttribute();
+	negy->Load(PATH_SUFFIX SKYBOX_PATH SKYBOX_NEGY);
 
-	TextureAttribute posz;
-	posz.Load(SKYBOX_PATH  SKYBOX_POSX);
+	TextureAttribute* posz = new TextureAttribute();
+	posz->Load(PATH_SUFFIX SKYBOX_PATH SKYBOX_POSZ);
 
-	TextureAttribute negz;
-	negz.Load(SKYBOX_PATH  SKYBOX_POSX);
+	TextureAttribute* negz = new TextureAttribute();
+	negz->Load(PATH_SUFFIX SKYBOX_PATH SKYBOX_NEGZ);
 
-	OwningPointer<TextureAttribute> posxhandler(&posx);
-	OwningPointer<TextureAttribute> negxhandler(&negx);
-	OwningPointer<TextureAttribute> posyhandler(&posy);
-	OwningPointer<TextureAttribute> negyhandler(&negy);
-	OwningPointer<TextureAttribute> poszhandler(&posz);
-	OwningPointer<TextureAttribute> negzhandler(&negz);
+	OwningPointer<TextureAttribute> posxhandler(posx);
+	OwningPointer<TextureAttribute> negxhandler(negx);
+	OwningPointer<TextureAttribute> posyhandler(posy);
+	OwningPointer<TextureAttribute> negyhandler(negy);
+	OwningPointer<TextureAttribute> poszhandler(posz);
+	OwningPointer<TextureAttribute> negzhandler(negz);
 
 	textures.push_back(posxhandler);
 	textures.push_back(negxhandler);
@@ -45,4 +47,9 @@ inline void CubeMapMeshComponent::Init()
 	textures.push_back(negyhandler);
 	textures.push_back(poszhandler);
 	textures.push_back(negzhandler);
+}
+
+inline void CubeMapMeshComponent::Init()
+{
+
 }

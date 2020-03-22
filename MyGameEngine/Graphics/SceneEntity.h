@@ -22,7 +22,13 @@ struct SceneFormat
 
 struct CubeMapFormat
 {
-	CubeMapProxy* skybox;
+	CubeMapFormat(){};
+	CubeMapFormat(CubeMapProxy* i_proxy, Shader* i_shader)
+	{
+		skyboxproxy = i_proxy;
+		shader = i_shader;
+	}
+	CubeMapProxy* skyboxproxy;
 	Shader* shader;
 };
 
@@ -30,7 +36,7 @@ class SceneEntity
 {
 public:
 	static std::vector<SceneFormat> List;
-	static CubeMapFormat SkyBox;
+	static CubeMapFormat SkyBoxScene;
 	static void Register(SceneProxy*, Shader*);
 	static void Init();
 };
@@ -43,6 +49,17 @@ inline void SceneEntity::Register(SceneProxy* i_proxy, Shader* i_shader)
 
 inline void SceneEntity::Init()
 {
+	if (Entity::SkyBox)
+	{
+		CubeMapProxy* skyboxproxy = new CubeMapProxy();
+		SkyBoxScene.skyboxproxy = skyboxproxy;
+		SkyBoxScene.skyboxproxy->mesh = static_cast<OwningPointer<MeshComponent>>(Entity::SkyBox);
+		SkyBoxScene.skyboxproxy->Init();
+		Shader* skyboxshader = new Shader("../../" SKYBOX_VERT_PATH, "../../" SKYBOX_FRAG_PATH);
+		SkyBoxScene.shader = skyboxshader;
+		SkyBoxScene.shader->LoadShader();
+	}
+
 	for (auto it = List.begin(); it != List.end(); ++it)
 	{
 		(*it).proxy->Init();

@@ -10,3 +10,5 @@
 // Temporary API, might be replaced later
 #include <APIs/GraphicAPI/tinyobjloader/tiny_obj_loader.h>
 #include <APIs/GraphicAPI/loadpng/lodepng.h>
+
+#define PATH_SUFFIX "../../"

@@ -7,6 +7,7 @@ std::vector<OwningPointer<PointLight>>    Entity::PointLightList;
 OwningPointer<DirectionalLight>           Entity::Directional;
 OwningPointer<AmbientLight>               Entity::Ambient;
 OwningPointer<Camera>                     Entity::CurrentCamera;
+OwningPointer<CubeMapMeshComponent>       Entity::SkyBox;
 
 ObjectHandler Entity::Register(Object * i_obj)
 {
@@ -37,6 +38,11 @@ void Entity::RegisterPointLight(PointLight* i_point)
 	PointLightList.push_back(light_handler);
 }
 
+void Entity::RegisterSkyBox(CubeMapMeshComponent* i_skybox)
+{
+	SkyBox = i_skybox;
+}
+
 void Entity::RegisterMeshComponent(MeshComponent * i_component)
 {
 	OwningPointer<MeshComponent> mesh_handler;
@@ -46,6 +52,11 @@ void Entity::RegisterMeshComponent(MeshComponent * i_component)
 
 void Entity::Boot()
 {
+	if (SkyBox)
+	{
+		SkyBox->Boot();
+	}
+
 	// Init Object
 	for (auto it = ObjectList.begin(); it != ObjectList.end(); ++it)
 	{
@@ -61,6 +72,11 @@ void Entity::Boot()
 
 void Entity::Init()
 {
+	if (SkyBox)
+	{
+		SkyBox->Init();
+	}
+
 	// Init Object
 	for (auto it = ObjectList.begin(); it != ObjectList.end(); ++it)
 	{

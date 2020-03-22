@@ -3,7 +3,10 @@ layout (location = 0) in vec3 model_position;
 
 out vec3 TexCoords;
 
-uniform mat4 view_perspective_matrix;
+layout (std140, binding = 4) uniform const_skybox
+{
+    mat4 view_perspective_matrix;
+};
 
 void main()
 {

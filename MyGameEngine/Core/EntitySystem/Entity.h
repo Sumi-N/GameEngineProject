@@ -29,6 +29,7 @@ public:
 	static void RegisterAmbientLight(AmbientLight*);
 	static void RegisterPointLight(PointLight*);
 	static void RegisterDirectionalLight(DirectionalLight*);
+	static void RegisterSkyBox(CubeMapMeshComponent*);
 	static void RegisterMeshComponent(MeshComponent*);
 	static void Boot();
 	static void Init();

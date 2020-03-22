@@ -229,6 +229,21 @@ namespace Math {
 		o_m.ele[0] = i_v.x; o_m.ele[5] = i_v.y; o_m.ele[10] = i_v.z;
 		return o_m;
 	}
+
+	template<typename T>
+	inline Matrix4<T> Matrix4<T>::TruncateToMat3(Matrix4<T> i_m)
+	{
+		Matrix4 o_m;
+		o_m = i_m;
+		o_m.ele[3] = 0;
+		o_m.ele[7] = 0;
+		o_m.ele[11] = 0;
+		o_m.ele[12] = 0;
+		o_m.ele[13] = 0;
+		o_m.ele[14] = 0;
+		o_m.ele[15] = static_cast<T>(1.0);
+		return o_m;
+	}
 }
 
 #ifndef _USEINTRINSIC_

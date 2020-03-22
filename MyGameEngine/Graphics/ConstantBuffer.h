@@ -43,6 +43,11 @@ namespace ConstantData
 		int   point_num;
 	};
 
+	struct SkyBox
+	{
+		Mat4f skybox_view_perspective_matrix;
+	};
+
 	struct ShadowMap
 	{
 		Mat4f point_view_perspective_matrix;
@@ -62,6 +67,7 @@ namespace ConstantData
 		Model = 1,
 		Material = 2,
 		Light = 3,
+		SkyBox = 4,
 		ShadowMap = 6,
 		Image = 7,
 	};
@@ -72,6 +78,7 @@ namespace ConstantData
 		Model            = sizeof(ConstantData::Model),
 		Material         = sizeof(ConstantData::Material),
 		Light            = sizeof(ConstantData::Light),
+		SkyBox           = sizeof(ConstantData::SkyBox),
 		ShadowMap        = sizeof(ConstantData::ShadowMap),
 		Image            = sizeof(ConstantData::Image),
 	};

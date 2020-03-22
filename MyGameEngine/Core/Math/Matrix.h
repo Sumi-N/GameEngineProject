@@ -46,6 +46,8 @@ namespace Math
 		static Matrix4<T> Inverse  (Matrix4<T> i_m);
 		static Matrix4<T> Translate(Vec3<T> i_v);
 		static Matrix4<T> Scale(Vec3<T> i_v);
+
+		static Matrix4<T> TruncateToMat3(Matrix4<T> i_m);
 	};
 
 

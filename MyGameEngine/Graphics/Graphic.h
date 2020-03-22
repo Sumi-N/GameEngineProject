@@ -29,16 +29,18 @@ public:
 
 	// Constant buffer variable
 	static ConstantBuffer buffer_camera;
-	static ConstantBuffer buffer_light;
 	static ConstantBuffer buffer_model;
 	static ConstantBuffer buffer_material;
+	static ConstantBuffer buffer_light;
+	static ConstantBuffer buffer_skybox;	
 };
 
 inline void Graphic::Init()
 {
 	// Init uniform buffers
 	buffer_camera.Init(ConstantData::Index::Camera, ConstantData::Size::Camera);
-	buffer_light.Init(ConstantData::Index::Light, ConstantData::Size::Light);
 	buffer_model.Init(ConstantData::Index::Model, ConstantData::Size::Model);
 	buffer_material.Init(ConstantData::Index::Material, ConstantData::Size::Material);
+	buffer_light.Init(ConstantData::Index::Light, ConstantData::Size::Light);
+	buffer_skybox.Init(ConstantData::Index::SkyBox, ConstantData::Size::SkyBox);
 }

@@ -3,9 +3,10 @@
 #include "Graphic.h"
 
 ConstantBuffer Graphic::buffer_camera;
-ConstantBuffer Graphic::buffer_light;
 ConstantBuffer Graphic::buffer_model;
 ConstantBuffer Graphic::buffer_material;
+ConstantBuffer Graphic::buffer_light;
+ConstantBuffer Graphic::buffer_skybox;
 
 //int main()
 //{

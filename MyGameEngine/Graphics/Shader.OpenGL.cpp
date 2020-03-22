@@ -134,7 +134,8 @@ GLboolean Shader::PrintProgramInfoLog(GLuint i_program)
 	// Get a link result
 	GLint status;
 	glGetProgramiv(i_program, GL_LINK_STATUS, &status);
-	if (status == GL_FALSE) std::cerr << "Link Error." << std::endl;
+	if (status == GL_FALSE) 
+		DEBUG_PRINT("Link Error.");
 	// Get the log of the link result
 	GLsizei bufSize;
 	glGetProgramiv(i_program, GL_INFO_LOG_LENGTH, &bufSize);
@@ -144,7 +145,7 @@ GLboolean Shader::PrintProgramInfoLog(GLuint i_program)
 		std::vector<GLchar> infoLog(bufSize);
 		GLsizei length;
 		glGetProgramInfoLog(i_program, bufSize, &length, &infoLog[0]);
-		std::cerr << &infoLog[0] << std::endl;
+		DEBUG_PRINT("%s \n", &infoLog[0]);
 	}
 	return static_cast<GLboolean>(status);
 }

@@ -40,8 +40,9 @@
 
 
 //////////////////////////////
-// Asset Addresses
+// Sky Box
 //////////////////////////////
+
 #define MESH_PATH        "Assets/models/"
 #define FILENAME_CUBEMAP "cubemap.obj"
 
@@ -52,3 +53,6 @@
 #define SKYBOX_NEGY      "cubemap_negy.png"
 #define SKYBOX_POSZ      "cubemap_posz.png"
 #define SKYBOX_NEGZ      "cubemap_negz.png"
+
+#define SKYBOX_VERT_PATH "Assets/shaders/skybox.vert.glsl"
+#define SKYBOX_FRAG_PATH "Assets/shaders/skybox.frag.glsl"

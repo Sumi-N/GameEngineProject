@@ -76,6 +76,19 @@ void Graphic::Update(GraphicRequiredData * i_data)
 	auto& data_light = i_data->light;
 	buffer_light.Update(&data_light);
 	
+	// Rendering skybox
+	{
+		glDepthMask(GL_FALSE);
+		ConstantData::SkyBox data_skybox;
+		data_skybox.skybox_view_perspective_matrix = i_data->camera.perspective_matrix * Mat4f::TruncateToMat3(i_data->camera.view_matrix);
+		buffer_skybox.Update(&data_skybox);
+
+		SceneEntity::SkyBoxScene.shader->BindShader();
+		SceneEntity::SkyBoxScene.skyboxproxy->Draw();
+		glDepthMask(GL_TRUE);
+	}
+
+	// Rendering objects
 	for (auto it = SceneEntity::List.begin(); it != SceneEntity::List.end(); ++it)
 	{
 		if (i_data->model_data.size() != 0)
