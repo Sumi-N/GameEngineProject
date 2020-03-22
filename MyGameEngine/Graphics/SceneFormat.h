@@ -34,5 +34,6 @@ inline void SceneFormat::Init()
 	for (auto it = List.begin(); it != List.end(); ++it)
 	{
 		(*it).proxy->Init();
+		(*it).shader->InitTexture((*it).proxy->mesh);
 	}
 }

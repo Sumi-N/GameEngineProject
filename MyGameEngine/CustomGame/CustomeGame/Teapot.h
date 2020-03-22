@@ -11,6 +11,7 @@ class Teapot : public Object
 inline void Teapot::Init()
 {
 	this->pos = Vec3f(0, 0, -50);
+	this->scale = Vec3f(1.0, 1.0, 1.0);
 }
 
 inline void Teapot::Update(float i_dt)

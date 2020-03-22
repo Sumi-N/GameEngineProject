@@ -5,7 +5,7 @@
 void SceneProxy::Init()
 {
 	InitBuffer();
-	BindMeshData();
+	InitMeshData();
 }
 
 void SceneProxy::CleanUp()

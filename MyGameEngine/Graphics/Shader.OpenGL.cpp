@@ -2,6 +2,16 @@
 
 #ifdef ENGINE_GRAPHIC_OPENGL
 
+void Shader::InitTexture(OwningPointer<MeshComponent> i_meshcomponent)
+{
+
+}
+
+void Shader::BindShader()
+{
+	glUseProgram(programid);
+}
+
 void Shader::LoadShader(Shader & io_shader, const char* i_vert, const char* i_frag)
 {
 	std::vector<GLchar> vertsrc;

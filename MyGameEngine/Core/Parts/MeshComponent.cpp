@@ -139,3 +139,10 @@ void MeshComponent::SetMaterial(MaterialAttribute* i_material)
 {
 	material = i_material;
 }
+
+void MeshComponent::SetTexture(TextureAttribute* i_texture)
+{
+	OwningPointer<TextureAttribute> texturehandler;
+	texturehandler = i_texture;
+	textures.push_back(texturehandler);
+}

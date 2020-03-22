@@ -8,6 +8,7 @@ public:
 	static void LoadShader(Shader & io_shader, const char* i_vert, const char* i_frag);
 
 	GLuint programid = 0;
+	void InitTexture(OwningPointer<MeshComponent>);
 	void BindShader();
 
 private:

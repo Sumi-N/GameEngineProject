@@ -5,6 +5,7 @@
 #include <math.h>
 #include <intrin.h>
 #include <xmmintrin.h>
+#include <stdint.h>
 
 namespace Math {
 
@@ -269,7 +270,7 @@ namespace Math {
 
 
 typedef Math::Vec2<float>            Vec2f;
-
+typedef Math::Vec3<uint8_t>          Vec3u8t;
 //typedef Math::Vec3<unsigned short>   Vec3us;
 //typedef Math::Vec3<short>            Vec3s;
 //typedef Math::Vec3<unsigned int>     Vec3ui;

@@ -5,6 +5,7 @@
 #include <Parts/Object.h>
 #include <Parts/Light.h>
 #include <Parts/MaterialAttribute.h>
+#include <Parts/TextureAttribute.h>
 #include <EntitySystem/Entity.h>
 #include <Graphics/Shader.h>
 #include <Graphics/SceneFormat.h>
@@ -18,25 +19,27 @@ int main()
 {
 	// Setting up teapot
 	Teapot teapot;
-	teapot.pos = Vec3f(0, 0, -50);
-	teapot.scale = Vec3f(1.0, 1.0, 1.0);
 
 	MeshComponent teapotmesh;
 	MaterialAttribute teapotmaterial;
 	teapotmesh.SetMaterial(&teapotmaterial);
+	TextureAttribute teapottexture;
+	teapottexture.Load("../../Assets/textures/brick.png");
+	teapotmesh.SetTexture(&teapottexture);
+
 
 	// Setting up camera
 	MyCamera camera;
 
 	// Setting up lights
 	AmbientLight ambientlight;
-	ambientlight.intensity = Vec3f(0.1, 0.1, 0.1);
+	ambientlight.intensity = Vec3f(0.1f, 0.1f, 0.1f);
 	PointLight pointlight;
-	pointlight.intensity = Vec3f(1.0, 1.0, 1.0);
-	pointlight.pos = Vec3f(20, 20, -50);
+	pointlight.intensity = Vec3f(1.0f, 1.0f, 1.0f);
+	pointlight.pos = Vec3f(20.f, 20.f, -50.f);
 	PointLight pointlight2;
-	pointlight2.intensity = Vec3f(0.8, 0.8, 0.8);
-	pointlight2.pos = Vec3f(-20, -20, -30);
+	pointlight2.intensity = Vec3f(0.8f, 0.8f, 0.8f);
+	pointlight2.pos = Vec3f(-20.f, -20.f, -30.f);
 
 
 	SceneProxy proxy;

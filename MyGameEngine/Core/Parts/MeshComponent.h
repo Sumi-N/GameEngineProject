@@ -3,6 +3,7 @@
 #include "Define.h"
 #include "Component.h"
 #include "MaterialAttribute.h"
+#include "TextureAttribute.h"
 
 //// Forward declaration
 //class SceneProxy;
@@ -19,6 +20,7 @@ class MeshComponent : public Component
 public:
 	ObservingPointer<Object> owner;
 	OwningPointer<MaterialAttribute> material;
+	std::vector<OwningPointer<TextureAttribute>> textures;
 
 	// Index data
 	std::vector<MeshData> data;
@@ -33,5 +35,6 @@ public:
 	void CleanUp() override;
 
 	void SetMaterial(MaterialAttribute *);
+	void SetTexture(TextureAttribute*);
 };
 

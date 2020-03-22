@@ -6,8 +6,21 @@ out vec4 color;
 // Consta data
 const int MAX_POINT_LIGHT_NUM = 5;
 
-// Structure define
+/////////////////////////////////////////////////////////////////////////////
+
+// Normal vector of the object at world coordinate
+in vec3 world_normal;
+// Point light direction vector at world coordinate
+in vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
+// Object direction vector at world coordinate
+in vec3 world_object_direction;
+// Texture coordinate
+in vec2 texcoord;
+// The depth value at light space
+in vec4 light_space_position_depth;
+
 //////////////////////////////////////////////////////////////////////////////
+// Structure define
 struct PointLight{
 	vec4 point_intensity;
 	vec4 point_position;
@@ -29,21 +42,10 @@ layout (std140, binding = 3) uniform const_light
 	int  point_num;
 };
 
-uniform sampler2D texture0;
+layout(binding = 4) uniform sampler2D texture0;
 uniform sampler2D texture1;
 uniform samplerCube skybox;
 uniform sampler2D shadowmap;
-
-// Normal vector of the object at world coordinate
-in vec3 world_normal;
-// Point light direction vector at world coordinate
-in vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
-// Object direction vector at world coordinate
-in vec3 world_object_direction;
-// Texture coordinate
-in vec2 texcoord;
-// The depth value at light space
-in vec4 light_space_position_depth;
 
 //////////////////////////////////////////////////////////////////////////////
 bool ShadowCalculation(vec4 fragPosLightSpace)

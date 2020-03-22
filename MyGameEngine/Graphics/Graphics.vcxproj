@@ -164,7 +164,6 @@
     <ClCompile Include="SceneFormat.cpp" />
     <ClCompile Include="SceneProxy.cpp" />
     <ClCompile Include="SceneProxy.OpenGL.cpp" />
-    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Shader.OpenGL.cpp" />
   </ItemGroup>
   <ItemGroup>

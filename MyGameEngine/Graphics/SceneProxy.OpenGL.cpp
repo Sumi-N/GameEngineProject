@@ -23,7 +23,7 @@ void SceneProxy::Draw()
 	glDrawElements(GL_TRIANGLES, indexsize, GL_UNSIGNED_INT, (void*)0);
 }
 
-void SceneProxy::BindMeshData()
+void SceneProxy::InitMeshData()
 {
 	// Set vertex data to vertex buffer
 	glBufferData(GL_ARRAY_BUFFER, mesh->data.size() * sizeof(mesh->data[0]), mesh->data.data(), GL_STATIC_DRAW);
@@ -38,7 +38,7 @@ void SceneProxy::BindMeshData()
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(mesh->data[0]), (void*)(2 * sizeof(Vec3f)));
 
 	// Memorize index size for Draw() fucntion
-	indexsize = mesh->index.size() * sizeof(mesh->index[0]);
+	indexsize = static_cast<unsigned int>(mesh->index.size()) * sizeof(mesh->index[0]);
 }
 
 void SceneProxy::CleanUpBuffer()

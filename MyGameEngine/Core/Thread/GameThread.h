@@ -87,7 +87,7 @@ inline void GameThread::PassDataTo(Thread * io_thread)
 		// Submit point light data
 		if (Entity::PointLightList.size() != 0)
 		{
-			data_game_own->light.point_num = Entity::PointLightList.size();
+			data_game_own->light.point_num = static_cast<int>(Entity::PointLightList.size());
 
 			for (auto it = Entity::PointLightList.begin(); it != Entity::PointLightList.end(); ++it)
 			{

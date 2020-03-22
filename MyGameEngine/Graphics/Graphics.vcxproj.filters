@@ -60,9 +60,6 @@
     <ClCompile Include="SceneProxy.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="SceneFormat.cpp">
       <Filter>Common</Filter>
     </ClCompile>

@@ -135,6 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\APIs\GraphicAPI\loadpng\lodepng.h" />
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
@@ -143,8 +144,10 @@
     <ClInclude Include="MaterialAttribute.h" />
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="TextureAttribute.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\APIs\GraphicAPI\loadpng\lodepng.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
