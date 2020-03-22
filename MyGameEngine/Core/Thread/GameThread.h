@@ -77,18 +77,23 @@ inline void GameThread::PassDataTo(Thread * io_thread)
 
 	// Submit lights data
 	{
-		data_game_own->ambientlight.ambient_intensity = Vec4f(Entity::Ambient->intensity);
+		// Submit ambient light data
+		data_game_own->light.ambient_intensity = Vec4f(Entity::Ambient->intensity);
 
-		for (auto it = Entity::PointLightList.begin(); it != Entity::PointLightList.end(); ++it)
-		{
-			data_game_own->pointlight.point_intensity = Vec4f((*it)->intensity);
-			data_game_own->pointlight.point_position  = Vec4f((*it)->pos);
-		}
+		// Submit directional light data
+		//data_game_own->light.directional_intensity = Vec4f(Entity::Directional->intensity);
+		//data_game_own->light.directional_direction = Vec4f(Entity::Directional->direction);
 
-		for (auto it = Entity::DirectionalLightList.begin(); it != Entity::DirectionalLightList.end(); ++it)
+		// Submit point light data
+		if (Entity::PointLightList.size() != 0)
 		{
-			data_game_own->directionallight.directional_intensity = Vec4f((*it)->intensity);
-			data_game_own->directionallight.directional_direction = Vec4f((*it)->direction);
+			data_game_own->light.point_num = Entity::PointLightList.size();
+
+			for (auto it = Entity::PointLightList.begin(); it != Entity::PointLightList.end(); ++it)
+			{
+				data_game_own->light.pointlights[std::distance(Entity::PointLightList.begin(), it)].point_intensity = Vec4f((*it)->intensity);
+				data_game_own->light.pointlights[std::distance(Entity::PointLightList.begin(), it)].point_position = Vec4f((*it)->pos);
+			}
 		}
 	}
 

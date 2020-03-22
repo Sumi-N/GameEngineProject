@@ -72,15 +72,9 @@ void Graphic::Update(GraphicRequiredData * i_data)
 	auto& data_camera = i_data->camera;
 	buffer_camera.Update(&data_camera);
 
-	// Submit ambient light uniform data
-	auto& data_ambientlight = i_data->ambientlight;
-	buffer_ambientlight.Update(&data_ambientlight);
-	// Submit point light uniform data
-	auto& data_pointlight = i_data->pointlight;
-	buffer_pointlight.Update(&data_pointlight);
-	//// Submit directional light uniform data
-	//auto& data_directionallight = i_data->directionallight;
-	//buffer_directionallight.Update(&data_directionallight);
+	// Submit light uniform data
+	auto& data_light = i_data->light;
+	buffer_light.Update(&data_light);
 	
 	for (auto it = SceneFormat::List.begin(); it != SceneFormat::List.end(); ++it)
 	{

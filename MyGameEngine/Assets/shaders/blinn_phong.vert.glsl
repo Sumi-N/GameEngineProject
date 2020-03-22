@@ -1,8 +1,21 @@
 #version 420 core
 
+// Input
 layout (location = 0) in vec3 model_position;
 layout (location = 1) in vec3 model_normal;
 layout (location = 2) in vec2 model_texcoord;
+
+// Const data
+const int MAX_POINT_LIGHT_NUM = 5;
+
+
+// Structure define
+//////////////////////////////////////////////////////////////////////////////
+struct PointLight{
+	vec4 point_intensity;
+	vec4 point_position;
+};
+//////////////////////////////////////////////////////////////////////////////
 
 layout (std140, binding = 0) uniform const_camera
 {
@@ -19,29 +32,19 @@ layout (std140, binding = 1) uniform const_object
 	mat4 model_inverse_transpose_matrix;
 };
 
-layout (std140, binding = 3) uniform const_ambient
+layout (std140, binding = 3) uniform const_light
 {
 	vec4 ambient_intensity;
-};
-
-layout (std140, binding = 4) uniform const_point
-{
-	mat4 point_view_perspective_matrix;
-	vec4 point_intensity;
-	vec4 point_position;
-};
-
-layout (std140, binding = 5) uniform const_directional
-{
-	mat4 directional_view_perspective_matrix;
 	vec4 directional_intensity;
 	vec4 directional_direction;
+	PointLight pointlights[MAX_POINT_LIGHT_NUM];
+	int  point_num;
 };
 
 // Normal vector of the object at world coordinate
 out vec3 world_normal;
 // Point light direction vector at world coordinate
-out vec3 world_pointlight_direction;
+out vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
 // Object direction vector at world coordinate
 out vec3 world_object_direction;
 // Texture coordinate
@@ -49,6 +52,13 @@ out vec2 texcoord;
 // The depth value at light space
 out vec4 light_space_position_depth;
 
+//////////////////////////////////////////////////////////////////////////////
+
+vec3 calcPointLightDirection(vec4 point_position, mat4 model_position_matrix, vec3 model_position){
+	return normalize(vec3(point_position) - vec3(model_position_matrix * vec4(model_position, 1)));
+}
+
+/////////////////////////////////////////////////////////////////////////////
 void main()
 {
 	// Send position data at perspective coordinate
@@ -56,11 +66,13 @@ void main()
 	// Get normal vector at world coordinate
 	world_normal               = normalize(mat3(model_inverse_transpose_matrix) * model_normal);
 
-	world_pointlight_direction = normalize(vec3(point_position) - vec3(model_position_matrix * vec4(model_position, 1)));
+	for(int i = 0; i <= point_num; i++){
+		world_pointlight_direction[i] = calcPointLightDirection(pointlights[i].point_position, model_position_matrix, model_position);
+	}
 
 	world_object_direction     = normalize(camera_position_vector -  vec3(model_position_matrix * vec4(model_position, 1)));
 
 	texcoord                   = model_texcoord;
 
-	light_space_position_depth = point_view_perspective_matrix * model_position_matrix * vec4(model_position, 1.0);
+	//light_space_position_depth = point_view_perspective_matrix * model_position_matrix * vec4(model_position, 1.0);
 }

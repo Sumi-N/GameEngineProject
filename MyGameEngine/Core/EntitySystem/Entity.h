@@ -19,7 +19,7 @@ public:
 	static std::vector<ObjectHandler> ObjectList;
 	static std::vector<OwningPointer<MeshComponent>> MeshComponentList;
 	static std::vector<OwningPointer<PointLight>> PointLightList;
-	static std::vector<OwningPointer<DirectionalLight>> DirectionalLightList;
+	static OwningPointer<DirectionalLight> Directional;
 	static OwningPointer<AmbientLight> Ambient;;
 	static OwningPointer<Camera> CurrentCamera;
 

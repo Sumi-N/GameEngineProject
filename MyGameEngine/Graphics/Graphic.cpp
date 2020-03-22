@@ -3,9 +3,7 @@
 #include "Graphic.h"
 
 ConstantBuffer Graphic::buffer_camera;
-ConstantBuffer Graphic::buffer_ambientlight;
-ConstantBuffer Graphic::buffer_pointlight;
-ConstantBuffer Graphic::buffer_directionallight;
+ConstantBuffer Graphic::buffer_light;
 ConstantBuffer Graphic::buffer_model;
 ConstantBuffer Graphic::buffer_material;
 

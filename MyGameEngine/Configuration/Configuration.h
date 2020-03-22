@@ -30,3 +30,11 @@
 #define NEARCLIP 0.1f
 #define FARCLIP  100.0f
 
+
+//////////////////////////////
+// Light Setting
+//////////////////////////////
+
+// Make sure to change the sharer's code if the number here got changed
+#define MAX_POINT_LIGHT_NUM 5
+

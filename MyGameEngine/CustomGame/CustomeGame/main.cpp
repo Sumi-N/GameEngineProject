@@ -34,6 +34,9 @@ int main()
 	PointLight pointlight;
 	pointlight.intensity = Vec3f(1.0, 1.0, 1.0);
 	pointlight.pos = Vec3f(20, 20, -50);
+	PointLight pointlight2;
+	pointlight2.intensity = Vec3f(0.8, 0.8, 0.8);
+	pointlight2.pos = Vec3f(-20, -20, -30);
 
 
 	SceneProxy proxy;
@@ -47,13 +50,13 @@ int main()
 	Entity::RegisterMeshComponent(&teapotmesh);
 	Entity::RegisterAmbientLight(&ambientlight);
 	Entity::RegisterPointLight(&pointlight);
+	Entity::RegisterPointLight(&pointlight2);
 
 	teapotmesh.owner = Entity::ObjectList[0].p;
 	teapotmesh.Load("../../Assets/models/teapot.obj");
 
 	System::Boot();
 
-	//Shader::LoadShader(shader, "../../Assets/shaders/test.vert.glsl", "../../Assets/shaders/test.frag.glsl");
 	Shader::LoadShader(shader, "../../Assets/shaders/blinn_phong.vert.glsl", "../../Assets/shaders/blinn_phong.frag.glsl");
 	
 	System::RunRenderThread();
