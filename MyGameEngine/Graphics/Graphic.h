@@ -1,7 +1,7 @@
 #pragma once
 #include "Define.h"
 #include "SceneProxy.h"
-#include "SceneFormat.h"
+#include "SceneEntity.h"
 #include "ConstantBuffer.h"
 
 // The data container data requires for render thread 
@@ -16,9 +16,9 @@ struct GraphicRequiredData
 class Graphic
 {
 public:
-	static void Init();
+	static void Boot();
 	static bool PreUpdate();
-	static void PostInit();
+	static void Init();
 	static void Update(GraphicRequiredData*);
 	static void PostUpdate();
 	static void CleanUP();
@@ -34,10 +34,8 @@ public:
 	static ConstantBuffer buffer_material;
 };
 
-inline void Graphic::PostInit()
+inline void Graphic::Init()
 {
-	SceneFormat::Init();
-
 	// Init uniform buffers
 	buffer_camera.Init(ConstantData::Index::Camera, ConstantData::Size::Camera);
 	buffer_light.Init(ConstantData::Index::Light, ConstantData::Size::Light);

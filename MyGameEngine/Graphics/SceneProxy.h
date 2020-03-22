@@ -12,11 +12,11 @@ public:
 
 	OwningPointer<MeshComponent> mesh;
 
-private:
+protected:
 
 	void InitBuffer();
 	void InitMeshData();
-	void InitTexture();
+	virtual void InitTexture();
 	void CleanUpBuffer();
 
 #ifdef ENGINE_GRAPHIC_OPENGL

@@ -161,7 +161,7 @@
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="Graphic.OpenGL.cpp" />
     <ClCompile Include="Graphic_Vulkan.cpp" />
-    <ClCompile Include="SceneFormat.cpp" />
+    <ClCompile Include="SceneEntity.cpp" />
     <ClCompile Include="SceneProxy.cpp" />
     <ClCompile Include="SceneProxy.OpenGL.cpp" />
     <ClCompile Include="Shader.OpenGL.cpp" />
@@ -171,9 +171,10 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="Graphic_Vulkan.h" />
-    <ClInclude Include="SceneFormat.h" />
+    <ClInclude Include="SceneEntity.h" />
     <ClInclude Include="SceneProxy.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="CubeMapProxy.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="ValidationLayer.h" />
   </ItemGroup>

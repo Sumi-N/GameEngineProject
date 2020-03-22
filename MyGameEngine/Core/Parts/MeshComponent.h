@@ -30,6 +30,7 @@ public:
 	Mat4f model_inverse_transpose_mat;
 
 	void Load(const char* filename);
+	void Boot() override;
 	void Init() override;
 	void Update(float i_dt) override;
 	void CleanUp() override;

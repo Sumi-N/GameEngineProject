@@ -45,6 +45,9 @@
     <ClInclude Include="..\..\APIs\GraphicAPI\loadpng\lodepng.h">
       <Filter>API</Filter>
     </ClInclude>
+    <ClInclude Include="CubeMapMeshComponent.h">
+      <Filter>Compontnes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshComponent.cpp">

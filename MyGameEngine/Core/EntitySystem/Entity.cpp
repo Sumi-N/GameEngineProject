@@ -1,12 +1,12 @@
 #pragma  once
 #include "Entity.h"
 
-std::vector<ObjectHandler> Entity::ObjectList;
+std::vector<ObjectHandler>                Entity::ObjectList;
 std::vector<OwningPointer<MeshComponent>> Entity::MeshComponentList;
-std::vector<OwningPointer<PointLight>> Entity::PointLightList;
-OwningPointer<DirectionalLight> Entity::Directional;
-OwningPointer<AmbientLight> Entity::Ambient;
-OwningPointer<Camera>      Entity::CurrentCamera;
+std::vector<OwningPointer<PointLight>>    Entity::PointLightList;
+OwningPointer<DirectionalLight>           Entity::Directional;
+OwningPointer<AmbientLight>               Entity::Ambient;
+OwningPointer<Camera>                     Entity::CurrentCamera;
 
 ObjectHandler Entity::Register(Object * i_obj)
 {
@@ -44,12 +44,37 @@ void Entity::RegisterMeshComponent(MeshComponent * i_component)
 	MeshComponentList.push_back(mesh_handler);
 }
 
+void Entity::Boot()
+{
+	// Init Object
+	for (auto it = ObjectList.begin(); it != ObjectList.end(); ++it)
+	{
+		(*it).p->Boot();
+	}
+
+	// Init Mesh
+	for (auto it = MeshComponentList.begin(); it != MeshComponentList.end(); ++it)
+	{
+		(*it)->Boot();
+	}
+}
+
 void Entity::Init()
 {
+	// Init Object
 	for (auto it = ObjectList.begin(); it != ObjectList.end(); ++it)
 	{
 		(*it).p->Init();
 	}
+
+	// Init Mesh
+	for (auto it = MeshComponentList.begin(); it != MeshComponentList.end(); ++it)
+	{
+		(*it)->Init();
+	}
+
+	if (CurrentCamera)
+		CurrentCamera->Init();
 }
 
 void Entity::Update(float i_dt)

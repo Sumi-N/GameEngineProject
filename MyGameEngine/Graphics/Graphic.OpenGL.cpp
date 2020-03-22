@@ -5,7 +5,7 @@
 
 GLFWwindow * Graphic::window;
 
-void Graphic::Init()
+void Graphic::Boot()
 {
 	if (glfwInit() == GL_FALSE)
 	{
@@ -76,15 +76,15 @@ void Graphic::Update(GraphicRequiredData * i_data)
 	auto& data_light = i_data->light;
 	buffer_light.Update(&data_light);
 	
-	for (auto it = SceneFormat::List.begin(); it != SceneFormat::List.end(); ++it)
+	for (auto it = SceneEntity::List.begin(); it != SceneEntity::List.end(); ++it)
 	{
 		if (i_data->model_data.size() != 0)
 		{
-			auto& data_model = i_data->model_data[std::distance(SceneFormat::List.begin(), it)];
+			auto& data_model = i_data->model_data[std::distance(SceneEntity::List.begin(), it)];
 			data_model.model_view_perspective_matrix = data_camera.perspective_matrix * data_camera.view_matrix * data_model.model_position_matrix;
 			buffer_model.Update(&data_model);
 
-			auto& data_material = i_data->material_data[std::distance(SceneFormat::List.begin(), it)];
+			auto& data_material = i_data->material_data[std::distance(SceneEntity::List.begin(), it)];
 			buffer_material.Update(&data_material);
 
 			(*it).shader->BindShader();

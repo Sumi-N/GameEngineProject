@@ -37,7 +37,10 @@
     <ClInclude Include="SceneProxy.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="SceneFormat.h">
+    <ClInclude Include="SceneEntity.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeMapProxy.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
@@ -60,10 +63,10 @@
     <ClCompile Include="SceneProxy.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="SceneFormat.cpp">
+    <ClCompile Include="Graphic.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="Graphic.cpp">
+    <ClCompile Include="SceneEntity.cpp">
       <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>

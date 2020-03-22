@@ -4,6 +4,7 @@
 #include <Debug/DebugLog.h>
 #include <Math/Matrix.h>
 #include <Parts/MeshComponent.h>
+#include <Parts/CubeMapMeshComponent.h>
 #include <Parts/TextureAttribute.h>
 #include <BoneStructure/SmartPointer.h>
 

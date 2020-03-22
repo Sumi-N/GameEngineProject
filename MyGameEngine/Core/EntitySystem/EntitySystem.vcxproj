@@ -149,6 +149,9 @@
     <ClCompile Include="Entity.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BoneStructure\BoneStructure.vcxproj">
+      <Project>{4de6446c-e0a9-4b48-9d06-821a246ef395}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Parts\Parts.vcxproj">
       <Project>{f0dcb746-4531-4351-9a6e-140c336a3c35}</Project>
     </ProjectReference>

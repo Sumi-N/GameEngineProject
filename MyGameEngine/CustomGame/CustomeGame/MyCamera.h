@@ -10,7 +10,7 @@ class MyCamera :public Camera
 
 inline void MyCamera::Init()
 {
-
+	Camera::Init();
 }
 
 inline void MyCamera::Update(float i_dt)

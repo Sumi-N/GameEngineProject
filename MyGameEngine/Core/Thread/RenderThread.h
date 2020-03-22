@@ -21,7 +21,7 @@ public:
 
 inline void RenderThread::Boot()
 {
-	Graphic::Init();
+	Graphic::Boot();
 
 #ifdef ENGINE_GRAPHIC_OPENGL
 	// Set up callback
@@ -35,7 +35,8 @@ inline void RenderThread::Boot()
 
 inline void RenderThread::Init()
 {
-	Graphic::PostInit();
+	SceneEntity::Init();
+	Graphic::Init();
 }
 
 inline void RenderThread::Run()

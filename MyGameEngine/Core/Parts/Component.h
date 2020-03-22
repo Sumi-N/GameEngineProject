@@ -8,10 +8,13 @@ class Component
 public:
 	ObservingPointer<Object> pointer;
 
+	virtual void Boot();
 	virtual void Init();
 	virtual void Update(float);
 	virtual void CleanUp();
 };
+
+inline void Component::Boot() {}
 
 inline void Component::Init() {}
 

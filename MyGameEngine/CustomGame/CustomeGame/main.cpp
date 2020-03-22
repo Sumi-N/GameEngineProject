@@ -8,7 +8,7 @@
 #include <Parts/TextureAttribute.h>
 #include <EntitySystem/Entity.h>
 #include <Graphics/Shader.h>
-#include <Graphics/SceneFormat.h>
+#include <Graphics/SceneEntity.h>
 
 #include "Teapot.h"
 #include "MyCamera.h"
@@ -20,15 +20,6 @@ int main()
 	// Setting up teapot
 	Teapot teapot;
 
-	MeshComponent teapotmesh;
-	MaterialAttribute teapotmaterial;
-	teapotmesh.SetMaterial(&teapotmaterial);
-	TextureAttribute teapottexture;
-	teapottexture.Load("../../Assets/textures/brick.png");
-	TextureAttribute teapottexture2;
-	teapottexture2.Load("../../Assets/textures/brick-specular.png");
-	teapotmesh.SetTexture(&teapottexture);
-	teapotmesh.SetTexture(&teapottexture2);
 
 
 	// Setting up camera
@@ -45,26 +36,19 @@ int main()
 	pointlight2.pos = Vec3f(-20.f, -20.f, -30.f);
 
 
-	SceneProxy proxy;
-	proxy.mesh = &teapotmesh;
-	Shader shader;
-	SceneFormat::Register(&proxy, &shader);
+
 
 	// Register data to Entity
 	Entity::RegisterCamera(&camera);
 	Entity::Register(&teapot);
-	Entity::RegisterMeshComponent(&teapotmesh);
 	Entity::RegisterAmbientLight(&ambientlight);
 	Entity::RegisterPointLight(&pointlight);
 	Entity::RegisterPointLight(&pointlight2);
 
-	teapotmesh.owner = Entity::ObjectList[0].p;
-	teapotmesh.Load("../../Assets/models/teapot.obj");
+
 
 	System::Boot();
-
-	Shader::LoadShader(shader, "../../Assets/shaders/blinn_phong.vert.glsl", "../../Assets/shaders/blinn_phong.frag.glsl");
 	
-	System::RunRenderThread();
+	System::Start();
 	return 0;
 };

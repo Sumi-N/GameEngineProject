@@ -2,12 +2,6 @@
 
 #ifdef ENGINE_GRAPHIC_OPENGL
 
-
-void Shader::BindShader()
-{
-	glUseProgram(programid);
-}
-
 void Shader::LoadShader(Shader & io_shader, const char* i_vert, const char* i_frag)
 {
 	std::vector<GLchar> vertsrc;
@@ -68,6 +62,16 @@ void Shader::LoadShader(Shader & io_shader, const char* i_vert, const char* i_fr
 		DEBUG_PRINT("succeed compiling the shader %s and %s \n", i_vert, i_frag);
 	}
 	//glDeleteProgram(programid);
+}
+
+void Shader::BindShader()
+{
+	glUseProgram(programid);
+}
+
+void Shader::LoadShader()
+{
+	Shader::LoadShader(*this, vertpath, fragpath);
 }
 
 bool Shader::ReadShaderSource(const char* i_file, std::vector<GLchar>& io_buffer)

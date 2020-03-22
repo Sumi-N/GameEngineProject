@@ -63,7 +63,7 @@ bool ShadowCalculation(vec4 fragPosLightSpace)
 } 
 
 /////////////////////////////////////////////////////////////////////////////
-vec4 calcPointLightShading(vec3 world_normal, vec3 world_pointlight_direction, vec4 diffuse, vec4 specular, vec4 point_intensity, vec3 world_object_direction, sampler2D texture0, vec2 texcoord, sampler2D texture1){
+vec4 calcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity){
 	vec4 color;
 
 	float cos_theta_1 = dot(world_normal, world_pointlight_direction);
@@ -93,6 +93,6 @@ void main()
 	color = texture2D(texture0, texcoord.st) * diffuse * ambient_intensity;
 
 	for(int i = 0; i < point_num; i++){
-		color += calcPointLightShading(world_normal, world_pointlight_direction[i], diffuse, specular, pointlights[i].point_intensity, world_object_direction, texture0, texcoord, texture1);
+		color += calcPointLightShading(world_pointlight_direction[i], pointlights[i].point_intensity);
 	}
 }

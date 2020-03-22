@@ -38,3 +38,17 @@
 // Make sure to change the sharer's code if the number here got changed
 #define MAX_POINT_LIGHT_NUM 5
 
+
+//////////////////////////////
+// Asset Addresses
+//////////////////////////////
+#define MESH_PATH        "Assets/models/"
+#define FILENAME_CUBEMAP "cubemap.obj"
+
+#define SKYBOX_PATH      "Assets/textures/skyboxes/"
+#define SKYBOX_POSX      "cubemap_posx.png"
+#define SKYBOX_NEGX      "cubemap_negx.png"
+#define SKYBOX_POSY      "cubemap_posy.png"
+#define SKYBOX_NEGY      "cubemap_negy.png"
+#define SKYBOX_POSZ      "cubemap_posz.png"
+#define SKYBOX_NEGZ      "cubemap_negz.png"

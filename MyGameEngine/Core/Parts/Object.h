@@ -15,6 +15,7 @@ public:
 
 	void Translate(Vec3f i_pos) {this->pos = i_pos;}
 
+	virtual void Boot();
 	virtual void Init();
 	virtual void Update(float i_dt);
 	virtual void CleanUp();
@@ -31,6 +32,8 @@ inline Object::Object()
 	angvel = Vec3f(0.0, 0.0, 0.0);
 	angacc = Vec3f(0.0, 0.0, 0.0);
 }
+
+inline void Object::Boot() {}
 
 inline void Object::Init() {}
 

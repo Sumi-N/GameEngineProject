@@ -18,6 +18,7 @@ public:
 
 inline void GameThread::Boot()
 {
+	Entity::Boot();
 }
 
 inline void GameThread::Init()
@@ -99,7 +100,7 @@ inline void GameThread::PassDataTo(Thread * io_thread)
 
 	// Submit object data
 	{
-		for (auto it = SceneFormat::List.begin(); it != SceneFormat::List.end(); ++it)
+		for (auto it = SceneEntity::List.begin(); it != SceneEntity::List.end(); ++it)
 		{
 			// Submit material data
 			ConstantData::Material material;
