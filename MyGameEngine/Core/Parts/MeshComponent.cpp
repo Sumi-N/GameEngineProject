@@ -107,25 +107,13 @@ void MeshComponent::Init() {}
 
 void MeshComponent::Update(float i_dt)
 {
-	/*
-	translation_mat = glm::translate(glm::mat4(1.0), owner->pos);
+	Mat4f translation_mat    = Mat4f::Translate(owner->pos);
+	Mat4f rotation_mat_x     = Mat4f::Roll(owner->rot.x);
+	Mat4f rotation_mat_y     = Mat4f::Pitch(owner->rot.y);
+	Mat4f rotation_mat_z     = Mat4f::Yaw(owner->rot.z);
+	Mat4f translation_scale  = Mat4f::Scale(owner->scale);
 
-	rotation_mat = glm::rotate(glm::mat4(1.0), glm::radians(owner->rot.x), glm::vec3(1, 0, 0));
-	rotation_mat = glm::rotate(rotation_mat, glm::radians(owner->rot.y), glm::vec3(0, 1, 0));
-	rotation_mat = glm::rotate(rotation_mat, glm::radians(owner->rot.z), glm::vec3(0, 0, 1));
-
-	scale_mat = glm::scale(glm::mat4(1.0), owner->scale);
-
-
-	model_pos_mat = translation_mat * rotation_mat * scale_mat;
-	model_inverse_transpose_matrix = glm::transpose(glm::inverse(model_pos_mat));
-	*/
-
-	Mat4f translation_mat   = Mat4f::Translate(owner->pos);
-	Mat4f translation_scale = Mat4f::Scale(owner->scale);
-	// I'll skip rotation transformation for now
-
-	model_mat = translation_mat * translation_scale;
+	model_mat = translation_mat * rotation_mat_z * rotation_mat_y * rotation_mat_x * translation_scale;
 	model_inverse_transpose_mat = Mat4f::Transpose(Mat4f::Inverse(model_mat));
 }
 

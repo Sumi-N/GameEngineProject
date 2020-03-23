@@ -78,7 +78,7 @@ vec4 calcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 		{
 			vec3 reflection = -1 * world_object_direction + 2 * dot(world_object_direction, world_normal) * world_normal;
 
-			color +=  texture2D(texture1, texcoord.st) * vec4(vec3(point_intensity) * vec3(specular) * pow(dot(h, world_normal), specular.w), 1.0);
+			color +=  (texture2D(texture1, texcoord.st) + texture(skybox, reflection)) * vec4(vec3(point_intensity) * vec3(specular) * pow(dot(h, world_normal), specular.w), 1.0);
 		}
 	}
 

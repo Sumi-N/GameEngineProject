@@ -116,7 +116,7 @@ namespace Math {
 	inline Matrix4<T> Matrix4<T>::Roll(T const i_a)
 	{
 		Matrix4 o_m;
-		float radian = i_a * 2 * static_cast<T>(Math::Pi()) / 360;
+		float radian = i_a * 2 * static_cast<T>(M_PI) / 360;
 		o_m.ele[5] = cosf(radian);
 		o_m.ele[6] = sinf(radian);
 		o_m.ele[9] = -sinf(radian);
@@ -131,7 +131,7 @@ namespace Math {
 	inline Matrix4<T> Matrix4<T>::Pitch(T const i_a)
 	{
 		Matrix4 o_m;
-		float radian = i_a * 2 * static_cast<T>(Math::Pi()) / 360;
+		float radian = i_a * 2 * static_cast<T>(M_PI) / 360;
 		o_m.ele[0] = cosf(radian);
 		o_m.ele[2] = -sinf(radian);
 		o_m.ele[8] = sinf(radian);
@@ -146,7 +146,7 @@ namespace Math {
 	inline Matrix4<T> Matrix4<T>::Yaw(T const i_a)
 	{
 		Matrix4 o_m;
-		float radian = i_a * 2 * static_cast<T>(Math::Pi<T>()) / 360;
+		float radian = i_a * 2 * static_cast<T>(M_PI) / 360;
 		o_m.ele[0] = cosf(radian);
 		o_m.ele[1] = sinf(radian);
 		o_m.ele[4] = -sinf(radian);
