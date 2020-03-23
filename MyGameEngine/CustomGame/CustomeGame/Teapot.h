@@ -19,7 +19,7 @@ inline void Teapot::Boot()
 
 	MeshComponent * teapotmesh = new MeshComponent();
 	teapotmesh->Load("../../Assets/models/teapot.obj");
-	teapotmesh->owner = Entity::ObjectList[0].p;
+	teapotmesh->owner = Entity::Query(this).p;
 	MaterialAttribute* teapotmaterial = new MaterialAttribute();
 	teapotmesh->SetMaterial(teapotmaterial);
 	TextureAttribute * teapottexture = new TextureAttribute();

@@ -16,6 +16,20 @@ ObjectHandler Entity::Register(Object * i_obj)
 	return objhandler;
 }
 
+ObjectHandler Entity::Query(Object* i_obj)
+{
+	for (auto it = ObjectList.begin(); it != ObjectList.end(); ++it)
+	{
+		if (it->p == i_obj)
+		{
+			return *it;
+		}
+	}
+
+	DEBUG_PRINT("Couldn't find the query object pointer");
+	return ObjectHandler(nullptr);
+}
+
 void Entity::RegisterCamera(Camera* i_camera)
 {
 	CurrentCamera = i_camera;
@@ -57,13 +71,13 @@ void Entity::Boot()
 		SkyBox->Boot();
 	}
 
-	// Init Object
+	// Boot Object
 	for (auto it = ObjectList.begin(); it != ObjectList.end(); ++it)
 	{
 		(*it).p->Boot();
 	}
 
-	// Init Mesh
+	// Boot Mesh
 	for (auto it = MeshComponentList.begin(); it != MeshComponentList.end(); ++it)
 	{
 		(*it)->Boot();

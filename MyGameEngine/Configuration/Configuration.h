@@ -38,12 +38,16 @@
 // Make sure to change the sharer's code if the number here got changed
 #define MAX_POINT_LIGHT_NUM 5
 
+//////////////////////////////
+// General Asset Path
+//////////////////////////////
+#define MESH_PATH        "Assets/models/"
+#define SHADER_PATH      "Assets/shaders/"
 
 //////////////////////////////
 // Sky Box
 //////////////////////////////
 
-#define MESH_PATH        "Assets/models/"
 #define FILENAME_CUBEMAP "cubemap.obj"
 
 #define SKYBOX_PATH      "Assets/textures/skyboxes/"

@@ -25,12 +25,15 @@ public:
 	static OwningPointer<CubeMapMeshComponent> SkyBox;
 
 	static ObjectHandler Register(Object *);
+	static ObjectHandler Query(Object*);
+
 	static void RegisterCamera(Camera *);
 	static void RegisterAmbientLight(AmbientLight*);
 	static void RegisterPointLight(PointLight*);
 	static void RegisterDirectionalLight(DirectionalLight*);
 	static void RegisterSkyBox(CubeMapMeshComponent*);
 	static void RegisterMeshComponent(MeshComponent*);
+
 	static void Boot();
 	static void Init();
 	static void Update(float i_dt);

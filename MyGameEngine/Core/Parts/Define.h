@@ -12,3 +12,7 @@
 #include <APIs/GraphicAPI/loadpng/lodepng.h>
 
 #define PATH_SUFFIX "../../"
+
+#define FILENAME_QUAD "quad.obj"
+#define QUAD_VERT     "quad.vert.glsl"
+#define QUAD_FRAG     "quad.frag.glsl"

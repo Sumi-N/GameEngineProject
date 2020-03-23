@@ -8,11 +8,17 @@ uniform samplerCube skybox;
 in vec4 clipcoord;
 in vec2 texcoord;
 
+layout (std140, binding = 2) uniform const_material
+{
+	vec4 diffuse;
+	vec4 specular;
+};
+
 void main()
 {
 	//vec2 normalizedDeviceCoordinate = (clipcoord.xy/clipcoord.w)*0.5 + 0.5;
 	//color = texture(texture0, normalizedDeviceCoordinate);
 
 	float depthvalue = texture(texture0, texcoord).x;
-	color = vec4(vec3(depthvalue), 1.0);
+	color = diffuse;
 }

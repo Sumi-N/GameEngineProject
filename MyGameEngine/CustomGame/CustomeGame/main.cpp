@@ -1,8 +1,8 @@
 #pragma once
 
 #include <Core/Thread/EntryPoint.h>
-#include <Parts/Object.h>
 #include <Parts/Light.h>
+#include <PremadeParts/Quad.h>
 #include <EntitySystem/Entity.h>
 
 #include "Teapot.h"
@@ -16,6 +16,8 @@ int main()
 	CubeMapMeshComponent skybox;
 	// Setting up teapot
 	Teapot teapot;
+	// Setting up quad
+	Quad quad;
 	// Setting up camera
 	MyCamera camera;
 	// Setting up lights
@@ -31,6 +33,7 @@ int main()
 	// Register data to Entity
 	Entity::RegisterSkyBox(&skybox);
 	Entity::Register(&teapot);
+	Entity::Register(&quad);
 	Entity::RegisterCamera(&camera);
 	Entity::RegisterAmbientLight(&ambientlight);
 	Entity::RegisterPointLight(&pointlight);

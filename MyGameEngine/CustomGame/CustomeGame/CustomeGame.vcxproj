@@ -151,6 +151,9 @@
     <ProjectReference Include="..\..\Core\Thread\Thread.vcxproj">
       <Project>{561854be-4e26-474c-8f7a-879b19a4cf59}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\PremadeParts\PremadeParts.vcxproj">
+      <Project>{ead6194a-8725-4dd7-b303-c09c40905cc9}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyCamera.h" />

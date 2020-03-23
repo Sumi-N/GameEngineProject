@@ -31,8 +31,7 @@ inline void CubeMapMeshComponent::Boot()
 	TextureAttribute* posz = new TextureAttribute();
 	posz->Load(PATH_SUFFIX SKYBOX_PATH SKYBOX_POSZ);
 
-	TextureAttribute* negz = new TextureAttribute();
-	negz->Load(PATH_SUFFIX SKYBOX_PATH SKYBOX_NEGZ);
+	TextureAttribute* negz = new TextureAttribute();	negz->Load(PATH_SUFFIX SKYBOX_PATH SKYBOX_NEGZ);
 
 	OwningPointer<TextureAttribute> posxhandler(posx);
 	OwningPointer<TextureAttribute> negxhandler(negx);
