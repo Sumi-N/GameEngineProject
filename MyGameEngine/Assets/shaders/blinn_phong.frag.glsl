@@ -5,6 +5,7 @@ out vec4 color;
 
 // Consta data
 const int MAX_POINT_LIGHT_NUM = 5;
+const float POINT_LIGHT_BIAS = 0.00005;
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -48,18 +49,27 @@ layout(binding = 2) uniform sampler2D texture1;
 layout(binding = 3) uniform sampler2D shadowmap;
 
 //////////////////////////////////////////////////////////////////////////////
-bool ShadowCalculation(vec4 fragPosLightSpace)
+float ShadowCalculation(vec4 fragPosLightSpace)
 {
     // perform perspective divide
     vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
     // transform to [0,1] range
     projCoords = projCoords * 0.5 + 0.5;
-    // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
-    float closestDepth = texture(shadowmap, projCoords.xy).r; 
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
     // check whether current frag pos is in shadow
-    return  currentDepth - 0.00005 > closestDepth  ? true : false;
+	float shadow = 0.0;
+	vec2 texelSize = 1.0 / textureSize(shadowmap, 0);
+	for(int x = -2; x <= 2; ++x)
+	{
+		for(int y = -2; y <= 2; ++y)
+		{
+			float pcfDepth = texture(shadowmap, projCoords.xy + vec2(x, y) * texelSize).r; 
+			shadow += currentDepth - POINT_LIGHT_BIAS > pcfDepth ? 1.0 : 0.0;        
+		}    
+	}
+	shadow /= 16.0;
+	return shadow;
 } 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -92,13 +102,16 @@ void main()
 	// Ambient light
 	color = texture2D(texture0, texcoord.st) * diffuse * ambient_intensity;
 
-	for(int i = 0; i < 1; i++)
-	if(ShadowCalculation(light_space_position_depth[i]))
-	{
-		return;
+	float shadow = 0;
+	for(int i = 0; i < 1; i++){
+		shadow += ShadowCalculation(light_space_position_depth[i]);
+	}
+
+	if(shadow > 1){
+		shadow = 1;
 	}
 
 	for(int i = 0; i < point_num; i++){
-		color += calcPointLightShading(world_pointlight_direction[i], pointlights[i].point_intensity);
+		color += calcPointLightShading(world_pointlight_direction[i], pointlights[i].point_intensity) * (1.0 - shadow);
 	}
 }
