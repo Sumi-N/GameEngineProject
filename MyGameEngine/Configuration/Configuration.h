@@ -1,8 +1,8 @@
 #pragma once
 
-////////////////////////////
+//////////////////////////////
 // Graphic API configuration
-////////////////////////////
+//////////////////////////////
 #define ENGINE_GRAPHIC_OPENGL
 
 
@@ -10,15 +10,15 @@
 // This line should be put before #include <GL/glew.h>
 #define GLEW_STATIC
 
-///////////////////////////
+//////////////////////////////
 //  Math configuration
-///////////////////////////
+//////////////////////////////
 #define _USEINTRINSIC_
 
 
-////////////////////////////
+//////////////////////////////
 //  Platform configuration
-////////////////////////////
+//////////////////////////////
 #define ENGINE_PLATFORM_WINDOWS
 
 
@@ -29,6 +29,7 @@
 #define SCREEN_HEIGHT 1080
 #define NEARCLIP 0.1f
 #define FARCLIP  100.0f
+#define FOV      45.0f
 
 
 //////////////////////////////
@@ -41,16 +42,21 @@
 //////////////////////////////
 // General Asset Path
 //////////////////////////////
+#define PATH_SUFFIX      "../../"
 #define MESH_PATH        "Assets/models/"
 #define SHADER_PATH      "Assets/shaders/"
+#define SKYBOX_PATH      "Assets/textures/skyboxes/"
 
 //////////////////////////////
-// Sky Box
+// Mesh Data
 //////////////////////////////
 
 #define FILENAME_CUBEMAP "cubemap.obj"
 
-#define SKYBOX_PATH      "Assets/textures/skyboxes/"
+//////////////////////////////
+// Texture Data
+//////////////////////////////
+
 #define SKYBOX_POSX      "cubemap_posx.png"
 #define SKYBOX_NEGX      "cubemap_negx.png"
 #define SKYBOX_POSY      "cubemap_posy.png"
@@ -58,5 +64,18 @@
 #define SKYBOX_POSZ      "cubemap_posz.png"
 #define SKYBOX_NEGZ      "cubemap_negz.png"
 
-#define SKYBOX_VERT_PATH "Assets/shaders/skybox.vert.glsl"
-#define SKYBOX_FRAG_PATH "Assets/shaders/skybox.frag.glsl"
+//////////////////////////////
+// Shader Data
+//////////////////////////////
+
+#define SKYBOX_VERT    "skybox.vert.glsl"
+#define SKYBOX_FRAG    "skybox.frag.glsl"
+
+#define SHADOWMAP_VERT "shadowmap.vert.glsl"
+#define SHADOWMAP_FRAG "shadowmap.frag.glsl"
+
+#define MIRROR_VERT    "mirror.vert.glsl"
+#define MIRROR_FRAG    "mirror.frag.glsl"
+
+#define DEBUG_SHADOW_MAP_VERT "debugshadowmap.vert.glsl"
+#define DEBUG_SHADOW_MAP_FRAG "debugshadowmap.frag.glsl"

@@ -19,7 +19,12 @@
 	#include <APIs/GraphicAPI/glfw-3.3.bin.WIN32/include/GLFW/glfw3.h>
 #endif // ENGINE_GRAPHIC_OPENGL
 
-
+// Texture unit
 ///////////////////
-#define SKYBOXBINDINGUNIT 0
+#define SKYBOXBINDINGUNIT            0
 #define TEXTUREUNITBINDINGSTARTPOINT 1
+#define SHADOWMAPBINDINGUNIT         3
+
+
+/////////////////////
+#define BASIC_TEXTURE_SIZE 1024

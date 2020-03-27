@@ -2,26 +2,12 @@
 
 #include "Graphic.h"
 
-ConstantBuffer Graphic::buffer_camera;
-ConstantBuffer Graphic::buffer_model;
-ConstantBuffer Graphic::buffer_material;
-ConstantBuffer Graphic::buffer_light;
-ConstantBuffer Graphic::buffer_skybox;
+ConstantBuffer Graphic::constant_camera;
+ConstantBuffer Graphic::constant_model;
+ConstantBuffer Graphic::constant_material;
+ConstantBuffer Graphic::constant_light;
+ConstantBuffer Graphic::constant_skybox;
+ConstantBuffer Graphic::constant_shadow;
 
-//int main()
-//{
-//
-//	HelloTriangleApplication app;
-//
-//	try
-//	{
-//		app.run();
-//	}
-//	catch (const std::exception & e)
-//	{
-//		std::cerr << e.what() << std::endl;
-//		return EXIT_FAILURE;
-//	}
-//
-//	return EXIT_SUCCESS;
-//}
+FrameBuffer    Graphic::frame_shadow;
+FrameBuffer    Graphic::frame_mirror;

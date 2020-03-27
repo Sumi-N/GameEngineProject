@@ -59,8 +59,6 @@ bool Graphic::PreUpdate()
 
 	glfwPollEvents();
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
 	return true;
 }
 
@@ -70,46 +68,74 @@ void Graphic::Update(GraphicRequiredData * i_data)
 	// Update uniform data common for frame
 	// Submit Camera Information
 	auto& data_camera = i_data->camera;
-	buffer_camera.Update(&data_camera);
+	constant_camera.Update(&data_camera);
 
 	// Submit light uniform data
 	auto& data_light = i_data->light;
-	buffer_light.Update(&data_light);
-	
-	// Rendering skybox
-	{
-		glDepthMask(GL_FALSE);
-		ConstantData::SkyBox data_skybox;
-		data_skybox.skybox_view_perspective_matrix = i_data->camera.perspective_matrix * Mat4f::TruncateToMat3(i_data->camera.view_matrix);
-		buffer_skybox.Update(&data_skybox);
+	constant_light.Update(&data_light);
 
-		SceneEntity::SkyBoxScene.shader->BindShader();
-		SceneEntity::SkyBoxScene.skyboxproxy->Draw();
-		glDepthMask(GL_TRUE);
-	}
-
-	// Rendering objects
-	for (auto it = SceneEntity::List.begin(); it != SceneEntity::List.end(); ++it)
+	// Render shadow to frame buffer
+	frame_shadow.BindFrame();
 	{
-		if (i_data->model_data.size() != 0)
+		glClear(GL_DEPTH_BUFFER_BIT);
+
+		// Rendering Objects
+		for (int i = 0; i < SceneEntity::List.size(); i++)
 		{
-			auto& data_model = i_data->model_data[std::distance(SceneEntity::List.begin(), it)];
-			data_model.model_view_perspective_matrix = data_camera.perspective_matrix * data_camera.view_matrix * data_model.model_position_matrix;
-			buffer_model.Update(&data_model);
+			if (i_data->model_data.size() != 0)
+			{
+				auto& data_model = i_data->model_data[i];
+				data_model.model_view_perspective_matrix = data_camera.perspective_matrix * data_camera.view_matrix * data_model.model_position_matrix;
+				constant_model.Update(&data_model);
 
-			auto& data_material = i_data->material_data[std::distance(SceneEntity::List.begin(), it)];
-			buffer_material.Update(&data_material);
-
-			(*it).shader->BindShader();
-			(*it).proxy->Draw();
+				SceneEntity::List[i].proxy->Draw();
+			}
 		}
 	}
-	
+
+	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+		// Rendering sky box
+		{
+			glDepthMask(GL_FALSE);
+			ConstantData::SkyBox data_skybox;
+			data_skybox.skybox_view_perspective_matrix = i_data->camera.perspective_matrix * Mat4f::TruncateToMat3(i_data->camera.view_matrix);
+			constant_skybox.Update(&data_skybox);
+
+			SceneEntity::SkyBoxScene.shader->BindShader();
+			SceneEntity::SkyBoxScene.skyboxproxy->Draw();
+			glDepthMask(GL_TRUE);
+		}
+
+		// Rendering objects
+		for (int i = 0; i < SceneEntity::List.size(); i++)
+		{
+			if (i_data->model_data.size() != 0)
+			{
+				auto& data_model = i_data->model_data[i];
+				data_model.model_view_perspective_matrix = data_camera.perspective_matrix * data_camera.view_matrix * data_model.model_position_matrix;
+				constant_model.Update(&data_model);
+
+				auto& data_material = i_data->material_data[i];
+				constant_material.Update(&data_material);
+
+				SceneEntity::List[i].shader->BindShader();
+				frame_shadow.BindTextureUnit();
+				SceneEntity::List[i].proxy->Draw();
+			}
+		}
+	}
 }
 
-void Graphic::PostUpdate()
+void Graphic::PostUpdate(GraphicRequiredData* i_data)
 {
 	glfwSwapBuffers(window);
+
+	i_data->model_data.clear();
+	i_data->material_data.clear();
 }
 
 #endif // ENGINE_GRAPHIC_OPENGL

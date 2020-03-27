@@ -82,6 +82,14 @@ void Entity::Boot()
 	{
 		(*it)->Boot();
 	}
+
+	// Boot Lights
+	if (Directional)
+		Directional->Boot();
+	for (auto it = PointLightList.begin(); it != PointLightList.end(); ++it)
+	{
+		(*it)->Boot();
+	}
 }
 
 void Entity::Init()
@@ -99,6 +107,14 @@ void Entity::Init()
 
 	// Init Mesh
 	for (auto it = MeshComponentList.begin(); it != MeshComponentList.end(); ++it)
+	{
+		(*it)->Init();
+	}
+
+	// Init Lights
+	if (Directional)
+		Directional->Init();
+	for (auto it = PointLightList.begin(); it != PointLightList.end(); ++it)
 	{
 		(*it)->Init();
 	}
@@ -121,6 +137,15 @@ void Entity::Update(float i_dt)
 		(*it)->Update(i_dt);
 	}
 
+	// Update Lights
+	if(Directional)
+		Directional->Update(i_dt);
+	for (auto it = PointLightList.begin(); it != PointLightList.end(); ++it)
+	{
+		(*it)->Update(i_dt);
+	}
+
+	// Update Camera;
 	if(CurrentCamera)
 		CurrentCamera->Update(i_dt);
 }

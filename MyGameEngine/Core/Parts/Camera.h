@@ -10,8 +10,6 @@ public:
 
 	Vec3f forwardvec, upvec, rightvec;
 
-	float fov, nearestclip, farestclip;
-
 public:
 
 	Camera()
@@ -20,16 +18,12 @@ public:
 		upvec = Vec3f(0, 1, 0);
 		rightvec = Vec3f::Normalize(forwardvec.Cross(upvec));
 
-		fov = 45.0f;
-		nearestclip = 0.1f;
-		farestclip = 100.0f;
-
 		// The parameters for lookAt function are position, target, up vector
 		// target is equal to forwardvector + position;
 		view = Mat4f::LookAt(pos, pos + forwardvec, upvec);
 
-		perspective = Mat4f::Perspective(fov, (float)SCREEN_WIDTH / SCREEN_HEIGHT, nearestclip, farestclip);
-		//orthographics = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.0f, 100.0f);
+		perspective   = Mat4f::Perspective(FOV, (float)SCREEN_WIDTH / SCREEN_HEIGHT, NEARCLIP, FARCLIP);
+		orthographics = Mat4f::Orthographic(-10.0f, 10.0f, -10.0f, 10.0f, NEARCLIP, FARCLIP);
 	}
 
 	void RotateAround(float amount, Vec3f& axis)

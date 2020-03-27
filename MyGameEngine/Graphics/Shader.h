@@ -5,6 +5,7 @@ class Shader
 {
 #ifdef ENGINE_GRAPHIC_OPENGL
 public:
+	Shader() {};
 
 	Shader(const char* i_vert, const char* i_frag)
 	{

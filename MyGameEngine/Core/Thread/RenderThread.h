@@ -65,17 +65,8 @@ inline void RenderThread::Run()
 
 		Graphic::Update(data_render_own);
 
-		Graphic::PostUpdate();
-
-		Refresh();
+		Graphic::PostUpdate(data_render_own);
 	}
-}
-
-inline void RenderThread::Refresh()
-{
-	// Cleanup section
-	data_render_own->model_data.clear();
-	data_render_own->material_data.clear();
 }
 
 inline void RenderThread::CleanUp()

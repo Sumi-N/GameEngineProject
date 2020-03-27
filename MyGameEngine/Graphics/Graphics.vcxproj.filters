@@ -43,6 +43,9 @@
     <ClInclude Include="CubeMapProxy.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="FrameBuffer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConstantBuffer.OpenGL.cpp">
@@ -68,6 +71,9 @@
     </ClCompile>
     <ClCompile Include="SceneEntity.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameBuffer.OpenGL.cpp">
+      <Filter>OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

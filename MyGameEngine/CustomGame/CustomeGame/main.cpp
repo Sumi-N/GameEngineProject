@@ -7,6 +7,7 @@
 
 #include "Teapot.h"
 #include "MyCamera.h"
+#include "DepthMapDebugPlane.h"
 
 #include <stdio.h>
 
@@ -18,6 +19,8 @@ int main()
 	Teapot teapot;
 	// Setting up quad
 	Quad quad;
+	// Setting up quad2
+	DepthMapDebugPlane debugplane;
 	// Setting up camera
 	MyCamera camera;
 	// Setting up lights
@@ -34,6 +37,7 @@ int main()
 	Entity::RegisterSkyBox(&skybox);
 	Entity::Register(&teapot);
 	Entity::Register(&quad);
+	Entity::Register(&debugplane);
 	Entity::RegisterCamera(&camera);
 	Entity::RegisterAmbientLight(&ambientlight);
 	Entity::RegisterPointLight(&pointlight);

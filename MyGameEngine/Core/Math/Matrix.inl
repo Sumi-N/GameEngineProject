@@ -197,6 +197,19 @@ namespace Math {
 	}
 
 	template<typename T>
+	inline Matrix4<T> Matrix4<T>::Orthographic(T i_left, T i_right, T i_bottom, T i_top, T i_near, T i_far)
+	{
+		Matrix4 o_m;
+		o_m.ele[0]  = static_cast<T>(2) / (i_right - i_left);
+		o_m.ele[5]  = static_cast<T>(2) / (i_top - i_bottom);
+		o_m.ele[10] = -static_cast<T>(2) / (i_far - i_near);
+		o_m.ele[3]  = -(i_right + i_left) / (i_right - i_left);
+		o_m.ele[7]  = -(i_top + i_bottom) / (i_top - i_bottom);
+		o_m.ele[11] = -(i_far + i_near) / (i_far - i_near);
+		return o_m;
+	}
+
+	template<typename T>
 	inline Matrix4<T> Matrix4<T>::Transpose(Matrix4<T> i_m)
 	{
 		Matrix4 o_m;

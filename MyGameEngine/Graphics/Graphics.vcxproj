@@ -158,6 +158,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ConstantBuffer.OpenGL.cpp" />
+    <ClCompile Include="FrameBuffer.OpenGL.cpp" />
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="Graphic.OpenGL.cpp" />
     <ClCompile Include="Graphic_Vulkan.cpp" />
@@ -169,6 +170,7 @@
   <ItemGroup>
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="Graphic_Vulkan.h" />
     <ClInclude Include="SceneEntity.h" />

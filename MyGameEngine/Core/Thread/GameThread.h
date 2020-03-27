@@ -84,6 +84,7 @@ inline void GameThread::PassDataTo(Thread * io_thread)
 		// Submit directional light data
 		//data_game_own->light.directional_intensity = Vec4f(Entity::Directional->intensity);
 		//data_game_own->light.directional_direction = Vec4f(Entity::Directional->direction);
+		//data_game_own->shadow.directional_view_perspective_matrix = Entity::Directional->light_space_mat;
 
 		// Submit point light data
 		if (Entity::PointLightList.size() != 0)
@@ -92,8 +93,12 @@ inline void GameThread::PassDataTo(Thread * io_thread)
 
 			for (auto it = Entity::PointLightList.begin(); it != Entity::PointLightList.end(); ++it)
 			{
+				// Submit point light data
 				data_game_own->light.pointlights[std::distance(Entity::PointLightList.begin(), it)].point_intensity = Vec4f((*it)->intensity);
 				data_game_own->light.pointlights[std::distance(Entity::PointLightList.begin(), it)].point_position = Vec4f((*it)->pos);
+
+				// Submit shadow data for point light
+				data_game_own->shadow.point_view_perspective_matrix[std::distance(Entity::PointLightList.begin(), it)] = (*it)->light_space_mat;
 			}
 		}
 	}
@@ -112,8 +117,9 @@ inline void GameThread::PassDataTo(Thread * io_thread)
 			ConstantData::Model model;
 			model.model_inverse_transpose_matrix = (*it).proxy->mesh->model_inverse_transpose_mat;
 			model.model_position_matrix          = (*it).proxy->mesh->model_mat;
-
 			data_game_own->model_data.push_back(model);
+
+			// Submit shadow data
 		}
 	}
 

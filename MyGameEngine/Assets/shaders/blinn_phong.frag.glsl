@@ -17,7 +17,7 @@ in vec3 world_object_direction;
 // Texture coordinate
 in vec2 texcoord;
 // The depth value at light space
-in vec4 light_space_position_depth;
+in vec4 light_space_position_depth[MAX_POINT_LIGHT_NUM];
 
 //////////////////////////////////////////////////////////////////////////////
 // Structure define
@@ -42,10 +42,10 @@ layout (std140, binding = 3) uniform const_light
 	int  point_num;
 };
 
-layout(binding = 0)uniform samplerCube skybox;
+layout(binding = 0) uniform samplerCube skybox;
 layout(binding = 1) uniform sampler2D texture0;
 layout(binding = 2) uniform sampler2D texture1;
-uniform sampler2D shadowmap;
+layout(binding = 3) uniform sampler2D shadowmap;
 
 //////////////////////////////////////////////////////////////////////////////
 bool ShadowCalculation(vec4 fragPosLightSpace)

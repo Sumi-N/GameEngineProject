@@ -156,6 +156,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DepthMapDebugPlane.h" />
     <ClInclude Include="MyCamera.h" />
     <ClInclude Include="Teapot.h" />
   </ItemGroup>

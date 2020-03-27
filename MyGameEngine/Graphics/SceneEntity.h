@@ -55,7 +55,7 @@ inline void SceneEntity::Init()
 		SkyBoxScene.skyboxproxy = skyboxproxy;
 		SkyBoxScene.skyboxproxy->mesh = static_cast<OwningPointer<MeshComponent>>(Entity::SkyBox);
 		SkyBoxScene.skyboxproxy->Init();
-		Shader* skyboxshader = new Shader("../../" SKYBOX_VERT_PATH, "../../" SKYBOX_FRAG_PATH);
+		Shader* skyboxshader = new Shader(PATH_SUFFIX SHADER_PATH SKYBOX_VERT, PATH_SUFFIX SHADER_PATH SKYBOX_FRAG);
 		SkyBoxScene.shader = skyboxshader;
 		SkyBoxScene.shader->LoadShader();
 	}

@@ -48,15 +48,10 @@ namespace ConstantData
 		Mat4f skybox_view_perspective_matrix;
 	};
 
-	struct ShadowMap
+	struct Shadow
 	{
-		Mat4f point_view_perspective_matrix;
+		Mat4f point_view_perspective_matrix[MAX_POINT_LIGHT_NUM];
 		Mat4f directional_view_perspective_matrix;
-	};
-
-	struct Image
-	{
-		Mat4f mirror_matrix;
 	};
 
 	/////////////////// Don't forget to add index and size data after adding a new uniform data //////////////
@@ -68,19 +63,17 @@ namespace ConstantData
 		Material = 2,
 		Light = 3,
 		SkyBox = 4,
-		ShadowMap = 6,
-		Image = 7,
+		Shadow = 5,
 	};
 
-	enum class Size : uint8_t
+	enum class Size : uint16_t
 	{
 		Camera           = sizeof(ConstantData::Camera),
 		Model            = sizeof(ConstantData::Model),
 		Material         = sizeof(ConstantData::Material),
 		Light            = sizeof(ConstantData::Light),
 		SkyBox           = sizeof(ConstantData::SkyBox),
-		ShadowMap        = sizeof(ConstantData::ShadowMap),
-		Image            = sizeof(ConstantData::Image),
+		Shadow           = sizeof(ConstantData::Shadow),
 	};
 }
 

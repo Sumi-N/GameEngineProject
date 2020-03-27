@@ -41,6 +41,12 @@ layout (std140, binding = 3) uniform const_light
 	int  point_num;
 };
 
+layout (std140, binding = 4) uniform const_shadow
+{
+	mat4 point_view_perspective_matrix[MAX_POINT_LIGHT_NUM];
+	mat4 directional_view_perspective_matrix;
+};
+
 // Normal vector of the object at world coordinate
 out vec3 world_normal;
 // Point light direction vector at world coordinate
@@ -50,7 +56,7 @@ out vec3 world_object_direction;
 // Texture coordinate
 out vec2 texcoord;
 // The depth value at light space
-out vec4 light_space_position_depth;
+out vec4 light_space_position_depth[MAX_POINT_LIGHT_NUM];
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -68,11 +74,10 @@ void main()
 
 	for(int i = 0; i <= point_num; i++){
 		world_pointlight_direction[i] = calcPointLightDirection(pointlights[i].point_position, model_position_matrix, model_position);
+		light_space_position_depth[i] = point_view_perspective_matrix[i] * model_position_matrix * vec4(model_position, 1.0);
 	}
 
 	world_object_direction     = normalize(camera_position_vector -  vec3(model_position_matrix * vec4(model_position, 1)));
 
 	texcoord                   = model_texcoord;
-
-	//light_space_position_depth = point_view_perspective_matrix * model_position_matrix * vec4(model_position, 1.0);
 }
