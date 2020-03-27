@@ -38,7 +38,7 @@ int main()
 
 	// Register data to Entity
 	Entity::RegisterSkyBox(&skybox);
-	Entity::Register(&teapot);
+	//Entity::Register(&teapot);
 	Entity::Register(&quad);
 	Entity::Register(&debugplane);
 	Entity::Register(&normalplane);

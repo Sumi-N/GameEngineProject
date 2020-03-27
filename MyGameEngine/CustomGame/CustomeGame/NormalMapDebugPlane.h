@@ -17,17 +17,27 @@ inline void NormalMapDebugPlane::Boot()
 
 	MaterialAttribute* quadmaterial = new MaterialAttribute();
 	quadmaterial->Kd = Vec3f(0.5, 0.5f, 0.5);
+	quadmaterial->Ns = 100;
 	quadmesh->SetMaterial(quadmaterial);
+
 	TextureAttribute* quadtexture = new TextureAttribute();
-	quadtexture->Load("../../Assets/textures/teapot_normal.png");
+	quadtexture->Load("../../Assets/textures/gray.png");
+	TextureAttribute* quadtexture2 = new TextureAttribute();
+	quadtexture2->Load("../../Assets/textures/gray.png");
 	quadmesh->SetTexture(quadtexture);
+	quadmesh->SetTexture(quadtexture2);
+
+	// normal map texture
+	TextureAttribute* quadtexture3 = new TextureAttribute();
+	quadtexture3->Load("../../Assets/textures/teapot_normal.png");
+	quadmesh->SetTexture(quadtexture3);
 
 	Entity::RegisterMeshComponent(quadmesh);
 
 	// Register quad information to render thread
 	SceneProxy* quadproxy = new SceneProxy();
 	quadproxy->mesh = quadmesh;
-	Shader* quadshader = new Shader(PATH_SUFFIX SHADER_PATH "blinn_phong.vert.glsl", PATH_SUFFIX SHADER_PATH "blinn_phong.frag.glsl");
+	Shader* quadshader = new Shader(PATH_SUFFIX SHADER_PATH "normal_mapping.vert.glsl", PATH_SUFFIX SHADER_PATH "normal_mapping.frag.glsl");
 	SceneEntity::Register(quadproxy, quadshader);
 }
 
