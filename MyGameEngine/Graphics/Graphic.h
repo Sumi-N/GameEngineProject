@@ -52,5 +52,5 @@ inline void Graphic::Init()
 	constant_shadow.Init(ConstantData::Index::Shadow, ConstantData::Size::Shadow);
 
 	frame_shadow.Init(FrameType::Shadow, BASIC_TEXTURE_SIZE, BASIC_TEXTURE_SIZE);
-	frame_mirror.Init(FrameType::Mirror, SCREEN_WIDTH, SCREEN_HEIGHT);
+	frame_mirror.Init(FrameType::Image, SCREEN_WIDTH, SCREEN_HEIGHT);
 }

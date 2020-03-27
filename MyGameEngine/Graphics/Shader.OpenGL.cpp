@@ -59,7 +59,11 @@ void Shader::LoadShader(Shader & io_shader, const char* i_vert, const char* i_fr
 
 	if (PrintProgramInfoLog(io_shader.programid))
 	{
-		DEBUG_PRINT("succeed compiling the shader %s and %s \n", i_vert, i_frag);
+		DEBUG_PRINT("Succeed compiling the shader %s and %s \n", i_vert, i_frag);
+	}
+	else
+	{
+		DEBUG_PRINT("Faild compiling the shader %s and %s \n", i_vert, i_frag);
 	}
 	//glDeleteProgram(programid);
 }

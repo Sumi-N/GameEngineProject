@@ -18,7 +18,7 @@ inline void CubeMapProxy::InitTexture()
 	textureids.resize(1);
 	textureunits.resize(1);
 
-	textureunits[0] = SKYBOXBINDINGUNIT;
+	textureunits[0] = SKYBOX_BINDING_UNIT;
 
 	glGenTextures(1, &textureids[0]);
 	glActiveTexture(GL_TEXTURE0 + textureunits[0]);

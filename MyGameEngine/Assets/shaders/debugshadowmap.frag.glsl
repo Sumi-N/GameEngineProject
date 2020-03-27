@@ -3,7 +3,7 @@
 out vec4 color;
 
 layout(binding = 0) uniform samplerCube skybox;
-layout(binding = 3) uniform sampler2D shadowmap;
+layout(binding = 4) uniform sampler2D shadowmap;
 
 in vec4 clipcoord;
 in vec2 texcoord;
@@ -19,7 +19,7 @@ void main()
 	//vec2 normalizedDeviceCoordinate = (clipcoord.xy/clipcoord.w)*0.5 + 0.5;
 	//color = texture(texture0, normalizedDeviceCoordinate);
 
-	float depthvalue = texture(shadowmap, texcoord).x;
+	float depthvalue = texture(shadowmap, 1.0 - texcoord.xy).x;
 	//color = vec4(vec3(depthvalue), 1.0);
 	color = vec4(vec3(LinearizeDepth(depthvalue) / 100), 1.0); // perspective
 }

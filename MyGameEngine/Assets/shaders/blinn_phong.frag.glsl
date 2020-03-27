@@ -44,9 +44,10 @@ layout (std140, binding = 3) uniform const_light
 };
 
 layout(binding = 0) uniform samplerCube skybox;
-layout(binding = 1) uniform sampler2D texture0;
-layout(binding = 2) uniform sampler2D texture1;
-layout(binding = 3) uniform sampler2D shadowmap;
+layout(binding = 1) uniform sampler2D texture0; // Diffuse  texture
+layout(binding = 2) uniform sampler2D texture1; // Specular texture
+layout(binding = 3) uniform sampler2D texture2; // Normal map
+layout(binding = 4) uniform sampler2D shadowmap;
 
 //////////////////////////////////////////////////////////////////////////////
 float ShadowCalculation(vec4 fragPosLightSpace)
@@ -80,7 +81,7 @@ vec4 calcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 	
 	if (cos_theta_1 > 0)
 	{
-		color += texture2D(texture0, texcoord.st)  * cos_theta_1 * diffuse * point_intensity;
+		color += texture2D(texture0, 1.0 - texcoord.st)  * cos_theta_1 * diffuse * point_intensity;
 	
 		vec3 h = normalize(world_object_direction + world_pointlight_direction);
 
@@ -88,7 +89,7 @@ vec4 calcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 		{
 			vec3 reflection = -1 * world_object_direction + 2 * dot(world_object_direction, world_normal) * world_normal;
 
-			color +=  (texture2D(texture1, texcoord.st) + texture(skybox, reflection)) * vec4(vec3(point_intensity) * vec3(specular) * pow(dot(h, world_normal), specular.w), 1.0);
+			color +=  (texture2D(texture1, 1.0 - texcoord.st) + texture(skybox, reflection)) * vec4(vec3(point_intensity) * vec3(specular) * pow(dot(h, world_normal), specular.w), 1.0);
 		}
 	}
 
@@ -100,7 +101,7 @@ vec4 calcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 void main()
 {
 	// Ambient light
-	color = texture2D(texture0, texcoord.st) * diffuse * ambient_intensity;
+	color = texture2D(texture0, 1.0 - texcoord.st) * diffuse * ambient_intensity;
 
 	float shadow = 0;
 	for(int i = 0; i < 1; i++){

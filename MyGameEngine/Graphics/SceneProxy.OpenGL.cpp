@@ -12,6 +12,13 @@ void SceneProxy::Draw()
 
 	glBindVertexArray(vertexarrayid);
 	glDrawElements(GL_TRIANGLES, indexsize, GL_UNSIGNED_INT, (void*)0);
+
+	// Unbind textures
+	for (int i = 0; i < textureunits.size(); i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + textureunits[i]);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
 }
 
 void SceneProxy::InitBuffer()
@@ -36,7 +43,7 @@ void SceneProxy::InitTexture()
 
 	for (int i = 0; i < textureunits.size(); i++)
 	{
-		textureunits[i] = i + TEXTUREUNITBINDINGSTARTPOINT;
+		textureunits[i] = i + TEXTURE_UNIT_BINDING_START_POINT;
 		glGenTextures(1, &textureids[i]);
 		glActiveTexture(GL_TEXTURE0 + textureunits[i]);
 		glBindTexture(GL_TEXTURE_2D, textureids[i]);

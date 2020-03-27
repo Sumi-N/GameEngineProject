@@ -52,6 +52,7 @@
 //////////////////////////////
 
 #define FILENAME_CUBEMAP "cubemap.obj"
+#define FILENAME_QUAD    "quad.obj"
 
 //////////////////////////////
 // Texture Data
@@ -80,5 +81,8 @@
 #define DEBUG_SHADOW_MAP_VERT "debugshadowmap.vert.glsl"
 #define DEBUG_SHADOW_MAP_FRAG "debugshadowmap.frag.glsl"
 
-#define BLINN_PHONG_VERT "blinn_phong.vert.glsl"
-#define BLINN_PHONG_FRAG "blinn_phong.frag.glsl"
+#define BLINN_PHONG_VERT      "blinn_phong.vert.glsl"
+#define BLINN_PHONG_FRAG      "blinn_phong.frag.glsl"
+
+#define QUAD_VERT             "quad.vert.glsl"
+#define QUAD_FRAG             "quad.frag.glsl"

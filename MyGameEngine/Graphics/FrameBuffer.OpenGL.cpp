@@ -13,7 +13,7 @@ void FrameBuffer::Init(FrameType i_type, int i_width, int i_height)
 	glGenFramebuffers(1, &bufferid);
 	glBindFramebuffer(GL_FRAMEBUFFER, bufferid);
 
-	if (i_type == FrameType::Mirror)
+	if (i_type == FrameType::Image)
 	{
 		// Load shader
 		Shader::LoadShader(shader, PATH_SUFFIX SHADER_PATH MIRROR_VERT, PATH_SUFFIX SHADER_PATH MIRROR_FRAG);
@@ -47,13 +47,34 @@ void FrameBuffer::Init(FrameType i_type, int i_width, int i_height)
 		glGenTextures(1, &textureid_depth);
 		glBindTexture(GL_TEXTURE_2D, textureid_depth);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, i_width, i_height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 		// attach depth texture as FBO's depth buffer
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, textureid_depth, 0);
+
+		glDrawBuffer(GL_NONE);
+		glReadBuffer(GL_NONE);
+	}
+	else if(i_type == FrameType::ShadowCubeMap)
+	{
+		glGenTextures(1, &textureid_depth);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, textureid_depth);
+		glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+		for (int i = 0; i < 6; i++)
+		{
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_DEPTH_COMPONENT,
+				width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, textureid_depth, 0);
+		}
 
 		glDrawBuffer(GL_NONE);
 		glReadBuffer(GL_NONE);
@@ -79,7 +100,7 @@ void FrameBuffer::BindFrame()
 void FrameBuffer::BindTextureUnit()
 {
 	glActiveTexture(GL_TEXTURE0 + static_cast<int>(frametype));
-	if (frametype == FrameType::Mirror)
+	if (frametype == FrameType::Image)
 	{
 		glBindTexture(GL_TEXTURE_2D, textureid_color);
 	}

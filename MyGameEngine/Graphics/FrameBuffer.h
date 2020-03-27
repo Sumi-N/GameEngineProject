@@ -5,8 +5,10 @@
 // The number of enum also represents the texture unit number
 enum class FrameType : uint8_t
 {
-	Shadow = SHADOWMAPBINDINGUNIT,
-	Mirror = 4,
+	Shadow = SHADOWMAP_BINDING_UNIT,
+	Image = IMAGE_BINDING_UNIT,
+	// Shadow Cube Map require geometry shader thus I will do it later
+	ShadowCubeMap = 5,
 };
 
 class FrameBuffer
