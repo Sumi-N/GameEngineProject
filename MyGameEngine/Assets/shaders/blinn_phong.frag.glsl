@@ -59,7 +59,7 @@ bool ShadowCalculation(vec4 fragPosLightSpace)
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
     // check whether current frag pos is in shadow
-    return  currentDepth - 0.005 > closestDepth  ? true : false;
+    return  currentDepth - 0.00005 > closestDepth  ? true : false;
 } 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -91,6 +91,12 @@ void main()
 {
 	// Ambient light
 	color = texture2D(texture0, texcoord.st) * diffuse * ambient_intensity;
+
+	for(int i = 0; i < 1; i++)
+	if(ShadowCalculation(light_space_position_depth[i]))
+	{
+		return;
+	}
 
 	for(int i = 0; i < point_num; i++){
 		color += calcPointLightShading(world_pointlight_direction[i], pointlights[i].point_intensity);

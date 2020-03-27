@@ -41,7 +41,7 @@ layout (std140, binding = 3) uniform const_light
 	int  point_num;
 };
 
-layout (std140, binding = 4) uniform const_shadow
+layout (std140, binding = 5) uniform const_shadow
 {
 	mat4 point_view_perspective_matrix[MAX_POINT_LIGHT_NUM];
 	mat4 directional_view_perspective_matrix;

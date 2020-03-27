@@ -28,7 +28,7 @@ int main()
 	ambientlight.intensity = Vec3f(0.1f, 0.1f, 0.1f);
 	PointLight pointlight;
 	pointlight.intensity = Vec3f(1.0f, 1.0f, 1.0f);
-	pointlight.pos = Vec3f(20.f, 20.f, -50.f);
+	pointlight.pos = Vec3f(50.f, 50.f, -50.f);
 	PointLight pointlight2;
 	pointlight2.intensity = Vec3f(0.8f, 0.8f, 0.8f);
 	pointlight2.pos = Vec3f(-20.f, -20.f, -30.f);

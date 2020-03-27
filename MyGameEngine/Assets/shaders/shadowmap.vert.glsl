@@ -20,16 +20,7 @@ layout (std140, binding = 1) uniform const_object
 	mat4 model_inverse_transpose_matrix;
 };
 
-layout (std140, binding = 3) uniform const_light
-{
-	vec4 ambient_intensity;
-	vec4 directional_intensity;
-	vec4 directional_direction;
-	PointLight pointlights[MAX_POINT_LIGHT_NUM];
-	int  point_num;
-};
-
-layout (std140, binding = 4) uniform const_shadow
+layout (std140, binding = 5) uniform const_shadow
 {
 	mat4 point_view_perspective_matrix[MAX_POINT_LIGHT_NUM];
 	mat4 directional_view_perspective_matrix;

@@ -25,7 +25,7 @@ public:
 	{
 		Mat4f light_projection = Mat4f::Perspective(FOV, (float)SCREEN_WIDTH / SCREEN_HEIGHT, NEARCLIP, FARCLIP);
 		// Temporary solution
-		Mat4f light_view = Mat4f::LookAt(pos, pos + Vec3f(0, 0, -50), Vec3f(20, -20, 0));
+		Mat4f light_view = Mat4f::LookAt(pos, Vec3f(0, 0, -50), Vec3f(20, -20, 0));
 		light_space_mat = light_projection * light_view;
 	}
 };

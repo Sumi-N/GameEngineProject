@@ -74,18 +74,21 @@ void Graphic::Update(GraphicRequiredData * i_data)
 	auto& data_light = i_data->light;
 	constant_light.Update(&data_light);
 
+	// Submit shadow uniform data
+	auto& data_shadow = i_data->shadow;
+	constant_shadow.Update(&data_shadow);
+
 	// Render shadow to frame buffer
 	frame_shadow.BindFrame();
 	{
 		glClear(GL_DEPTH_BUFFER_BIT);
 
-		// Rendering Objects
 		for (int i = 0; i < SceneEntity::List.size(); i++)
 		{
 			if (i_data->model_data.size() != 0)
 			{
 				auto& data_model = i_data->model_data[i];
-				data_model.model_view_perspective_matrix = data_camera.perspective_matrix * data_camera.view_matrix * data_model.model_position_matrix;
+				data_model.model_view_perspective_matrix = i_data->shadow.point_view_perspective_matrix[0] * data_model.model_position_matrix;
 				constant_model.Update(&data_model);
 
 				SceneEntity::List[i].proxy->Draw();

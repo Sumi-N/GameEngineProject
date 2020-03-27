@@ -19,12 +19,12 @@ inline void MyCamera::Update(float i_dt)
 
 	if (UserInput.QueryKey((unsigned int)VirtualKey::KEY_W, true))
 	{
-		MoveCamera(-0.01f, forwardvec);
+		MoveCamera(0.01f, forwardvec);
 	}
 
 	if (UserInput.QueryKey((unsigned int)VirtualKey::KEY_S, true))
 	{
-		MoveCamera(0.01f, forwardvec);
+		MoveCamera(-0.01f, forwardvec);
 	}
 
 	if (UserInput.QueryKey((unsigned int)VirtualKey::KEY_A, true))
@@ -50,20 +50,20 @@ inline void MyCamera::Update(float i_dt)
 
 		if (UserInput.xpos - UserInput.past_xpos > 0)
 		{
-			RotateAround(-1, up);
+			RotateAround(1, up);
 		}
 		else if (UserInput.xpos - UserInput.past_xpos < 0)
 		{
-			RotateAround(1, up);
+			RotateAround(-1, up);
 		}
 
 		if (UserInput.ypos - UserInput.past_ypos > 0)
 		{
-			RotateAround(-1, right);
+			RotateAround(1, right);
 		}
 		else if (UserInput.ypos - UserInput.past_ypos < 0)
 		{
-			RotateAround(1, right);
+			RotateAround(-1, right);
 		}
 	}
 }

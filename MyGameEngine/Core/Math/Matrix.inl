@@ -165,12 +165,18 @@ namespace Math {
 		Vec4<T> upvec = Vec4<T>(Vec3<T>::Normalize(i_upvec), 0);
 
 		Matrix4 o_m;
-		o_m.column[0] = rightvec;
-		o_m.column[1] = upvec;
-		o_m.column[2] = -1 * forwardvec;
+		o_m.ele[0] = rightvec.x;
+		o_m.ele[4] = rightvec.y;
+		o_m.ele[8] = rightvec.z;
+		o_m.ele[1] = upvec.x;
+		o_m.ele[5] = upvec.y;
+		o_m.ele[9] = upvec.z;
+		o_m.ele[2] = -1 * forwardvec.x;
+		o_m.ele[6] = -1 * forwardvec.y;
+		o_m.ele[10] = -1 * forwardvec.z;
 		o_m.ele[12] = -1 * Vec3<T>(rightvec).Dot(i_pos);
 		o_m.ele[13] = -1 * Vec3<T>(upvec).Dot(i_pos);
-		o_m.ele[14] = -1 * Vec3<T>(forwardvec).Dot(i_pos);
+		o_m.ele[14] = Vec3<T>(forwardvec).Dot(i_pos);
 
 		return o_m;
 	}
