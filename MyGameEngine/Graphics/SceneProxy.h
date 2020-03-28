@@ -8,6 +8,7 @@ public:
 
 	void Init();
 	void Draw();
+	void TmpDraw();
 	void CleanUp();
 
 	OwningPointer<MeshComponent> mesh;

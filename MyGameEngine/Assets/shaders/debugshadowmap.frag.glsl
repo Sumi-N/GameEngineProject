@@ -3,7 +3,7 @@
 out vec4 color;
 
 layout(binding = 0) uniform samplerCube skybox;
-layout(binding = 4) uniform sampler2D shadowmap;
+layout(binding = 1) uniform sampler2D shadowmap;
 
 in vec4 clipcoord;
 in vec2 texcoord;

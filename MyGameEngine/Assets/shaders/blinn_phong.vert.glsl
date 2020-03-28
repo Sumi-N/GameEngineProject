@@ -47,16 +47,18 @@ layout (std140, binding = 5) uniform const_shadow
 	mat4 directional_view_perspective_matrix;
 };
 
-// Normal vector of the object at world coordinate
-out vec3 world_normal;
-// Point light direction vector at world coordinate
-out vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
-// Object direction vector at world coordinate
-out vec3 world_object_direction;
-// Texture coordinate
-out vec2 texcoord;
-// The depth value at light space
-out vec4 light_space_position_depth[MAX_POINT_LIGHT_NUM];
+out VS_OUT{
+	// Normal vector of the object at world coordinate
+	vec3 world_normal;
+	// Point light direction vector at world coordinate
+	vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
+	// Object direction vector at world coordinate
+	vec3 world_object_direction;
+	// Texture coordinate
+	vec2 texcoord;
+	// The depth value at light space
+	vec4 light_space_position_depth[MAX_POINT_LIGHT_NUM];
+} vs_out;
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -70,14 +72,14 @@ void main()
 	// Send position data at perspective coordinate
 	gl_Position                = model_view_perspective_matrix * vec4(model_position, 1.0);
 	// Get normal vector at world coordinate
-	world_normal               = normalize(mat3(model_inverse_transpose_matrix) * model_normal);
+	vs_out.world_normal               = normalize(mat3(model_inverse_transpose_matrix) * model_normal);
 
 	for(int i = 0; i <= point_num; i++){
-		world_pointlight_direction[i] = calcPointLightDirection(pointlights[i].point_position, model_position_matrix, model_position);
-		light_space_position_depth[i] = point_view_perspective_matrix[i] * model_position_matrix * vec4(model_position, 1.0);
+		vs_out.world_pointlight_direction[i] = calcPointLightDirection(pointlights[i].point_position, model_position_matrix, model_position);
+		vs_out.light_space_position_depth[i] = point_view_perspective_matrix[i] * model_position_matrix * vec4(model_position, 1.0);
 	}
 
-	world_object_direction     = normalize(camera_position_vector -  vec3(model_position_matrix * vec4(model_position, 1)));
+	vs_out.world_object_direction     = normalize(camera_position_vector -  vec3(model_position_matrix * vec4(model_position, 1)));
 
-	texcoord                   = model_texcoord;
+	vs_out.texcoord                   = model_texcoord;
 }

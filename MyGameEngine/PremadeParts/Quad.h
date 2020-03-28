@@ -18,7 +18,7 @@ inline void Quad::Boot()
 	quadmesh->owner = Entity::Query(this).p;
 
 	MaterialAttribute* quadmaterial = new MaterialAttribute();
-	quadmaterial->Kd = Vec3f(0, 1.0f, 0);
+	quadmaterial->Kd = Vec3f(1.0f, 0.0f, 1.0f);
 	quadmesh->SetMaterial(quadmaterial);
 
 	Entity::RegisterMeshComponent(quadmesh);

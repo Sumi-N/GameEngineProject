@@ -22,9 +22,9 @@
 // Texture unit
 ///////////////////
 #define SKYBOX_BINDING_UNIT              0
-#define TEXTURE_UNIT_BINDING_START_POINT 1
-#define SHADOWMAP_BINDING_UNIT           4
-#define IMAGE_BINDING_UNIT               5
+#define SHADOWMAP_BINDING_UNIT           1
+#define IMAGE_BINDING_UNIT               2
+#define TEXTURE_UNIT_BINDING_START_POINT 3
 
 
 /////////////////////

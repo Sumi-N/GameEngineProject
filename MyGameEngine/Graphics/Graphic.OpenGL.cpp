@@ -50,6 +50,9 @@ void Graphic::Boot()
 
 	// Set up culling
 	glEnable(GL_DEPTH_TEST);
+
+	// Set up the vertices per patch for a tessellation shader
+	glPatchParameteri(GL_PATCH_VERTICES, 3);
 }
 
 bool Graphic::PreUpdate()
@@ -127,9 +130,18 @@ void Graphic::Update(GraphicRequiredData * i_data)
 
 				for (int j = 0; j < SceneEntity::List[i].shaders.size(); j++)
 				{
-					SceneEntity::List[i].shaders[j]->BindShader();
-					frame_shadow.BindTextureUnit();
-					SceneEntity::List[i].proxy->Draw();
+					if (j == 0)
+					{
+						SceneEntity::List[i].shaders[j]->BindShader();
+						frame_shadow.BindTextureUnit();
+						SceneEntity::List[i].proxy->Draw();
+					}
+					else if(j == 1)
+					{
+						SceneEntity::List[i].shaders[j]->BindShader();
+						frame_shadow.BindTextureUnit();
+						SceneEntity::List[i].proxy->TmpDraw();
+					}
 				}
 			}
 		}
