@@ -9,16 +9,20 @@ const float POINT_LIGHT_BIAS = 0.00005;
 
 /////////////////////////////////////////////////////////////////////////////
 
-// Normal vector of the object at world coordinate
-in vec3 world_normal;
-// Point light direction vector at world coordinate
-in vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
-// Object direction vector at world coordinate
-in vec3 world_object_direction;
-// Texture coordinate
-in vec2 texcoord;
-// The depth value at light space
-in vec4 light_space_position_depth[MAX_POINT_LIGHT_NUM];
+in VS_OUT{
+	// object's position and rotation matrix in world coordinate 
+    vec3 world_object_position;
+	// Normal vector of the object at world coordinate
+	vec3 world_normal;
+	// Point light direction vector at world coordinate
+	vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
+	// Object direction vector at world coordinate
+	vec3 world_object_direction;
+	// Texture coordinate
+	vec2 texcoord;
+	// The depth value at light space
+	vec3 light_space_position_depth[MAX_POINT_LIGHT_NUM];
+} fs_in;
 
 //////////////////////////////////////////////////////////////////////////////
 // Structure define
@@ -32,13 +36,6 @@ layout (std140, binding = 2) uniform const_material
 {
 	vec4 diffuse;
 	vec4 specular;
-};
-
-layout (std140, binding = 1) uniform const_object
-{
-	mat4 model_position_matrix;
-	mat4 model_view_perspective_matrix;
-	mat4 model_inverse_transpose_matrix;
 };
 
 layout (std140, binding = 3) uniform const_light
@@ -58,12 +55,11 @@ layout(binding = 5) uniform sampler2D texture2; // Normal map
 
 //////////////////////////////////////////////////////////////////////////////
 
-float ShadowCalculation(vec4 fragPosLightSpace)
+float ShadowCalculation(vec3 fragPosLightSpace)
 {
-    // perform perspective divide
-    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+
     // transform to [0,1] range
-    projCoords = projCoords * 0.5 + 0.5;
+    vec3 projCoords = fragPosLightSpace * 0.5 + 0.5;
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
     // check whether current frag pos is in shadow
@@ -86,11 +82,9 @@ float ShadowCalculation(vec4 fragPosLightSpace)
 vec3 NormalMapping(){
 
     // obtain normal from normal map in range [0,1]
-    vec3 normal = texture(texture2, vec2(texcoord.s, 1.0 - texcoord.t)).rgb;
+    vec3 normal = texture(texture2, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).rgb;
     // transform normal vector to range [-1,1]
     normal = normalize(normal * 2.0 - 1.0); 
-
-	//vec3 normal2 = normalize(mat3(model_inverse_transpose_matrix) * normal);
 
 	return normal;
 }
@@ -98,21 +92,21 @@ vec3 NormalMapping(){
 /////////////////////////////////////////////////////////////////////////////
 
 vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity){
+	vec4 color;
 
-	float cos_theta_1 = dot(NormalMapping(), world_pointlight_direction);
+	float cos_theta_1 = dot(fs_in.world_normal, world_pointlight_direction);
 	
 	if (cos_theta_1 > 0)
 	{
-		color += texture2D(texture0,  vec2(texcoord.s, 1.0 - texcoord.t))  * cos_theta_1 * diffuse * point_intensity;
+		color += texture2D(texture1,  vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t))  * cos_theta_1 * diffuse * point_intensity;
 	
-		vec3 h = normalize(world_object_direction + world_pointlight_direction);
+		vec3 h = normalize(fs_in.world_object_direction + world_pointlight_direction);
 
-		if (dot(h, NormalMapping()) > 0)
+		if (dot(h, fs_in.world_normal) > 0)
 		{
-			//vec3 reflection = -1 * world_object_direction + 2 * dot(world_object_direction, world_normal) * world_normal;
+			vec3 reflection = -1 * fs_in.world_object_direction + 2 * dot(fs_in.world_object_direction, fs_in.world_normal) * fs_in.world_normal;
 
-			//color +=  (texture2D(texture1, 1.0 - texcoord.st) + texture(skybox, reflection)) * vec4(vec3(point_intensity) * vec3(specular) * pow(dot(h, world_normal), specular.w), 1.0);
-			color +=  texture2D(texture1,  vec2(texcoord.s, 1.0 - texcoord.t)) * vec4(vec3(point_intensity) * vec3(specular) * pow(dot(h, NormalMapping()), specular.w), 1.0);
+			color +=  (texture2D(texture1,  vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)) + texture(skybox, reflection)) * vec4(vec3(point_intensity) * vec3(specular) * pow(dot(h, fs_in.world_normal), specular.w), 1.0);
 		}
 	}
 
@@ -123,12 +117,11 @@ vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 void main()
 {
 	// Ambient light
-	//color = vec4(0, 0, 0, 0);
-	color = texture2D(texture0,  vec2(texcoord.s, 1.0 - texcoord.t)) * diffuse * ambient_intensity;
+	color =texture2D(texture0,  vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)) * diffuse * ambient_intensity;
 
 	float shadow = 0;
 	for(int i = 0; i < 1; i++){
-		shadow += ShadowCalculation(light_space_position_depth[i]);
+		shadow += ShadowCalculation(fs_in.light_space_position_depth[i]);
 	}
 
 	if(shadow > 1){
@@ -136,6 +129,6 @@ void main()
 	}
 
 	for(int i = 0; i < point_num; i++){
-		color += CalcPointLightShading(world_pointlight_direction[i], pointlights[i].point_intensity) * (1.0 - shadow);
+		color += CalcPointLightShading(fs_in.world_pointlight_direction[i], pointlights[i].point_intensity) * (1.0 - shadow);
 	}
 }

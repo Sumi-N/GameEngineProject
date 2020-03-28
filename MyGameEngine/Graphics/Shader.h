@@ -32,6 +32,15 @@ public:
 		evalpath     = nullptr;
 	}
 
+	Shader(const char* i_vert, const char* i_frag, const char* i_control, const char* i_eval)
+	{
+		vertpath = i_vert;
+		fragpath = i_frag;
+		geopath = nullptr;
+		controlpath = i_control;
+		evalpath = i_eval;
+	}
+
 	Shader(const char* i_vert, const char* i_frag, const char* i_geo, const char* i_control, const char * i_eval)
 	{
 		vertpath = i_vert;
@@ -45,6 +54,7 @@ public:
 
 	static void LoadShader(Shader& io_shader, const char* i_vert, const char* i_frag);
 	static void LoadShader(Shader& io_shader, const char* i_vert, const char* i_frag, const char* i_geo);
+	static void LoadShader(Shader& io_shader, const char* i_vert, const char* i_frag, const char* i_control, const char* i_eval);
 	static void LoadShader(Shader& io_shader, const char* i_vert, const char* i_frag, const char* i_geo, const char* i_control, const char* i_eval);
 	void BindShader();
 	void LoadShader();

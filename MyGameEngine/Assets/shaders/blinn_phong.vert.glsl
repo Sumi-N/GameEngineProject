@@ -57,12 +57,12 @@ out VS_OUT{
 	// Texture coordinate
 	vec2 texcoord;
 	// The depth value at light space
-	vec4 light_space_position_depth[MAX_POINT_LIGHT_NUM];
+	vec3 light_space_position_depth[MAX_POINT_LIGHT_NUM];
 } vs_out;
 
 //////////////////////////////////////////////////////////////////////////////
 
-vec3 calcPointLightDirection(vec4 point_position, mat4 model_position_matrix, vec3 model_position){
+vec3 CalcPointLightDirection(vec4 point_position, mat4 model_position_matrix, vec3 model_position){
 	return normalize(vec3(point_position) - vec3(model_position_matrix * vec4(model_position, 1)));
 }
 
@@ -75,8 +75,10 @@ void main()
 	vs_out.world_normal               = normalize(mat3(model_inverse_transpose_matrix) * model_normal);
 
 	for(int i = 0; i <= point_num; i++){
-		vs_out.world_pointlight_direction[i] = calcPointLightDirection(pointlights[i].point_position, model_position_matrix, model_position);
-		vs_out.light_space_position_depth[i] = point_view_perspective_matrix[i] * model_position_matrix * vec4(model_position, 1.0);
+		vs_out.world_pointlight_direction[i] = CalcPointLightDirection(pointlights[i].point_position, model_position_matrix, model_position);
+		vec4 position_depth                  = point_view_perspective_matrix[i] * model_position_matrix * vec4(model_position, 1.0);
+		vec3 projcoord                       = position_depth.xyz / position_depth.w;
+		vs_out.light_space_position_depth[i] = projcoord;
 	}
 
 	vs_out.world_object_direction     = normalize(camera_position_vector -  vec3(model_position_matrix * vec4(model_position, 1)));

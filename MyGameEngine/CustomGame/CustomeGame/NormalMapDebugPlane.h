@@ -42,10 +42,12 @@ inline void NormalMapDebugPlane::Boot()
 	// Register quad information to render thread
 	SceneProxy* quadproxy = new SceneProxy();
 	quadproxy->mesh = quadmesh;
-	Shader* quadshader = new Shader(PATH_SUFFIX SHADER_PATH "normal_mapping.vert.glsl", PATH_SUFFIX SHADER_PATH "normal_mapping.frag.glsl");
+	//Shader* quadshader = new Shader(PATH_SUFFIX SHADER_PATH "normal_mapping.vert.glsl", PATH_SUFFIX SHADER_PATH "normal_mapping.frag.glsl");
+	Shader* quadshader = new Shader(PATH_SUFFIX SHADER_PATH "test_tessellation.vert.glsl", PATH_SUFFIX SHADER_PATH "debug_polygon.frag.glsl", PATH_SUFFIX SHADER_PATH "debug_polygon.geo.glsl");
 
 	SceneFormat quadscene(quadproxy, quadshader);
-	Shader* debugshader = new Shader(PATH_SUFFIX SHADER_PATH "test_tessellation.vert.glsl", PATH_SUFFIX SHADER_PATH "debug_polygon.frag.glsl", PATH_SUFFIX SHADER_PATH "debug_polygon.geo.glsl", PATH_SUFFIX SHADER_PATH "test_tessellation.control.glsl", PATH_SUFFIX SHADER_PATH "test_tessellation.eval.glsl");
+	//Shader* debugshader = new Shader(PATH_SUFFIX SHADER_PATH "test_tessellation.vert.glsl", PATH_SUFFIX SHADER_PATH "debug_polygon.frag.glsl", PATH_SUFFIX SHADER_PATH "debug_polygon.geo.glsl", PATH_SUFFIX SHADER_PATH "test_tessellation.control.glsl", PATH_SUFFIX SHADER_PATH "test_tessellation.eval.glsl");
+	Shader* debugshader = new Shader(PATH_SUFFIX SHADER_PATH "test_tessellation.vert.glsl", PATH_SUFFIX SHADER_PATH "normal_mapping.frag.glsl", PATH_SUFFIX SHADER_PATH "test_tessellation.control.glsl", PATH_SUFFIX SHADER_PATH "test_tessellation.eval.glsl");
 	quadscene.AddShader(debugshader);
 
 	SceneEntity::List.push_back(quadscene);

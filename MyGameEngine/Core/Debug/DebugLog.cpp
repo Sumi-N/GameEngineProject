@@ -11,7 +11,7 @@ namespace DEBUG{
 	void ConsolePrint(const char *i_fmt, ...) {
 		assert(i_fmt);
 
-		const size_t lentemp = 256;
+		const size_t lentemp = 1024;
 		char strtemp[lentemp] = "Log:";
 
 		strcat_s(strtemp, i_fmt);

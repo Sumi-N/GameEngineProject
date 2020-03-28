@@ -149,6 +149,105 @@ void Shader::LoadShader(Shader& io_shader, const char* i_vert, const char* i_fra
 	}
 }
 
+void Shader::LoadShader(Shader& io_shader, const char* i_vert, const char* i_frag, const char* i_control, const char* i_eval)
+{
+	std::vector<GLchar> vertsrc;
+	std::vector<GLchar> fragsrc;
+	std::vector<GLchar> controlsrc;
+	std::vector<GLchar> evalsrc;
+
+	ReadShaderSource(i_vert, vertsrc);
+	ReadShaderSource(i_frag, fragsrc);
+	ReadShaderSource(i_control, controlsrc);
+	ReadShaderSource(i_eval, evalsrc);
+
+	// Create program;
+	if (io_shader.programid != 0)
+	{
+		glDeleteProgram(io_shader.programid);
+	}
+
+	io_shader.programid = glCreateProgram();
+
+	// Attach the shaders to the program
+
+	// Vertex Shader
+	if (vertsrc.data() != nullptr)
+	{
+		const GLuint vshader = glCreateShader(GL_VERTEX_SHADER);
+		const char* vertsrcponter = vertsrc.data();
+		glShaderSource(vshader, 1, &vertsrcponter, NULL);
+		glCompileShader(vshader);
+
+		if (PrintShaderInfoLog(vshader, "vertex shader"))
+		{
+			glAttachShader(io_shader.programid, vshader);
+		}
+		glDeleteShader(vshader);
+	}
+
+	// Fragment Shader
+	if (fragsrc.data() != nullptr)
+	{
+		const GLuint fshader = glCreateShader(GL_FRAGMENT_SHADER);
+		const char* fragsrcpointer = fragsrc.data();
+		glShaderSource(fshader, 1, &fragsrcpointer, NULL);
+		glCompileShader(fshader);
+
+		if (PrintShaderInfoLog(fshader, "fragment shader"))
+		{
+			glAttachShader(io_shader.programid, fshader);
+		}
+		glDeleteShader(fshader);
+	}
+
+	// Tessellation Control Shader
+	if (controlsrc.data() != nullptr)
+	{
+		const GLuint cshader = glCreateShader(GL_TESS_CONTROL_SHADER);
+		const char* controlsrcpointer = controlsrc.data();
+		glShaderSource(cshader, 1, &controlsrcpointer, NULL);
+		glCompileShader(cshader);
+
+		if (PrintShaderInfoLog(cshader, "tessellation control shader"))
+		{
+			glAttachShader(io_shader.programid, cshader);
+		}
+		glDeleteShader(cshader);
+	}
+
+	// Tessellation Evaluation Shader
+	if (evalsrc.data() != nullptr)
+	{
+		const GLuint eshader = glCreateShader(GL_TESS_EVALUATION_SHADER);
+		const char* evalsrcpointer = evalsrc.data();
+		glShaderSource(eshader, 1, &evalsrcpointer, NULL);
+		glCompileShader(eshader);
+
+		if (PrintShaderInfoLog(eshader, "tessellation evaluation shader"))
+		{
+			glAttachShader(io_shader.programid, eshader);
+		}
+		glDeleteShader(eshader);
+	}
+
+	// Link the program
+	glBindAttribLocation(io_shader.programid, 0, "model_position");
+	glBindAttribLocation(io_shader.programid, 1, "model_normal");
+	glBindAttribLocation(io_shader.programid, 2, "model_texcoord");
+	glBindFragDataLocation(io_shader.programid, 0, "color");
+	glLinkProgram(io_shader.programid);
+
+	if (PrintProgramInfoLog(io_shader.programid))
+	{
+		DEBUG_PRINT("Succeed compiling the shader %s, %s, %s, and %s\n", i_vert, i_frag, i_control, i_eval);
+	}
+	else
+	{
+		DEBUG_PRINT("Faild compiling the shader %s, %s, %s, and %s \n", i_vert, i_frag, i_control, i_eval);
+	}
+}
+
 void Shader::LoadShader(Shader& io_shader, const char* i_vert, const char* i_frag, const char* i_geo, const char* i_control, const char* i_eval)
 {
 	std::vector<GLchar> vertsrc;
@@ -261,7 +360,7 @@ void Shader::LoadShader(Shader& io_shader, const char* i_vert, const char* i_fra
 	}
 	else
 	{
-		DEBUG_PRINT("Faild compiling the shader %s, %s %s %s, and %s \n", i_vert, i_frag, i_geo, i_control, i_eval);
+		DEBUG_PRINT("Faild compiling the shader %s, %s, %s, %s, and %s \n", i_vert, i_frag, i_geo, i_control, i_eval);
 	}
 }
 
@@ -276,13 +375,21 @@ void Shader::LoadShader()
 	{
 		Shader::LoadShader(*this, vertpath, fragpath, geopath, controlpath, evalpath);
 	}
-	else if (geopath)
+	else if (geopath && (!controlpath && !evalpath))
 	{
 		Shader::LoadShader(*this, vertpath, fragpath, geopath);
 	}
-	else
+	else if ((controlpath && evalpath) && !geopath)
+	{
+		Shader::LoadShader(*this, vertpath, fragpath, controlpath, evalpath);
+	}
+	else if(vertpath && fragpath)
 	{
 		Shader::LoadShader(*this, vertpath, fragpath);
+	}
+	else
+	{
+		DEBUG_ASSERT(false);
 	}
 }
 

@@ -19,7 +19,7 @@ in VS_OUT{
 	// Texture coordinate
 	vec2 texcoord;
 	// The depth value at light space
-	vec4 light_space_position_depth[MAX_POINT_LIGHT_NUM];
+	vec3 light_space_position_depth[MAX_POINT_LIGHT_NUM];
 } fs_in;
 
 //////////////////////////////////////////////////////////////////////////////
@@ -53,12 +53,10 @@ layout(binding = 5) uniform sampler2D texture2; // Normal map
 
 //////////////////////////////////////////////////////////////////////////////
 
-float ShadowCalculation(vec4 fragPosLightSpace)
+float ShadowCalculation(vec3 fragPosLightSpace)
 {
-    // perform perspective divide
-    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
     // transform to [0,1] range
-    projCoords = projCoords * 0.5 + 0.5;
+    vec3 projCoords = fragPosLightSpace * 0.5 + 0.5;
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
     // check whether current frag pos is in shadow
