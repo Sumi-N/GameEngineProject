@@ -3,59 +3,56 @@
 
 class Shader 
 {
-#ifdef ENGINE_GRAPHIC_OPENGL
 public:
 	Shader() 
 	{
-		vertpath = nullptr;
-		fragpath = nullptr;
-		geopath  = nullptr;
-		controlpath  = nullptr;
-		evalpath     = nullptr;
+		vertpath    = nullptr;
+		controlpath = nullptr;
+		evalpath    = nullptr;
+		geopath     = nullptr;
+		fragpath    = nullptr;
 	};
 
 	Shader(const char* i_vert, const char* i_frag)
 	{
-		vertpath = i_vert;
-		fragpath = i_frag;
-		geopath = nullptr;
+		vertpath    = i_vert;
 		controlpath = nullptr;
 		evalpath    = nullptr;
+		geopath     = nullptr;;
+		fragpath    = i_frag;
 	}
 
-	Shader(const char* i_vert, const char* i_frag, const char* i_geo)
+	Shader(const char* i_vert, const char* i_geo, const char* i_frag)
 	{
-		vertpath = i_vert;
-		fragpath = i_frag;
-		geopath  = i_geo;
-		controlpath  = nullptr;
-		evalpath     = nullptr;
+		vertpath    = i_vert;
+		controlpath = nullptr;
+		evalpath    = nullptr;
+		geopath     = i_geo;
+		fragpath    = i_frag;
 	}
 
-	Shader(const char* i_vert, const char* i_frag, const char* i_control, const char* i_eval)
+	Shader(const char* i_vert, const char* i_control, const char* i_eval, const char* i_frag)
 	{
-		vertpath = i_vert;
-		fragpath = i_frag;
-		geopath = nullptr;
+		vertpath    = i_vert;
 		controlpath = i_control;
-		evalpath = i_eval;
+		evalpath    = i_eval;
+		geopath     = nullptr;
+		fragpath    = i_frag;
 	}
 
 	Shader(const char* i_vert, const char* i_frag, const char* i_geo, const char* i_control, const char * i_eval)
 	{
-		vertpath = i_vert;
-		fragpath = i_frag;
-		geopath  = i_geo;
-		controlpath  = i_control;
-		evalpath     = i_eval;
+		vertpath    = i_vert;
+		controlpath = i_control;
+		evalpath    = i_eval;
+		geopath     = i_geo;
+		fragpath    = i_frag;
 	}
 
-	GLuint programid = 0;
-
 	static void LoadShader(Shader& io_shader, const char* i_vert, const char* i_frag);
-	static void LoadShader(Shader& io_shader, const char* i_vert, const char* i_frag, const char* i_geo);
-	static void LoadShader(Shader& io_shader, const char* i_vert, const char* i_frag, const char* i_control, const char* i_eval);
-	static void LoadShader(Shader& io_shader, const char* i_vert, const char* i_frag, const char* i_geo, const char* i_control, const char* i_eval);
+	static void LoadShader(Shader& io_shader, const char* i_vert, const char* i_geo,     const char* i_frag);
+	static void LoadShader(Shader& io_shader, const char* i_vert, const char* i_control, const char* i_eval, const char* i_frag);
+	static void LoadShader(Shader& io_shader, const char* i_vert, const char* i_geo, const char* i_control, const char* i_eval, const char* i_frag);
 	void BindShader();
 	void LoadShader();
 
@@ -66,9 +63,15 @@ private:
 	const char* controlpath;
 	const char* evalpath;
 
+#ifdef ENGINE_GRAPHIC_OPENGL
+public:
+	GLuint programid = 0;
+
+private:
 	static bool ReadShaderSource(const char* i_file, std::vector<GLchar> & io_buffer);
 	static GLboolean PrintShaderInfoLog(GLuint i_shader, const char* str);
 	static GLboolean PrintProgramInfoLog(GLuint i_program);
+	static void AttachShaderProgram(Shader& io_shader, std::vector<GLchar> i_src, GLint i_shadertype);
 
 #endif // ENGINE_GRAPHIC_OPENGL
 };
