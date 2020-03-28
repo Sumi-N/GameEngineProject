@@ -13,12 +13,19 @@ struct SceneFormat
 	SceneFormat(SceneProxy* i_proxy, Shader* i_shader)
 	{
 		proxy = i_proxy;
-		shader = i_shader;
+		shaders.push_back(i_shader);
 	}
 
 	SceneProxy* proxy;
-	Shader* shader;
+	std::vector<Shader*> shaders;
+
+	void AddShader(Shader*);
 };
+
+inline void SceneFormat::AddShader(Shader* i_shader)
+{
+	shaders.push_back(i_shader);
+}
 
 struct CubeMapFormat
 {
@@ -63,6 +70,9 @@ inline void SceneEntity::Init()
 	for (auto it = List.begin(); it != List.end(); ++it)
 	{
 		(*it).proxy->Init();
-		(*it).shader->LoadShader();
+		for (auto it2 = (*it).shaders.begin(); it2 != (*it).shaders.end(); ++it2)
+		{
+			(*it2)->LoadShader();
+		}
 	}
 }

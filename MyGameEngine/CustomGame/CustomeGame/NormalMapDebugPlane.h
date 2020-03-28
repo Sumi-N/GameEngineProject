@@ -38,7 +38,12 @@ inline void NormalMapDebugPlane::Boot()
 	SceneProxy* quadproxy = new SceneProxy();
 	quadproxy->mesh = quadmesh;
 	Shader* quadshader = new Shader(PATH_SUFFIX SHADER_PATH "normal_mapping.vert.glsl", PATH_SUFFIX SHADER_PATH "normal_mapping.frag.glsl");
-	SceneEntity::Register(quadproxy, quadshader);
+
+	SceneFormat quadscene(quadproxy, quadshader);
+	Shader* debugshader = new Shader(PATH_SUFFIX SHADER_PATH "normal_mapping.vert.glsl", PATH_SUFFIX SHADER_PATH "debug_polygon.frag.glsl", PATH_SUFFIX SHADER_PATH "debug_polygon.geo.glsl");
+	quadscene.AddShader(debugshader);
+
+	SceneEntity::List.push_back(quadscene);
 }
 
 inline void NormalMapDebugPlane::Init()

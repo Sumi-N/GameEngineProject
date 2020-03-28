@@ -75,14 +75,17 @@
 #define SHADOWMAP_VERT "shadowmap.vert.glsl"
 #define SHADOWMAP_FRAG "shadowmap.frag.glsl"
 
-#define MIRROR_VERT    "mirror.vert.glsl"
-#define MIRROR_FRAG    "mirror.frag.glsl"
+#define MIRROR_VERT     "mirror.vert.glsl"
+#define MIRROR_FRAG     "mirror.frag.glsl"
+
+#define BLINN_PHONG_VERT "blinn_phong.vert.glsl"
+#define BLINN_PHONG_FRAG "blinn_phong.frag.glsl"
+
+#define QUAD_VERT        "quad.vert.glsl"
+#define QUAD_FRAG        "quad.frag.glsl"
+
+#define NORMAL_MAP_VERT  "normal_mapping.vert.glsl"
+#define NORMAL_MAP_FRAG  "normal_mapping.frag.glsl"
 
 #define DEBUG_SHADOW_MAP_VERT "debugshadowmap.vert.glsl"
 #define DEBUG_SHADOW_MAP_FRAG "debugshadowmap.frag.glsl"
-
-#define BLINN_PHONG_VERT      "blinn_phong.vert.glsl"
-#define BLINN_PHONG_FRAG      "blinn_phong.frag.glsl"
-
-#define QUAD_VERT             "quad.vert.glsl"
-#define QUAD_FRAG             "quad.frag.glsl"

@@ -19,3 +19,5 @@ TODO List
 .  Refactor Entity system
 .  Simple asset loader written in Lua
 .  Multicast delegate messaging system
+.  Finish TBN matrix for normal mapping
+.  Make a query function for scene entity to ba able to query specific scene format

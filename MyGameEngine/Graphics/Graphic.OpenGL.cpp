@@ -125,9 +125,12 @@ void Graphic::Update(GraphicRequiredData * i_data)
 				auto& data_material = i_data->material_data[i];
 				constant_material.Update(&data_material);
 
-				SceneEntity::List[i].shader->BindShader();
-				frame_shadow.BindTextureUnit();
-				SceneEntity::List[i].proxy->Draw();
+				for (int j = 0; j < SceneEntity::List[i].shaders.size(); j++)
+				{
+					SceneEntity::List[i].shaders[j]->BindShader();
+					frame_shadow.BindTextureUnit();
+					SceneEntity::List[i].proxy->Draw();
+				}
 			}
 		}
 	}

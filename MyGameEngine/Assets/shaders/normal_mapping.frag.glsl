@@ -123,8 +123,8 @@ vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 void main()
 {
 	// Ambient light
-	color = vec4(0, 0, 0, 0);
-	//color = texture2D(texture0, 1.0 - texcoord.st) * diffuse * ambient_intensity;
+	//color = vec4(0, 0, 0, 0);
+	color = texture2D(texture0, 1.0 - texcoord.st) * diffuse * ambient_intensity;
 
 	float shadow = 0;
 	for(int i = 0; i < 1; i++){
