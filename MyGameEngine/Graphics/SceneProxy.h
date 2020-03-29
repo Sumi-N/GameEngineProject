@@ -2,18 +2,29 @@
 
 #include "Define.h"
 
+enum class DrawType : unsigned int
+{
+#ifdef ENGINE_GRAPHIC_OPENGL
+	TRIANGLE = GL_TRIANGLES,
+	PATCHES = GL_PATCHES,
+#endif // ENGINE_GRAPHIC_OPENGL
+};
+
 class SceneProxy
 {
+
 public:
 
 	void Init();
 	void Draw();
-	void TmpDraw();
 	void CleanUp();
+	void SetDrawType(DrawType i_drawtype){drawtype = i_drawtype;};
 
 	OwningPointer<MeshComponent> mesh;
 
 protected:
+
+	DrawType drawtype = DrawType::TRIANGLE;
 
 	void InitBuffer();
 	void InitMeshData();

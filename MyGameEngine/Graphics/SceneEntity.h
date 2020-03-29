@@ -20,11 +20,22 @@ struct SceneFormat
 	std::vector<Shader*> shaders;
 
 	void AddShader(Shader*);
+	void BindAndDraw();
 };
 
 inline void SceneFormat::AddShader(Shader* i_shader)
 {
 	shaders.push_back(i_shader);
+}
+
+inline void SceneFormat::BindAndDraw()
+{
+	for (int i = 0; i < this->shaders.size(); i++)
+	{
+		shaders[i]->BindShader();
+		proxy->SetDrawType(shaders[i]->CheckDrawType());
+		proxy->Draw();
+	}
 }
 
 struct CubeMapFormat

@@ -197,6 +197,16 @@ void Shader::BindShader()
 	glUseProgram(programid);
 }
 
+DrawType Shader::CheckDrawType()
+{
+	// Check if the data required to draw in patches or not
+	if (controlpath && evalpath)
+	{
+		return DrawType::PATCHES;
+	}
+	return DrawType::TRIANGLE;
+}
+
 void Shader::LoadShader()
 {
 	if (controlpath && evalpath && geopath)

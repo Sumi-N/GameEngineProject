@@ -11,26 +11,7 @@ void SceneProxy::Draw()
 	}
 
 	glBindVertexArray(vertexarrayid);
-	glDrawElements(GL_TRIANGLES, indexsize, GL_UNSIGNED_INT, (void*)0);
-
-	// Unbind textures
-	for (int i = 0; i < textureunits.size(); i++)
-	{
-		glActiveTexture(GL_TEXTURE0 + textureunits[i]);
-		glBindTexture(GL_TEXTURE_2D, 0);
-	}
-}
-
-void SceneProxy::TmpDraw()
-{
-	for (int i = 0; i < textureunits.size(); i++)
-	{
-		glActiveTexture(GL_TEXTURE0 + textureunits[i]);
-		glBindTexture(GL_TEXTURE_2D, textureids[i]);
-	}
-
-	glBindVertexArray(vertexarrayid);
-	glDrawElements(GL_PATCHES, indexsize, GL_UNSIGNED_INT, (void*)0);
+	glDrawElements(static_cast<unsigned int>(drawtype), indexsize, GL_UNSIGNED_INT, (void*)0);
 
 	// Unbind textures
 	for (int i = 0; i < textureunits.size(); i++)

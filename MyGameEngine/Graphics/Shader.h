@@ -1,5 +1,6 @@
 #pragma once
 #include "Define.h"
+#include "SceneProxy.h"
 
 class Shader 
 {
@@ -55,6 +56,7 @@ public:
 	static void LoadShader(Shader& io_shader, const char* i_vert, const char* i_geo, const char* i_control, const char* i_eval, const char* i_frag);
 	void BindShader();
 	void LoadShader();
+	DrawType CheckDrawType();
 
 private:
 	const char* vertpath;
