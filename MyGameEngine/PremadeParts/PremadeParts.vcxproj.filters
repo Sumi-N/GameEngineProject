@@ -17,9 +17,12 @@
     <ClInclude Include="Quad.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="PremadeObject.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Quad.cpp">
+    <ClCompile Include="Empty.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

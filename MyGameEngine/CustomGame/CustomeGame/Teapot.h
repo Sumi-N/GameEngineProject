@@ -1,12 +1,11 @@
 #pragma once
-#include <Parts/Object.h>
+
 #include <Core/Math/Vector.h>
-#include <Parts/MeshComponent.h>
-#include <Parts/MaterialAttribute.h>
+#include <PremadeParts/PremadeObject.h>
 
 #include <Graphics/SceneEntity.h>
 
-class Teapot : public Object 
+class Teapot : public PremadeObjebct
 {
 	void Boot() override;
 	void Init() override;
@@ -15,36 +14,28 @@ class Teapot : public Object
 
 inline void Teapot::Boot()
 {
-	Object::Boot();
+	PremadeObjebct::Boot();
 
-	MeshComponent * teapotmesh = new MeshComponent();
-	teapotmesh->Load("../../Assets/models/teapot.obj");
-	teapotmesh->owner = Entity::Query(this).p;
-	MaterialAttribute* teapotmaterial = new MaterialAttribute();
-	teapotmesh->SetMaterial(teapotmaterial);
+	SceneFormat* format = SceneEntity::Query(this);
+	format->proxy->mesh->Load("../../Assets/models/teapot.obj");
+
 	TextureAttribute * teapottexture = new TextureAttribute();
 	teapottexture->Load("../../Assets/textures/brickwall.png");
 	TextureAttribute * teapottexture2 = new TextureAttribute();
 	teapottexture2->Load("../../Assets/textures/brickwall.png");
 	TextureAttribute* teapottexture3 = new TextureAttribute();
 	teapottexture3->Load("../../Assets/textures/brickwall_normal.png");
-	teapotmesh->SetTexture(teapottexture);
-	teapotmesh->SetTexture(teapottexture2);
-	teapotmesh->SetTexture(teapottexture3);
+	format->proxy->mesh->SetTexture(teapottexture);
+	format->proxy->mesh->SetTexture(teapottexture2);
+	format->proxy->mesh->SetTexture(teapottexture3);
 
-	Entity::RegisterMeshComponent(teapotmesh);
-
-
-	// Register teapot information to render thread
-	SceneProxy * teapotproxy = new SceneProxy();
-	teapotproxy->mesh = teapotmesh;
 	Shader * teapotshader = new Shader(PATH_SUFFIX SHADER_PATH BLINN_PHONG_VERT, PATH_SUFFIX SHADER_PATH BLINN_PHONG_FRAG);
-	SceneEntity::Register(teapotproxy, teapotshader);
+	format->AddShader(teapotshader);
 }
 
 inline void Teapot::Init()
 {
-	Object::Init();
+	PremadeObjebct::Init();
 	this->pos = Vec3f(0, 0, -50);
 	this->rot = Vec3f(-90, 0, 0);
 	this->scale = Vec3f(1.0, 1.0, 1.0);
@@ -52,5 +43,5 @@ inline void Teapot::Init()
 
 inline void Teapot::Update(float i_dt)
 {
-	Object::Update(i_dt);
+	PremadeObjebct::Update(i_dt);
 }

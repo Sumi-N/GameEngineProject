@@ -45,7 +45,7 @@
 #define PATH_SUFFIX      "../../"
 #define MESH_PATH        "Assets/models/"
 #define SHADER_PATH      "Assets/shaders/"
-#define SKYBOX_PATH      "Assets/textures/skyboxes/"
+#define TEXTURE_PATH     "Assets/textures/"
 
 //////////////////////////////
 // Mesh Data
@@ -58,34 +58,38 @@
 // Texture Data
 //////////////////////////////
 
-#define SKYBOX_POSX      "cubemap_posx.png"
-#define SKYBOX_NEGX      "cubemap_negx.png"
-#define SKYBOX_POSY      "cubemap_posy.png"
-#define SKYBOX_NEGY      "cubemap_negy.png"
-#define SKYBOX_POSZ      "cubemap_posz.png"
-#define SKYBOX_NEGZ      "cubemap_negz.png"
+#define SKYBOX_POSX      "skyboxes/cubemap_posx.png"
+#define SKYBOX_NEGX      "skyboxes/cubemap_negx.png"
+#define SKYBOX_POSY      "skyboxes/cubemap_posy.png"
+#define SKYBOX_NEGY      "skyboxes/cubemap_negy.png"
+#define SKYBOX_POSZ      "skyboxes/cubemap_posz.png"
+#define SKYBOX_NEGZ      "skyboxes/cubemap_negz.png"
 
 //////////////////////////////
 // Shader Data
 //////////////////////////////
 
-#define SKYBOX_VERT    "skybox.vert.glsl"
-#define SKYBOX_FRAG    "skybox.frag.glsl"
+#define SKYBOX_VERT    "skybox/skybox.vert.glsl"
+#define SKYBOX_FRAG    "skybox/skybox.frag.glsl"
 
-#define SHADOWMAP_VERT "shadowmap.vert.glsl"
-#define SHADOWMAP_FRAG "shadowmap.frag.glsl"
+#define SHADOWMAP_VERT "shadow_mapping/shadowmap.vert.glsl"
+#define SHADOWMAP_FRAG "shadow_mapping/shadowmap.frag.glsl"
 
-#define MIRROR_VERT     "mirror.vert.glsl"
-#define MIRROR_FRAG     "mirror.frag.glsl"
+#define MIRROR_VERT     "mirror/mirror.vert.glsl"
+#define MIRROR_FRAG     "mirror/mirror.frag.glsl"
 
-#define BLINN_PHONG_VERT "blinn_phong.vert.glsl"
-#define BLINN_PHONG_FRAG "blinn_phong.frag.glsl"
+#define BLINN_PHONG_VERT "blinn_phong_model/blinn_phong.vert.glsl"
+#define BLINN_PHONG_FRAG "blinn_phong_model/blinn_phong.frag.glsl"
 
-#define QUAD_VERT        "quad.vert.glsl"
-#define QUAD_FRAG        "quad.frag.glsl"
+#define QUAD_VERT        "quad/quad.vert.glsl"
+#define QUAD_FRAG        "quad/quad.frag.glsl"
 
-#define NORMAL_MAP_VERT  "normal_mapping.vert.glsl"
-#define NORMAL_MAP_FRAG  "normal_mapping.frag.glsl"
+#define NORMAL_MAP_VERT  "test_purpose/normal_mapping.vert.glsl"
+#define NORMAL_MAP_FRAG  "test_purpose/normal_mapping.frag.glsl"
 
-#define DEBUG_SHADOW_MAP_VERT "debugshadowmap.vert.glsl"
-#define DEBUG_SHADOW_MAP_FRAG "debugshadowmap.frag.glsl"
+#define DEBUG_SHADOW_MAP_VERT "debug_purpose/debugshadowmap.vert.glsl"
+#define DEBUG_SHADOW_MAP_FRAG "debug_purpose/debugshadowmap.frag.glsl"
+
+#define DEBUG_POLYGON_VERT "debug_purpose/debug_polygon.vert.glsl"
+#define DEBUG_POLYGON_GEO  "debug_purpose/debug_polygon.geo.glsl"
+#define DEBUG_POLYGON_FRAG "debug_purpose/debug_polygon.frag.glsl"

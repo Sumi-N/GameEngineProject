@@ -10,10 +10,9 @@ struct  GraphicRequiredData;
 
 struct SceneFormat
 {
-	SceneFormat(SceneProxy* i_proxy, Shader* i_shader)
+	SceneFormat(SceneProxy* i_proxy)
 	{
 		proxy = i_proxy;
-		shaders.push_back(i_shader);
 	}
 
 	SceneProxy* proxy;
@@ -46,7 +45,12 @@ inline void SceneFormat::BindAndDraw()
 
 struct CubeMapFormat
 {
-	CubeMapFormat(){};
+	CubeMapFormat()
+	{
+		skyboxproxy = nullptr;
+		shader = nullptr;
+	};
+
 	CubeMapFormat(CubeMapProxy* i_proxy, Shader* i_shader)
 	{
 		skyboxproxy = i_proxy;
@@ -61,15 +65,16 @@ class SceneEntity
 public:
 	static std::vector<SceneFormat> List;
 	static CubeMapFormat SkyBoxScene;
-	static void Register(SceneProxy*, Shader*);
+	static SceneFormat* Register(SceneProxy*);
 	static SceneFormat* Query(const Object* i_obj);
 	static void Init();
 };
 
-inline void SceneEntity::Register(SceneProxy* i_proxy, Shader* i_shader)
+inline SceneFormat* SceneEntity::Register(SceneProxy* i_proxy)
 {
-	SceneFormat scene = SceneFormat(i_proxy, i_shader);
+	SceneFormat scene = SceneFormat(i_proxy);
 	List.push_back(scene);
+	return &List[List.size() - 1];
 }
 
 inline SceneFormat* SceneEntity::Query(const Object* i_obj)
@@ -103,7 +108,10 @@ inline void SceneEntity::Init()
 		(*it).proxy->Init();
 		for (auto it2 = (*it).shaders.begin(); it2 != (*it).shaders.end(); ++it2)
 		{
-			(*it2)->LoadShader();
+			if (*it2)
+			{
+				(*it2)->LoadShader();
+			}
 		}
 	}
 }

@@ -1,5 +1,5 @@
 This game engine is the game engine I made from the scrach.
-This game engine currently implemented components such as
+It is currently implemented components such as
 
     Entity Component System
     Heap manager and Smart pointers for memory management

@@ -12,11 +12,11 @@ inline void DepthMapDebugPlane::Boot()
 {
 	Quad::Boot();
 
-	SceneFormat* scneformat = SceneEntity::Query(this);
+	SceneFormat* format = SceneEntity::Query(this);
 
 	Shader* quadshader = new Shader(PATH_SUFFIX SHADER_PATH DEBUG_SHADOW_MAP_VERT, PATH_SUFFIX SHADER_PATH DEBUG_SHADOW_MAP_FRAG);
-	scneformat->ClearShaders();
-	scneformat->AddShader(quadshader);
+	format->ClearShaders();
+	format->AddShader(quadshader);
 }
 
 inline void DepthMapDebugPlane::Init()

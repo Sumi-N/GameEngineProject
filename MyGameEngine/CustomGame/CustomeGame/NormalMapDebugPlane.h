@@ -26,8 +26,8 @@ inline void NormalMapDebugPlane::Boot()
 	TextureAttribute* quadtexture4 = new TextureAttribute();
 	quadtexture4->Load("../../Assets/textures/teapot_disp.png");
 
-	Shader* quadshader  = new Shader(PATH_SUFFIX SHADER_PATH "test_tessellation.vert.glsl", PATH_SUFFIX SHADER_PATH "debug_polygon.geo.glsl", PATH_SUFFIX SHADER_PATH "debug_polygon.frag.glsl");
-	Shader* debugshader = new Shader(PATH_SUFFIX SHADER_PATH "test_tessellation.vert.glsl", PATH_SUFFIX SHADER_PATH "test_tessellation.control.glsl", PATH_SUFFIX SHADER_PATH "test_tessellation.eval.glsl", PATH_SUFFIX SHADER_PATH "normal_mapping.frag.glsl");
+	Shader* quadshader  = new Shader(PATH_SUFFIX SHADER_PATH "test_purpose/test_tessellation.vert.glsl", PATH_SUFFIX SHADER_PATH "debug_purpose/debug_polygon.geo.glsl", PATH_SUFFIX SHADER_PATH "debug_purpose/debug_polygon.frag.glsl");
+	Shader* debugshader = new Shader(PATH_SUFFIX SHADER_PATH "test_purpose/test_tessellation.vert.glsl", PATH_SUFFIX SHADER_PATH "test_purpose/test_tessellation.control.glsl", PATH_SUFFIX SHADER_PATH "test_purpose/test_tessellation.eval.glsl", PATH_SUFFIX SHADER_PATH "test_purpose/normal_mapping.frag.glsl");
 
 	scneformat->proxy->mesh->material->Kd = Vec3f(0.5, 0.5f, 0.5);
 	scneformat->proxy->mesh->material->Ns = 100;

@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Define.h"
+#include "PremadeObject.h"
 
-class Quad : public Object
+class Quad : public PremadeObjebct
 {
 public:
 	void Boot() override;
@@ -11,28 +12,20 @@ public:
 
 inline void Quad::Boot()
 {
-	Object::Boot();
+	PremadeObjebct::Boot();
 
-	MeshComponent* quadmesh = new MeshComponent();
-	quadmesh->Load(PATH_SUFFIX MESH_PATH FILENAME_QUAD);
-	quadmesh->owner = Entity::Query(this).p;
+	SceneFormat* format = SceneEntity::Query(this);
+	format->proxy->mesh->Load(PATH_SUFFIX MESH_PATH FILENAME_QUAD);
 
-	MaterialAttribute* quadmaterial = new MaterialAttribute();
-	quadmaterial->Kd = Vec3f(1.0f, 0.0f, 1.0f);
-	quadmesh->SetMaterial(quadmaterial);
+	format->proxy->mesh->material->Kd = Vec3f(1.0f, 0.0f, 1.0f);
 
-	Entity::RegisterMeshComponent(quadmesh);
-
-	// Register quad information to render thread
-	SceneProxy* quadproxy = new SceneProxy();
-	quadproxy->mesh = quadmesh;
 	Shader* quadshader = new Shader(PATH_SUFFIX SHADER_PATH QUAD_VERT, PATH_SUFFIX SHADER_PATH QUAD_FRAG);
-	SceneEntity::Register(quadproxy, quadshader);
+	format->AddShader(quadshader);
 }
 
 inline void Quad::Init()
 {
-	Object::Init();
+	PremadeObjebct::Init();
 
 	this->pos = Vec3f(0, -7, -50);
 	this->rot = Vec3f(-90, 0, 0);
