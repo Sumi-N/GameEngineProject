@@ -14,38 +14,25 @@ inline void CubeMapMeshComponent::Boot()
 {
 	Load(PATH_SUFFIX MESH_PATH FILENAME_CUBEMAP);
 
-	// This part can be optimize
+	TextureAttribute* texture[6];
+	const char* filename[6] = 
+	{
+		PATH_SUFFIX SKYBOX_PATH SKYBOX_POSX,
+		PATH_SUFFIX SKYBOX_PATH SKYBOX_NEGX,
+		PATH_SUFFIX SKYBOX_PATH SKYBOX_POSY,
+		PATH_SUFFIX SKYBOX_PATH SKYBOX_NEGY,
+		PATH_SUFFIX SKYBOX_PATH SKYBOX_POSZ,
+		PATH_SUFFIX SKYBOX_PATH SKYBOX_NEGZ,
+	};
 
-	TextureAttribute* posx = new TextureAttribute();
-	posx->Load(PATH_SUFFIX SKYBOX_PATH SKYBOX_POSX);
-
-	TextureAttribute* negx = new TextureAttribute();
-	negx->Load(PATH_SUFFIX SKYBOX_PATH SKYBOX_NEGX);
-
-	TextureAttribute* posy = new TextureAttribute();
-	posy->Load(PATH_SUFFIX SKYBOX_PATH SKYBOX_POSY);
-
-	TextureAttribute* negy = new TextureAttribute();
-	negy->Load(PATH_SUFFIX SKYBOX_PATH SKYBOX_NEGY);
-
-	TextureAttribute* posz = new TextureAttribute();
-	posz->Load(PATH_SUFFIX SKYBOX_PATH SKYBOX_POSZ);
-
-	TextureAttribute* negz = new TextureAttribute();	negz->Load(PATH_SUFFIX SKYBOX_PATH SKYBOX_NEGZ);
-
-	OwningPointer<TextureAttribute> posxhandler(posx);
-	OwningPointer<TextureAttribute> negxhandler(negx);
-	OwningPointer<TextureAttribute> posyhandler(posy);
-	OwningPointer<TextureAttribute> negyhandler(negy);
-	OwningPointer<TextureAttribute> poszhandler(posz);
-	OwningPointer<TextureAttribute> negzhandler(negz);
-
-	textures.push_back(posxhandler);
-	textures.push_back(negxhandler);
-	textures.push_back(posyhandler);
-	textures.push_back(negyhandler);
-	textures.push_back(poszhandler);
-	textures.push_back(negzhandler);
+#pragma omp parallel for
+	for (int i = 0; i < 6; i++)
+	{
+		texture[i] = new TextureAttribute();
+		texture[i]->Load(filename[i]);
+		OwningPointer<TextureAttribute> handler(texture[i]);
+		textures.push_back(handler);
+	}
 }
 
 inline void CubeMapMeshComponent::Init()

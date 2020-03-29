@@ -2,7 +2,7 @@
 #include <PremadeParts/Quad.h>
 
 
-class DepthMapDebugPlane : public Object
+class DepthMapDebugPlane : public Quad
 {
 	void Boot() override;
 	void Init() override;
@@ -10,23 +10,13 @@ class DepthMapDebugPlane : public Object
 
 inline void DepthMapDebugPlane::Boot()
 {
-	Object::Boot();
+	Quad::Boot();
 
-	MeshComponent* quadmesh = new MeshComponent();
-	quadmesh->Load(PATH_SUFFIX MESH_PATH FILENAME_QUAD);
-	quadmesh->owner = Entity::Query(this).p;
+	SceneFormat* scneformat = SceneEntity::Query(this);
 
-	MaterialAttribute* quadmaterial = new MaterialAttribute();
-	quadmaterial->Kd = Vec3f(1.0, 1.0f, 1.0);
-	quadmesh->SetMaterial(quadmaterial);
-
-	Entity::RegisterMeshComponent(quadmesh);
-
-	// Register quad information to render thread
-	SceneProxy* quadproxy = new SceneProxy();
-	quadproxy->mesh = quadmesh;
 	Shader* quadshader = new Shader(PATH_SUFFIX SHADER_PATH DEBUG_SHADOW_MAP_VERT, PATH_SUFFIX SHADER_PATH DEBUG_SHADOW_MAP_FRAG);
-	SceneEntity::Register(quadproxy, quadshader);
+	scneformat->ClearShaders();
+	scneformat->AddShader(quadshader);
 }
 
 inline void DepthMapDebugPlane::Init()

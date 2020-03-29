@@ -130,7 +130,6 @@ void Graphic::Update(GraphicRequiredData * i_data)
 
 				frame_shadow.BindTextureUnit();
 				SceneEntity::List[i].BindAndDraw();
-
 			}
 		}
 	}

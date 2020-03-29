@@ -1577,7 +1577,7 @@ void HelloTriangleApplication::loadModel()
 			//}
 
 			vertices.push_back(vertex);
-			indices.push_back(indices.size());
+			indices.push_back(static_cast<uint32_t>(indices.size()));
 		}
 	}
 }

@@ -3,6 +3,7 @@
 
 #include <Debug/DebugLog.h>
 #include <Math/Matrix.h>
+#include <Parts/Object.h>
 #include <Parts/MeshComponent.h>
 #include <Parts/CubeMapMeshComponent.h>
 #include <Parts/TextureAttribute.h>

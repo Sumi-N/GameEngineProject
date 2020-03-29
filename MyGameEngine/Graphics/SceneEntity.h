@@ -19,9 +19,15 @@ struct SceneFormat
 	SceneProxy* proxy;
 	std::vector<Shader*> shaders;
 
+	void ClearShaders();
 	void AddShader(Shader*);
 	void BindAndDraw();
 };
+
+inline void SceneFormat::ClearShaders()
+{
+	shaders.clear();
+}
 
 inline void SceneFormat::AddShader(Shader* i_shader)
 {
@@ -56,6 +62,7 @@ public:
 	static std::vector<SceneFormat> List;
 	static CubeMapFormat SkyBoxScene;
 	static void Register(SceneProxy*, Shader*);
+	static SceneFormat* Query(const Object* i_obj);
 	static void Init();
 };
 
@@ -63,6 +70,19 @@ inline void SceneEntity::Register(SceneProxy* i_proxy, Shader* i_shader)
 {
 	SceneFormat scene = SceneFormat(i_proxy, i_shader);
 	List.push_back(scene);
+}
+
+inline SceneFormat* SceneEntity::Query(const Object* i_obj)
+{
+	for (int i = 0; i < List.size(); i++)
+	{
+		if (List[i].proxy->mesh->owner == i_obj)
+		{
+			return &List[i];
+		}
+	}
+	DEBUG_PRINT("Coulnd't not find the object in SceneEntity list");
+	return nullptr;
 }
 
 inline void SceneEntity::Init()

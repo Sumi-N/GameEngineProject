@@ -13,12 +13,24 @@ This game engine currently implemented components such as
 
 TODO List
 
-.  Implement and switch the file reader to my original
+.  Implement and switch the file loader to my original
 .  Add directi light and direct light shadow map 
 .  Change point light shadow map to cube map
 .  Refactor Entity system
 .  Simple asset loader written in Lua
 .  Multicast delegate messaging system
 .  Finish TBN matrix for normal mapping
+.  Separate the density between graphics and parts module
+
+
+
+
+Done
+
 .  Make a query function for scene entity to ba able to query specific scene format
 .  Organize displace mapping and related functions such as render and shader structures.
+
+
+Unsolved
+
+.  Make skybox loading process to multi threading
