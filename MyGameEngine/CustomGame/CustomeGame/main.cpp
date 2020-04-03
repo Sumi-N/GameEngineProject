@@ -86,9 +86,9 @@ int main()
 	ambientlight.intensity = Vec3f(0.03f, 0.03f, 0.03f);
 
 	Entity::RegisterPointLight(&pointlight);
-	//Entity::RegisterPointLight(&pointlight2);
-	//Entity::RegisterPointLight(&pointlight3);
-	//Entity::RegisterPointLight(&pointlight4);
+	Entity::RegisterPointLight(&pointlight2);
+	Entity::RegisterPointLight(&pointlight3);
+	Entity::RegisterPointLight(&pointlight4);
 	Entity::RegisterAmbientLight(&ambientlight);
 
 	System::Boot();

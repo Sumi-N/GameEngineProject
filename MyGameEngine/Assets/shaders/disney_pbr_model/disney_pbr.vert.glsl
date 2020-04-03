@@ -50,8 +50,8 @@ layout (std140, binding = 5) uniform const_shadow
 out VS_OUT{
 	// Object world position
 	vec4 world_object_position;
-	// Normal vector of the object at world coordinate
-	vec3 world_normal;
+	// Normal vector of the object at model coordinate
+	vec3 model_normal;
 	// Point light direction vector at world coordinate
 	vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
 	// view direction vector at world coordinate
@@ -69,7 +69,7 @@ void main()
 	// Send position data at perspective coordinate
 	gl_Position                     = vs_out.world_object_position;
 	// Get normal vector at world coordinate
-	vs_out.world_normal             = normalize(mat3(model_inverse_transpose_matrix) * model_normal);
+	vs_out.model_normal             = model_normal;
 
 	for(int i = 0; i <= point_num; i++){
 		vs_out.world_pointlight_direction[i] = normalize(vec3(pointlights[i].point_position) - vec3(model_position_matrix * vec4(model_position, 1)));

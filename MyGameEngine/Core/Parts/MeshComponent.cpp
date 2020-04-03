@@ -49,6 +49,7 @@ void MeshComponent::Load(const char* filename)
 
 	cy::TriMesh tmpdata;
 	tmpdata.LoadFromFileObj(filename, true);
+	tmpdata.ComputeNormals();
 
 	// Get number of point data
 	int facenum = tmpdata.NF();

@@ -14,8 +14,8 @@ const float ROUGHTNESS_BIAS = 0.005;
 in VS_OUT{
 	// Object world position
 	vec4 world_object_position;
-	// Normal vector of the object at world coordinate
-	vec3 world_normal;
+	// Normal vector of the object at model coordinate
+	vec3 model_normal;
 	// Point light direction vector at world coordinate
 	vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
 	// view direction vector at world coordinate
@@ -33,6 +33,13 @@ struct PointLight{
 	vec4 point_position;
 };
 //////////////////////////////////////////////////////////////////////////////
+
+layout (std140, binding = 1) uniform const_object
+{
+	mat4 model_position_matrix;
+	mat4 model_view_perspective_matrix;
+	mat4 model_inverse_transpose_matrix;
+};
 
 layout (std140, binding = 2) uniform const_material
 {
@@ -93,7 +100,7 @@ vec3 FresnelSchlick(float cos, vec3 f0){
 /////////////////////////////////////////////////////////////////////////////
 
 float DistributionGGX(vec3 normal, vec3 half_vector){
-	float a_2 = roughness * roughness * roughness * roughness + ROUGHTNESS_BIAS;
+	float a_2 = roughness * roughness + ROUGHTNESS_BIAS;
 	float n_dot_h = max(dot(normal, half_vector), 0.0);
 	float n_dot_h2 = n_dot_h * n_dot_h;
 
@@ -128,12 +135,12 @@ float GeometrySmith(vec3 N, vec3 V, vec3 L)
 
 /////////////////////////////////////////////////////////////////////////////
 
-vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity, vec4 point_position){
+vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity, vec4 point_position, vec3 world_normal){
 	vec4 color;
 
 	// Cos theta term
-	float cos_theta_1 = max(dot(fs_in.world_normal, world_pointlight_direction), 0.0); // n dot l
-	float cos_theta_2 = max(dot(fs_in.world_normal, fs_in.world_view_direction), 0.0); // n dot v
+	float cos_theta_1 = max(dot(world_normal, world_pointlight_direction), 0.0); // n dot l
+	float cos_theta_2 = max(dot(world_normal, fs_in.world_view_direction), 0.0); // n dot v
 
 	// Half vector
 	vec3 h = normalize(fs_in.world_view_direction + world_pointlight_direction);
@@ -143,9 +150,9 @@ vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 	f0      = mix(f0, vec3(albedo), metalic);
 
 	// Normal distribution function
-	float ndf = DistributionGGX(fs_in.world_normal, h);
+	float ndf = DistributionGGX(world_normal, h);
 	// Geometry function
-	float g   = GeometrySmith(fs_in.world_normal, fs_in.world_view_direction, world_pointlight_direction);
+	float g   = GeometrySmith(world_normal, fs_in.world_view_direction, world_pointlight_direction);
 	// Fresnel equation
 	vec3  f = FresnelSchlick(max(dot(h, world_pointlight_direction), 0.0), f0);
 
@@ -174,6 +181,9 @@ void main()
 	//color =texture2D(texture0,  vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)) * diffuse * ambient_intensity;
 	color = ambient_intensity * albedo;
 
+	// Calculate world normal
+	vec3 world_normal = normalize(mat3(model_inverse_transpose_matrix) * fs_in.model_normal);
+
 	float shadow = 0;
 	for(int i = 0; i < 1; i++){
 		//shadow += ShadowCalculation(fs_in.light_space_position_depth[i]);
@@ -182,7 +192,7 @@ void main()
 	shadow = min(shadow, 1.0);
 
 	for(int i = 0; i < point_num; i++){
-		color += CalcPointLightShading(fs_in.world_pointlight_direction[i], pointlights[i].point_intensity, pointlights[i].point_position);
+		color += CalcPointLightShading(fs_in.world_pointlight_direction[i], pointlights[i].point_intensity, pointlights[i].point_position, world_normal);
 	}
 
 	// Ganmma correction

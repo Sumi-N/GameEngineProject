@@ -11,7 +11,7 @@ const float POINT_LIGHT_BIAS = 0.00005;
 
 in VS_OUT{
 	// Normal vector of the object at world coordinate
-	vec3 world_normal;
+	vec3 model_normal;
 	// Point light direction vector at world coordinate
 	vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
 	// Object direction vector at world coordinate
@@ -39,13 +39,22 @@ layout (std140, binding = 3) uniform const_light
 	int  point_num;
 };
 
+layout (std140, binding = 1) uniform const_object
+{
+	mat4 model_position_matrix;
+	mat4 model_view_perspective_matrix;
+	mat4 model_inverse_transpose_matrix;
+};
+
 
 /////////////////////////////////////////////////////////////////////////////
 
 vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity){
-	vec4 color;
+	vec4 color = vec4(0, 0, 0, 1.0);
 
-	float cos_theta_1 = dot(fs_in.world_normal, world_pointlight_direction);
+	vec3 world_normal = normalize(mat3(model_inverse_transpose_matrix) * fs_in.model_normal);
+
+	float cos_theta_1 = dot(world_normal, world_pointlight_direction);
 	
 	if (cos_theta_1 > 0)
 	{
@@ -53,11 +62,9 @@ vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 	
 		vec3 h = normalize(fs_in.world_view_direction + world_pointlight_direction);
 
-		if (dot(h, fs_in.world_normal) > 0)
+		if (dot(h, world_normal) > 0)
 		{
-			vec3 reflection = -1 * fs_in.world_view_direction + 2 * dot(fs_in.world_view_direction, fs_in.world_normal) * fs_in.world_normal;
-
-			color +=  vec4(vec3(point_intensity) * vec3(0.80099994f, 0.80099994f, 0.80099994f) * pow(dot(h, fs_in.world_normal), 10), 1.0);
+			color +=  vec4(vec3(point_intensity) * vec3(0.80099994f, 0.80099994f, 0.80099994f) * pow(dot(h, world_normal), 20), 1.0);
 		}
 	}
 
