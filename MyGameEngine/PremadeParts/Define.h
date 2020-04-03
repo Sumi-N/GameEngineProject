@@ -38,3 +38,9 @@
 	Shader * debugshader = new Shader(PATH_SUFFIX SHADER_PATH DEBUG_LIGHT_DIRECTION_VERT, PATH_SUFFIX SHADER_PATH DEBUG_LIGHT_DIRECTION_FRAG);\
 	format->AddShader(debugshader);\
 }
+
+#define SHOW_DEBUG_BP_BASIC \
+{\
+	Shader * debugshader = new Shader(PATH_SUFFIX SHADER_PATH DEBUG_BP_BASIC_VERT, PATH_SUFFIX SHADER_PATH DEBUG_BP_BASIC_FRAG);\
+	format->AddShader(debugshader);\
+}

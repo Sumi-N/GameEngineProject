@@ -98,6 +98,10 @@
 #define NORMAL_MAP_VERT  "test_purpose/normal_mapping.vert.glsl"
 #define NORMAL_MAP_FRAG  "test_purpose/normal_mapping.frag.glsl"
 
+//////////////////////////////
+// Debug Shader Data
+//////////////////////////////
+
 #define DEBUG_SHADOW_MAP_VERT "debug_purpose/debugshadowmap.vert.glsl"
 #define DEBUG_SHADOW_MAP_FRAG "debug_purpose/debugshadowmap.frag.glsl"
 
@@ -113,6 +117,9 @@
 
 #define DEBUG_LIGHT_DIRECTION_VERT "debug_purpose/debug_lightdirection.vert.glsl"
 #define DEBUG_LIGHT_DIRECTION_FRAG "debug_purpose/debug_lightdirection.frag.glsl"
+
+#define DEBUG_BP_BASIC_VERT "blinn_phong_model/blinn_phong_without_textures.vert.glsl"
+#define DEBUG_BP_BASIC_FRAG "blinn_phong_model/blinn_phong_without_textures.frag.glsl"
 
 
 
