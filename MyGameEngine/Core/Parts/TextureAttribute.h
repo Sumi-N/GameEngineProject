@@ -70,8 +70,8 @@ inline bool TextureAttribute::Load(char const* i_filename, TextureType i_type)
 	}
 	else
 	{
-		DEBUG_ASSERT(false);
 		DEBUG_PRINT("Failed to load texture %s", i_filename);
+		DEBUG_ASSERT(false);
 	}
 
 	return success;

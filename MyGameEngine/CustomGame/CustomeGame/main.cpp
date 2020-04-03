@@ -15,81 +15,81 @@
 
 int main()
 {
-	//// Setting up skybox
-	//CubeMapMeshComponent skybox;
-	//Entity::RegisterSkyBox(&skybox);
-
 	//// Setting up camera
 	MyCamera camera;
 	Entity::RegisterCamera(&camera);
 
-	//// Setting up teapot
-	//Teapot teapot;
-	//Entity::Register(&teapot);
+	// Setting up skybox
+	CubeMapMeshComponent skybox;
+	Entity::RegisterSkyBox(&skybox);
 
-	//// Setting up quad
-	//Quad quad;
-	//Entity::Register(&quad);
+	// Setting up teapot
+	Teapot teapot;
+	Entity::Register(&teapot);
 
-	//// Setting up quad2
-	//DepthMapDebugPlane debugplane;
-	//Entity::Register(&debugplane);
+	// Setting up quad
+	Quad quad;
+	Entity::Register(&quad);
 
-	//// Setting up quad3
-	//NormalMapDebugPlane normalplane;
-	//Entity::Register(&normalplane);
+	// Setting up quad2
+	DepthMapDebugPlane debugplane;
+	Entity::Register(&debugplane);
 
-	// //Setting up lights
-	//AmbientLight ambientlight;
-	//ambientlight.intensity = Vec3f(0.1f, 0.1f, 0.1f);
-	//PointLight pointlight;
-	//pointlight.intensity = Vec3f(1.0f, 1.0f, 1.0f);
-	//pointlight.pos = Vec3f(50.f, 50.f, -50.f);
-	//PointLight pointlight2;
-	//pointlight2.intensity = Vec3f(0.8f, 0.8f, 0.8f);
-	//pointlight2.pos = Vec3f(-20.f, -20.f, -30.f);
-	//Entity::RegisterAmbientLight(&ambientlight);
-	//Entity::RegisterPointLight(&pointlight);
-	//Entity::RegisterPointLight(&pointlight2);
+	// Setting up quad3
+	NormalMapDebugPlane normalplane;
+	Entity::Register(&normalplane);
 
-
-	SpherePBR_Test sphere[64];
-
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 8; j++)
-		{
-			sphere[8 * i + j].ChangePos(Vec3f(6.25f * i - 20.0f, 6.25f * j - 20.0f, -60.0f));
-			sphere[8 * i + j].ChangeMaterialParameter(0.125f * i, 0.125f * j);
-			sphere[8 * i + j].scale = Vec3f(0.1, 0.1, 0.1);
-			Entity::Register(&sphere[8 * i + j]);
-		}
-	}
-
+	//Setting up lights
+	AmbientLight ambientlight;
+	ambientlight.intensity = Vec3f(0.1f, 0.1f, 0.1f);
 	PointLight pointlight;
 	pointlight.intensity = Vec3f(1.0f, 1.0f, 1.0f);
-	pointlight.pos = Vec3f(60.f, 60.f, 0.f);
-
+	pointlight.pos = Vec3f(50.f, 50.f, -50.f);
 	PointLight pointlight2;
-	pointlight2.intensity = Vec3f(1.0f, 1.0f, 1.0f);
-	pointlight2.pos = Vec3f(60.f, -60.f, 0.f);
-
-	PointLight pointlight3;
-	pointlight3.intensity = Vec3f(1.0f, 1.0f, 1.0f);
-	pointlight3.pos = Vec3f(-60.f, 60.f, 0.f);
-
-	PointLight pointlight4;
-	pointlight4.intensity = Vec3f(1.0f, 1.0f, 1.0f);
-	pointlight4.pos = Vec3f(-60.f, -60.f, 0.f);
-
-	AmbientLight ambientlight;
-	ambientlight.intensity = Vec3f(0.03f, 0.03f, 0.03f);
-
+	pointlight2.intensity = Vec3f(0.8f, 0.8f, 0.8f);
+	pointlight2.pos = Vec3f(-20.f, -20.f, -30.f);
+	Entity::RegisterAmbientLight(&ambientlight);
 	Entity::RegisterPointLight(&pointlight);
 	Entity::RegisterPointLight(&pointlight2);
-	Entity::RegisterPointLight(&pointlight3);
-	Entity::RegisterPointLight(&pointlight4);
-	Entity::RegisterAmbientLight(&ambientlight);
+
+
+	//SpherePBR_Test sphere[64];
+
+	//for (int i = 0; i < 8; i++)
+	//{
+	//	for (int j = 0; j < 8; j++)
+	//	{
+	//		sphere[8 * i + j].ChangePos(Vec3f(6.25f * i - 20.0f, 6.25f * j - 20.0f, -60.0f));
+	//		sphere[8 * i + j].ChangeMaterialParameter(0.125f * i, 0.125f * j);
+	//		sphere[8 * i + j].scale = Vec3f(0.1, 0.1, 0.1);
+	//		Entity::Register(&sphere[8 * i + j]);
+	//	}
+	//}
+
+	//PointLight pointlight;
+	//pointlight.intensity = Vec3f(1.0f, 1.0f, 1.0f);
+	//pointlight.pos = Vec3f(60.f, 60.f, 0.f);
+
+	//PointLight pointlight2;
+	//pointlight2.intensity = Vec3f(1.0f, 1.0f, 1.0f);
+	//pointlight2.pos = Vec3f(60.f, -60.f, 0.f);
+
+	//PointLight pointlight3;
+	//pointlight3.intensity = Vec3f(1.0f, 1.0f, 1.0f);
+	//pointlight3.pos = Vec3f(-60.f, 60.f, 0.f);
+
+	//PointLight pointlight4;
+	//pointlight4.intensity = Vec3f(1.0f, 1.0f, 1.0f);
+	//pointlight4.pos = Vec3f(-60.f, -60.f, 0.f);
+
+	//AmbientLight ambientlight;
+	//ambientlight.intensity = Vec3f(0.03f, 0.03f, 0.03f);
+
+	//Entity::RegisterPointLight(&pointlight);
+	//Entity::RegisterPointLight(&pointlight2);
+	//Entity::RegisterPointLight(&pointlight3);
+	//Entity::RegisterPointLight(&pointlight4);
+	//Entity::RegisterAmbientLight(&ambientlight);
 
 	System::Boot();
 	
