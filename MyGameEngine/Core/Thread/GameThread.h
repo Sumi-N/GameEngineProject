@@ -82,9 +82,9 @@ inline void GameThread::PassDataTo(Thread * io_thread)
 		data_game_own->light.ambient_intensity = Vec4f(Entity::Ambient->intensity);
 
 		// Submit directional light data
-		//data_game_own->light.directional_intensity = Vec4f(Entity::Directional->intensity);
-		//data_game_own->light.directional_direction = Vec4f(Entity::Directional->direction);
-		//data_game_own->shadow.directional_view_perspective_matrix = Entity::Directional->light_space_mat;
+		data_game_own->light.directional_intensity = Vec4f(Entity::Directional->intensity);
+		data_game_own->light.directional_direction = Vec4f(Entity::Directional->direction);
+		data_game_own->shadow.directional_view_perspective_matrix = Entity::Directional->light_space_mat;
 
 		// Submit point light data
 		if (Entity::PointLightList.size() != 0)
@@ -111,6 +111,11 @@ inline void GameThread::PassDataTo(Thread * io_thread)
 			ConstantData::Material material;
 			material.diffuse                     = Vec4f((*it).proxy->mesh->material->Kd, 1.0f);
 			material.specular                    = Vec4f((*it).proxy->mesh->material->Ks, (*it).proxy->mesh->material->Ns);
+
+			material.albedo = (*it).proxy->mesh->material->albedo;
+			material.metalic = (*it).proxy->mesh->material->metalic;
+			material.roughness = (*it).proxy->mesh->material->roughness;
+
 			data_game_own->material_data.push_back(material);
 
 			// Submit mesh data

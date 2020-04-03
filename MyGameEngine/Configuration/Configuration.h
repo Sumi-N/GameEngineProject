@@ -4,6 +4,7 @@
 // Graphic API configuration
 //////////////////////////////
 #define ENGINE_GRAPHIC_OPENGL
+//#define DEBUG_POLYGON
 
 
 // Asking GLEW to compile with static library
@@ -53,6 +54,7 @@
 
 #define FILENAME_CUBEMAP "cubemap.obj"
 #define FILENAME_QUAD    "quad.obj"
+#define FILENAME_SPHERE  "sphere.obj"
 
 //////////////////////////////
 // Texture Data
@@ -68,6 +70,8 @@
 //////////////////////////////
 // Shader Data
 //////////////////////////////
+#define EMPTY_VERT     "empty_shader/empty.vert.glsl"
+#define EMPTY_FRAG     "empty_shader/empty.frag.glsl"
 
 #define SKYBOX_VERT    "skybox/skybox.vert.glsl"
 #define SKYBOX_FRAG    "skybox/skybox.frag.glsl"
@@ -80,6 +84,9 @@
 
 #define BLINN_PHONG_VERT "blinn_phong_model/blinn_phong.vert.glsl"
 #define BLINN_PHONG_FRAG "blinn_phong_model/blinn_phong.frag.glsl"
+
+#define DISNEY_PBR_VERT  "disney_pbr_model/disney_pbr.vert.glsl"
+#define DISNEY_PBR_FRAG  "disney_pbr_model/disney_pbr.frag.glsl"
 
 #define QUAD_VERT        "quad/quad.vert.glsl"
 #define QUAD_FRAG        "quad/quad.frag.glsl"

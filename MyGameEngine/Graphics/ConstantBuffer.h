@@ -32,6 +32,12 @@ namespace ConstantData
 	{
 		Vec4f diffuse;
 		Vec4f specular;
+
+		Vec4f albedo;
+		float metalic;
+		float roughness;
+		float padding1;
+		float padding2;
 	};
 
 	struct Light

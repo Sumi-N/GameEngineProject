@@ -92,13 +92,26 @@ inline SceneFormat* SceneEntity::Query(const Object* i_obj)
 
 inline void SceneEntity::Init()
 {
+	// TODO: Move this function somewhere else later
+	Shader* skyboxshader;
 	if (Entity::SkyBox)
 	{
 		CubeMapProxy* skyboxproxy = new CubeMapProxy();
 		SkyBoxScene.skyboxproxy = skyboxproxy;
 		SkyBoxScene.skyboxproxy->mesh = static_cast<OwningPointer<MeshComponent>>(Entity::SkyBox);
 		SkyBoxScene.skyboxproxy->Init();
-		Shader* skyboxshader = new Shader(PATH_SUFFIX SHADER_PATH SKYBOX_VERT, PATH_SUFFIX SHADER_PATH SKYBOX_FRAG);
+		skyboxshader = new Shader(PATH_SUFFIX SHADER_PATH SKYBOX_VERT, PATH_SUFFIX SHADER_PATH SKYBOX_FRAG);
+		SkyBoxScene.shader = skyboxshader;
+		SkyBoxScene.shader->LoadShader();
+	}
+	else
+	{
+		CubeMapProxy* skyboxproxy = new CubeMapProxy();
+		SkyBoxScene.skyboxproxy = skyboxproxy;
+		SkyBoxScene.skyboxproxy->mesh = new CubeMapMeshComponent();
+		SkyBoxScene.skyboxproxy->mesh->Boot();
+		SkyBoxScene.skyboxproxy->Init();
+		skyboxshader = new Shader(PATH_SUFFIX SHADER_PATH EMPTY_VERT, PATH_SUFFIX SHADER_PATH EMPTY_FRAG);
 		SkyBoxScene.shader = skyboxshader;
 		SkyBoxScene.shader->LoadShader();
 	}

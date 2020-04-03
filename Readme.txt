@@ -21,6 +21,7 @@ TODO List
 .  Multicast delegate messaging system
 .  Finish TBN matrix for normal mapping
 .  Separate the density between graphics and parts module
+.  Add default setting for each componetns such as shader
 
 
 

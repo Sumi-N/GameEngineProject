@@ -10,9 +10,11 @@ public:
 
 	// Ambient, Diffuse, Specular
 	Vec3f Ka, Kd, Ks;
-
 	// Specular exponent
 	float Ns;
+
+	Vec4f albedo;
+	float metalic, roughness;
 
 	void SetMaterialValue(Vec3f, float);
 };

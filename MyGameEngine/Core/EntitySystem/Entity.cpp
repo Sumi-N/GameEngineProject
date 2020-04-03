@@ -66,9 +66,42 @@ void Entity::RegisterMeshComponent(MeshComponent * i_component)
 
 void Entity::Boot()
 {
+	// Check if ambient light exist in a scene, if not create one
+	if (!Entity::Ambient)
+	{
+		Entity::Ambient = new AmbientLight();
+		Entity::Ambient->intensity = Vec3f(0, 0, 0);
+	}
+
+	// Check if directional light exist in a scene, if not create one
+	if (!Entity::Directional)
+	{
+		Entity::Directional = new DirectionalLight();
+		Entity::Directional->intensity = Vec3f(0, 0, 0);
+		Entity::Directional->direction = Vec3f(0, -1, 0);
+	}
+
+	// Check if point light exist in a scene, if not create one
+	if (Entity::PointLightList.size() == 0)
+	{
+		PointLight* pointlight = new PointLight();
+		OwningPointer<PointLight> light_handler;
+		light_handler = pointlight;
+		PointLightList.push_back(light_handler);
+	}
+
+	// Boot Sky box
 	if (SkyBox)
 	{
 		SkyBox->Boot();
+	}
+
+	// Boot Lights
+	if (Directional)
+		Directional->Boot();
+	for (auto it = PointLightList.begin(); it != PointLightList.end(); ++it)
+	{
+		(*it)->Boot();
 	}
 
 	// Boot Object
@@ -82,18 +115,11 @@ void Entity::Boot()
 	{
 		(*it)->Boot();
 	}
-
-	// Boot Lights
-	if (Directional)
-		Directional->Boot();
-	for (auto it = PointLightList.begin(); it != PointLightList.end(); ++it)
-	{
-		(*it)->Boot();
-	}
 }
 
 void Entity::Init()
 {
+	// Init Sky Box
 	if (SkyBox)
 	{
 		SkyBox->Init();

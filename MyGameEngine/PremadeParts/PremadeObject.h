@@ -24,8 +24,10 @@ inline void PremadeObjebct::Boot()
 	SceneFormat* format = SceneEntity::Register(proxy);
 
 #if defined(_DEBUG) && !defined(NDEBUG)
+	#if defined DEBUG_POLYGON
 	Shader * debugshader = new Shader(PATH_SUFFIX SHADER_PATH DEBUG_POLYGON_VERT, PATH_SUFFIX SHADER_PATH DEBUG_POLYGON_GEO, PATH_SUFFIX SHADER_PATH DEBUG_POLYGON_FRAG);
 	format->AddShader(debugshader);
+	#endif
 #endif // DEBUG
 
 }

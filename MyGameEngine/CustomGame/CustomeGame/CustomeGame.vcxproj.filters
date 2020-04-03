@@ -32,5 +32,8 @@
     <ClInclude Include="NormalMapDebugPlane.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SpherePBR_Test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

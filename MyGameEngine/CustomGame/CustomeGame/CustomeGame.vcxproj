@@ -159,6 +159,7 @@
     <ClInclude Include="DepthMapDebugPlane.h" />
     <ClInclude Include="MyCamera.h" />
     <ClInclude Include="NormalMapDebugPlane.h" />
+    <ClInclude Include="SpherePBR_Test.h" />
     <ClInclude Include="Teapot.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

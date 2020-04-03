@@ -113,6 +113,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 
 			SceneEntity::SkyBoxScene.shader->BindShader();
 			SceneEntity::SkyBoxScene.skyboxproxy->Draw();
+
 			glDepthMask(GL_TRUE);
 		}
 

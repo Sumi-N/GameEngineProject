@@ -29,8 +29,8 @@ public:
 
 	static void RegisterCamera(Camera *);
 	static void RegisterAmbientLight(AmbientLight*);
-	static void RegisterPointLight(PointLight*);
 	static void RegisterDirectionalLight(DirectionalLight*);
+	static void RegisterPointLight(PointLight*);
 	static void RegisterSkyBox(CubeMapMeshComponent*);
 	static void RegisterMeshComponent(MeshComponent*);
 
