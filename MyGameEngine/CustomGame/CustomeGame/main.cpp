@@ -15,31 +15,31 @@
 
 int main()
 {
-	// Setting up skybox
-	CubeMapMeshComponent skybox;
+	//// Setting up skybox
+	//CubeMapMeshComponent skybox;
 	//Entity::RegisterSkyBox(&skybox);
 
-	// Setting up camera
+	//// Setting up camera
 	MyCamera camera;
 	Entity::RegisterCamera(&camera);
 
-	// Setting up teapot
-	Teapot teapot;
+	//// Setting up teapot
+	//Teapot teapot;
 	//Entity::Register(&teapot);
 
-	// Setting up quad
-	Quad quad;
+	//// Setting up quad
+	//Quad quad;
 	//Entity::Register(&quad);
 
-	// Setting up quad2
-	DepthMapDebugPlane debugplane;
+	//// Setting up quad2
+	//DepthMapDebugPlane debugplane;
 	//Entity::Register(&debugplane);
 
-	// Setting up quad3
-	NormalMapDebugPlane normalplane;
+	//// Setting up quad3
+	//NormalMapDebugPlane normalplane;
 	//Entity::Register(&normalplane);
 
-	// Setting up lights
+	// //Setting up lights
 	//AmbientLight ambientlight;
 	//ambientlight.intensity = Vec3f(0.1f, 0.1f, 0.1f);
 	//PointLight pointlight;
@@ -54,13 +54,13 @@ int main()
 
 
 	SpherePBR_Test sphere[64];
-	
+
 	for (int i = 0; i < 8; i++)
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			sphere[8 * i + j].ChangePos(Vec3f(6.25 * i - 20, 6.25 * j - 20, -60));
-			sphere[8 * i + j].ChangeMaterialParameter(0.125 * i, 0.125 * j);
+			sphere[8 * i + j].ChangePos(Vec3f(6.25f * i - 20.0f, 6.25f * j - 20.0f, -60.0f));
+			sphere[8 * i + j].ChangeMaterialParameter(0.125f * i, 0.125f * j);
 			sphere[8 * i + j].scale = Vec3f(0.1, 0.1, 0.1);
 			Entity::Register(&sphere[8 * i + j]);
 		}

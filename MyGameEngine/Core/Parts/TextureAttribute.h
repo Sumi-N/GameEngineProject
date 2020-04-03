@@ -3,17 +3,39 @@
 #include "Define.h"
 #include "Attribute.h"
 
+enum class TextureType : uint8_t
+{
+	None   = 0, 
+
+	//////////////////////
+
+	Albedo = 0,
+	Normal = 1,
+	Roughness = 2,
+	Metalic   = 3,
+	AmbientOcclusion = 4,
+
+	//////////////////////
+	PB_Diffuse  = 0,
+	PB_Specular = 1,
+	PB_Normal =2,
+	PB_Displacement = 3,
+};
+
 class TextureAttribute : public Attribute
 {
 public:
 	std::vector<Vec3u8t> pixels;
 	int width, height;
+	TextureType type = TextureType::None;
 
-	bool Load(char const* i_filename);
+	bool Load(char const* i_filename, TextureType i_type);
 };
 
-inline bool TextureAttribute::Load(char const* i_filename)
+inline bool TextureAttribute::Load(char const* i_filename, TextureType i_type)
 {
+	type = i_type;
+
 	pixels.clear();
 	width = 0;
 	height = 0;

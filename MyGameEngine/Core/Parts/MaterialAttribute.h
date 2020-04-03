@@ -14,9 +14,10 @@ public:
 	float Ns;
 
 	Vec4f albedo;
-	float metalic, roughness;
+	float roughness, metalic;
 
 	void SetMaterialValue(Vec3f, float);
+	void SetMaterialValue(Vec4f i_albedo, float roughness, float metalic);
 };
 
 inline MaterialAttribute::MaterialAttribute()
@@ -33,5 +34,12 @@ inline void MaterialAttribute::SetMaterialValue(Vec3f i_values, float i_specular
 	Kd = i_values;
 	Ks = i_values;
 	Ns = i_specular;
+}
+
+inline void MaterialAttribute::SetMaterialValue(Vec4f i_albedo, float i_roughness, float i_metalic)
+{
+	albedo = i_albedo;
+	roughness = i_roughness;
+	metalic = i_metalic;
 }
 

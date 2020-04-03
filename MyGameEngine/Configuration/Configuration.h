@@ -59,12 +59,17 @@
 // Texture Data
 //////////////////////////////
 
-#define SKYBOX_POSX      "skyboxes/cubemap_posx.png"
-#define SKYBOX_NEGX      "skyboxes/cubemap_negx.png"
-#define SKYBOX_POSY      "skyboxes/cubemap_posy.png"
-#define SKYBOX_NEGY      "skyboxes/cubemap_negy.png"
-#define SKYBOX_POSZ      "skyboxes/cubemap_posz.png"
-#define SKYBOX_NEGZ      "skyboxes/cubemap_negz.png"
+#define SKYBOX_POSX      "skyboxe/cubemap_posx.png"
+#define SKYBOX_NEGX      "skyboxe/cubemap_negx.png"
+#define SKYBOX_POSY      "skyboxe/cubemap_posy.png"
+#define SKYBOX_NEGY      "skyboxe/cubemap_negy.png"
+#define SKYBOX_POSZ      "skyboxe/cubemap_posz.png"
+#define SKYBOX_NEGZ      "skyboxe/cubemap_negz.png"
+
+#define RUSTED_IRON_ALBEDO "albedo/rustediron.png"
+#define RUSTED_IRON_NORMAL "normal/rustediron.png"
+#define RUSTED_IRON_METALIC "metalic/rustediron.png"
+#define RUSTED_IRON_ROUGHNESS "roughness/rustediron.png"
 
 //////////////////////////////
 // Shader Data
@@ -102,6 +107,12 @@
 
 #define DEBUG_NORMAL_VERT "debug_purpose/debug_normal.vert.glsl"
 #define DEBUG_NORMAL_FRAG "debug_purpose/debug_normal.frag.glsl"
+
+#define DEBUG_VIEW_VERT "debug_purpose/debug_viewdirection.vert.glsl"
+#define DEBUG_VIEW_FRAG "debug_purpose/debug_viewdirection.frag.glsl"
+
+#define DEBUG_LIGHT_DIRECTION_VERT "debug_purpose/debug_lightdirection.vert.glsl"
+#define DEBUG_LIGHT_DIRECTION_FRAG "debug_purpose/debug_lightdirection.frag.glsl"
 
 
 

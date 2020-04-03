@@ -2,7 +2,76 @@
 
 #ifdef ENGINE_GRAPHIC_OPENGL
 
-void Shader::LoadShader(Shader & io_shader, const char* i_vert, const char* i_frag)
+void Shader::SetShader(const char* i_vert, const char* i_frag)
+{
+	vertpath = i_vert;
+	fragpath = i_frag;
+}
+
+void Shader::SetShader(const char* i_vert, const char* i_geo, const char* i_frag)
+{
+	vertpath = i_vert;
+	geopath = i_geo;
+	fragpath = i_frag;
+}
+
+void Shader::SetShader(const char* i_vert, const char* i_control, const char* i_eval, const char* i_frag)
+{
+	vertpath = i_vert;
+	controlpath = i_control;
+	evalpath = i_eval;
+	fragpath = i_frag;
+}
+
+void Shader::SetShader(const char* i_vert, const char* i_control, const char* i_eval, const char* i_geo, const char* i_frag)
+{
+	vertpath = i_vert;
+	controlpath = i_control;
+	evalpath = i_eval;
+	geopath  = i_geo;
+	fragpath = i_frag;
+}
+
+void Shader::LoadShader()
+{
+	if (controlpath && evalpath && geopath)
+	{
+		Shader::LoadShader(*this, vertpath, controlpath, evalpath, geopath, fragpath);
+	}
+	else if ((!controlpath && !evalpath) && geopath)
+	{
+		Shader::LoadShader(*this, vertpath, geopath, fragpath);
+	}
+	else if ((controlpath && evalpath) && !geopath)
+	{
+		Shader::LoadShader(*this, vertpath, controlpath, evalpath, fragpath);
+	}
+	else if (vertpath && fragpath)
+	{
+		Shader::LoadShader(*this, vertpath, fragpath);
+	}
+	else
+	{
+		DEBUG_ASSERT(false);
+	}
+}
+
+void Shader::BindShader()
+{
+	glUseProgram(programid);
+}
+
+DrawType Shader::CheckDrawType()
+{
+	// Check if the data required to draw in patches or not
+	if (controlpath && evalpath)
+	{
+		return DrawType::PATCHES;
+	}
+	return DrawType::TRIANGLE;
+}
+
+void Shader::LoadShader(Shader& io_shader, const char* i_vert, const char* i_frag)
 {
 	std::vector<GLchar> vertsrc;
 	std::vector<GLchar> fragsrc;
@@ -129,11 +198,11 @@ void Shader::LoadShader(Shader& io_shader, const char* i_vert, const char* i_con
 
 	if (PrintProgramInfoLog(io_shader.programid))
 	{
-		DEBUG_PRINT("Succeed compiling the shader %s, %s, %s, and %s\n" ,i_vert, i_control, i_eval, i_frag);
+		DEBUG_PRINT("Succeed compiling the shader %s, %s, %s, and %s\n", i_vert, i_control, i_eval, i_frag);
 	}
 	else
 	{
-		DEBUG_PRINT("Faild compiling one of the shaders in %s, %s, %s, and %s \n" ,i_vert, i_control, i_eval, i_frag);
+		DEBUG_PRINT("Faild compiling one of the shaders in %s, %s, %s, and %s \n", i_vert, i_control, i_eval, i_frag);
 	}
 }
 
@@ -189,45 +258,6 @@ void Shader::LoadShader(Shader& io_shader, const char* i_vert, const char* i_con
 	else
 	{
 		DEBUG_PRINT("Faild compiling one of the shaders %s, %s, %s, %s, and %s \n", i_vert, i_control, i_eval, i_geo, i_frag);
-	}
-}
-
-void Shader::BindShader()
-{
-	glUseProgram(programid);
-}
-
-DrawType Shader::CheckDrawType()
-{
-	// Check if the data required to draw in patches or not
-	if (controlpath && evalpath)
-	{
-		return DrawType::PATCHES;
-	}
-	return DrawType::TRIANGLE;
-}
-
-void Shader::LoadShader()
-{
-	if (controlpath && evalpath && geopath)
-	{
-		Shader::LoadShader(*this, vertpath, controlpath, evalpath, geopath, fragpath);
-	}
-	else if ((!controlpath && !evalpath) && geopath)
-	{
-		Shader::LoadShader(*this, vertpath, geopath, fragpath);
-	}
-	else if ((controlpath && evalpath) && !geopath)
-	{
-		Shader::LoadShader(*this, vertpath, controlpath, evalpath, fragpath);
-	}
-	else if(vertpath && fragpath)
-	{
-		Shader::LoadShader(*this, vertpath, fragpath);
-	}
-	else
-	{
-		DEBUG_ASSERT(false);
 	}
 }
 

@@ -26,6 +26,8 @@ inline void PremadeObjebct::Boot()
 #if defined(_DEBUG) && !defined(NDEBUG)
 	//SHOW_DEBUG_POLYGON
 	//SHOW_DEBUG_NORMAL
+	//SHOW_DEBUG_VIEWDIRECTION
+	SHOW_DEBUG_LIGHTDIRECTION
 #endif // DEBUG
 
 }

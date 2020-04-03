@@ -41,7 +41,7 @@ public:
 		fragpath    = i_frag;
 	}
 
-	Shader(const char* i_vert, const char* i_frag, const char* i_geo, const char* i_control, const char * i_eval)
+	Shader(const char* i_vert, const char* i_geo, const char* i_control, const char * i_eval, const char* i_frag)
 	{
 		vertpath    = i_vert;
 		controlpath = i_control;
@@ -50,12 +50,12 @@ public:
 		fragpath    = i_frag;
 	}
 
-	static void LoadShader(Shader& io_shader, const char* i_vert, const char* i_frag);
-	static void LoadShader(Shader& io_shader, const char* i_vert, const char* i_geo,     const char* i_frag);
-	static void LoadShader(Shader& io_shader, const char* i_vert, const char* i_control, const char* i_eval, const char* i_frag);
-	static void LoadShader(Shader& io_shader, const char* i_vert, const char* i_geo, const char* i_control, const char* i_eval, const char* i_frag);
-	void BindShader();
+	void SetShader(const char* i_vert, const char* i_frag);
+	void SetShader(const char* i_vert, const char* i_geo, const char* i_frag);
+	void SetShader(const char* i_vert, const char* i_control, const char * i_eval, const char* i_frag);
+	void SetShader(const char* i_vert, const char* i_control, const char* i_eval, const char* i_geo, const char* i_frag);
 	void LoadShader();
+	void BindShader();
 	DrawType CheckDrawType();
 
 private:
@@ -70,6 +70,12 @@ public:
 	GLuint programid = 0;
 
 private:
+
+	static void LoadShader(Shader& io_shader, const char* i_vert, const char* i_frag);
+	static void LoadShader(Shader& io_shader, const char* i_vert, const char* i_geo, const char* i_frag);
+	static void LoadShader(Shader& io_shader, const char* i_vert, const char* i_control, const char* i_eval, const char* i_frag);
+	static void LoadShader(Shader& io_shader, const char* i_vert, const char* i_control, const char* i_eval, const char* i_geo, const char* i_frag);
+
 	static bool ReadShaderSource(const char* i_file, std::vector<GLchar> & io_buffer);
 	static GLboolean PrintShaderInfoLog(GLuint i_shader, const char* str);
 	static GLboolean PrintProgramInfoLog(GLuint i_program);

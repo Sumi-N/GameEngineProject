@@ -131,5 +131,11 @@ void MeshComponent::SetTexture(TextureAttribute* i_texture)
 {
 	OwningPointer<TextureAttribute> texturehandler;
 	texturehandler = i_texture;
-	textures.push_back(texturehandler);
+
+	if (textures.size() < static_cast<uint8_t>(texturehandler->type) + 1)
+	{
+		textures.resize(static_cast<uint8_t>(texturehandler->type) + 1);
+	}
+	
+	textures[static_cast<uint8_t>(texturehandler->type)];
 }

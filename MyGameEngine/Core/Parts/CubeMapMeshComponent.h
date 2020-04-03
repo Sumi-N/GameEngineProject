@@ -29,7 +29,7 @@ inline void CubeMapMeshComponent::Boot()
 	for (int i = 0; i < 6; i++)
 	{
 		texture[i] = new TextureAttribute();
-		texture[i]->Load(filename[i]);
+		texture[i]->Load(filename[i], TextureType::None);
 		OwningPointer<TextureAttribute> handler(texture[i]);
 		textures.push_back(handler);
 	}

@@ -16,7 +16,8 @@ void FrameBuffer::Init(FrameType i_type, int i_width, int i_height)
 	if (i_type == FrameType::Image)
 	{
 		// Load shader
-		Shader::LoadShader(shader, PATH_SUFFIX SHADER_PATH MIRROR_VERT, PATH_SUFFIX SHADER_PATH MIRROR_FRAG);
+		shader.SetShader(PATH_SUFFIX SHADER_PATH MIRROR_VERT, PATH_SUFFIX SHADER_PATH MIRROR_FRAG);
+		shader.LoadShader();
 
 		// Create color buffer
 		glGenTextures(1, &textureid_color);
@@ -41,7 +42,8 @@ void FrameBuffer::Init(FrameType i_type, int i_width, int i_height)
 	else if (i_type == FrameType::Shadow)
 	{
 		// Load shader
-		Shader::LoadShader(shader, PATH_SUFFIX SHADER_PATH SHADOWMAP_VERT, PATH_SUFFIX SHADER_PATH SHADOWMAP_FRAG);
+		shader.SetShader(PATH_SUFFIX SHADER_PATH SHADOWMAP_VERT, PATH_SUFFIX SHADER_PATH SHADOWMAP_FRAG);
+		shader.LoadShader();
 
 		// Create depth buffer
 		glGenTextures(1, &textureid_depth);

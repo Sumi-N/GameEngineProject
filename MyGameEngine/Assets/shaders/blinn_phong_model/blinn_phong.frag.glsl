@@ -15,7 +15,7 @@ in VS_OUT{
 	// Point light direction vector at world coordinate
 	vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
 	// Object direction vector at world coordinate
-	vec3 world_object_direction;
+	vec3 world_view_direction;
 	// Texture coordinate
 	vec2 texcoord;
 	// The depth value at light space
@@ -96,13 +96,14 @@ vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 	{
 		color += texture2D(texture1,  vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t))  * cos_theta_1 * diffuse * point_intensity;
 	
-		vec3 h = normalize(fs_in.world_object_direction + world_pointlight_direction);
+		vec3 h = normalize(fs_in.world_view_direction + world_pointlight_direction);
 
 		if (dot(h, fs_in.world_normal) > 0)
 		{
-			vec3 reflection = -1 * fs_in.world_object_direction + 2 * dot(fs_in.world_object_direction, fs_in.world_normal) * fs_in.world_normal;
+			vec3 reflection = -1 * fs_in.world_view_direction + 2 * dot(fs_in.world_view_direction, fs_in.world_normal) * fs_in.world_normal;
 
 			color +=  (texture2D(texture1,  vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)) + texture(skybox, reflection)) * vec4(vec3(point_intensity) * vec3(specular) * pow(dot(h, fs_in.world_normal), specular.w), 1.0);
+			//color +=  (texture2D(texture1,  vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t))) * vec4(vec3(point_intensity) * vec3(specular) * pow(dot(h, fs_in.world_normal), specular.w), 1.0);
 		}
 	}
 
@@ -118,7 +119,7 @@ void main()
 
 	float shadow = 0;
 	for(int i = 0; i < 1; i++){
-		shadow += ShadowCalculation(fs_in.light_space_position_depth[i]);
+		//shadow += ShadowCalculation(fs_in.light_space_position_depth[i]);
 	}
 
 	if(shadow > 1){

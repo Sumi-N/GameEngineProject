@@ -20,11 +20,11 @@ inline void Teapot::Boot()
 	format->proxy->mesh->Load("../../Assets/models/teapot.obj");
 
 	TextureAttribute * teapottexture = new TextureAttribute();
-	teapottexture->Load("../../Assets/textures/brickwall.png");
+	teapottexture->Load("../../Assets/textures/albedo/brickwall.png", TextureType::PB_Diffuse);
 	TextureAttribute * teapottexture2 = new TextureAttribute();
-	teapottexture2->Load("../../Assets/textures/brickwall.png");
+	teapottexture2->Load("../../Assets/textures/albedo/brickwall.png", TextureType::PB_Specular);
 	TextureAttribute* teapottexture3 = new TextureAttribute();
-	teapottexture3->Load("../../Assets/textures/brickwall_normal.png");
+	teapottexture3->Load("../../Assets/textures/normal/brickwall_normal.png", TextureType::PB_Normal);
 	format->proxy->mesh->SetTexture(teapottexture);
 	format->proxy->mesh->SetTexture(teapottexture2);
 	format->proxy->mesh->SetTexture(teapottexture3);

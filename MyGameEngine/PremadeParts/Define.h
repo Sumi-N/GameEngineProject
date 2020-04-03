@@ -26,3 +26,15 @@
 	Shader * debugshader = new Shader(PATH_SUFFIX SHADER_PATH DEBUG_NORMAL_VERT, PATH_SUFFIX SHADER_PATH DEBUG_NORMAL_FRAG);\
 	format->AddShader(debugshader);\
 }
+
+#define SHOW_DEBUG_VIEWDIRECTION \
+{\
+	Shader * debugshader = new Shader(PATH_SUFFIX SHADER_PATH DEBUG_VIEW_VERT, PATH_SUFFIX SHADER_PATH DEBUG_VIEW_FRAG);\
+	format->AddShader(debugshader);\
+}
+
+#define SHOW_DEBUG_LIGHTDIRECTION \
+{\
+	Shader * debugshader = new Shader(PATH_SUFFIX SHADER_PATH DEBUG_LIGHT_DIRECTION_VERT, PATH_SUFFIX SHADER_PATH DEBUG_LIGHT_DIRECTION_FRAG);\
+	format->AddShader(debugshader);\
+}
