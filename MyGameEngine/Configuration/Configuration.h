@@ -4,7 +4,6 @@
 // Graphic API configuration
 //////////////////////////////
 #define ENGINE_GRAPHIC_OPENGL
-//#define DEBUG_POLYGON
 
 
 // Asking GLEW to compile with static library
@@ -100,3 +99,9 @@
 #define DEBUG_POLYGON_VERT "debug_purpose/debug_polygon.vert.glsl"
 #define DEBUG_POLYGON_GEO  "debug_purpose/debug_polygon.geo.glsl"
 #define DEBUG_POLYGON_FRAG "debug_purpose/debug_polygon.frag.glsl"
+
+#define DEBUG_NORMAL_VERT "debug_purpose/debug_normal.vert.glsl"
+#define DEBUG_NORMAL_FRAG "debug_purpose/debug_normal.frag.glsl"
+
+
+
