@@ -13,6 +13,8 @@ struct MeshData
 	Vec3f vertex;
 	Vec3f normal;
 	Vec2f uv;
+	Vec3f tangent;
+	Vec3f bitangent;
 };
 
 class MeshComponent : public Component

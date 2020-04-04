@@ -4,6 +4,8 @@
 layout (location = 0) in vec3 model_position;
 layout (location = 1) in vec3 model_normal;
 layout (location = 2) in vec2 model_texcoord;
+layout (location = 3) in vec3 model_tangent_vec;
+layout (location = 4) in vec3 model_bitangent_vec;
 
 // Const data
 const int MAX_POINT_LIGHT_NUM = 5;
@@ -60,6 +62,8 @@ out VS_OUT{
 	vec2 texcoord;
 	// The depth value at light space
 	vec3 light_space_position_depth[MAX_POINT_LIGHT_NUM];
+	// tangent bitangent normal matrix
+	mat3 tbn;
 } vs_out;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -81,4 +85,9 @@ void main()
 	vs_out.world_view_direction     = normalize(camera_position_vector -  vec3(model_position_matrix * vec4(model_position, 1)));
 
 	vs_out.texcoord                 = model_texcoord;
+
+	vec3 t = normalize(vec3(model_position_matrix * vec4(model_tangent_vec, 0.0)));
+	vec3 b = normalize(vec3(model_position_matrix * vec4(model_bitangent_vec, 0.0)));
+	vec3 n = normalize(vec3(model_position_matrix * vec4(model_normal, 0.0)));
+	vs_out.tbn = mat3(t, b, n);
 }

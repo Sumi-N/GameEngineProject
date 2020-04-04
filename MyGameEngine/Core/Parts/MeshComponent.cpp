@@ -100,6 +100,44 @@ void MeshComponent::Load(const char* filename)
 		}
 	}
 
+	for (int i = 0; i < facenum; i++)
+	{
+		Vec3f pos1 = data[index[3 * i + 0]].vertex;
+		Vec3f pos2 = data[index[3 * i + 1]].vertex;
+		Vec3f pos3 = data[index[3 * i + 2]].vertex;
+
+		Vec3f edge1 = pos2 - pos1;
+		Vec3f edge2 = pos3 - pos1;
+
+		Vec2f uv1 = data[index[3 * i + 0]].uv;
+		Vec2f uv2 = data[index[3 * i + 1]].uv;
+		Vec2f uv3 = data[index[3 * i + 2]].uv;
+
+		Vec2f deltauv1 = uv2 - uv1;
+		Vec2f deltauv2 = uv3 - uv1;
+
+		float f = 1.0f / (deltauv1.x * deltauv2.y - deltauv2.x * deltauv1.y);
+
+		Vec3f tangent;
+		tangent.x = f * (deltauv2.y * edge1.x - deltauv1.y * edge2.x);
+		tangent.y = f * (deltauv2.y * edge1.y - deltauv1.y * edge2.y);
+		tangent.z = f * (deltauv2.y * edge1.z - deltauv1.y * edge2.z);
+		tangent.Normalize();
+
+		Vec3f bitangent;
+		bitangent.x = f * (-deltauv2.x * edge1.x + deltauv1.x * edge2.x);
+		bitangent.y = f * (-deltauv2.x * edge1.y + deltauv1.x * edge2.y);
+		bitangent.z = f * (-deltauv2.x * edge1.z + deltauv1.x * edge2.z);
+		bitangent.Normalize();
+
+		data[index[3 * i + 0]].tangent = tangent;
+		data[index[3 * i + 1]].tangent = tangent;
+		data[index[3 * i + 2]].tangent = tangent;
+
+		data[index[3 * i + 0]].bitangent = bitangent;
+		data[index[3 * i + 1]].bitangent = bitangent;
+		data[index[3 * i + 2]].bitangent = bitangent;
+	}
 }
 
 void MeshComponent::Boot() {}

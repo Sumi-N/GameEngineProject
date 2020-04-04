@@ -66,9 +66,13 @@ void SceneProxy::InitMeshData()
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
+	glEnableVertexAttribArray(3);
+	glEnableVertexAttribArray(4);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(mesh->data[0]), (void*)(0));
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(mesh->data[0]), (void*)(sizeof(Vec3f)));
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(mesh->data[0]), (void*)(2 * sizeof(Vec3f)));
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(mesh->data[0]), (void*)(2 * sizeof(Vec3f) + sizeof(Vec2f)));
+	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(mesh->data[0]), (void*)(3 * sizeof(Vec3f) + sizeof(Vec2f)));
 
 	// Memorize index size for Draw() fucntion
 	indexsize = static_cast<unsigned int>(mesh->index.size()) * sizeof(mesh->index[0]);

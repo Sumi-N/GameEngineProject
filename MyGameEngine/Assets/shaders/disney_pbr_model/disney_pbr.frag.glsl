@@ -24,6 +24,8 @@ in VS_OUT{
 	vec2 texcoord;
 	// The depth value at light space
 	vec3 light_space_position_depth[MAX_POINT_LIGHT_NUM];
+	// tangent bitangent normal matrix
+	mat3 tbn;
 } fs_in;
 
 //////////////////////////////////////////////////////////////////////////////
@@ -124,7 +126,7 @@ float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness)
 
 /////////////////////////////////////////////////////////////////////////////
 
-vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity, vec4 point_position, vec3 world_normal){
+vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity, vec4 point_position, vec3 normal){
 	vec4 color;
 
 	//Calculate albedo based on texture
@@ -136,8 +138,8 @@ vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 
 
 	// Cos theta term
-	float cos_theta_1 = max(dot(world_normal, world_pointlight_direction), 0.0); // n dot l
-	float cos_theta_2 = max(dot(world_normal, fs_in.world_view_direction), 0.0); // n dot v
+	float cos_theta_1 = max(dot(normal, world_pointlight_direction), 0.0); // n dot l
+	float cos_theta_2 = max(dot(normal, fs_in.world_view_direction), 0.0); // n dot v
 
 	// Half vector
 	vec3 h = normalize(fs_in.world_view_direction + world_pointlight_direction);
@@ -147,9 +149,9 @@ vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 	f0      = mix(f0, vec3(albedotexel), metalictexel);
 
 	// Normal distribution function
-	float ndf = DistributionGGX(world_normal, h, roughnesstexel);
+	float ndf = DistributionGGX(normal, h, roughnesstexel);
 	// Geometry function
-	float g   = GeometrySmith(world_normal, fs_in.world_view_direction, world_pointlight_direction, roughnesstexel);
+	float g   = GeometrySmith(normal, fs_in.world_view_direction, world_pointlight_direction, roughnesstexel);
 	// Fresnel equation
 	vec3  f = FresnelSchlick(max(dot(h, world_pointlight_direction), 0.0), f0);
 
@@ -179,11 +181,11 @@ void main()
 	color = ambient_intensity * albedotexel;
 
 	// Calculate world normal
-	// vec3 world_normal = texture(texturenormal, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).rgb;
-	// world_normal = normalize(world_normal * 2.0 - 1.0);
-	// world_normal = normalize(mat3(model_inverse_transpose_matrix) * world_normal);
+	 vec3 world_normal = texture(texturenormal, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).rgb;
+	 world_normal = normalize(world_normal * 2.0 - 1.0);
+	 world_normal = normalize( fs_in.tbn * fs_in.model_normal);
 
-	vec3 world_normal =  normalize(mat3(model_inverse_transpose_matrix) * fs_in.model_normal);
+	//vec3 world_normal =  normalize(mat3(model_inverse_transpose_matrix) * fs_in.model_normal);
 
 	float shadow = 0;
 	for(int i = 0; i < 1; i++){
