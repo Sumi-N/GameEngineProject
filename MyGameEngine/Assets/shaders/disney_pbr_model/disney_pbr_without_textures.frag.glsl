@@ -7,7 +7,8 @@ out vec4 color;
 const int MAX_POINT_LIGHT_NUM = 5;
 const float POINT_LIGHT_BIAS = 0.00005;
 const float PI = 3.14159265359;
-const float ROUGHTNESS_BIAS = 0.005;
+const float ROUGHTNESS_BIAS = 0.00005;
+
 
 /////////////////////////////////////////////////////////////////////////////
 

@@ -22,7 +22,6 @@ public:
 	static OwningPointer<DirectionalLight> Directional;
 	static OwningPointer<AmbientLight> Ambient;;
 	static OwningPointer<Camera> CurrentCamera;
-	static OwningPointer<CubeMapMeshComponent> SkyBox;
 
 	static ObjectHandler Register(Object *);
 	static ObjectHandler Query(Object*);
@@ -31,7 +30,6 @@ public:
 	static void RegisterAmbientLight(AmbientLight*);
 	static void RegisterDirectionalLight(DirectionalLight*);
 	static void RegisterPointLight(PointLight*);
-	static void RegisterSkyBox(CubeMapMeshComponent*);
 	static void RegisterMeshComponent(MeshComponent*);
 
 	static void Boot();

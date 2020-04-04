@@ -105,6 +105,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 		// Rendering sky box
+		if(SceneEntity::SkyBoxScene.skyboxproxy)
 		{
 			glDepthMask(GL_FALSE);
 			ConstantData::SkyBox data_skybox;

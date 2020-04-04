@@ -79,15 +79,22 @@ public:
 	static std::vector<SceneFormat> List;
 	static CubeMapFormat SkyBoxScene;
 	static SceneFormat* Register(SceneProxy*);
+	static void RegisterSkyBox(CubeMapProxy*, Shader*);
 	static SceneFormat* Query(const Object* i_obj);
 	static void Init();
 };
 
 inline SceneFormat* SceneEntity::Register(SceneProxy* i_proxy)
 {
-	SceneFormat scene = SceneFormat(i_proxy);
-	List.push_back(scene);
+	SceneFormat format = SceneFormat(i_proxy);
+	List.push_back(format);
 	return &List[List.size() - 1];
+}
+
+inline void SceneEntity::RegisterSkyBox(CubeMapProxy* i_cubemap, Shader* i_shader)
+{
+	CubeMapFormat format = CubeMapFormat(i_cubemap, i_shader);
+	SkyBoxScene = format;
 }
 
 inline SceneFormat* SceneEntity::Query(const Object* i_obj)
@@ -105,27 +112,10 @@ inline SceneFormat* SceneEntity::Query(const Object* i_obj)
 
 inline void SceneEntity::Init()
 {
-	// TODO: Move this function somewhere else later
-	Shader* skyboxshader;
-	if (Entity::SkyBox)
+	// Init sky-box cube map
+	if (SkyBoxScene.skyboxproxy)
 	{
-		CubeMapProxy* skyboxproxy = new CubeMapProxy();
-		SkyBoxScene.skyboxproxy = skyboxproxy;
-		SkyBoxScene.skyboxproxy->mesh = static_cast<OwningPointer<MeshComponent>>(Entity::SkyBox);
 		SkyBoxScene.skyboxproxy->Init();
-		skyboxshader = new Shader(PATH_SUFFIX SHADER_PATH SKYBOX_VERT, PATH_SUFFIX SHADER_PATH SKYBOX_FRAG);
-		SkyBoxScene.shader = skyboxshader;
-		SkyBoxScene.shader->LoadShader();
-	}
-	else
-	{
-		CubeMapProxy* skyboxproxy = new CubeMapProxy();
-		SkyBoxScene.skyboxproxy = skyboxproxy;
-		SkyBoxScene.skyboxproxy->mesh = new CubeMapMeshComponent();
-		SkyBoxScene.skyboxproxy->mesh->Boot();
-		SkyBoxScene.skyboxproxy->Init();
-		skyboxshader = new Shader(PATH_SUFFIX SHADER_PATH EMPTY_VERT, PATH_SUFFIX SHADER_PATH EMPTY_FRAG);
-		SkyBoxScene.shader = skyboxshader;
 		SkyBoxScene.shader->LoadShader();
 	}
 

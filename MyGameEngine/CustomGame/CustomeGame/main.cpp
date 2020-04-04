@@ -3,6 +3,7 @@
 #include <Core/Thread/EntryPoint.h>
 #include <Parts/Light.h>
 #include <PremadeParts/Quad.h>
+#include <PremadeParts/SkyBox.h>
 #include <EntitySystem/Entity.h>
 
 #include "Teapot.h"
@@ -21,8 +22,8 @@ int main()
 	Entity::RegisterCamera(&camera);
 
 	//// Setting up skybox
-	//CubeMapMeshComponent skybox;
-	//Entity::RegisterSkyBox(&skybox);
+	SkyBox skybox;
+	//Entity::Register(&skybox);
 
 	//// Setting up teapot
 	//Teapot teapot;
@@ -70,7 +71,7 @@ int main()
 
 	RastedSphere rastered;
 	rastered.Translate(Vec3f(0, 0, -60));
-	//Entity::Register(&rastered);
+	Entity::Register(&rastered);
 
 	PointLight pointlight;
 	pointlight.intensity = Vec3f(1.0f, 1.0f, 1.0f);
@@ -92,9 +93,9 @@ int main()
 	ambientlight.intensity = Vec3f(0.03f, 0.03f, 0.03f);
 
 	Entity::RegisterPointLight(&pointlight);
-	//Entity::RegisterPointLight(&pointlight2);
-	//Entity::RegisterPointLight(&pointlight3);
-	//Entity::RegisterPointLight(&pointlight4);
+	Entity::RegisterPointLight(&pointlight2);
+	Entity::RegisterPointLight(&pointlight3);
+	Entity::RegisterPointLight(&pointlight4);
 	Entity::RegisterAmbientLight(&ambientlight);
 
 	System::Boot();

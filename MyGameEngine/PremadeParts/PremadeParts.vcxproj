@@ -145,6 +145,7 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="PremadeObject.h" />
     <ClInclude Include="Quad.h" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="Sphere.h" />
   </ItemGroup>
   <ItemGroup>
