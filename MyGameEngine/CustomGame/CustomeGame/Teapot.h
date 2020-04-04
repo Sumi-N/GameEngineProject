@@ -30,7 +30,7 @@ inline void Teapot::Boot()
 	format->proxy->mesh->SetTexture(teapottexture3);
 
 	Shader * teapotshader = new Shader(PATH_SUFFIX SHADER_PATH BLINN_PHONG_VERT, PATH_SUFFIX SHADER_PATH BLINN_PHONG_FRAG);
-	format->AddShader(teapotshader);
+	format->ReplaceShader(teapotshader);
 }
 
 inline void Teapot::Init()

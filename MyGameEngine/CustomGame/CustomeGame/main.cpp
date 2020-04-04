@@ -26,8 +26,8 @@ int main()
 	//Entity::Register(&skybox);
 
 	//// Setting up teapot
-	//Teapot teapot;
-	//Entity::Register(&teapot);
+	Teapot teapot;
+	Entity::Register(&teapot);
 
 	//// Setting up quad
 	//Quad quad;
@@ -71,7 +71,7 @@ int main()
 
 	RastedSphere rastered;
 	rastered.Translate(Vec3f(0, 0, -60));
-	Entity::Register(&rastered);
+	//Entity::Register(&rastered);
 
 	PointLight pointlight;
 	pointlight.intensity = Vec3f(1.0f, 1.0f, 1.0f);
@@ -93,9 +93,9 @@ int main()
 	ambientlight.intensity = Vec3f(0.03f, 0.03f, 0.03f);
 
 	Entity::RegisterPointLight(&pointlight);
-	//Entity::RegisterPointLight(&pointlight2);
-	//Entity::RegisterPointLight(&pointlight3);
-	//Entity::RegisterPointLight(&pointlight4);
+	Entity::RegisterPointLight(&pointlight2);
+	Entity::RegisterPointLight(&pointlight3);
+	Entity::RegisterPointLight(&pointlight4);
 	Entity::RegisterAmbientLight(&ambientlight);
 
 	System::Boot();
