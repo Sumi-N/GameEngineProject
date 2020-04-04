@@ -29,8 +29,13 @@ inline void PremadeObjebct::Boot()
 	//SHOW_DEBUG_VIEWDIRECTION
 	//SHOW_DEBUG_LIGHTDIRECTION
 	//SHOW_DEBUG_BP_BASIC
+
 #endif // DEBUG
 
+	{
+		Shader* debugshader = new Shader(PATH_SUFFIX SHADER_PATH DEBUG_POLYGON_VERT, PATH_SUFFIX SHADER_PATH DEBUG_POLYGON_GEO, PATH_SUFFIX SHADER_PATH DEBUG_POLYGON_FRAG);
+		format->AddShader(debugshader);
+	}
 }
 
 inline void PremadeObjebct::Init()

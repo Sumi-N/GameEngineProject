@@ -6,6 +6,7 @@
 class SpherePBR_Test : public Sphere
 {
 public:
+	void Boot() override;
 	void Init() override;
 	void ChangePos(Vec3f i_pos);
 	void ChangeMaterialParameter(float i_metalic, float i_roughness);
@@ -14,6 +15,15 @@ public:
 	float metalic;
 	float roughness;
 };
+
+inline void SpherePBR_Test::Boot()
+{
+	Sphere::Boot();
+
+	SceneFormat* format = SceneEntity::Query(this);
+	Shader* shader = new Shader(PATH_SUFFIX SHADER_PATH DEBUG_PBR_BASIC_VERT, PATH_SUFFIX SHADER_PATH DEBUG_PBR_BASIC_FRAG);
+	format->ReplaceShader(shader);
+}
 
 inline void SpherePBR_Test::Init()
 {

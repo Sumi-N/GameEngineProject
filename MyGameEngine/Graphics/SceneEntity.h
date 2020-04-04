@@ -20,6 +20,7 @@ struct SceneFormat
 
 	void ClearShaders();
 	void AddShader(Shader*);
+	void ReplaceShader(Shader*);
 	void BindAndDraw();
 };
 
@@ -31,6 +32,18 @@ inline void SceneFormat::ClearShaders()
 inline void SceneFormat::AddShader(Shader* i_shader)
 {
 	shaders.push_back(i_shader);
+}
+
+inline void SceneFormat::ReplaceShader(Shader* i_shader)
+{
+	if (shaders.size() == 0)
+	{
+		shaders.push_back(i_shader);
+	}
+	else
+	{
+		shaders[shaders.size() - 1] = i_shader;
+	}
 }
 
 inline void SceneFormat::BindAndDraw()

@@ -22,6 +22,7 @@ TODO List
 .  Finish TBN matrix for normal mapping
 .  Separate the density between graphics and parts module
 .  Add default setting for each componetns such as shader
+.  Fix skybox to correct dependency
 
 
 

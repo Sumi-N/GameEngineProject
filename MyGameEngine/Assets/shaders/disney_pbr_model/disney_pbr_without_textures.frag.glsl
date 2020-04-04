@@ -4,10 +4,10 @@
 out vec4 color;
 
 // Consta data
-const int   MAX_POINT_LIGHT_NUM = 5;
+const int MAX_POINT_LIGHT_NUM = 5;
 const float POINT_LIGHT_BIAS = 0.00005;
 const float PI = 3.14159265359;
-const float ROUGHNESS_BIAS = 0.005;
+const float ROUGHTNESS_BIAS = 0.005;
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -39,6 +39,18 @@ layout (std140, binding = 1) uniform const_object
 	mat4 model_position_matrix;
 	mat4 model_view_perspective_matrix;
 	mat4 model_inverse_transpose_matrix;
+};
+
+layout (std140, binding = 2) uniform const_material
+{
+	vec4 diffuse;
+	vec4 specular;
+	
+	vec4 albedo;
+	float metalic;
+	float roughness;
+	float ambient_occlusion;
+	float padding;
 };
 
 layout (std140, binding = 3) uniform const_light
@@ -88,8 +100,8 @@ vec3 FresnelSchlick(float cos, vec3 f0){
 
 /////////////////////////////////////////////////////////////////////////////
 
-float DistributionGGX(vec3 normal, vec3 half_vector, float roughness){
-	float a_2 = roughness * roughness + ROUGHNESS_BIAS;
+float DistributionGGX(vec3 normal, vec3 half_vector){
+	float a_2 = roughness * roughness + ROUGHTNESS_BIAS;
 	float n_dot_h = max(dot(normal, half_vector), 0.0);
 	float n_dot_h2 = n_dot_h * n_dot_h;
 
@@ -102,7 +114,7 @@ float DistributionGGX(vec3 normal, vec3 half_vector, float roughness){
 
 /////////////////////////////////////////////////////////////////////////////
 
-float GeometrySchlickGGX(float n_dot_v, float roughness)
+float GeometrySchlickGGX(float n_dot_v)
 {
 	float r = roughness + 1.0;
 	float k = (r * r) / 8.0;
@@ -112,12 +124,12 @@ float GeometrySchlickGGX(float n_dot_v, float roughness)
     return nom / denom;
 }
 
-float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness)
+float GeometrySmith(vec3 N, vec3 V, vec3 L)
 {
     float NdotV = max(dot(N, V), 0.0);
     float NdotL = max(dot(N, L), 0.0);
-    float ggx1 = GeometrySchlickGGX(NdotV, roughness);
-    float ggx2 = GeometrySchlickGGX(NdotL, roughness);
+    float ggx1 = GeometrySchlickGGX(NdotV);
+    float ggx2 = GeometrySchlickGGX(NdotL);
 	
     return ggx1 * ggx2;
 }
@@ -126,14 +138,6 @@ float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness)
 
 vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity, vec4 point_position, vec3 world_normal){
 	vec4 color;
-
-	//Calculate albedo based on texture
-	vec4 albedotexel = texture2D(texturealbedo, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t));
-	// Calculate roughness based on texture
-	float roughnesstexel = texture2D(textureroughness, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).y;
-	// Calculate metali based on texture
-	float metalictexel  = texture2D(texturemetalic, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).y;
-
 
 	// Cos theta term
 	float cos_theta_1 = max(dot(world_normal, world_pointlight_direction), 0.0); // n dot l
@@ -144,12 +148,12 @@ vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 
 
 	vec3 f0 = vec3(0.04);
-	f0      = mix(f0, vec3(albedotexel), metalictexel);
+	f0      = mix(f0, vec3(albedo), metalic);
 
 	// Normal distribution function
-	float ndf = DistributionGGX(world_normal, h, roughnesstexel);
+	float ndf = DistributionGGX(world_normal, h);
 	// Geometry function
-	float g   = GeometrySmith(world_normal, fs_in.world_view_direction, world_pointlight_direction, roughnesstexel);
+	float g   = GeometrySmith(world_normal, fs_in.world_view_direction, world_pointlight_direction);
 	// Fresnel equation
 	vec3  f = FresnelSchlick(max(dot(h, world_pointlight_direction), 0.0), f0);
 
@@ -159,13 +163,13 @@ vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 
 	vec3 ks = f;
 	vec3 kd = vec3(1.0 - ks);
-	kd *= 1.0 - metalictexel;
+	kd *= 1.0 - metalic;
 
 	float dist = distance(vec3(point_position), vec3(fs_in.world_object_position));
 	float attenuation = 1.0 / dist * dist;
 	vec4  radiance = point_intensity * attenuation;
 
-	color = (vec4(kd, 1.0) * albedotexel / PI + vec4(specular,1.0)) * radiance * cos_theta_1;
+	color = (vec4(kd, 1.0) * albedo / PI + vec4(specular,1.0)) * radiance * cos_theta_1;
 
 	 return color;
 }
@@ -175,15 +179,11 @@ vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 void main()
 {
 	// Ambient light
-	vec4 albedotexel = texture2D(texturealbedo, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t));
-	color = ambient_intensity * albedotexel;
+	//color =texture2D(texture0,  vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)) * diffuse * ambient_intensity;
+	color = ambient_intensity * albedo;
 
 	// Calculate world normal
-	// vec3 world_normal = texture(texturenormal, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).rgb;
-	// world_normal = normalize(world_normal * 2.0 - 1.0);
-	// world_normal = normalize(mat3(model_inverse_transpose_matrix) * world_normal);
-
-	vec3 world_normal =  normalize(mat3(model_inverse_transpose_matrix) * fs_in.model_normal);
+	vec3 world_normal = normalize(mat3(model_inverse_transpose_matrix) * fs_in.model_normal);
 
 	float shadow = 0;
 	for(int i = 0; i < 1; i++){

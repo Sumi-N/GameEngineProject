@@ -35,5 +35,8 @@
     <ClInclude Include="SpherePBR_Test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RastedSphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
