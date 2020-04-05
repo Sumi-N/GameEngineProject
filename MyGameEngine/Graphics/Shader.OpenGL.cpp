@@ -98,6 +98,8 @@ void Shader::LoadShader(Shader& io_shader, const char* i_vert, const char* i_fra
 	glBindAttribLocation(io_shader.programid, 0, "model_position");
 	glBindAttribLocation(io_shader.programid, 1, "model_normal");
 	glBindAttribLocation(io_shader.programid, 2, "model_texcoord");
+	glBindAttribLocation(io_shader.programid, 3, "model_tangent_vec");
+	glBindAttribLocation(io_shader.programid, 4, "model_bitangent_vec");
 	glBindFragDataLocation(io_shader.programid, 0, "color");
 	glLinkProgram(io_shader.programid);
 
@@ -143,6 +145,8 @@ void Shader::LoadShader(Shader& io_shader, const char* i_vert, const char* i_geo
 	glBindAttribLocation(io_shader.programid, 0, "model_position");
 	glBindAttribLocation(io_shader.programid, 1, "model_normal");
 	glBindAttribLocation(io_shader.programid, 2, "model_texcoord");
+	glBindAttribLocation(io_shader.programid, 3, "model_tangent_vec");
+	glBindAttribLocation(io_shader.programid, 4, "model_bitangent_vec");
 	glBindFragDataLocation(io_shader.programid, 0, "color");
 	glLinkProgram(io_shader.programid);
 
@@ -193,6 +197,8 @@ void Shader::LoadShader(Shader& io_shader, const char* i_vert, const char* i_con
 	glBindAttribLocation(io_shader.programid, 0, "model_position");
 	glBindAttribLocation(io_shader.programid, 1, "model_normal");
 	glBindAttribLocation(io_shader.programid, 2, "model_texcoord");
+	glBindAttribLocation(io_shader.programid, 3, "model_tangent_vec");
+	glBindAttribLocation(io_shader.programid, 4, "model_bitangent_vec");
 	glBindFragDataLocation(io_shader.programid, 0, "color");
 	glLinkProgram(io_shader.programid);
 
@@ -248,6 +254,8 @@ void Shader::LoadShader(Shader& io_shader, const char* i_vert, const char* i_con
 	glBindAttribLocation(io_shader.programid, 0, "model_position");
 	glBindAttribLocation(io_shader.programid, 1, "model_normal");
 	glBindAttribLocation(io_shader.programid, 2, "model_texcoord");
+	glBindAttribLocation(io_shader.programid, 3, "model_tangent_vec");
+	glBindAttribLocation(io_shader.programid, 4, "model_bitangent_vec");
 	glBindFragDataLocation(io_shader.programid, 0, "color");
 	glLinkProgram(io_shader.programid);
 

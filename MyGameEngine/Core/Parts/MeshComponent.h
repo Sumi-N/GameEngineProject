@@ -8,11 +8,12 @@
 //// Forward declaration
 //class SceneProxy;
 
-struct MeshData
+__declspec(align(16)) struct MeshData
 {
 	Vec3f vertex;
 	Vec3f normal;
 	Vec2f uv;
+	Vec2f padding; //For alignment purpose
 	Vec3f tangent;
 	Vec3f bitangent;
 };
