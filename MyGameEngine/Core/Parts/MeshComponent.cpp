@@ -56,88 +56,131 @@ void MeshComponent::Load(const char* filename)
 	int vertnum = tmpdata.NV();
 	int normalnum = tmpdata.NVN();
 
-	index.resize(facenum * 3);
-	data.resize(vertnum);
+	//index.resize(facenum * 3);
+	//data.resize(vertnum);
 
-	for (int i = 0; i < vertnum; i++)
+	// Map All Data
+	std::map<unsigned, cy::Point3f> vertexMap;
+	std::map<unsigned, cy::Point3f> normalMap;
+	std::map<unsigned, cy::Point2f> textCoordMap;
+	for (size_t i = 0; i < facenum; i++)
 	{
-		// Get normal data
-		data[i].vertex.x = tmpdata.V(i).x;
-		data[i].vertex.y = tmpdata.V(i).y;
-		data[i].vertex.z = tmpdata.V(i).z;
-	}
+		// Vertex Face
+		cy::TriMesh::TriFace vertexFace = tmpdata.F(i);
+		vertexMap[vertexFace.v[0]] = tmpdata.V(vertexFace.v[0]);
+		vertexMap[vertexFace.v[1]] = tmpdata.V(vertexFace.v[1]);
+		vertexMap[vertexFace.v[2]] = tmpdata.V(vertexFace.v[2]);
 
-	for (int i = 0; i < facenum; i++)
-	{
-		// Get index data
-		index[3 * i + 0] = tmpdata.F(i).v[0];
-		index[3 * i + 1] = tmpdata.F(i).v[1];
-		index[3 * i + 2] = tmpdata.F(i).v[2];
-
-		if (tmpdata.NVN() != 0)
+		// Normal Face
+		//if (loadedMesh->HasNormals())
 		{
-			// Sort normal to vertex index
-			data[tmpdata.F(i).v[0]].normal.x = tmpdata.VN(tmpdata.FN(i).v[0]).x;
-			data[tmpdata.F(i).v[0]].normal.y = tmpdata.VN(tmpdata.FN(i).v[0]).y;
-			data[tmpdata.F(i).v[0]].normal.z = tmpdata.VN(tmpdata.FN(i).v[0]).z;
-			data[tmpdata.F(i).v[1]].normal.x = tmpdata.VN(tmpdata.FN(i).v[1]).x;
-			data[tmpdata.F(i).v[1]].normal.y = tmpdata.VN(tmpdata.FN(i).v[1]).y;
-			data[tmpdata.F(i).v[1]].normal.z = tmpdata.VN(tmpdata.FN(i).v[1]).z;
-			data[tmpdata.F(i).v[2]].normal.x = tmpdata.VN(tmpdata.FN(i).v[2]).x;
-			data[tmpdata.F(i).v[2]].normal.y = tmpdata.VN(tmpdata.FN(i).v[2]).y;
-			data[tmpdata.F(i).v[2]].normal.z = tmpdata.VN(tmpdata.FN(i).v[2]).z;
+			cy::TriMesh::TriFace normalFace = tmpdata.FN(i);
+			normalMap[normalFace.v[0]] = tmpdata.VN(normalFace.v[0]);
+			normalMap[normalFace.v[1]] = tmpdata.VN(normalFace.v[1]);
+			normalMap[normalFace.v[2]] = tmpdata.VN(normalFace.v[2]);
 		}
 
-		if (tmpdata.NVT() != 0)
+		// Texture Face
+		//if (loadedMesh->HasTextureVertices())
 		{
-			// Sort uv coordinate to vertex index
-			data[tmpdata.F(i).v[0]].uv.x = cy::Point2f(tmpdata.VT(tmpdata.FT(i).v[0])).x;
-			data[tmpdata.F(i).v[0]].uv.y = cy::Point2f(tmpdata.VT(tmpdata.FT(i).v[0])).y;
-			data[tmpdata.F(i).v[1]].uv.x = cy::Point2f(tmpdata.VT(tmpdata.FT(i).v[1])).x;
-			data[tmpdata.F(i).v[1]].uv.y = cy::Point2f(tmpdata.VT(tmpdata.FT(i).v[1])).y;
-			data[tmpdata.F(i).v[2]].uv.x = cy::Point2f(tmpdata.VT(tmpdata.FT(i).v[2])).x;
-			data[tmpdata.F(i).v[2]].uv.y = cy::Point2f(tmpdata.VT(tmpdata.FT(i).v[2])).y;
+			cy::TriMesh::TriFace textureFace = tmpdata.FT(i);
+			textCoordMap[textureFace.v[0]] = cy::Point2f(tmpdata.VT(textureFace.v[0]));
+			textCoordMap[textureFace.v[1]] = cy::Point2f(tmpdata.VT(textureFace.v[1]));
+			textCoordMap[textureFace.v[2]] = cy::Point2f(tmpdata.VT(textureFace.v[2]));
 		}
 	}
 
-	for (int i = 0; i < facenum; i++)
+	for (size_t i = 0; i < facenum; i++)
 	{
-		Vec3f pos1 = data[index[3 * i + 0]].vertex;
-		Vec3f pos2 = data[index[3 * i + 1]].vertex;
-		Vec3f pos3 = data[index[3 * i + 2]].vertex;
+		unsigned indexOffset = i * 3;
+		// Vertex Face
+		cy::TriMesh::TriFace vertexFace = tmpdata.F(i);
+		cy::TriMesh::TriFace normalFace = tmpdata.FN(i);
+		cy::TriMesh::TriFace textureFace = tmpdata.FT(i);
 
-		Vec3f edge1 = pos2 - pos1;
-		Vec3f edge2 = pos3 - pos1;
+		index.push_back(indexOffset + 0);
+		index.push_back(indexOffset + 1);
+		index.push_back(indexOffset + 2);
 
-		Vec2f uv1 = data[index[3 * i + 0]].uv;
-		Vec2f uv2 = data[index[3 * i + 1]].uv;
-		Vec2f uv3 = data[index[3 * i + 2]].uv;
+		MeshData tmp1;
+		tmp1.vertex.x = vertexMap[vertexFace.v[0]].x;
+		tmp1.vertex.y = vertexMap[vertexFace.v[0]].y;
+		tmp1.vertex.z = vertexMap[vertexFace.v[0]].z;
 
-		Vec2f deltauv1 = uv2 - uv1;
-		Vec2f deltauv2 = uv3 - uv1;
+		tmp1.normal.x = normalMap[normalFace.v[0]].x;
+		tmp1.normal.y = normalMap[normalFace.v[0]].y;
+		tmp1.normal.z = normalMap[normalFace.v[0]].z;
 
-		float f = 1.0f / (deltauv1.x * deltauv2.y - deltauv2.x * deltauv1.y);
+		tmp1.uv.x = textCoordMap[textureFace.v[0]].x;
+		tmp1.uv.y = textCoordMap[textureFace.v[0]].y;
 
-		Vec3f tangent;
-		tangent.x = f * (deltauv2.y * edge1.x - deltauv1.y * edge2.x);
-		tangent.y = f * (deltauv2.y * edge1.y - deltauv1.y * edge2.y);
-		tangent.z = f * (deltauv2.y * edge1.z - deltauv1.y * edge2.z);
-		tangent.Normalize();
+		MeshData tmp2;
+		tmp2.vertex.x = vertexMap[vertexFace.v[1]].x;
+		tmp2.vertex.y = vertexMap[vertexFace.v[1]].y;
+		tmp2.vertex.z = vertexMap[vertexFace.v[1]].z;
 
-		Vec3f bitangent;
-		bitangent.x = f * (-deltauv2.x * edge1.x + deltauv1.x * edge2.x);
-		bitangent.y = f * (-deltauv2.x * edge1.y + deltauv1.x * edge2.y);
-		bitangent.z = f * (-deltauv2.x * edge1.z + deltauv1.x * edge2.z);
-		bitangent.Normalize();
+		tmp2.normal.x = normalMap[normalFace.v[1]].x;
+		tmp2.normal.y = normalMap[normalFace.v[1]].y;
+		tmp2.normal.z = normalMap[normalFace.v[1]].z;
 
-		data[index[3 * i + 0]].tangent = tangent;
-		data[index[3 * i + 1]].tangent = tangent;
-		data[index[3 * i + 2]].tangent = tangent;
+		tmp2.uv.x = textCoordMap[textureFace.v[1]].x;
+		tmp2.uv.y = textCoordMap[textureFace.v[1]].y;
 
-		data[index[3 * i + 0]].bitangent = bitangent;
-		data[index[3 * i + 1]].bitangent = bitangent;
-		data[index[3 * i + 2]].bitangent = bitangent;
+		MeshData tmp3;
+		tmp3.vertex.x = vertexMap[vertexFace.v[2]].x;
+		tmp3.vertex.y = vertexMap[vertexFace.v[2]].y;
+		tmp3.vertex.z = vertexMap[vertexFace.v[2]].z;
+
+		tmp3.normal.x = normalMap[normalFace.v[2]].x;
+		tmp3.normal.y = normalMap[normalFace.v[2]].y;
+		tmp3.normal.z = normalMap[normalFace.v[2]].z;
+
+		tmp3.uv.x = textCoordMap[textureFace.v[2]].x;
+		tmp3.uv.y = textCoordMap[textureFace.v[2]].y;
+
+		data.push_back(tmp1);
+		data.push_back(tmp2);
+		data.push_back(tmp3);
 	}
+
+	//for (int i = 0; i < facenum; i++)
+	//{
+	//	Vec3f pos1 = data[index[3 * i + 0]].vertex;
+	//	Vec3f pos2 = data[index[3 * i + 1]].vertex;
+	//	Vec3f pos3 = data[index[3 * i + 2]].vertex;
+
+	//	Vec3f edge1 = pos2 - pos1;
+	//	Vec3f edge2 = pos3 - pos1;
+
+	//	Vec2f uv1 = data[index[3 * i + 0]].uv;
+	//	Vec2f uv2 = data[index[3 * i + 1]].uv;
+	//	Vec2f uv3 = data[index[3 * i + 2]].uv;
+
+	//	Vec2f deltauv1 = uv2 - uv1;
+	//	Vec2f deltauv2 = uv3 - uv1;
+
+	//	float f = 1.0f / (deltauv1.x * deltauv2.y - deltauv2.x * deltauv1.y);
+
+	//	Vec3f tangent;
+	//	tangent.x = f * (deltauv2.y * edge1.x - deltauv1.y * edge2.x);
+	//	tangent.y = f * (deltauv2.y * edge1.y - deltauv1.y * edge2.y);
+	//	tangent.z = f * (deltauv2.y * edge1.z - deltauv1.y * edge2.z);
+	//	tangent.Normalize();
+
+	//	Vec3f bitangent;
+	//	bitangent.x = f * (-deltauv2.x * edge1.x + deltauv1.x * edge2.x);
+	//	bitangent.y = f * (-deltauv2.x * edge1.y + deltauv1.x * edge2.y);
+	//	bitangent.z = f * (-deltauv2.x * edge1.z + deltauv1.x * edge2.z);
+	//	bitangent.Normalize();
+
+	//	data[index[3 * i + 0]].tangent = tangent;
+	//	data[index[3 * i + 1]].tangent = tangent;
+	//	data[index[3 * i + 2]].tangent = tangent;
+
+	//	data[index[3 * i + 0]].bitangent = bitangent;
+	//	data[index[3 * i + 1]].bitangent = bitangent;
+	//	data[index[3 * i + 2]].bitangent = bitangent;
+	//}
 }
 
 void MeshComponent::Boot() {}
