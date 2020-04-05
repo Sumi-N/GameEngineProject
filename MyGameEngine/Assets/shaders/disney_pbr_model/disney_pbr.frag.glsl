@@ -183,9 +183,8 @@ void main()
 	// Calculate world normal
 	 vec3 world_normal = texture(texturenormal, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).rgb;
 	 world_normal = normalize(world_normal * 2.0 - 1.0);
-	 world_normal = normalize( fs_in.tbn * fs_in.model_normal);
 
-	//vec3 world_normal =  normalize(mat3(model_inverse_transpose_matrix) * fs_in.model_normal);
+	world_normal = normalize( fs_in.tbn * world_normal);
 
 	float shadow = 0;
 	for(int i = 0; i < 1; i++){
