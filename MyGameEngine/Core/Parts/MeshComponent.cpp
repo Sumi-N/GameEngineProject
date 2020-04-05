@@ -72,7 +72,7 @@ void MeshComponent::Load(const char* filename)
 		vertexMap[vertexFace.v[2]] = tmpdata.V(vertexFace.v[2]);
 
 		// Normal Face
-		//if (loadedMesh->HasNormals())
+		if (tmpdata.HasNormals())
 		{
 			cy::TriMesh::TriFace normalFace = tmpdata.FN(i);
 			normalMap[normalFace.v[0]] = tmpdata.VN(normalFace.v[0]);
@@ -81,7 +81,7 @@ void MeshComponent::Load(const char* filename)
 		}
 
 		// Texture Face
-		//if (loadedMesh->HasTextureVertices())
+		if (tmpdata.HasTextureVertices())
 		{
 			cy::TriMesh::TriFace textureFace = tmpdata.FT(i);
 			textCoordMap[textureFace.v[0]] = cy::Point2f(tmpdata.VT(textureFace.v[0]));
@@ -93,58 +93,62 @@ void MeshComponent::Load(const char* filename)
 	for (size_t i = 0; i < facenum; i++)
 	{
 		unsigned indexOffset = i * 3;
-		// Vertex Face
-		cy::TriMesh::TriFace vertexFace = tmpdata.F(i);
-		cy::TriMesh::TriFace normalFace = tmpdata.FN(i);
-		cy::TriMesh::TriFace textureFace = tmpdata.FT(i);
 
 		index.push_back(indexOffset + 0);
 		index.push_back(indexOffset + 1);
 		index.push_back(indexOffset + 2);
 
-		MeshData tmp1;
+		MeshData tmp1, tmp2, tmp3;
+
+		cy::TriMesh::TriFace vertexFace = tmpdata.F(i);
+
 		tmp1.vertex.x = vertexMap[vertexFace.v[0]].x;
 		tmp1.vertex.y = vertexMap[vertexFace.v[0]].y;
 		tmp1.vertex.z = vertexMap[vertexFace.v[0]].z;
 
-		tmp1.normal.x = normalMap[normalFace.v[0]].x;
-		tmp1.normal.y = normalMap[normalFace.v[0]].y;
-		tmp1.normal.z = normalMap[normalFace.v[0]].z;
-
-		tmp1.uv.x = textCoordMap[textureFace.v[0]].x;
-		tmp1.uv.y = textCoordMap[textureFace.v[0]].y;
-
-		MeshData tmp2;
 		tmp2.vertex.x = vertexMap[vertexFace.v[1]].x;
 		tmp2.vertex.y = vertexMap[vertexFace.v[1]].y;
 		tmp2.vertex.z = vertexMap[vertexFace.v[1]].z;
 
-		tmp2.normal.x = normalMap[normalFace.v[1]].x;
-		tmp2.normal.y = normalMap[normalFace.v[1]].y;
-		tmp2.normal.z = normalMap[normalFace.v[1]].z;
-
-		tmp2.uv.x = textCoordMap[textureFace.v[1]].x;
-		tmp2.uv.y = textCoordMap[textureFace.v[1]].y;
-
-		MeshData tmp3;
 		tmp3.vertex.x = vertexMap[vertexFace.v[2]].x;
 		tmp3.vertex.y = vertexMap[vertexFace.v[2]].y;
 		tmp3.vertex.z = vertexMap[vertexFace.v[2]].z;
 
-		tmp3.normal.x = normalMap[normalFace.v[2]].x;
-		tmp3.normal.y = normalMap[normalFace.v[2]].y;
-		tmp3.normal.z = normalMap[normalFace.v[2]].z;
+		if (tmpdata.HasNormals())
+		{
+			cy::TriMesh::TriFace normalFace = tmpdata.FN(i);
 
-		tmp3.uv.x = textCoordMap[textureFace.v[2]].x;
-		tmp3.uv.y = textCoordMap[textureFace.v[2]].y;
+			tmp1.normal.x = normalMap[normalFace.v[0]].x;
+			tmp1.normal.y = normalMap[normalFace.v[0]].y;
+			tmp1.normal.z = normalMap[normalFace.v[0]].z;
+
+			tmp2.normal.x = normalMap[normalFace.v[1]].x;
+			tmp2.normal.y = normalMap[normalFace.v[1]].y;
+			tmp2.normal.z = normalMap[normalFace.v[1]].z;
+
+			tmp3.normal.x = normalMap[normalFace.v[2]].x;
+			tmp3.normal.y = normalMap[normalFace.v[2]].y;
+			tmp3.normal.z = normalMap[normalFace.v[2]].z;
+		}
+
+		if (tmpdata.HasTextureVertices())
+		{
+			cy::TriMesh::TriFace textureFace = tmpdata.FT(i);
+
+			tmp1.uv.x = textCoordMap[textureFace.v[0]].x;
+			tmp1.uv.y = textCoordMap[textureFace.v[0]].y;
+
+			tmp2.uv.x = textCoordMap[textureFace.v[1]].x;
+			tmp2.uv.y = textCoordMap[textureFace.v[1]].y;
+
+			tmp3.uv.x = textCoordMap[textureFace.v[2]].x;
+			tmp3.uv.y = textCoordMap[textureFace.v[2]].y;
+		}
 
 		data.push_back(tmp1);
 		data.push_back(tmp2);
 		data.push_back(tmp3);
 	}
-
-	std::map<unsigned, Vec3f> tangentMap;
-	std::map<unsigned, Vec3f> bitangentMap;
 
 	for (int i = 0; i < facenum; i++)
 	{

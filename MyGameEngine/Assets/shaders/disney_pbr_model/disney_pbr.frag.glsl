@@ -132,9 +132,9 @@ vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 	//Calculate albedo based on texture
 	vec4 albedotexel = texture2D(texturealbedo, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t));
 	// Calculate roughness based on texture
-	float roughnesstexel = texture2D(textureroughness, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).y;
+	float roughnesstexel = texture2D(textureroughness, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).x;
 	// Calculate metali based on texture
-	float metalictexel  = texture2D(texturemetalic, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).y;
+	float metalictexel  = texture2D(texturemetalic, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).x;
 
 
 	// Cos theta term
@@ -197,8 +197,8 @@ void main()
 		color += CalcPointLightShading(fs_in.world_pointlight_direction[i], pointlights[i].point_intensity, pointlights[i].point_position, world_normal);
 	}
 
-	// Ganmma correction
-	color = color / (color + vec4(1.0));
-	color = pow(color, vec4(1.0/2.2)); 
-	color = vec4(vec3(color), 1.0);
+	//Ganmma correction
+	// color = color / (color + vec4(1.0));
+	// color = pow(color, vec4(1.0/2.2)); 
+	// color = vec4(vec3(color), 1.0);
 }

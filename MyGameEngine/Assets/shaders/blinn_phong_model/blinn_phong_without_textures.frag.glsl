@@ -30,6 +30,12 @@ struct PointLight{
 };
 //////////////////////////////////////////////////////////////////////////////
 
+layout (std140, binding = 2) uniform const_material
+{
+	vec4 diffuse;
+	vec4 specular;
+};
+
 layout (std140, binding = 3) uniform const_light
 {
 	vec4 ambient_intensity;
@@ -58,13 +64,13 @@ vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 	
 	if (cos_theta_1 > 0)
 	{
-		color += cos_theta_1 * vec4(0.50980395f, 0.0, 0.0, 1.0) * point_intensity;
+		color += cos_theta_1 * diffuse * point_intensity;
 	
 		vec3 h = normalize(fs_in.world_view_direction + world_pointlight_direction);
 
 		if (dot(h, world_normal) > 0)
 		{
-			color +=  vec4(vec3(point_intensity) * vec3(0.80099994f, 0.80099994f, 0.80099994f) * pow(dot(h, world_normal), 20), 1.0);
+			color +=  vec4(vec3(point_intensity) * vec3(specular) * pow(dot(h, world_normal), 20), 1.0);
 		}
 	}
 
@@ -76,7 +82,7 @@ vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 void main()
 {
 	// Ambient light
-	color = vec4(0.50980395f, 0.0, 0.0, 1.0) * ambient_intensity;
+	color = diffuse * ambient_intensity;
 
 	for(int i = 0; i < point_num; i++){
 		color += CalcPointLightShading(fs_in.world_pointlight_direction[i], pointlights[i].point_intensity);

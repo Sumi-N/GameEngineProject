@@ -24,6 +24,7 @@
 ///////////////////
 #define SKYBOX_BINDING_UNIT              0
 #define SHADOWMAP_BINDING_UNIT           1
+#define HDR_BINDING_UNIT                 2
 #define IMAGE_BINDING_UNIT               2
 #define TEXTURE_UNIT_BINDING_OFFSET 3
 

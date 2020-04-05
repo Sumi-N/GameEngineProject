@@ -60,6 +60,13 @@ void FrameBuffer::Init(FrameType i_type, int i_width, int i_height)
 		glDrawBuffer(GL_NONE);
 		glReadBuffer(GL_NONE);
 	}
+	else if (i_type == FrameType::HDR)
+	{
+		// Create depth buffer
+		glGenTextures(1, &textureid_depth);
+		glBindTexture(GL_TEXTURE_2D, textureid_depth);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16, i_width, i_height, 0, GL_RGBA, GL_FLOAT, NULL);
+	}
 	else if(i_type == FrameType::ShadowCubeMap)
 	{
 		glGenTextures(1, &textureid_depth);

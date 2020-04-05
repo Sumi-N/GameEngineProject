@@ -6,6 +6,7 @@
 enum class FrameType : uint8_t
 {
 	Shadow = SHADOWMAP_BINDING_UNIT,
+	HDR    = HDR_BINDING_UNIT,
 	Image = IMAGE_BINDING_UNIT,
 	// Shadow Cube Map require geometry shader thus I will do it later
 	ShadowCubeMap = 5,
