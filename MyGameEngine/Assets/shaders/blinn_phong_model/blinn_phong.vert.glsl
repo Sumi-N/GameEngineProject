@@ -67,9 +67,9 @@ out VS_OUT{
 /////////////////////////////////////////////////////////////////////////////
 void main()
 {
-	vs_out.world_object_position    = model_view_perspective_matrix * vec4(model_position, 1.0);
+	vs_out.world_object_position    = model_position_matrix * vec4(model_position, 1.0);
 	// Send position data at perspective coordinate
-	gl_Position                     = vs_out.world_object_position;
+	gl_Position                     = model_view_perspective_matrix * vec4(model_position, 1.0);
 	// Get normal vector at world coordinate
 	vs_out.model_normal                      = model_normal;
 

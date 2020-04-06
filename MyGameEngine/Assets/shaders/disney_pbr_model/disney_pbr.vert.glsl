@@ -16,6 +16,8 @@ const int MAX_POINT_LIGHT_NUM = 5;
 struct PointLight{
 	vec4 point_intensity;
 	vec4 point_position;
+	vec3 point_attenuation;
+	float padding;
 };
 //////////////////////////////////////////////////////////////////////////////
 
@@ -69,9 +71,9 @@ out VS_OUT{
 /////////////////////////////////////////////////////////////////////////////
 void main()
 {
-	vs_out.world_object_position    = model_view_perspective_matrix * vec4(model_position, 1.0);
+	vs_out.world_object_position    = model_position_matrix * vec4(model_position, 1.0);
 	// Send position data at perspective coordinate
-	gl_Position                     = vs_out.world_object_position;
+	gl_Position                     = model_view_perspective_matrix * vec4(model_position, 1.0);
 	// Get normal vector at world coordinate
 	vs_out.model_normal             = model_normal;
 
