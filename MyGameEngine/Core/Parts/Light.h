@@ -20,6 +20,7 @@ class PointLight : public Light
 {
 public:
 	//Vec3f pos; <- inherit from Object
+	Vec3f attenuation = Vec3f(1.0f, 0.07f, 0.017f);
 
 	void Update(float i_dt) override
 	{

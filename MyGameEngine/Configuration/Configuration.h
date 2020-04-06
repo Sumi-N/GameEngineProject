@@ -109,8 +109,12 @@
 #define DEBUG_POLYGON_GEO  "debug_purpose/debug_polygon.geo.glsl"
 #define DEBUG_POLYGON_FRAG "debug_purpose/debug_polygon.frag.glsl"
 
-#define DEBUG_NORMAL_VERT "debug_purpose/debug_normal.vert.glsl"
-#define DEBUG_NORMAL_FRAG "debug_purpose/debug_normal.frag.glsl"
+#define DEBUG_NORMAL_COLOR_VERT "debug_purpose/debug_normal/debug_normal_color.vert.glsl"
+#define DEBUG_NORMAL_COLOR_FRAG "debug_purpose/debug_normal/debug_normal_color.frag.glsl"
+
+#define DEBUG_NORMAL_VECTOR_VERT "debug_purpose/debug_normal/debug_normal_vector.vert.glsl"
+#define DEBUG_NORMAL_VECTOR_GEO  "debug_purpose/debug_normal/debug_normal_vector.geo.glsl"
+#define DEBUG_NORMAL_VECTOR_FRAG "debug_purpose/debug_normal/debug_normal_vector.frag.glsl"
 
 #define DEBUG_VIEW_VERT "debug_purpose/debug_viewdirection.vert.glsl"
 #define DEBUG_VIEW_FRAG "debug_purpose/debug_viewdirection.frag.glsl"

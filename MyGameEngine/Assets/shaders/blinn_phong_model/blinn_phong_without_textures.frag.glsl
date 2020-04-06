@@ -10,6 +10,8 @@ const float POINT_LIGHT_BIAS = 0.00005;
 /////////////////////////////////////////////////////////////////////////////
 
 in VS_OUT{
+	// Object world position
+	vec4 world_object_position;
 	// Normal vector of the object at world coordinate
 	vec3 model_normal;
 	// Point light direction vector at world coordinate
@@ -27,6 +29,8 @@ in VS_OUT{
 struct PointLight{
 	vec4 point_intensity;
 	vec4 point_position;
+	vec3 point_attenuation;
+	float padding;
 };
 //////////////////////////////////////////////////////////////////////////////
 
@@ -55,7 +59,12 @@ layout (std140, binding = 1) uniform const_object
 
 /////////////////////////////////////////////////////////////////////////////
 
-vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity){
+vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity, vec4 point_position, vec3 point_attenuation){
+
+	float dist = distance(vec3(point_position), vec3(fs_in.world_object_position));
+	float attenuation = 1.0 / (point_attenuation.x + point_attenuation.y * dist + point_attenuation.z * dist * dist);
+	vec4  radiance = point_intensity * attenuation;
+
 	vec4 color = vec4(0, 0, 0, 1.0);
 
 	vec3 world_normal = normalize(mat3(model_inverse_transpose_matrix) * fs_in.model_normal);
@@ -64,13 +73,13 @@ vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 	
 	if (cos_theta_1 > 0)
 	{
-		color += cos_theta_1 * diffuse * point_intensity;
+		color += cos_theta_1 * diffuse * radiance;
 	
 		vec3 h = normalize(fs_in.world_view_direction + world_pointlight_direction);
 
 		if (dot(h, world_normal) > 0)
 		{
-			color +=  vec4(vec3(point_intensity) * vec3(specular) * pow(dot(h, world_normal), 20), 1.0);
+			color +=  vec4(vec3(radiance) * vec3(specular) * pow(dot(h, world_normal), 20), 1.0);
 		}
 	}
 
@@ -85,6 +94,6 @@ void main()
 	color = diffuse * ambient_intensity;
 
 	for(int i = 0; i < point_num; i++){
-		color += CalcPointLightShading(fs_in.world_pointlight_direction[i], pointlights[i].point_intensity);
+		color += CalcPointLightShading(fs_in.world_pointlight_direction[i], pointlights[i].point_intensity, pointlights[i].point_position, pointlights[i].point_attenuation);
 	}
 }

@@ -164,7 +164,7 @@ vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 	kd *= 1.0 - metalictexel;
 
 	float dist = distance(vec3(point_position), vec3(fs_in.world_object_position));
-	float attenuation = 1.0 / dist * dist;
+	float attenuation = 1.0 ;
 	vec4  radiance = point_intensity * attenuation;
 
 	color = (vec4(kd, 1.0) * albedotexel / PI + vec4(specular,1.0)) * radiance * cos_theta_1;

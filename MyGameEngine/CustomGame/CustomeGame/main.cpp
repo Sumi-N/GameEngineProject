@@ -27,35 +27,35 @@ int main()
 
 	///////////////////////////////////////////////////////////
 
-	//// Setting up teapot
+	// Setting up teapot
 	Teapot teapot;
-	//Entity::Register(&teapot);
+	Entity::Register(&teapot);
 
-	//// Setting up quad
-	//Quad quad;
-	//Entity::Register(&quad);
+	// Setting up quad
+	Quad quad;
+	Entity::Register(&quad);
 
-	//// Setting up quad2
-	//DepthMapDebugPlane debugplane;
-	//Entity::Register(&debugplane);
+	// Setting up quad2
+	DepthMapDebugPlane debugplane;
+	Entity::Register(&debugplane);
 
-	//// Setting up quad3
-	//NormalMapDebugPlane normalplane;
-	//Entity::Register(&normalplane);
+	// Setting up quad3
+	NormalMapDebugPlane normalplane;
+	Entity::Register(&normalplane);
 
-	////Setting up lights
-	//AmbientLight ambientlight;
-	//ambientlight.intensity = Vec3f(0.1f, 0.1f, 0.1f);
-	//PointLight pointlight;
-	//pointlight.intensity = Vec3f(1.0f, 1.0f, 1.0f);
-	//pointlight.pos = Vec3f(50.f, 50.f, -50.f);
-	//PointLight pointlight2;
-	//pointlight2.intensity = Vec3f(0.8f, 0.8f, 0.8f);
-	//pointlight2.pos = Vec3f(-20.f, -20.f, -30.f);
+	//Setting up lights
+	AmbientLight ambientlight;
+	ambientlight.intensity = Vec3f(0.1f, 0.1f, 0.1f);
+	PointLight pointlight;
+	pointlight.intensity = Vec3f(500.0f, 500.0f, 500.0f);
+	pointlight.pos = Vec3f(50.f, 50.f, -50.f);
+	PointLight pointlight2;
+	pointlight2.intensity = Vec3f(0.8f, 0.8f, 0.8f);
+	pointlight2.pos = Vec3f(-20.f, -20.f, -30.f);
 
-	//Entity::RegisterAmbientLight(&ambientlight);
-	//Entity::RegisterPointLight(&pointlight);
-	//Entity::RegisterPointLight(&pointlight2);
+	Entity::RegisterAmbientLight(&ambientlight);
+	Entity::RegisterPointLight(&pointlight);
+	Entity::RegisterPointLight(&pointlight2);
 
 	///////////////////////////////////////////////////////////
 
@@ -103,48 +103,54 @@ int main()
 
 	/////////////////////////////////////////////////////////
 
-	// Setting up quad
-	Quad quad;
-	quad.pos = Vec3f(0, -25, -50);
-	quad.rot = Vec3f(-90, 0, 0);
-	quad.scale = Vec3f(25.0, 100.0, 25.0);
-	Entity::Register(&quad);
 
-	Quad quad2;
-	quad2.pos = Vec3f(25, 0, -50);
-	quad2.rot = Vec3f(-90, 0, 90);
-	quad2.scale = Vec3f(25.0, 100.0, 25.0);
-	Entity::Register(&quad2);
+	//Quad quad;
+	//quad.pos = Vec3f(0, -10, -100);
+	//quad.rot = Vec3f(-90, 0, 0);
+	//quad.scale = Vec3f(10.0, 100.0, 10.0);
+	//Entity::Register(&quad);
 
-	Quad quad3;
-	quad3.pos = Vec3f(-25, 0, -50);
-	quad3.rot = Vec3f(-90, 0, -90);
-	quad3.scale = Vec3f(25.0, 100.0, 25.0);
-	Entity::Register(&quad3);
+	//Quad quad2;
+	//quad2.pos = Vec3f(10, 0, -100);
+	//quad2.rot = Vec3f(-90, 0, 90);
+	//quad2.scale = Vec3f(10.0, 100.0, 10.0);
+	////Entity::Register(&quad2);
 
-	Quad quad4;
-	Entity::Register(&quad4);
-	quad4.pos = Vec3f(0, 25, -50);
-	quad4.rot = Vec3f(90, 0, 0);
-	quad4.scale = Vec3f(25.0, 100.0, 25.0);
+	//Quad quad3;
+	//quad3.pos = Vec3f(-10, 0, -100);
+	//quad3.rot = Vec3f(-90, 0, -90);
+	//quad3.scale = Vec3f(10.0, 100.0, 10.0);
+	////Entity::Register(&quad3);
 
-	//Setting up lights
-	AmbientLight ambientlight;
-	ambientlight.intensity = Vec3f(0.1f, 0.1f, 0.1f);
-	PointLight pointlight;
-	pointlight.intensity = Vec3f(0.9f, 0.9f, 0.0f);
-	pointlight.pos = Vec3f(20.f, 20.f, -20.f);
-	PointLight pointlight2;
-	pointlight2.intensity = Vec3f(0.0f, 0.0f, 1.0f);
-	pointlight2.pos = Vec3f(0.0f, 0.0f, -20.f);
-	PointLight pointlight3;
-	pointlight3.intensity = Vec3f(50.0f, 50.0f, 50.0f);
-	pointlight3.pos = Vec3f(0.0f, 0.0f, -100.f);
+	//Quad quad4;
+	//Entity::Register(&quad4);
+	//quad4.pos = Vec3f(0, 10, -100);
+	//quad4.rot = Vec3f(90, 0, 0);
+	////quad4.scale = Vec3f(10.0, 100.0, 10.0);
 
-	Entity::RegisterAmbientLight(&ambientlight);
-	Entity::RegisterPointLight(&pointlight);
-	Entity::RegisterPointLight(&pointlight2);
-	Entity::RegisterPointLight(&pointlight3);
+	//Quad quad5;
+	//Entity::Register(&quad5);
+	//quad5.pos = Vec3f(0, 0, -80);
+	//quad5.rot = Vec3f(0, 0, 0);
+	//quad5.scale = Vec3f(10.0, 10.0, 10.0);
+
+	////Setting up lights
+	//AmbientLight ambientlight;
+	//ambientlight.intensity = Vec3f(0.1f, 0.1f, 0.1f);
+	//PointLight pointlight;
+	//pointlight.intensity = Vec3f(5.0f, 0.0f, 0.0f);
+	//pointlight.pos = Vec3f(5.f, 5.f, -5.f);
+	//PointLight pointlight2;
+	//pointlight2.intensity = Vec3f(0.0f, 5.0f, 5.0f);
+	//pointlight2.pos = Vec3f(-5.0f, -5.0f, -5.f);
+	//PointLight pointlight3;
+	//pointlight3.intensity = Vec3f(100.0f, 100.0f, 100.0f);
+	//pointlight3.pos = Vec3f(9.0f, 9.0f, -55.f);
+
+	//Entity::RegisterAmbientLight(&ambientlight);
+	////Entity::RegisterPointLight(&pointlight);
+	////Entity::RegisterPointLight(&pointlight2);
+	//Entity::RegisterPointLight(&pointlight3);
 
 	System::Boot();
 	

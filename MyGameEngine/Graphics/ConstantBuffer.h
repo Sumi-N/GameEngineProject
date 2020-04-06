@@ -10,6 +10,7 @@ namespace ConstantData
 		{
 			Vec4f point_intensity;
 			Vec4f point_position;
+			Vec3f point_attenuation; // Doesn't require padding
 		};
 	}
 
@@ -17,8 +18,7 @@ namespace ConstantData
 	{
 		Mat4f view_matrix;
 		Mat4f perspective_matrix;
-		Vec3f camera_position_vector;
-		float padding;
+		Vec3f camera_position_vector; // Doesn't require padding 
 	};
 
 	struct Model

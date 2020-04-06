@@ -96,6 +96,7 @@ inline void GameThread::PassDataTo(Thread * io_thread)
 				// Submit point light data
 				data_game_own->light.pointlights[std::distance(Entity::PointLightList.begin(), it)].point_intensity = Vec4f((*it)->intensity);
 				data_game_own->light.pointlights[std::distance(Entity::PointLightList.begin(), it)].point_position = Vec4f((*it)->pos);
+				data_game_own->light.pointlights[std::distance(Entity::PointLightList.begin(), it)].point_attenuation = (*it)->attenuation;
 
 				// Submit shadow data for point light
 				data_game_own->shadow.point_view_perspective_matrix[std::distance(Entity::PointLightList.begin(), it)] = (*it)->light_space_mat;

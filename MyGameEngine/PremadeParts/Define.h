@@ -22,9 +22,15 @@
 	format->AddShader(debugshader);\
 }
 
-#define SHOW_DEBUG_NORMAL \
+#define SHOW_DEBUG_NORMAL_COLOR \
 {\
-	Shader * debugshader = new Shader(PATH_SUFFIX SHADER_PATH DEBUG_NORMAL_VERT, PATH_SUFFIX SHADER_PATH DEBUG_NORMAL_FRAG);\
+	Shader * debugshader = new Shader(PATH_SUFFIX SHADER_PATH DEBUG_NORMAL_COLOR_VERT, PATH_SUFFIX SHADER_PATH DEBUG_NORMAL_COLOR_FRAG);\
+	format->AddShader(debugshader);\
+}
+
+#define SHOW_DEBUG_NORMAL_VECTOR \
+{\
+	Shader * debugshader = new Shader(PATH_SUFFIX SHADER_PATH DEBUG_NORMAL_VECTOR_VERT, PATH_SUFFIX SHADER_PATH DEBUG_NORMAL_VECTOR_GEO,  PATH_SUFFIX SHADER_PATH DEBUG_NORMAL_VECTOR_FRAG);\
 	format->AddShader(debugshader);\
 }
 

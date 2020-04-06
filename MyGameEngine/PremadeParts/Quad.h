@@ -19,7 +19,7 @@ inline void Quad::Boot()
 
 	format->proxy->mesh->material->Kd = Vec3f(.8f, 0.8f, .8f);
 	format->proxy->mesh->material->Ks = Vec3f(.8f, 0.8f, .8f);	
-	format->proxy->mesh->material->Ns = 10;
+	format->proxy->mesh->material->Ns = 1;
 
 	//Shader* quadshader = new Shader(PATH_SUFFIX SHADER_PATH QUAD_VERT, PATH_SUFFIX SHADER_PATH QUAD_FRAG);
 	Shader* quadshader = new Shader(PATH_SUFFIX SHADER_PATH DEBUG_BP_BASIC_VERT, PATH_SUFFIX SHADER_PATH DEBUG_BP_BASIC_FRAG);
