@@ -35,8 +35,8 @@ inline void RenderThread::Boot()
 
 inline void RenderThread::Init()
 {
-	SceneEntity::Init();
 	Graphic::Init();
+	Graphic::PreCompute();
 }
 
 inline void RenderThread::Run()

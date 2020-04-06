@@ -5,9 +5,9 @@
 // The number of enum also represents the texture unit number
 enum class FrameType : uint8_t
 {
-	Shadow = SHADOWMAP_BINDING_UNIT,
-	HDR    = HDR_BINDING_UNIT,
-	Image = IMAGE_BINDING_UNIT,
+	Shadow             = SHADOWMAP_BINDING_UNIT,
+	CubeMap            = SKYBOX_BINDING_UNIT,
+	Image              = IMAGE_BINDING_UNIT,
 	// Shadow Cube Map require geometry shader thus I will do it later
 	ShadowCubeMap = 5,
 };
@@ -26,7 +26,8 @@ public:
 	void BindFrame();
 	void BindTextureUnit();
 
-	GLuint  bufferid;
+	GLuint  bufferid = 0;
+	GLuint  renderbufferid = 0;
 
 	GLuint textureid_color;
 	GLuint textureid_depth;

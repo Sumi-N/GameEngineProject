@@ -98,6 +98,9 @@
 #define NORMAL_MAP_VERT  "test_purpose/normal_mapping.vert.glsl"
 #define NORMAL_MAP_FRAG  "test_purpose/normal_mapping.frag.glsl"
 
+#define EQUIRECTANGULAR_MAP_VERT "hdr/equirectangular_mapping.vert.glsl"
+#define EQUIRECTANGULAR_MAP_FRAG "hdr/equirectangular_mapping.frag.glsl"
+
 //////////////////////////////
 // Debug Shader Data
 //////////////////////////////

@@ -11,3 +11,4 @@ ConstantBuffer Graphic::constant_shadow;
 
 FrameBuffer    Graphic::frame_shadow;
 FrameBuffer    Graphic::frame_mirror;
+FrameBuffer    Graphic::frame_cubemap;

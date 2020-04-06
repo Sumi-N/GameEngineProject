@@ -144,11 +144,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\APIs\GraphicAPI\loadpng\lodepng.h" />
+    <ClInclude Include="..\..\APIs\GraphicAPI\stb\stb_image.h" />
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="CubeMapMeshComponent.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="HDRTextureAttribute.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="MaterialAttribute.h" />
     <ClInclude Include="MeshComponent.h" />

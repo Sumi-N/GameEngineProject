@@ -3,8 +3,12 @@
 #include "Define.h"
 #include "Attribute.h"
 
-enum class TextureType : uint8_t
+enum class TextureType : int8_t
 {
+	SkyBox = -1,
+	Ohter =  -1,
+
+	//////////////////////
 	None   = 0, 
 
 	//////////////////////
@@ -29,7 +33,7 @@ public:
 	int width, height;
 	TextureType type = TextureType::None;
 
-	bool Load(char const* i_filename, TextureType i_type);
+	virtual bool Load(char const* i_filename, TextureType i_type);
 };
 
 inline bool TextureAttribute::Load(char const* i_filename, TextureType i_type)

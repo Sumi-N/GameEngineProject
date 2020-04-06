@@ -20,6 +20,7 @@ class Graphic
 public:
 	static void Boot();
 	static void Init();
+	static void PreCompute();
 	static bool PreUpdate();
 	static void Update(GraphicRequiredData*);
 	static void PostUpdate(GraphicRequiredData*);
@@ -39,10 +40,14 @@ public:
 
 	static FrameBuffer    frame_shadow;
 	static FrameBuffer    frame_mirror;
+	static FrameBuffer    frame_cubemap;
 };
 
 inline void Graphic::Init()
 {
+	// Init scene entity
+	SceneEntity::Init();
+
 	// Init uniform buffers
 	constant_camera.Init(ConstantData::Index::Camera, ConstantData::Size::Camera);
 	constant_model.Init(ConstantData::Index::Model, ConstantData::Size::Model);
@@ -53,4 +58,5 @@ inline void Graphic::Init()
 
 	frame_shadow.Init(FrameType::Shadow, BASIC_TEXTURE_SIZE, BASIC_TEXTURE_SIZE);
 	frame_mirror.Init(FrameType::Image, SCREEN_WIDTH, SCREEN_HEIGHT);
+	frame_cubemap.Init(FrameType::CubeMap, HALF_TEXTURE_SIZE, HALF_TEXTURE_SIZE);
 }

@@ -48,6 +48,12 @@
     <ClInclude Include="CubeMapMeshComponent.h">
       <Filter>Compontnes</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\APIs\GraphicAPI\stb\stb_image.h">
+      <Filter>API</Filter>
+    </ClInclude>
+    <ClInclude Include="HDRTextureAttribute.h">
+      <Filter>Attributes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshComponent.cpp">

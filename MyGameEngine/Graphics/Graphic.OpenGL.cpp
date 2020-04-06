@@ -55,6 +55,11 @@ void Graphic::Boot()
 	glPatchParameteri(GL_PATCH_VERTICES, 3);
 }
 
+void Graphic::PreCompute()
+{
+
+}
+
 bool Graphic::PreUpdate()
 {
 	if (glfwWindowShouldClose(window) == GL_TRUE)

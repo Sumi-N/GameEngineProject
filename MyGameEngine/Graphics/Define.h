@@ -7,6 +7,7 @@
 #include <Parts/MeshComponent.h>
 #include <Parts/CubeMapMeshComponent.h>
 #include <Parts/TextureAttribute.h>
+#include <Parts/HDRTextureAttribute.h>
 #include <BoneStructure/SmartPointer.h>
 #include <EntitySystem/Entity.h>
 
@@ -31,3 +32,4 @@
 
 /////////////////////
 #define BASIC_TEXTURE_SIZE 1024
+#define HALF_TEXTURE_SIZE 512

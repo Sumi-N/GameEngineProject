@@ -9,12 +9,12 @@ void FrameBuffer::Init(FrameType i_type, int i_width, int i_height)
 	width  = i_width;
 	height = i_height;
 
-	// Create frame buffer
-	glGenFramebuffers(1, &bufferid);
-	glBindFramebuffer(GL_FRAMEBUFFER, bufferid);
-
 	if (i_type == FrameType::Image)
 	{
+		// Create frame buffer
+		glGenFramebuffers(1, &bufferid);
+		glBindFramebuffer(GL_FRAMEBUFFER, bufferid);
+
 		// Load shader
 		shader.SetShader(PATH_SUFFIX SHADER_PATH MIRROR_VERT, PATH_SUFFIX SHADER_PATH MIRROR_FRAG);
 		shader.LoadShader();
@@ -41,6 +41,10 @@ void FrameBuffer::Init(FrameType i_type, int i_width, int i_height)
 	}
 	else if (i_type == FrameType::Shadow)
 	{
+		// Create frame buffer
+		glGenFramebuffers(1, &bufferid);
+		glBindFramebuffer(GL_FRAMEBUFFER, bufferid);
+
 		// Load shader
 		shader.SetShader(PATH_SUFFIX SHADER_PATH SHADOWMAP_VERT, PATH_SUFFIX SHADER_PATH SHADOWMAP_FRAG);
 		shader.LoadShader();
@@ -60,15 +64,40 @@ void FrameBuffer::Init(FrameType i_type, int i_width, int i_height)
 		glDrawBuffer(GL_NONE);
 		glReadBuffer(GL_NONE);
 	}
-	else if (i_type == FrameType::HDR)
+	else if (i_type == FrameType::CubeMap)
 	{
-		// Create depth buffer
-		glGenTextures(1, &textureid_depth);
-		glBindTexture(GL_TEXTURE_2D, textureid_depth);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16, i_width, i_height, 0, GL_RGBA, GL_FLOAT, NULL);
+		glGenFramebuffers(1, &bufferid);
+		glGenRenderbuffers(1, &renderbufferid);
+
+		// Load shader
+		shader.SetShader(PATH_SUFFIX SHADER_PATH EQUIRECTANGULAR_MAP_VERT, PATH_SUFFIX SHADER_PATH EQUIRECTANGULAR_MAP_FRAG);
+		shader.LoadShader();
+
+		glBindFramebuffer(GL_FRAMEBUFFER, bufferid);
+		glBindRenderbuffer(GL_RENDERBUFFER, renderbufferid);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, width, height);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderbufferid);
+
+		glGenTextures(1, &textureid_color);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, textureid_color);
+		for (unsigned int i = 0; i < 6; ++i)
+		{
+			// note that we store each face with 16 bit floating point values
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F,
+				width, height, 0, GL_RGB, GL_FLOAT, nullptr);
+		}
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	}
 	else if(i_type == FrameType::ShadowCubeMap)
 	{
+		// Create frame buffer
+		glGenFramebuffers(1, &bufferid);
+		glBindFramebuffer(GL_FRAMEBUFFER, bufferid);
+
 		glGenTextures(1, &textureid_depth);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, textureid_depth);
 		glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
