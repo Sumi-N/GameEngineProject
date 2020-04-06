@@ -124,7 +124,7 @@ void main()
 
 	float shadow = 0;
 	for(int i = 0; i < 1; i++){
-		shadow += ShadowCalculation(fs_in.light_space_position_depth[i]);
+		//shadow += ShadowCalculation(fs_in.light_space_position_depth[i]);
 	}
 
 	if(shadow > 1){
