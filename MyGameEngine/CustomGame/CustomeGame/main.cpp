@@ -135,18 +135,18 @@ int main()
 
 	///////////////////////////////////////////////////////////
 
-	//SpherePBR_Test sphere[64];
+	SpherePBR_Test sphere[64];
 
-	//for (int i = 0; i < 8; i++)
-	//{
-	//	for (int j = 0; j < 8; j++)
-	//	{
-	//		sphere[8 * i + j].ChangePos(Vec3f(6.25f * i - 20.0f, 6.25f * j - 20.0f, -60.0f));
-	//		sphere[8 * i + j].ChangeMaterialParameter(0.125f * i, 0.125f * j);
-	//		sphere[8 * i + j].scale = Vec3f(0.1, 0.1, 0.1);
-	//		Entity::Register(&sphere[8 * i + j]);
-	//	}
-	//}
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			sphere[8 * i + j].ChangePos(Vec3f(6.25f * i - 20.0f, 6.25f * j - 20.0f, -60.0f));
+			sphere[8 * i + j].ChangeMaterialParameter(0.125f * i, 0.125f * j);
+			sphere[8 * i + j].scale = Vec3f(0.1, 0.1, 0.1);
+			Entity::Register(&sphere[8 * i + j]);
+		}
+	}
 
 	RastedSphere rastered;
 	rastered.Translate(Vec3f(0, 0, -80));
@@ -169,7 +169,7 @@ int main()
 	pointlight4.pos = Vec3f(-30.f, -30.f, -40.f);
 
 	AmbientLight ambientlight;
-	ambientlight.intensity = Vec3f(0.03f, 0.03f, 0.03f);
+	ambientlight.intensity = Vec3f(0.1f, 0.1f, 0.1f);
 
 	Entity::RegisterPointLight(&pointlight);
 	Entity::RegisterPointLight(&pointlight2);

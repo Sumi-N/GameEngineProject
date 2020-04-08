@@ -1,43 +1,39 @@
 #version 420 core
 
-// Output
-out vec4 color;
-
 // Consta data
 const int MAX_POINT_LIGHT_NUM = 5;
-const float POINT_LIGHT_BIAS = 0.00005;
 const float PI = 3.14159265359;
 const float ROUGHTNESS_BIAS = 0.00005;
 
+// Output
+out vec4 color;
 
 /////////////////////////////////////////////////////////////////////////////
 
 in VS_OUT{
 	// Object world position
-	vec4 world_object_position;
+	vec4 world_position;
 	// Normal vector of the object at model coordinate
 	vec3 model_normal;
-	// Point light direction vector at world coordinate
-	vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
-	// view direction vector at world coordinate
-	vec3 world_view_direction;
 	// Texture coordinate
 	vec2 texcoord;
-	// The depth value at light space
-	vec3 light_space_position_depth[MAX_POINT_LIGHT_NUM];
+	// view direction vector at world coordinate
+	vec3 world_view_direction;
+		// Point light direction vector at world coordinate
+	vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
 } fs_in;
 
 //////////////////////////////////////////////////////////////////////////////
 // Structure define
 struct PointLight{
-	vec4 point_intensity;
-	vec4 point_position;
-	vec3 point_attenuation;
+	vec4 intensity;
+	vec4 position;
+	vec3 attenuation;
 	float padding;
 };
 //////////////////////////////////////////////////////////////////////////////
 
-layout (std140, binding = 1) uniform const_object
+layout (std140, binding = 1) uniform const_model
 {
 	mat4 model_position_matrix;
 	mat4 model_view_perspective_matrix;
@@ -66,34 +62,10 @@ layout (std140, binding = 3) uniform const_light
 };
 
 layout(binding = 0) uniform samplerCube skybox;
-layout(binding = 1) uniform sampler2D shadowmap;
-layout(binding = 3) uniform sampler2D texturealbedo;
-layout(binding = 4) uniform sampler2D texturenormal;
-layout(binding = 5) uniform sampler2D textureroughness;
-layout(binding = 6) uniform sampler2D texturemetalic;
-
-//////////////////////////////////////////////////////////////////////////////
-
-float ShadowCalculation(vec3 fragPosLightSpace)
-{
-    // transform to [0,1] range
-    vec3 projCoords = fragPosLightSpace * 0.5 + 0.5;
-    // get depth of current fragment from light's perspective
-    float currentDepth = projCoords.z;
-    // check whether current frag pos is in shadow
-	float shadow = 0.0;
-	vec2 texelSize = 1.0 / textureSize(shadowmap, 0);
-	for(int x = -2; x <= 2; ++x)
-	{
-		for(int y = -2; y <= 2; ++y)
-		{
-			float pcfDepth = texture(shadowmap, projCoords.xy + vec2(x, y) * texelSize).r; 
-			shadow += currentDepth - POINT_LIGHT_BIAS > pcfDepth ? 1.0 : 0.0;        
-		}    
-	}
-	shadow /= 16.0;
-	return shadow;
-}
+layout(binding = 6) uniform sampler2D texturealbedo;
+layout(binding = 7) uniform sampler2D texturenormal;
+layout(binding = 8) uniform sampler2D textureroughness;
+layout(binding = 9) uniform sampler2D texturemetalic;
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -139,20 +111,20 @@ float GeometrySmith(vec3 N, vec3 V, vec3 L)
 
 /////////////////////////////////////////////////////////////////////////////
 
-vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity, vec4 point_position, vec3 world_normal, vec3 point_attenuation){
+vec4 CalcPointLightShading(PointLight pointlight, vec3 world_normal, vec3 pointlight_direction){
 
-	float dist = distance(vec3(point_position), vec3(fs_in.world_object_position));
-	float attenuation = 1.0 / (point_attenuation.x + point_attenuation.y * dist + point_attenuation.z * dist * dist);
-	vec4  radiance = point_intensity * attenuation;
+	float dist = distance(vec3(pointlight.position), vec3(fs_in.world_position));
+	float attenuation = 1.0 / (pointlight.attenuation.x + pointlight.attenuation.y * dist + pointlight.attenuation.z * dist * dist);
+	vec4  radiance = pointlight.intensity * attenuation;
 
 	vec4 color = vec4(0, 0, 0, 1.0);
 
 	// Cos theta term
-	float cos_theta_1 = max(dot(world_normal, world_pointlight_direction), 0.0); // n dot l
+	float cos_theta_1 = max(dot(world_normal, pointlight_direction), 0.0); // n dot l
 	float cos_theta_2 = max(dot(world_normal, fs_in.world_view_direction), 0.0); // n dot v
 
 	// Half vector
-	vec3 h = normalize(fs_in.world_view_direction + world_pointlight_direction);
+	vec3 h = normalize(fs_in.world_view_direction + pointlight_direction);
 
 
 	vec3 f0 = vec3(0.04);
@@ -161,9 +133,9 @@ vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 	// Normal distribution function
 	float ndf = DistributionGGX(world_normal, h);
 	// Geometry function
-	float g   = GeometrySmith(world_normal, fs_in.world_view_direction, world_pointlight_direction);
+	float g   = GeometrySmith(world_normal, fs_in.world_view_direction, pointlight_direction);
 	// Fresnel equation
-	vec3  f = FresnelSchlick(max(dot(h, world_pointlight_direction), 0.0), f0);
+	vec3  f = FresnelSchlick(max(dot(h, pointlight_direction), 0.0), f0);
 
 	vec3 numerator = ndf * g * f;
 	float denominator = 4.0 * cos_theta_1 * cos_theta_2;
@@ -189,15 +161,8 @@ void main()
 	// Calculate world normal
 	vec3 world_normal = normalize(mat3(model_inverse_transpose_matrix) * fs_in.model_normal);
 
-	float shadow = 0;
-	for(int i = 0; i < 1; i++){
-		//shadow += ShadowCalculation(fs_in.light_space_position_depth[i]);
-	}
-
-	shadow = min(shadow, 1.0);
-
 	for(int i = 0; i < point_num; i++){
-		color += CalcPointLightShading(fs_in.world_pointlight_direction[i], pointlights[i].point_intensity, pointlights[i].point_position, world_normal, pointlights[i].point_attenuation);
+		color += CalcPointLightShading(pointlights[i], world_normal,fs_in.world_pointlight_direction[i]);
 	}
 
 	// Ganmma correction
