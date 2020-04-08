@@ -83,6 +83,10 @@
 #define SHADOWMAP_VERT "shadow_mapping/shadowmap.vert.glsl"
 #define SHADOWMAP_FRAG "shadow_mapping/shadowmap.frag.glsl"
 
+#define SHADOW_CUBE_MAPPING_VERT "shadow_mapping/shadow_cube_mapping.vert.glsl"
+#define SHADOW_CUBE_MAPPING_GEO  "shadow_mapping/shadow_cube_mapping.geo.glsl"
+#define SHADOW_CUBE_MAPPING_FRAG "shadow_mapping/shadow_cube_mapping.frag.glsl"
+
 #define MIRROR_VERT     "mirror/mirror.vert.glsl"
 #define MIRROR_FRAG     "mirror/mirror.frag.glsl"
 

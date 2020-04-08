@@ -4,8 +4,9 @@
 out vec4 color;
 
 // Consta data
-const int MAX_POINT_LIGHT_NUM = 5;
-const float POINT_LIGHT_BIAS = 0.00005;
+const int   MAX_POINT_LIGHT_NUM = 5;
+const float POINT_LIGHT_BIAS = 0.5;
+const float FAR_PLANE_DISTANCE = 100;
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -20,8 +21,6 @@ in VS_OUT{
 	vec2 texcoord;
 	// Point light direction vector at world coordinate
 	vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
-	// The depth value at light space
-	vec3 light_space_position_depth[MAX_POINT_LIGHT_NUM];
 } fs_in;
 
 //////////////////////////////////////////////////////////////////////////////
@@ -57,31 +56,39 @@ layout (std140, binding = 3) uniform const_light
 };
 
 layout(binding = 0) uniform samplerCube skybox;
-layout(binding = 1) uniform sampler2D shadowmap;
+layout(binding = 1) uniform samplerCube shadowmap;
 layout(binding = 3) uniform sampler2D texture0; // Diffuse  texture
 layout(binding = 4) uniform sampler2D texture1; // Specular texture
 layout(binding = 5) uniform sampler2D texture2; // Normal map
 
 //////////////////////////////////////////////////////////////////////////////
 
-float ShadowCalculation(vec3 fragPosLightSpace)
+float ShadowCalculation(vec3 fragpos)
 {
-    // transform to [0,1] range
-    vec3 projCoords = fragPosLightSpace * 0.5 + 0.5;
-    // get depth of current fragment from light's perspective
-    float currentDepth = projCoords.z;
-    // check whether current frag pos is in shadow
-	float shadow = 0.0;
-	vec2 texelSize = 1.0 / textureSize(shadowmap, 0);
-	for(int x = -2; x <= 2; ++x)
+	vec3 fragToLight = fragpos - vec3(pointlights[0].point_position);
+	float closestDepth = texture(shadowmap, fragToLight).r;
+
+	closestDepth *= FAR_PLANE_DISTANCE;
+	float currentDepth = length(fragToLight);
+
+	float shadow  = 0.0;
+	float samples = 4.0;
+	float offset  = 0.1;
+
+	for(float x = -offset; x < offset; x += offset / (samples * 0.5))
 	{
-		for(int y = -2; y <= 2; ++y)
+		for(float y = -offset; y < offset; y += offset / (samples * 0.5))
 		{
-			float pcfDepth = texture(shadowmap, projCoords.xy + vec2(x, y) * texelSize).r; 
-			shadow += currentDepth - POINT_LIGHT_BIAS > pcfDepth ? 1.0 : 0.0;        
-		}    
+			for(float z = -offset; z < offset; z += offset / (samples * 0.5))
+			{
+				float closestDepth = texture(shadowmap, fragToLight + vec3(x, y, z)).r; 
+				closestDepth *= FAR_PLANE_DISTANCE;   // Undo mapping [0;1]
+				if(currentDepth - POINT_LIGHT_BIAS > closestDepth)
+					shadow += 1.0;
+			}
+		}
 	}
-	shadow /= 16.0;
+	shadow /= (samples * samples * samples);
 	return shadow;
 }
 
@@ -99,7 +106,7 @@ vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 point_intensity
 	
 	if (cos_theta_1 > 0)
 	{
-		color += texture2D(texture1,  vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t))  * cos_theta_1 * diffuse * radiance;
+		color += texture2D(texture1,  vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t))  * abs(cos_theta_1) * diffuse * radiance;
 	
 		vec3 h = normalize(fs_in.world_view_direction + world_pointlight_direction);
 
@@ -124,12 +131,13 @@ void main()
 
 	float shadow = 0;
 	for(int i = 0; i < 1; i++){
-		//shadow += ShadowCalculation(fs_in.light_space_position_depth[i]);
+		shadow += ShadowCalculation(vec3(fs_in.world_object_position));
 	}
 
 	if(shadow > 1){
 		shadow = 1;
 	}
+
 
 	for(int i = 0; i < point_num; i++){
 		color += CalcPointLightShading(fs_in.world_pointlight_direction[i], pointlights[i].point_intensity, world_normal, pointlights[i].point_attenuation, pointlights[i].point_position) * (1.0 - shadow);

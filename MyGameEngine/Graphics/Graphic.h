@@ -56,7 +56,7 @@ inline void Graphic::Init()
 	constant_skybox.Init(ConstantData::Index::SkyBox, ConstantData::Size::SkyBox);
 	constant_shadow.Init(ConstantData::Index::Shadow, ConstantData::Size::Shadow);
 
-	frame_shadow.Init(FrameType::Shadow, BASIC_TEXTURE_SIZE, BASIC_TEXTURE_SIZE);
+	frame_shadow.Init(FrameType::ShadowCubeMap, BASIC_TEXTURE_SIZE, BASIC_TEXTURE_SIZE);
 	frame_mirror.Init(FrameType::Image, SCREEN_WIDTH, SCREEN_HEIGHT);
 	frame_cubemap.Init(FrameType::CubeMap, HALF_TEXTURE_SIZE, HALF_TEXTURE_SIZE);
 }

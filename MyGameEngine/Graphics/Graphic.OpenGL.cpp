@@ -96,7 +96,6 @@ void Graphic::Update(GraphicRequiredData * i_data)
 			if (i_data->model_data.size() != 0)
 			{
 				auto& data_model = i_data->model_data[i];
-				data_model.model_view_perspective_matrix = i_data->shadow.point_view_perspective_matrix[0] * data_model.model_position_matrix;
 				constant_model.Update(&data_model);
 
 				SceneEntity::List[i].proxy->Draw();
@@ -107,7 +106,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// Rendering sky box
 		if(SceneEntity::SkyBoxScene.skyboxproxy)

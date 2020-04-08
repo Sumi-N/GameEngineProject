@@ -36,9 +36,6 @@ inline void Teapot::Boot()
 inline void Teapot::Init()
 {
 	PremadeObjebct::Init();
-	this->pos = Vec3f(0, 0, -50);
-	this->rot = Vec3f(-90, 0, 0);
-	this->scale = Vec3f(1.0, 1.0, 1.0);
 }
 
 inline void Teapot::Update(float i_dt)

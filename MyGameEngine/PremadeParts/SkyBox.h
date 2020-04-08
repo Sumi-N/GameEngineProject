@@ -29,7 +29,7 @@ inline void SkyBox::Boot()
 	for (int i = 0; i < 6; i++)
 	{
 		texture[i] = new TextureAttribute();
-		texture[i]->Load(filename[i], TextureType::None);
+		texture[i]->Load(filename[i], TextureType::SkyBox);
 		OwningPointer<TextureAttribute> handler(texture[i]);
 		mesh->textures.push_back(handler);
 	}

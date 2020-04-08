@@ -4,7 +4,7 @@ out vec4 color;
 
 in vec2 texcoords;
 
-layout(binding = 2) uniform sampler2d hdrbuffer;
+layout(binding = 2) uniform sampler2D hdrbuffer;
 
 void main(){
     vec3 hdrcolor = texture(hdrbuffer, texcoords).rgb;

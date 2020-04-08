@@ -158,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="DepthMapDebugPlane.h" />
     <ClInclude Include="MyCamera.h" />
+    <ClInclude Include="MyPointLight.h" />
     <ClInclude Include="NormalMapDebugPlane.h" />
     <ClInclude Include="RastedSphere.h" />
     <ClInclude Include="SpherePBR_Test.h" />

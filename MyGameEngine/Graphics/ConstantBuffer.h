@@ -56,7 +56,7 @@ namespace ConstantData
 
 	struct Shadow
 	{
-		Mat4f point_view_perspective_matrix[MAX_POINT_LIGHT_NUM];
+		Mat4f point_view_perspective_matrix[MAX_POINT_LIGHT_NUM][6];
 		Mat4f directional_view_perspective_matrix;
 	};
 
