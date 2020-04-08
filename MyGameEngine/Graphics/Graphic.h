@@ -12,7 +12,7 @@ struct GraphicRequiredData
 	std::vector<ConstantData::Model> model_data;
 	std::vector<ConstantData::Material> material_data;
 	ConstantData::Light  light;
-	ConstantData::Shadow shadow;
+	ConstantData::Shadow shadow[MAX_POINT_LIGHT_NUM];
 };
 
 class Graphic
@@ -38,7 +38,7 @@ public:
 	static ConstantBuffer constant_skybox;
 	static ConstantBuffer constant_shadow;
 
-	static FrameBuffer    frame_shadow;
+	static FrameBuffer    frame_shadow[MAX_POINT_LIGHT_NUM];
 	static FrameBuffer    frame_mirror;
 	static FrameBuffer    frame_cubemap;
 };
@@ -56,7 +56,10 @@ inline void Graphic::Init()
 	constant_skybox.Init(ConstantData::Index::SkyBox, ConstantData::Size::SkyBox);
 	constant_shadow.Init(ConstantData::Index::Shadow, ConstantData::Size::Shadow);
 
-	frame_shadow.Init(FrameType::ShadowCubeMap, BASIC_TEXTURE_SIZE, BASIC_TEXTURE_SIZE);
-	frame_mirror.Init(FrameType::Image, SCREEN_WIDTH, SCREEN_HEIGHT);
-	frame_cubemap.Init(FrameType::CubeMap, HALF_TEXTURE_SIZE, HALF_TEXTURE_SIZE);
+	for (int i = 0; i < MAX_POINT_LIGHT_NUM; i++)
+	{
+		frame_shadow[i].Init(FrameType::ShadowCubeMap, SHADOWMAP_BINDING_UNIT1 + i, BASIC_TEXTURE_SIZE, BASIC_TEXTURE_SIZE);
+	}
+	frame_mirror.Init(FrameType::Image, SCREEN_WIDTH, SCREEN_HEIGHT, -1);
+	frame_cubemap.Init(FrameType::CubeMap, HALF_TEXTURE_SIZE, HALF_TEXTURE_SIZE, -1);
 }

@@ -3,11 +3,12 @@
 
 #ifdef ENGINE_GRAPHIC_OPENGL
 
-void FrameBuffer::Init(FrameType i_type, int i_width, int i_height)
+void FrameBuffer::Init(FrameType i_type, int i_unitnum, int i_width, int i_height)
 {
-	frametype = i_type;
-	width  = i_width;
-	height = i_height;
+	frametype   = i_type;
+	width       = i_width;
+	height      = i_height;
+	unit_number = i_unitnum;
 
 	if (i_type == FrameType::Image)
 	{
@@ -39,7 +40,7 @@ void FrameBuffer::Init(FrameType i_type, int i_width, int i_height)
 
 		glDrawBuffer(GL_COLOR_ATTACHMENT0);
 	}
-	else if (i_type == FrameType::Shadow)
+	else if (i_type == FrameType::ShadowMap)
 	{
 		// Create frame buffer
 		glGenFramebuffers(1, &bufferid);
@@ -141,12 +142,13 @@ void FrameBuffer::BindFrame()
 
 void FrameBuffer::BindTextureUnit()
 {
-	glActiveTexture(GL_TEXTURE0 + static_cast<int>(frametype));
+	glActiveTexture(GL_TEXTURE0 + static_cast<int>(unit_number));
+
 	if (frametype == FrameType::Image)
 	{
 		glBindTexture(GL_TEXTURE_2D, textureid_color);
 	}
-	else if (frametype == FrameType::Shadow)
+	else if (frametype == FrameType::ShadowMap)
 	{
 		glBindTexture(GL_TEXTURE_2D, textureid_depth);
 	}

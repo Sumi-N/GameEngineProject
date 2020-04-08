@@ -9,6 +9,6 @@ ConstantBuffer Graphic::constant_light;
 ConstantBuffer Graphic::constant_skybox;
 ConstantBuffer Graphic::constant_shadow;
 
-FrameBuffer    Graphic::frame_shadow;
+FrameBuffer    Graphic::frame_shadow[MAX_POINT_LIGHT_NUM];
 FrameBuffer    Graphic::frame_mirror;
 FrameBuffer    Graphic::frame_cubemap;

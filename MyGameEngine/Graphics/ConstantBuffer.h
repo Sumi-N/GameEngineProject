@@ -47,6 +47,7 @@ namespace ConstantData
 		Vec4f directional_direction;
 		SubData::PointLight pointlights[MAX_POINT_LIGHT_NUM];
 		int   point_num;
+		int   nth_point;
 	};
 
 	struct SkyBox
@@ -56,8 +57,9 @@ namespace ConstantData
 
 	struct Shadow
 	{
-		Mat4f point_view_perspective_matrix[MAX_POINT_LIGHT_NUM][6];
-		Mat4f directional_view_perspective_matrix;
+		Mat4f point_view_perspective_matrix[6];
+		Vec4f point_position;
+		//Mat4f directional_view_perspective_matrix;
 	};
 
 	/////////////////// Don't forget to add index and size data after adding a new uniform data //////////////

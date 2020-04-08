@@ -24,10 +24,14 @@
 // Texture unit
 ///////////////////
 #define SKYBOX_BINDING_UNIT              0
-#define SHADOWMAP_BINDING_UNIT           1
+#define SHADOWMAP_BINDING_UNIT1          1
+#define SHADOWMAP_BINDING_UNIT2          2
+#define SHADOWMAP_BINDING_UNIT3          3
+#define SHADOWMAP_BINDING_UNIT4          4
+#define SHADOWMAP_BINDING_UNIT5          5
 #define HDR_BINDING_UNIT                 2
 #define IMAGE_BINDING_UNIT               2
-#define TEXTURE_UNIT_BINDING_OFFSET 3
+#define TEXTURE_UNIT_BINDING_OFFSET      6
 
 
 /////////////////////

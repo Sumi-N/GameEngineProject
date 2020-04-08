@@ -82,23 +82,26 @@ void Graphic::Update(GraphicRequiredData * i_data)
 	auto& data_light = i_data->light;
 	constant_light.Update(&data_light);
 
-	// Submit shadow uniform data
-	auto& data_shadow = i_data->shadow;
-	constant_shadow.Update(&data_shadow);
-
-	// Render shadow to frame buffer
-	frame_shadow.BindFrame();
+	// Render shadow to frame buffers
+	for (int i = 0; i < MAX_POINT_LIGHT_NUM; i++)
 	{
-		glClear(GL_DEPTH_BUFFER_BIT);
+		// Submit shadow uniform data
+		auto& data_shadow = i_data->shadow[i];
+		constant_shadow.Update(&data_shadow);
 
-		for (int i = 0; i < SceneEntity::List.size(); i++)
+		frame_shadow[i].BindFrame();
 		{
-			if (i_data->model_data.size() != 0)
-			{
-				auto& data_model = i_data->model_data[i];
-				constant_model.Update(&data_model);
+			glClear(GL_DEPTH_BUFFER_BIT);
 
-				SceneEntity::List[i].proxy->Draw();
+			for (int j = 0; j < SceneEntity::List.size(); j++)
+			{
+				if (i_data->model_data.size() != 0)
+				{
+					auto& data_model = i_data->model_data[j];
+					constant_model.Update(&data_model);
+
+					SceneEntity::List[j].proxy->Draw();
+				}
 			}
 		}
 	}
@@ -135,7 +138,10 @@ void Graphic::Update(GraphicRequiredData * i_data)
 				constant_material.Update(&data_material);
 
 				// Shadow map texture binding
-				frame_shadow.BindTextureUnit();
+				for (int j = 0; j < MAX_POINT_LIGHT_NUM; j++)
+				{
+					frame_shadow[j].BindTextureUnit();
+				}
 				SceneEntity::List[i].BindAndDraw();
 			}
 		}

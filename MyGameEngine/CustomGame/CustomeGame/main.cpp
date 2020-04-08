@@ -125,8 +125,13 @@ int main()
 	pointlight.intensity = Vec3f(10.0f, 10.0f, 10.0f);
 	pointlight.pos = Vec3f(0.f, 0.f, 0.f);
 
+	MyPointLight pointlight2;
+	pointlight2.intensity = Vec3f(30.0f, 30.0f, 30.0f);
+	pointlight2.pos = Vec3f(20.f, 20.f, 20.f);
+
 	Entity::RegisterAmbientLight(&ambientlight);
 	Entity::RegisterPointLight(&pointlight);
+	Entity::RegisterPointLight(&pointlight2);
 
 	///////////////////////////////////////////////////////////
 

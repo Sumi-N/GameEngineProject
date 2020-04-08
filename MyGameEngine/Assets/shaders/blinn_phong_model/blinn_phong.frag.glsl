@@ -56,16 +56,20 @@ layout (std140, binding = 3) uniform const_light
 };
 
 layout(binding = 0) uniform samplerCube skybox;
-layout(binding = 1) uniform samplerCube shadowmap;
-layout(binding = 3) uniform sampler2D texture0; // Diffuse  texture
-layout(binding = 4) uniform sampler2D texture1; // Specular texture
-layout(binding = 5) uniform sampler2D texture2; // Normal map
+layout(binding = 1) uniform samplerCube shadowmap0;
+layout(binding = 2) uniform samplerCube shadowmap1;
+layout(binding = 3) uniform samplerCube shadowmap2;
+layout(binding = 4) uniform samplerCube shadowmap3;
+layout(binding = 5) uniform samplerCube shadowmap4;
+layout(binding = 6) uniform sampler2D texture0; // Diffuse  texture
+layout(binding = 7) uniform sampler2D texture1; // Specular texture
+layout(binding = 8) uniform sampler2D texture2; // Normal map
 
 //////////////////////////////////////////////////////////////////////////////
 
-float ShadowCalculation(vec3 fragpos)
+float ShadowCalculation(vec3 fragpos, samplerCube shadowmap, int nth)
 {
-	vec3 fragtolight = fragpos - vec3(pointlights[0].position);
+	vec3 fragtolight = fragpos - vec3(pointlights[nth].position);
 	float closestDepth = texture(shadowmap, fragtolight).r;
 
 	closestDepth *= FAR_PLANE_DISTANCE;
@@ -134,8 +138,17 @@ void main()
 
 	float shadow = 0;
 
-	for(int i = 0; i < 1; i++){
-		shadow += ShadowCalculation(vec3(fs_in.world_position));
+	for(int i = 0; i < MAX_POINT_LIGHT_NUM; i++){
+		if(i == 0)
+			shadow += ShadowCalculation(vec3(fs_in.world_position), shadowmap0, 0);
+		if(i == 1)
+			shadow += ShadowCalculation(vec3(fs_in.world_position), shadowmap1, 1);
+		if(i == 2)
+			shadow += ShadowCalculation(vec3(fs_in.world_position), shadowmap2, 2);
+		if(i == 3)
+			shadow += ShadowCalculation(vec3(fs_in.world_position), shadowmap3, 3);
+		if(i == 4)
+			shadow += ShadowCalculation(vec3(fs_in.world_position), shadowmap4, 4);
 	}
 	
 	shadow = min(shadow, 1.0);

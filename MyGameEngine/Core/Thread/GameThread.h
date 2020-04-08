@@ -86,7 +86,7 @@ inline void GameThread::PassDataTo(Thread * io_thread)
 		data_game_own->light.directional_direction = Vec4f(Entity::Directional->direction);
 		//data_game_own->shadow.directional_view_perspective_matrix = Entity::Directional->light_space_mat;
 
-		// Submit point light data
+		// Submit point lights data
 		if (Entity::PointLightList.size() != 0)
 		{
 			data_game_own->light.point_num = static_cast<int>(Entity::PointLightList.size());
@@ -101,7 +101,8 @@ inline void GameThread::PassDataTo(Thread * io_thread)
 				// Tmp solution, need to fix later
 				for (int i = 0; i < 6; i++)
 				{
-					data_game_own->shadow.point_view_perspective_matrix[0][i] = (*it)->light_space_mats[i];
+					data_game_own->shadow[std::distance(Entity::PointLightList.begin(), it)].point_view_perspective_matrix[i] = (*it)->light_space_mats[i];
+					data_game_own->shadow[std::distance(Entity::PointLightList.begin(), it)].point_position = Vec4f((*it)->pos);
 				}
 			}
 		}
