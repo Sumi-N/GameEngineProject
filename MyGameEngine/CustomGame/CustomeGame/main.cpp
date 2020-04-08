@@ -111,7 +111,7 @@ int main()
 	topwall.rot = Vec3f(90, 0, 0);
 	topwall.scale = Vec3f(50.0f, 50.0f, 50.0f);
 
-	TexturedQuad bottomwall;
+	Quad bottomwall;
 	Entity::Register(&bottomwall);
 	bottomwall.pos = Vec3f(0, -40, 0);
 	bottomwall.rot = Vec3f(-90, 0, 0);
