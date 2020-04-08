@@ -11,7 +11,7 @@ class MyPointLight : public PointLight
 
 inline void MyPointLight::Update(float i_dt)
 {
-	PointLight::Update(i_dt);
+
 
 	if (UserInput.QueryKey((unsigned int)VirtualKey::KEY_I, true))
 	{
@@ -32,4 +32,7 @@ inline void MyPointLight::Update(float i_dt)
 	{
 		Translate(Vec3f(pos.x, pos.y, pos.z - 1.0f));
 	}
+
+	// The update should happen later
+	PointLight::Update(i_dt);
 }

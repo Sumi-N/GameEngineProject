@@ -8,5 +8,5 @@ in VS_OUT{
 
 void main()
 {
-    color = vec4( abs(fs_in.world_normal), 1.0);
+    color = vec4(abs(fs_in.world_normal), 1.0);
 } 

@@ -134,6 +134,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 				auto& data_material = i_data->material_data[i];
 				constant_material.Update(&data_material);
 
+				// Shadow map texture binding
 				frame_shadow.BindTextureUnit();
 				SceneEntity::List[i].BindAndDraw();
 			}
