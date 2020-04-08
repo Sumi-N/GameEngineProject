@@ -100,7 +100,6 @@ float ShadowCalculation(vec3 fragpos, samplerCube shadowmap, int nth)
 
 
 vec4 CalcPointLightShading(PointLight pointlight, vec3 world_normal, vec3 pointlight_direction){
-//vec4 CalcPointLightShading(vec3 world_pointlight_direction, vec4 intensity, vec3 world_normal, vec3 attenuation, vec4 position){
 
 	float dist = distance(vec3(pointlight.position), vec3(fs_in.world_position));
 	float attenuation = 1.0 / (pointlight.attenuation.x + pointlight.attenuation.y * dist + pointlight.attenuation.z * dist * dist);
