@@ -62,16 +62,22 @@ layout (std140, binding = 3) uniform const_light
 };
 
 layout(binding = 0) uniform samplerCube skybox;
-layout(binding = 6) uniform sampler2D texturealbedo;
-layout(binding = 7) uniform sampler2D texturenormal;
-layout(binding = 8) uniform sampler2D textureroughness;
-layout(binding = 9) uniform sampler2D texturemetalic;
+layout(binding = 1) uniform samplerCube irradiancemap;
+layout(binding = 10) uniform sampler2D texturealbedo;
+layout(binding = 11) uniform sampler2D texturenormal;
+layout(binding = 12) uniform sampler2D textureroughness;
+layout(binding = 13) uniform sampler2D texturemetalic;
 
 //////////////////////////////////////////////////////////////////////////////
 
 vec3 FresnelSchlick(float cos, vec3 f0){
 	return f0 + (1.0 - f0) * pow(1.0 - cos, 5.0);
 }
+
+vec3 FresnelSchlickRoughness(float cos, vec3 f0, float roughness)
+{
+    return f0 + (max(vec3(1.0 - roughness), f0) - f0) * pow(1.0 - cos, 5.0);
+} 
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -154,12 +160,16 @@ vec4 CalcPointLightShading(PointLight pointlight, vec3 world_normal, vec3 pointl
 /////////////////////////////////////////////////////////////////////////////
 void main()
 {
-	// Ambient light
-	//color =texture2D(texture0,  vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)) * diffuse * ambient_intensity;
-	color = ambient_intensity * albedo;
-
 	// Calculate world normal
 	vec3 world_normal = normalize(mat3(model_inverse_transpose_matrix) * fs_in.model_normal);
+
+	// Image based reindering part
+	vec3 ks = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), vec3(0.04), roughness); 
+	vec3 kd = 1.0 - ks;
+	vec4 irradiance = vec4(texture(irradiancemap, world_normal).rgb, 1.0);
+	vec4 ambient_diffuse    = irradiance * albedo;
+	color   = vec4(kd,1.0) * ambient_diffuse; 
+	//color   = (kd * diffuse) * ao; 
 
 	for(int i = 0; i < point_num; i++){
 		color += CalcPointLightShading(pointlights[i], world_normal,fs_in.world_pointlight_direction[i]);

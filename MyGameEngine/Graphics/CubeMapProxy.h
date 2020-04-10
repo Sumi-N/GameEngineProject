@@ -80,7 +80,7 @@ inline void CubeMapProxy::InitTexture()
 		textureids.resize(1);
 		textureunits.resize(1);
 
-		textureunits[0] = HDR_BINDING_UNIT;
+		textureunits[0] = 2;
 
 		glGenTextures(1, &textureids[0]);
 		glActiveTexture(GL_TEXTURE0 + textureunits[0]);

@@ -99,6 +99,35 @@ void FrameBuffer::Init(FrameType i_type, int i_unitnum, int i_width, int i_heigh
 		glDrawBuffer(GL_COLOR_ATTACHMENT0);
 		glReadBuffer(GL_NONE);
 	}
+	else if (i_type == FrameType::IrradianceMap)
+	{
+		// Load shader
+		shader.SetShader(PATH_SUFFIX SHADER_PATH EQUIRECTANGULAR_MAP_VERT, PATH_SUFFIX SHADER_PATH EQUIRECTANGULAR_MAP_GEO, PATH_SUFFIX SHADER_PATH LIGHT_CONVOLUTION_MAP_FRAG);
+		shader.LoadShader();
+
+		glGenFramebuffers(1, &bufferid);
+		glBindFramebuffer(GL_FRAMEBUFFER, bufferid);
+
+		glGenTextures(1, &textureid_color);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, textureid_color);
+
+		for (int i = 0; i < 6; i++)
+		{
+			// note that we store each face with 16 bit floating point values
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, nullptr);
+		}
+
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, textureid_color, 0);
+
+		glDrawBuffer(GL_COLOR_ATTACHMENT0);
+		glReadBuffer(GL_NONE);
+	}
 	else if(i_type == FrameType::ShadowCubeMap)
 	{
 		// Load shader
@@ -163,6 +192,10 @@ void FrameBuffer::BindTextureUnit()
 		glBindTexture(GL_TEXTURE_CUBE_MAP, textureid_depth);
 	}
 	else if (frametype == FrameType::CubeMap)
+	{
+		glBindTexture(GL_TEXTURE_CUBE_MAP, textureid_color);
+	}
+	else if (frametype == FrameType::IrradianceMap)
 	{
 		glBindTexture(GL_TEXTURE_CUBE_MAP, textureid_color);
 	}

@@ -87,6 +87,14 @@ void Graphic::PreCompute()
 	glBindTexture(GL_TEXTURE_2D, SceneEntity::SkyBoxScene.skyboxproxy->GetCubeMapTextureID());
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	SceneEntity::SkyBoxScene.skyboxproxy->Draw();
+
+
+	///////////////////////////// make irradiance map
+
+	frame_irradiance.BindFrame();
+	frame_cubemap.BindTextureUnit();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	SceneEntity::SkyBoxScene.skyboxproxy->Draw();
 }
 
 bool Graphic::PreUpdate()
@@ -157,11 +165,12 @@ void Graphic::Update(GraphicRequiredData * i_data)
 				{
 					frame_shadow[j].BindTextureUnit();
 				}
+				frame_irradiance.BindTextureUnit();
 				SceneEntity::List[i].BindAndDraw();
 			}
 		}
 
-		// Rendering sky box
+		//Rendering sky box
 		if (SceneEntity::SkyBoxScene.skyboxproxy)
 		{
 			glDepthFunc(GL_LEQUAL);
@@ -169,7 +178,8 @@ void Graphic::Update(GraphicRequiredData * i_data)
 			data_skybox.skybox_view_perspective_matrix = i_data->camera.perspective_matrix * Mat4f::TruncateToMat3(i_data->camera.view_matrix);
 			constant_skybox.Update(&data_skybox);
 
-			frame_cubemap.BindTextureUnit();
+			// Doesn't matter whether this is binded or not
+			//frame_cubemap.BindTextureUnit();
 			SceneEntity::SkyBoxScene.shader->BindShader();
 			SceneEntity::SkyBoxScene.skyboxproxy->Draw();
 			glDepthFunc(GL_LESS);

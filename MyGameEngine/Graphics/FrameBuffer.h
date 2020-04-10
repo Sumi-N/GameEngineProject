@@ -7,8 +7,9 @@ enum class FrameType : uint8_t
 {
 	ShadowCubeMap = 0,
 	CubeMap       = 1,
-	Image         = 2,
-	ShadowMap     = 3,
+	IrradianceMap = 2,
+	Image         = 3,
+	ShadowMap     = 4,
 };
 
 class FrameBuffer

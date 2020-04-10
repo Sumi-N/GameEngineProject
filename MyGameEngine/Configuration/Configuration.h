@@ -104,6 +104,7 @@
 #define EQUIRECTANGULAR_MAP_VERT "hdr/equirectangular_mapping.vert.glsl"
 #define EQUIRECTANGULAR_MAP_GEO  "hdr/equirectangular_mapping.geo.glsl"
 #define EQUIRECTANGULAR_MAP_FRAG "hdr/equirectangular_mapping.frag.glsl"
+#define LIGHT_CONVOLUTION_MAP_FRAG "hdr/equirectangular_light_convolution.frag.glsl"
 
 //////////////////////////////
 // Debug Shader Data

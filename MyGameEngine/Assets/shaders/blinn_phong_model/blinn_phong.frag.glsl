@@ -56,14 +56,15 @@ layout (std140, binding = 3) uniform const_light
 };
 
 layout(binding = 0) uniform samplerCube skybox;
-layout(binding = 1) uniform samplerCube shadowmap0;
-layout(binding = 2) uniform samplerCube shadowmap1;
-layout(binding = 3) uniform samplerCube shadowmap2;
-layout(binding = 4) uniform samplerCube shadowmap3;
-layout(binding = 5) uniform samplerCube shadowmap4;
-layout(binding = 6) uniform sampler2D texture0; // Diffuse  texture
-layout(binding = 7) uniform sampler2D texture1; // Specular texture
-layout(binding = 8) uniform sampler2D texture2; // Normal map
+layout(binding = 1) uniform samplerCube irradiancemap;
+layout(binding = 2) uniform samplerCube shadowmap0;
+layout(binding = 3) uniform samplerCube shadowmap1;
+layout(binding = 4) uniform samplerCube shadowmap2;
+layout(binding = 5) uniform samplerCube shadowmap3;
+layout(binding = 6) uniform samplerCube shadowmap4;
+layout(binding = 10) uniform sampler2D texture0; // Diffuse  texture
+layout(binding = 11) uniform sampler2D texture1; // Specular texture
+layout(binding = 12) uniform sampler2D texture2; // Normal map
 
 //////////////////////////////////////////////////////////////////////////////
 

@@ -56,11 +56,12 @@ layout (std140, binding = 3) uniform const_light
 };
 
 layout(binding = 0) uniform samplerCube skybox;
-layout(binding = 1) uniform samplerCube shadowmap0;
-layout(binding = 2) uniform samplerCube shadowmap1;
-layout(binding = 3) uniform samplerCube shadowmap2;
-layout(binding = 4) uniform samplerCube shadowmap3;
-layout(binding = 5) uniform samplerCube shadowmap4;
+layout(binding = 1) uniform samplerCube irradiancemap;
+layout(binding = 2) uniform samplerCube shadowmap0;
+layout(binding = 3) uniform samplerCube shadowmap1;
+layout(binding = 4) uniform samplerCube shadowmap2;
+layout(binding = 5) uniform samplerCube shadowmap3;
+layout(binding = 6) uniform samplerCube shadowmap4;
 
 //////////////////////////////////////////////////////////////////////////////
 
