@@ -15,14 +15,12 @@ TODO List
 
 .  Implement and switch the file loader to my original
 .  Add directi light and direct light shadow map 
-.  Change point light shadow map to cube map
-.  Refactor Entity system
+.  Refactor Entity system and scene graph
 .  Simple asset loader written in Lua
 .  Multicast delegate messaging system
-.  Finish TBN matrix for normal mapping
 .  Separate the density between graphics and parts module
 .  Add default setting for each componetns such as shader
-.  Fix skybox to correct dependency
+
 
 
 
@@ -31,6 +29,9 @@ Done
 
 .  Make a query function for scene entity to ba able to query specific scene format
 .  Organize displace mapping and related functions such as render and shader structures.
+.  Finish TBN matrix for normal mapping
+.  Fix skybox to correct dependency
+.  Change point light shadow map to cube map
 
 
 Unsolved

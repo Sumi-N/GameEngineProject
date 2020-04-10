@@ -12,13 +12,13 @@ void FrameBuffer::Init(FrameType i_type, int i_unitnum, int i_width, int i_heigh
 
 	if (i_type == FrameType::Image)
 	{
-		// Create frame buffer
-		glGenFramebuffers(1, &bufferid);
-		glBindFramebuffer(GL_FRAMEBUFFER, bufferid);
-
 		// Load shader
 		shader.SetShader(PATH_SUFFIX SHADER_PATH MIRROR_VERT, PATH_SUFFIX SHADER_PATH MIRROR_FRAG);
 		shader.LoadShader();
+
+		// Create frame buffer
+		glGenFramebuffers(1, &bufferid);
+		glBindFramebuffer(GL_FRAMEBUFFER, bufferid);
 
 		// Create color buffer
 		glGenTextures(1, &textureid_color);
@@ -42,13 +42,13 @@ void FrameBuffer::Init(FrameType i_type, int i_unitnum, int i_width, int i_heigh
 	}
 	else if (i_type == FrameType::ShadowMap)
 	{
-		// Create frame buffer
-		glGenFramebuffers(1, &bufferid);
-		glBindFramebuffer(GL_FRAMEBUFFER, bufferid);
-
 		// Load shader
 		shader.SetShader(PATH_SUFFIX SHADER_PATH SHADOWMAP_VERT, PATH_SUFFIX SHADER_PATH SHADOWMAP_FRAG);
 		shader.LoadShader();
+
+		// Create frame buffer
+		glGenFramebuffers(1, &bufferid);
+		glBindFramebuffer(GL_FRAMEBUFFER, bufferid);
 
 		// Create depth buffer
 		glGenTextures(1, &textureid_depth);
@@ -67,41 +67,47 @@ void FrameBuffer::Init(FrameType i_type, int i_unitnum, int i_width, int i_heigh
 	}
 	else if (i_type == FrameType::CubeMap)
 	{
-		glGenFramebuffers(1, &bufferid);
-		glGenRenderbuffers(1, &renderbufferid);
-
 		// Load shader
-		//shader.SetShader(PATH_SUFFIX SHADER_PATH EQUIRECTANGULAR_MAP_VERT, PATH_SUFFIX SHADER_PATH EQUIRECTANGULAR_MAP_FRAG);
-		//shader.LoadShader();
+		shader.SetShader(PATH_SUFFIX SHADER_PATH EQUIRECTANGULAR_MAP_VERT, PATH_SUFFIX SHADER_PATH EQUIRECTANGULAR_MAP_GEO, PATH_SUFFIX SHADER_PATH EQUIRECTANGULAR_MAP_FRAG);
+		shader.LoadShader();
 
+		glGenFramebuffers(1, &bufferid);
 		glBindFramebuffer(GL_FRAMEBUFFER, bufferid);
-		glBindRenderbuffer(GL_RENDERBUFFER, renderbufferid);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, width, height);
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderbufferid);
+		//glGenRenderbuffers(1, &renderbufferid);
+		//glBindRenderbuffer(GL_RENDERBUFFER, renderbufferid);
+
+		//glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, width, height);
+		//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderbufferid);
 
 		glGenTextures(1, &textureid_color);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, textureid_color);
-		for (unsigned int i = 0; i < 6; ++i)
+
+		for (int i = 0; i < 6; i++)
 		{
 			// note that we store each face with 16 bit floating point values
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F,
-				width, height, 0, GL_RGB, GL_FLOAT, nullptr);
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, nullptr);
 		}
+
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, textureid_color, 0);
+
+		glDrawBuffer(GL_COLOR_ATTACHMENT0);
+		glReadBuffer(GL_NONE);
 	}
 	else if(i_type == FrameType::ShadowCubeMap)
 	{
-		// Create frame buffer
-		glGenFramebuffers(1, &bufferid);
-		glBindFramebuffer(GL_FRAMEBUFFER, bufferid);
-
 		// Load shader
 		shader.SetShader(PATH_SUFFIX SHADER_PATH SHADOW_CUBE_MAPPING_VERT, PATH_SUFFIX SHADER_PATH SHADOW_CUBE_MAPPING_GEO, PATH_SUFFIX SHADER_PATH SHADOW_CUBE_MAPPING_FRAG);
 		shader.LoadShader();
+
+		// Create frame buffer
+		glGenFramebuffers(1, &bufferid);
+		glBindFramebuffer(GL_FRAMEBUFFER, bufferid);
 
 		glGenTextures(1, &textureid_depth);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, textureid_depth);
@@ -155,6 +161,10 @@ void FrameBuffer::BindTextureUnit()
 	else if (frametype == FrameType::ShadowCubeMap)
 	{
 		glBindTexture(GL_TEXTURE_CUBE_MAP, textureid_depth);
+	}
+	else if (frametype == FrameType::CubeMap)
+	{
+		glBindTexture(GL_TEXTURE_CUBE_MAP, textureid_color);
 	}
 }
 

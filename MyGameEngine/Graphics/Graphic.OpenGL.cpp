@@ -57,7 +57,36 @@ void Graphic::Boot()
 
 void Graphic::PreCompute()
 {
+	Mat4f light_space_mats[6];
+	Mat4f light_view[6];
+	Mat4f light_projection = Mat4f::Perspective(90, 1, NEARCLIP, FARCLIP);
 
+	light_view[0] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f( 1, 0, 0), Vec3f(0, -1, 0));
+	light_view[1] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f(-1, 0, 0), Vec3f(0, -1, 0));
+	light_view[2] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f(0,  1, 0), Vec3f(0, 0, 1));
+	light_view[3] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f(0, -1, 0), Vec3f(0, 0, -1));
+	light_view[4] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f(0, 0,  1), Vec3f(0, -1, 0));
+	light_view[5] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f(0, 0, -1), Vec3f(0, -1, 0));
+
+	for (int i = 0; i < 6; i++)
+	{
+		light_space_mats[i] = light_projection * light_view[i];
+	}
+
+	ConstantData::Shadow tmp;
+	for (int i = 0; i < 6; i++)
+	{
+		tmp.point_view_perspective_matrix[i] = light_space_mats[i];
+	}
+	auto& data_shadow = tmp;
+	constant_shadow.Update(&data_shadow);
+
+	// Render HDR
+	frame_cubemap.BindFrame();
+	glActiveTexture(GL_TEXTURE0 + SceneEntity::SkyBoxScene.skyboxproxy->GetCubeMapTextureUnit());
+	glBindTexture(GL_TEXTURE_2D, SceneEntity::SkyBoxScene.skyboxproxy->GetCubeMapTextureID());
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	SceneEntity::SkyBoxScene.skyboxproxy->Draw();
 }
 
 bool Graphic::PreUpdate()
@@ -111,20 +140,6 @@ void Graphic::Update(GraphicRequiredData * i_data)
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// Rendering sky box
-		if(SceneEntity::SkyBoxScene.skyboxproxy)
-		{
-			glDepthMask(GL_FALSE);
-			ConstantData::SkyBox data_skybox;
-			data_skybox.skybox_view_perspective_matrix = i_data->camera.perspective_matrix * Mat4f::TruncateToMat3(i_data->camera.view_matrix);
-			constant_skybox.Update(&data_skybox);
-
-			SceneEntity::SkyBoxScene.shader->BindShader();
-			SceneEntity::SkyBoxScene.skyboxproxy->Draw();
-
-			glDepthMask(GL_TRUE);
-		}
-
 		// Rendering objects
 		for (int i = 0; i < SceneEntity::List.size(); i++)
 		{
@@ -144,6 +159,20 @@ void Graphic::Update(GraphicRequiredData * i_data)
 				}
 				SceneEntity::List[i].BindAndDraw();
 			}
+		}
+
+		// Rendering sky box
+		if (SceneEntity::SkyBoxScene.skyboxproxy)
+		{
+			glDepthFunc(GL_LEQUAL);
+			ConstantData::SkyBox data_skybox;
+			data_skybox.skybox_view_perspective_matrix = i_data->camera.perspective_matrix * Mat4f::TruncateToMat3(i_data->camera.view_matrix);
+			constant_skybox.Update(&data_skybox);
+
+			frame_cubemap.BindTextureUnit();
+			SceneEntity::SkyBoxScene.shader->BindShader();
+			SceneEntity::SkyBoxScene.skyboxproxy->Draw();
+			glDepthFunc(GL_LESS);
 		}
 	}
 }

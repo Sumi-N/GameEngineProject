@@ -7,6 +7,7 @@ class HDRTextureAttribute : public TextureAttribute
 {
 public:
 	std::vector<float> data;
+	float* data2;
 
 	bool Load(char const*, TextureType ) override;
 };
@@ -22,13 +23,13 @@ inline bool HDRTextureAttribute::Load(char const* i_filename, TextureType i_type
 
 	int nrComponents;
 	stbi_set_flip_vertically_on_load(true);
-	float * data = stbi_loadf("newport_loft.hdr", &width, &height, &nrComponents, 0);
+	data2 = stbi_loadf(i_filename, &width, &height, &nrComponents, 0);
 
-	if (data)
+	if (data2)
 	{
 		for (int i = 0; i < width * height; i++)
 		{
-			this->data.push_back(data[i]);
+			//this->data.push_back(data[i]);
 		}
 	}
 	else
@@ -36,5 +37,6 @@ inline bool HDRTextureAttribute::Load(char const* i_filename, TextureType i_type
 		DEBUG_ASSERT(false);
 	}
 
-	stbi_image_free(data);
+	//stbi_image_free(data);
+	return true;
 }

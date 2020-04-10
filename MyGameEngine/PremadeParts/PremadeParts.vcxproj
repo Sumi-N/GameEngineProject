@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Define.h" />
+    <ClInclude Include="Equirectangular.h" />
     <ClInclude Include="PremadeObject.h" />
     <ClInclude Include="Quad.h" />
     <ClInclude Include="SkyBox.h" />

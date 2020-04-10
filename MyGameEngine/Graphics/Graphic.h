@@ -60,6 +60,6 @@ inline void Graphic::Init()
 	{
 		frame_shadow[i].Init(FrameType::ShadowCubeMap, SHADOWMAP_BINDING_UNIT1 + i, BASIC_TEXTURE_SIZE, BASIC_TEXTURE_SIZE);
 	}
-	frame_mirror.Init(FrameType::Image, SCREEN_WIDTH, SCREEN_HEIGHT, -1);
-	frame_cubemap.Init(FrameType::CubeMap, HALF_TEXTURE_SIZE, HALF_TEXTURE_SIZE, -1);
+	//frame_mirror.Init(FrameType::Image, SCREEN_WIDTH, SCREEN_HEIGHT, -1);
+	frame_cubemap.Init(FrameType::CubeMap, SKYBOX_BINDING_UNIT, HALF_TEXTURE_SIZE, HALF_TEXTURE_SIZE);
 }

@@ -14,10 +14,14 @@ class CubeMapProxy : public SceneProxy
 public:
 	CubeMapProxy(){};
 	CubeMapProxy(CubeMapType i_type){type = i_type;}
-
-private:
 	CubeMapType type = CubeMapType::CubeMap;
 
+#ifdef ENGINE_GRAPHIC_OPENGL
+	GLuint GetCubeMapTextureID();
+	GLuint GetCubeMapTextureUnit();
+#endif // ENGINE_GRAPHIC_OPENGL
+
+private:
 	void InitTexture() override;
 };
 
@@ -59,37 +63,46 @@ inline void CubeMapProxy::InitTexture()
 	}
 	else if (type == CubeMapType::EquirectangularMap)
 	{
-		for (int i = 0; i < 6; i++)
+		if (mesh->textures[0]->type != TextureType::SkyBox)
 		{
-			if (mesh->textures[i]->type != TextureType::SkyBox)
-			{
-				DEBUG_ASSERT(false);
-			}
+			DEBUG_ASSERT(false);
 		}
 
 		//OwningPointer<HDRTextureAttribute> texture = mesh->textures[0];
+		TextureAttribute * textureattribute = &*(mesh->textures[0]);
+		HDRTextureAttribute* hdrtexture = dynamic_cast<HDRTextureAttribute *>(textureattribute);
 
-		//if (!texture)
-		//{
-		//	DEBUG_ASSERT(false);
-		//}
+		if (!hdrtexture)
+		{
+			DEBUG_ASSERT(false);
+		}
 
-		//textureids.resize(1);
-		//textureunits.resize(1);
+		textureids.resize(1);
+		textureunits.resize(1);
 
-		//textureunits[0] = HDR_BINDING_UNIT;
+		textureunits[0] = HDR_BINDING_UNIT;
 
-		//glGenTextures(1, &textureids[0]);
-		//glActiveTexture(GL_TEXTURE0 + textureunits[0]);
-		//glBindTexture(GL_TEXTURE_2D, textureids[0]);
+		glGenTextures(1, &textureids[0]);
+		glActiveTexture(GL_TEXTURE0 + textureunits[0]);
+		glBindTexture(GL_TEXTURE_2D, textureids[0]);
 
-		//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, texture->width, texture->height, 0, GL_RGB, GL_FLOAT, texture->data.data());
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, hdrtexture->width, hdrtexture->height, 0, GL_RGB, GL_FLOAT, hdrtexture->data2);
 
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	}
+}
+
+inline GLuint CubeMapProxy::GetCubeMapTextureID()
+{
+	return textureids[0];
+}
+
+inline GLuint CubeMapProxy::GetCubeMapTextureUnit()
+{
+	return textureunits[0];
 }
 
 #endif // ENGINE_GRAPHIC_OPENGL

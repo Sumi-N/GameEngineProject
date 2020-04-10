@@ -5,6 +5,7 @@
 #include <PremadeParts/Quad.h>
 #include <PremadeParts/SkyBox.h>
 #include <PremadeParts/TexturedQuad.h>
+#include <PremadeParts/Equirectangular.h>
 #include <EntitySystem/Entity.h>
 
 #include "Teapot.h"
@@ -24,8 +25,11 @@ int main()
 	Entity::RegisterCamera(&camera);
 
 	//// Setting up skybox
-	SkyBox skybox;
+	//SkyBox skybox;
 	//Entity::Register(&skybox);
+
+	EquirectangularSkyBox skybox;
+	Entity::Register(&skybox);
 
 	///////////////////////////////////////////////////////////
 
@@ -144,13 +148,13 @@ int main()
 			sphere[8 * i + j].ChangePos(Vec3f(6.25f * i - 20.0f, 6.25f * j - 20.0f, -60.0f));
 			sphere[8 * i + j].ChangeMaterialParameter(0.125f * i, 0.125f * j);
 			sphere[8 * i + j].scale = Vec3f(0.1, 0.1, 0.1);
-			Entity::Register(&sphere[8 * i + j]);
+			//Entity::Register(&sphere[8 * i + j]);
 		}
 	}
 
-	RastedSphere rastered;
-	rastered.Translate(Vec3f(0, 0, -80));
-	Entity::Register(&rastered);
+	//RastedSphere rastered;
+	//rastered.Translate(Vec3f(0, 0, -80));
+	//Entity::Register(&rastered);
 
 	PointLight pointlight;
 	pointlight.intensity = Vec3f(40.0f, 40.0f, 40.0f);

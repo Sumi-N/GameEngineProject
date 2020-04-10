@@ -66,6 +66,8 @@
 #define SKYBOX_POSZ      "skyboxe/cubemap_posz.png"
 #define SKYBOX_NEGZ      "skyboxe/cubemap_negz.png"
 
+#define SKYBOX_HDR_PINTREE "hdr/Arches_E_PineTree_3k.hdr"
+
 #define RUSTED_IRON_ALBEDO "albedo/rustediron.png"
 #define RUSTED_IRON_NORMAL "normal/rustediron.png"
 #define RUSTED_IRON_METALIC "metalic/rustediron.png"
@@ -96,13 +98,11 @@
 #define DISNEY_PBR_VERT  "disney_pbr_model/disney_pbr.vert.glsl"
 #define DISNEY_PBR_FRAG  "disney_pbr_model/disney_pbr.frag.glsl"
 
-#define QUAD_VERT        "quad/quad.vert.glsl"
-#define QUAD_FRAG        "quad/quad.frag.glsl"
-
 #define NORMAL_MAP_VERT  "test_purpose/normal_mapping.vert.glsl"
 #define NORMAL_MAP_FRAG  "test_purpose/normal_mapping.frag.glsl"
 
 #define EQUIRECTANGULAR_MAP_VERT "hdr/equirectangular_mapping.vert.glsl"
+#define EQUIRECTANGULAR_MAP_GEO  "hdr/equirectangular_mapping.geo.glsl"
 #define EQUIRECTANGULAR_MAP_FRAG "hdr/equirectangular_mapping.frag.glsl"
 
 //////////////////////////////
