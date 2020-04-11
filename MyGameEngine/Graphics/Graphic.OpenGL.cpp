@@ -51,8 +51,41 @@ void Graphic::Boot()
 	// Set up culling
 	glEnable(GL_DEPTH_TEST);
 
+	// Prevent having an artifice from low resolution cube map
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+
 	// Set up the vertices per patch for a tessellation shader
 	glPatchParameteri(GL_PATCH_VERTICES, 3);
+}
+
+void renderQuad()
+{
+	unsigned int quadVAO = 0;
+	unsigned int quadVBO;
+
+	if (quadVAO == 0)
+	{
+		float quadVertices[] = {
+			// positions        // texture Coords
+			-1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
+			-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+			 1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
+			 1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+		};
+		// setup plane VAO
+		glGenVertexArrays(1, &quadVAO);
+		glGenBuffers(1, &quadVBO);
+		glBindVertexArray(quadVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	}
+	glBindVertexArray(quadVAO);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glBindVertexArray(0);
 }
 
 void Graphic::PreCompute()
@@ -95,6 +128,33 @@ void Graphic::PreCompute()
 	frame_cubemap.BindTextureUnit();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	SceneEntity::SkyBoxScene.skyboxproxy->Draw();
+
+	////////////////////////////  make specular irradiance map
+	frame_specular.BindFrame();
+
+	unsigned int maxMipLevels = 5;
+	for (unsigned int mip = 0; mip < maxMipLevels; ++mip)
+	{
+		unsigned int mipWidth = 128 * std::pow(0.5, mip);
+		unsigned int mipHeight = 128 * std::pow(0.5, mip);
+
+		glViewport(0, 0, mipWidth, mipHeight);
+		float roughness = (float)mip / (float)(maxMipLevels - 1);
+
+		glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, frame_specular.textureid_color, mip);
+
+		GLuint roughness_value = glGetUniformLocation(frame_specular.shader.programid, "roughness");
+		glUniform1f(roughness_value, roughness);
+
+		frame_cubemap.BindTextureUnit();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		SceneEntity::SkyBoxScene.skyboxproxy->Draw();
+	}
+
+	////////////////////////////// BRDF look up texture
+	frame_brdf.BindFrame();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	renderQuad();
 }
 
 bool Graphic::PreUpdate()
@@ -166,6 +226,8 @@ void Graphic::Update(GraphicRequiredData * i_data)
 					frame_shadow[j].BindTextureUnit();
 				}
 				frame_irradiance.BindTextureUnit();
+				frame_specular.BindTextureUnit();
+				frame_brdf.BindTextureUnit();
 				SceneEntity::List[i].BindAndDraw();
 			}
 		}

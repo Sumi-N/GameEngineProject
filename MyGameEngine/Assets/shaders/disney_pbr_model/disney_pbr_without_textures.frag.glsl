@@ -4,6 +4,7 @@
 const int MAX_POINT_LIGHT_NUM = 5;
 const float PI = 3.14159265359;
 const float ROUGHTNESS_BIAS = 0.00005;
+const float MAX_REFLECTION_LOD = 4.0;
 
 // Output
 out vec4 color;
@@ -63,6 +64,8 @@ layout (std140, binding = 3) uniform const_light
 
 layout(binding = 0) uniform samplerCube skybox;
 layout(binding = 1) uniform samplerCube irradiancemap;
+layout(binding = 7) uniform samplerCube specularmap;
+layout(binding = 8) uniform sampler2D texturebrdf; 
 layout(binding = 10) uniform sampler2D texturealbedo;
 layout(binding = 11) uniform sampler2D texturenormal;
 layout(binding = 12) uniform sampler2D textureroughness;
@@ -164,13 +167,21 @@ void main()
 	vec3 world_normal = normalize(mat3(model_inverse_transpose_matrix) * fs_in.model_normal);
 
 	// Image based reindering part
-	vec3 ks = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), vec3(0.04), roughness); 
-	vec3 kd = 1.0 - ks;
+	vec3 ks         = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), vec3(0.04), roughness); 
+	vec3 kd         = 1.0 - ks;
 	vec4 irradiance = vec4(texture(irradiancemap, world_normal).rgb, 1.0);
-	vec4 ambient_diffuse    = irradiance * albedo;
-	color   = vec4(kd,1.0) * ambient_diffuse; 
-	//color   = (kd * diffuse) * ao; 
+	vec4 diffuse    = irradiance * albedo;
 
+	vec3 reflect          = reflect(-1 * fs_in.world_view_direction, world_normal);
+	vec3 prefilteredcolor = textureLod(specularmap, reflect, roughness * MAX_REFLECTION_LOD).rgb;
+	vec3 f                = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), vec3(0.04), roughness); 
+	vec2 environment_brdf = texture(texturebrdf, vec2(max(dot(world_normal, fs_in.world_view_direction), 0.0), roughness)).rg;
+	vec3 specular         = prefilteredcolor * (f * environment_brdf.x + environment_brdf.y);
+
+	color   = vec4(kd, 1.0) * diffuse + vec4(specular, 1.0); 
+	//color   = (kd * diffuse + specular) * ao; 
+
+	// Calculate point light part
 	for(int i = 0; i < point_num; i++){
 		color += CalcPointLightShading(pointlights[i], world_normal,fs_in.world_pointlight_direction[i]);
 	}

@@ -30,7 +30,9 @@
 #define SHADOWMAP_BINDING_UNIT3          4
 #define SHADOWMAP_BINDING_UNIT4          5
 #define SHADOWMAP_BINDING_UNIT5          6
-#define IMAGE_BINDING_UNIT               2
+#define SPECULAR_BINDING_UNIT            7
+#define BRDF_BINDING_UNIT                8
+#define IMAGE_BINDING_UNIT               9
 #define TEXTURE_UNIT_BINDING_OFFSET      10
 
 

@@ -8,8 +8,10 @@ enum class FrameType : uint8_t
 	ShadowCubeMap = 0,
 	CubeMap       = 1,
 	IrradianceMap = 2,
-	Image         = 3,
-	ShadowMap     = 4,
+	Specular      = 3,
+	BRDF          = 4,
+	Image         = 5,
+	ShadowMap     = 6,
 };
 
 class FrameBuffer

@@ -6,6 +6,7 @@ const float POINT_LIGHT_BIAS = 3;
 const float FAR_PLANE_DISTANCE = 100;
 const float PI = 3.14159265359;
 const float ROUGHNESS_BIAS = 0.005;
+const float MAX_REFLECTION_LOD = 4.0;
 
 // Output
 out vec4 color;
@@ -60,6 +61,8 @@ layout(binding = 3) uniform samplerCube shadowmap1;
 layout(binding = 4) uniform samplerCube shadowmap2;
 layout(binding = 5) uniform samplerCube shadowmap3;
 layout(binding = 6) uniform samplerCube shadowmap4;
+layout(binding = 7) uniform samplerCube specularmap;
+layout(binding = 8) uniform sampler2D texturebrdf; 
 layout(binding = 10) uniform sampler2D texturealbedo;
 layout(binding = 11) uniform sampler2D texturenormal;
 layout(binding = 12) uniform sampler2D textureroughness;
@@ -201,14 +204,24 @@ void main()
 	world_normal = normalize(world_normal * 2.0 - 1.0);
 	world_normal = normalize( fs_in.tangent_bitangent_matrix * world_normal);
 
+	// Calculate roughness based on texture
+	float roughnesstexel = texture2D(textureroughness, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).x;
+
 	// Image based reindering part
 	vec4 albedotexel = texture2D(texturealbedo, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t));
-	vec3 ks = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), vec3(0.04), roughness); 
+	vec3 ks = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), vec3(0.04), roughnesstexel); 
 	vec3 kd = 1.0 - ks;
 	vec4 irradiance = vec4(texture(irradiancemap, world_normal).rgb, 1.0);
-	vec4 ambient_diffuse    = irradiance * albedotexel;
-	color   = vec4(kd,1.0) * ambient_diffuse; 
-	//color   = (kd * diffuse) * ao; 
+	vec4 diffuse    = irradiance * albedotexel;
+
+	vec3 reflect          = reflect(-1 * fs_in.world_view_direction, world_normal);
+	vec3 prefilteredcolor = textureLod(specularmap, reflect, roughnesstexel * MAX_REFLECTION_LOD).rgb;
+	vec3 f                = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), vec3(0.04), roughnesstexel); 
+	vec2 environment_brdf = texture(texturebrdf, vec2(max(dot(world_normal, fs_in.world_view_direction), 0.0), roughnesstexel)).rg;
+	vec3 specular         = prefilteredcolor * (f * environment_brdf.x + environment_brdf.y);
+
+	color   = vec4(kd, 1.0) * diffuse + vec4(specular, 1.0); 
+	//color   = (kd * diffuse + specular) * ao; 
 
 	// Calculate shadow
 	float shadow = 0;

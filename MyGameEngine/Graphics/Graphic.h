@@ -42,6 +42,8 @@ public:
 	static FrameBuffer    frame_mirror;
 	static FrameBuffer    frame_cubemap;
 	static FrameBuffer    frame_irradiance;
+	static FrameBuffer    frame_specular;
+	static FrameBuffer    frame_brdf;
 };
 
 inline void Graphic::Init()
@@ -64,4 +66,6 @@ inline void Graphic::Init()
 	//frame_mirror.Init(FrameType::Image, SCREEN_WIDTH, SCREEN_HEIGHT, -1);
 	frame_cubemap.Init(FrameType::CubeMap, SKYBOX_BINDING_UNIT, HALF_TEXTURE_SIZE, HALF_TEXTURE_SIZE);
 	frame_irradiance.Init(FrameType::IrradianceMap, IRRADIANCEMAP_BINDING_UNIT, MINI_TEXTURE_SIZE, MINI_TEXTURE_SIZE);
+	frame_specular.Init(FrameType::Specular, SPECULAR_BINDING_UNIT, 128, 128);
+	frame_brdf.Init(FrameType::BRDF, BRDF_BINDING_UNIT, 512, 512);
 }

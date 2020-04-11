@@ -101,10 +101,13 @@
 #define NORMAL_MAP_VERT  "test_purpose/normal_mapping.vert.glsl"
 #define NORMAL_MAP_FRAG  "test_purpose/normal_mapping.frag.glsl"
 
-#define EQUIRECTANGULAR_MAP_VERT "hdr/equirectangular_mapping.vert.glsl"
-#define EQUIRECTANGULAR_MAP_GEO  "hdr/equirectangular_mapping.geo.glsl"
-#define EQUIRECTANGULAR_MAP_FRAG "hdr/equirectangular_mapping.frag.glsl"
-#define LIGHT_CONVOLUTION_MAP_FRAG "hdr/equirectangular_light_convolution.frag.glsl"
+#define EQUIRECTANGULAR_MAP_VERT "image_base_rendering/equirectangular_mapping.vert.glsl"
+#define EQUIRECTANGULAR_MAP_GEO  "image_base_rendering/equirectangular_mapping.geo.glsl"
+#define EQUIRECTANGULAR_MAP_FRAG "image_base_rendering/equirectangular_mapping.frag.glsl"
+#define CUBEMAP_CONVOLUTION_DIFFUSE_FRAG "image_base_rendering/cubemap_diffuse_convolution.frag.glsl"
+#define CUBEMAP_CONVOLUTION_SPECULAR_FRAG "image_base_rendering/cubemap_specular_convolution.frag.glsl"
+#define IBL_BRDF_VERT "image_base_rendering/brdf_integration_map.vert.glsl"
+#define IBL_BRDF_FRAG "image_base_rendering/brdf_integration_map.frag.glsl"
 
 //////////////////////////////
 // Debug Shader Data

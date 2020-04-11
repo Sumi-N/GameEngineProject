@@ -13,3 +13,5 @@ FrameBuffer    Graphic::frame_shadow[MAX_POINT_LIGHT_NUM];
 FrameBuffer    Graphic::frame_mirror;
 FrameBuffer    Graphic::frame_cubemap;
 FrameBuffer    Graphic::frame_irradiance;
+FrameBuffer    Graphic::frame_specular;
+FrameBuffer    Graphic::frame_brdf;
