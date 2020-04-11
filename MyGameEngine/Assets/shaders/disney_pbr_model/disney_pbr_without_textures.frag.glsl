@@ -187,7 +187,7 @@ void main()
 	}
 
 	// Ganmma correction
-	color = color / (color + vec4(1.0));
-	color = pow(color, vec4(1.0/2.2)); 
-	color = vec4(vec3(color), 1.0);
+	// color = color / (color + vec4(1.0));
+	// color = pow(color, vec4(1.0/2.2)); 
+	// color = vec4(vec3(color), 1.0);
 }

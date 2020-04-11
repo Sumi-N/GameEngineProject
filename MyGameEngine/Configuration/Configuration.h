@@ -80,6 +80,11 @@
 #define GOLD_SCUFFED_METALIC        "metalic/gold-scuffed_metalic.png"
 #define GOLD_SCUFFED_ROUGHNESS      "roughness/gold-scuffed_roughness.png"
 
+#define WARN_PAINTED_CEMENT_ALBEDO     "albedo/wornpaintedcement-albedo.png"
+#define WARN_PAINTED_CEMENT_NORMAL     "normal/wornpaintedcement-normal.png"
+#define WARN_PAINTED_CEMENT_METALIC    "metalic/wornpaintedcement-metalness.png"
+#define WARN_PAINTED_CEMENT_ROUGHNESS  "roughness/wornpaintedcement-roughness.png"
+
 //////////////////////////////
 // Shader Data
 //////////////////////////////

@@ -15,6 +15,7 @@
 #include "SpherePBR_Test.h"
 #include "RastedSphere.h"
 #include "ScuffedGoldSphere.h"
+#include "WarnPaintedCement.h"
 #include "MyPointLight.h"
 
 #include <stdio.h>
@@ -161,7 +162,11 @@ int main()
 	gold.Translate(Vec3f(40, 0, -80));
 	Entity::Register(&gold);
 
-	PointLight pointlight;
+	WornPaintedCement cement;
+	cement.Translate(Vec3f(-40, 0, -80));
+	Entity::Register(&cement);
+
+	MyPointLight pointlight;
 	pointlight.intensity = Vec3f(40.0f, 40.0f, 40.0f);
 	pointlight.pos = Vec3f(30.f, 30.f, -40.f);
 
@@ -181,10 +186,10 @@ int main()
 	ambientlight.intensity = Vec3f(0.1f, 0.1f, 0.1f);
 
 	Entity::RegisterPointLight(&pointlight);
-	Entity::RegisterPointLight(&pointlight2);
-	Entity::RegisterPointLight(&pointlight3);
-	Entity::RegisterPointLight(&pointlight4);
-	Entity::RegisterAmbientLight(&ambientlight);
+	//Entity::RegisterPointLight(&pointlight2);
+	//Entity::RegisterPointLight(&pointlight3);
+	//Entity::RegisterPointLight(&pointlight4);
+	//Entity::RegisterAmbientLight(&ambientlight);
 
 	/////////////////////////////////////////////////////////
 

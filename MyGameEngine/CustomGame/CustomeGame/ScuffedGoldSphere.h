@@ -22,7 +22,7 @@ inline void ScuffedGoldSphere::Boot()
 	SceneFormat* format = SceneEntity::Query(this);
 
 	TextureAttribute* albedo = new TextureAttribute();
-	albedo->Load(PATH_SUFFIX TEXTURE_PATH GOLD_SCUFFED_ALBEDO, TextureType::Albedo);
+	albedo->Load(PATH_SUFFIX TEXTURE_PATH GOLD_SCUFFED_BOOSTED_ALBEDO, TextureType::Albedo);
 	TextureAttribute* normal = new TextureAttribute();
 	normal->Load(PATH_SUFFIX TEXTURE_PATH GOLD_SCUFFED_NORMAL, TextureType::Normal);
 	TextureAttribute* roughness = new TextureAttribute();

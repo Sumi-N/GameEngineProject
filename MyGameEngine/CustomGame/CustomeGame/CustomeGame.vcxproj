@@ -164,6 +164,7 @@
     <ClInclude Include="ScuffedGoldSphere.h" />
     <ClInclude Include="SpherePBR_Test.h" />
     <ClInclude Include="Teapot.h" />
+    <ClInclude Include="WarnPaintedCement.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
