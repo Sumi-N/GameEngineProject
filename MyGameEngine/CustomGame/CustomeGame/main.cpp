@@ -14,6 +14,7 @@
 #include "NormalMapDebugPlane.h"
 #include "SpherePBR_Test.h"
 #include "RastedSphere.h"
+#include "ScuffedGoldSphere.h"
 #include "MyPointLight.h"
 
 #include <stdio.h>
@@ -155,6 +156,10 @@ int main()
 	RastedSphere rastered;
 	rastered.Translate(Vec3f(0, 0, -80));
 	Entity::Register(&rastered);
+
+	ScuffedGoldSphere gold;
+	gold.Translate(Vec3f(40, 0, -80));
+	Entity::Register(&gold);
 
 	PointLight pointlight;
 	pointlight.intensity = Vec3f(40.0f, 40.0f, 40.0f);

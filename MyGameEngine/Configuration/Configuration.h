@@ -66,12 +66,19 @@
 #define SKYBOX_POSZ      "skyboxe/cubemap_posz.png"
 #define SKYBOX_NEGZ      "skyboxe/cubemap_negz.png"
 
-#define SKYBOX_HDR_PINTREE "hdr/Arches_E_PineTree_3k.hdr"
+#define SKYBOX_HDR_PINTREE          "hdr/Arches_E_PineTree_3k.hdr"
+#define SKYBOX_HDR_FROZEN_WATERFALL "hdr/Frozen_Waterfall_Ref.hdr"
 
-#define RUSTED_IRON_ALBEDO "albedo/rustediron.png"
-#define RUSTED_IRON_NORMAL "normal/rustediron.png"
-#define RUSTED_IRON_METALIC "metalic/rustediron.png"
+#define RUSTED_IRON_ALBEDO    "albedo/rustediron.png"
+#define RUSTED_IRON_NORMAL    "normal/rustediron.png"
+#define RUSTED_IRON_METALIC   "metalic/rustediron.png"
 #define RUSTED_IRON_ROUGHNESS "roughness/rustediron.png"
+
+#define GOLD_SCUFFED_ALBEDO         "albedo/gold-scuffed_basecolor.png"
+#define GOLD_SCUFFED_BOOSTED_ALBEDO "albedo/gold-scuffed_basecolor-boosted.png"
+#define GOLD_SCUFFED_NORMAL         "normal/gold-scuffed_normal.png"
+#define GOLD_SCUFFED_METALIC        "metalic/gold-scuffed_metalic.png"
+#define GOLD_SCUFFED_ROUGHNESS      "roughness/gold-scuffed_roughness.png"
 
 //////////////////////////////
 // Shader Data

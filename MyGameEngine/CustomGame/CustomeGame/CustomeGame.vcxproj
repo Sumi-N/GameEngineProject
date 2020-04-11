@@ -161,6 +161,7 @@
     <ClInclude Include="MyPointLight.h" />
     <ClInclude Include="NormalMapDebugPlane.h" />
     <ClInclude Include="RastedSphere.h" />
+    <ClInclude Include="ScuffedGoldSphere.h" />
     <ClInclude Include="SpherePBR_Test.h" />
     <ClInclude Include="Teapot.h" />
   </ItemGroup>

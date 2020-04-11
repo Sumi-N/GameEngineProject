@@ -209,10 +209,10 @@ void main()
 
 	// Image based reindering part
 	vec4 albedotexel = texture2D(texturealbedo, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t));
-	vec3 ks = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), vec3(0.04), roughnesstexel); 
-	vec3 kd = 1.0 - ks;
-	vec4 irradiance = vec4(texture(irradiancemap, world_normal).rgb, 1.0);
-	vec4 diffuse    = irradiance * albedotexel;
+	vec3 ks          = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), vec3(0.04), roughnesstexel); 
+	vec3 kd          = 1.0 - ks;
+	vec4 irradiance  = vec4(texture(irradiancemap, world_normal).rgb, 1.0);
+	vec4 diffuse     = irradiance * albedotexel;
 
 	vec3 reflect          = reflect(-1 * fs_in.world_view_direction, world_normal);
 	vec3 prefilteredcolor = textureLod(specularmap, reflect, roughnesstexel * MAX_REFLECTION_LOD).rgb;

@@ -41,5 +41,8 @@
     <ClInclude Include="MyPointLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ScuffedGoldSphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
