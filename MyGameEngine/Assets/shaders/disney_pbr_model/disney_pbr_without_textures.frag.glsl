@@ -47,7 +47,7 @@ layout (std140, binding = 2) uniform const_material
 	vec4 specular;
 	
 	vec4 albedo;
-	float metalic;
+	float metallic;
 	float roughness;
 	float ambient_occlusion;
 	float padding;
@@ -69,7 +69,7 @@ layout(binding = 8) uniform sampler2D texturebrdf;
 layout(binding = 10) uniform sampler2D texturealbedo;
 layout(binding = 11) uniform sampler2D texturenormal;
 layout(binding = 12) uniform sampler2D textureroughness;
-layout(binding = 13) uniform sampler2D texturemetalic;
+layout(binding = 13) uniform sampler2D texturemetallic;
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -137,7 +137,7 @@ vec4 CalcPointLightShading(PointLight pointlight, vec3 world_normal, vec3 pointl
 
 
 	vec3 f0 = vec3(0.04);
-	f0      = mix(f0, vec3(albedo), metalic);
+	f0      = mix(f0, vec3(albedo), metallic);
 
 	// Normal distribution function
 	float ndf = DistributionGGX(world_normal, h);
@@ -152,7 +152,7 @@ vec4 CalcPointLightShading(PointLight pointlight, vec3 world_normal, vec3 pointl
 
 	vec3 ks = f;
 	vec3 kd = vec3(1.0 - ks);
-	kd *= 1.0 - metalic;
+	kd *= 1.0 - metallic;
 
 	color = (vec4(kd, 1.0) * albedo / PI + vec4(specular,1.0)) * radiance * cos_theta_1;
 
@@ -176,9 +176,9 @@ void main()
 	vec3 prefilteredcolor = textureLod(specularmap, reflect, roughness * MAX_REFLECTION_LOD).rgb;
 	vec3 f                = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), vec3(0.04), roughness); 
 	vec2 environment_brdf = texture(texturebrdf, vec2(max(dot(world_normal, fs_in.world_view_direction), 0.0), roughness)).rg;
-	vec3 specular         = prefilteredcolor * (f * environment_brdf.x + environment_brdf.y);
+	vec3 specular         = prefilteredcolor * (f * environment_brdf.y + environment_brdf.x);
 
-	color   = vec4(kd, 1.0) * diffuse + vec4(specular, 1.0); 
+	color   = vec4(kd, 1.0) * diffuse + vec4(specular, 1.0);
 	//color   = (kd * diffuse + specular) * ao; 
 
 	// Calculate point light part

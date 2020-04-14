@@ -66,7 +66,7 @@ layout(binding = 8) uniform sampler2D texturebrdf;
 layout(binding = 10) uniform sampler2D texturealbedo;
 layout(binding = 11) uniform sampler2D texturenormal;
 layout(binding = 12) uniform sampler2D textureroughness;
-layout(binding = 13) uniform sampler2D texturemetalic;
+layout(binding = 13) uniform sampler2D texturemetallic;
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -161,7 +161,7 @@ vec4 CalcPointLightShading(PointLight pointlight, vec3 world_normal, vec3 pointl
 	// Calculate roughness based on texture
 	float roughnesstexel = texture2D(textureroughness, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).x;
 	// Calculate metali based on texture
-	float metalictexel  = texture2D(texturemetalic, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).x;
+	float metallictexel  = texture2D(texturemetallic, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).x;
 
 
 	// Cos theta term
@@ -173,7 +173,7 @@ vec4 CalcPointLightShading(PointLight pointlight, vec3 world_normal, vec3 pointl
 
 
 	vec3 f0 = vec3(0.04);
-	f0      = mix(f0, vec3(albedotexel), metalictexel);
+	f0      = mix(f0, vec3(albedotexel), metallictexel);
 
 	// Normal distribution function
 	float ndf = DistributionGGX(world_normal, h, roughnesstexel);
@@ -188,7 +188,7 @@ vec4 CalcPointLightShading(PointLight pointlight, vec3 world_normal, vec3 pointl
 
 	vec3 ks = f;
 	vec3 kd = vec3(1.0 - ks);
-	kd *= 1.0 - metalictexel;
+	kd *= 1.0 - metallictexel;
 
 	color = (vec4(kd, 1.0) * albedotexel / PI + vec4(specular,1.0)) * radiance * cos_theta_1;
 
@@ -206,6 +206,8 @@ void main()
 
 	// Calculate roughness based on texture
 	float roughnesstexel = texture2D(textureroughness, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).x;
+	// Calculate metali based on texture
+	float metallictexel  = texture2D(texturemetallic, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).x;
 
 	// Image based reindering part
 	vec4 albedotexel = texture2D(texturealbedo, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t));
@@ -218,7 +220,7 @@ void main()
 	vec3 prefilteredcolor = textureLod(specularmap, reflect, roughnesstexel * MAX_REFLECTION_LOD).rgb;
 	vec3 f                = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), vec3(0.04), roughnesstexel); 
 	vec2 environment_brdf = texture(texturebrdf, vec2(max(dot(world_normal, fs_in.world_view_direction), 0.0), roughnesstexel)).rg;
-	vec3 specular         = prefilteredcolor * (f * environment_brdf.x + environment_brdf.y);
+	vec3 specular         = prefilteredcolor * (f * environment_brdf.y + environment_brdf.x);
 
 	color   = vec4(kd, 1.0) * diffuse + vec4(specular, 1.0); 
 	//color   = (kd * diffuse + specular) * ao; 

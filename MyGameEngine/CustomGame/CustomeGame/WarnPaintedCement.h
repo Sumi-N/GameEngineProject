@@ -26,10 +26,10 @@ inline void WornPaintedCement::Boot()
 	TextureAttribute* normal = new TextureAttribute();
 	normal->Load(PATH_SUFFIX TEXTURE_PATH WARN_PAINTED_CEMENT_NORMAL, TextureType::Normal);
 	TextureAttribute* roughness = new TextureAttribute();
-	roughness->Load(PATH_SUFFIX TEXTURE_PATH WARN_PAINTED_CEMENT_METALIC, TextureType::Roughness);
+	roughness->Load(PATH_SUFFIX TEXTURE_PATH WARN_PAINTED_CEMENT_ROUGHNESS, TextureType::Roughness);
 	TextureAttribute* metalic = new TextureAttribute();
-	metalic->Load(PATH_SUFFIX TEXTURE_PATH WARN_PAINTED_CEMENT_ROUGHNESS, TextureType::Metalic);
-
+	metalic->Load(PATH_SUFFIX TEXTURE_PATH WARN_PAINTED_CEMENT_METALIC, TextureType::Metalic);
+	
 	format->proxy->mesh->SetTexture(albedo);
 	format->proxy->mesh->SetTexture(normal);
 	format->proxy->mesh->SetTexture(roughness);
