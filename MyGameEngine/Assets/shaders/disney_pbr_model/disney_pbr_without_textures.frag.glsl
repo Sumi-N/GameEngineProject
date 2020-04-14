@@ -169,6 +169,7 @@ void main()
 	// Image based reindering part
 	vec3 ks         = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), vec3(0.04), roughness); 
 	vec3 kd         = 1.0 - ks;
+	kd *= 1.0 - metallic;
 	vec4 irradiance = vec4(texture(irradiancemap, world_normal).rgb, 1.0);
 	vec4 diffuse    = irradiance * albedo;
 

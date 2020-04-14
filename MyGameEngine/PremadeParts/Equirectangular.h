@@ -17,7 +17,7 @@ inline void EquirectangularSkyBox::Boot()
 	mesh->owner = Entity::Query(this).p;
 
 	HDRTextureAttribute* texture = new HDRTextureAttribute();
-	texture->Load(PATH_SUFFIX TEXTURE_PATH SKYBOX_HDR_FROZEN_WATERFALL, TextureType::SkyBox);
+	texture->Load(PATH_SUFFIX TEXTURE_PATH SKYBOX_HDR_PINTREE, TextureType::SkyBox);
 	OwningPointer<TextureAttribute> handler(texture);
 	mesh->textures.push_back(handler);
 
