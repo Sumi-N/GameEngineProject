@@ -204,14 +204,18 @@ void main()
 	world_normal = normalize(world_normal * 2.0 - 1.0);
 	world_normal = normalize( fs_in.tangent_bitangent_matrix * world_normal);
 
+	//Calculate albedo based on texture
+	vec4 albedotexel = texture2D(texturealbedo, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t));
 	// Calculate roughness based on texture
 	float roughnesstexel = texture2D(textureroughness, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).x;
 	// Calculate metali based on texture
 	float metallictexel  = texture2D(texturemetallic, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).x;
 
+	vec3 f0 = vec3(0.04); 
+    f0 = mix(f0, vec3(albedotexel), metallictexel);
+
 	// Image based reindering part
-	vec4 albedotexel = texture2D(texturealbedo, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t));
-	vec3 ks          = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), vec3(0.04), roughnesstexel); 
+	vec3 ks          = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), f0, roughnesstexel); 
 	vec3 kd          = 1.0 - ks;
 	kd *= 1.0 - metallictexel;
 	vec4 irradiance  = vec4(texture(irradiancemap, world_normal).rgb, 1.0);
@@ -219,11 +223,11 @@ void main()
 
 	vec3 reflect          = reflect(-1 * fs_in.world_view_direction, world_normal);
 	vec3 prefilteredcolor = textureLod(specularmap, reflect, roughnesstexel * MAX_REFLECTION_LOD).rgb;
-	vec3 f                = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), vec3(0.04), roughnesstexel); 
+	vec3 f                = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), f0, roughnesstexel); 
 	vec2 environment_brdf = texture2D(texturebrdf, vec2(max(dot(world_normal, fs_in.world_view_direction), 0.0), roughnesstexel)).rg;
 	vec3 specular         = prefilteredcolor * (f * environment_brdf.x + environment_brdf.y);
 
-	color   = vec4(kd, 1.0) * diffuse + vec4(specular, 1.0); 
+	color   = vec4(kd, 1.0) * diffuse + vec4(specular, 1.0);
 	//color   = (kd * diffuse + specular) * ao; 
 
 	// Calculate shadow

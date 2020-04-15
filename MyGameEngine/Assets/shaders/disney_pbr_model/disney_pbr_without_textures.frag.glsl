@@ -166,8 +166,11 @@ void main()
 	// Calculate world normal
 	vec3 world_normal = normalize(mat3(model_inverse_transpose_matrix) * fs_in.model_normal);
 
+	vec3 f0 = vec3(0.04);
+	f0      = mix(f0, vec3(albedo), metallic);
+
 	// Image based reindering part
-	vec3 ks         = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), vec3(0.04), roughness); 
+	vec3 ks         = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), f0, roughness); 
 	vec3 kd         = 1.0 - ks;
 	kd *= 1.0 - metallic;
 	vec4 irradiance = vec4(texture(irradiancemap, world_normal).rgb, 1.0);
@@ -175,9 +178,9 @@ void main()
 
 	vec3 reflect          = reflect(-1 * fs_in.world_view_direction, world_normal);
 	vec3 prefilteredcolor = textureLod(specularmap, reflect, roughness * MAX_REFLECTION_LOD).rgb;
-	vec3 f                = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), vec3(0.04), roughness); 
-	vec2 environment_brdf = texture(texturebrdf, vec2(max(dot(world_normal, fs_in.world_view_direction), 0.0), roughness)).rg;
-	vec3 specular         = prefilteredcolor * (f * environment_brdf.y + environment_brdf.x);
+	vec3 f                = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), f0, roughness); 
+	vec2 environment_brdf = texture2D(texturebrdf, vec2(max(dot(world_normal, fs_in.world_view_direction), 0.0), roughness)).rg;
+	vec3 specular         = prefilteredcolor * (f * environment_brdf.x + environment_brdf.y);
 
 	color   = vec4(kd, 1.0) * diffuse + vec4(specular, 1.0);
 	//color   = (kd * diffuse + specular) * ao; 
@@ -187,8 +190,8 @@ void main()
 		color += CalcPointLightShading(pointlights[i], world_normal,fs_in.world_pointlight_direction[i]);
 	}
 
-	// Ganmma correction
-	// color = color / (color + vec4(1.0));
-	// color = pow(color, vec4(1.0/2.2)); 
-	// color = vec4(vec3(color), 1.0);
+	//Ganmma correction
+	color = color / (color + vec4(1.0));
+	color = pow(color, vec4(1.0/2.2)); 
+	color = vec4(vec3(color), 1.0);
 }
