@@ -26,9 +26,6 @@
     <ClInclude Include="MyCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DepthMapDebugPlane.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="NormalMapDebugPlane.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -39,6 +39,6 @@ public:
 	void CleanUp() override;
 
 	void SetMaterial(MaterialAttribute *);
-	void SetTexture(TextureAttribute*);
+	//void SetTexture(TextureAttribute*);
 };
 

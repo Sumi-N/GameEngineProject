@@ -1,14 +1,7 @@
 #pragma once
 
 #include "Define.h"
-
-enum class DrawType : unsigned int
-{
-#ifdef ENGINE_GRAPHIC_OPENGL
-	TRIANGLE = GL_TRIANGLES,
-	PATCHES = GL_PATCHES,
-#endif // ENGINE_GRAPHIC_OPENGL
-};
+#include "RenderState.h"
 
 class SceneProxy
 {
@@ -16,11 +9,12 @@ class SceneProxy
 public:
 
 	void Init();
+	void AddRenderState(OwningPointer<RenderState>);
 	void Draw();
-	void CleanUp();
-	void SetDrawType(DrawType i_drawtype){drawtype = i_drawtype;};
+	void CleanUp();	
 
 	OwningPointer<MeshComponent> mesh;
+	std::vector<OwningPointer<RenderState>> states;
 
 protected:
 
@@ -29,6 +23,7 @@ protected:
 	void InitBuffer();
 	void InitMeshData();
 	virtual void InitTexture();
+	void SetDrawType(DrawType i_drawtype){drawtype = i_drawtype;};
 	void CleanUpBuffer();
 
 #ifdef ENGINE_GRAPHIC_OPENGL

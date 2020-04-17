@@ -162,6 +162,7 @@
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="Graphic.OpenGL.cpp" />
     <ClCompile Include="Graphic_Vulkan.cpp" />
+    <ClCompile Include="RenderState.OpenGL.cpp" />
     <ClCompile Include="SceneEntity.cpp" />
     <ClCompile Include="SceneProxy.cpp" />
     <ClCompile Include="SceneProxy.OpenGL.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="Graphic_Vulkan.h" />
+    <ClInclude Include="RenderState.h" />
     <ClInclude Include="SceneEntity.h" />
     <ClInclude Include="SceneProxy.h" />
     <ClInclude Include="Shader.h" />

@@ -3,6 +3,7 @@
 #include <Configuration/Configuration.h>
 
 #include <Parts/MeshComponent.h>
+#include <Parts/EffectComponent.h>
 #include <Parts/Object.h>
 #include <Parts/TextureAttribute.h>
 #include <Parts/HDRTextureAttribute.h>

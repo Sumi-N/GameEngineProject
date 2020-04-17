@@ -66,7 +66,7 @@ void MeshComponent::Load(const char* filename)
 	for (size_t i = 0; i < facenum; i++)
 	{
 		// Vertex Face
-		cy::TriMesh::TriFace vertexFace = tmpdata.F(i);
+		cy::TriMesh::TriFace vertexFace = tmpdata.F((int)i);
 		vertexMap[vertexFace.v[0]] = tmpdata.V(vertexFace.v[0]);
 		vertexMap[vertexFace.v[1]] = tmpdata.V(vertexFace.v[1]);
 		vertexMap[vertexFace.v[2]] = tmpdata.V(vertexFace.v[2]);
@@ -74,7 +74,7 @@ void MeshComponent::Load(const char* filename)
 		// Normal Face
 		if (tmpdata.HasNormals())
 		{
-			cy::TriMesh::TriFace normalFace = tmpdata.FN(i);
+			cy::TriMesh::TriFace normalFace = tmpdata.FN((int)i);
 			normalMap[normalFace.v[0]] = tmpdata.VN(normalFace.v[0]);
 			normalMap[normalFace.v[1]] = tmpdata.VN(normalFace.v[1]);
 			normalMap[normalFace.v[2]] = tmpdata.VN(normalFace.v[2]);
@@ -83,7 +83,7 @@ void MeshComponent::Load(const char* filename)
 		// Texture Face
 		if (tmpdata.HasTextureVertices())
 		{
-			cy::TriMesh::TriFace textureFace = tmpdata.FT(i);
+			cy::TriMesh::TriFace textureFace = tmpdata.FT((int)i);
 			textCoordMap[textureFace.v[0]] = cy::Point2f(tmpdata.VT(textureFace.v[0]));
 			textCoordMap[textureFace.v[1]] = cy::Point2f(tmpdata.VT(textureFace.v[1]));
 			textCoordMap[textureFace.v[2]] = cy::Point2f(tmpdata.VT(textureFace.v[2]));
@@ -92,7 +92,7 @@ void MeshComponent::Load(const char* filename)
 
 	for (size_t i = 0; i < facenum; i++)
 	{
-		unsigned indexOffset = i * 3;
+		unsigned indexOffset = (unsigned int)i * 3;
 
 		index.push_back(indexOffset + 0);
 		index.push_back(indexOffset + 1);
@@ -100,7 +100,7 @@ void MeshComponent::Load(const char* filename)
 
 		MeshData tmp1, tmp2, tmp3;
 
-		cy::TriMesh::TriFace vertexFace = tmpdata.F(i);
+		cy::TriMesh::TriFace vertexFace = tmpdata.F((int)i);
 
 		tmp1.vertex.x = vertexMap[vertexFace.v[0]].x;
 		tmp1.vertex.y = vertexMap[vertexFace.v[0]].y;
@@ -116,7 +116,7 @@ void MeshComponent::Load(const char* filename)
 
 		if (tmpdata.HasNormals())
 		{
-			cy::TriMesh::TriFace normalFace = tmpdata.FN(i);
+			cy::TriMesh::TriFace normalFace = tmpdata.FN((int)i);
 
 			tmp1.normal.x = normalMap[normalFace.v[0]].x;
 			tmp1.normal.y = normalMap[normalFace.v[0]].y;
@@ -133,7 +133,7 @@ void MeshComponent::Load(const char* filename)
 
 		if (tmpdata.HasTextureVertices())
 		{
-			cy::TriMesh::TriFace textureFace = tmpdata.FT(i);
+			cy::TriMesh::TriFace textureFace = tmpdata.FT((int)i);
 
 			tmp1.uv.x = textCoordMap[textureFace.v[0]].x;
 			tmp1.uv.y = textCoordMap[textureFace.v[0]].y;
@@ -217,10 +217,10 @@ void MeshComponent::SetMaterial(MaterialAttribute* i_material)
 	material = i_material;
 }
 
-void MeshComponent::SetTexture(TextureAttribute* i_texture)
-{
-	OwningPointer<TextureAttribute> texturehandler;
-	texturehandler = i_texture;
-
-	textures.insert(textures.begin() + static_cast<uint8_t>(texturehandler->type), texturehandler);
-}
+//void MeshComponent::SetTexture(TextureAttribute* i_texture)
+//{
+//	OwningPointer<TextureAttribute> texturehandler;
+//	texturehandler = i_texture;
+//
+//	textures.insert(textures.begin() + static_cast<uint8_t>(texturehandler->type), texturehandler);
+//}

@@ -66,7 +66,7 @@ void renderQuad()
 	if (quadVAO == 0)
 	{
 		float quadVertices[] = {
-			// positions        // texture Coords
+			// positions        // texture coords
 			-1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
 			-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
 			 1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
@@ -197,7 +197,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 					auto& data_model = i_data->model_data[j];
 					constant_model.Update(&data_model);
 
-					SceneEntity::List[j].proxy->Draw();
+					SceneEntity::List[j]->Draw();
 				}
 			}
 		}
@@ -228,7 +228,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 				frame_irradiance.BindTextureUnit();
 				frame_specular.BindTextureUnit();
 				frame_brdf.BindTextureUnit();
-				SceneEntity::List[i].BindAndDraw();
+				SceneEntity::List[i]->Draw();
 			}
 		}
 

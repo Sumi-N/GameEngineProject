@@ -1,24 +1,36 @@
+#pragma once
 #include "SceneProxy.h"
 
 #ifdef ENGINE_GRAPHIC_OPENGL
 
 void SceneProxy::Draw()
 {
-	for (int i = 0; i < textureunits.size(); i++)
-	{
-		glActiveTexture(GL_TEXTURE0 + textureunits[i]);
-		glBindTexture(GL_TEXTURE_2D, textureids[i]);
+	//for (int i = 0; i < textureunits.size(); i++)
+	//{
+	//	glActiveTexture(GL_TEXTURE0 + textureunits[i]);
+	//	glBindTexture(GL_TEXTURE_2D, textureids[i]);
+	//}
+
+	for(int i = 0; i < states.size(); i++)
+	{ 
+		states[i]->BindShaderState();
+
+		SetDrawType(states[i]->shader.CheckDrawType());
+		glBindVertexArray(vertexarrayid);
+		glDrawElements(static_cast<unsigned int>(drawtype), indexsize, GL_UNSIGNED_INT, (void*)0);
+
+		states[i]->UnBindShaderState();
 	}
 
-	glBindVertexArray(vertexarrayid);
-	glDrawElements(static_cast<unsigned int>(drawtype), indexsize, GL_UNSIGNED_INT, (void*)0);
+	//glBindVertexArray(vertexarrayid);
+	//glDrawElements(static_cast<unsigned int>(drawtype), indexsize, GL_UNSIGNED_INT, (void*)0);
 
-	// Unbind textures
-	for (int i = 0; i < textureunits.size(); i++)
-	{
-		glActiveTexture(GL_TEXTURE0 + textureunits[i]);
-		glBindTexture(GL_TEXTURE_2D, 0);
-	}
+	//// Unbind textures
+	//for (int i = 0; i < textureunits.size(); i++)
+	//{
+	//	glActiveTexture(GL_TEXTURE0 + textureunits[i]);
+	//	glBindTexture(GL_TEXTURE_2D, 0);
+	//}
 }
 
 void SceneProxy::InitBuffer()

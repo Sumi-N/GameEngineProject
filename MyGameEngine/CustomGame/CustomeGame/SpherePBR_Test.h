@@ -20,20 +20,29 @@ inline void SpherePBR_Test::Boot()
 {
 	Sphere::Boot();
 
-	SceneFormat* format = SceneEntity::Query(this);
-	Shader* shader = new Shader(PATH_SUFFIX SHADER_PATH DEBUG_PBR_BASIC_VERT, PATH_SUFFIX SHADER_PATH DEBUG_PBR_BASIC_FRAG);
-	format->ReplaceShader(shader);
+	const char* shaderpaths[] =
+	{
+		PATH_SUFFIX SHADER_PATH DEBUG_PBR_BASIC_VERT,
+		nullptr,
+		nullptr,
+		nullptr,
+		PATH_SUFFIX SHADER_PATH DEBUG_PBR_BASIC_FRAG,
+	};
+
+	EffectComponent* effect = new EffectComponent();
+	effect->owner = Entity::Query(this).p;
+	effect->RegisterShaderPath(shaderpaths);
+	Entity::RegisterEffectComponent(effect);
 }
 
 inline void SpherePBR_Test::Init()
 {
 	Sphere::Init();
 	
-	SceneFormat* format = SceneEntity::Query(this);
-	format->proxy->mesh->material->albedo = Vec4f(1.0, 0, 0, 1.0);
+	mesh->material->albedo = Vec4f(1.0, 0, 0, 1.0);
 
-	format->proxy->mesh->material->metalic = metalic;
-	format->proxy->mesh->material->roughness = roughness;
+	mesh->material->metalic = metalic;
+	mesh->material->roughness = roughness;
 }
 
 inline void SpherePBR_Test::ChangePos(Vec3f i_pos)

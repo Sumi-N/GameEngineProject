@@ -16,17 +16,33 @@ inline void TexturedQuad::Boot()
 {
 	Quad::Boot();
 
-	SceneFormat* format = SceneEntity::Query(this);
+	//SceneFormat* format = SceneEntity::Query(this);
+
+	const char* shaderpaths[] =
+	{
+		PATH_SUFFIX SHADER_PATH BLINN_PHONG_VERT,
+		nullptr,
+		nullptr,
+		nullptr,
+		PATH_SUFFIX SHADER_PATH BLINN_PHONG_FRAG,
+	};
 
 	TextureAttribute* texture = new TextureAttribute();
 	texture->Load("../../Assets/textures/albedo/brickwall.png", TextureType::PB_Diffuse);
 	TextureAttribute* texture2 = new TextureAttribute();
 	texture2->Load("../../Assets/textures/albedo/brickwall.png", TextureType::PB_Specular);
-	format->proxy->mesh->SetTexture(texture);
-	format->proxy->mesh->SetTexture(texture2);
 
-	Shader* quadshader = new Shader(PATH_SUFFIX SHADER_PATH BLINN_PHONG_VERT, PATH_SUFFIX SHADER_PATH BLINN_PHONG_FRAG);
-	format->ReplaceShader(quadshader);
+	EffectComponent* effect = new EffectComponent();
+	effect->owner = Entity::Query(this).p;
+	effect->RegisterShaderPath(shaderpaths);
+	effect->SetTexture(texture);
+	effect->SetTexture(texture2);
+	Entity::RegisterEffectComponent(effect);
+
+	//format->proxy->mesh->SetTexture(texture);
+	//format->proxy->mesh->SetTexture(texture2);
+	//Shader* quadshader = new Shader(PATH_SUFFIX SHADER_PATH BLINN_PHONG_VERT, PATH_SUFFIX SHADER_PATH BLINN_PHONG_FRAG);
+	//format->ReplaceShader(quadshader);
 }
 
 inline void TexturedQuad::Init()

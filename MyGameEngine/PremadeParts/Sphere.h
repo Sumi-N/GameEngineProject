@@ -14,8 +14,7 @@ inline void Sphere::Boot()
 {
 	PremadeObjebct::Boot();
 
-	SceneFormat* format = SceneEntity::Query(this);
-	format->proxy->mesh->Load(PATH_SUFFIX MESH_PATH FILENAME_SPHERE);
+	mesh->Load(PATH_SUFFIX MESH_PATH FILENAME_SPHERE);
 }
 
 inline void Sphere::Init()

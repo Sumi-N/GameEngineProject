@@ -29,13 +29,15 @@ inline void RenderThread::Boot()
 	glfwSetMouseButtonCallback(Graphic::window, GLFW_INPUT::MouseButtonCallback);
 	glfwSetCursorPosCallback(Graphic::window, GLFW_INPUT::CursorPositionCallback);
 #endif // ENGINE_GRAPHIC_OPENGL
-	
-}
 
+}
 
 inline void RenderThread::Init()
 {
+	// Init scene entity
+	SceneEntity::Init();
 	Graphic::Init();
+
 	Graphic::PreCompute();
 }
 

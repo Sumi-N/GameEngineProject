@@ -1,6 +1,13 @@
 #pragma once
 #include "Define.h"
-#include "SceneProxy.h"
+
+enum class DrawType : unsigned int
+{
+#ifdef ENGINE_GRAPHIC_OPENGL
+	TRIANGLE = GL_TRIANGLES,
+	PATCHES = GL_PATCHES,
+#endif // ENGINE_GRAPHIC_OPENGL
+};
 
 class Shader 
 {
@@ -41,7 +48,7 @@ public:
 		fragpath    = i_frag;
 	}
 
-	Shader(const char* i_vert, const char* i_geo, const char* i_control, const char * i_eval, const char* i_frag)
+	Shader(const char* i_vert, const char* i_control, const char * i_eval, const char* i_geo, const char* i_frag)
 	{
 		vertpath    = i_vert;
 		controlpath = i_control;

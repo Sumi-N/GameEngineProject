@@ -1,12 +1,13 @@
 #pragma  once
 #include "Entity.h"
 
-std::vector<ObjectHandler>                Entity::ObjectList;
-std::vector<OwningPointer<MeshComponent>> Entity::MeshComponentList;
-std::vector<OwningPointer<PointLight>>    Entity::PointLightList;
-OwningPointer<DirectionalLight>           Entity::Directional;
-OwningPointer<AmbientLight>               Entity::Ambient;
-OwningPointer<Camera>                     Entity::CurrentCamera;
+std::vector<ObjectHandler>                  Entity::ObjectList;
+std::vector<OwningPointer<MeshComponent>>   Entity::MeshComponentList;
+std::vector<OwningPointer<EffectComponent>> Entity::EffectComponentList;
+std::vector<OwningPointer<PointLight>>      Entity::PointLightList;
+OwningPointer<DirectionalLight>             Entity::Directional;
+OwningPointer<AmbientLight>                 Entity::Ambient;
+OwningPointer<Camera>                       Entity::CurrentCamera;
 
 ObjectHandler Entity::Register(Object * i_obj)
 {
@@ -58,6 +59,13 @@ void Entity::RegisterMeshComponent(MeshComponent * i_component)
 	MeshComponentList.push_back(mesh_handler);
 }
 
+void Entity::RegisterEffectComponent(EffectComponent* i_component)
+{
+	OwningPointer<EffectComponent> effect_handler;
+	effect_handler = i_component;
+	EffectComponentList.push_back(effect_handler);
+}
+
 void Entity::Boot()
 {
 	// Check if ambient light exist in a scene, if not create one
@@ -100,6 +108,12 @@ void Entity::Boot()
 
 	// Boot Mesh
 	for (auto it = MeshComponentList.begin(); it != MeshComponentList.end(); ++it)
+	{
+		(*it)->Boot();
+	}
+
+	// Boot Effect
+	for (auto it = EffectComponentList.begin(); it != EffectComponentList.end(); ++it)
 	{
 		(*it)->Boot();
 	}

@@ -10,7 +10,6 @@
 
 #include "Teapot.h"
 #include "MyCamera.h"
-#include "DepthMapDebugPlane.h"
 #include "NormalMapDebugPlane.h"
 #include "SpherePBR_Test.h"
 #include "RastedSphere.h"
@@ -34,10 +33,6 @@ int main()
 	Entity::Register(&skybox);
 
 	///////////////////////////////////////////////////////////
-
-		// Setting up quad2
-	DepthMapDebugPlane debugplane;
-	//Entity::Register(&debugplane);
 
 	// Setting up quad3
 	NormalMapDebugPlane normalplane;
@@ -150,7 +145,7 @@ int main()
 			sphere[8 * i + j].ChangePos(Vec3f(6.25f * i - 20.0f, 6.25f * j - 20.0f, -60.0f));
 			sphere[8 * i + j].ChangeMaterialParameter(0.125f * i, 0.125f * j);
 			sphere[8 * i + j].scale = Vec3f(0.1, 0.1, 0.1);
-			//Entity::Register(&sphere[8 * i + j]);
+			Entity::Register(&sphere[8 * i + j]);
 		}
 	}
 

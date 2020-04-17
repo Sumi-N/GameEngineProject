@@ -7,21 +7,35 @@ class PremadeObjebct : public Object
 public:
 	void Boot() override;
 	void Init() override;
+
+protected:
+	MeshComponent* mesh;
 };
 
 inline void PremadeObjebct::Boot()
 {
 	Object::Boot();
 
-	MeshComponent* mesh = new MeshComponent();
+	MeshComponent* thismesh = new MeshComponent();
 	MaterialAttribute* material = new MaterialAttribute();
-	mesh->SetMaterial(material);
-	mesh->owner = Entity::Query(this).p;
-	Entity::RegisterMeshComponent(mesh);
+	thismesh->SetMaterial(material);
+	thismesh->owner = Entity::Query(this).p;
+	Entity::RegisterMeshComponent(thismesh);
+	mesh = thismesh;
 
-	SceneProxy* proxy = new SceneProxy();
-	proxy->mesh       = mesh;
-	SceneFormat* format = SceneEntity::Register(proxy);
+	//const char* shaderpaths[] =
+	//{
+	//	PATH_SUFFIX SHADER_PATH DEBUG_POLYGON_VERT,
+	//	nullptr,
+	//	nullptr,
+	//	PATH_SUFFIX SHADER_PATH DEBUG_POLYGON_GEO,
+	//	PATH_SUFFIX SHADER_PATH DEBUG_POLYGON_FRAG,
+	//};
+
+	//EffectComponent* effect = new EffectComponent();
+	//effect->owner = Entity::Query(this).p;
+	//effect->RegisterShaderPath(shaderpaths);
+	//Entity::RegisterEffectComponent(effect);
 
 #if defined(_DEBUG) && !defined(NDEBUG)
 	//SHOW_DEBUG_POLYGON
@@ -34,8 +48,6 @@ inline void PremadeObjebct::Boot()
 #endif // DEBUG
 
 	{
-		Shader* debugshader = new Shader(PATH_SUFFIX SHADER_PATH DEBUG_POLYGON_VERT, PATH_SUFFIX SHADER_PATH DEBUG_POLYGON_GEO, PATH_SUFFIX SHADER_PATH DEBUG_POLYGON_FRAG);
-		format->AddShader(debugshader);
 	}
 }
 

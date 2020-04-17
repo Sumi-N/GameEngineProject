@@ -16,11 +16,16 @@
 class Entity
 {
 public:
+	// Object list
 	static std::vector<ObjectHandler> ObjectList;
+	// Component list
 	static std::vector<OwningPointer<MeshComponent>> MeshComponentList;
+	static std::vector<OwningPointer<EffectComponent>> EffectComponentList;
+	// Light lists
 	static std::vector<OwningPointer<PointLight>> PointLightList;
 	static OwningPointer<DirectionalLight> Directional;
 	static OwningPointer<AmbientLight> Ambient;;
+	// Camera
 	static OwningPointer<Camera> CurrentCamera;
 
 	static ObjectHandler Register(Object *);
@@ -31,6 +36,7 @@ public:
 	static void RegisterDirectionalLight(DirectionalLight*);
 	static void RegisterPointLight(PointLight*);
 	static void RegisterMeshComponent(MeshComponent*);
+	static void RegisterEffectComponent(EffectComponent*);
 
 	static void Boot();
 	static void Init();

@@ -2,59 +2,59 @@
 
 #include "Define.h"
 #include "SceneProxy.h"
+#include "RenderState.h"
 #include "CubeMapProxy.h"
-#include "Shader.h"
 
 // Forward declaration
 struct  GraphicRequiredData;
 
-struct SceneFormat
-{
-	SceneFormat(SceneProxy* i_proxy)
-	{
-		proxy = i_proxy;
-	}
-
-	SceneProxy* proxy;
-	std::vector<Shader*> shaders;
-
-	void ClearShaders();
-	void AddShader(Shader*);
-	void ReplaceShader(Shader*);
-	void BindAndDraw();
-};
-
-inline void SceneFormat::ClearShaders()
-{
-	shaders.clear();
-}
-
-inline void SceneFormat::AddShader(Shader* i_shader)
-{
-	shaders.push_back(i_shader);
-}
-
-inline void SceneFormat::ReplaceShader(Shader* i_shader)
-{
-	if (shaders.size() == 0)
-	{
-		shaders.push_back(i_shader);
-	}
-	else
-	{
-		shaders[shaders.size() - 1] = i_shader;
-	}
-}
-
-inline void SceneFormat::BindAndDraw()
-{
-	for (int i = 0; i < this->shaders.size(); i++)
-	{
-		shaders[i]->BindShader();
-		proxy->SetDrawType(shaders[i]->CheckDrawType());
-		proxy->Draw();
-	}
-}
+//struct SceneFormat
+//{
+//	SceneFormat(SceneProxy* i_proxy)
+//	{
+//		proxy = i_proxy;
+//	}
+//
+//	SceneProxy* proxy;
+//	std::vector<Shader*> shaders;
+//
+//	void ClearShaders();
+//	void AddShader(Shader*);
+//	void ReplaceShader(Shader*);
+//	void BindAndDraw();
+//};
+//
+//inline void SceneFormat::ClearShaders()
+//{
+//	shaders.clear();
+//}
+//
+//inline void SceneFormat::AddShader(Shader* i_shader)
+//{
+//	shaders.push_back(i_shader);
+//}
+//
+//inline void SceneFormat::ReplaceShader(Shader* i_shader)
+//{
+//	if (shaders.size() == 0)
+//	{
+//		shaders.push_back(i_shader);
+//	}
+//	else
+//	{
+//		shaders[shaders.size() - 1] = i_shader;
+//	}
+//}
+//
+//inline void SceneFormat::BindAndDraw()
+//{
+//	for (int i = 0; i < this->shaders.size(); i++)
+//	{
+//		shaders[i]->BindShader();
+//		proxy->SetDrawType(shaders[i]->CheckDrawType());
+//		proxy->Draw();
+//	}
+//}
 
 struct CubeMapFormat
 {
@@ -76,20 +76,20 @@ struct CubeMapFormat
 class SceneEntity
 {
 public:
-	static std::vector<SceneFormat> List;
+	static std::vector<OwningPointer<SceneProxy>> List;
 	static CubeMapFormat SkyBoxScene;
-	static SceneFormat* Register(SceneProxy*);
+	//static SceneFormat* Register(SceneProxy*);
 	static void RegisterSkyBox(CubeMapProxy*, Shader*);
-	static SceneFormat* Query(const Object* i_obj);
+	//static SceneProxy* Query(const Object* i_obj);
 	static void Init();
 };
 
-inline SceneFormat* SceneEntity::Register(SceneProxy* i_proxy)
-{
-	SceneFormat format = SceneFormat(i_proxy);
-	List.push_back(format);
-	return &List[List.size() - 1];
-}
+//inline SceneFormat* SceneEntity::Register(SceneProxy* i_proxy)
+//{
+//	SceneFormat format = SceneFormat(i_proxy);
+//	List.push_back(format);
+//	return &List[List.size() - 1];
+//}
 
 inline void SceneEntity::RegisterSkyBox(CubeMapProxy* i_cubemap, Shader* i_shader)
 {
@@ -97,18 +97,18 @@ inline void SceneEntity::RegisterSkyBox(CubeMapProxy* i_cubemap, Shader* i_shade
 	SkyBoxScene = format;
 }
 
-inline SceneFormat* SceneEntity::Query(const Object* i_obj)
-{
-	for (int i = 0; i < List.size(); i++)
-	{
-		if (List[i].proxy->mesh->owner == i_obj)
-		{
-			return &List[i];
-		}
-	}
-	DEBUG_PRINT("Coulnd't not find the object in SceneEntity list");
-	return nullptr;
-}
+//inline SceneProxy* SceneEntity::Query(const Object* i_obj)
+//{
+//	for (int i = 0; i < List.size(); i++)
+//	{
+//		if (List[i]->mesh->owner == i_obj)
+//		{
+//			return List[i];
+//		}
+//	}
+//	DEBUG_PRINT("Couldn't not find the object in the scene entity list");
+//	return nullptr;
+//}
 
 inline void SceneEntity::Init()
 {
@@ -119,15 +119,48 @@ inline void SceneEntity::Init()
 		SkyBoxScene.shader->LoadShader();
 	}
 
-	for (auto it = List.begin(); it != List.end(); ++it)
+	// Create scene format from entity
+	for (auto it = Entity::MeshComponentList.begin(); it != Entity::MeshComponentList.end(); ++it)
 	{
-		(*it).proxy->Init();
-		for (auto it2 = (*it).shaders.begin(); it2 != (*it).shaders.end(); ++it2)
+		SceneProxy * proxy = new SceneProxy();
+		proxy->mesh = *it;
+		proxy->Init();
+
+		OwningPointer<SceneProxy> proxyhandler;
+		proxyhandler = proxy;
+
+		// Create render state
+		for (auto it2 = Entity::EffectComponentList.begin(); it2 != Entity::EffectComponentList.end(); ++it2)
 		{
-			if (*it2)
+			if ((*it)->owner == (*it2)->owner)
 			{
-				(*it2)->LoadShader();
+				RenderState *  state = new RenderState();
+				state->InitShader((*it2)->shaderpaths);
+
+				// Create buffer for texture
+				for (auto it3 = (*it2)->textures.begin(); it3 != (*it2)->textures.end(); ++it3)
+				{
+					state->InitTexture(*it3);
+				}
+
+				OwningPointer<RenderState> renderhandler;
+				renderhandler = state;
+				proxy->AddRenderState(renderhandler);
 			}
 		}
+
+		List.push_back(proxyhandler);
 	}
+
+	//for (auto it = List.begin(); it != List.end(); ++it)
+	//{
+	//	(*it).proxy->Init();
+	//	for (auto it2 = (*it).shaders.begin(); it2 != (*it).shaders.end(); ++it2)
+	//	{
+	//		if (*it2)
+	//		{
+	//			(*it2)->LoadShader();
+	//		}
+	//	}
+	//}
 }

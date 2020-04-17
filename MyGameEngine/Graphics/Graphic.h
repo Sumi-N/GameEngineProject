@@ -48,9 +48,6 @@ public:
 
 inline void Graphic::Init()
 {
-	// Init scene entity
-	SceneEntity::Init();
-
 	// Init uniform buffers
 	constant_camera.Init(ConstantData::Index::Camera, ConstantData::Size::Camera);
 	constant_model.Init(ConstantData::Index::Model, ConstantData::Size::Model);

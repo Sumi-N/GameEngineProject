@@ -9,9 +9,6 @@ enum class TextureType : int8_t
 	Ohter =  -1,
 
 	//////////////////////
-	None   = 0, 
-
-	//////////////////////
 
 	Albedo = 0,
 	Normal = 1,
@@ -31,7 +28,7 @@ class TextureAttribute : public Attribute
 public:
 	std::vector<Vec3u8t> pixels;
 	int width, height;
-	TextureType type = TextureType::None;
+	TextureType type = static_cast<TextureType>(0);
 
 	virtual bool Load(char const* i_filename, TextureType i_type);
 };
