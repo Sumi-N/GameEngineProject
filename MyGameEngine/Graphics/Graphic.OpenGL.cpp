@@ -87,50 +87,34 @@ void Graphic::PreCompute()
 		constant_cubemap.Update(&data_cubemap);
 	}
 
+	if (SceneEntity::SkyBoxProxy)
 	{
-		// Render HDR
-		frame_cubemap.BindFrame();
-		SceneEntity::SkyBoxProxy->states[0]->BindTextureUnit();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		FrameBuffer::RenderToCube();
-	}
-
-	// Create irradiance map
-	{
-		frame_irradiance.BindFrame();
-		frame_cubemap.BindTextureUnit();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		FrameBuffer::RenderToCube();
-	}
-
-	// Create specular map
-	{
-		frame_specular.BindFrame();
-		unsigned int maxmiplevels = 5;
-		for (unsigned int mip = 0; mip < maxmiplevels; ++mip)
 		{
-			unsigned int mipwidth = 128 * std::pow(0.5, mip);
-			unsigned int mipheight = 128 * std::pow(0.5, mip);
-
-			glViewport(0, 0, mipwidth, mipheight);
-			float roughness = (float)mip / (float)(maxmiplevels - 1);
-
-			glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, frame_specular.textureid_color, mip);
-
-			GLuint roughness_value = glGetUniformLocation(frame_specular.shader.programid, "roughness");
-			glUniform1f(roughness_value, roughness);
-
-			frame_cubemap.BindTextureUnit();
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			FrameBuffer::RenderToCube();
+			// Render HDR
+			frame_cubemap.BindFrame();
+			SceneEntity::SkyBoxProxy->states[0]->BindTextureUnit();
+			frame_cubemap.RenderOnce();
 		}
-	}
 
-	// Create BRDF look up texture
-	{
-		frame_brdf.BindFrame();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		FrameBuffer::RenderToQuad();
+		// Create irradiance map
+		{
+			frame_irradiance.BindFrame();
+			frame_cubemap.BindTextureUnit();
+			frame_irradiance.RenderOnce();
+		}
+
+		// Create specular map
+		{
+			frame_specular.BindFrame();
+			frame_cubemap.BindTextureUnit();
+			frame_specular.RenderOnce();
+		}
+
+		// Create BRDF look up texture
+		{
+			frame_brdf.BindFrame();
+			frame_brdf.RenderOnce();
+		}
 	}
 }
 
@@ -174,7 +158,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 					auto& data_model = i_data->model_data[j];
 					constant_model.Update(&data_model);
 
-					SceneEntity::List[j]->Draw();
+					SceneEntity::List[j]->DrawMesh();
 				}
 			}
 		}

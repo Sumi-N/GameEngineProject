@@ -11,6 +11,7 @@ public:
 	void Init();
 	void AddRenderState(OwningPointer<RenderState>);
 	void Draw();
+	void DrawMesh();
 	void CleanUp();	
 
 	OwningPointer<MeshComponent> mesh;

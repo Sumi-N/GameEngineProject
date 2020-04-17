@@ -8,9 +8,9 @@ namespace ConstantData
 	{
 		struct PointLight
 		{
-			Vec4f point_intensity;
-			Vec4f point_position;
-			Vec3f point_attenuation; // Doesn't require padding
+			Vec4f intensity;
+			Vec4f position;
+			Vec3f attenuation; // Doesn't require padding
 		};
 	}
 

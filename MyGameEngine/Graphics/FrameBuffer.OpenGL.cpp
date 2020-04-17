@@ -183,34 +183,37 @@ void FrameBuffer::Init(FrameType i_type, int i_unitnum, int i_width, int i_heigh
 	}
 	else if (i_type == FrameType::ShadowMap)
 	{
-	// Load shader
-	shader.SetShader(PATH_SUFFIX SHADER_PATH SHADOWMAP_VERT, PATH_SUFFIX SHADER_PATH SHADOWMAP_FRAG);
-	shader.LoadShader();
+		// Load shader
+		shader.SetShader(PATH_SUFFIX SHADER_PATH SHADOWMAP_VERT, PATH_SUFFIX SHADER_PATH SHADOWMAP_FRAG);
+		shader.LoadShader();
 
-	// Create frame buffer
-	glGenFramebuffers(1, &bufferid);
-	glBindFramebuffer(GL_FRAMEBUFFER, bufferid);
+		// Create frame buffer
+		glGenFramebuffers(1, &bufferid);
+		glBindFramebuffer(GL_FRAMEBUFFER, bufferid);
 
-	// Create depth buffer
-	glGenTextures(1, &textureid_depth);
-	glBindTexture(GL_TEXTURE_2D, textureid_depth);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, i_width, i_height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		// Create depth buffer
+		glGenTextures(1, &textureid_depth);
+		glBindTexture(GL_TEXTURE_2D, textureid_depth);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, i_width, i_height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	// attach depth texture as FBO's depth buffer
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, textureid_depth, 0);
+		// attach depth texture as FBO's depth buffer
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, textureid_depth, 0);
 
-	glDrawBuffer(GL_NONE);
-	glReadBuffer(GL_NONE);
+		glDrawBuffer(GL_NONE);
+		glReadBuffer(GL_NONE);
 	}
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{  
-		//Check for FBO completeness
-		DEBUG_PRINT("Error! FrameBuffer is not complete");
+		//Specular framebuffer is the exception
+		if (frametype != FrameType::Specular)
+		{
+			DEBUG_PRINT("Error! FrameBuffer is not complete");
+		}
 	}
 
 	// Set back to original back buffer
@@ -258,4 +261,48 @@ void FrameBuffer::BindTextureUnit()
 	}
 }
 
+void FrameBuffer::RenderOnce()
+{
+	if (frametype == FrameType::EquirectangularMap)
+	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		FrameBuffer::RenderToCube();
+	}
+	else if (frametype == FrameType::IrradianceMap)
+	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		FrameBuffer::RenderToCube();
+	}
+	else if (frametype == FrameType::Specular)
+	{
+		unsigned int maxmiplevels = 5;
+		for (unsigned int mip = 0; mip < maxmiplevels; ++mip)
+		{
+			unsigned int mipwidth = 128 * std::pow(0.5, mip);
+			unsigned int mipheight = 128 * std::pow(0.5, mip);
+
+			glViewport(0, 0, mipwidth, mipheight);
+			float roughness = (float)mip / (float)(maxmiplevels - 1);
+
+			glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, textureid_color, mip);
+
+			GLuint roughness_value = glGetUniformLocation(shader.programid, "roughness");
+			glUniform1f(roughness_value, roughness);
+
+
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			FrameBuffer::RenderToCube();
+		}
+	}
+	else if (frametype == FrameType::BRDF)
+	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		FrameBuffer::RenderToQuad();
+	}
+	else
+	{
+		DEBUG_ASSERT(false);
+	}
+
+}
 #endif // ENGINE_GRAPHIC_OPENGL

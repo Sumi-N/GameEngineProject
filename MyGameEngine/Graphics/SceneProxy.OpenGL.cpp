@@ -17,6 +17,12 @@ void SceneProxy::Draw()
 	}
 }
 
+void SceneProxy::DrawMesh()
+{
+	glBindVertexArray(vertexarrayid);
+	glDrawElements(static_cast<unsigned int>(drawtype), indexsize, GL_UNSIGNED_INT, (void*)0);
+}
+
 void SceneProxy::InitBuffer()
 {
 	// Create vertex array 

@@ -103,7 +103,10 @@ void Entity::Boot()
 	}
 
 	//Boot sky box
-	Skybox->Boot();
+	if (Skybox)
+	{
+		Skybox->Boot();
+	}
 
 	// Boot Lights
 	if (Directional)

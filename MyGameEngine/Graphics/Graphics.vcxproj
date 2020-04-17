@@ -158,6 +158,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ConstantBuffer.OpenGL.cpp" />
+    <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="FrameBuffer.OpenGL.cpp" />
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="Graphic.OpenGL.cpp" />
