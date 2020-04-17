@@ -6,7 +6,7 @@
 #include <Core/Parts/Light.h>
 #include <Core/Parts/MeshComponent.h>
 #include <Core/Parts/EffectComponent.h>
-#include <Core/Parts/CubeMapMeshComponent.h>
+#include <Core/Parts/CubeMap.h>
 #include <Core/BoneStructure/SmartPointer.h>
 
 #include <vector>

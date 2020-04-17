@@ -9,7 +9,7 @@ namespace ConstantData
 		struct PointLight
 		{
 			Vec4f point_intensity;
-			Vec4f point_position;
+			Vec4f position;
 			Vec3f point_attenuation; // Doesn't require padding
 		};
 	}
@@ -55,10 +55,10 @@ namespace ConstantData
 		Mat4f skybox_view_perspective_matrix;
 	};
 
-	struct Shadow
+	struct CubeMap
 	{
-		Mat4f point_view_perspective_matrix[6];
-		Vec4f point_position;
+		Mat4f view_perspective_matrix[6];
+		Vec4f position;
 		//Mat4f directional_view_perspective_matrix;
 	};
 
@@ -71,7 +71,7 @@ namespace ConstantData
 		Material = 2,
 		Light = 3,
 		SkyBox = 4,
-		Shadow = 5,
+		CubeMap = 5,
 	};
 
 	enum class Size : uint16_t
@@ -81,7 +81,7 @@ namespace ConstantData
 		Material         = sizeof(ConstantData::Material),
 		Light            = sizeof(ConstantData::Light),
 		SkyBox           = sizeof(ConstantData::SkyBox),
-		Shadow           = sizeof(ConstantData::Shadow),
+		CubeMap           = sizeof(ConstantData::CubeMap),
 	};
 }
 

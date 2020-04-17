@@ -6,7 +6,6 @@ void SceneProxy::Init()
 {
 	InitBuffer();
 	InitMeshData();
-	InitTexture();
 }
 
 void SceneProxy::AddRenderState(OwningPointer<RenderState> i_state)

@@ -148,14 +148,13 @@
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
-    <ClInclude Include="CubeMapMeshComponent.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="EffectComponent.h" />
-    <ClInclude Include="HDRTextureAttribute.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="MaterialAttribute.h" />
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="CubeMap.h" />
     <ClInclude Include="TextureAttribute.h" />
   </ItemGroup>
   <ItemGroup>

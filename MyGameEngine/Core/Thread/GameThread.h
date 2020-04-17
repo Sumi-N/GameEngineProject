@@ -95,14 +95,14 @@ inline void GameThread::PassDataTo(Thread * io_thread)
 			{
 				// Submit point light data
 				data_game_own->light.pointlights[std::distance(Entity::PointLightList.begin(), it)].point_intensity = Vec4f((*it)->intensity);
-				data_game_own->light.pointlights[std::distance(Entity::PointLightList.begin(), it)].point_position = Vec4f((*it)->pos);
+				data_game_own->light.pointlights[std::distance(Entity::PointLightList.begin(), it)].position = Vec4f((*it)->pos);
 				data_game_own->light.pointlights[std::distance(Entity::PointLightList.begin(), it)].point_attenuation = (*it)->attenuation;
 
 				// Tmp solution, need to fix later
 				for (int i = 0; i < 6; i++)
 				{
-					data_game_own->shadow[std::distance(Entity::PointLightList.begin(), it)].point_view_perspective_matrix[i] = (*it)->light_space_mats[i];
-					data_game_own->shadow[std::distance(Entity::PointLightList.begin(), it)].point_position = Vec4f((*it)->pos);
+					data_game_own->shadow[std::distance(Entity::PointLightList.begin(), it)].view_perspective_matrix[i] = (*it)->light_space_mats[i];
+					data_game_own->shadow[std::distance(Entity::PointLightList.begin(), it)].position = Vec4f((*it)->pos);
 				}
 			}
 		}
@@ -114,15 +114,11 @@ inline void GameThread::PassDataTo(Thread * io_thread)
 		{
 			// Submit material data
 			ConstantData::Material material;
-			if ((*it)->mesh->material)
-			{
-				material.diffuse = Vec4f((*it)->mesh->material->Kd, 1.0f);
-				material.specular = Vec4f((*it)->mesh->material->Ks, (*it)->mesh->material->Ns);
-
-				material.albedo = (*it)->mesh->material->albedo;
-				material.metalic = (*it)->mesh->material->metalic;
-				material.roughness = (*it)->mesh->material->roughness;
-			}
+			material.diffuse = Vec4f((*it)->mesh->material->Kd, 1.0f);
+			material.specular = Vec4f((*it)->mesh->material->Ks, (*it)->mesh->material->Ns);
+			material.albedo = (*it)->mesh->material->albedo;
+			material.metalic = (*it)->mesh->material->metalic;
+			material.roughness = (*it)->mesh->material->roughness;
 			data_game_own->material_data.push_back(material);
 
 			// Submit mesh data

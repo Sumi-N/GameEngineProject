@@ -5,9 +5,7 @@
 #include <Math/Matrix.h>
 #include <Parts/Object.h>
 #include <Parts/MeshComponent.h>
-#include <Parts/CubeMapMeshComponent.h>
 #include <Parts/TextureAttribute.h>
-#include <Parts/HDRTextureAttribute.h>
 #include <BoneStructure/SmartPointer.h>
 #include <EntitySystem/Entity.h>
 
@@ -33,7 +31,6 @@
 #define SPECULAR_BINDING_UNIT            7
 #define BRDF_BINDING_UNIT                8
 #define IMAGE_BINDING_UNIT               9
-#define TEXTURE_UNIT_BINDING_OFFSET      10
 
 
 /////////////////////

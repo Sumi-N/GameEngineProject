@@ -216,11 +216,3 @@ void MeshComponent::SetMaterial(MaterialAttribute* i_material)
 {
 	material = i_material;
 }
-
-//void MeshComponent::SetTexture(TextureAttribute* i_texture)
-//{
-//	OwningPointer<TextureAttribute> texturehandler;
-//	texturehandler = i_texture;
-//
-//	textures.insert(textures.begin() + static_cast<uint8_t>(texturehandler->type), texturehandler);
-//}

@@ -40,9 +40,6 @@
     <ClInclude Include="SceneEntity.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="CubeMapProxy.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="FrameBuffer.h">
       <Filter>Common</Filter>
     </ClInclude>

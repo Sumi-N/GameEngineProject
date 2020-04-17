@@ -58,103 +58,80 @@ void Graphic::Boot()
 	glPatchParameteri(GL_PATCH_VERTICES, 3);
 }
 
-void renderQuad()
-{
-	unsigned int quadVAO = 0;
-	unsigned int quadVBO;
-
-	if (quadVAO == 0)
-	{
-		float quadVertices[] = {
-			// positions        // texture coords
-			-1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
-			-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-			 1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
-			 1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-		};
-		// setup plane VAO
-		glGenVertexArrays(1, &quadVAO);
-		glGenBuffers(1, &quadVBO);
-		glBindVertexArray(quadVAO);
-		glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	}
-	glBindVertexArray(quadVAO);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	glBindVertexArray(0);
-}
-
 void Graphic::PreCompute()
 {
-	Mat4f light_space_mats[6];
-	Mat4f light_view[6];
-	Mat4f light_projection = Mat4f::Perspective(90, 1, NEARCLIP, FARCLIP);
-
-	light_view[0] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f( 1, 0, 0), Vec3f(0, -1, 0));
-	light_view[1] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f(-1, 0, 0), Vec3f(0, -1, 0));
-	light_view[2] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f(0,  1, 0), Vec3f(0, 0, 1));
-	light_view[3] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f(0, -1, 0), Vec3f(0, 0, -1));
-	light_view[4] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f(0, 0,  1), Vec3f(0, -1, 0));
-	light_view[5] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f(0, 0, -1), Vec3f(0, -1, 0));
-
-	for (int i = 0; i < 6; i++)
+	// Create uniform date for 6 cube map directions
 	{
-		light_space_mats[i] = light_projection * light_view[i];
+		Mat4f pv_mats[6];
+		Mat4f view[6];
+		Mat4f projection = Mat4f::Perspective(90, 1, NEARCLIP, FARCLIP);
+
+		view[0] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f(1, 0, 0), Vec3f(0, -1, 0));
+		view[1] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f(-1, 0, 0), Vec3f(0, -1, 0));
+		view[2] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f(0, 1, 0), Vec3f(0, 0, 1));
+		view[3] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f(0, -1, 0), Vec3f(0, 0, -1));
+		view[4] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f(0, 0, 1), Vec3f(0, -1, 0));
+		view[5] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f(0, 0, -1), Vec3f(0, -1, 0));
+
+		for (int i = 0; i < 6; i++)
+		{
+			pv_mats[i] = projection * view[i];
+		}
+
+		ConstantData::CubeMap cubemap;
+		for (int i = 0; i < 6; i++)
+		{
+			cubemap.view_perspective_matrix[i] = pv_mats[i];
+		}
+		auto& data_cubemap = cubemap;
+		constant_cubemap.Update(&data_cubemap);
 	}
 
-	ConstantData::Shadow tmp;
-	for (int i = 0; i < 6; i++)
 	{
-		tmp.point_view_perspective_matrix[i] = light_space_mats[i];
+		// Render HDR
+		frame_cubemap.BindFrame();
+		SceneEntity::SkyBoxProxy->states[0]->BindTextureUnit();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		FrameBuffer::RenderToCube();
 	}
-	auto& data_shadow = tmp;
-	constant_shadow.Update(&data_shadow);
 
-	// Render HDR
-	frame_cubemap.BindFrame();
-	glActiveTexture(GL_TEXTURE0 + SceneEntity::SkyBoxScene.skyboxproxy->GetCubeMapTextureUnit());
-	glBindTexture(GL_TEXTURE_2D, SceneEntity::SkyBoxScene.skyboxproxy->GetCubeMapTextureID());
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	SceneEntity::SkyBoxScene.skyboxproxy->Draw();
-
-
-	///////////////////////////// make irradiance map
-
-	frame_irradiance.BindFrame();
-	frame_cubemap.BindTextureUnit();
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	SceneEntity::SkyBoxScene.skyboxproxy->Draw();
-
-	////////////////////////////  make specular irradiance map
-	frame_specular.BindFrame();
-
-	unsigned int maxMipLevels = 5;
-	for (unsigned int mip = 0; mip < maxMipLevels; ++mip)
+	// Create irradiance map
 	{
-		unsigned int mipWidth = 128 * std::pow(0.5, mip);
-		unsigned int mipHeight = 128 * std::pow(0.5, mip);
-
-		glViewport(0, 0, mipWidth, mipHeight);
-		float roughness = (float)mip / (float)(maxMipLevels - 1);
-
-		glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, frame_specular.textureid_color, mip);
-
-		GLuint roughness_value = glGetUniformLocation(frame_specular.shader.programid, "roughness");
-		glUniform1f(roughness_value, roughness);
-
+		frame_irradiance.BindFrame();
 		frame_cubemap.BindTextureUnit();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		SceneEntity::SkyBoxScene.skyboxproxy->Draw();
+		FrameBuffer::RenderToCube();
 	}
 
-	////////////////////////////// BRDF look up texture
-	frame_brdf.BindFrame();
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	renderQuad();
+	// Create specular map
+	{
+		frame_specular.BindFrame();
+		unsigned int maxmiplevels = 5;
+		for (unsigned int mip = 0; mip < maxmiplevels; ++mip)
+		{
+			unsigned int mipwidth = 128 * std::pow(0.5, mip);
+			unsigned int mipheight = 128 * std::pow(0.5, mip);
+
+			glViewport(0, 0, mipwidth, mipheight);
+			float roughness = (float)mip / (float)(maxmiplevels - 1);
+
+			glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, frame_specular.textureid_color, mip);
+
+			GLuint roughness_value = glGetUniformLocation(frame_specular.shader.programid, "roughness");
+			glUniform1f(roughness_value, roughness);
+
+			frame_cubemap.BindTextureUnit();
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			FrameBuffer::RenderToCube();
+		}
+	}
+
+	// Create BRDF look up texture
+	{
+		frame_brdf.BindFrame();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		FrameBuffer::RenderToQuad();
+	}
 }
 
 bool Graphic::PreUpdate()
@@ -184,9 +161,9 @@ void Graphic::Update(GraphicRequiredData * i_data)
 	{
 		// Submit shadow uniform data
 		auto& data_shadow = i_data->shadow[i];
-		constant_shadow.Update(&data_shadow);
+		constant_cubemap.Update(&data_shadow);
 
-		frame_shadow[i].BindFrame();
+		frame_shadowcubemaps[i].BindFrame();
 		{
 			glClear(GL_DEPTH_BUFFER_BIT);
 
@@ -220,30 +197,31 @@ void Graphic::Update(GraphicRequiredData * i_data)
 				auto& data_material = i_data->material_data[i];
 				constant_material.Update(&data_material);
 
-				// Shadow map texture binding
+				// Bind shadow map texture 
 				for (int j = 0; j < MAX_POINT_LIGHT_NUM; j++)
 				{
-					frame_shadow[j].BindTextureUnit();
+					frame_shadowcubemaps[j].BindTextureUnit();
 				}
+				// Bind irradiance map texture
 				frame_irradiance.BindTextureUnit();
+				// Bind specular map texture
 				frame_specular.BindTextureUnit();
+				// Bind brdf look up texture
 				frame_brdf.BindTextureUnit();
 				SceneEntity::List[i]->Draw();
 			}
 		}
 
 		//Rendering sky box
-		if (SceneEntity::SkyBoxScene.skyboxproxy)
+		if (SceneEntity::SkyBoxProxy)
 		{
 			glDepthFunc(GL_LEQUAL);
 			ConstantData::SkyBox data_skybox;
 			data_skybox.skybox_view_perspective_matrix = i_data->camera.perspective_matrix * Mat4f::TruncateToMat3(i_data->camera.view_matrix);
 			constant_skybox.Update(&data_skybox);
 
-			// Doesn't matter whether this is binded or not
-			//frame_cubemap.BindTextureUnit();
-			SceneEntity::SkyBoxScene.shader->BindShader();
-			SceneEntity::SkyBoxScene.skyboxproxy->Draw();
+			frame_cubemap.BindTextureUnit();
+			SceneEntity::SkyBoxProxy->Draw();
 			glDepthFunc(GL_LESS);
 		}
 	}

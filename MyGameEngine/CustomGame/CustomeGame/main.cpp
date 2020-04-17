@@ -3,9 +3,7 @@
 #include <Core/Thread/EntryPoint.h>
 #include <Parts/Light.h>
 #include <PremadeParts/Quad.h>
-#include <PremadeParts/SkyBox.h>
 #include <PremadeParts/TexturedQuad.h>
-#include <PremadeParts/Equirectangular.h>
 #include <EntitySystem/Entity.h>
 
 #include "Teapot.h"
@@ -29,13 +27,13 @@ int main()
 	//SkyBox skybox;
 	//Entity::Register(&skybox);
 
-	EquirectangularSkyBox skybox;
-	Entity::Register(&skybox);
+	CubeMap skybox;
+	Entity::RegisterSkyBox(&skybox);
 
 	///////////////////////////////////////////////////////////
 
 	// Setting up quad3
-	NormalMapDebugPlane normalplane;
+	//NormalMapDebugPlane normalplane;
 	//Entity::Register(&normalplane);
 
 	//////////////////////////////////////////////////////////

@@ -3,4 +3,4 @@
 #include "SceneEntity.h"
 
 std::vector<OwningPointer<SceneProxy>> SceneEntity::List;
-CubeMapFormat SceneEntity::SkyBoxScene;
+OwningPointer<SceneProxy> SceneEntity::SkyBoxProxy;

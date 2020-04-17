@@ -31,6 +31,9 @@ public:
 	TextureType type = static_cast<TextureType>(0);
 
 	virtual bool Load(char const* i_filename, TextureType i_type);
+
+	// Texture for hdr
+	float* hdrpixels;
 };
 
 inline bool TextureAttribute::Load(char const* i_filename, TextureType i_type)
@@ -63,6 +66,17 @@ inline bool TextureAttribute::Load(char const* i_filename, TextureType i_type)
 			memcpy(pixels.data(), d.data(), width * height * 3);
 		}
 		success = (error == 0);
+	}
+	else if (strncmp(ext, "hdr", 3) == 0)
+	{
+		int nrComponents;
+		stbi_set_flip_vertically_on_load(true);
+		hdrpixels = stbi_loadf(i_filename, &width, &height, &nrComponents, 0);
+
+		if (hdrpixels)
+		{
+			success = true;
+		}
 	}
 
 	if (success)

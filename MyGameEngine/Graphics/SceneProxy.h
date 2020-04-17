@@ -22,7 +22,6 @@ protected:
 
 	void InitBuffer();
 	void InitMeshData();
-	virtual void InitTexture();
 	void SetDrawType(DrawType i_drawtype){drawtype = i_drawtype;};
 	void CleanUpBuffer();
 

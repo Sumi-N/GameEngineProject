@@ -6,9 +6,7 @@
 #include <Parts/EffectComponent.h>
 #include <Parts/Object.h>
 #include <Parts/TextureAttribute.h>
-#include <Parts/HDRTextureAttribute.h>
 #include <Parts/MaterialAttribute.h>
-#include <Parts/CubeMapMeshComponent.h>
 
 #include <EntitySystem/Entity.h>
 #include <Graphics/SceneEntity.h>

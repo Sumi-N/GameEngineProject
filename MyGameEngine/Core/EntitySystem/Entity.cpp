@@ -2,12 +2,17 @@
 #include "Entity.h"
 
 std::vector<ObjectHandler>                  Entity::ObjectList;
-std::vector<OwningPointer<MeshComponent>>   Entity::MeshComponentList;
-std::vector<OwningPointer<EffectComponent>> Entity::EffectComponentList;
+
+OwningPointer<Camera>                       Entity::CurrentCamera;
+
+OwningPointer<CubeMap>                      Entity::Skybox;
+
+OwningPointer<AmbientLight>                 Entity::Ambient;
 std::vector<OwningPointer<PointLight>>      Entity::PointLightList;
 OwningPointer<DirectionalLight>             Entity::Directional;
-OwningPointer<AmbientLight>                 Entity::Ambient;
-OwningPointer<Camera>                       Entity::CurrentCamera;
+
+std::vector<OwningPointer<MeshComponent>>   Entity::MeshComponentList;
+std::vector<OwningPointer<EffectComponent>> Entity::EffectComponentList;
 
 ObjectHandler Entity::Register(Object * i_obj)
 {
@@ -33,6 +38,11 @@ ObjectHandler Entity::Query(Object* i_obj)
 void Entity::RegisterCamera(Camera* i_camera)
 {
 	CurrentCamera = i_camera;
+}
+
+void Entity::RegisterSkyBox(CubeMap* i_cubemap)
+{
+	Skybox = i_cubemap;
 }
 
 void Entity::RegisterAmbientLight(AmbientLight* i_ambient)
@@ -91,6 +101,9 @@ void Entity::Boot()
 		light_handler = pointlight;
 		PointLightList.push_back(light_handler);
 	}
+
+	//Boot sky box
+	Skybox->Boot();
 
 	// Boot Lights
 	if (Directional)

@@ -45,17 +45,14 @@
     <ClInclude Include="..\..\APIs\GraphicAPI\loadpng\lodepng.h">
       <Filter>API</Filter>
     </ClInclude>
-    <ClInclude Include="CubeMapMeshComponent.h">
-      <Filter>Compontnes</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\APIs\GraphicAPI\stb\stb_image.h">
       <Filter>API</Filter>
     </ClInclude>
-    <ClInclude Include="HDRTextureAttribute.h">
-      <Filter>Attributes</Filter>
-    </ClInclude>
     <ClInclude Include="EffectComponent.h">
       <Filter>Compontnes</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeMap.h">
+      <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

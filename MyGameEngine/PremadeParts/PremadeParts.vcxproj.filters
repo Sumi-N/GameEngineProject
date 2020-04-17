@@ -23,13 +23,7 @@
     <ClInclude Include="Sphere.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="SkyBox.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="TexturedQuad.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Equirectangular.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,7 +4,7 @@
 
 constexpr std::pair<TextureType, int> TextureUnitList[] =
 {
-	{TextureType::SkyBox, 0},
+	{TextureType::SkyBox, 2},
 	// For Bllin Shading
 
 
@@ -22,8 +22,10 @@ public:
 	RenderState();
 
 	Shader shader;
+
 	void InitShader(const char**);
 	void InitTexture(ObservingPointer<TextureAttribute>);
+	void BindTextureUnit();
 	void BindShaderState();
 	void UnBindShaderState();
 

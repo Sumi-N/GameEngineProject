@@ -178,7 +178,6 @@
     <ClInclude Include="SceneEntity.h" />
     <ClInclude Include="SceneProxy.h" />
     <ClInclude Include="Shader.h" />
-    <ClInclude Include="CubeMapProxy.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="ValidationLayer.h" />
   </ItemGroup>
