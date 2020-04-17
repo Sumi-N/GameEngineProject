@@ -16,8 +16,6 @@ inline void TexturedQuad::Boot()
 {
 	Quad::Boot();
 
-	//SceneFormat* format = SceneEntity::Query(this);
-
 	const char* shaderpaths[] =
 	{
 		PATH_SUFFIX SHADER_PATH BLINN_PHONG_VERT,
@@ -38,11 +36,6 @@ inline void TexturedQuad::Boot()
 	effect->SetTexture(texture);
 	effect->SetTexture(texture2);
 	Entity::RegisterEffectComponent(effect);
-
-	//format->proxy->mesh->SetTexture(texture);
-	//format->proxy->mesh->SetTexture(texture2);
-	//Shader* quadshader = new Shader(PATH_SUFFIX SHADER_PATH BLINN_PHONG_VERT, PATH_SUFFIX SHADER_PATH BLINN_PHONG_FRAG);
-	//format->ReplaceShader(quadshader);
 }
 
 inline void TexturedQuad::Init()
