@@ -156,9 +156,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BathRoomTileSphere.h" />
+    <ClInclude Include="BrushedMetalSphere.h" />
+    <ClInclude Include="DirtyWickerWeaveSphere.h" />
+    <ClInclude Include="GrayBrickSphere.h" />
+    <ClInclude Include="MetalGridSphere.h" />
     <ClInclude Include="MyCamera.h" />
     <ClInclude Include="MyPointLight.h" />
+    <ClInclude Include="MySkyBox.h" />
     <ClInclude Include="NormalMapDebugPlane.h" />
+    <ClInclude Include="OldSoiledClothSphere.h" />
     <ClInclude Include="RastedSphere.h" />
     <ClInclude Include="ScuffedGoldSphere.h" />
     <ClInclude Include="SpherePBR_Test.h" />

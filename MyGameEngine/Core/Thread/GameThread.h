@@ -108,6 +108,7 @@ inline void GameThread::PassDataTo(Thread * io_thread)
 	}
 
 	// Submit object data
+	// This need to be fixed
 	{
 		for (auto it = SceneEntity::List.begin(); it != SceneEntity::List.end(); ++it)
 		{

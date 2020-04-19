@@ -8,7 +8,7 @@ void FrameBuffer::RenderToQuad()
 
 	if (vao == 0)
 	{
-		float vertices[] = {
+		constexpr float vertices[] = {
 			// positions        
 			-1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
 			-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
@@ -38,7 +38,7 @@ void FrameBuffer::RenderToCube()
 
 	if (vao == 0)
 	{
-		float vertices[] = {
+		constexpr float vertices[] = {
 			// back face
 			-1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
 			 1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right

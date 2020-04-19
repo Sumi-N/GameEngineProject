@@ -21,7 +21,7 @@ inline void CubeMap::Boot()
 	
 
 	TextureAttribute* texture = new TextureAttribute();
-	texture->Load(PATH_SUFFIX TEXTURE_PATH SKYBOX_HDR_PINTREE, TextureType::SkyBox);
+	texture->Load(PATH_SUFFIX TEXTURE_PATH SKYBOX_HDR_BLACK, TextureType::SkyBox);
 
 	const char* shaderpaths[] =
 	{

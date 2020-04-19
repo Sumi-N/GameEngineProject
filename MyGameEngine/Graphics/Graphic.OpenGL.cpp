@@ -130,6 +130,25 @@ bool Graphic::PreUpdate()
 
 void Graphic::Update(GraphicRequiredData * i_data)
 {
+	// If require pre-computation
+	// Temporary solution
+	if (i_data->requireprecompute)
+	{
+		// Init sky-box cube map
+		if (Entity::Skybox)
+		{
+			RenderState* state = new RenderState();
+			state->InitShader(Entity::Skybox->effect->shaderpaths);
+			state->InitTexture(Entity::Skybox->effect->textures[0]);
+
+			OwningPointer<RenderState> renderhandler;
+			renderhandler = state;
+			SceneEntity::SkyBoxProxy->ReplaceRenderState(renderhandler, 0);
+		}
+
+		PreCompute();
+		i_data->requireprecompute = false;
+	}
 
 	// Update uniform data common for frame
 	// Submit Camera Information

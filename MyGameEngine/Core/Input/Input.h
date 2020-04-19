@@ -46,6 +46,14 @@ enum class VirtualKey : unsigned int
 	KEY_Z = 0x5A,
 };
 
+enum class InputState : uint8_t
+{
+	Released  = 0,
+	Pressed   = 1,
+	Releasing = 2,
+	Pressing  = 3,
+};
+
 struct InputFormat
 {
 	float x; float y;
@@ -57,9 +65,10 @@ class Input
 public:
 	void Init();
 	void Populate(InputFormat & i_input);
-	bool QueryKey(unsigned int i_VKeyID, bool i_bDown);
+	InputState QueryKey(unsigned int i_VKeyID);
 
 	std::unordered_map<unsigned int, bool> state;
+	std::unordered_map<unsigned int, bool> paststate;
 
 	float xpos, ypos;
 	float past_xpos, past_ypos;
@@ -69,9 +78,10 @@ private:
 
 inline void Input::Init()
 {
-	for (int i = 0; i < 256 * 2; i++)
+	for (int i = 0; i < 256; i++)
 	{
-		state.insert({ i,false });
+		state.insert({ i, false });
+		paststate.insert({ i, false });
 	}
 
 	xpos = 0; ypos = 0;
@@ -92,36 +102,37 @@ inline void Input::Populate(InputFormat & i_input)
 
 	for (auto& ele : i_input.keys)
 	{
-		state.at(ele.first) = ele.second;
-	}
+		paststate.at(ele.first) = state.at(ele.first);
+ 		state.at(ele.first) = ele.second;
+  	}
 
 	// Reset input format data
 	i_input.keys.clear();
 	i_input.x = -1; i_input.y = -1;
 }
 
-inline bool Input::QueryKey(unsigned int i_VKeyID, bool i_bDown)
+inline InputState Input::QueryKey(unsigned int i_VKeyID)
 {
-	if (i_bDown)
+	if (state.at(i_VKeyID) == true)
 	{
-		if (state.at(i_VKeyID) == true)
+		if (paststate.at(i_VKeyID) == true)
 		{
-			return true;
+			return InputState::Pressing;
 		}
 		else
 		{
-			return false;
+			return InputState::Pressed;
 		}
 	}
 	else
 	{
-		if (state.at(i_VKeyID) == false)
+		if (paststate.at(i_VKeyID) == true)
 		{
-			return true;
+			return InputState::Released;
 		}
 		else
 		{
-			return false;
+			return InputState::Releasing;
 		}
 	}
 }

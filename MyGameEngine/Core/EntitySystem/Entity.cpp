@@ -163,6 +163,12 @@ void Entity::Init()
 
 void Entity::Update(float i_dt)
 {
+	//Update Sky box
+	if (Skybox)
+	{
+		Skybox->Update(i_dt);
+	}
+
 	// Update Object
 	for (auto it = ObjectList.begin(); it != ObjectList.end(); ++it)
 	{

@@ -10,6 +10,7 @@ public:
 
 	void Init();
 	void AddRenderState(OwningPointer<RenderState>);
+	void ReplaceRenderState(OwningPointer<RenderState>, int);
 	void Draw();
 	void DrawMesh();
 	void CleanUp();	

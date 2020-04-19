@@ -13,6 +13,7 @@ public:
 
 	void RegisterShaderPath(const char**);
 	void SetTexture(TextureAttribute*);
+	void ReplaceTexture(TextureAttribute*, int);
 };
 
 inline void EffectComponent::RegisterShaderPath(const char ** shaderpaths)
@@ -29,4 +30,11 @@ inline void EffectComponent::SetTexture(TextureAttribute* i_texture)
 	OwningPointer<TextureAttribute> texturehandler;
 	texturehandler = i_texture;
 	textures.push_back(texturehandler);
+}
+
+inline void EffectComponent::ReplaceTexture(TextureAttribute* i_texture, int ith_item = 0)
+{
+	OwningPointer<TextureAttribute> texturehandler;
+	texturehandler = i_texture;
+	textures[ith_item] = texturehandler;
 }
