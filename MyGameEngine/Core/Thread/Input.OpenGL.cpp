@@ -12,7 +12,7 @@ void GLFW_INPUT::KeyCallback(GLFWwindow* window, int key, int scancode, int acti
 
 	for (int i = 0; i < 256; i++)
 	{
-		if (key == i && (action == GLFW_PRESS))
+		if (key == i && action == GLFW_PRESS)
 		{
 			pair = {i, true};
 			input_update_list_render_own->keys.push_back(pair);

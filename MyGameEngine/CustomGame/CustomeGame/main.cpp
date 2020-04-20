@@ -153,50 +153,50 @@ int main()
 		}
 	}
 
-	//RastedSphere rastered;
-	//rastered.Translate(Vec3f(0, 0, -60));
-	//rastered.scale = Vec3f(0.3f, 0.3, 0.3f);
-	//Entity::Register(&rastered);
+	RastedSphere rastered;
+	rastered.Translate(Vec3f(0, 0, -60));
+	rastered.scale = Vec3f(0.3f, 0.3, 0.3f);
+	Entity::Register(&rastered);
 
-	//ScuffedGoldSphere gold;
-	//gold.Translate(Vec3f(15, 0, -60));
-	//gold.scale = Vec3f(0.3f, 0.3, 0.3f);
-	//Entity::Register(&gold);
+	ScuffedGoldSphere gold;
+	gold.Translate(Vec3f(15, 0, -60));
+	gold.scale = Vec3f(0.3f, 0.3, 0.3f);
+	Entity::Register(&gold);
 
-	//WornPaintedCement cement;
-	//cement.Translate(Vec3f(-15, 0, -60));
-	//cement.scale = Vec3f(0.3f, 0.3, 0.3f);
-	//Entity::Register(&cement);
+	WornPaintedCement cement;
+	cement.Translate(Vec3f(-15, 0, -60));
+	cement.scale = Vec3f(0.3f, 0.3, 0.3f);
+	Entity::Register(&cement);
 
-	//MetalGridSphere metalgrid;
-	//metalgrid.Translate(Vec3f(-15, 15, -60));
-	//metalgrid.scale = Vec3f(0.3f, 0.3, 0.3f);
-	//Entity::Register(&metalgrid);
+	MetalGridSphere metalgrid;
+	metalgrid.Translate(Vec3f(-15, 15, -60));
+	metalgrid.scale = Vec3f(0.3f, 0.3, 0.3f);
+	Entity::Register(&metalgrid);
 
-	//BathRoomTileSphere bathroomtile;
-	//bathroomtile.Translate(Vec3f(-15, -15, -60));
-	//bathroomtile.scale = Vec3f(0.3f, 0.3, 0.3f);
-	//Entity::Register(&bathroomtile);
+	BathRoomTileSphere bathroomtile;
+	bathroomtile.Translate(Vec3f(-15, -15, -60));
+	bathroomtile.scale = Vec3f(0.3f, 0.3, 0.3f);
+	Entity::Register(&bathroomtile);
 
-	//DirtyWickerWeaveSphere dirtyweave;
-	//dirtyweave.Translate(Vec3f(15, -15, -60));
-	//dirtyweave.scale = Vec3f(0.3f, 0.3, 0.3f);
-	//Entity::Register(&dirtyweave);
+	DirtyWickerWeaveSphere dirtyweave;
+	dirtyweave.Translate(Vec3f(15, -15, -60));
+	dirtyweave.scale = Vec3f(0.3f, 0.3, 0.3f);
+	Entity::Register(&dirtyweave);
 
-	//GrayBrickSphere graybrick;
-	//graybrick.Translate(Vec3f(15, 15, -60));
-	//graybrick.scale = Vec3f(0.3f, 0.3, 0.3f);
-	//Entity::Register(&graybrick);
+	GrayBrickSphere graybrick;
+	graybrick.Translate(Vec3f(15, 15, -60));
+	graybrick.scale = Vec3f(0.3f, 0.3, 0.3f);
+	Entity::Register(&graybrick);
 
-	//BrushedMetalSphere brushedmetal;
-	//brushedmetal.Translate(Vec3f(0, 15, -60));
-	//brushedmetal.scale = Vec3f(0.3f, 0.3, 0.3f);
-	//Entity::Register(&brushedmetal);
+	BrushedMetalSphere brushedmetal;
+	brushedmetal.Translate(Vec3f(0, 15, -60));
+	brushedmetal.scale = Vec3f(0.3f, 0.3, 0.3f);
+	Entity::Register(&brushedmetal);
 
-	//OldSoiledClothSphere oldsoiledcloth;
-	//oldsoiledcloth.Translate(Vec3f(0, -15, -60));
-	//oldsoiledcloth.scale = Vec3f(0.3f, 0.3, 0.3f);
-	//Entity::Register(&oldsoiledcloth);
+	OldSoiledClothSphere oldsoiledcloth;
+	oldsoiledcloth.Translate(Vec3f(0, -15, -60));
+	oldsoiledcloth.scale = Vec3f(0.3f, 0.3, 0.3f);
+	Entity::Register(&oldsoiledcloth);
 
 	MyPointLight pointlight;
 	pointlight.intensity = Vec3f(20.0f, 20.0f, 20.0f);

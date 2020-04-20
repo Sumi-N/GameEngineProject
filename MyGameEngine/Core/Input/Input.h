@@ -103,8 +103,8 @@ inline void Input::Populate(InputFormat & i_input)
 	for (auto& ele : i_input.keys)
 	{
 		paststate.at(ele.first) = state.at(ele.first);
- 		state.at(ele.first) = ele.second;
-  	}
+		state.at(ele.first) = ele.second;
+   	}
 
 	// Reset input format data
 	i_input.keys.clear();
