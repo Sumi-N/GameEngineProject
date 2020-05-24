@@ -1,4 +1,5 @@
 #pragma once
+#include "Define.h"
 #include <unordered_map>
 #include <vector>
 #include <utility>
@@ -64,6 +65,7 @@ class Input
 {
 public:
 	void Init();
+	void QueryInputs();
 	void Populate(InputFormat & i_input);
 	InputState QueryKey(unsigned int i_VKeyID);
 

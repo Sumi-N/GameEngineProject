@@ -61,7 +61,7 @@ void RenderState::InitTexture(ObservingPointer<TextureAttribute> i_textureattrib
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, i_textureattribute->width, i_textureattribute->height, 0, GL_RGB, GL_UNSIGNED_BYTE, i_textureattribute->pixels.data());
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 				glGenerateMipmap(GL_TEXTURE_2D);
 			}

@@ -109,7 +109,7 @@ void Shader::LoadShader(Shader& io_shader, const char* i_vert, const char* i_fra
 	}
 	else
 	{
-		DEBUG_PRINT("Faild compiling one of the shaders in %s, and %s \n", i_vert, i_frag);
+		DEBUG_PRINT("Failed compiling one of the shaders in %s, and %s \n", i_vert, i_frag);
 	}
 }
 
@@ -156,7 +156,7 @@ void Shader::LoadShader(Shader& io_shader, const char* i_vert, const char* i_geo
 	}
 	else
 	{
-		DEBUG_PRINT("Faild compiling one of the shaders in %s, %s, and %s \n", i_vert, i_geo, i_frag);
+		DEBUG_PRINT("Failed compiling one of the shaders in %s, %s, and %s \n", i_vert, i_geo, i_frag);
 	}
 }
 
@@ -208,7 +208,7 @@ void Shader::LoadShader(Shader& io_shader, const char* i_vert, const char* i_con
 	}
 	else
 	{
-		DEBUG_PRINT("Faild compiling one of the shaders in %s, %s, %s, and %s \n", i_vert, i_control, i_eval, i_frag);
+		DEBUG_PRINT("Failed compiling one of the shaders in %s, %s, %s, and %s \n", i_vert, i_control, i_eval, i_frag);
 	}
 }
 
@@ -265,7 +265,7 @@ void Shader::LoadShader(Shader& io_shader, const char* i_vert, const char* i_con
 	}
 	else
 	{
-		DEBUG_PRINT("Faild compiling one of the shaders %s, %s, %s, %s, and %s \n", i_vert, i_control, i_eval, i_geo, i_frag);
+		DEBUG_PRINT("Failed compiling one of the shaders %s, %s, %s, %s, and %s \n", i_vert, i_control, i_eval, i_geo, i_frag);
 	}
 }
 

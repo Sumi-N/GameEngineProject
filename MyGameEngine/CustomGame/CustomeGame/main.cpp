@@ -149,69 +149,70 @@ int main()
 			sphere[8 * i + j].ChangePos(Vec3f(6.25f * i - 20.0f, 6.25f * j - 20.0f, -60.0f));
 			sphere[8 * i + j].ChangeMaterialParameter(0.125f * i, 0.125f * j);
 			sphere[8 * i + j].scale = Vec3f(0.1, 0.1, 0.1);
-			//Entity::Register(&sphere[8 * i + j]);
+			Entity::Register(&sphere[8 * i + j]);
 		}
 	}
 
 	RastedSphere rastered;
 	rastered.Translate(Vec3f(0, 0, -60));
 	rastered.scale = Vec3f(0.3f, 0.3, 0.3f);
-	Entity::Register(&rastered);
 
 	ScuffedGoldSphere gold;
 	gold.Translate(Vec3f(15, 0, -60));
 	gold.scale = Vec3f(0.3f, 0.3, 0.3f);
-	Entity::Register(&gold);
 
 	WornPaintedCement cement;
 	cement.Translate(Vec3f(-15, 0, -60));
 	cement.scale = Vec3f(0.3f, 0.3, 0.3f);
-	Entity::Register(&cement);
 
 	MetalGridSphere metalgrid;
 	metalgrid.Translate(Vec3f(-15, 15, -60));
 	metalgrid.scale = Vec3f(0.3f, 0.3, 0.3f);
-	Entity::Register(&metalgrid);
 
 	BathRoomTileSphere bathroomtile;
 	bathroomtile.Translate(Vec3f(-15, -15, -60));
 	bathroomtile.scale = Vec3f(0.3f, 0.3, 0.3f);
-	Entity::Register(&bathroomtile);
 
 	DirtyWickerWeaveSphere dirtyweave;
 	dirtyweave.Translate(Vec3f(15, -15, -60));
 	dirtyweave.scale = Vec3f(0.3f, 0.3, 0.3f);
-	Entity::Register(&dirtyweave);
 
 	GrayBrickSphere graybrick;
 	graybrick.Translate(Vec3f(15, 15, -60));
 	graybrick.scale = Vec3f(0.3f, 0.3, 0.3f);
-	Entity::Register(&graybrick);
 
 	BrushedMetalSphere brushedmetal;
 	brushedmetal.Translate(Vec3f(0, 15, -60));
 	brushedmetal.scale = Vec3f(0.3f, 0.3, 0.3f);
-	Entity::Register(&brushedmetal);
 
 	OldSoiledClothSphere oldsoiledcloth;
 	oldsoiledcloth.Translate(Vec3f(0, -15, -60));
 	oldsoiledcloth.scale = Vec3f(0.3f, 0.3, 0.3f);
-	Entity::Register(&oldsoiledcloth);
+
+	//Entity::Register(&rastered);
+	//Entity::Register(&gold);
+	//Entity::Register(&cement);
+	//Entity::Register(&metalgrid);
+	//Entity::Register(&bathroomtile);
+	//Entity::Register(&dirtyweave);
+	//Entity::Register(&graybrick);
+	//Entity::Register(&brushedmetal);
+	//Entity::Register(&oldsoiledcloth);
 
 	MyPointLight pointlight;
-	pointlight.intensity = Vec3f(20.0f, 20.0f, 20.0f);
-	pointlight.pos = Vec3f(30.f, 30.f, -40.f);
+	pointlight.intensity = Vec3f(25.0f, 25.0f, 25.0f);
+	pointlight.pos = Vec3f(0.f, 0.f, -40.f);
 
 	PointLight pointlight2;
-	pointlight2.intensity = Vec3f(40.0f, 40.0f, 40.0f);
+	pointlight2.intensity = Vec3f(10.0f, 10.0f, 10.0f);
 	pointlight2.pos = Vec3f(30.f, -30.f, -40.f);
 
 	PointLight pointlight3;
-	pointlight3.intensity = Vec3f(40.0f, 40.0f, 40.0f);
+	pointlight3.intensity = Vec3f(10.0f, 10.0f, 10.0f);
 	pointlight3.pos = Vec3f(-30.f, 30.f, -40.f);
 
 	PointLight pointlight4;
-	pointlight4.intensity = Vec3f(40.0f, 40.0f, 40.0f);
+	pointlight4.intensity = Vec3f(10.0f, 10.0f, 10.0f);
 	pointlight4.pos = Vec3f(-30.f, -30.f, -40.f);
 
 	Entity::RegisterPointLight(&pointlight);

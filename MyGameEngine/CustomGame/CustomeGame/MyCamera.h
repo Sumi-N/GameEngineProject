@@ -43,6 +43,16 @@ inline void MyCamera::Update(float i_dt)
 		MoveCamera(0, zero);
 	}
 
+	if (UserInput.QueryKey((unsigned int)VirtualKey::KEY_Q) == InputState::Pressed)
+	{
+		MoveCamera(0.01f, upvec);
+	}
+
+	if (UserInput.QueryKey((unsigned int)VirtualKey::KEY_E) == InputState::Pressed)
+	{
+		MoveCamera(-0.01f, upvec);
+	}
+
 	if (UserInput.QueryKey((unsigned int)VirtualKey::KEY_RIGHTBUTTON) == InputState::Pressed)
 	{
 		Vec3f up = Vec3f(0, 1, 0);
