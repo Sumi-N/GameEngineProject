@@ -43,6 +43,7 @@ public:
 	void Update(float dt)
 	{
 		pos += (float)dt * vel;
+		vel = Vec3f(0, 0, 0);
 
 		view = Mat4f::LookAt(pos, pos + forwardvec, upvec);
 		view_perspective_mat = perspective * view;

@@ -145,6 +145,9 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Input\Input.vcxproj">
+      <Project>{725cccc9-d908-4257-b0e5-54bebf75b3ef}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\Parts\Parts.vcxproj">
       <Project>{f0dcb746-4531-4351-9a6e-140c336a3c35}</Project>
     </ProjectReference>

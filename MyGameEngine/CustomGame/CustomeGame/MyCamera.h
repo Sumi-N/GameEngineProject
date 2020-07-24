@@ -4,6 +4,7 @@
 
 class MyCamera :public Camera
 {
+public:
 	void Init() override;
 	void Update(float i_dt) override;
 };
@@ -17,38 +18,32 @@ inline void MyCamera::Update(float i_dt)
 {
 	Camera::Update(i_dt);
 
-	if (UserInput.QueryKey(VirtualKey::KEY_W) == InputState::Pressed)
+	if (UserInput.QueryKey(VirtualKey::KEY_W) == InputState::Pressing)
 	{
 		MoveCamera(0.01f, forwardvec);
 	}
 
-	if (UserInput.QueryKey(VirtualKey::KEY_S) == InputState::Pressed)
+	if (UserInput.QueryKey(VirtualKey::KEY_S) == InputState::Pressing)
 	{
 		MoveCamera(-0.01f, forwardvec);
 	}
 
-	if (UserInput.QueryKey(VirtualKey::KEY_A) == InputState::Pressed)
+	if (UserInput.QueryKey(VirtualKey::KEY_A) == InputState::Pressing)
 	{
 		MoveCamera(-0.01f, rightvec);
 	}
 
-	if (UserInput.QueryKey(VirtualKey::KEY_D) == InputState::Pressed)
+	if (UserInput.QueryKey(VirtualKey::KEY_D) == InputState::Pressing)
 	{
 		MoveCamera(0.01f, rightvec);
 	}
 
-	if (UserInput.QueryKey(VirtualKey::KEY_SPACE) == InputState::Pressed)
-	{
-		Vec3f zero; zero.Zero();
-		MoveCamera(0, zero);
-	}
-
-	if (UserInput.QueryKey(VirtualKey::KEY_Q) == InputState::Pressed)
+	if (UserInput.QueryKey(VirtualKey::KEY_Q) == InputState::Pressing)
 	{
 		MoveCamera(0.01f, upvec);
 	}
 
-	if (UserInput.QueryKey(VirtualKey::KEY_E) == InputState::Pressed)
+	if (UserInput.QueryKey(VirtualKey::KEY_E) == InputState::Pressing)
 	{
 		MoveCamera(-0.01f, upvec);
 	}
@@ -76,4 +71,6 @@ inline void MyCamera::Update(float i_dt)
 			RotateAround(-1, right);
 		}
 	}
+
+	UserInput.QueryInputs();
 }

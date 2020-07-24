@@ -148,46 +148,46 @@ int main()
 		{
 			sphere[8 * i + j].ChangePos(Vec3f(6.25f * i - 20.0f, 6.25f * j - 20.0f, -60.0f));
 			sphere[8 * i + j].ChangeMaterialParameter(0.125f * i, 0.125f * j);
-			sphere[8 * i + j].scale = Vec3f(0.1, 0.1, 0.1);
+			sphere[8 * i + j].scale = Vec3f(0.1f, 0.1f, 0.1f);
 			Entity::Register(&sphere[8 * i + j]);
 		}
 	}
 
 	RastedSphere rastered;
 	rastered.Translate(Vec3f(0, 0, -60));
-	rastered.scale = Vec3f(0.3f, 0.3, 0.3f);
+	rastered.scale = Vec3f(0.3f, 0.3f, 0.3f);
 
 	ScuffedGoldSphere gold;
 	gold.Translate(Vec3f(15, 0, -60));
-	gold.scale = Vec3f(0.3f, 0.3, 0.3f);
+	gold.scale = Vec3f(0.3f, 0.3f, 0.3f);
 
 	WornPaintedCement cement;
 	cement.Translate(Vec3f(-15, 0, -60));
-	cement.scale = Vec3f(0.3f, 0.3, 0.3f);
+	cement.scale = Vec3f(0.3f, 0.3f, 0.3f);
 
 	MetalGridSphere metalgrid;
 	metalgrid.Translate(Vec3f(-15, 15, -60));
-	metalgrid.scale = Vec3f(0.3f, 0.3, 0.3f);
+	metalgrid.scale = Vec3f(0.3f, 0.3f, 0.3f);
 
 	BathRoomTileSphere bathroomtile;
 	bathroomtile.Translate(Vec3f(-15, -15, -60));
-	bathroomtile.scale = Vec3f(0.3f, 0.3, 0.3f);
+	bathroomtile.scale = Vec3f(0.3f, 0.3f, 0.3f);
 
 	DirtyWickerWeaveSphere dirtyweave;
 	dirtyweave.Translate(Vec3f(15, -15, -60));
-	dirtyweave.scale = Vec3f(0.3f, 0.3, 0.3f);
+	dirtyweave.scale = Vec3f(0.3f, 0.3f, 0.3f);
 
 	GrayBrickSphere graybrick;
 	graybrick.Translate(Vec3f(15, 15, -60));
-	graybrick.scale = Vec3f(0.3f, 0.3, 0.3f);
+	graybrick.scale = Vec3f(0.3f, 0.3f, 0.3f);
 
 	BrushedMetalSphere brushedmetal;
 	brushedmetal.Translate(Vec3f(0, 15, -60));
-	brushedmetal.scale = Vec3f(0.3f, 0.3, 0.3f);
+	brushedmetal.scale = Vec3f(0.3f, 0.3f, 0.3f);
 
 	OldSoiledClothSphere oldsoiledcloth;
 	oldsoiledcloth.Translate(Vec3f(0, -15, -60));
-	oldsoiledcloth.scale = Vec3f(0.3f, 0.3, 0.3f);
+	oldsoiledcloth.scale = Vec3f(0.3f, 0.3f, 0.3f);
 
 	//Entity::Register(&rastered);
 	//Entity::Register(&gold);
