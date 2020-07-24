@@ -159,7 +159,6 @@ void Graphic::Update(GraphicRequiredData * i_data)
 	auto& data_light = i_data->light;
 	constant_light.Update(&data_light);
 
-	PreCompute();
 
 	// Render shadow to frame buffers
 	for (int i = 0; i < MAX_POINT_LIGHT_NUM; i++)

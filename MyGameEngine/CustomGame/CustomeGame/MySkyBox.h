@@ -38,18 +38,18 @@ inline void MySkyBox::ChangeBackGround()
 
 inline void MySkyBox::Update(float i_dt)
 {
-	if (UserInput.QueryKey((unsigned int)VirtualKey::KEY_1) == InputState::Pressed)
+	if (UserInput.QueryKey(VirtualKey::KEY_1) == InputState::Pressed)
 	{
 		currentstate = 1;
 		ChangeBackGround();
 	}
-	if (UserInput.QueryKey((unsigned int)VirtualKey::KEY_2) == InputState::Pressed)
+	if (UserInput.QueryKey(VirtualKey::KEY_2) == InputState::Pressed)
 	{
 		currentstate = 2;
 		ChangeBackGround();
 	}
 
-	if (UserInput.QueryKey((unsigned int)VirtualKey::KEY_3) == InputState::Pressed)
+	if (UserInput.QueryKey(VirtualKey::KEY_3) == InputState::Pressed)
 	{
 		currentstate = 0;
 		ChangeBackGround();

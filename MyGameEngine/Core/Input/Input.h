@@ -58,32 +58,37 @@ enum class InputState : uint8_t
 struct InputFormat
 {
 	float x; float y;
-	std::vector<std::pair<unsigned int, bool>> keys;
+	std::vector<std::pair<VirtualKey, bool>> keys;
 };
 
 class Input
 {
 public:
+	float X(){return xpos;}
+	float Y(){return ypos;}
+	float MouseVelocityX(){return xpos - past_xpos; }
+	float MouseVelocityY(){return ypos - past_ypos; }
+
 	void Init();
 	void QueryInputs();
 	void Populate(InputFormat & i_input);
-	InputState QueryKey(unsigned int i_VKeyID);
+	InputState QueryKey(VirtualKey i_VKeyID);
 
-	std::unordered_map<unsigned int, bool> state;
-	std::unordered_map<unsigned int, bool> paststate;
-
+private:
 	float xpos, ypos;
 	float past_xpos, past_ypos;
 
-private:
+	std::unordered_map<VirtualKey, bool> state;
+	std::unordered_map<VirtualKey, bool> paststate;
+	std::vector<std::pair<VirtualKey, bool>> pastkeys;
 };
 
 inline void Input::Init()
 {
 	for (int i = 0; i < 256; i++)
 	{
-		state.insert({ i, false });
-		paststate.insert({ i, false });
+		state.insert({ static_cast<VirtualKey>(i), false });
+		paststate.insert({ static_cast<VirtualKey>(i), false });
 	}
 
 	xpos = 0; ypos = 0;
@@ -102,18 +107,25 @@ inline void Input::Populate(InputFormat & i_input)
 		past_xpos = xpos; past_ypos = ypos;
 	}
 
-	for (auto& ele : i_input.keys)
+	for (auto& ele : pastkeys)
 	{
 		paststate.at(ele.first) = state.at(ele.first);
+	}
+
+	for (auto& ele : i_input.keys)
+	{
 		state.at(ele.first) = ele.second;
    	}
+
+	// Copy the keys for resetting past input state
+	pastkeys = i_input.keys;
 
 	// Reset input format data
 	i_input.keys.clear();
 	i_input.x = -1; i_input.y = -1;
 }
 
-inline InputState Input::QueryKey(unsigned int i_VKeyID)
+inline InputState Input::QueryKey(VirtualKey i_VKeyID)
 {
 	if (state.at(i_VKeyID) == true)
 	{
