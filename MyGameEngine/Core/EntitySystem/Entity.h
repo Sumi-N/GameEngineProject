@@ -5,10 +5,7 @@
 	class ObjectHandler
 	{
 	public:
-		ObjectHandler(Object* i_objpointer)
-		{
-			p = i_objpointer;
-		}
+		ObjectHandler(Object* i_objpointer) : p(i_objpointer) {}
 		OwningPointer<Object> p;
 	private:
 	};
@@ -31,7 +28,7 @@ public:
 	static std::vector<OwningPointer<EffectComponent>> EffectComponentList;
 
 
-	static ObjectHandler Register(Object *);
+	static void Register(Object *);
 	static ObjectHandler Query(Object*);
 
 	static void RegisterCamera(Camera *);

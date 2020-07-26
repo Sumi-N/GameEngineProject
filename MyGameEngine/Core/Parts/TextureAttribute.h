@@ -27,6 +27,8 @@ enum class TextureType : int8_t
 class TextureAttribute : public Attribute
 {
 public:
+	TextureAttribute() : width(), height(), hdrpixels(nullptr) {}
+
 	std::vector<Vec3u8t> pixels;
 	int width, height;
 	TextureType type = static_cast<TextureType>(0);

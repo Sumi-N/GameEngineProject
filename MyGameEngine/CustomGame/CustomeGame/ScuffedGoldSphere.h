@@ -9,10 +9,6 @@ class ScuffedGoldSphere : public Sphere
 public:
 	void Boot() override;
 	void Init() override;
-
-	Vec4f albedo;
-	float metalic;
-	float roughness;
 };
 
 inline void ScuffedGoldSphere::Boot()

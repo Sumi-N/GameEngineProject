@@ -142,16 +142,16 @@ int main()
 
 	SpherePBR_Test sphere[64];
 
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 8; j++)
-		{
-			sphere[8 * i + j].ChangePos(Vec3f(6.25f * i - 20.0f, 6.25f * j - 20.0f, -60.0f));
-			sphere[8 * i + j].ChangeMaterialParameter(0.125f * i, 0.125f * j);
-			sphere[8 * i + j].scale = Vec3f(0.1f, 0.1f, 0.1f);
-			Entity::Register(&sphere[8 * i + j]);
-		}
-	}
+	//for (int i = 0; i < 8; i++)
+	//{
+	//	for (int j = 0; j < 8; j++)
+	//	{
+	//		sphere[8 * i + j].ChangePos(Vec3f(6.25f * i - 20.0f, 6.25f * j - 20.0f, -60.0f));
+	//		sphere[8 * i + j].ChangeMaterialParameter(0.125f * i, 0.125f * j);
+	//		sphere[8 * i + j].scale = Vec3f(0.1f, 0.1f, 0.1f);
+	//		Entity::Register(&sphere[8 * i + j]);
+	//	}
+	//}
 
 	RastedSphere rastered;
 	rastered.Translate(Vec3f(0, 0, -60));
@@ -189,15 +189,15 @@ int main()
 	oldsoiledcloth.Translate(Vec3f(0, -15, -60));
 	oldsoiledcloth.scale = Vec3f(0.3f, 0.3f, 0.3f);
 
-	//Entity::Register(&rastered);
-	//Entity::Register(&gold);
-	//Entity::Register(&cement);
-	//Entity::Register(&metalgrid);
-	//Entity::Register(&bathroomtile);
-	//Entity::Register(&dirtyweave);
-	//Entity::Register(&graybrick);
-	//Entity::Register(&brushedmetal);
-	//Entity::Register(&oldsoiledcloth);
+	Entity::Register(&rastered);
+	Entity::Register(&gold);
+	Entity::Register(&cement);
+	Entity::Register(&metalgrid);
+	Entity::Register(&bathroomtile);
+	Entity::Register(&dirtyweave);
+	Entity::Register(&graybrick);
+	Entity::Register(&brushedmetal);
+	Entity::Register(&oldsoiledcloth);
 
 	MyPointLight pointlight;
 	pointlight.intensity = Vec3f(25.0f, 25.0f, 25.0f);

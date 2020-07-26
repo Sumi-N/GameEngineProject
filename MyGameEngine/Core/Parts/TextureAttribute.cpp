@@ -32,8 +32,8 @@ bool TextureAttribute::Load(char const* i_filename, TextureType i_type)
 		{
 			width = w;
 			height = h;
-			pixels.resize(static_cast<int>(width) * static_cast<int>(height));
-			memcpy(pixels.data(), d.data(), static_cast<int>(width) * static_cast<int>(height) * 3.0);
+			pixels.resize(static_cast<size_t>(width) * static_cast<size_t>(height));
+			memcpy(pixels.data(), d.data(), static_cast<size_t>(width) * static_cast<size_t>(height) * static_cast<size_t>(3));
 		}
 		success = (error == 0);
 	}

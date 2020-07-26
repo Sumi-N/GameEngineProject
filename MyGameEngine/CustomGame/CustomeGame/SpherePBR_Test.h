@@ -6,6 +6,8 @@
 class SpherePBR_Test : public Sphere
 {
 public:
+	SpherePBR_Test(): albedo(), metalic(), roughness() {}
+
 	void Boot() override;
 	void Init() override;
 	void ChangePos(Vec3f i_pos);

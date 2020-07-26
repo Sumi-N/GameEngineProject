@@ -8,14 +8,11 @@ class RastedSphere : public Sphere
 public:
 	void Boot() override;
 	void Init() override;
-
-	Vec4f albedo;
-	float metalic;
-	float roughness;
 };
 
 inline void RastedSphere::Boot()
 {
+	RastedSphere();
 	Sphere::Boot();
 
 	TextureAttribute* albedo = new TextureAttribute();

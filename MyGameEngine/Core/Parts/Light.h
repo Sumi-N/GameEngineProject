@@ -8,6 +8,7 @@ public:
 	Vec3f intensity;
 	//Mat4f light_space_mat;
 
+	Light(): intensity(Vec3f()){}
 	void Update(float i_dt) override {};
 };
 
@@ -65,6 +66,8 @@ class DirectionalLight : public Light
 {
 public:
 	Vec3f direction;
+
+	DirectionalLight(): direction(Vec3f()){}
 
 	void Update(float i_dt) override
 	{

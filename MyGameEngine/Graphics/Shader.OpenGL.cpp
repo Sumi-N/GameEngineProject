@@ -286,7 +286,7 @@ bool Shader::ReadShaderSource(const char* i_file, std::vector<GLchar>& io_buffer
 	file.seekg(0L, std::ios::end);
 	GLsizei size = static_cast<GLsizei>(file.tellg());
 
-	io_buffer.resize(static_cast<int>(size) + 1);
+	io_buffer.resize(static_cast<size_t>(size) + 1);
 	file.seekg(0L, std::ios::beg);
 	file.read(io_buffer.data(), size);
 	io_buffer[size] = '\0';

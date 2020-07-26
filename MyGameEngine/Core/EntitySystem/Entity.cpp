@@ -14,11 +14,11 @@ OwningPointer<DirectionalLight>             Entity::Directional;
 std::vector<OwningPointer<MeshComponent>>   Entity::MeshComponentList;
 std::vector<OwningPointer<EffectComponent>> Entity::EffectComponentList;
 
-ObjectHandler Entity::Register(Object * i_obj)
+void Entity::Register(Object * i_obj)
 {
 	ObjectHandler objhandler(i_obj);
 	ObjectList.push_back(objhandler);
-	return objhandler;
+	return;
 }
 
 ObjectHandler Entity::Query(Object* i_obj)

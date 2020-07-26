@@ -8,6 +8,7 @@
 class CubeMap : public Object
 {
 public:
+	CubeMap(): mesh(nullptr), effect(nullptr){}
 	void Boot() override;
 	MeshComponent* mesh;
 	EffectComponent* effect;

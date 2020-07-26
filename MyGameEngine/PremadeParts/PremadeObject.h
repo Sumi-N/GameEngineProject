@@ -5,6 +5,7 @@
 class PremadeObjebct : public Object
 {
 public:
+	PremadeObjebct() : mesh(nullptr){}
 	void Boot() override;
 	void Init() override;
 

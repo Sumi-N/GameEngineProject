@@ -20,13 +20,7 @@ public:
 	void SetMaterialValue(Vec4f i_albedo, float roughness, float metalic);
 };
 
-inline MaterialAttribute::MaterialAttribute()
-{
-	Ka = Vec3f(0.50980395f, 0.0, 0.0);
-	Kd = Vec3f(0.50980395f, 0.0, 0.0);
-	Ks = Vec3f(0.80099994f, 0.80099994f, 0.80099994f);
-	Ns = 10.0f;
-}
+inline MaterialAttribute::MaterialAttribute(): Ka(Vec3f()), Kd(Vec3f()), Ks(Vec3f()), Ns(), albedo(Vec4f()), roughness(), metalic() {}
 
 inline void MaterialAttribute::SetMaterialValue(Vec3f i_values, float i_specular)
 {

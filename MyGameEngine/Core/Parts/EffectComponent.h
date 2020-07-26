@@ -7,6 +7,8 @@
 class EffectComponent : public Component
 {
 public:
+	EffectComponent();
+
 	ObservingPointer<Object> owner;
 	const char* shaderpaths[5];
 	std::vector<OwningPointer<TextureAttribute>> textures;
@@ -15,6 +17,8 @@ public:
 	void SetTexture(TextureAttribute*);
 	void ReplaceTexture(TextureAttribute*, int);
 };
+
+inline EffectComponent::EffectComponent(): shaderpaths() {}
 
 inline void EffectComponent::RegisterShaderPath(const char ** shaderpaths)
 {
