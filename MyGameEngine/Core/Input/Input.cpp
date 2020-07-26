@@ -1,6 +1,44 @@
 #pragma once
 #include "Input.h"
 
+void Input::Init()
+{
+	for (int i = 0; i < 256; i++)
+	{
+		state.insert({ static_cast<VirtualKey>(i), false });
+		paststate.insert({ static_cast<VirtualKey>(i), false });
+	}
+
+	xpos = 0; ypos = 0;
+	past_xpos = 0; past_ypos = 0;
+}
+
+InputState Input::QueryKey(VirtualKey i_VKeyID)
+{
+	if (state.at(i_VKeyID) == true)
+	{
+		if (paststate.at(i_VKeyID) == true)
+		{
+			return InputState::Pressing;
+		}
+		else
+		{
+			return InputState::Pressed;
+		}
+	}
+	else
+	{
+		if (paststate.at(i_VKeyID) == true)
+		{
+			return InputState::Released;
+		}
+		else
+		{
+			return InputState::Releasing;
+		}
+	}
+}
+
 /* Those are hex numbers
 VK_KEY_0	0x30 ('0')	0
 VK_KEY_1	0x31 ('1')	1

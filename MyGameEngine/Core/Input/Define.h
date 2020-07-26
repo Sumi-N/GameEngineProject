@@ -5,7 +5,7 @@
 #include <vector>
 #include <utility>
 
-enum class VirtualKey : unsigned int
+enum class VirtualKey : uint8_t
 {
 	KEY_LEFTBUTTON = 0x01,
 	KEY_RIGHTBUTTON = 0x02,

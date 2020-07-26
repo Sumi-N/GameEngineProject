@@ -12,16 +12,18 @@ enum class FrameType : uint8_t
 	BRDF                 = 4,
 	Image                = 5,
 	ShadowMap            = 6,
+
+	UnInitialized       = 255,
 };
 
 class FrameBuffer
 {
 public:
 
-	FrameType frametype;
+	FrameType frametype = FrameType::UnInitialized;
 	Shader    shader;
-	int unit_number;
-	int width, height;
+	int       unit_number = -1;
+	int       width = 0, height = 0;
 
 	static void RenderToQuad();
 	static void RenderToCube();
@@ -36,8 +38,8 @@ public:
 	GLuint  bufferid = 0;
 	GLuint  renderbufferid = 0;
 
-	GLuint textureid_color;
-	GLuint textureid_depth;
+	GLuint  textureid_color = 0;
+	GLuint  textureid_depth = 0;
 
 #endif // ENGINE_GRAPHIC_OPENGL
 

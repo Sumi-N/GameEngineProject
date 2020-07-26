@@ -52,9 +52,9 @@ void MeshComponent::Load(const char* filename)
 	tmpdata.ComputeNormals();
 
 	// Get number of point data
-	int facenum = tmpdata.NF();
-	int vertnum = tmpdata.NV();
-	int normalnum = tmpdata.NVN();
+	unsigned int facenum = tmpdata.NF();
+	unsigned int vertnum = tmpdata.NV();
+	unsigned int normalnum = tmpdata.NVN();
 
 	//index.resize(facenum * 3);
 	//data.resize(vertnum);
@@ -150,7 +150,7 @@ void MeshComponent::Load(const char* filename)
 		data.push_back(tmp3);
 	}
 
-	for (int i = 0; i < facenum; i++)
+	for (size_t i = 0; i < facenum; i++)
 	{
 		Vec3f pos1 = data[index[3 * i + 0]].vertex;
 		Vec3f pos2 = data[index[3 * i + 1]].vertex;

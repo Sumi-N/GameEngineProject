@@ -278,8 +278,8 @@ void FrameBuffer::RenderOnce()
 		unsigned int maxmiplevels = 5;
 		for (unsigned int mip = 0; mip < maxmiplevels; ++mip)
 		{
-			unsigned int mipwidth = 128 * (unsigned int)std::pow(0.5, mip);
-			unsigned int mipheight = 128 * (unsigned int)std::pow(0.5, mip);
+			unsigned int mipwidth = static_cast<unsigned int>(128 * std::pow(0.5, mip));
+			unsigned int mipheight = static_cast<unsigned int>(128 * std::pow(0.5, mip));
 
 			glViewport(0, 0, mipwidth, mipheight);
 			float roughness = (float)mip / (float)(maxmiplevels - 1);

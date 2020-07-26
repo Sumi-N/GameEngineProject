@@ -225,7 +225,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 			constant_skybox.Update(&data_skybox);
 
 			frame_cubemap.BindTextureUnit();
-			//SceneEntity::SkyBoxProxy->Draw();
+			SceneEntity::SkyBoxProxy->Draw();
 			glDepthFunc(GL_LESS);
 		}
 	}

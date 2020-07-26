@@ -22,6 +22,7 @@ public:
 
 inline MaterialAttribute::MaterialAttribute(): Ka(Vec3f()), Kd(Vec3f()), Ks(Vec3f()), Ns(), albedo(Vec4f()), roughness(), metalic() {}
 
+
 inline void MaterialAttribute::SetMaterialValue(Vec3f i_values, float i_specular)
 {
 	Ka = i_values;

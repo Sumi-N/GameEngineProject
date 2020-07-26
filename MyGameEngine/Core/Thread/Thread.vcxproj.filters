@@ -9,9 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="OpenGL">
-      <UniqueIdentifier>{ab30495d-38d5-462d-93d5-388361180b15}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Thread.cpp">
@@ -19,9 +16,6 @@
     </ClCompile>
     <ClCompile Include="Define.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Input.OpenGL.cpp">
-      <Filter>OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -39,9 +33,6 @@
     </ClInclude>
     <ClInclude Include="RenderThread.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.OpenGL.h">
-      <Filter>OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

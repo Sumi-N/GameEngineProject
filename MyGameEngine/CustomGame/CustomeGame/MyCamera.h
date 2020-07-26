@@ -71,6 +71,4 @@ inline void MyCamera::Update(float i_dt)
 			RotateAround(-1, right);
 		}
 	}
-
-	UserInput.QueryInputs();
 }

@@ -26,7 +26,7 @@ public:
 	static bool PreUpdate();
 	static void Update(GraphicRequiredData*);
 	static void PostUpdate(GraphicRequiredData*);
-	static void CleanUP();
+	static void CleanUp();
 
 #ifdef  ENGINE_GRAPHIC_OPENGL
 	static GLFWwindow* window;

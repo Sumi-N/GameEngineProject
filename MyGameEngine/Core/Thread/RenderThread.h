@@ -4,10 +4,6 @@
 #include "Thread.h"
 #include "GameThread.h"
 
-#ifdef ENGINE_GRAPHIC_OPENGL
-	#include "Input.OpenGL.h"
-#endif // ENGINE_GRAPHIC_OPENGL
-
 class RenderThread : public Thread
 {
 public:
@@ -22,14 +18,6 @@ public:
 inline void RenderThread::Boot()
 {
 	Graphic::Boot();
-
-#ifdef ENGINE_GRAPHIC_OPENGL
-	// Set up callback
-	glfwSetKeyCallback(Graphic::window, GLFW_INPUT::KeyCallback);
-	glfwSetMouseButtonCallback(Graphic::window, GLFW_INPUT::MouseButtonCallback);
-	glfwSetCursorPosCallback(Graphic::window, GLFW_INPUT::CursorPositionCallback);
-#endif // ENGINE_GRAPHIC_OPENGL
-
 }
 
 inline void RenderThread::Init()
@@ -53,7 +41,6 @@ inline void RenderThread::Run()
 
 			{
 				std::swap(data_game_own, data_render_own);
-				std::swap(input_update_list_game_own, input_update_list_render_own);
 			}
 
 			b_render_ready = true;

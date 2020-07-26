@@ -10,7 +10,7 @@ public:
 
 	void Boot() override;
 	void Init() override;
-	void ChangePos(Vec3f i_pos);
+	void ChangePos(const Vec3f& i_pos);
 	void ChangeMaterialParameter(float i_metalic, float i_roughness);
 
 	Vec4f albedo;
@@ -47,7 +47,7 @@ inline void SpherePBR_Test::Init()
 	mesh->material->roughness = roughness;
 }
 
-inline void SpherePBR_Test::ChangePos(Vec3f i_pos)
+inline void SpherePBR_Test::ChangePos(const Vec3f& i_pos)
 {
 	pos = i_pos;
 }

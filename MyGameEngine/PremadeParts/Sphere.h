@@ -14,7 +14,6 @@ inline void Sphere::Boot()
 {
 	PremadeObjebct::Boot();
 
-	//mesh->Load(PATH_SUFFIX MESH_PATH FILENAME_SPHERE);
 	mesh->Load(PATH_SUFFIX MESH_PATH "sphere.obj");
 }
 

@@ -143,14 +143,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Define.cpp" />
-    <ClCompile Include="Input.OpenGL.cpp" />
     <ClCompile Include="Thread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h" />
     <ClInclude Include="EntryPoint.h" />
     <ClInclude Include="GameThread.h" />
-    <ClInclude Include="Input.OpenGL.h" />
     <ClInclude Include="RenderThread.h" />
     <ClInclude Include="Thread.h" />
   </ItemGroup>
@@ -160,6 +158,9 @@
     </ProjectReference>
     <ProjectReference Include="..\EntitySystem\EntitySystem.vcxproj">
       <Project>{8d7d6eb2-5151-4527-934b-d775d58f0994}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Input\Input.vcxproj">
+      <Project>{725cccc9-d908-4257-b0e5-54bebf75b3ef}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Time\Time.vcxproj">
       <Project>{e613ebe4-86fb-4cb5-8e04-e4558231d013}</Project>

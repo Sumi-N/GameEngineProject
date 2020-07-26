@@ -32,7 +32,7 @@ inline void GameThread::Run()
 {
 	while (true)
 	{
-		UserInput.Populate(*input_update_list_game_own);
+		UserInput.Populate();
 
 		Time::Update();
 		Entity::Update(static_cast<float>(Time::dt));
