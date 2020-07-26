@@ -160,6 +160,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\APIs\GraphicAPI\loadpng\lodepng.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
+    <ClCompile Include="TextureAttribute.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Configuration\Configuration.vcxproj">

@@ -1,4 +1,7 @@
 #pragma once
+
+#ifdef ENGINE_GRAPHIC_VULKAN
+
 #define GLM_ENABLE_EXPERIMENTAL
 
 #include <vector>
@@ -91,3 +94,5 @@ namespace std
 		}
 	};
 }
+
+#endif // ENGINE_GRAPHIC_VULKAN

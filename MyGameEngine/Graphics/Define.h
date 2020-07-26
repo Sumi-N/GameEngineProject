@@ -15,8 +15,16 @@
 #include <iostream>
 
 #ifdef ENGINE_GRAPHIC_OPENGL
+
+	#pragma comment(lib, "opengl32.lib")
+
 	#include <APIs/GraphicAPI/glew-2.1.0/include/GL/glew.h>
 	#include <APIs/GraphicAPI/glfw-3.3.bin.WIN32/include/GLFW/glfw3.h>
+
+#elif ENGINE_GRAPHIC_VULKAN
+
+	#pragma comment(lib, "vulkan-1.lib");
+
 #endif // ENGINE_GRAPHIC_OPENGL
 
 // Texture unit

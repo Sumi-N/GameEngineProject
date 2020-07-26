@@ -1,6 +1,9 @@
 #pragma once
 #include "Graphic_Vulkan.h"
 
+#ifdef ENGINE_GRAPHIC_VULKAN
+
+
 #include <GraphicAPI/glm/glm/glm.hpp>
 #include <GraphicAPI/glm/glm/gtc/matrix_transform.hpp>
 #include <GraphicAPI/tinyobjloader/tiny_obj_loader.h>
@@ -1581,3 +1584,6 @@ void HelloTriangleApplication::loadModel()
 		}
 	}
 }
+
+
+#endif // ENGINE_GRAPHIC_VULKAN

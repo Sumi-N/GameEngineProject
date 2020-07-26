@@ -189,7 +189,7 @@ namespace Math {
 
 		Matrix4 o_m;
 
-		o_m.ele[0] = static_cast<T>(1.0 / (tanhalffov * i_aspectratio));
+		o_m.ele[0] = static_cast<T>(1.0 / (tanhalffov *  ));
 
 		o_m.ele[5] = static_cast<T>(1.0 / tanhalffov);
 

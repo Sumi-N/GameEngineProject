@@ -89,7 +89,7 @@
       <AdditionalDependencies>glfw3.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>glfw3.lib;vulkan-1.lib;opengl32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)APIs\GraphicAPI\VulkanSDK\1.1.126.0\Lib\;$(SolutionDir)APIs\GraphicAPI\glfw-3.3.bin.WIN64\lib-vc2019\;$(SolutionDir)APIs\GraphicAPI\glew-2.1.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -109,7 +109,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)APIs\GraphicAPI\VulkanSDK\1.1.126.0\Lib32\;$(SolutionDir)APIs\GraphicAPI\glfw-3.3.bin.WIN32\lib-vc2019\;$(SolutionDir)\APIs\GraphicAPI\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;vulkan-1.lib;opengl32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -127,7 +127,7 @@
       <AdditionalDependencies>glfw3.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>glfw3.lib;vulkan-1.lib;opengl32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)APIs\GraphicAPI\VulkanSDK\1.1.126.0\Lib\;$(SolutionDir)APIs\GraphicAPI\glfw-3.3.bin.WIN64\lib-vc2019\;$(SolutionDir)APIs\GraphicAPI\glew-2.1.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -153,7 +153,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)APIs\GraphicAPI\VulkanSDK\1.1.126.0\Lib32\;$(SolutionDir)APIs\GraphicAPI\glfw-3.3.bin.WIN32\lib-vc2019\;$(SolutionDir)\APIs\GraphicAPI\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;vulkan-1.lib;opengl32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

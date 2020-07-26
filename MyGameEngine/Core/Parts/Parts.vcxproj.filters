@@ -62,5 +62,8 @@
     <ClCompile Include="..\..\APIs\GraphicAPI\loadpng\lodepng.cpp">
       <Filter>API</Filter>
     </ClCompile>
+    <ClCompile Include="TextureAttribute.cpp">
+      <Filter>Attributes</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef ENGINE_GRAPHIC_VULKAN
+
 #include <vector>
 #include <cstring>
 
@@ -84,3 +86,5 @@ void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT
 		func(instance, debugMessenger, pAllocator);
 	}
 }
+
+#endif // ENGINE_GRAPHIC_VULKAN
