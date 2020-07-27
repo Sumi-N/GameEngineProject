@@ -183,15 +183,19 @@ public:
 	// Destructor
 	~OwningPointer()
 	{
-		ref->OwnerReferences--;
-		if (ref->OwnerReferences == 0)
+		// Skip this process if this owning pointer is a global variable without initialization
+		if (ref)
 		{
-			if (ref->ObserverReferences == 0)
+			ref->OwnerReferences--;
+			if (ref->OwnerReferences == 0)
 			{
-				delete ref;
-				delete data;
-				ref = nullptr;
-				data = nullptr;
+				if (ref->ObserverReferences == 0)
+				{
+					delete ref;
+					delete data;
+					ref = nullptr;
+					data = nullptr;
+				}
 			}
 		}
 	};

@@ -7,6 +7,7 @@
 class Object
 {
 public:
+
 	Object();
 
 	Vec3f pos, scale, rot;

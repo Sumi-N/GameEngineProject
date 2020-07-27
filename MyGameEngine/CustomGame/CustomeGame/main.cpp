@@ -5,6 +5,8 @@
 #include <PremadeParts/Quad.h>
 #include <PremadeParts/TexturedQuad.h>
 #include <EntitySystem/Entity.h>
+#include <EntitySystem/ObjectFactory.h>
+#include <Debug/MemoryLeakDetection.h>
 
 #include "Teapot.h"
 #include "MyCamera.h"
@@ -24,17 +26,16 @@
 #include "BrushedMetalSphere.h"
 #include "OldSoiledClothSphere.h"
 
-#include <stdio.h>
 
 int main()
 {
+	MEMORY_LEAK_DETECTION
+
 	// Setting up camera
-	MyCamera camera;
-	Entity::RegisterCamera(&camera);
+	Entity::RegisterCamera(ObjectFactory<MyCamera>::Create());
 
 	// Setting up skybox
-	MySkyBox skybox;
-	Entity::RegisterSkyBox(&skybox);
+	Entity::RegisterSkyBox(ObjectFactory<MySkyBox>::Create());
 
 	///////////////////////////////////////////////////////////
 
@@ -140,56 +141,57 @@ int main()
 
 	///////////////////////////////////////////////////////////
 
-	SpherePBR_Test sphere[64];
+	//SpherePBR_Test * sphere[64];
 
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 8; j++)
-		{
-			sphere[8 * i + j].ChangePos(Vec3f(6.25f * i - 20.0f, 6.25f * j - 20.0f, -60.0f));
-			sphere[8 * i + j].ChangeMaterialParameter(0.125f * i, 0.125f * j);
-			sphere[8 * i + j].scale = Vec3f(0.1f, 0.1f, 0.1f);
-			Entity::Register(&sphere[8 * i + j]);
-		}
-	}
+	//for (int i = 0; i < 8; i++)
+	//{
+	//	for (int j = 0; j < 8; j++)
+	//	{
+	//		sphere[8 * i + j] = ObjectFactory<SpherePBR_Test>::Create();
+	//		sphere[8 * i + j]->ChangePos(Vec3f(6.25f * i - 20.0f, 6.25f * j - 20.0f, -60.0f));
+	//		sphere[8 * i + j]->ChangeMaterialParameter(0.125f * i, 0.125f * j);
+	//		sphere[8 * i + j]->scale = Vec3f(0.1f, 0.1f, 0.1f);
+	//		Entity::Register(sphere[8 * i + j]);
+	//	}
+	//}
 
-	RastedSphere rastered;
-	rastered.Translate(Vec3f(0, 0, -60));
-	rastered.scale = Vec3f(0.3f, 0.3f, 0.3f);
+	RastedSphere* rastered = ObjectFactory<RastedSphere>::Create();
+	rastered->Translate(Vec3f(0, 0, -60));
+	rastered->scale = Vec3f(0.3f, 0.3f, 0.3f);
 
-	ScuffedGoldSphere gold;
-	gold.Translate(Vec3f(15, 0, -60));
-	gold.scale = Vec3f(0.3f, 0.3f, 0.3f);
+	//ScuffedGoldSphere gold;
+	//gold.Translate(Vec3f(15, 0, -60));
+	//gold.scale = Vec3f(0.3f, 0.3f, 0.3f);
 
-	WornPaintedCement cement;
-	cement.Translate(Vec3f(-15, 0, -60));
-	cement.scale = Vec3f(0.3f, 0.3f, 0.3f);
+	//WornPaintedCement cement;
+	//cement.Translate(Vec3f(-15, 0, -60));
+	//cement.scale = Vec3f(0.3f, 0.3f, 0.3f);
 
-	MetalGridSphere metalgrid;
-	metalgrid.Translate(Vec3f(-15, 15, -60));
-	metalgrid.scale = Vec3f(0.3f, 0.3f, 0.3f);
+	//MetalGridSphere metalgrid;
+	//metalgrid.Translate(Vec3f(-15, 15, -60));
+	//metalgrid.scale = Vec3f(0.3f, 0.3f, 0.3f);
 
-	BathRoomTileSphere bathroomtile;
-	bathroomtile.Translate(Vec3f(-15, -15, -60));
-	bathroomtile.scale = Vec3f(0.3f, 0.3f, 0.3f);
+	//BathRoomTileSphere bathroomtile;
+	//bathroomtile.Translate(Vec3f(-15, -15, -60));
+	//bathroomtile.scale = Vec3f(0.3f, 0.3f, 0.3f);
 
-	DirtyWickerWeaveSphere dirtyweave;
-	dirtyweave.Translate(Vec3f(15, -15, -60));
-	dirtyweave.scale = Vec3f(0.3f, 0.3f, 0.3f);
+	//DirtyWickerWeaveSphere dirtyweave;
+	//dirtyweave.Translate(Vec3f(15, -15, -60));
+	//dirtyweave.scale = Vec3f(0.3f, 0.3f, 0.3f);
 
-	GrayBrickSphere graybrick;
-	graybrick.Translate(Vec3f(15, 15, -60));
-	graybrick.scale = Vec3f(0.3f, 0.3f, 0.3f);
+	//GrayBrickSphere graybrick;
+	//graybrick.Translate(Vec3f(15, 15, -60));
+	//graybrick.scale = Vec3f(0.3f, 0.3f, 0.3f);
 
-	BrushedMetalSphere brushedmetal;
-	brushedmetal.Translate(Vec3f(0, 15, -60));
-	brushedmetal.scale = Vec3f(0.3f, 0.3f, 0.3f);
+	//BrushedMetalSphere brushedmetal;
+	//brushedmetal.Translate(Vec3f(0, 15, -60));
+	//brushedmetal.scale = Vec3f(0.3f, 0.3f, 0.3f);
 
-	OldSoiledClothSphere oldsoiledcloth;
-	oldsoiledcloth.Translate(Vec3f(0, -15, -60));
-	oldsoiledcloth.scale = Vec3f(0.3f, 0.3f, 0.3f);
+	//OldSoiledClothSphere oldsoiledcloth;
+	//oldsoiledcloth.Translate(Vec3f(0, -15, -60));
+	//oldsoiledcloth.scale = Vec3f(0.3f, 0.3f, 0.3f);
 
-	//Entity::Register(&rastered);
+	Entity::Register(rastered);
 	//Entity::Register(&gold);
 	//Entity::Register(&cement);
 	//Entity::Register(&metalgrid);
@@ -199,23 +201,23 @@ int main()
 	//Entity::Register(&brushedmetal);
 	//Entity::Register(&oldsoiledcloth);
 
-	MyPointLight pointlight;
-	pointlight.intensity = Vec3f(25.0f, 25.0f, 25.0f);
-	pointlight.pos = Vec3f(0.f, 0.f, -40.f);
+	MyPointLight* pointlight = ObjectFactory<MyPointLight>::Create();
+	pointlight->intensity = Vec3f(25.0f, 25.0f, 25.0f);
+	pointlight->pos = Vec3f(0.f, 0.f, -40.f);
 
-	PointLight pointlight2;
-	pointlight2.intensity = Vec3f(10.0f, 10.0f, 10.0f);
-	pointlight2.pos = Vec3f(30.f, -30.f, -40.f);
+	//PointLight pointlight2;
+	//pointlight2.intensity = Vec3f(10.0f, 10.0f, 10.0f);
+	//pointlight2.pos = Vec3f(30.f, -30.f, -40.f);
 
-	PointLight pointlight3;
-	pointlight3.intensity = Vec3f(10.0f, 10.0f, 10.0f);
-	pointlight3.pos = Vec3f(-30.f, 30.f, -40.f);
+	//PointLight pointlight3;
+	//pointlight3.intensity = Vec3f(10.0f, 10.0f, 10.0f);
+	//pointlight3.pos = Vec3f(-30.f, 30.f, -40.f);
 
-	PointLight pointlight4;
-	pointlight4.intensity = Vec3f(10.0f, 10.0f, 10.0f);
-	pointlight4.pos = Vec3f(-30.f, -30.f, -40.f);
+	//PointLight pointlight4;
+	//pointlight4.intensity = Vec3f(10.0f, 10.0f, 10.0f);
+	//pointlight4.pos = Vec3f(-30.f, -30.f, -40.f);
 
-	Entity::RegisterPointLight(&pointlight);
+	Entity::RegisterPointLight(pointlight);
 	//Entity::RegisterPointLight(&pointlight2);
 	//Entity::RegisterPointLight(&pointlight3);
 	//Entity::RegisterPointLight(&pointlight4);
@@ -274,5 +276,6 @@ int main()
 	System::Boot();
 	
 	System::Start();
+
 	return 0;
 };
