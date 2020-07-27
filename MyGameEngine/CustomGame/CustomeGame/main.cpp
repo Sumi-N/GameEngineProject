@@ -30,6 +30,9 @@
 int main()
 {
 	MEMORY_LEAK_DETECTION
+	//_CrtSetBreakAlloc(185);
+	//_CrtSetBreakAlloc(182);
+	//_CrtSetBreakAlloc(179);
 
 	// Setting up camera
 	Entity::RegisterCamera(ObjectFactory<MyCamera>::Create());
@@ -155,13 +158,13 @@ int main()
 	//	}
 	//}
 
-	RastedSphere* rastered = ObjectFactory<RastedSphere>::Create();
+	OwningPointer<RastedSphere> rastered = ObjectFactory<RastedSphere>::Create();
 	rastered->Translate(Vec3f(0, 0, -60));
 	rastered->scale = Vec3f(0.3f, 0.3f, 0.3f);
 
-	//ScuffedGoldSphere gold;
-	//gold.Translate(Vec3f(15, 0, -60));
-	//gold.scale = Vec3f(0.3f, 0.3f, 0.3f);
+	//OwningPointer<ScuffedGoldSphere> gold = ObjectFactory<ScuffedGoldSphere>::Create();
+	//gold->Translate(Vec3f(15, 0, -60));
+	//gold->scale = Vec3f(0.3f, 0.3f, 0.3f);
 
 	//WornPaintedCement cement;
 	//cement.Translate(Vec3f(-15, 0, -60));
@@ -192,7 +195,7 @@ int main()
 	//oldsoiledcloth.scale = Vec3f(0.3f, 0.3f, 0.3f);
 
 	Entity::Register(rastered);
-	//Entity::Register(&gold);
+	//Entity::Register(gold);
 	//Entity::Register(&cement);
 	//Entity::Register(&metalgrid);
 	//Entity::Register(&bathroomtile);
@@ -201,7 +204,7 @@ int main()
 	//Entity::Register(&brushedmetal);
 	//Entity::Register(&oldsoiledcloth);
 
-	MyPointLight* pointlight = ObjectFactory<MyPointLight>::Create();
+	OwningPointer<MyPointLight> pointlight = ObjectFactory<MyPointLight>::Create();
 	pointlight->intensity = Vec3f(25.0f, 25.0f, 25.0f);
 	pointlight->pos = Vec3f(0.f, 0.f, -40.f);
 
@@ -274,7 +277,7 @@ int main()
 	//Entity::RegisterPointLight(&pointlight3);
 
 	System::Boot();
-	
+
 	System::Start();
 
 	return 0;

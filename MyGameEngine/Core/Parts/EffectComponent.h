@@ -9,13 +9,15 @@ class EffectComponent : public Component
 public:
 	EffectComponent();
 
+	void RegisterShaderPath(const char**);
+	void SetTexture(TextureAttribute*);
+	void SetTexture(OwningPointer<TextureAttribute>);
+	void ReplaceTexture(TextureAttribute*, int);
+
+//private:
 	ObservingPointer<Object> owner;
 	const char* shaderpaths[5];
 	std::vector<OwningPointer<TextureAttribute>> textures;
-
-	void RegisterShaderPath(const char**);
-	void SetTexture(TextureAttribute*);
-	void ReplaceTexture(TextureAttribute*, int);
 };
 
 inline EffectComponent::EffectComponent(): shaderpaths() {}
@@ -34,6 +36,11 @@ inline void EffectComponent::SetTexture(TextureAttribute* i_texture)
 	OwningPointer<TextureAttribute> texturehandler;
 	texturehandler = i_texture;
 	textures.push_back(texturehandler);
+}
+
+inline void EffectComponent::SetTexture(OwningPointer<TextureAttribute> i_texture)
+{
+	textures.push_back(i_texture);
 }
 
 inline void EffectComponent::ReplaceTexture(TextureAttribute* i_texture, int ith_item = 0)

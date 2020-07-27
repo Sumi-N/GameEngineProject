@@ -15,13 +15,14 @@ inline void RastedSphere::Boot()
 	RastedSphere();
 	Sphere::Boot();
 
-	TextureAttribute* albedo = new TextureAttribute();
+	OwningPointer<TextureAttribute> albedo = ObjectFactory<TextureAttribute>::Create();
+	OwningPointer<TextureAttribute> normal = ObjectFactory<TextureAttribute>::Create();
+	OwningPointer<TextureAttribute> roughness = ObjectFactory<TextureAttribute>::Create();
+	OwningPointer<TextureAttribute> metalic = ObjectFactory<TextureAttribute>::Create();
+
 	albedo->Load(PATH_SUFFIX TEXTURE_PATH RUSTED_IRON_ALBEDO, TextureType::Albedo);
-	TextureAttribute* normal = new TextureAttribute();
 	normal->Load(PATH_SUFFIX TEXTURE_PATH RUSTED_IRON_NORMAL, TextureType::Normal);
-	TextureAttribute* roughness = new TextureAttribute();
 	roughness->Load(PATH_SUFFIX TEXTURE_PATH RUSTED_IRON_ROUGHNESS, TextureType::Roughness);
-	TextureAttribute* metalic = new TextureAttribute();
 	metalic->Load(PATH_SUFFIX TEXTURE_PATH RUSTED_IRON_METALIC, TextureType::Metalic);
 
 	const char* shaderpaths[] =
@@ -33,7 +34,7 @@ inline void RastedSphere::Boot()
 		PATH_SUFFIX SHADER_PATH DISNEY_PBR_FRAG,
 	};
 
-	EffectComponent* effect = new EffectComponent();
+	OwningPointer<EffectComponent> effect = ObjectFactory<EffectComponent>::Create();
 	effect->owner = Entity::Query(this).p;
 	effect->RegisterShaderPath(shaderpaths);
 	effect->SetTexture(albedo);

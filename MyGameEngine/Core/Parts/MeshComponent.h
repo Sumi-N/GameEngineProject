@@ -38,5 +38,6 @@ public:
 	void CleanUp() override;
 
 	void SetMaterial(MaterialAttribute *);
+	void SetMaterial(OwningPointer<MaterialAttribute>);
 };
 

@@ -56,11 +56,13 @@ inline void RenderThread::Run()
 
 		Graphic::PostUpdate(data_render_own);
 	}
+
+	CleanUp();
 }
 
 inline void RenderThread::CleanUp()
 {
-
+	Graphic::CleanUp();
 }
 
 inline void RenderThread::PassDataTo(Thread * i_thread)

@@ -18,7 +18,12 @@ void Entity::Register(Object * i_obj)
 {
 	ObjectHandler objhandler(i_obj);
 	ObjectList.push_back(objhandler);
-	return;
+}
+
+void Entity::Register(OwningPointer<Object> i_obj)
+{
+	ObjectHandler objhandler(i_obj);
+	ObjectList.push_back(objhandler);
 }
 
 ObjectHandler Entity::Query(Object* i_obj)
@@ -40,7 +45,17 @@ void Entity::RegisterCamera(Camera* i_camera)
 	CurrentCamera = i_camera;
 }
 
+void Entity::RegisterCamera(OwningPointer<Camera> i_camera)
+{
+	CurrentCamera = i_camera;
+}
+
 void Entity::RegisterSkyBox(CubeMap* i_cubemap)
+{
+	Skybox = i_cubemap;
+}
+
+void Entity::RegisterSkyBox(OwningPointer<CubeMap> i_cubemap)
 {
 	Skybox = i_cubemap;
 }
@@ -50,7 +65,17 @@ void Entity::RegisterAmbientLight(AmbientLight* i_ambient)
 	Ambient = i_ambient;
 }
 
+void Entity::RegisterAmbientLight(OwningPointer<AmbientLight> i_ambient)
+{
+	Ambient = i_ambient;
+}
+
 void Entity::RegisterDirectionalLight(DirectionalLight* i_directional)
+{
+	Directional = i_directional;
+}
+
+void Entity::RegisterDirectionalLight(OwningPointer<DirectionalLight> i_directional)
 {
 	Directional = i_directional;
 }
@@ -62,6 +87,11 @@ void Entity::RegisterPointLight(PointLight* i_point)
 	PointLightList.push_back(light_handler);
 }
 
+void Entity::RegisterPointLight(OwningPointer<PointLight> i_point)
+{
+	PointLightList.push_back(i_point);
+}
+
 void Entity::RegisterMeshComponent(MeshComponent * i_component)
 {
 	OwningPointer<MeshComponent> mesh_handler;
@@ -69,11 +99,21 @@ void Entity::RegisterMeshComponent(MeshComponent * i_component)
 	MeshComponentList.push_back(mesh_handler);
 }
 
+void Entity::RegisterMeshComponent(OwningPointer<MeshComponent> i_component)
+{
+	MeshComponentList.push_back(i_component);
+}
+
 void Entity::RegisterEffectComponent(EffectComponent* i_component)
 {
 	OwningPointer<EffectComponent> effect_handler;
 	effect_handler = i_component;
 	EffectComponentList.push_back(effect_handler);
+}
+
+void Entity::RegisterEffectComponent(OwningPointer<EffectComponent> i_component)
+{
+	EffectComponentList.push_back(i_component);
 }
 
 void Entity::Boot()

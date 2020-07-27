@@ -1,8 +1,8 @@
 #pragma once
-#include <Core/Parts/CubeMap.h>
+#include <PremadeParts/Skybox.h>
 #include <Thread/Define.h>
 
-class MySkyBox : public CubeMap
+class MySkyBox : public SkyBox
 {
 	int currentstate = 0;
 

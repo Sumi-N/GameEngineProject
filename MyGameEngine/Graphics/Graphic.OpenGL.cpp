@@ -239,4 +239,11 @@ void Graphic::PostUpdate(GraphicRequiredData* i_data)
 	i_data->material_data.clear();
 }
 
+void Graphic::CleanUp()
+{
+	glfwDestroyWindow(window);
+	glfwTerminate();
+	exit(EXIT_SUCCESS);
+}
+
 #endif // ENGINE_GRAPHIC_OPENGL

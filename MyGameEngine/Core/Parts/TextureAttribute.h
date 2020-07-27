@@ -28,6 +28,7 @@ class TextureAttribute : public Attribute
 {
 public:
 	TextureAttribute() : width(), height(), hdrpixels(nullptr) {}
+	~TextureAttribute() {if(hdrpixels) delete hdrpixels;}
 
 	std::vector<Vec3u8t> pixels;
 	int width, height;

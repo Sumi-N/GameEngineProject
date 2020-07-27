@@ -18,12 +18,10 @@ inline void SceneEntity::Init()
 	if (Entity::Skybox)
 	{
 		SceneProxy* proxy = new SceneProxy();
-		OwningPointer<SceneProxy> proxyhandler;
-		proxyhandler = proxy;
-		SceneEntity::SkyBoxProxy = proxyhandler;
+		SceneEntity::SkyBoxProxy = proxy;
 
 		SkyBoxProxy->mesh   = Entity::Skybox->mesh;
-		proxy->Init();
+		SkyBoxProxy->Init();
 
 		RenderState* state = new RenderState();
 		state->InitShader(Entity::Skybox->effect->shaderpaths);
@@ -31,7 +29,7 @@ inline void SceneEntity::Init()
 
 		OwningPointer<RenderState> renderhandler;
 		renderhandler = state;
-		proxy->AddRenderState(renderhandler);
+		SkyBoxProxy->AddRenderState(renderhandler);
 	}
 
 	// Create scene format from entity

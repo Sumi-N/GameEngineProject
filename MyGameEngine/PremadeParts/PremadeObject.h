@@ -10,19 +10,19 @@ public:
 	void Init() override;
 
 protected:
-	MeshComponent* mesh;
+	OwningPointer<MeshComponent> mesh;
 };
 
 inline void PremadeObjebct::Boot()
 {
 	Object::Boot();
 
-	MeshComponent* thismesh = new MeshComponent();
-	MaterialAttribute* material = new MaterialAttribute();
-	thismesh->SetMaterial(material);
-	thismesh->owner = Entity::Query(this).p;
-	Entity::RegisterMeshComponent(thismesh);
-	mesh = thismesh;
+	mesh = ObjectFactory<MeshComponent>::Create();
+	OwningPointer<MaterialAttribute> material;
+	material = ObjectFactory<MaterialAttribute>::Create();
+	mesh->SetMaterial(material);
+	mesh->owner = Entity::Query(this).p;
+	Entity::RegisterMeshComponent(mesh);
 
 	//const char* shaderpaths[] =
 	//{
@@ -33,7 +33,8 @@ inline void PremadeObjebct::Boot()
 	//	PATH_SUFFIX SHADER_PATH DEBUG_POLYGON_FRAG,
 	//};
 
-	//EffectComponent* effect = new EffectComponent();
+	//OwningPointer<EffectComponent> effect;
+	//effect = ObjectFactory<EffectComponent>::Create();
 	//effect->owner = Entity::Query(this).p;
 	//effect->RegisterShaderPath(shaderpaths);
 	//Entity::RegisterEffectComponent(effect);

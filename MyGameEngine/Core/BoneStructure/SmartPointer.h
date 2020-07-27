@@ -389,15 +389,18 @@ public:
 	// Destructor
 	~ObservingPointer()
 	{
-		ref->ObserverReferences--;
-		if (ref->ObserverReferences == 0)
+		if (ref)
 		{
-			if (ref->OwnerReferences == 0)
+			ref->ObserverReferences--;
+			if (ref->ObserverReferences == 0)
 			{
-				delete ref;
-				delete data;
-				ref = nullptr;
-				data = nullptr;
+				if (ref->OwnerReferences == 0)
+				{
+					delete ref;
+					delete data;
+					ref = nullptr;
+					data = nullptr;
+				}
 			}
 		}
 	};

@@ -216,3 +216,8 @@ void MeshComponent::SetMaterial(MaterialAttribute* i_material)
 {
 	material = i_material;
 }
+
+void MeshComponent::SetMaterial(OwningPointer<MaterialAttribute> i_material)
+{
+	material = i_material;
+}

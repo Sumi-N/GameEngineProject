@@ -5,10 +5,12 @@
 #include <Parts/MeshComponent.h>
 #include <Parts/EffectComponent.h>
 #include <Parts/Object.h>
+#include <Parts/CubeMap.h>
 #include <Parts/TextureAttribute.h>
 #include <Parts/MaterialAttribute.h>
 
 #include <EntitySystem/Entity.h>
+#include <EntitySystem/ObjectFactory.h>
 #include <Graphics/SceneEntity.h>
 
 
