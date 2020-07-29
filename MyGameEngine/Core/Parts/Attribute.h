@@ -5,5 +5,5 @@
 class Attribute
 {
 public:
-	
+	virtual ~Attribute(){};
 };

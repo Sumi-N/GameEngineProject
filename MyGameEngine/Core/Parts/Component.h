@@ -6,6 +6,8 @@
 class Component
 {
 public:
+	virtual ~Component(){};
+
 	ObservingPointer<Object> pointer;
 
 	virtual void Boot();

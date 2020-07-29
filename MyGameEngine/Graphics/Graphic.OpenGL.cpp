@@ -137,13 +137,11 @@ void Graphic::Update(GraphicRequiredData * i_data)
 		// Init sky-box cube map
 		if (Entity::Skybox)
 		{
-			RenderState* state = new RenderState();
+			OwningPointer<RenderState> state = ObjectFactory<RenderState>::Create();
 			state->InitShader(Entity::Skybox->effect->shaderpaths);
 			state->InitTexture(Entity::Skybox->effect->textures[0]);
 
-			OwningPointer<RenderState> renderhandler;
-			renderhandler = state;
-			SceneEntity::SkyBoxProxy->ReplaceRenderState(renderhandler, 0);
+			SceneEntity::SkyBoxProxy->ReplaceRenderState(state, 0);
 		}
 
 		PreCompute();
@@ -243,7 +241,6 @@ void Graphic::CleanUp()
 {
 	glfwDestroyWindow(window);
 	glfwTerminate();
-	exit(EXIT_SUCCESS);
 }
 
 #endif // ENGINE_GRAPHIC_OPENGL

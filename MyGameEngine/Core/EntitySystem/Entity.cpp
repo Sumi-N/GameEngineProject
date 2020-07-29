@@ -1,5 +1,6 @@
 #pragma  once
 #include "Entity.h"
+#include "ObjectFactory.h"
 
 std::vector<ObjectHandler>                  Entity::ObjectList;
 
@@ -20,7 +21,7 @@ void Entity::Register(Object * i_obj)
 	ObjectList.push_back(objhandler);
 }
 
-void Entity::Register(OwningPointer<Object> i_obj)
+void Entity::Register(const OwningPointer<Object>& i_obj)
 {
 	ObjectHandler objhandler(i_obj);
 	ObjectList.push_back(objhandler);
@@ -36,6 +37,8 @@ ObjectHandler Entity::Query(Object* i_obj)
 		}
 	}
 
+	// Couldn't find the query object pointer
+	DEBUG_ASSERT(false);
 	DEBUG_PRINT("Couldn't find the query object pointer");
 	return ObjectHandler(nullptr);
 }
@@ -45,7 +48,7 @@ void Entity::RegisterCamera(Camera* i_camera)
 	CurrentCamera = i_camera;
 }
 
-void Entity::RegisterCamera(OwningPointer<Camera> i_camera)
+void Entity::RegisterCamera(const OwningPointer<Camera>& i_camera)
 {
 	CurrentCamera = i_camera;
 }
@@ -55,7 +58,7 @@ void Entity::RegisterSkyBox(CubeMap* i_cubemap)
 	Skybox = i_cubemap;
 }
 
-void Entity::RegisterSkyBox(OwningPointer<CubeMap> i_cubemap)
+void Entity::RegisterSkyBox(const OwningPointer<CubeMap>& i_cubemap)
 {
 	Skybox = i_cubemap;
 }
@@ -65,7 +68,7 @@ void Entity::RegisterAmbientLight(AmbientLight* i_ambient)
 	Ambient = i_ambient;
 }
 
-void Entity::RegisterAmbientLight(OwningPointer<AmbientLight> i_ambient)
+void Entity::RegisterAmbientLight(const OwningPointer<AmbientLight>& i_ambient)
 {
 	Ambient = i_ambient;
 }
@@ -75,7 +78,7 @@ void Entity::RegisterDirectionalLight(DirectionalLight* i_directional)
 	Directional = i_directional;
 }
 
-void Entity::RegisterDirectionalLight(OwningPointer<DirectionalLight> i_directional)
+void Entity::RegisterDirectionalLight(const OwningPointer<DirectionalLight>& i_directional)
 {
 	Directional = i_directional;
 }
@@ -87,7 +90,7 @@ void Entity::RegisterPointLight(PointLight* i_point)
 	PointLightList.push_back(light_handler);
 }
 
-void Entity::RegisterPointLight(OwningPointer<PointLight> i_point)
+void Entity::RegisterPointLight(const OwningPointer<PointLight>& i_point)
 {
 	PointLightList.push_back(i_point);
 }
@@ -99,7 +102,7 @@ void Entity::RegisterMeshComponent(MeshComponent * i_component)
 	MeshComponentList.push_back(mesh_handler);
 }
 
-void Entity::RegisterMeshComponent(OwningPointer<MeshComponent> i_component)
+void Entity::RegisterMeshComponent(const OwningPointer<MeshComponent>& i_component)
 {
 	MeshComponentList.push_back(i_component);
 }
@@ -111,7 +114,7 @@ void Entity::RegisterEffectComponent(EffectComponent* i_component)
 	EffectComponentList.push_back(effect_handler);
 }
 
-void Entity::RegisterEffectComponent(OwningPointer<EffectComponent> i_component)
+void Entity::RegisterEffectComponent(const OwningPointer<EffectComponent>& i_component)
 {
 	EffectComponentList.push_back(i_component);
 }
@@ -121,14 +124,14 @@ void Entity::Boot()
 	// Check if ambient light exist in a scene, if not create one
 	if (!Entity::Ambient)
 	{
-		Entity::Ambient = new AmbientLight();
+		Entity::Ambient = ObjectFactory<AmbientLight>::Create();
 		Entity::Ambient->intensity = Vec3f(0, 0, 0);
 	}
 
 	// Check if directional light exist in a scene, if not create one
 	if (!Entity::Directional)
 	{
-		Entity::Directional = new DirectionalLight();
+		Entity::Directional = ObjectFactory<DirectionalLight>::Create();
 		Entity::Directional->intensity = Vec3f(0, 0, 0);
 		Entity::Directional->direction = Vec3f(0, -1, 0);
 	}
@@ -136,9 +139,7 @@ void Entity::Boot()
 	// Check if point light exist in a scene, if not create one
 	if (Entity::PointLightList.size() == 0)
 	{
-		PointLight* pointlight = new PointLight();
-		OwningPointer<PointLight> light_handler;
-		light_handler = pointlight;
+		OwningPointer<PointLight> light_handler = ObjectFactory<PointLight>::Create();
 		PointLightList.push_back(light_handler);
 	}
 

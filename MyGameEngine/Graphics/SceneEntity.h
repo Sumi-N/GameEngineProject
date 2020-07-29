@@ -20,7 +20,7 @@ inline void SceneEntity::Init()
 		SceneProxy* proxy = new SceneProxy();
 		SceneEntity::SkyBoxProxy = proxy;
 
-		SkyBoxProxy->mesh   = Entity::Skybox->mesh;
+		SkyBoxProxy->mesh = Entity::Skybox->mesh;
 		SkyBoxProxy->Init();
 
 		RenderState* state = new RenderState();

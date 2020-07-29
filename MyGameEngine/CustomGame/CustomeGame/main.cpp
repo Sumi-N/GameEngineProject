@@ -30,9 +30,11 @@
 int main()
 {
 	MEMORY_LEAK_DETECTION
-	//_CrtSetBreakAlloc(185);
-	//_CrtSetBreakAlloc(182);
-	//_CrtSetBreakAlloc(179);
+	//_CrtSetBreakAlloc(180);
+	//_CrtSetBreakAlloc(178);
+	//_CrtSetBreakAlloc(191);
+	//_CrtSetBreakAlloc(283);
+	//_CrtSetBreakAlloc(2017);
 
 	// Setting up camera
 	Entity::RegisterCamera(ObjectFactory<MyCamera>::Create());

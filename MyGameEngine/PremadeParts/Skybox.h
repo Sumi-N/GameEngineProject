@@ -28,8 +28,7 @@ inline void SkyBox::Boot()
 	};
 
 	effect = ObjectFactory<EffectComponent>::Create();
-	OwningPointer<Object> handler = Entity::Query(this).p;
-	effect->owner = handler;
+	effect->owner = Entity::Skybox;
 	effect->RegisterShaderPath(shaderpaths);
 	effect->SetTexture(texture);
 }

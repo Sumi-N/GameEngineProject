@@ -94,7 +94,7 @@ public:
 			if (ref != nullptr)
 			{
 				ref->OwnerReferences--;
-				if (ref->ObserverReferences == 0 && ref->OwnerReferences == 0)
+				if (ref->OwnerReferences == 0)
 				{
 					delete ref;
 					delete data;
@@ -118,7 +118,7 @@ public:
 			if (ref != nullptr)
 			{
 				ref->OwnerReferences--;
-				if (ref->ObserverReferences == 0 && ref->OwnerReferences == 0)
+				if (ref->OwnerReferences == 0)
 				{
 					delete ref;
 					delete data;
@@ -134,10 +134,10 @@ public:
 	// Assignment Operator - Reassigns an existing Owning Pointer from an existing Observing Pointer
 	OwningPointer& operator=(const ObservingPointer<T>& i_other)
 	{
-		if (ref = nullptr)
+		if (ref)
 		{
 			ref->OwnerReferences--;
-			if (ref->ObserverReferences == 0 && ref->OwnerReferences == 0)
+			if (ref->OwnerReferences == 0)
 			{
 				delete ref;
 				delete data;
@@ -153,11 +153,19 @@ public:
 	template<class U>
 	OwningPointer& operator=(const ObservingPointer<U>& i_other)
 	{
-		if (ref = nullptr)
+		if (ref)
+		{
 			ref->OwnerReferences--;
+			if (ref->OwnerReferences == 0)
+			{
+				delete ref;
+				delete data;
+			}
+		}
 		ref = i_other.ref;
 		data = i_other.data;
 		ref->OwnerReferences++;
+		return *this;
 	};
 
 	// Assignment Operator - null specific
@@ -175,8 +183,17 @@ public:
 	// BasePtr = new Base();
 	OwningPointer& operator=(T* i_ptr)
 	{
-		data = i_ptr;
+		if (ref)
+		{
+			ref->OwnerReferences--;
+			if (ref->OwnerReferences == 0)
+			{
+				delete ref;
+				delete data;
+			}
+		}
 		ref = new ReferenceCounters(1, 0);
+		data = i_ptr;
 		return *this;
 	};
 
@@ -189,13 +206,10 @@ public:
 			ref->OwnerReferences--;
 			if (ref->OwnerReferences == 0)
 			{
-				if (ref->ObserverReferences == 0)
-				{
-					delete ref;
-					delete data;
-					ref = nullptr;
-					data = nullptr;
-				}
+				delete ref;
+				delete data;
+				ref = nullptr;
+				data = nullptr;
 			}
 		}
 	};
@@ -392,21 +406,18 @@ public:
 		if (ref)
 		{
 			ref->ObserverReferences--;
-			if (ref->ObserverReferences == 0)
+			if (ref->OwnerReferences == 0)
 			{
-				if (ref->OwnerReferences == 0)
-				{
-					delete ref;
-					delete data;
-					ref = nullptr;
-					data = nullptr;
-				}
+				delete ref;
+				delete data;
+				ref = nullptr;
+				data = nullptr;
 			}
 		}
 	};
 
 	// Assignment operators
-	ObservingPointer& operator=(const ObservingPointer& i_other)
+	ObservingPointer& operator=(const ObservingPointer<T>& i_other)
 	{
 		if (this == &i_other)
 		{
@@ -417,7 +428,7 @@ public:
 			if (ref != nullptr)
 			{
 				ref->ObserverReferences--;
-				if (ref->OwnerReferences == 0 && ref->ObserverReferences == 0)
+				if (ref->OwnerReferences == 0)
 				{
 					delete ref;
 					delete data;
@@ -442,7 +453,7 @@ public:
 			if (ref != nullptr)
 			{
 				ref->ObserverReferences--;
-				if (ref->OwnerReferences == 0 && ref->ObserverReferences == 0)
+				if (ref->OwnerReferences == 0)
 				{
 					delete ref;
 					delete data;
@@ -459,7 +470,14 @@ public:
 	inline ObservingPointer& operator=(const OwningPointer<U>& i_other)
 	{
 		if (ref != nullptr)
+		{
 			ref->ObserverReferences--;
+			if (ref->OwnerReferences == 0)
+			{
+				delete ref;
+				delete data;
+			}
+		}
 		ref = i_other.ref;
 		data = i_other.data;
 		ref->ObserverReferences++;
@@ -471,7 +489,7 @@ public:
 		if (ref != nullptr)
 		{
 			ref->ObserverReferences--;
-			if (ref->OwnerReferences == 0 && ref->ObserverReferences == 0)
+			if (ref->OwnerReferences == 0)
 			{
 				delete ref;
 				delete data;
@@ -482,7 +500,7 @@ public:
 		return *this;
 	};
 
-	// Create an Owning Pointer from this Observering Pointer
+	// Create an Owning Pointer from this Observing Pointer
 	inline OwningPointer<T> AcquireOwnership()
 	{
 		OwningPointer<T> tmp = OwningPointer<T>();

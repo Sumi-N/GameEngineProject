@@ -9,6 +9,7 @@ class CubeMap : public Object
 {
 public:
 	CubeMap(): mesh(nullptr), effect(nullptr){}
+	virtual ~CubeMap(){}
 	virtual void Boot() override;
 	OwningPointer<MeshComponent> mesh;
 	OwningPointer<EffectComponent> effect;

@@ -9,6 +9,7 @@ class Object
 public:
 
 	Object();
+	virtual ~Object(){};
 
 	Vec3f pos, scale, rot;
 	Vec3f vel, acc;
