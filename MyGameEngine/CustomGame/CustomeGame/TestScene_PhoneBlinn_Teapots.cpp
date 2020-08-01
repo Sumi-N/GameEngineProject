@@ -1,5 +1,6 @@
 #include "TestScenes.h"
 
+#include <PremadeParts/TexturedQuad.h>
 #include "Teapot.h"
 #include "MyCamera.h"
 #include "MyPointLight.h"
@@ -55,41 +56,41 @@ void TestScene::PhoneBlinn_Teapots()
 	teapot6->rot = Vec3f(-90, 0, 0);
 	teapot6->scale = Vec3f(0.5, 0.5, 0.5);
 
-	//OwningPointer<TexturedQuad> frontwall = ObjectFactory<TexturedQuad>::Create();
-	//Entity::Register(frontwall);
-	//frontwall->pos = Vec3f(0, 0, -40);
-	//frontwall->rot = Vec3f(0, 0, 0);
-	//frontwall->scale = Vec3f(50.0f, 50.0f, 50.0f);
+	OwningPointer<TexturedQuad> frontwall = ObjectFactory<TexturedQuad>::Create();
+	Entity::Register(frontwall);
+	frontwall->pos = Vec3f(0, 0, -40);
+	frontwall->rot = Vec3f(0, 0, 0);
+	frontwall->scale = Vec3f(50.0f, 50.0f, 50.0f);
 
-	//OwningPointer<TexturedQuad> backwall = ObjectFactory<TexturedQuad>::Create();
-	//Entity::Register(backwall);
-	//backwall->pos = Vec3f(0, 0, 40);
-	//backwall->rot = Vec3f(0, 180, 0);
-	//backwall->scale = Vec3f(50.0f, 50.0f, 50.0f);
+	OwningPointer<TexturedQuad> backwall = ObjectFactory<TexturedQuad>::Create();
+	Entity::Register(backwall);
+	backwall->pos = Vec3f(0, 0, 40);
+	backwall->rot = Vec3f(0, 180, 0);
+	backwall->scale = Vec3f(50.0f, 50.0f, 50.0f);
 
-	//OwningPointer<TexturedQuad> leftwall = ObjectFactory<TexturedQuad>::Create();
-	//Entity::Register(leftwall);
-	//leftwall->pos = Vec3f(-40, 0, 0);
-	//leftwall->rot = Vec3f(0, 90, 0);
-	//leftwall->scale = Vec3f(50.0f, 50.0f, 50.0f);
+	OwningPointer<TexturedQuad> leftwall = ObjectFactory<TexturedQuad>::Create();
+	Entity::Register(leftwall);
+	leftwall->pos = Vec3f(-40, 0, 0);
+	leftwall->rot = Vec3f(0, 90, 0);
+	leftwall->scale = Vec3f(50.0f, 50.0f, 50.0f);
 
-	//OwningPointer<TexturedQuad> rightwall = ObjectFactory<TexturedQuad>::Create();
-	//Entity::Register(rightwall);
-	//rightwall->pos = Vec3f(40, 0, 0);
-	//rightwall->rot = Vec3f(0, -90, 0);
-	//rightwall->scale = Vec3f(50.0f, 50.0f, 50.0f);
+	OwningPointer<TexturedQuad> rightwall = ObjectFactory<TexturedQuad>::Create();
+	Entity::Register(rightwall);
+	rightwall->pos = Vec3f(40, 0, 0);
+	rightwall->rot = Vec3f(0, -90, 0);
+	rightwall->scale = Vec3f(50.0f, 50.0f, 50.0f);
 
-	//OwningPointer<TexturedQuad> topwall = ObjectFactory<TexturedQuad>::Create();
-	//Entity::Register(topwall);
-	//topwall->pos = Vec3f(0, 40, 0);
-	//topwall->rot = Vec3f(90, 0, 0);
-	//topwall->scale = Vec3f(50.0f, 50.0f, 50.0f);
+	OwningPointer<TexturedQuad> topwall = ObjectFactory<TexturedQuad>::Create();
+	Entity::Register(topwall);
+	topwall->pos = Vec3f(0, 40, 0);
+	topwall->rot = Vec3f(90, 0, 0);
+	topwall->scale = Vec3f(50.0f, 50.0f, 50.0f);
 
-	//OwningPointer<TexturedQuad> bottomwall = ObjectFactory<TexturedQuad>::Create();
-	//Entity::Register(bottomwall);
-	//bottomwall->pos = Vec3f(0, -40, 0);
-	//bottomwall->rot = Vec3f(-90, 0, 0);
-	//bottomwall->scale = Vec3f(50.0f, 50.0f, 50.0f);
+	OwningPointer<TexturedQuad> bottomwall = ObjectFactory<TexturedQuad>::Create();
+	Entity::Register(bottomwall);
+	bottomwall->pos = Vec3f(0, -40, 0);
+	bottomwall->rot = Vec3f(-90, 0, 0);
+	bottomwall->scale = Vec3f(50.0f, 50.0f, 50.0f);
 
 	//Setting up lights
 	OwningPointer<AmbientLight> ambientlight = ObjectFactory<AmbientLight>::Create();

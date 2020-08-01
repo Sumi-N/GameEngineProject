@@ -89,7 +89,7 @@ void TestScene::PBR_9Balls()
 	pointlight4->pos = Vec3f(-30.f, -30.f, -40.f);
 
 	Entity::RegisterPointLight(pointlight);
-	Entity::RegisterPointLight(pointlight2);
-	Entity::RegisterPointLight(pointlight3);
-	Entity::RegisterPointLight(pointlight4);
+	//Entity::RegisterPointLight(pointlight2);
+	//Entity::RegisterPointLight(pointlight3);
+	//Entity::RegisterPointLight(pointlight4);
 }
