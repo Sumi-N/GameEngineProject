@@ -18,11 +18,12 @@ inline void Teapot::Boot()
 
 	mesh->Load("../../Assets/models/teapot.obj");
 
-	TextureAttribute * teapottexture = new TextureAttribute();
+	OwningPointer<TextureAttribute> teapottexture = ObjectFactory<TextureAttribute>::Create();
+	OwningPointer<TextureAttribute> teapottexture2 = ObjectFactory<TextureAttribute>::Create();
+	OwningPointer<TextureAttribute> teapottexture3 = ObjectFactory<TextureAttribute>::Create();
+
 	teapottexture->Load("../../Assets/textures/albedo/brickwall.png", TextureType::PB_Diffuse);
-	TextureAttribute * teapottexture2 = new TextureAttribute();
 	teapottexture2->Load("../../Assets/textures/albedo/brickwall.png", TextureType::PB_Specular);
-	TextureAttribute* teapottexture3 = new TextureAttribute();
 	teapottexture3->Load("../../Assets/textures/normal/brickwall_normal.png", TextureType::PB_Normal);
 
 	const char* shaderpaths[] =
@@ -34,7 +35,7 @@ inline void Teapot::Boot()
 		PATH_SUFFIX SHADER_PATH BLINN_PHONG_FRAG,
 	};
 
-	EffectComponent* effect = new EffectComponent();
+	OwningPointer<EffectComponent> effect = ObjectFactory<EffectComponent>::Create();
 	effect->owner = Entity::Query(this).p;
 	effect->RegisterShaderPath(shaderpaths);
 	effect->SetTexture(teapottexture);

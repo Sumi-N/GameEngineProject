@@ -14,13 +14,14 @@ inline void OldSoiledClothSphere::Boot()
 {
 	Sphere::Boot();
 
-	TextureAttribute* albedo = new TextureAttribute();
+	OwningPointer<TextureAttribute> albedo = ObjectFactory<TextureAttribute>::Create();
+	OwningPointer<TextureAttribute> normal = ObjectFactory<TextureAttribute>::Create();
+	OwningPointer<TextureAttribute> roughness = ObjectFactory<TextureAttribute>::Create();
+	OwningPointer<TextureAttribute> metalic = ObjectFactory<TextureAttribute>::Create();
+
 	albedo->Load(PATH_SUFFIX TEXTURE_PATH "albedo/old-soiled-cloth1-albedo.png", TextureType::Albedo);
-	TextureAttribute* normal = new TextureAttribute();
 	normal->Load(PATH_SUFFIX TEXTURE_PATH "normal/old-soiled-cloth1-Normal-dx.png", TextureType::Normal);
-	TextureAttribute* roughness = new TextureAttribute();
 	roughness->Load(PATH_SUFFIX TEXTURE_PATH "roughness/old-soiled-cloth1-Roughness.png", TextureType::Roughness);
-	TextureAttribute* metalic = new TextureAttribute();
 	metalic->Load(PATH_SUFFIX TEXTURE_PATH "metallic/old-soiled-cloth1-Metallic.png", TextureType::Metalic);
 
 	const char* shaderpaths[] =
@@ -32,7 +33,7 @@ inline void OldSoiledClothSphere::Boot()
 		PATH_SUFFIX SHADER_PATH DISNEY_PBR_FRAG,
 	};
 
-	EffectComponent* effect = new EffectComponent();
+	OwningPointer<EffectComponent> effect = ObjectFactory<EffectComponent>::Create();
 	effect->owner = Entity::Query(this).p;
 	effect->RegisterShaderPath(shaderpaths);
 	effect->SetTexture(albedo);

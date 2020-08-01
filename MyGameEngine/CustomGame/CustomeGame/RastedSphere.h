@@ -13,13 +13,12 @@ public:
 
 inline void RastedSphere::Boot()
 {
-	RastedSphere();
 	Sphere::Boot();
 
-	OwningPointer<TextureAttribute> albedo = ObjectFactory<TextureAttribute>::Create();
-	OwningPointer<TextureAttribute> normal = ObjectFactory<TextureAttribute>::Create();
+	OwningPointer<TextureAttribute> albedo    = ObjectFactory<TextureAttribute>::Create();
+	OwningPointer<TextureAttribute> normal    = ObjectFactory<TextureAttribute>::Create();
 	OwningPointer<TextureAttribute> roughness = ObjectFactory<TextureAttribute>::Create();
-	OwningPointer<TextureAttribute> metalic = ObjectFactory<TextureAttribute>::Create();
+	OwningPointer<TextureAttribute> metalic   = ObjectFactory<TextureAttribute>::Create();
 
 	albedo->Load(PATH_SUFFIX TEXTURE_PATH RUSTED_IRON_ALBEDO, TextureType::Albedo);
 	normal->Load(PATH_SUFFIX TEXTURE_PATH RUSTED_IRON_NORMAL, TextureType::Normal);

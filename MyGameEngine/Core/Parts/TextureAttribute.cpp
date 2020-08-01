@@ -51,11 +51,11 @@ bool TextureAttribute::Load(char const* i_filename, TextureType i_type)
 
 	if (success)
 	{
-		DEBUG_PRINT("Succeed to load texture %s", i_filename);
+		DEBUG_PRINT("Succeed loading texture %s", i_filename);
 	}
 	else
 	{
-		DEBUG_PRINT("Failed to load texture %s", i_filename);
+		DEBUG_PRINT("Failed loading texture %s", i_filename);
 		DEBUG_ASSERT(false);
 	}
 

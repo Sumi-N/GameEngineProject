@@ -143,6 +143,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TestScene_Normal_Debug_Plane.cpp" />
+    <ClCompile Include="TestScene_PBR_9Balls.cpp" />
+    <ClCompile Include="TestScene_PBR_Red_Balls.cpp" />
+    <ClCompile Include="TestScene_PhoneBlinn_Lights.cpp" />
+    <ClCompile Include="TestScene_PhoneBlinn_Teapots.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Input\Input.vcxproj">
@@ -173,6 +178,7 @@
     <ClInclude Include="ScuffedGoldSphere.h" />
     <ClInclude Include="SpherePBR_Test.h" />
     <ClInclude Include="Teapot.h" />
+    <ClInclude Include="TestScenes.h" />
     <ClInclude Include="WarnPaintedCement.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

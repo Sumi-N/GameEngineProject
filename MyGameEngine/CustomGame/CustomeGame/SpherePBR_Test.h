@@ -31,7 +31,7 @@ inline void SpherePBR_Test::Boot()
 		PATH_SUFFIX SHADER_PATH DEBUG_PBR_BASIC_FRAG,
 	};
 
-	EffectComponent* effect = new EffectComponent();
+	OwningPointer<EffectComponent> effect = ObjectFactory<EffectComponent>::Create();
 	effect->owner = Entity::Query(this).p;
 	effect->RegisterShaderPath(shaderpaths);
 	Entity::RegisterEffectComponent(effect);

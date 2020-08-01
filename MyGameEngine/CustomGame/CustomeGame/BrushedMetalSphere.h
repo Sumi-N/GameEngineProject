@@ -14,13 +14,14 @@ inline void BrushedMetalSphere::Boot()
 {
 	Sphere::Boot();
 
-	TextureAttribute* albedo = new TextureAttribute();
+	OwningPointer<TextureAttribute> albedo = ObjectFactory<TextureAttribute>::Create();
+	OwningPointer<TextureAttribute> normal = ObjectFactory<TextureAttribute>::Create();
+	OwningPointer<TextureAttribute> roughness = ObjectFactory<TextureAttribute>::Create();
+	OwningPointer<TextureAttribute> metalic = ObjectFactory<TextureAttribute>::Create();
+
 	albedo->Load(PATH_SUFFIX TEXTURE_PATH "albedo/brushed-metal_albedo.png", TextureType::Albedo);
-	TextureAttribute* normal = new TextureAttribute();
 	normal->Load(PATH_SUFFIX TEXTURE_PATH "normal/brushed-metal_normal-dx.png", TextureType::Normal);
-	TextureAttribute* roughness = new TextureAttribute();
 	roughness->Load(PATH_SUFFIX TEXTURE_PATH "roughness/brushed-metal_roughness.png", TextureType::Roughness);
-	TextureAttribute* metalic = new TextureAttribute();
 	metalic->Load(PATH_SUFFIX TEXTURE_PATH "metallic/brushed-metal_metallic.png", TextureType::Metalic);
 
 	const char* shaderpaths[] =
@@ -32,7 +33,7 @@ inline void BrushedMetalSphere::Boot()
 		PATH_SUFFIX SHADER_PATH DISNEY_PBR_FRAG,
 	};
 
-	EffectComponent* effect = new EffectComponent();
+	OwningPointer<EffectComponent> effect = ObjectFactory<EffectComponent>::Create();
 	effect->owner = Entity::Query(this).p;
 	effect->RegisterShaderPath(shaderpaths);
 	effect->SetTexture(albedo);

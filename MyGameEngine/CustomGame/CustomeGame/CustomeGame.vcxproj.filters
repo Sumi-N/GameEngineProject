@@ -18,6 +18,21 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TestScene_PBR_9Balls.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene_PBR_Red_Balls.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene_PhoneBlinn_Teapots.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene_Normal_Debug_Plane.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene_PhoneBlinn_Lights.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Teapot.h">
@@ -64,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="MySkyBox.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScenes.h">
+      <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
