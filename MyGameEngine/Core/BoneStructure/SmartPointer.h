@@ -1,17 +1,17 @@
 #pragma once
 #include "Define.h"
 
-typedef uint64_t	ref_counter_t;
+typedef std::atomic<uint64_t>	ref_counter_t;
 
 struct ReferenceCounters
 {
 	ref_counter_t		OwnerReferences;
 	ref_counter_t		ObserverReferences;
 
-	ReferenceCounters(ref_counter_t i_InitialOwners, ref_counter_t i_InitialObservers) :
-		OwnerReferences(i_InitialOwners),
-		ObserverReferences(i_InitialObservers)
+	ReferenceCounters(ref_counter_t i_InitialOwners, ref_counter_t i_InitialObservers)
 	{
+		OwnerReferences.store(i_InitialOwners);
+		ObserverReferences.store(i_InitialObservers);
 	}
 };
 

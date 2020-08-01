@@ -7,21 +7,22 @@
 enum class TextureType : int8_t
 {
 	SkyBox = -1,
-	Ohter =  -1,
+	Ohter  = -1,
 
 	//////////////////////
 
-	Albedo = 0,
-	Normal = 1,
-	Roughness = 2,
-	Metalic   = 3,
+	Albedo           = 0,
+	Normal           = 1,
+	Roughness        = 2,
+	Metalic          = 3,
 	AmbientOcclusion = 4,
 
 	//////////////////////
-	PB_Diffuse  = 0,
-	PB_Specular = 1,
-	PB_Normal =2,
-	PB_Displacement = 3,
+
+	PB_Diffuse        = 0,
+	PB_Specular       = 1,
+	PB_Normal         = 2,
+	PB_Displacement   = 3,
 };
 
 class TextureAttribute : public Attribute

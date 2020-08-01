@@ -8,6 +8,7 @@ class RastedSphere : public Sphere
 public:
 	void Boot() override;
 	void Init() override;
+	void Update(float) override;
 };
 
 inline void RastedSphere::Boot()
@@ -47,4 +48,13 @@ inline void RastedSphere::Boot()
 inline void RastedSphere::Init()
 {
 	Sphere::Init();
+}
+
+inline void RastedSphere::Update(float i_dt)
+{
+	//int total = 0;
+	//for (int i = 0; i < 10000000; i++)
+	//{
+	//	total += i;
+	//}
 }

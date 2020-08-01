@@ -35,6 +35,9 @@ public:
 	void BindTextureUnit();
 	void RenderOnce();
 
+	static void RenderToQuad_OpenGL();
+	static void RenderToCube_OpenGL();
+
 	GLuint  bufferid = 0;
 	GLuint  renderbufferid = 0;
 

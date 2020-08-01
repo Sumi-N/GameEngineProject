@@ -26,15 +26,31 @@
 #include "BrushedMetalSphere.h"
 #include "OldSoiledClothSphere.h"
 
+float QueryPreciseTimeinAFrame(const Vec3f& start_position, const Vec3f& start_velocity, const Vec3f& up_vector, const Vec3f& hit_position, float accel, float current_time)
+{
+
+	Vec3f start_end_vec = hit_position - start_position;
+	float vertical_distance = start_end_vec.x * up_vector.x + start_end_vec.y * up_vector.y + start_end_vec.z * up_vector.z;
+	float vertical_velocity = start_velocity.x * up_vector.x + start_velocity.y * up_vector.y + start_velocity.z * up_vector.z;
+	float vertical_accel = accel;
+
+	if (vertical_accel == 0)
+	{
+		return vertical_distance / vertical_velocity;
+	}
+
+	float t1 = (-1 * vertical_velocity + Math::Sqrt(vertical_velocity * vertical_velocity + 2 * vertical_accel * vertical_distance)) / vertical_accel;
+	float t2 = (-1 * vertical_velocity - Math::Sqrt(vertical_velocity * vertical_velocity + 2 * vertical_accel * vertical_distance)) / vertical_accel;
+
+	return t1;
+}
+
 
 int main()
 {
+	QueryPreciseTimeinAFrame(Vec3f(0, 0, 0), Vec3f(0, 5, 10), Vec3f(0, 1, 0), Vec3f(0, 1.27, 5.0), -9.8, 0.0);
+
 	MEMORY_LEAK_DETECTION
-	//_CrtSetBreakAlloc(180);
-	//_CrtSetBreakAlloc(178);
-	//_CrtSetBreakAlloc(191);
-	//_CrtSetBreakAlloc(283);
-	//_CrtSetBreakAlloc(2017);
 
 	// Setting up camera
 	Entity::RegisterCamera(ObjectFactory<MyCamera>::Create());

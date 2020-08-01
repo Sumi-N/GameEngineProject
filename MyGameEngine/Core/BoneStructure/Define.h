@@ -3,3 +3,4 @@
 #include <Debug/Assert.h>
 
 #include <stdint.h>
+#include <atomic>

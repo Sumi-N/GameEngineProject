@@ -21,8 +21,8 @@ public:
 	InputState QueryKey(VirtualKey i_VKeyID);
 
 private:
-	float xpos, ypos;
-	float past_xpos, past_ypos;
+	float xpos = 0, ypos = 0;
+	float past_xpos = 0, past_ypos = 0;
 
 	std::unordered_map<VirtualKey, bool> state;
 	std::unordered_map<VirtualKey, bool> paststate;

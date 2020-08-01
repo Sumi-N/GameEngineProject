@@ -16,6 +16,7 @@ namespace ConstantData
 
 	struct Camera
 	{
+		Camera(): camera_position_vector(Vec3f()){}
 		Mat4f view_matrix;
 		Mat4f perspective_matrix;
 		Vec3f camera_position_vector; // Doesn't require padding 
@@ -57,6 +58,7 @@ namespace ConstantData
 
 	struct CubeMap
 	{
+		CubeMap(): position(Vec4f()){}
 		Mat4f view_perspective_matrix[6];
 		Vec4f position;
 		//Mat4f directional_view_perspective_matrix;
@@ -93,8 +95,8 @@ public:
 
 #ifdef  ENGINE_GRAPHIC_OPENGL
 	GLuint bufferid = 0;
-	GLuint index;
-	GLsizeiptr size;
+	GLuint index = 0;
+	GLsizeiptr size = 0;
 #endif // 
 
 	void Init(ConstantData::Index, ConstantData::Size);
