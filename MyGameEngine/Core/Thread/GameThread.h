@@ -13,7 +13,7 @@ public:
 	void CleanUp() override;
 	void Eject() override;
 
-	void PassDataTo(Thread *) override;
+	void WriteDataToOwningThread() override;
 };
 
 inline void GameThread::Boot()
@@ -32,18 +32,41 @@ inline void GameThread::Run()
 {
 	while (true)
 	{
-		UserInput.Populate();
-
-		Time::Update();
-		Entity::Update(static_cast<float>(Time::dt));
-
+		// Almost the same logic as the section below. see the comments below.
 		{
-			std::unique_lock<std::mutex> unique_lock_guard(Mutex_Render);
-			while (!b_render_ready)
-				Condition_Render.wait(unique_lock_guard);
+			std::lock_guard<std::mutex> lock_guard_game(Mutex_Game);
+
+			b_game_ready = false;
+
 			{
-				PassDataTo(&Thread_Render);
+				UserInput.Populate();
+				Time::Update();
+				Entity::Update(static_cast<float>(Time::dt));
 			}
+
+			b_game_ready = true;
+			Condition_Game.notify_one();
+		}
+
+		// Reading this comment section along with RenderThread.h is recommended
+		// The purpose for this section is to wait for the render thread to finish swapping data
+		{
+			// 2. unique_lock_guard_render will block the thread until b_render_ready become true
+			// The reason this is unique_lock is because this lock has to be released from the render thread 
+			std::unique_lock<std::mutex> unique_lock_guard_render(Mutex_Render);
+
+			// 5. Block the logic until the render thread finishing swapping
+			while (!b_render_ready)
+			{
+				Condition_Render.wait(unique_lock_guard_render);
+			}
+
+			{
+				WriteDataToOwningThread();
+			}
+
+			// 6. After finish writing the data, make b_render_ready true 
+			// So that the render thread wouldn't render the same scene more than one
 			b_render_ready = false;
 		}
 	}
@@ -59,16 +82,8 @@ inline void GameThread::Eject()
 
 }
 
-inline void GameThread::PassDataTo(Thread * io_thread)
+inline void GameThread::WriteDataToOwningThread()
 {
-	RenderThread * render_thread = static_cast<RenderThread*>(io_thread);
-
-	if(render_thread)
-	{
-		
-	}
-
-	
 	// Submit camera data
 	{
 		data_game_own->camera.camera_position_vector = Entity::CurrentCamera->pos;
@@ -108,7 +123,7 @@ inline void GameThread::PassDataTo(Thread * io_thread)
 	}
 
 	// Submit object data
-	// This need to be fixed
+	// TODO: This need to be fixed
 	{
 		for (auto it = SceneEntity::List.begin(); it != SceneEntity::List.end(); ++it)
 		{
@@ -127,8 +142,6 @@ inline void GameThread::PassDataTo(Thread * io_thread)
 			model.model_position_matrix          = (*it)->mesh->model_mat;
 			data_game_own->model_data.push_back(model);
 
-			// Submit shadow data
 		}
 	}
-
 }

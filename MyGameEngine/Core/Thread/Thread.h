@@ -21,6 +21,6 @@ public:
 	virtual void CleanUp(){};
 	virtual void Eject(){};
 
-	virtual void PassDataTo(Thread *){};
+	virtual void WriteDataToOwningThread(){};
 };
 

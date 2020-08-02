@@ -26,7 +26,7 @@ namespace System
 			Thread::b_render_ready = true;
 			Thread::Condition_Render.notify_one();
 		}
-		// Wait until both game and render thread's boot process
+		// Wait until both game and render thread finish boot process
 		{
 			std::unique_lock<std::mutex> unique_lock_guard(Thread::Mutex_Game);
 			while (!Thread::b_game_ready)
@@ -39,7 +39,7 @@ namespace System
 			Thread::b_render_ready = true;
 			Thread::Condition_Render.notify_one();
 		}
-		// Wait until both game and render thread's init process
+		// Wait until both game and render thread finish initializing
 		{
 			std::unique_lock<std::mutex> unique_lock_guard(Thread::Mutex_Game);
 			while (!Thread::b_game_ready)
@@ -57,7 +57,7 @@ namespace System
 			Thread::b_game_ready = true;
 			Thread::Condition_Game.notify_one();
 		}
-		// Wait until both game and render thread's boot process
+		// Wait until both game and render thread finish boot process
 		{
 			std::unique_lock<std::mutex> unique_lock_guard(Thread::Mutex_Render);
 			while (!Thread::b_render_ready)
@@ -70,7 +70,7 @@ namespace System
 			Thread::b_game_ready = true;
 			Thread::Condition_Game.notify_one();
 		}
-		// Wait until both game and render thread's init process
+		// Wait until both game and render thread finish initializing
 		{
 			std::unique_lock<std::mutex> unique_lock_guard(Thread::Mutex_Render);
 			while (!Thread::b_render_ready)

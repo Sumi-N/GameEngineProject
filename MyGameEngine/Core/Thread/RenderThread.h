@@ -12,7 +12,7 @@ public:
 	void Run() override;
 	void Refresh();
 	void CleanUp() override;
-	void PassDataTo(Thread *) override;
+	void WriteDataToOwningThread() override;
 };
 
 inline void RenderThread::Boot()
@@ -35,15 +35,30 @@ inline void RenderThread::Run()
 
 	while (brunning)
 	{
-		// Critical Section
+		// Almost the same logic as the section below. see the comments below.
 		{
-			std::lock_guard<std::mutex> lock_guard(Mutex_Render);
+			std::unique_lock<std::mutex> unique_lock_guard_game(Mutex_Game);
+
+			while (!b_game_ready)
+			{
+				Condition_Game.wait(unique_lock_guard_game);
+			}
+		}
+
+		// Reading this comment section along with GameThread.h is recommended
+		// The purpose for this section is to swap data between game thread and render thread while the game thread is waiting
+		{
+			// 1. The purpose for lock_guard_render is to not let the game thread to touch both the swapping data and b_render_ready variable
+			// Especially the game thread is constantly referencing b_render_ready variable so it is important to lock the variable when this thread make a change to it
+			std::lock_guard<std::mutex> lock_guard_render(Mutex_Render);
 
 			{
 				std::swap(data_game_own, data_render_own);
 			}
 
+			// 2. Make b_render_ready true so that go through while loop in the game thread 
 			b_render_ready = true;
+			// 3. Notify unique_lock_guard_render mutex to release the lock
 			Condition_Render.notify_one();
 		}
 
@@ -65,7 +80,7 @@ inline void RenderThread::CleanUp()
 	Graphic::CleanUp();
 }
 
-inline void RenderThread::PassDataTo(Thread * i_thread)
+inline void RenderThread::WriteDataToOwningThread()
 {
 
 }
