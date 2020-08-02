@@ -14,8 +14,8 @@ class Input
 public:
 	float X(){return xpos;}
 	float Y(){return ypos;}
-	float MouseVelocityX(){return xpos - past_xpos; }
-	float MouseVelocityY(){return ypos - past_ypos; }
+	float MouseVelocityX(float i_dt){return (xpos - past_xpos) / i_dt; }
+	float MouseVelocityY(float i_dt){return (ypos - past_ypos) / i_dt; }
 
 	void Init();
 	InputState QueryKey(VirtualKey i_VKeyID);

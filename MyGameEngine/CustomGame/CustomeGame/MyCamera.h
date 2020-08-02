@@ -50,25 +50,11 @@ inline void MyCamera::Update(float i_dt)
 
 	if (UserInput.QueryKey(VirtualKey::KEY_RIGHTBUTTON) == InputState::Pressing)
 	{
+		Vec2f mousevelocity = Vec2f(UserInput.MouseVelocityX(i_dt), UserInput.MouseVelocityY(i_dt));
+
 		Vec3f up = Vec3f(0, 1, 0);
-		Vec3f right = rightvec;
-
-		if (UserInput.MouseVelocityX() > 0)
-		{
-			RotateAround(1, up);
-		}
-		else if (UserInput.MouseVelocityX() < 0)
-		{
-			RotateAround(-1, up);
-		}
-
-		if (UserInput.MouseVelocityY() > 0)
-		{
-			RotateAround(1, right);
-		}
-		else if (UserInput.MouseVelocityY() < 0)
-		{
-			RotateAround(-1, right);
-		}
+		RotateAround(mousevelocity.x, up);
+		Vec3f right = GetRightVec();
+		RotateAround(mousevelocity.y, right);
 	}
 }

@@ -56,9 +56,9 @@ inline void RenderThread::Run()
 				std::swap(data_game_own, data_render_own);
 			}
 
-			// 2. Make b_render_ready true so that go through while loop in the game thread 
+			// 3. Make b_render_ready true so that go through while loop in the game thread 
 			b_render_ready = true;
-			// 3. Notify unique_lock_guard_render mutex to release the lock
+			// 4. Notify unique_lock_guard_render mutex to release the lock
 			Condition_Render.notify_one();
 		}
 

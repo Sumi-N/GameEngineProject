@@ -7,9 +7,6 @@ class Camera : public Object
 public:
 	Mat4f view, perspective, orthographics;
 	Mat4f view_perspective_mat;
-
-	Vec3f forwardvec, upvec, rightvec;
-
 public:
 
 	Camera()
@@ -25,6 +22,9 @@ public:
 		perspective   = Mat4f::Perspective(FOV, (float)SCREEN_WIDTH / SCREEN_HEIGHT, NEARCLIP, FARCLIP);
 		orthographics = Mat4f::Orthographic(-10.0f, 10.0f, -10.0f, 10.0f, NEARCLIP, FARCLIP);
 	}
+
+	Vec3f GetForwardVec(){return forwardvec; }
+	Vec3f GetRightVec(){return rightvec; }
 
 	void RotateAround(float amount, Vec3f& axis)
 	{
@@ -48,4 +48,7 @@ public:
 		view = Mat4f::LookAt(pos, pos + forwardvec, upvec);
 		view_perspective_mat = perspective * view;
 	}
+
+protected:
+	Vec3f forwardvec, upvec, rightvec;
 };
