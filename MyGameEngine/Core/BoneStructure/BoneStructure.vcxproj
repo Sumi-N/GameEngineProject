@@ -152,7 +152,7 @@
     <ProjectReference Include="..\..\Configuration\Configuration.vcxproj">
       <Project>{5a56dd68-b309-44ca-82eb-13614baeda69}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Debug\Debug.vcxproj">
+    <ProjectReference Include="..\Logging\Logging.vcxproj">
       <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>
     </ProjectReference>
   </ItemGroup>

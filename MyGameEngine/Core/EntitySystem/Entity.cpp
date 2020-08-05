@@ -4,7 +4,7 @@
 
 std::vector<ObjectHandler>                  Entity::ObjectList;
 
-OwningPointer<Camera>                       Entity::CurrentCamera;
+std::vector<OwningPointer<Camera>>          Entity::Cameras;
 
 OwningPointer<CubeMap>                      Entity::Skybox;
 
@@ -43,19 +43,9 @@ ObjectHandler Entity::Query(Object* i_obj)
 	return ObjectHandler(nullptr);
 }
 
-void Entity::RegisterCamera(Camera* i_camera)
-{
-	CurrentCamera = i_camera;
-}
-
 void Entity::RegisterCamera(const OwningPointer<Camera>& i_camera)
 {
-	CurrentCamera = i_camera;
-}
-
-void Entity::RegisterSkyBox(CubeMap* i_cubemap)
-{
-	Skybox = i_cubemap;
+	Cameras.push_back(i_camera);
 }
 
 void Entity::RegisterSkyBox(const OwningPointer<CubeMap>& i_cubemap)
@@ -63,19 +53,9 @@ void Entity::RegisterSkyBox(const OwningPointer<CubeMap>& i_cubemap)
 	Skybox = i_cubemap;
 }
 
-void Entity::RegisterAmbientLight(AmbientLight* i_ambient)
-{
-	Ambient = i_ambient;
-}
-
 void Entity::RegisterAmbientLight(const OwningPointer<AmbientLight>& i_ambient)
 {
 	Ambient = i_ambient;
-}
-
-void Entity::RegisterDirectionalLight(DirectionalLight* i_directional)
-{
-	Directional = i_directional;
 }
 
 void Entity::RegisterDirectionalLight(const OwningPointer<DirectionalLight>& i_directional)
@@ -83,35 +63,14 @@ void Entity::RegisterDirectionalLight(const OwningPointer<DirectionalLight>& i_d
 	Directional = i_directional;
 }
 
-void Entity::RegisterPointLight(PointLight* i_point)
-{
-	OwningPointer<PointLight> light_handler;
-	light_handler = i_point;
-	PointLightList.push_back(light_handler);
-}
-
 void Entity::RegisterPointLight(const OwningPointer<PointLight>& i_point)
 {
 	PointLightList.push_back(i_point);
 }
 
-void Entity::RegisterMeshComponent(MeshComponent * i_component)
-{
-	OwningPointer<MeshComponent> mesh_handler;
-	mesh_handler = i_component;
-	MeshComponentList.push_back(mesh_handler);
-}
-
 void Entity::RegisterMeshComponent(const OwningPointer<MeshComponent>& i_component)
 {
 	MeshComponentList.push_back(i_component);
-}
-
-void Entity::RegisterEffectComponent(EffectComponent* i_component)
-{
-	OwningPointer<EffectComponent> effect_handler;
-	effect_handler = i_component;
-	EffectComponentList.push_back(effect_handler);
 }
 
 void Entity::RegisterEffectComponent(const OwningPointer<EffectComponent>& i_component)
@@ -198,8 +157,11 @@ void Entity::Init()
 		(*it)->Init();
 	}
 
-	if (CurrentCamera)
-		CurrentCamera->Init();
+	// Init Cameras
+	for (auto it = Cameras.begin(); it != Cameras.end(); ++it)
+	{
+		(*it)->Init();
+	}
 }
 
 void Entity::Update(float i_dt)
@@ -230,9 +192,9 @@ void Entity::Update(float i_dt)
 		(*it)->Update(i_dt);
 	}
 
-	// Update Camera;
-	if(CurrentCamera)
-		CurrentCamera->Update(i_dt);
+	// Update the main camera;
+	if(Cameras[0])
+		Cameras[0]->Update(i_dt);
 }
 
 void Entity::CleanUp()
@@ -241,4 +203,9 @@ void Entity::CleanUp()
 	{
 		(*it).p->CleanUp();
 	}
+}
+
+void Entity::SwapCamera(size_t index1, size_t index2)
+{
+	std::swap(Cameras[index1], Cameras[index2]);
 }

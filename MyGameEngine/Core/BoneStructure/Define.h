@@ -1,6 +1,6 @@
 #pragma once
-#include <Debug/DebugLog.h>
-#include <Debug/Assert.h>
+#include <Logging/DebugLog.h>
+#include <Logging/Assert.h>
 
 #include <stdint.h>
 #include <atomic>

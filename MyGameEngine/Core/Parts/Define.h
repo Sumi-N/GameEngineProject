@@ -1,7 +1,7 @@
 #pragma once
 #include <Configuration/Configuration.h>
 #include <BoneStructure/SmartPointer.h>
-#include <Debug/Assert.h>
+#include <Logging/Assert.h>
 #include <Math/Vector.h>
 #include <Math/Matrix.h>
 

@@ -1,7 +1,7 @@
 #pragma once
 #include <Configuration/Configuration.h>
 
-#include <Debug/DebugLog.h>
+#include <Logging/DebugLog.h>
 #include <Math/Matrix.h>
 #include <Parts/Object.h>
 #include <Parts/MeshComponent.h>

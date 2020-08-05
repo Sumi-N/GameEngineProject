@@ -89,11 +89,23 @@ inline void GameThread::Eject()
 
 inline void GameThread::WriteDataToOwningThread()
 {
+	// Submit point data 
+	{
+		Debug::Ray ray;
+		ray.startpoint = Entity::Cameras[0]->pos;
+		ray.direction = 2 * (UserInput.X() / SCREEN_WIDTH - 0.5f) * Entity::Cameras[0]->GetRightVec() 
+			          - 2 * (UserInput.Y() / SCREEN_HEIGHT - 0.5) * Entity::Cameras[0]->GetUpVec() 
+			          + Entity::Cameras[0]->GetForwardVec();
+		ray.GetEndPoint();
+		data_game_own->points[0] = ray.startpoint + 0.1 * Entity::Cameras[0]->GetForwardVec();
+		data_game_own->points[1] = ray.endpoint;
+	}
+
 	// Submit camera data
 	{
-		data_game_own->camera.camera_position_vector = Entity::CurrentCamera->pos;
-		data_game_own->camera.perspective_matrix     = Entity::CurrentCamera->perspective;
-		data_game_own->camera.view_matrix            = Entity::CurrentCamera->view;
+		data_game_own->camera.camera_position_vector = Entity::Cameras[0]->pos;
+		data_game_own->camera.perspective_matrix     = Entity::Cameras[0]->perspective;
+		data_game_own->camera.view_matrix            = Entity::Cameras[0]->view;
 	}
 
 	// Submit lights data

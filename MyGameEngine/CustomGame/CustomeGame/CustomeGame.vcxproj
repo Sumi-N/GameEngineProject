@@ -148,6 +148,7 @@
     <ClCompile Include="TestScene_PBR_Red_Balls.cpp" />
     <ClCompile Include="TestScene_PhoneBlinn_Lights.cpp" />
     <ClCompile Include="TestScene_PhoneBlinn_Teapots.cpp" />
+    <ClCompile Include="TestScene_Two_Cameras.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Input\Input.vcxproj">

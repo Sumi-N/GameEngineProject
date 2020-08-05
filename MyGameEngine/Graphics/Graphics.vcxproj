@@ -191,11 +191,11 @@
     <ProjectReference Include="..\Core\BoneStructure\BoneStructure.vcxproj">
       <Project>{4de6446c-e0a9-4b48-9d06-821a246ef395}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Core\Debug\Debug.vcxproj">
-      <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Core\EntitySystem\EntitySystem.vcxproj">
       <Project>{8d7d6eb2-5151-4527-934b-d775d58f0994}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Logging\Logging.vcxproj">
+      <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Core\Math\Math.vcxproj">
       <Project>{c8572e70-1b3f-469b-bb92-96dd46c72504}</Project>

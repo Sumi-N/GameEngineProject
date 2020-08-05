@@ -24,7 +24,8 @@ public:
 	}
 
 	Vec3f GetForwardVec(){return forwardvec; }
-	Vec3f GetRightVec(){return rightvec; }
+	Vec3f GetRightVec()  {return rightvec; }
+	Vec3f GetUpVec()     {return upvec; }
 
 	void RotateAround(float amount, Vec3f& axis)
 	{

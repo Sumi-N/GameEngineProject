@@ -18,6 +18,11 @@ inline void MyCamera::Update(float i_dt)
 {
 	Camera::Update(i_dt);
 
+	if (UserInput.QueryKey(VirtualKey::KEY_SPACE) == InputState::Released)
+	{
+		Entity::SwapCamera(0, 1);
+	}
+
 	if (UserInput.QueryKey(VirtualKey::KEY_W) == InputState::Pressing)
 	{
 		MoveCamera(0.01f, forwardvec);

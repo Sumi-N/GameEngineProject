@@ -16,8 +16,8 @@ class Entity
 public:
 	// Object list
 	static std::vector<ObjectHandler> ObjectList;
-	// Camera
-	static OwningPointer<Camera> CurrentCamera;
+	// Cameras, the current camera is always the 0 index
+	static std::vector<OwningPointer<Camera>> Cameras;
 	// Sky box
 	static OwningPointer<CubeMap> Skybox;
 	// Lights 
@@ -33,29 +33,23 @@ public:
 	static void Register(const OwningPointer<Object>&);
 	static ObjectHandler Query(Object*);
 
-	static void RegisterCamera(Camera *);
 	static void RegisterCamera(const OwningPointer<Camera>&);
 
-	static void RegisterSkyBox(CubeMap*);
 	static void RegisterSkyBox(const OwningPointer<CubeMap>&);
 
-	static void RegisterAmbientLight(AmbientLight*);
 	static void RegisterAmbientLight(const OwningPointer<AmbientLight>&);
 
-	static void RegisterDirectionalLight(DirectionalLight*);
 	static void RegisterDirectionalLight(const OwningPointer<DirectionalLight>&);
 
-	static void RegisterPointLight(PointLight*);
 	static void RegisterPointLight(const OwningPointer<PointLight>&);
 
-	static void RegisterMeshComponent(MeshComponent*);
 	static void RegisterMeshComponent(const OwningPointer<MeshComponent>&);
 
-	static void RegisterEffectComponent(EffectComponent*);
 	static void RegisterEffectComponent(const OwningPointer<EffectComponent>&);
 
 	static void Boot();
 	static void Init();
 	static void Update(float i_dt);
 	static void CleanUp();
+	static void SwapCamera(size_t, size_t);
 };

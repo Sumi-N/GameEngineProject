@@ -15,7 +15,8 @@ struct GraphicRequiredData
 	ConstantData::Light  light;
 	ConstantData::CubeMap shadow[MAX_POINT_LIGHT_NUM];
 
-	bool requireprecompute = false;
+	// The data requires for draw arbitrary line
+	Vec3f points[2];
 };
 
 class Graphic

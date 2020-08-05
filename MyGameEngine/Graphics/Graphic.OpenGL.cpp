@@ -135,24 +135,6 @@ bool Graphic::PreUpdate()
 
 void Graphic::Update(GraphicRequiredData * i_data)
 {
-	// If require pre-computation
-	// Temporary solution
-	if (i_data->requireprecompute)
-	{
-		// Init sky-box cube map
-		if (Entity::Skybox)
-		{
-			OwningPointer<RenderState> state = ObjectFactory<RenderState>::Create();
-			state->InitShader(Entity::Skybox->effect->shaderpaths);
-			state->InitTexture(Entity::Skybox->effect->textures[0]);
-
-			SceneEntity::SkyBoxProxy->ReplaceRenderState(state, 0);
-		}
-
-		PreCompute();
-		i_data->requireprecompute = false;
-	}
-
 	// Update uniform data common for frame
 	// Submit Camera Information
 	auto& data_camera = i_data->camera;
@@ -222,6 +204,8 @@ void Graphic::Update(GraphicRequiredData * i_data)
 		}
 
 		DrawPrimitive::DebugDraw();
+		//Draw a line mainly for the purpose for debug
+		DrawPrimitive::DrawLineWithShader(i_data->points[0], i_data->points[1]);
 
 		//Rendering sky box
 		if (SceneEntity::SkyBoxProxy)

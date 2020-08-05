@@ -33,6 +33,9 @@
     <ClCompile Include="TestScene_PhoneBlinn_Lights.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="TestScene_Two_Cameras.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Teapot.h">

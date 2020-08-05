@@ -169,7 +169,7 @@
     <ProjectReference Include="..\BoneStructure\BoneStructure.vcxproj">
       <Project>{4de6446c-e0a9-4b48-9d06-821a246ef395}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Debug\Debug.vcxproj">
+    <ProjectReference Include="..\Logging\Logging.vcxproj">
       <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Math\Math.vcxproj">
