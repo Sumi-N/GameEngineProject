@@ -21,9 +21,6 @@
     <ClInclude Include="Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EntityTemplate.h">
       <Filter>Header Files</Filter>
     </ClInclude>

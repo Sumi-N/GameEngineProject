@@ -7,7 +7,6 @@
 #include <Parts/MeshComponent.h>
 #include <Parts/TextureAttribute.h>
 #include <BoneStructure/SmartPointer.h>
-#include <EntitySystem/ObjectFactory.h>
 #include <EntitySystem/Entity.h>
 
 // For reading shader data in shader class

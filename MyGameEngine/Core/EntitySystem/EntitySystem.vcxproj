@@ -145,7 +145,6 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityTemplate.h" />
-    <ClInclude Include="ObjectFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp" />

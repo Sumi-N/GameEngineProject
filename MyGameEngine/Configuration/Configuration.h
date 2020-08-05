@@ -55,6 +55,7 @@
 #define FILENAME_CUBEMAP "cubemap.obj"
 #define FILENAME_QUAD    "quad.obj"
 #define FILENAME_SPHERE  "sphere.obj"
+#define FILENAME_CAMERA  "camera.obj"
 
 //////////////////////////////
 // Texture Data

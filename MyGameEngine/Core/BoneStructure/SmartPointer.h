@@ -33,6 +33,15 @@ private:
 	T* data;
 
 public:
+
+	static OwningPointer<T>& Create(OwningPointer<T>& i_pointer)
+	{
+		DEBUG_ASSERT(i_pointer == nullptr);
+		T * obj = new T();
+		i_pointer = obj;
+		return i_pointer;
+	}
+
 	// Default Constructor
 	OwningPointer() : ref(nullptr), data(nullptr)
 	{
@@ -48,7 +57,9 @@ public:
 	// Copy Constructor
 	OwningPointer(const OwningPointer& i_other) : data(i_other.data), ref(i_other.ref)
 	{
-		i_other.ref->OwnerReferences++;
+		// If the owning pointer didn't reference itself then increment reference
+		if(&i_other != this)
+			i_other.ref->OwnerReferences++;
 	};
 
 	// Copy Constructor between polymorphic types
@@ -406,13 +417,6 @@ public:
 		if (ref)
 		{
 			ref->ObserverReferences--;
-			if (ref->OwnerReferences == 0)
-			{
-				delete ref;
-				delete data;
-				ref = nullptr;
-				data = nullptr;
-			}
 		}
 	};
 

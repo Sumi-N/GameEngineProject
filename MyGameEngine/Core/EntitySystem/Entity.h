@@ -29,7 +29,6 @@ public:
 	static std::vector<OwningPointer<EffectComponent>> EffectComponentList;
 
 
-	static void Register(Object *);
 	static void Register(const OwningPointer<Object>&);
 	static ObjectHandler Query(Object*);
 

@@ -10,16 +10,18 @@
 void TestScene::Normal_Debug_Plane()
 {
 	// Setting up camera
-	Entity::RegisterCamera(ObjectFactory<MyCamera>::Create());
+	OwningPointer<MyCamera> mycamera = OwningPointer<MyCamera>::Create(mycamera);
+	Entity::RegisterCamera(mycamera);
 
 	// Setting up skybox
-	Entity::RegisterSkyBox(ObjectFactory<MySkyBox>::Create());
+	OwningPointer<MySkyBox> myskybox = OwningPointer<MySkyBox>::Create(myskybox);
+	Entity::RegisterSkyBox(myskybox);
 
 	// Setting up quad3
-	OwningPointer<NormalMapDebugPlane> normalplane = ObjectFactory<NormalMapDebugPlane>::Create();
+	OwningPointer<NormalMapDebugPlane> normalplane = OwningPointer<NormalMapDebugPlane>::Create(normalplane);
 	Entity::Register(normalplane);
 
-	OwningPointer<MyPointLight> pointlight = ObjectFactory<MyPointLight>::Create();
+	OwningPointer<MyPointLight> pointlight = OwningPointer<MyPointLight>::Create(pointlight);
 	pointlight->intensity = Vec3f(25.0f, 25.0f, 25.0f);
 	pointlight->pos = Vec3f(0.f, 0.f, -40.f);
 

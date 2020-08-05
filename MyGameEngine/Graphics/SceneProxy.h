@@ -30,7 +30,7 @@ public:
 protected:
 
 	DrawType originaltype = DrawType::TRIANGLE;
-	DrawType drawtype;
+	DrawType drawtype     = DrawType::TRIANGLE;
 
 	void InitBuffer();
 	void InitMeshData();

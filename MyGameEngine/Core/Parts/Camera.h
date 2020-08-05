@@ -1,6 +1,8 @@
 #pragma once
 #include "Define.h"
 #include "Object.h"
+#include "MeshComponent.h"
+#include "EffectComponent.h"
 
 class Camera : public Object 
 {
@@ -27,29 +29,75 @@ public:
 	Vec3f GetRightVec()  {return rightvec; }
 	Vec3f GetUpVec()     {return upvec; }
 
-	void RotateAround(float amount, Vec3f& axis)
-	{
+	void Boot() override;
+	void Init() override;
+	void Update(float) override;
 
-		forwardvec = forwardvec.Rotate(axis, amount);
-		upvec = upvec.Rotate(axis, amount);
-
-		rightvec = Vec3f::Normalize(forwardvec.Cross(upvec));
-	}
-
-	void MoveCamera(float amount, Vec3f& dir)
-	{
-		vel = amount * dir;
-	}
-
-	void Update(float dt)
-	{
-		pos += (float)dt * vel;
-		vel = Vec3f(0, 0, 0);
-
-		view = Mat4f::LookAt(pos, pos + forwardvec, upvec);
-		view_perspective_mat = perspective * view;
-	}
+	void MoveCamera(float, Vec3f&);
+	void RotateAround(float, Vec3f&);
 
 protected:
 	Vec3f forwardvec, upvec, rightvec;
+
+private:
+	OwningPointer<MeshComponent> mesh;
+	OwningPointer<EffectComponent> effect;
 };
+
+inline void Camera::Boot()
+{
+	Object::Boot();
+
+	//mesh = ObjectFactory<MeshComponent>::Create();
+	//OwningPointer<MeshComponent>::Create(mesh);
+	//mesh->Load(PATH_SUFFIX MESH_PATH FILENAME_SPHERE);
+	//OwningPointer<MaterialAttribute> material;
+	//material = ObjectFactory<MaterialAttribute>::Create();
+	//mesh->SetMaterial(material);
+	//mesh->owner = Entity::Query(this).p;
+	//Entity::RegisterMeshComponent(mesh);
+
+	const char* shaderpaths[] =
+	{
+		PATH_SUFFIX SHADER_PATH DISNEY_PBR_VERT,
+		nullptr,
+		nullptr,
+		nullptr,
+		PATH_SUFFIX SHADER_PATH DISNEY_PBR_FRAG,
+	};
+
+	//effect = ObjectFactory<EffectComponent>::Create();
+	//OwningPointer<MeshComponent>::Create(effect);
+	//effect->owner = Entity::Query(this).p;
+	//effect->RegisterShaderPath(shaderpaths);
+}
+
+inline void Camera::Init()
+{
+	Object::Init();
+}
+
+inline void Camera::Update(float i_dt)
+{
+	Object::Update(i_dt);
+
+	pos += (float)i_dt * vel;
+	vel = Vec3f(0, 0, 0);
+
+	view = Mat4f::LookAt(pos, pos + forwardvec, upvec);
+	view_perspective_mat = perspective * view;
+}
+
+inline void Camera::MoveCamera(float amount, Vec3f& dir)
+{
+	vel = amount * dir;
+}
+
+inline void Camera::RotateAround(float amount, Vec3f& axis)
+{
+
+	forwardvec = forwardvec.Rotate(axis, amount);
+	upvec = upvec.Rotate(axis, amount);
+
+	rightvec = Vec3f::Normalize(forwardvec.Cross(upvec));
+}

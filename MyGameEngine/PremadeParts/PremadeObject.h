@@ -18,9 +18,9 @@ inline void PremadeObjebct::Boot()
 {
 	Object::Boot();
 
-	mesh = ObjectFactory<MeshComponent>::Create();
+	mesh = OwningPointer<MeshComponent>::Create(mesh);
 	OwningPointer<MaterialAttribute> material;
-	material = ObjectFactory<MaterialAttribute>::Create();
+	material = OwningPointer<MaterialAttribute>::Create(material);
 	mesh->SetMaterial(material);
 	mesh->owner = Entity::Query(this).p;
 	Entity::RegisterMeshComponent(mesh);

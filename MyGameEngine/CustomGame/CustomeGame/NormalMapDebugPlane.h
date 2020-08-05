@@ -11,10 +11,10 @@ inline void NormalMapDebugPlane::Boot()
 {
 	Quad::Boot();
 
-	OwningPointer<TextureAttribute> quadtexture = ObjectFactory<TextureAttribute>::Create();
-	OwningPointer<TextureAttribute> quadtexture2 = ObjectFactory<TextureAttribute>::Create();
-	OwningPointer<TextureAttribute> quadtexture3 = ObjectFactory<TextureAttribute>::Create();
-	OwningPointer<TextureAttribute> quadtexture4 = ObjectFactory<TextureAttribute>::Create();
+	OwningPointer<TextureAttribute> quadtexture = OwningPointer<TextureAttribute>::Create(quadtexture);
+	OwningPointer<TextureAttribute> quadtexture2 = OwningPointer<TextureAttribute>::Create(quadtexture2);
+	OwningPointer<TextureAttribute> quadtexture3 = OwningPointer<TextureAttribute>::Create(quadtexture3);
+	OwningPointer<TextureAttribute> quadtexture4 = OwningPointer<TextureAttribute>::Create(quadtexture4);
 
 	quadtexture->Load("../../Assets/textures/albedo/gray.png", TextureType::PB_Diffuse);
 	quadtexture2->Load("../../Assets/textures/albedo/gray.png", TextureType::PB_Specular);

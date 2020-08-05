@@ -30,7 +30,7 @@ inline void TexturedQuad::Boot()
 	TextureAttribute* texture2 = new TextureAttribute();
 	texture2->Load("../../Assets/textures/albedo/brickwall.png", TextureType::PB_Specular);
 
-	OwningPointer<EffectComponent> effect = ObjectFactory<EffectComponent>::Create();
+	OwningPointer<EffectComponent> effect = OwningPointer<EffectComponent>::Create(effect);
 	effect->owner = Entity::Query(this).p;
 	effect->RegisterShaderPath(shaderpaths);
 	effect->SetTexture(texture);

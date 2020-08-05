@@ -11,11 +11,11 @@ inline void SkyBox::Boot()
 {
 	CubeMap::Boot();
 
-	mesh = ObjectFactory<MeshComponent>::Create();
+	OwningPointer<MeshComponent>::Create(mesh);
 	mesh->Load(PATH_SUFFIX MESH_PATH FILENAME_CUBEMAP);
 
 
-	OwningPointer<TextureAttribute> texture = ObjectFactory<TextureAttribute>::Create();
+	OwningPointer<TextureAttribute> texture = OwningPointer<TextureAttribute>::Create(texture);
 	texture->Load(PATH_SUFFIX TEXTURE_PATH SKYBOX_HDR_PINTREE, TextureType::SkyBox);
 
 	const char* shaderpaths[] =
@@ -27,7 +27,7 @@ inline void SkyBox::Boot()
 		PATH_SUFFIX SHADER_PATH SKYBOX_FRAG,
 	};
 
-	effect = ObjectFactory<EffectComponent>::Create();
+	OwningPointer<EffectComponent>::Create(effect);
 	effect->owner = Entity::Skybox;
 	effect->RegisterShaderPath(shaderpaths);
 	effect->SetTexture(texture);

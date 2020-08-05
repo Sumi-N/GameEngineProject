@@ -10,7 +10,6 @@
 #include <Parts/MaterialAttribute.h>
 
 #include <EntitySystem/Entity.h>
-#include <EntitySystem/ObjectFactory.h>
 #include <Graphics/SceneEntity.h>
 
 

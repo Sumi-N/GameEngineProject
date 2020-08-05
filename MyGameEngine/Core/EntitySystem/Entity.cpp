@@ -1,6 +1,5 @@
 #pragma  once
 #include "Entity.h"
-#include "ObjectFactory.h"
 
 std::vector<ObjectHandler>                  Entity::ObjectList;
 
@@ -15,11 +14,6 @@ OwningPointer<DirectionalLight>             Entity::Directional;
 std::vector<OwningPointer<MeshComponent>>   Entity::MeshComponentList;
 std::vector<OwningPointer<EffectComponent>> Entity::EffectComponentList;
 
-void Entity::Register(Object * i_obj)
-{
-	ObjectHandler objhandler(i_obj);
-	ObjectList.push_back(objhandler);
-}
 
 void Entity::Register(const OwningPointer<Object>& i_obj)
 {
@@ -83,14 +77,14 @@ void Entity::Boot()
 	// Check if ambient light exist in a scene, if not create one
 	if (!Entity::Ambient)
 	{
-		Entity::Ambient = ObjectFactory<AmbientLight>::Create();
+		Entity::Ambient = OwningPointer<AmbientLight>::Create(Ambient);
 		Entity::Ambient->intensity = Vec3f(0, 0, 0);
 	}
 
 	// Check if directional light exist in a scene, if not create one
 	if (!Entity::Directional)
 	{
-		Entity::Directional = ObjectFactory<DirectionalLight>::Create();
+		Entity::Directional = OwningPointer<DirectionalLight>::Create(Directional);
 		Entity::Directional->intensity = Vec3f(0, 0, 0);
 		Entity::Directional->direction = Vec3f(0, -1, 0);
 	}
@@ -98,7 +92,7 @@ void Entity::Boot()
 	// Check if point light exist in a scene, if not create one
 	if (Entity::PointLightList.size() == 0)
 	{
-		OwningPointer<PointLight> light_handler = ObjectFactory<PointLight>::Create();
+		OwningPointer<PointLight> light_handler = OwningPointer<PointLight>::Create(light_handler);
 		PointLightList.push_back(light_handler);
 	}
 
