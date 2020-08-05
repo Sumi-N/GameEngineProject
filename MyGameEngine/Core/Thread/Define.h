@@ -14,3 +14,4 @@ extern GraphicRequiredData* data_game_own;
 extern GraphicRequiredData* data_render_own;
 
 extern Input UserInput;
+extern HWND WindowsHanlder;

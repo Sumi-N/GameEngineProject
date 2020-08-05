@@ -44,7 +44,6 @@ namespace System
 			std::unique_lock<std::mutex> unique_lock_guard(Thread::Mutex_Game);
 			while (!Thread::b_game_ready)
 				Thread::Condition_Game.wait(unique_lock_guard);
-			Thread::b_game_ready = false;
 		}
 	}
 

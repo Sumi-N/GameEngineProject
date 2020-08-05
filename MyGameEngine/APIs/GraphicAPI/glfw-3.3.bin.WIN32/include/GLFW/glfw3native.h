@@ -124,7 +124,6 @@ extern "C" {
 /*************************************************************************
  * Functions
  *************************************************************************/
-
 #if defined(GLFW_EXPOSE_NATIVE_WIN32)
 /*! @brief Returns the adapter device name of the specified monitor.
  *

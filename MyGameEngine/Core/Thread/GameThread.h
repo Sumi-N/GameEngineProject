@@ -26,6 +26,11 @@ inline void GameThread::Init()
 	Time::Init();
 	Entity::Init();
 	UserInput.Init();
+
+#ifdef ENGINE_PLATFORM_WINDOWS
+	UserInput.InitForWindows(WindowsHanlder);
+#endif // ENGINE_PLATFORM_WINDOWS
+
 }
 
 inline void GameThread::Run()

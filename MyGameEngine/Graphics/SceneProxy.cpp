@@ -22,3 +22,11 @@ void SceneProxy::CleanUp()
 {
 
 }
+
+void SceneProxy::CheckDrawType(Shader i_shader)
+{
+	if (i_shader.HasTessellationShader())
+		drawtype = DrawType::PATCHES;
+	else
+		drawtype = originaltype;
+}

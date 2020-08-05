@@ -46,6 +46,9 @@
     <ClInclude Include="RenderState.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="DrawPrimitives.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConstantBuffer.OpenGL.cpp">
@@ -80,6 +83,9 @@
     </ClCompile>
     <ClCompile Include="FrameBuffer.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawPrimitives.OpenGL.cpp">
+      <Filter>OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

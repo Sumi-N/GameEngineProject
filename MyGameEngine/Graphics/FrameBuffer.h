@@ -1,6 +1,7 @@
 #pragma once
 #include "Define.h"
 #include "Shader.h"
+#include "DrawPrimitives.h"
 
 // The number of enum also represents the texture unit number
 enum class FrameType : uint8_t
@@ -25,18 +26,12 @@ public:
 	int       unit_number = -1;
 	int       width = 0, height = 0;
 
-	static void RenderToQuad();
-	static void RenderToCube();
-
 #ifdef ENGINE_GRAPHIC_OPENGL
 
 	void Init(FrameType i_type, int i_unitnum, int i_width, int i_height);
 	void BindFrame();
 	void BindTextureUnit();
 	void RenderOnce();
-
-	static void RenderToQuad_OpenGL();
-	static void RenderToCube_OpenGL();
 
 	GLuint  bufferid = 0;
 	GLuint  renderbufferid = 0;

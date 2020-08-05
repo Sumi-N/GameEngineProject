@@ -3,6 +3,15 @@
 #include "Define.h"
 #include "RenderState.h"
 
+enum class DrawType : unsigned int
+{
+#ifdef ENGINE_GRAPHIC_OPENGL
+	LINE     = GL_LINE,
+	TRIANGLE = GL_TRIANGLES,
+	PATCHES  = GL_PATCHES,
+#endif // ENGINE_GRAPHIC_OPENGL
+};
+
 class SceneProxy
 {
 
@@ -12,7 +21,7 @@ public:
 	void AddRenderState(OwningPointer<RenderState>);
 	void ReplaceRenderState(OwningPointer<RenderState>, int);
 	void Draw();
-	void DrawMesh();
+	void DrawMeshOnly();
 	void CleanUp();	
 
 	OwningPointer<MeshComponent> mesh;
@@ -20,10 +29,12 @@ public:
 
 protected:
 
-	DrawType drawtype = DrawType::TRIANGLE;
+	DrawType originaltype = DrawType::TRIANGLE;
+	DrawType drawtype;
 
 	void InitBuffer();
 	void InitMeshData();
+	void CheckDrawType(Shader i_shader);
 	void SetDrawType(DrawType i_drawtype){drawtype = i_drawtype;};
 	void CleanUpBuffer();
 

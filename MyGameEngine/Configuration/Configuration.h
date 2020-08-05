@@ -144,6 +144,9 @@
 #define DEBUG_VIEW_VERT "debug_purpose/debug_viewdirection.vert.glsl"
 #define DEBUG_VIEW_FRAG "debug_purpose/debug_viewdirection.frag.glsl"
 
+#define DEBUG_LINE_VERT "debug_purpose/debug_line.vert.glsl"
+#define DEBUG_LINE_FRAG "debug_purpose/debug_line.frag.glsl"
+
 #define DEBUG_LIGHT_DIRECTION_VERT "debug_purpose/debug_lightdirection.vert.glsl"
 #define DEBUG_LIGHT_DIRECTION_FRAG "debug_purpose/debug_lightdirection.frag.glsl"
 

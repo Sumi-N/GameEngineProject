@@ -6,6 +6,10 @@
 #include <vector>
 #include <utility>
 
+#ifdef ENGINE_PLATFORM_WINDOWS
+#include <Windows.h>
+#endif
+
 enum class VirtualKey : uint8_t
 {
 	KEY_LEFTBUTTON = 0x01,

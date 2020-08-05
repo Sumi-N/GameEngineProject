@@ -10,7 +10,6 @@ public:
 	void Boot() override;
 	void Init() override;
 	void Run() override;
-	void Refresh();
 	void CleanUp() override;
 	void WriteDataToOwningThread() override;
 };
@@ -18,6 +17,7 @@ public:
 inline void RenderThread::Boot()
 {
 	Graphic::Boot();
+	WindowsHanlder = Graphic::GetWindowsHandler();
 }
 
 inline void RenderThread::Init()
@@ -25,7 +25,6 @@ inline void RenderThread::Init()
 	// Init scene entity
 	SceneEntity::Init();
 	Graphic::Init();
-
 	Graphic::PreCompute();
 }
 
@@ -56,7 +55,7 @@ inline void RenderThread::Run()
 				std::swap(data_game_own, data_render_own);
 			}
 
-			// 3. Make b_render_ready true so that go through while loop in the game thread 
+			// 3. Make b_render_ready true so that it goes through while loop in the game thread 
 			b_render_ready = true;
 			// 4. Notify unique_lock_guard_render mutex to release the lock
 			Condition_Render.notify_one();

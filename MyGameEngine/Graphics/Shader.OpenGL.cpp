@@ -61,14 +61,10 @@ void Shader::BindShader()
 	glUseProgram(programid);
 }
 
-DrawType Shader::CheckDrawType()
+bool Shader::HasTessellationShader()
 {
 	// Check if the data required to draw in patches or not
-	if (controlpath && evalpath)
-	{
-		return DrawType::PATCHES;
-	}
-	return DrawType::TRIANGLE;
+	return (controlpath && evalpath) ? true : false;
 }
 
 void Shader::LoadShader(Shader& io_shader, const char* i_vert, const char* i_frag)

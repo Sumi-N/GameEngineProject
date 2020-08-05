@@ -31,12 +31,14 @@ private:
 #ifdef ENGINE_PLATFORM_WINDOWS
 
 public:
+	void InitForWindows(HWND);
 	bool IsKeyPressed(VirtualKey);
 	bool IsKeyReleased(VirtualKey);
 	void Populate();
 
 #endif // ENGINE_PLATFORM_WINDOWS
-
+private:
+	HWND window_hanlder;
 };
 
 

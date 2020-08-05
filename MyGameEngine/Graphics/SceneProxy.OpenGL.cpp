@@ -9,7 +9,7 @@ void SceneProxy::Draw()
 	{ 
 		states[i]->BindShaderState();
 
-		SetDrawType(states[i]->shader.CheckDrawType());
+		CheckDrawType(states[i]->shader);
 		glBindVertexArray(vertexarrayid);
 		glDrawElements(static_cast<unsigned int>(drawtype), indexsize, GL_UNSIGNED_INT, (void*)0);
 
@@ -17,7 +17,9 @@ void SceneProxy::Draw()
 	}
 }
 
-void SceneProxy::DrawMesh()
+// This function will only call draw element without bind any shader.
+// If shader is already binded, it will better call this.
+void SceneProxy::DrawMeshOnly()
 {
 	glBindVertexArray(vertexarrayid);
 	glDrawElements(static_cast<unsigned int>(drawtype), indexsize, GL_UNSIGNED_INT, (void*)0);

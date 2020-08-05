@@ -4,6 +4,7 @@
 #include "SceneEntity.h"
 #include "ConstantBuffer.h"
 #include "FrameBuffer.h"
+#include "DrawPrimitives.h"
 
 // The data container data requires for render thread 
 struct GraphicRequiredData
@@ -31,6 +32,10 @@ public:
 #ifdef  ENGINE_GRAPHIC_OPENGL
 	static GLFWwindow* window;
 #endif //  ENGINE_GRAPHIC_OPENGL
+
+#ifdef ENGINE_PLATFORM_WINDOWS
+	static HWND GetWindowsHandler();
+#endif // ENGINEPLATFORM_WINDOWS
 
 	// Constant buffer variable
 	static ConstantBuffer constant_camera;
@@ -69,4 +74,8 @@ inline void Graphic::Init()
 	frame_specular.Init(FrameType::Specular, SPECULAR_BINDING_UNIT, 128, 128);
 	frame_brdf.Init(FrameType::BRDF, BRDF_BINDING_UNIT, 512, 512);
 	//frame_mirror.Init(FrameType::Image, SCREEN_WIDTH, SCREEN_HEIGHT, -1);
+
+	// This class holds some of the basic geometry shapes (like cube line and quad) that will be used during the rendering 
+	DrawPrimitive::Init();
+	DrawPrimitive::DebugInit();
 }

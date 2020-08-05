@@ -58,6 +58,11 @@ void Graphic::Boot()
 	glPatchParameteri(GL_PATCH_VERTICES, 3);
 }
 
+HWND Graphic::GetWindowsHandler()
+{
+	return glfwGetWin32Window(window);
+}
+
 void Graphic::PreCompute()
 {
 	// Create uniform date for 6 cube map directions
@@ -176,7 +181,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 					auto& data_model = i_data->model_data[j];
 					constant_model.Update(&data_model);
 
-					SceneEntity::List[j]->DrawMesh();
+					SceneEntity::List[j]->DrawMeshOnly();
 				}
 			}
 		}
@@ -211,8 +216,12 @@ void Graphic::Update(GraphicRequiredData * i_data)
 				// Bind brdf look up texture
 				frame_brdf.BindTextureUnit();
 				SceneEntity::List[i]->Draw();
+
+				DrawPrimitive::DebugDraw();
 			}
 		}
+
+		DrawPrimitive::DebugDraw();
 
 		//Rendering sky box
 		if (SceneEntity::SkyBoxProxy)

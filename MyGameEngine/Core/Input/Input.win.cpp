@@ -3,8 +3,10 @@
 
 #ifdef ENGINE_PLATFORM_WINDOWS
 
-#include <Windows.h>
-
+void Input::InitForWindows(HWND i_handler)
+{
+	window_hanlder = i_handler;
+}
 
 bool Input::IsKeyPressed(VirtualKey i_keyCode)
 {
@@ -24,19 +26,18 @@ bool Input::IsKeyReleased(VirtualKey i_keyCode)
 
 void Input::Populate()
 {
+	if (window_hanlder != GetForegroundWindow())
+	{
+		return;
+	}
+
 	POINT mouse;
 	GetCursorPos(&mouse);
+	ScreenToClient(window_hanlder, &mouse);
 
-	if (mouse.x != -1 && mouse.y != -1)
-	{
-		past_xpos = xpos; past_ypos = ypos;
-		xpos = static_cast<float>(mouse.x); 
-		ypos = static_cast<float>(mouse.y);
-	}
-	else
-	{
-		past_xpos = xpos; past_ypos = ypos;
-	}
+	past_xpos = xpos; past_ypos = ypos;
+	xpos = static_cast<float>(mouse.x);
+	ypos = static_cast<float>(mouse.y);
 
 	for(size_t i = 0; i < 256; i++)
 	{

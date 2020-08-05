@@ -1,61 +1,48 @@
 #pragma once
 #include "Define.h"
 
-enum class DrawType : unsigned int
-{
-#ifdef ENGINE_GRAPHIC_OPENGL
-	TRIANGLE = GL_TRIANGLES,
-	PATCHES = GL_PATCHES,
-#endif // ENGINE_GRAPHIC_OPENGL
-};
-
 class Shader 
 {
 public:
-	Shader() 
-	{
-		vertpath    = nullptr;
-		controlpath = nullptr;
-		evalpath    = nullptr;
-		geopath     = nullptr;
-		fragpath    = nullptr;
-	};
+	Shader() :
+		vertpath    (nullptr),
+		controlpath (nullptr),
+		evalpath    (nullptr),
+		geopath     (nullptr),
+		fragpath    (nullptr)
+		{}
 
-	Shader(const char* i_vert, const char* i_frag)
-	{
-		vertpath    = i_vert;
-		controlpath = nullptr;
-		evalpath    = nullptr;
-		geopath     = nullptr;;
-		fragpath    = i_frag;
-	}
+	Shader(const char* i_vert, const char* i_frag) :
+		vertpath    (i_vert),
+		controlpath (nullptr),
+		evalpath    (nullptr),
+		geopath     (nullptr),
+		fragpath    (i_frag)
+	{}
 
-	Shader(const char* i_vert, const char* i_geo, const char* i_frag)
-	{
-		vertpath    = i_vert;
-		controlpath = nullptr;
-		evalpath    = nullptr;
-		geopath     = i_geo;
-		fragpath    = i_frag;
-	}
+	Shader(const char* i_vert, const char* i_geo, const char* i_frag) :
+		vertpath    (i_vert),
+		controlpath (nullptr),
+		evalpath    (nullptr),
+		geopath     (i_geo),
+		fragpath    (i_frag)
+	{}
 
-	Shader(const char* i_vert, const char* i_control, const char* i_eval, const char* i_frag)
-	{
-		vertpath    = i_vert;
-		controlpath = i_control;
-		evalpath    = i_eval;
-		geopath     = nullptr;
-		fragpath    = i_frag;
-	}
+	Shader(const char* i_vert, const char* i_control, const char* i_eval, const char* i_frag) :
+		vertpath    (i_vert),
+		controlpath (i_control),
+		evalpath    (i_eval),
+		geopath     (nullptr),
+		fragpath    (i_frag)
+	{}
 
-	Shader(const char* i_vert, const char* i_control, const char * i_eval, const char* i_geo, const char* i_frag)
-	{
-		vertpath    = i_vert;
-		controlpath = i_control;
-		evalpath    = i_eval;
-		geopath     = i_geo;
-		fragpath    = i_frag;
-	}
+	Shader(const char* i_vert, const char* i_control, const char * i_eval, const char* i_geo, const char* i_frag) :
+		vertpath    (i_vert),
+		controlpath (i_control),
+		evalpath    (i_eval),
+		geopath     (i_geo),
+		fragpath    (i_frag)
+	{}
 
 	void SetShader(const char* i_vert, const char* i_frag);
 	void SetShader(const char* i_vert, const char* i_geo, const char* i_frag);
@@ -63,7 +50,7 @@ public:
 	void SetShader(const char* i_vert, const char* i_control, const char* i_eval, const char* i_geo, const char* i_frag);
 	void LoadShader();
 	void BindShader();
-	DrawType CheckDrawType();
+	bool HasTessellationShader();
 
 private:
 	const char* vertpath;
