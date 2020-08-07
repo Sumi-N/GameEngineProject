@@ -142,15 +142,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Define.cpp" />
-    <ClCompile Include="Thread.cpp" />
+    <ClCompile Include="ThreadManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h" />
-    <ClInclude Include="EntryPoint.h" />
-    <ClInclude Include="GameThread.h" />
-    <ClInclude Include="RenderThread.h" />
     <ClInclude Include="Thread.h" />
+    <ClInclude Include="ThreadManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Graphics\Graphics.vcxproj">

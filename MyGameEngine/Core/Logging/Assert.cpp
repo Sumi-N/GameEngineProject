@@ -1,7 +1,5 @@
 #include "Assert.h"
 
-#include <cstdarg>
-#include <cstdio>
 
 bool DEBUG::AssertionCheck(const unsigned int i_linenumber, const char* const i_file, const char* const i_message, bool& i_ignorethisinthefuture, ...)
 {

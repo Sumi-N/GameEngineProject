@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Define.h"
-#include "Thread.h"
 #include "RenderThread.h"
 
 class GameThread : public Thread
@@ -9,11 +8,13 @@ class GameThread : public Thread
 public:
 	void Boot() override;
 	void Init() override;
-	void Run() override;
+	void CriticalSection() override;
+	void NonCriticalSection() override;
+	void CriticalSectionOther() override;
+	void FollowupSection() override;
 	void CleanUp() override;
-	void Eject() override;
 
-	void WriteDataToOwningThread() override;
+	void WriteDataToOwningThread();
 };
 
 inline void GameThread::Boot()
@@ -33,56 +34,75 @@ inline void GameThread::Init()
 
 }
 
-inline void GameThread::Run()
+inline void GameThread::CriticalSection()
 {
-	while (true)
-	{
-		// Almost the same logic as the section below. see the comments below.
-		{
-			std::lock_guard<std::mutex> lock_guard_game(Mutex_Game);
-
-			b_game_ready = false;
-
-			{
-				UserInput.Populate();
-				Time::Update();
-				Entity::Update(static_cast<float>(Time::dt));
-			}
-
-			b_game_ready = true;
-			Condition_Game.notify_one();
-		}
-
-		// Reading this comment section along with RenderThread.h is recommended
-		// The purpose for this section is to wait for the render thread to finish swapping data
-		{
-			// 2. unique_lock_guard_render will block the thread until b_render_ready become true
-			// The reason this is unique_lock is because this lock has to be released from the render thread 
-			std::unique_lock<std::mutex> unique_lock_guard_render(Mutex_Render);
-
-			// 5. Block the logic until the render thread finishing swapping
-			while (!b_render_ready)
-			{
-				Condition_Render.wait(unique_lock_guard_render);
-			}
-
-			{
-				WriteDataToOwningThread();
-			}
-
-			// 6. After finish writing the data, make b_render_ready true 
-			// So that the render thread wouldn't render the same scene more than one
-			b_render_ready = false;
-		}
-	}
+	bready = false;
+	UserInput.Populate();
+	Time::Update();
+	Entity::Update(static_cast<float>(Time::dt));
+	bready = true;
 }
+
+inline void GameThread::NonCriticalSection()
+{
+
+}
+
+inline void GameThread::CriticalSectionOther()
+{
+	WriteDataToOwningThread();
+}
+
+inline void GameThread::FollowupSection()
+{
+	*ThreadManager::b_thread_ready[ThreadManager::GetOtherThreadID(thread_id)] = false;
+}
+
+//inline void GameThread::Run()
+//{
+//	while (true)
+//	{
+//		// Almost the same logic as the section below. see the comments below.
+//		{
+//			std::lock_guard<std::mutex> lock_guard_game(Mutex_Game);
+//
+//			b_game_ready = false;
+//
+//			{
+//				UserInput.Populate();
+//				Time::Update();
+//				Entity::Update(static_cast<float>(Time::dt));
+//			}
+//
+//			b_game_ready = true;
+//			Condition_Game.notify_one();
+//		}
+//
+//		// Reading this comment section along with RenderThread.h is recommended
+//		// The purpose for this section is to wait for the render thread to finish swapping data
+//		{
+//			// 2. unique_lock_guard_render will block the thread until b_render_ready become true
+//			// The reason this is unique_lock is because this lock has to be released from the render thread 
+//			std::unique_lock<std::mutex> unique_lock_guard_render(Mutex_Render);
+//
+//			// 5. Block the logic until the render thread finishing swapping
+//			while (!b_render_ready)
+//			{
+//				Condition_Render.wait(unique_lock_guard_render);
+//			}
+//
+//			{
+//				WriteDataToOwningThread();
+//			}
+//
+//			// 6. After finish writing the data, make b_render_ready true 
+//			// So that the render thread wouldn't render the same scene more than one
+//			b_render_ready = false;
+//		}
+//	}
+//}
 
 inline void GameThread::CleanUp()
-{
-
-}
-
-inline void GameThread::Eject()
 {
 
 }

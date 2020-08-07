@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Core/Thread/EntryPoint.h>
+#include <Application/EntryPoint.h>
 #include <Logging/MemoryLeakDetection.h>
 
 #include "TestScenes.h"

@@ -19,7 +19,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Define.cpp">
+    <ClCompile Include="Empty.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

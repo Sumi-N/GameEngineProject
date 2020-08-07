@@ -2,7 +2,6 @@
 #include "Define.h"
 
 /////////////// Global variables
-#include "Thread.h"
 #include "GameThread.h"
 #include "RenderThread.h"
 

@@ -23,6 +23,7 @@
     <ProjectGuid>{4DE6446C-E0A9-4B48-9D06-821A246EF395}</ProjectGuid>
     <RootNamespace>BoneStructure</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>BoneStructure</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -146,15 +147,15 @@
     <ClInclude Include="SmartPointer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Define.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Configuration\Configuration.vcxproj">
       <Project>{5a56dd68-b309-44ca-82eb-13614baeda69}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Logging\Logging.vcxproj">
       <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Empty.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

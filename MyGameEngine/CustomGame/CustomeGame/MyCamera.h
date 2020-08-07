@@ -1,6 +1,7 @@
 #pragma once
 #include <Parts/Camera.h>
 #include <Thread/Define.h>
+#include <Application/Define.h>
 
 class MyCamera :public Camera
 {

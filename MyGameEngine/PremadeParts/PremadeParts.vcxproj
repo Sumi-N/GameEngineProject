@@ -154,9 +154,6 @@
     <ClCompile Include="Empty.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\EntitySystem\EntitySystem.vcxproj">
-      <Project>{8d7d6eb2-5151-4527-934b-d775d58f0994}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Core\Parts\Parts.vcxproj">
       <Project>{f0dcb746-4531-4351-9a6e-140c336a3c35}</Project>
     </ProjectReference>

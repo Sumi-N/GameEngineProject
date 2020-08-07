@@ -1,11 +1,5 @@
 #include "DebugLog.h"
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdarg.h>
-#include <string.h>
-#include <Windows.h>
-
 namespace DEBUG{
 
 	void ConsolePrint(const char *i_fmt, ...) {

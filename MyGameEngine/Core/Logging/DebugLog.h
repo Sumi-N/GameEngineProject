@@ -1,4 +1,5 @@
 #pragma once
+#include "Define.h"
 
 namespace DEBUG {
 	void ConsolePrint(const char *i_fmt, ...);
