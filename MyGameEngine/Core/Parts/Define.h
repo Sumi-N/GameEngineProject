@@ -1,6 +1,6 @@
 #pragma once
 #include <Configuration/Configuration.h>
-#include <BoneStructure/SmartPointer.h>
+#include <MemoryManagement/SmartPointer.h>
 #include <Logging/Assert.h>
 #include <Math/Vector.h>
 #include <Math/Matrix.h>

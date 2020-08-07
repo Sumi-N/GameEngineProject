@@ -7,7 +7,7 @@
 #include <Core/Parts/MeshComponent.h>
 #include <Core/Parts/EffectComponent.h>
 #include <Core/Parts/CubeMap.h>
-#include <Core/BoneStructure/SmartPointer.h>
+#include <Core/MemoryManagement/SmartPointer.h>
 #include <Core/Debug/DebugRay.h>
 
 #include <vector>
