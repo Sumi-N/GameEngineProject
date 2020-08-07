@@ -19,9 +19,9 @@
 	#pragma comment(lib, "opengl32.lib")
 
 	#include <APIs/GraphicAPI/glew-2.1.0/include/GL/glew.h>
-	#include <APIs/GraphicAPI/glfw-3.3.bin.WIN32/include/GLFW/glfw3.h>
+	#include <APIs/GraphicAPI/glfw-3.3.bin.WIN64/include/GLFW/glfw3.h>
 	#define GLFW_EXPOSE_NATIVE_WIN32
-	#include <APIs/GraphicAPI/glfw-3.3.bin.WIN32/include/GLFW/glfw3native.h>
+	#include <APIs/GraphicAPI/glfw-3.3.bin.WIN64/include/GLFW/glfw3native.h>
 
 
 #elif ENGINE_GRAPHIC_VULKAN

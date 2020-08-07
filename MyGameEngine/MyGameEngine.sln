@@ -60,6 +60,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Debug", "Core\Debug\Debug.v
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MessagingSystem", "Core\MessagingSystem\MessagingSystem.vcxproj", "{F7CF2FCB-B6C1-42E3-824F-B2559A8E8D13}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UserInterface", "UserInterface\UserInterface.vcxproj", "{2CA513AF-6A8A-47EA-8153-9944FFDB83AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -146,6 +148,10 @@ Global
 		{F7CF2FCB-B6C1-42E3-824F-B2559A8E8D13}.Debug|x64.Build.0 = Debug|x64
 		{F7CF2FCB-B6C1-42E3-824F-B2559A8E8D13}.Release|x64.ActiveCfg = Release|x64
 		{F7CF2FCB-B6C1-42E3-824F-B2559A8E8D13}.Release|x64.Build.0 = Release|x64
+		{2CA513AF-6A8A-47EA-8153-9944FFDB83AA}.Debug|x64.ActiveCfg = Debug|x64
+		{2CA513AF-6A8A-47EA-8153-9944FFDB83AA}.Debug|x64.Build.0 = Debug|x64
+		{2CA513AF-6A8A-47EA-8153-9944FFDB83AA}.Release|x64.ActiveCfg = Release|x64
+		{2CA513AF-6A8A-47EA-8153-9944FFDB83AA}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -171,6 +177,7 @@ Global
 		{A9B67582-B453-4236-BDAB-B2D210E321E5} = {7F897E50-4B61-4E37-B6BC-B6BE2EBE3F77}
 		{26BEE3B0-BB11-4FE0-8C7F-B655AA37EBAF} = {7F897E50-4B61-4E37-B6BC-B6BE2EBE3F77}
 		{F7CF2FCB-B6C1-42E3-824F-B2559A8E8D13} = {7F897E50-4B61-4E37-B6BC-B6BE2EBE3F77}
+		{2CA513AF-6A8A-47EA-8153-9944FFDB83AA} = {7F897E50-4B61-4E37-B6BC-B6BE2EBE3F77}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1B7CED8D-4054-4DBF-B591-A795C68F161F}
