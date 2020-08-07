@@ -21,8 +21,8 @@ void TestScene::Two_Cameras()
 	//Setting up teapot
 	OwningPointer<Teapot> teapot2 = OwningPointer<Teapot>::Create(teapot2);
 	Entity::Register(teapot2);
-	teapot2->pos = Vec3f(0, 0, -25);
-	teapot2->rot = Vec3f(-90, 0, 0);
+	teapot2->pos   = Vec3f(0, 0, -25);
+	teapot2->rot   = Vec3f(-90, 0, 0);
 	teapot2->scale = Vec3f(0.5, 0.5, 0.5);
 
 	//Setting up lights

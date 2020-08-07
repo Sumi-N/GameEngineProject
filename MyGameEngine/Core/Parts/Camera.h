@@ -48,26 +48,25 @@ inline void Camera::Boot()
 {
 	Object::Boot();
 
-	//mesh = ObjectFactory<MeshComponent>::Create();
+	//mesh = OwningPointer<MeshComponent>::Create(mesh);
 	//OwningPointer<MeshComponent>::Create(mesh);
 	//mesh->Load(PATH_SUFFIX MESH_PATH FILENAME_SPHERE);
 	//OwningPointer<MaterialAttribute> material;
-	//material = ObjectFactory<MaterialAttribute>::Create();
+	//material = OwningPointer<MaterialAttribute>::Create(material);
 	//mesh->SetMaterial(material);
 	//mesh->owner = Entity::Query(this).p;
 	//Entity::RegisterMeshComponent(mesh);
 
-	const char* shaderpaths[] =
-	{
-		PATH_SUFFIX SHADER_PATH DISNEY_PBR_VERT,
-		nullptr,
-		nullptr,
-		nullptr,
-		PATH_SUFFIX SHADER_PATH DISNEY_PBR_FRAG,
-	};
+	//const char* shaderpaths[] =
+	//{
+	//	PATH_SUFFIX SHADER_PATH DISNEY_PBR_VERT,
+	//	nullptr,
+	//	nullptr,
+	//	nullptr,
+	//	PATH_SUFFIX SHADER_PATH DISNEY_PBR_FRAG,
+	//};
 
-	//effect = ObjectFactory<EffectComponent>::Create();
-	//OwningPointer<MeshComponent>::Create(effect);
+	//effect = OwningPointer<EffectComponent>::Create(effect);
 	//effect->owner = Entity::Query(this).p;
 	//effect->RegisterShaderPath(shaderpaths);
 }

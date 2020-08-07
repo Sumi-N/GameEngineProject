@@ -19,12 +19,4 @@ public:
 			(*it)->Boot();
 		}
 	}
-
-	static OwningPointer<T> Create()
-	{
-		T* object = new T();
-		OwningPointer<T> pointer;
-		pointer = object;
-		return pointer;
-	}
 };

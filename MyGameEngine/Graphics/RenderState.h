@@ -7,7 +7,6 @@ constexpr std::pair<TextureType, int> TextureUnitList[] =
 	{TextureType::SkyBox, 2},
 	// For Bllin Shading
 
-
 	// For PBR 
 	{TextureType::Albedo, 10},
 	{TextureType::Normal, 11},

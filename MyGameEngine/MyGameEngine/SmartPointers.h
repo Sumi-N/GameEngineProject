@@ -1,8 +1,8 @@
 #pragma once
-//#include "DebugLog.h"
 
 #include <assert.h>
 #include <stdint.h>
+#include <Core/Logging/DebugLog.h>
 
 namespace Engine {
 
