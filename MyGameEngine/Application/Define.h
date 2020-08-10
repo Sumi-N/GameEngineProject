@@ -5,6 +5,8 @@
 #include <Core/Input/Input.h>
 #include <Core/Thread/Thread.h>
 
+#include <Logging/MemoryLeakDetection.h>
+
 #include <Graphics/Graphic.h>
 #include <Graphics/ConstantBuffer.h>
 

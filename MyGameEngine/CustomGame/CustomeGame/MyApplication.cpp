@@ -1,26 +1,33 @@
-#pragma once
-
+#include <Application/Application.h>
 #include <Application/EntryPoint.h>
-#include <Logging/MemoryLeakDetection.h>
-
 #include "TestScenes.h"
 
-int main()
-{
 
-	MEMORY_LEAK_DETECTION
+
+class MyApplication : public Application
+{
+public:
+	MyApplication();
+	~MyApplication(){};
+};
+
+inline MyApplication::MyApplication()
+{
 	//Entity::RegisterCamera(ObjectFactory<MyCamera>::Create());
 	//TestScene::PBR_9Balls();
 	//TestScene::PBR_Red_Balls();
 	//TestScene::PhoneBlinn_Teapots();
 	//TestScene::PhoneBlinn_Lights();
 	//TestScene::Normal_Debug_Plane();
+
 	TestScene::Two_Cameras();
 
-
 	System::Boot();
-
 	System::Start();
+}
 
-	return 0;
-};
+
+Application* Create()
+{
+	return new MyApplication();
+}

@@ -49,6 +49,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -87,6 +89,9 @@
     <ProjectReference Include="..\Core\Input\Input.vcxproj">
       <Project>{725cccc9-d908-4257-b0e5-54bebf75b3ef}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Core\Logging\Logging.vcxproj">
+      <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Thread\Thread.vcxproj">
       <Project>{561854be-4e26-474c-8f7a-879b19a4cf59}</Project>
     </ProjectReference>
@@ -101,6 +106,7 @@
     <ClCompile Include="Define.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="EntryPoint.h" />
     <ClInclude Include="GameThread.h" />

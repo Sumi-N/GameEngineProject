@@ -114,10 +114,10 @@ inline void GameThread::WriteDataToOwningThread()
 		Debug::Ray ray;
 		ray.startpoint = Entity::Cameras[0]->pos;
 		ray.direction = 2 * (UserInput.X() / SCREEN_WIDTH - 0.5f) * Entity::Cameras[0]->GetRightVec() 
-			          - 2 * (UserInput.Y() / SCREEN_HEIGHT - 0.5) * Entity::Cameras[0]->GetUpVec() 
+			          - 2 * (UserInput.Y() / SCREEN_HEIGHT - 0.5f) * Entity::Cameras[0]->GetUpVec() 
 			          + Entity::Cameras[0]->GetForwardVec();
 		ray.GetEndPoint();
-		data_game_own->points[0] = ray.startpoint + 0.1 * Entity::Cameras[0]->GetForwardVec();
+		data_game_own->points[0] = ray.startpoint + 0.1f * Entity::Cameras[0]->GetForwardVec();
 		data_game_own->points[1] = ray.endpoint;
 	}
 
