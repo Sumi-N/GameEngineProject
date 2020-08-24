@@ -1,10 +1,12 @@
 #pragma once
 
+#include "TextureAttribute.h"
+
 #ifndef STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
 #endif
 
-#include "TextureAttribute.h"
+#include <APIs/GraphicAPI/stb/stb_image.h>
 
 bool TextureAttribute::Load(char const* i_filename, TextureType i_type)
 {

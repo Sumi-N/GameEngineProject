@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Define.h"
+
 class Application
 {
 public:

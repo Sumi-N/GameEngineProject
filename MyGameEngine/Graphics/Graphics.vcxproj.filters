@@ -11,12 +11,12 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="Precompiled Header">
+      <UniqueIdentifier>{92ee4bca-e5b6-4a02-914e-7d33812fa6b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphic.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Define.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="ConstantBuffer.h">
@@ -48,6 +48,9 @@
     </ClInclude>
     <ClInclude Include="DrawPrimitives.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Define.h">
+      <Filter>Precompiled Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="DrawPrimitives.OpenGL.cpp">
       <Filter>OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Define.cpp">
+      <Filter>Precompiled Header</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

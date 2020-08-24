@@ -15,6 +15,9 @@
     <Filter Include="API">
       <UniqueIdentifier>{8a86fe9e-a587-421f-8fbd-145137128a18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Precompiled Header">
+      <UniqueIdentifier>{3650dac7-70fe-4eb6-b65a-f5c7df444de7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Object.h">
@@ -26,7 +29,6 @@
     <ClInclude Include="Light.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Define.h" />
     <ClInclude Include="MeshComponent.h">
       <Filter>Compontnes</Filter>
     </ClInclude>
@@ -54,6 +56,9 @@
     <ClInclude Include="CubeMap.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Define.h">
+      <Filter>Precompiled Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshComponent.cpp">
@@ -64,6 +69,9 @@
     </ClCompile>
     <ClCompile Include="TextureAttribute.cpp">
       <Filter>Attributes</Filter>
+    </ClCompile>
+    <ClCompile Include="Define.cpp">
+      <Filter>Precompiled Header</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

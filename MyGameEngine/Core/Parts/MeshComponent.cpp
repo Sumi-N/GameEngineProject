@@ -1,5 +1,4 @@
 #include "MeshComponent.h"
-#include "../APIs/GraphicAPI/cyCodeBase/cyTriMesh.h"
 
 void MeshComponent::Load(const char* filename)
 {

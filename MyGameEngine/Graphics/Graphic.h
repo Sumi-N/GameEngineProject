@@ -25,18 +25,10 @@ public:
 	static void Boot();
 	static void Init();
 	static void PreCompute();
-	static bool PreUpdate();
+	static void PreUpdate();
 	static void Update(GraphicRequiredData*);
 	static void PostUpdate(GraphicRequiredData*);
 	static void CleanUp();
-
-#ifdef  ENGINE_GRAPHIC_OPENGL
-	static GLFWwindow* window;
-#endif //  ENGINE_GRAPHIC_OPENGL
-
-#ifdef ENGINE_PLATFORM_WINDOWS
-	static HWND GetWindowsHandler();
-#endif // ENGINEPLATFORM_WINDOWS
 
 	// Constant buffer variable
 	static ConstantBuffer constant_camera;

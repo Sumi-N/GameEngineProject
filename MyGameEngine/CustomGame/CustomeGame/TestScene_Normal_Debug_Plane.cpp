@@ -1,3 +1,5 @@
+#pragma  once
+
 #include "TestScenes.h"
 
 #include "Teapot.h"

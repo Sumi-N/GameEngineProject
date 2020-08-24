@@ -9,11 +9,11 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="Precompiled Header">
+      <UniqueIdentifier>{e301a320-c365-47b8-9b38-79168f45d367}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Define.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Quad.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -32,10 +32,13 @@
     <ClInclude Include="Line.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Define.h">
+      <Filter>Precompiled Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Empty.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Define.cpp">
+      <Filter>Precompiled Header</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

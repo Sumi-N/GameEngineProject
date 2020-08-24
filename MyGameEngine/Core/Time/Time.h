@@ -2,10 +2,6 @@
 
 #include "Define.h"
 
-#ifdef  ENGINE_PLATFORM_WINDOWS
-#include <Windows.h>
-#endif
-
 class Time
 {
 public:

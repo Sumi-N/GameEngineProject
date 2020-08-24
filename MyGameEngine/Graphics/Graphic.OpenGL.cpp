@@ -3,37 +3,8 @@
 
 #ifdef  ENGINE_GRAPHIC_OPENGL
 
-GLFWwindow * Graphic::window;
-
 void Graphic::Boot()
 {
-	if (glfwInit() == GL_FALSE)
-	{
-		DEBUG_PRINT("Cannot initialize GLFW");
-		return;
-	}
-
-	atexit(glfwTerminate);
-
-	//Select OpenGL Version
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-	// Creating a window
-	window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Tempest", NULL, NULL);
-
-	if (!window)
-	{
-		// If the window is not created
-		DEBUG_PRINT("Cannot create GLFW window");
-		glfwTerminate();
-		return;
-	}
-	// Attached the OpenGL to this window
-	glfwMakeContextCurrent(window);
-
 	// Initialize GLEW
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
@@ -41,9 +12,6 @@ void Graphic::Boot()
 		DEBUG_PRINT("Cannot initialize GLFW");
 		return;
 	}
-
-	// The timing to wait for V-Sync
-	glfwSwapInterval(1);
 
 	// Set background color
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -56,11 +24,6 @@ void Graphic::Boot()
 
 	// Set up the vertices per patch for a tessellation shader
 	glPatchParameteri(GL_PATCH_VERTICES, 3);
-}
-
-HWND Graphic::GetWindowsHandler()
-{
-	return glfwGetWin32Window(window);
 }
 
 void Graphic::PreCompute()
@@ -123,14 +86,8 @@ void Graphic::PreCompute()
 	}
 }
 
-bool Graphic::PreUpdate()
+void Graphic::PreUpdate()
 {
-	if (glfwWindowShouldClose(window) == GL_TRUE)
-		return false;
-
-	glfwPollEvents();
-
-	return true;
 }
 
 void Graphic::Update(GraphicRequiredData * i_data)
@@ -224,16 +181,12 @@ void Graphic::Update(GraphicRequiredData * i_data)
 
 void Graphic::PostUpdate(GraphicRequiredData* i_data)
 {
-	glfwSwapBuffers(window);
-
 	i_data->model_data.clear();
 	i_data->material_data.clear();
 }
 
 void Graphic::CleanUp()
 {
-	glfwDestroyWindow(window);
-	glfwTerminate();
 }
 
 #endif // ENGINE_GRAPHIC_OPENGL

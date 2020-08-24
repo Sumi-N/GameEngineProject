@@ -2,6 +2,7 @@
 
 #include "Define.h"
 #include "GameThread.h"
+#include "Window.h"
 
 class RenderThread : public Thread
 {
@@ -17,8 +18,12 @@ public:
 
 inline void RenderThread::Boot()
 {
+	window = new Window();
+	WindowProperty property;
+	window->Init(property);
+
 	Graphic::Boot();
-	WindowsHanlder = Graphic::GetWindowsHandler();
+	WindowsHanlder = window->GetNaitiveWindowsHandler();
 }
 
 inline void RenderThread::Init()
@@ -37,7 +42,7 @@ inline void RenderThread::CriticalSection()
 
 inline void RenderThread::NonCriticalSection()
 {
-	if (!Graphic::PreUpdate())
+	if (!window->CheckShutdown())
 	{
 		brunning = false;
 	}
@@ -45,6 +50,8 @@ inline void RenderThread::NonCriticalSection()
 	Graphic::Update(data_render_own);
 
 	Graphic::PostUpdate(data_render_own);
+
+	window->SwapBuffer();
 }
 
 inline void RenderThread::CriticalSectionOther()
@@ -111,4 +118,6 @@ inline void RenderThread::FollowupSection()
 inline void RenderThread::CleanUp()
 {
 	Graphic::CleanUp();
+	window->Shutdown();
+	delete window;
 }

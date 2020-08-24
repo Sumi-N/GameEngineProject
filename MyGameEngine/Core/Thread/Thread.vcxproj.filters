@@ -5,10 +5,16 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="Precompiled Header">
+      <UniqueIdentifier>{6afac093-ebe1-4122-a210-827fc68d3918}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ThreadManager.cpp">
       <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Define.cpp">
+      <Filter>Precompiled Header</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -19,7 +25,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Define.h">
-      <Filter>Header Files</Filter>
+      <Filter>Precompiled Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

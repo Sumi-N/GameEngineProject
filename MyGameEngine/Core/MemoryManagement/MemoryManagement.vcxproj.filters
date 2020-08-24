@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="SmartPointer.h" />
+    <ClInclude Include="Define.h">
+      <Filter>Precompiled Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Precompiled Header">
+      <UniqueIdentifier>{c288701d-ee47-4e80-ab56-5141ab4fd89d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Define.cpp">
+      <Filter>Precompiled Header</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
