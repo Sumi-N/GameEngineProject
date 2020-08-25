@@ -101,6 +101,7 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="KeyEvent.h" />
     <ClInclude Include="MouseEvent.h" />
   </ItemGroup>
   <ItemGroup>

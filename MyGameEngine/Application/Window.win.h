@@ -3,8 +3,8 @@
 public:
 
 	void SetEventCallback(const std::function<void(Event&)>& callback) {data.eventcallback = callback;};
-	void SetVSync(bool enable);
-	bool isVSync() const;
+	void SetVSync(bool i_enable);
+	bool isVSync() {return data.VSync;}
 
 	void Init(const WindowProperty& property);
 	bool CheckShutdown();

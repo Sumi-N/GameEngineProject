@@ -17,6 +17,15 @@ public:
 	Window(){};
 	~Window(){};
 
+public:
+	void BindEvent();
+
+private:
+	void OnEvent(Event& e);
+
+	bool OnWindowClose(WindowCloseEvent& e);
+	bool OnWindowResize(WindowResizeEvent& e);
+
 	#ifdef  ENGINE_PLATFORM_WINDOWS
 	#include "Window.win.h"
 	#endif //  ENGINE_PLATFORM_WINDOWS

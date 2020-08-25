@@ -2,6 +2,20 @@
 
 #ifdef ENGINE_PLATFORM_WINDOWS
 
+void Window::SetVSync(bool i_enable)
+{
+	if (i_enable)
+	{
+		data.VSync = true;
+		glfwSwapInterval(1);
+	}
+	else
+	{
+		data.VSync = false;
+		glfwSwapInterval(0);
+	}
+}
+
 void Window::Init(const WindowProperty& property)
 {
 	data.title = property.title;
@@ -37,7 +51,84 @@ void Window::Init(const WindowProperty& property)
 	glfwMakeContextCurrent(glfwwindow);
 
 	// Set V-Sync
-	glfwSwapInterval(1);
+	SetVSync(true);
+
+	// Set event callbacks
+	glfwSetWindowUserPointer(glfwwindow, &data);
+
+	glfwSetWindowSizeCallback(glfwwindow, [](GLFWwindow* i_window, int i_width, int i_height)
+	{
+		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(i_window);
+		data.width = i_width;
+		data.height = i_height;
+
+		WindowResizeEvent event(i_width, i_height);
+		data.eventcallback(event);
+	});
+
+	glfwSetWindowCloseCallback(glfwwindow, [](GLFWwindow* i_window)
+	{
+		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(i_window);
+
+		WindowCloseEvent event;
+		data.eventcallback(event);
+	});
+
+	glfwSetKeyCallback(glfwwindow, [](GLFWwindow* i_window, int i_key, int i_scancode, int i_action, int i_mods)
+	{
+		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(i_window);
+
+		switch (i_action)
+		{
+			case GLFW_PRESS:
+			{
+				KeyPressedEvent event(static_cast<VirtualKey>(i_key), 0);
+				data.eventcallback(event);
+				break;
+			}
+			case GLFW_RELEASE:
+			{
+				KeyReleasedEvent event(static_cast<VirtualKey>(i_key));
+				data.eventcallback(event);
+				break;
+			}
+			case GLFW_REPEAT: 
+			{
+				KeyPressedEvent event(static_cast<VirtualKey>(i_key), 1);
+				data.eventcallback(event);
+				break;
+			}
+		}
+	});
+
+	glfwSetMouseButtonCallback(glfwwindow, [](GLFWwindow* i_window, int i_button, int i_action, int i_mods)
+	{
+		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(i_window);
+
+		switch (i_action)
+		{
+			case GLFW_PRESS:
+			{
+				MouseButtonPressedEvent event(static_cast<VirtualKey>(i_button));
+				data.eventcallback(event);
+				break;
+			}
+			case GLFW_RELEASE:
+			{
+				MouseButtonReleasedEvent event(static_cast<VirtualKey>(i_button));
+				data.eventcallback(event);
+				break;
+			}
+		}
+	});
+
+	glfwSetCursorPosCallback(glfwwindow, [](GLFWwindow* i_window, double i_xpos, double i_ypos)
+	{
+		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(i_window);
+
+		MouseMovedEvent event(static_cast<float>(i_xpos), static_cast<float>(i_ypos));
+		data.eventcallback(event);
+	});
 }
 
 bool Window::CheckShutdown()
@@ -65,6 +156,8 @@ HWND Window::GetNaitiveWindowsHandler()
 {
 	return glfwGetWin32Window(glfwwindow);
 }
+
+
 
 #endif // ENGINE_PLATFORM_WINDOWS
 

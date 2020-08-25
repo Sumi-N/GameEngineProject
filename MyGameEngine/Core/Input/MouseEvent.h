@@ -26,7 +26,7 @@ private:
 class MouseButtonPressedEvent : public Event
 {
 public:
-	MouseButtonPressedEvent(VirtualKey i_vkey) :vkey(i_vkey){};
+	MouseButtonPressedEvent(VirtualKey i_vkey) : vkey(i_vkey){};
 
 	EVENT_CLASS_MACRO(MouseButtonPressed, MouseEvent)
 
@@ -37,7 +37,7 @@ private:
 class MouseButtonReleasedEvent : public Event
 {
 public:
-	MouseButtonReleasedEvent(VirtualKey i_vkey) :vkey(i_vkey)
+	MouseButtonReleasedEvent(VirtualKey i_vkey) : vkey(i_vkey)
 	{
 	};
 

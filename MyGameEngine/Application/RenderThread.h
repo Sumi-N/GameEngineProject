@@ -4,6 +4,8 @@
 #include "GameThread.h"
 #include "Window.h"
 
+extern Window* window;
+
 class RenderThread : public Thread
 {
 public:
@@ -21,6 +23,7 @@ inline void RenderThread::Boot()
 	window = new Window();
 	WindowProperty property;
 	window->Init(property);
+	window->BindEvent();
 
 	Graphic::Boot();
 	WindowsHanlder = window->GetNaitiveWindowsHandler();

@@ -9,7 +9,7 @@ void Graphic::Boot()
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
 	{
-		DEBUG_PRINT("Cannot initialize GLFW");
+		DEBUG_PRINT("Cannot initialize GLEW");
 		return;
 	}
 
