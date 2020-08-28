@@ -5,8 +5,6 @@
 #include "RenderThread.h"
 #include "Window.h"
 
-extern Window* window;
-
 class Application
 {
 public:

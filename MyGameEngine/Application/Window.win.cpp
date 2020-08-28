@@ -129,6 +129,14 @@ void Window::Init(const WindowProperty& property)
 		MouseMovedEvent event(static_cast<float>(i_xpos), static_cast<float>(i_ypos));
 		data.eventcallback(event);
 	});
+
+	// Initialize GLEW
+	glewExperimental = GL_TRUE;
+	if (glewInit() != GLEW_OK)
+	{
+		DEBUG_PRINT("Cannot initialize GLEW");
+		return;
+	}
 }
 
 bool Window::CheckShutdown()

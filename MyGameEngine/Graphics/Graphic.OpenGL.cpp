@@ -5,14 +5,6 @@
 
 void Graphic::Boot()
 {
-	// Initialize GLEW
-	glewExperimental = GL_TRUE;
-	if (glewInit() != GLEW_OK)
-	{
-		DEBUG_PRINT("Cannot initialize GLEW");
-		return;
-	}
-
 	// Set background color
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 

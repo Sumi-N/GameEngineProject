@@ -91,6 +91,7 @@
   <ItemGroup>
     <ClInclude Include="DebugRay.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="ImguiLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Input\Input.vcxproj">
@@ -98,6 +99,9 @@
     </ProjectReference>
     <ProjectReference Include="..\Math\Math.vcxproj">
       <Project>{c8572e70-1b3f-469b-bb92-96dd46c72504}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Thread\Thread.vcxproj">
+      <Project>{561854be-4e26-474c-8f7a-879b19a4cf59}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

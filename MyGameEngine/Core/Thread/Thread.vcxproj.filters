@@ -16,6 +16,9 @@
     <ClCompile Include="Define.cpp">
       <Filter>Precompiled Header</Filter>
     </ClCompile>
+    <ClCompile Include="LayerStack.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Thread.h">
@@ -26,6 +29,12 @@
     </ClInclude>
     <ClInclude Include="Define.h">
       <Filter>Precompiled Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Layer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LayerStack.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
