@@ -21,7 +21,8 @@ inline void MyCamera::Update(float i_dt)
 
 	if (UserInput.QueryKey(VirtualKey::KEY_SPACE) == InputState::Released)
 	{
-		Entity::SwapCamera(0, 1);
+		if(Entity::Cameras.size() != 0 && Entity::Cameras.size() !=1)
+			Entity::SwapCamera(0, 1);
 	}
 
 	if (UserInput.QueryKey(VirtualKey::KEY_W) == InputState::Pressing)
