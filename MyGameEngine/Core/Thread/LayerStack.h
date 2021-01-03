@@ -12,6 +12,7 @@ public:
 	void PushOverlay(Layer*);
 	void PopLayer(Layer*);
 
+	std::vector<Layer*> Layers();
 private:
 	std::vector<Layer *> layers;
 	unsigned int insert_index = 0;

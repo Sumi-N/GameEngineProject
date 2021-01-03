@@ -46,9 +46,8 @@ void RenderThread::NonCriticalSection()
 	window->SwapBuffer();
 }
 
-void RenderThread::CriticalSectionOther()
+void RenderThread::SecondCriticalSection()
 {
-
 }
 
 void RenderThread::FollowupSection()

@@ -1,4 +1,5 @@
 #pragma once
+#include "Define.h"
 
 class Layer
 {
@@ -8,7 +9,7 @@ public:
 
 	virtual void OnAttach() {};
 	virtual void OnDetach() {};	
-	virtual void OnUpdate(float i_delta) {};
+	virtual void OnUpdate() {};
 
-	//virtual void OnEvent(Event& event) {}; 
+	virtual void OnEvent(Event& event) {}; 
 };

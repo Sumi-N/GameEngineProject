@@ -21,6 +21,8 @@
 #include <Graphics/ConstantBuffer.h>
 
 #include <functional>
+// UserInterface
+#include <UserInterface/ImguiLayer.h>
 
 extern Input UserInput;
 

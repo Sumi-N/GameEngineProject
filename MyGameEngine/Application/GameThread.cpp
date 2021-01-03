@@ -36,7 +36,7 @@ void GameThread::NonCriticalSection()
 
 }
 
-void GameThread::CriticalSectionOther()
+void GameThread::SecondCriticalSection()
 {
 	WriteDataToOwningThread();
 }

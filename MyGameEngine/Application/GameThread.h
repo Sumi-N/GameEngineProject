@@ -10,7 +10,7 @@ public:
 	void Init() override;
 	void CriticalSection() override;
 	void NonCriticalSection() override;
-	void CriticalSectionOther() override;
+	void SecondCriticalSection() override;
 	void FollowupSection() override;
 	void CleanUp() override;
 

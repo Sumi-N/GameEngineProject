@@ -14,9 +14,15 @@
     <ClInclude Include="Define.h">
       <Filter>Precompiled Header</Filter>
     </ClInclude>
+    <ClInclude Include="ImguiLayer.h">
+      <Filter>Precompiled Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Define.cpp">
+      <Filter>Precompiled Header</Filter>
+    </ClCompile>
+    <ClCompile Include="ImguiLayer.cpp">
       <Filter>Precompiled Header</Filter>
     </ClCompile>
   </ItemGroup>
