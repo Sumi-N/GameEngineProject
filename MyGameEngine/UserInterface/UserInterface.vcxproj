@@ -56,13 +56,14 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Core\;$(SolutionDir)APIs\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Define.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>Define.h</ForcedIncludeFiles>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -74,13 +75,14 @@
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Core\;$(SolutionDir)APIs\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Define.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>Define.h</ForcedIncludeFiles>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -90,15 +92,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\APIs\UserInterfaceAPI\imgui\imconfig.h" />
+    <ClInclude Include="..\APIs\UserInterfaceAPI\imgui\imgui.h" />
+    <ClInclude Include="..\APIs\UserInterfaceAPI\imgui\imgui_internal.h" />
+    <ClInclude Include="..\APIs\UserInterfaceAPI\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\APIs\UserInterfaceAPI\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\APIs\UserInterfaceAPI\imgui\imstb_truetype.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="ImguiLayer.h" />
+    <ClInclude Include="imgui_impl_glfw.h" />
+    <ClInclude Include="imgui_impl_opengl3.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\APIs\UserInterfaceAPI\imgui\imgui.cpp" />
+    <ClCompile Include="..\APIs\UserInterfaceAPI\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\APIs\UserInterfaceAPI\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\APIs\UserInterfaceAPI\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Define.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ImguiLayer.cpp" />
+    <ClCompile Include="imgui_impl_glfw.cpp" />
+    <ClCompile Include="imgui_impl_opengl3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Logging\Logging.vcxproj">
@@ -106,6 +122,9 @@
     </ProjectReference>
     <ProjectReference Include="..\Core\Thread\Thread.vcxproj">
       <Project>{561854be-4e26-474c-8f7a-879b19a4cf59}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Graphics\Graphics.vcxproj">
+      <Project>{6809ac33-2d2c-4a2f-9a7f-c187a9307703}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

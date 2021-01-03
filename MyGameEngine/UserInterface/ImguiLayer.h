@@ -1,5 +1,6 @@
 #pragma once
 #include "Define.h"
+#include "imgui_impl_opengl3.h"
 
 class ImguiLayer : public Layer
 {

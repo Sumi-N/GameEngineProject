@@ -14,8 +14,6 @@
 #include <Core/Input/MouseEvent.h>
 #include <Core/Input/KeyEvent.h>
 #include <Core/INput/ApplicationEvent.h>
-// Logging
-#include <Logging/MemoryLeakDetection.h>
 // Graphics
 #include <Graphics/Graphic.h>
 #include <Graphics/ConstantBuffer.h>
@@ -25,4 +23,9 @@
 #include <UserInterface/ImguiLayer.h>
 
 extern Input UserInput;
+
+// Logging
+// Put MemoryLeakDetection in the last since there is a macro #define new DEBUG_NEW
+// which might overwrite new keywords that exist the other libraries 
+#include <Logging/MemoryLeakDetection.h>
 

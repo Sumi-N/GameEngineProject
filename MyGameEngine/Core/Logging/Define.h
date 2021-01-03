@@ -1,4 +1,5 @@
 #pragma once
+
 #include <Configuration/Configuration.h>
 
 #pragma comment( lib, "User32.lib" )

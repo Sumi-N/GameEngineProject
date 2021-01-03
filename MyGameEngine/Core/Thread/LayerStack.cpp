@@ -11,12 +11,14 @@ LayerStack::~LayerStack()
 
 void LayerStack::PushLayer(Layer* i_layer)
 {
+	i_layer->OnAttach();
 	layers.emplace(layers.begin() + insert_index, i_layer);
 	insert_index++;
 }
 
 void LayerStack::PushOverlay(Layer* i_layer)
 {
+	i_layer->OnAttach();
 	layers.emplace_back(i_layer);
 }
 

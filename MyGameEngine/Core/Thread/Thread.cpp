@@ -19,12 +19,6 @@ void Thread::Run()
 {
 	while (brunning)
 	{
-		// Layer's update
-		for (Layer* layer : layer_stack.Layers())
-		{
-			layer->OnUpdate();
-		}
-
 		{
 			std::lock_guard<std::mutex> lock_guard(mutex);
 
@@ -49,6 +43,12 @@ void Thread::Run()
 		}
 
 		FollowupSection();
+
+		// Layer's update
+		for (Layer* layer : layer_stack.Layers())
+		{
+			layer->OnUpdate();
+		}
 	}
 
 	CleanUp();
