@@ -25,7 +25,7 @@ void Application::Start()
 {
 	// Push Imgui layer to layer stack
 	ImguiLayer* imgui_layer = new ImguiLayer();
-	Thread_Render.layer_stack.PushLayer(imgui_layer);
+	Thread_Render.PushLayerToLayerStack(imgui_layer);
 
 	// Run render thread
 	RunRenderThread();

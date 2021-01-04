@@ -43,12 +43,6 @@ void Thread::Run()
 		}
 
 		FollowupSection();
-
-		// Layer's update
-		for (Layer* layer : layer_stack.Layers())
-		{
-			layer->OnUpdate();
-		}
 	}
 
 	CleanUp();
@@ -61,6 +55,11 @@ void Thread::CleanUp()
 
 void Thread::Eject()
 {
+}
+
+void Thread::PushLayerToLayerStack(Layer* i_layer)
+{
+	layer_stack.PushLayer(i_layer);
 }
 
 void Thread::CriticalSection()

@@ -15,6 +15,7 @@
     <ProjectGuid>{F7CF2FCB-B6C1-42E3-824F-B2559A8E8D13}</ProjectGuid>
     <RootNamespace>MessagingSystem</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Messaging</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">

@@ -18,8 +18,6 @@ public:
 	std::mutex mutex;
 	std::condition_variable condition;
 
-	LayerStack layer_stack;
-
 protected:
 
 	bool brunning;
@@ -28,5 +26,11 @@ protected:
 	virtual void CriticalSection();
 	virtual void NonCriticalSection();
 	virtual void SecondCriticalSection();
-	virtual void FollowupSection();
+	virtual void FollowupSection();	
+
+public:
+	void PushLayerToLayerStack(Layer* i_layer);
+
+protected:
+	LayerStack layer_stack;
 };

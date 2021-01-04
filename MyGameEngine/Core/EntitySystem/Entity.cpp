@@ -74,6 +74,14 @@ void Entity::RegisterEffectComponent(const OwningPointer<EffectComponent>& i_com
 
 void Entity::Boot()
 {
+	// Check if camera exist, if not create one
+	if (Entity::Cameras.empty())
+	{
+		OwningPointer<Camera> camera;
+		OwningPointer<Camera>::Create(camera);
+		Cameras.push_back(camera);
+	}
+
 	// Check if ambient light exist in a scene, if not create one
 	if (!Entity::Ambient)
 	{
@@ -187,8 +195,10 @@ void Entity::Update(float i_dt)
 	}
 
 	// Update the main camera;
-	if(Cameras[0])
+	if (Cameras[0])
+	{
 		Cameras[0]->Update(i_dt);
+	}
 }
 
 void Entity::CleanUp()

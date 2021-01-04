@@ -39,9 +39,17 @@ void RenderThread::NonCriticalSection()
 		brunning = false;
 	}
 
+	Graphic::PreUpdate();
+
 	Graphic::Update(data_render_own);
 
 	Graphic::PostUpdate(data_render_own);
+
+	// Layer's update
+	for (Layer* layer : layer_stack.Layers())
+	{
+		layer->OnUpdate();
+	}
 
 	window->SwapBuffer();
 }

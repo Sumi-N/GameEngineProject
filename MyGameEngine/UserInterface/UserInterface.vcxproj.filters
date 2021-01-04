@@ -12,6 +12,9 @@
     <Filter Include="Header Files">
       <UniqueIdentifier>{2946672f-1242-4e39-923e-bb2c6d66d7fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="API%27s Files">
+      <UniqueIdentifier>{d0cbbba7-824e-4712-9637-8c45bc18733d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h">
@@ -27,22 +30,22 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\APIs\UserInterfaceAPI\imgui\imconfig.h">
-      <Filter>Source Files</Filter>
+      <Filter>API%27s Files</Filter>
     </ClInclude>
     <ClInclude Include="..\APIs\UserInterfaceAPI\imgui\imgui.h">
-      <Filter>Source Files</Filter>
+      <Filter>API%27s Files</Filter>
     </ClInclude>
     <ClInclude Include="..\APIs\UserInterfaceAPI\imgui\imgui_internal.h">
-      <Filter>Source Files</Filter>
+      <Filter>API%27s Files</Filter>
     </ClInclude>
     <ClInclude Include="..\APIs\UserInterfaceAPI\imgui\imstb_rectpack.h">
-      <Filter>Source Files</Filter>
+      <Filter>API%27s Files</Filter>
     </ClInclude>
     <ClInclude Include="..\APIs\UserInterfaceAPI\imgui\imstb_textedit.h">
-      <Filter>Source Files</Filter>
+      <Filter>API%27s Files</Filter>
     </ClInclude>
     <ClInclude Include="..\APIs\UserInterfaceAPI\imgui\imstb_truetype.h">
-      <Filter>Source Files</Filter>
+      <Filter>API%27s Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -58,17 +61,17 @@
     <ClCompile Include="ImguiLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\APIs\UserInterfaceAPI\imgui\imgui.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\APIs\UserInterfaceAPI\imgui\imgui_demo.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\APIs\UserInterfaceAPI\imgui\imgui_widgets.cpp">
+      <Filter>API%27s Files</Filter>
     </ClCompile>
     <ClCompile Include="..\APIs\UserInterfaceAPI\imgui\imgui_draw.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>API%27s Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\APIs\UserInterfaceAPI\imgui\imgui_widgets.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\APIs\UserInterfaceAPI\imgui\imgui.cpp">
+      <Filter>API%27s Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\APIs\UserInterfaceAPI\imgui\imgui_demo.cpp">
+      <Filter>API%27s Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
