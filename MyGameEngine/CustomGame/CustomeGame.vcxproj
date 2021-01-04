@@ -92,16 +92,16 @@
     <ClCompile Include="TestScene_Two_Cameras.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Application\Application.vcxproj">
+    <ProjectReference Include="..\Application\Application.vcxproj">
       <Project>{a4a992b0-4300-4d9f-bd91-9ba6afe44d21}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\Input\Input.vcxproj">
+    <ProjectReference Include="..\Core\Input\Input.vcxproj">
       <Project>{725cccc9-d908-4257-b0e5-54bebf75b3ef}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\Parts\Parts.vcxproj">
+    <ProjectReference Include="..\Core\Parts\Parts.vcxproj">
       <Project>{f0dcb746-4531-4351-9a6e-140c336a3c35}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\PremadeParts\PremadeParts.vcxproj">
+    <ProjectReference Include="..\PremadeParts\PremadeParts.vcxproj">
       <Project>{ead6194a-8725-4dd7-b303-c09c40905cc9}</Project>
     </ProjectReference>
   </ItemGroup>

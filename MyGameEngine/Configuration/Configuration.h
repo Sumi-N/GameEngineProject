@@ -43,7 +43,7 @@
 //////////////////////////////
 // General Asset Path
 //////////////////////////////
-#define PATH_SUFFIX      "../../"
+#define PATH_SUFFIX      "../"
 #define MESH_PATH        "Assets/models/"
 #define SHADER_PATH      "Assets/shaders/"
 #define TEXTURE_PATH     "Assets/textures/"
