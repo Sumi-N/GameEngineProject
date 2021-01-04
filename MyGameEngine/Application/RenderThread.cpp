@@ -46,6 +46,8 @@ void RenderThread::NonCriticalSection()
 	Graphic::PostUpdate(data_render_own);
 
 	// Layer's update
+	// The reason this layer is placed here is because we have imgui layer
+	// that requires to be updated before swap buffer on OpenGL 
 	for (Layer* layer : layer_stack.Layers())
 	{
 		layer->OnUpdate();
@@ -116,6 +118,7 @@ void RenderThread::FollowupSection()
 
 void RenderThread::CleanUp()
 {
+	layer_stack.CleanUp();
 	Graphic::CleanUp();
 	window->Shutdown();
 	delete window;

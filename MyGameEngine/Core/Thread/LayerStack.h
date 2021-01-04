@@ -11,6 +11,7 @@ public:
 	void PushLayer(Layer*);
 	void PushOverlay(Layer*);
 	void PopLayer(Layer*);
+	void CleanUp();
 
 	std::vector<Layer*> Layers();
 private:

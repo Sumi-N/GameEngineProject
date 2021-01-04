@@ -44,11 +44,13 @@ void ImguiLayer::OnAttach()
 	io.KeyMap[ImGuiKey_Z] = GLFW_KEY_Z;
 
 	ImGui_ImplOpenGL3_Init("#version 410");
+
+
 }
 
 void ImguiLayer::OnDetach()
 {
-
+	ImGui::DestroyContext();
 }
 
 void ImguiLayer::OnUpdate()
@@ -68,6 +70,47 @@ void ImguiLayer::OnUpdate()
 
 void ImguiLayer::OnEvent(Event& event)
 {
+	EventDispatcher dispatcher(event);
+	dispatcher.Dispatch<MouseButtonPressedEvent>(std::bind(&ImguiLayer::OnMouseButtonPressedEvent, this, std::placeholders::_1));
+	dispatcher.Dispatch<MouseButtonReleasedEvent>(std::bind(&ImguiLayer::OnMouseButtonReleasedEvent, this, std::placeholders::_1));
+	dispatcher.Dispatch<MouseMovedEvent>(std::bind(&ImguiLayer::OnMouseMovedEvent, this, std::placeholders::_1));
+	dispatcher.Dispatch<KeyPressedEvent>(std::bind(&ImguiLayer::OnKeyPressedEvent, this, std::placeholders::_1));
+	dispatcher.Dispatch<KeyReleasedEvent>(std::bind(&ImguiLayer::OnKeyRelasedEvent, this, std::placeholders::_1));
+	dispatcher.Dispatch<WindowResizeEvent>(std::bind(&ImguiLayer::OnWindowResizedEvent, this, std::placeholders::_1));
+}
 
+bool ImguiLayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent& e)
+{
+	DEBUG_PRINT("I'm gui pressed");
+	ImGuiIO& io = ImGui::GetIO();
+	io.MouseDown[0] = true;
+	return true;
+}
+
+bool ImguiLayer::OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e)
+{
+	return true;
+}
+
+bool ImguiLayer::OnMouseMovedEvent(MouseMovedEvent& e)
+{
+	ImGuiIO& io = ImGui::GetIO();
+	io.MousePos = ImVec2(0, 0);
+	return true;
+}
+
+bool ImguiLayer::OnKeyPressedEvent(KeyPressedEvent& e)
+{
+	return true;
+}
+
+bool ImguiLayer::OnKeyRelasedEvent(KeyReleasedEvent& e)
+{
+	return true;
+}
+
+bool ImguiLayer::OnWindowResizedEvent(WindowResizeEvent& e)
+{
+	return true;
 }
 

@@ -13,4 +13,13 @@ public:
 
 	void OnUpdate() override;
 	void OnEvent(Event& event) override;
+	void SetEventCallback(const std::function<void(Event&)> &);
+
+private:
+	bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& e);
+	bool OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e);
+	bool OnMouseMovedEvent(MouseMovedEvent& e);
+	bool OnKeyPressedEvent(KeyPressedEvent& e);
+	bool OnKeyRelasedEvent(KeyReleasedEvent& e);
+	bool OnWindowResizedEvent(WindowResizeEvent& e);
 };

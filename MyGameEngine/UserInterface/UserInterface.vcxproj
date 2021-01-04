@@ -117,6 +117,9 @@
     <ClCompile Include="imgui_impl_opengl3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core\Input\Input.vcxproj">
+      <Project>{725cccc9-d908-4257-b0e5-54bebf75b3ef}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Logging\Logging.vcxproj">
       <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>
     </ProjectReference>

@@ -15,9 +15,6 @@ protected:
 	void Execute();
 
 private:
-	Window* window;
-
-private:
 	static void Boot();
 	static void Start();
 	static void BootRenderThread();

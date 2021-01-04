@@ -4,7 +4,6 @@ LayerStack::~LayerStack()
 {
 	for (auto layer : layers)
 	{
-		layer->OnDetach();
 		delete layer;
 	}
 }
@@ -30,6 +29,14 @@ void LayerStack::PopLayer(Layer* i_layer)
 		i_layer->OnDetach();
 		layers.erase(it);
 		insert_index--;
+	}
+}
+
+void LayerStack::CleanUp()
+{
+	for (auto layer : layers)
+	{
+		layer->OnDetach();
 	}
 }
 
