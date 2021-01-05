@@ -94,8 +94,8 @@ bool ImguiLayer::OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e)
 
 bool ImguiLayer::OnMouseMovedEvent(MouseMovedEvent& e)
 {
-	ImGuiIO& io = ImGui::GetIO();
-	io.MousePos = ImVec2(0, 0);
+	//ImGuiIO& io = ImGui::GetIO();
+	//io.MousePos = ImVec2(0, 0);
 	return true;
 }
 

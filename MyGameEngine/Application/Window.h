@@ -18,13 +18,20 @@ public:
 	~Window(){};
 
 public:
-	void BindEvent();
-
-private:
-	void OnEvent(Event& e);
 
 	bool OnWindowClose(WindowCloseEvent& e);
 	bool OnWindowResize(WindowResizeEvent& e);
+
+	struct WindowData
+	{
+		std::string title;
+		unsigned int width, height;
+		bool VSync;
+
+		std::function<void(Event&)> eventcallback;
+
+		WindowData() = default;
+	} data;
 
 	#ifdef  ENGINE_PLATFORM_WINDOWS
 	#include "Window.win.h"

@@ -16,4 +16,12 @@ public:
 	void SecondCriticalSection() override;
 	void FollowupSection() override;
 	void CleanUp() override;
+
+	// For key call backs setting
+private:
+	void BindEvent();
+	void OnEvent(Event& e);
+
+private:
+	LayerStack layerstack;
 };

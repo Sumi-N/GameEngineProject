@@ -2,7 +2,6 @@
 
 public:
 
-	void SetEventCallback(const std::function<void(Event&)>&);
 	void SetVSync(bool i_enable);
 	bool isVSync() {return data.VSync;}
 
@@ -15,14 +14,3 @@ public:
 
 private:
 	GLFWwindow* glfwwindow;
-
-	struct WindowData
-	{
-		std::string title;
-		unsigned int width, height;
-		bool VSync;
-
-		std::function<void(Event&)> eventcallback;
-
-		WindowData() = default;
-	} data;

@@ -2,11 +2,6 @@
 
 #ifdef ENGINE_PLATFORM_WINDOWS
 
-void Window::SetEventCallback(const std::function<void(Event&)>& i_callback)
-{
-	data.eventcallback = i_callback;
-}
-
 void Window::SetVSync(bool i_enable)
 {
 	if (i_enable)

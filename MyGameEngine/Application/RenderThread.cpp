@@ -9,11 +9,19 @@ extern HWND WindowsHanlder;
 
 void RenderThread::Boot()
 {
+	// Create window and init glfw
 	window = new Window();
 	WindowProperty property;
 	window->Init(property);
-	window->BindEvent();
 
+	// Push imgui layer to layer stack
+	ImguiLayer* imgui_layer = new ImguiLayer();
+	layerstack.PushLayer(imgui_layer);
+
+	// Bind event callbacks including the callbacks that are in imgui layer and other layers 
+	BindEvent();
+
+	// Initialize OpenGL
 	Graphic::Boot();
 	WindowsHanlder = window->GetNaitiveWindowsHandler();
 }
@@ -48,7 +56,7 @@ void RenderThread::NonCriticalSection()
 	// Layer's update
 	// The reason this layer is placed here is because we have imgui layer
 	// that requires to be updated before swap buffer on OpenGL 
-	for (Layer* layer : layer_stack.Layers())
+	for (Layer* layer : layerstack.Layers())
 	{
 		layer->OnUpdate();
 	}
@@ -118,8 +126,25 @@ void RenderThread::FollowupSection()
 
 void RenderThread::CleanUp()
 {
-	layer_stack.CleanUp();
+	layerstack.CleanUp();
 	Graphic::CleanUp();
 	window->Shutdown();
 	delete window;
+}
+
+void RenderThread::BindEvent()
+{
+	window->data.eventcallback = std::bind(&RenderThread::OnEvent, this, std::placeholders::_1);
+}
+
+void RenderThread::OnEvent(Event& e)
+{
+	EventDispatcher dispatcher(e);
+	dispatcher.Dispatch<WindowCloseEvent>(std::bind(&Window::OnWindowClose, window, std::placeholders::_1));
+	dispatcher.Dispatch<WindowResizeEvent>(std::bind(&Window::OnWindowResize, window, std::placeholders::_1));
+
+	for (auto layer : layerstack.Layers())
+	{
+		layer->OnEvent(e);
+	}
 }

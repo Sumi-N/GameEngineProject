@@ -33,11 +33,6 @@ void GameThread::CriticalSection()
 
 void GameThread::NonCriticalSection()
 {
-	// Layer's update
-	for (Layer* layer : layer_stack.Layers())
-	{
-		layer->OnUpdate();
-	}
 }
 
 void GameThread::SecondCriticalSection()

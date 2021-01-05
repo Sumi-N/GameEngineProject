@@ -57,11 +57,6 @@ void Thread::Eject()
 {
 }
 
-void Thread::PushLayerToLayerStack(Layer* i_layer)
-{
-	layer_stack.PushLayer(i_layer);
-}
-
 void Thread::CriticalSection()
 {
 

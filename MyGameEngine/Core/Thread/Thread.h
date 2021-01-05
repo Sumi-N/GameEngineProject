@@ -1,7 +1,7 @@
 #pragma once
 #include "Define.h"
 #include "ThreadManager.h"
-#include "LayerStack.h"
+
 
 class Thread
 {
@@ -27,10 +27,4 @@ protected:
 	virtual void NonCriticalSection();
 	virtual void SecondCriticalSection();
 	virtual void FollowupSection();	
-
-public:
-	void PushLayerToLayerStack(Layer* i_layer);
-
-protected:
-	LayerStack layer_stack;
 };
