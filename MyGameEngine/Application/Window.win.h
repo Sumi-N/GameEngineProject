@@ -10,6 +10,7 @@ public:
 	void SwapBuffer();
 	void Shutdown();
 
+
 	HWND GetNaitiveWindowsHandler();
 
 private:

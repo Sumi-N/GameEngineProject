@@ -6,6 +6,9 @@ class MouseMovedEvent : public Event
 public:
 	MouseMovedEvent(float x, float y) : xpos(x), ypos(y){};
 
+	float GetX() const {return xpos; }
+	float GetY() const {return ypos; }
+
 	EVENT_CLASS_MACRO(MouseMoved, MouseEvent)
 
 private:
@@ -28,6 +31,8 @@ class MouseButtonPressedEvent : public Event
 public:
 	MouseButtonPressedEvent(VirtualKey i_vkey) : vkey(i_vkey){};
 
+	VirtualKey GetMouseButton() const {return vkey;}
+
 	EVENT_CLASS_MACRO(MouseButtonPressed, MouseEvent)
 
 private:
@@ -37,9 +42,9 @@ private:
 class MouseButtonReleasedEvent : public Event
 {
 public:
-	MouseButtonReleasedEvent(VirtualKey i_vkey) : vkey(i_vkey)
-	{
-	};
+	MouseButtonReleasedEvent(VirtualKey i_vkey) : vkey(i_vkey){};
+
+	VirtualKey GetMouseButton() const {return vkey;}
 
 	EVENT_CLASS_MACRO(MouseButtonReleased, MouseEvent)
 

@@ -23,12 +23,13 @@ class Graphic
 {
 public:
 	static void Boot();
-	static void Init();
+	static void Init(unsigned int, unsigned int);
 	static void PreCompute();
 	static void PreUpdate();
 	static void Update(GraphicRequiredData*);
 	static void PostUpdate(GraphicRequiredData*);
 	static void CleanUp();
+	static void ChangeViewPortSize(unsigned int, unsigned int);
 
 	// Constant buffer variable
 	static ConstantBuffer constant_camera;
@@ -44,10 +45,18 @@ public:
 	static FrameBuffer    frame_specular;
 	static FrameBuffer    frame_brdf;
 	static FrameBuffer    frame_mirror;
+
+private:
+	static unsigned int viewport_width;
+	static unsigned int viewport_height;
 };
 
-inline void Graphic::Init()
+inline void Graphic::Init(unsigned int i_width, unsigned int i_height)
 {
+	// Init viewport size for OpenGL
+	viewport_width = i_width;
+	viewport_height = i_height;
+
 	// Init uniform buffers
 	constant_camera.Init(ConstantData::Index::Camera, ConstantData::Size::Camera);
 	constant_model.Init(ConstantData::Index::Model, ConstantData::Size::Model);
@@ -71,4 +80,10 @@ inline void Graphic::Init()
 	// This class holds some of the basic geometry shapes (like cube line and quad) that will be used during the rendering 
 	DrawPrimitive::Init();
 	DrawPrimitive::DebugInit();
+}
+
+inline void Graphic::ChangeViewPortSize(unsigned int i_width, unsigned int i_height)
+{
+	viewport_width = i_width;
+	viewport_height = i_height;
 }

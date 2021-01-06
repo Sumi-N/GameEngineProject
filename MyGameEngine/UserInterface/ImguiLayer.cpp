@@ -20,6 +20,8 @@ void ImguiLayer::OnAttach()
 	io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
 	io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
 
+	io.DisplaySize = ImVec2(SCREEN_WIDTH, SCREEN_HEIGHT);
+
 	io.KeyMap[ImGuiKey_Tab] = GLFW_KEY_TAB;
 	io.KeyMap[ImGuiKey_LeftArrow] = GLFW_KEY_LEFT;
 	io.KeyMap[ImGuiKey_RightArrow] = GLFW_KEY_RIGHT;
@@ -43,9 +45,7 @@ void ImguiLayer::OnAttach()
 	io.KeyMap[ImGuiKey_Y] = GLFW_KEY_Y;
 	io.KeyMap[ImGuiKey_Z] = GLFW_KEY_Z;
 
-	ImGui_ImplOpenGL3_Init("#version 410");
-
-
+	ImGui_ImplOpenGL3_Init("#version 420");
 }
 
 void ImguiLayer::OnDetach()
@@ -56,7 +56,6 @@ void ImguiLayer::OnDetach()
 void ImguiLayer::OnUpdate()
 {
 	ImGuiIO& io = ImGui::GetIO();
-	io.DisplaySize = ImVec2(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui::NewFrame();
@@ -81,36 +80,45 @@ void ImguiLayer::OnEvent(Event& event)
 
 bool ImguiLayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent& e)
 {
-	DEBUG_PRINT("I'm gui pressed");
 	ImGuiIO& io = ImGui::GetIO();
-	io.MouseDown[0] = true;
+	io.MouseDown[static_cast<uint8_t>(e.GetMouseButton())] = true;
 	return true;
 }
 
 bool ImguiLayer::OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e)
 {
+	ImGuiIO& io = ImGui::GetIO();
+	io.MouseDown[static_cast<uint8_t>(e.GetMouseButton())] = false;
 	return true;
 }
 
 bool ImguiLayer::OnMouseMovedEvent(MouseMovedEvent& e)
 {
-	//ImGuiIO& io = ImGui::GetIO();
-	//io.MousePos = ImVec2(0, 0);
+	ImGuiIO& io = ImGui::GetIO();
+	io.MousePos = ImVec2(e.GetX(), e.GetY());
 	return true;
 }
 
 bool ImguiLayer::OnKeyPressedEvent(KeyPressedEvent& e)
 {
+	ImGuiIO& io = ImGui::GetIO();
+	io.MouseDown[static_cast<uint8_t>(e.GetButton())] = true;
+	io.AddInputCharacter(static_cast<unsigned short>(e.GetButton()));
 	return true;
 }
 
 bool ImguiLayer::OnKeyRelasedEvent(KeyReleasedEvent& e)
 {
+	ImGuiIO& io = ImGui::GetIO();
+	io.MouseDown[static_cast<uint8_t>(e.GetButton())] = false;
 	return true;
 }
 
 bool ImguiLayer::OnWindowResizedEvent(WindowResizeEvent& e)
 {
+	ImGuiIO& io = ImGui::GetIO();
+	io.DisplaySize = ImVec2(e.GetWidth(), e.GetHeight());
+	io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
 	return true;
 }
 

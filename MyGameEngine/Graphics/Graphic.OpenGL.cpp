@@ -118,7 +118,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 		}
 	}
 
-	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	glViewport(0, 0, viewport_width, viewport_height);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -152,9 +152,9 @@ void Graphic::Update(GraphicRequiredData * i_data)
 			}
 		}
 
-		DrawPrimitive::DebugDraw();
+		//DrawPrimitive::DebugDraw();
 		//Draw a line mainly for the purpose for debug
-		DrawPrimitive::DrawLineWithShader(i_data->points[0], i_data->points[1]);
+		//DrawPrimitive::DrawLineWithShader(i_data->points[0], i_data->points[1]);
 
 		//Rendering sky box
 		if (SceneEntity::SkyBoxProxy)

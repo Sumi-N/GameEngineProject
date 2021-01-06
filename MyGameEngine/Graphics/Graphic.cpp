@@ -2,6 +2,9 @@
 
 #include "Graphic.h"
 
+unsigned int Graphic::viewport_width;
+unsigned int Graphic::viewport_height;
+
 ConstantBuffer Graphic::constant_camera;
 ConstantBuffer Graphic::constant_model;
 ConstantBuffer Graphic::constant_material;

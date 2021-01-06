@@ -30,7 +30,7 @@ void RenderThread::Init()
 {
 	// Init scene entity
 	SceneEntity::Init();
-	Graphic::Init();
+	Graphic::Init(window->data.width, window->data.height);
 	Graphic::PreCompute();
 }
 
@@ -140,11 +140,24 @@ void RenderThread::BindEvent()
 void RenderThread::OnEvent(Event& e)
 {
 	EventDispatcher dispatcher(e);
-	dispatcher.Dispatch<WindowCloseEvent>(std::bind(&Window::OnWindowClose, window, std::placeholders::_1));
-	dispatcher.Dispatch<WindowResizeEvent>(std::bind(&Window::OnWindowResize, window, std::placeholders::_1));
+	dispatcher.Dispatch<WindowCloseEvent>(std::bind(&RenderThread::OnWindowClose, this, std::placeholders::_1));
+	dispatcher.Dispatch<WindowResizeEvent>(std::bind(&RenderThread::OnWindowResize, this, std::placeholders::_1));
 
 	for (auto layer : layerstack.Layers())
 	{
 		layer->OnEvent(e);
 	}
+}
+
+bool RenderThread::OnWindowClose(WindowCloseEvent e)
+{
+	window->OnWindowClose(e);
+	return true;
+}
+
+bool RenderThread::OnWindowResize(WindowResizeEvent e)
+{
+	Graphic::ChangeViewPortSize(window->data.width, window->data.height);
+	window->OnWindowResize(e);
+	return true;
 }

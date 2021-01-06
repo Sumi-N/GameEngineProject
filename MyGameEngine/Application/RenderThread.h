@@ -21,6 +21,8 @@ public:
 private:
 	void BindEvent();
 	void OnEvent(Event& e);
+	bool OnWindowClose(WindowCloseEvent e);
+	bool OnWindowResize(WindowResizeEvent e);
 
 private:
 	LayerStack layerstack;
