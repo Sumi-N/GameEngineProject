@@ -27,6 +27,9 @@
     <ClCompile Include="Define.cpp">
       <Filter>Precompiled Header</Filter>
     </ClCompile>
+    <ClCompile Include="FBXImporter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\APIs\ImpoterAPI\OpenFBX\miniz.h">
@@ -37,6 +40,9 @@
     </ClInclude>
     <ClInclude Include="Define.h">
       <Filter>Precompiled Header</Filter>
+    </ClInclude>
+    <ClInclude Include="FBXImporter.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

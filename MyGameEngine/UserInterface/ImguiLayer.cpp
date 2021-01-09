@@ -117,7 +117,7 @@ bool ImguiLayer::OnKeyRelasedEvent(KeyReleasedEvent& e)
 bool ImguiLayer::OnWindowResizedEvent(WindowResizeEvent& e)
 {
 	ImGuiIO& io = ImGui::GetIO();
-	io.DisplaySize = ImVec2(e.GetWidth(), e.GetHeight());
+	io.DisplaySize = ImVec2(static_cast<float>(e.GetWidth()), static_cast<float>(e.GetHeight()));
 	io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
 	return true;
 }

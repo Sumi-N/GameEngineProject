@@ -1,4 +1,5 @@
 #include "Application.h"
+#include <ResourceManagement/FBXImporter.h>
 
 GameThread Thread_Game;
 RenderThread Thread_Render;
@@ -10,6 +11,9 @@ Application::Application()
 
 void Application::Boot()
 {
+	FBXImporter fbx;
+	fbx.Import(PATH_SUFFIX MESH_PATH "gunhand.fbx");
+
 	Thread_Game.Create();
 	Thread_Render.Create();
 
