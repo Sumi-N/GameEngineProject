@@ -13,7 +13,6 @@ public:
 
 	void OnUpdate() override;
 	void OnEvent(Event& event) override;
-	void SetEventCallback(const std::function<void(Event&)> &);
 
 private:
 	bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& e);
