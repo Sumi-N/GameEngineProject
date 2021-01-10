@@ -12,9 +12,6 @@
     <Filter Include="Attributes">
       <UniqueIdentifier>{ea11198e-808d-4348-94f6-d628d891ef86}</UniqueIdentifier>
     </Filter>
-    <Filter Include="API">
-      <UniqueIdentifier>{8a86fe9e-a587-421f-8fbd-145137128a18}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Precompiled Header">
       <UniqueIdentifier>{3650dac7-70fe-4eb6-b65a-f5c7df444de7}</UniqueIdentifier>
     </Filter>
@@ -44,12 +41,6 @@
     <ClInclude Include="TextureAttribute.h">
       <Filter>Attributes</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\APIs\GraphicAPI\loadpng\lodepng.h">
-      <Filter>API</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\APIs\GraphicAPI\stb\stb_image.h">
-      <Filter>API</Filter>
-    </ClInclude>
     <ClInclude Include="EffectComponent.h">
       <Filter>Compontnes</Filter>
     </ClInclude>
@@ -63,12 +54,6 @@
   <ItemGroup>
     <ClCompile Include="MeshComponent.cpp">
       <Filter>Compontnes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\APIs\GraphicAPI\loadpng\lodepng.cpp">
-      <Filter>API</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureAttribute.cpp">
-      <Filter>Attributes</Filter>
     </ClCompile>
     <ClCompile Include="Define.cpp">
       <Filter>Precompiled Header</Filter>

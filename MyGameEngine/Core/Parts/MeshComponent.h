@@ -5,18 +5,6 @@
 #include "MaterialAttribute.h"
 #include "TextureAttribute.h"
 
-//// Forward declaration
-//class SceneProxy;
-
-__declspec(align(16)) struct MeshData
-{
-	Vec3f vertex;
-	Vec3f normal;
-	Vec2f uv;
-	Vec2f padding; //For alignment purpose
-	Vec3f tangent;
-	Vec3f bitangent;
-};
 
 class MeshComponent : public Component
 {
@@ -31,7 +19,7 @@ public:
 	Mat4f model_mat;
 	Mat4f model_inverse_transpose_mat;
 
-	void Load(const char* filename);
+	bool Load(const char* filename);
 	void Boot() override;
 	void Init() override;
 	void Update(float i_dt) override;

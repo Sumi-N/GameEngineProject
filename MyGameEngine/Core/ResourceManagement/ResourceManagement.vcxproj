@@ -90,6 +90,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\APIs\ImpoterAPI\loadpng\lodepng.cpp" />
     <ClCompile Include="..\..\APIs\ImpoterAPI\OpenFBX\miniz.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -115,16 +116,24 @@
     <ClCompile Include="FBXImporter.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Importer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\APIs\ImpoterAPI\loadpng\lodepng.h" />
     <ClInclude Include="..\..\APIs\ImpoterAPI\OpenFBX\miniz.h" />
     <ClInclude Include="..\..\APIs\ImpoterAPI\OpenFBX\ofbx.h" />
+    <ClInclude Include="..\..\APIs\ImpoterAPI\stb\stb_image.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="FBXImporter.h" />
+    <ClInclude Include="Importer.h" />
+    <ClInclude Include="ResourceData.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Logging\Logging.vcxproj">
       <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Math\Math.vcxproj">
+      <Project>{c8572e70-1b3f-469b-bb92-96dd46c72504}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
