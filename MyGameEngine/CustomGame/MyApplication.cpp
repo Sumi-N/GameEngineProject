@@ -21,7 +21,7 @@ MyApplication::MyApplication()
 	//TestScene::PhoneBlinn_Lights();
 	//TestScene::Normal_Debug_Plane();
 
-	//TestScene::Two_Cameras();
+	TestScene::Two_Cameras();
 
 	Execute();
 }

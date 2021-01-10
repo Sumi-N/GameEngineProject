@@ -90,14 +90,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimationClip.cpp" />
+    <ClCompile Include="AnimationPose.cpp" />
     <ClCompile Include="Define.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Skeleton.cpp" />
+    <ClCompile Include="SkeletonJoint.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationClip.h" />
+    <ClInclude Include="AnimationPose.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="Skeleton.h" />
+    <ClInclude Include="SkeletonJoint.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Graphics\Graphics.vcxproj">

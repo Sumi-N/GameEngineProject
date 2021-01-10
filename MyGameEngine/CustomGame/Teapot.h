@@ -16,15 +16,15 @@ inline void Teapot::Boot()
 {
 	PremadeObjebct::Boot();
 
-	mesh->Load("../../Assets/models/teapot.obj");
+	mesh->Load(PATH_SUFFIX MESH_PATH "teapot.obj");
 
 	OwningPointer<TextureAttribute> teapottexture  = OwningPointer<TextureAttribute>::Create(teapottexture);
 	OwningPointer<TextureAttribute> teapottexture2 = OwningPointer<TextureAttribute>::Create(teapottexture2);
 	OwningPointer<TextureAttribute> teapottexture3 = OwningPointer<TextureAttribute>::Create(teapottexture3);
 
-	teapottexture->Load("../../Assets/textures/albedo/brickwall.png", TextureType::PB_Diffuse);
-	teapottexture2->Load("../../Assets/textures/albedo/brickwall.png", TextureType::PB_Specular);
-	teapottexture3->Load("../../Assets/textures/normal/brickwall_normal.png", TextureType::PB_Normal);
+	teapottexture->Load(PATH_SUFFIX TEXTURE_PATH "albedo/brickwall.png", TextureType::PB_Diffuse);
+	teapottexture2->Load(PATH_SUFFIX TEXTURE_PATH "albedo/brickwall.png", TextureType::PB_Specular);
+	teapottexture3->Load(PATH_SUFFIX TEXTURE_PATH "normal/brickwall_normal.png", TextureType::PB_Normal);
 
 	const char* shaderpaths[] =
 	{
