@@ -12,6 +12,27 @@ namespace Math {
 	}
 
 	template<typename T>
+	inline Matrix4<T>::Matrix4(T i11, T i12, T i13, T i14, T i21, T i22, T i23, T i24, T i31, T i32, T i33, T i34, T i41, T i42, T i43, T i44)
+	{
+		ele[0] = i11;
+		ele[1] = i12;
+		ele[2] = i13;
+		ele[3] = i14;
+		ele[4] = i21;
+		ele[5] = i22;
+		ele[6] = i23;
+		ele[7] = i24;
+		ele[8] = i31;
+		ele[9] = i32;
+		ele[10] = i33;
+		ele[11] = i34;
+		ele[12] = i41;
+		ele[13] = i42;
+		ele[14] = i43;
+		ele[15] = i44;
+	}
+
+	template<typename T>
 	inline Matrix4<T> Matrix4<T>::operator*(Matrix4<T> const& i_m) const
 	{
 		Matrix4 o_m;

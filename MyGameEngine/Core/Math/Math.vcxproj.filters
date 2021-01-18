@@ -24,6 +24,9 @@
     <ClInclude Include="Define.h">
       <Filter>Precompiled Header</Filter>
     </ClInclude>
+    <ClInclude Include="Quaternion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Matrix.inl">
@@ -36,6 +39,9 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="Vector.intrinsic.inl">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Quaternion.inl">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

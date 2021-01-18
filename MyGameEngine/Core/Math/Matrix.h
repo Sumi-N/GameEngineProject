@@ -23,6 +23,7 @@ namespace Math
 		};
 
 		Matrix4();
+		Matrix4(T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T);
 
 		Matrix4<T> operator +(Matrix4<T> const & i_m) const;
 		Matrix4<T> operator -(Matrix4<T> const & i_m) const;

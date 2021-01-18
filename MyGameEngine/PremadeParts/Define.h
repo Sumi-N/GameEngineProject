@@ -2,6 +2,8 @@
 
 #include <Configuration/Configuration.h>
 
+#include <Math/Quaternion.h>
+
 #include <Parts/MeshComponent.h>
 #include <Parts/EffectComponent.h>
 #include <Parts/Object.h>

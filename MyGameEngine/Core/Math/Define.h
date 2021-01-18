@@ -1,6 +1,8 @@
 #pragma once
 #include <Configuration/Configuration.h>
 
+#include <Logging/Assert.h>
+
 #include <cmath>
 #include <math.h>
 #include <intrin.h>

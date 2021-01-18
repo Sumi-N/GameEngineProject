@@ -15,6 +15,11 @@ struct MeshData
 	Vec3f bitangent;
 };
 
+struct Joint
+{
+
+};
+
 enum class TextureType : int8_t
 {
 	SkyBox = -1,
