@@ -64,7 +64,7 @@
       <PrecompiledHeaderFile>Define.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Core\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Core\;$(SolutionDir)APIs\;$(SolutionDir)APIs\ImporterAPI\FBX SDK\2020.0.1\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -72,6 +72,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)APIs\ImporterAPI\FBX SDK\2020.0.1\lib\vs2017\x64\release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libfbxsdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -82,31 +86,19 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Define.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>Define.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Core\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Core\;$(SolutionDir)APIs\;$(SolutionDir)APIs\ImporterAPI\FBX SDK\2020.0.1\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)APIs\ImporterAPI\FBX SDK\2020.0.1\lib\vs2017\x64\debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libfbxsdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\APIs\ImpoterAPI\loadpng\lodepng.cpp" />
-    <ClCompile Include="..\..\APIs\ImpoterAPI\OpenFBX\miniz.c">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </ForcedIncludeFiles>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="..\..\APIs\ImpoterAPI\OpenFBX\ofbx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeaderFile>
-      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </ForcedIncludeFiles>
-    </ClCompile>
+    <ClCompile Include="..\..\APIs\ImporterAPI\loadpng\lodepng.cpp" />
     <ClCompile Include="Define.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -119,10 +111,8 @@
     <ClCompile Include="Importer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\APIs\ImpoterAPI\loadpng\lodepng.h" />
-    <ClInclude Include="..\..\APIs\ImpoterAPI\OpenFBX\miniz.h" />
-    <ClInclude Include="..\..\APIs\ImpoterAPI\OpenFBX\ofbx.h" />
-    <ClInclude Include="..\..\APIs\ImpoterAPI\stb\stb_image.h" />
+    <ClInclude Include="..\..\APIs\ImporterAPI\loadpng\lodepng.h" />
+    <ClInclude Include="..\..\APIs\ImporterAPI\stb\stb_image.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="FBXImporter.h" />
     <ClInclude Include="Importer.h" />

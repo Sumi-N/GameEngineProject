@@ -1,173 +1,143 @@
 #include "FBXImporter.h"
-#include <inttypes.h>
+
+/* Tab character ("\t") counter */
+int numTabs = 0;
+
+/**
+ * Print the required number of tabs.
+ */
+void PrintTabs()
+{
+	for (int i = 0; i < numTabs; i++)
+		printf("\t");
+}
+
+/**
+ * Return a string-based representation based on the attribute type.
+ */
+FbxString GetAttributeTypeName(FbxNodeAttribute::EType type)
+{
+	switch (type)
+	{
+	case FbxNodeAttribute::eUnknown: return "unidentified";
+	case FbxNodeAttribute::eNull: return "null";
+	case FbxNodeAttribute::eMarker: return "marker";
+	case FbxNodeAttribute::eSkeleton: return "skeleton";
+	case FbxNodeAttribute::eMesh: return "mesh";
+	case FbxNodeAttribute::eNurbs: return "nurbs";
+	case FbxNodeAttribute::ePatch: return "patch";
+	case FbxNodeAttribute::eCamera: return "camera";
+	case FbxNodeAttribute::eCameraStereo: return "stereo";
+	case FbxNodeAttribute::eCameraSwitcher: return "camera switcher";
+	case FbxNodeAttribute::eLight: return "light";
+	case FbxNodeAttribute::eOpticalReference: return "optical reference";
+	case FbxNodeAttribute::eOpticalMarker: return "marker";
+	case FbxNodeAttribute::eNurbsCurve: return "nurbs curve";
+	case FbxNodeAttribute::eTrimNurbsSurface: return "trim nurbs surface";
+	case FbxNodeAttribute::eBoundary: return "boundary";
+	case FbxNodeAttribute::eNurbsSurface: return "nurbs surface";
+	case FbxNodeAttribute::eShape: return "shape";
+	case FbxNodeAttribute::eLODGroup: return "lodgroup";
+	case FbxNodeAttribute::eSubDiv: return "subdiv";
+	default: return "unknown";
+	}
+}
+
+/**
+ * Print an attribute.
+ */
+void PrintAttribute(FbxNodeAttribute* pAttribute)
+{
+	if (!pAttribute) return;
+
+	FbxString typeName = GetAttributeTypeName(pAttribute->GetAttributeType());
+	FbxString attrName = pAttribute->GetName();
+	PrintTabs();
+	// Note: to retrieve the character array of a FbxString, use its Buffer() method.
+	printf("<attribute type='%s' name='%s'/>\n", typeName.Buffer(), attrName.Buffer());
+}
+
+/**
+ * Print a node, its attributes, and all its children recursively.
+ */
+void PrintNode(FbxNode* pNode)
+{
+	PrintTabs();
+	const char* nodeName = pNode->GetName();
+	FbxDouble3 translation = pNode->LclTranslation.Get();
+	FbxDouble3 rotation = pNode->LclRotation.Get();
+	FbxDouble3 scaling = pNode->LclScaling.Get();
+
+	// Print the contents of the node.
+	printf("<node name='%s' translation='(%f, %f, %f)' rotation='(%f, %f, %f)' scaling='(%f, %f, %f)'>\n",
+		nodeName,
+		translation[0], translation[1], translation[2],
+		rotation[0], rotation[1], rotation[2],
+		scaling[0], scaling[1], scaling[2]
+	);
+	numTabs++;
+
+	// Print the node's attributes.
+	for (int i = 0; i < pNode->GetNodeAttributeCount(); i++)
+		PrintAttribute(pNode->GetNodeAttributeByIndex(i));
+
+	// Recursively print the children.
+	for (int j = 0; j < pNode->GetChildCount(); j++)
+		PrintNode(pNode->GetChild(j));
+
+	numTabs--;
+	PrintTabs();
+	printf("</node>\n");
+}
 
 bool FBXImporter::Import(const char* filepath)
 {
-	FILE* fp = fopen(filepath, "rb");
+	// Change the following filename to a suitable filename value.
+	const char* lFilename = filepath;
 
-	if (!fp) return false;
+	// Initialize the SDK manager. This object handles memory management.
+	FbxManager* lSdkManager = FbxManager::Create();
 
-	fseek(fp, 0, SEEK_END);
-	long file_size = ftell(fp);
-	fseek(fp, 0, SEEK_SET);
-	auto* content = new ofbx::u8[file_size];
-	fread(content, 1, file_size, fp);
-	g_scene = ofbx::load((ofbx::u8*)content, file_size, (ofbx::u64)ofbx::LoadFlags::TRIANGULATE);
-	if (!g_scene)
+	// Create the IO settings object.
+	FbxIOSettings* ios = FbxIOSettings::Create(lSdkManager, IOSROOT);
+	lSdkManager->SetIOSettings(ios);
+
+	// Create an importer using the SDK manager.
+	FbxImporter* lImporter = FbxImporter::Create(lSdkManager, "");
+
+	// Use the first argument as the filename for the importer.
+	if (!lImporter->Initialize(lFilename, -1, lSdkManager->GetIOSettings()))
 	{
-		DEBUG_PRINT(ofbx::getError());
+		printf("Call to FbxImporter::Initialize() failed.\n");
+		printf("Error returned: %s\n\n", lImporter->GetStatus().GetErrorString());
+		exit(-1);
 	}
-	else
+
+	// Create a new scene so that it can be populated by the imported file.
+	FbxScene* lScene = FbxScene::Create(lSdkManager, "myScene");
+
+	// Import the contents of the file into the scene.
+	lImporter->Import(lScene);
+
+	// The file is imported, so get rid of the importer.
+	lImporter->Destroy();
+
+	// Print the nodes of the scene and their attributes recursively.
+// Note that we are not printing the root node because it should
+// not contain any attributes.
+	FbxNode* lRootNode = lScene->GetRootNode();
+	if (lRootNode)
 	{
-		saveAsOBJ(*g_scene, "out.obj");
+		for (int i = 0; i < lRootNode->GetChildCount(); i++)
+			PrintNode(lRootNode->GetChild(i));
 	}
 
-	//int count = g_scene->getMesh(0)->getGeometry()->getVertexCount();
-	//
-	//const ofbx::Pose* pose;
-	//const ofbx::Mesh* mesh;
-	//mesh = g_scene->getMesh(0);
-	//pose = mesh->getPose();
+	lScene->Destroy();
 
-	delete[] content;
+	ios->Destroy();
 
-	fclose(fp);
-}
-
-bool FBXImporter::saveAsOBJ(ofbx::IScene& scene, const char* path)
-{
-	FILE* fp = fopen(path, "wb");
-	if (!fp) return false;
-	int obj_idx = 0;
-	int indices_offset = 0;
-	int normals_offset = 0;
-	int mesh_count = scene.getMeshCount();
-	for (int i = 0; i < mesh_count; ++i)
-	{
-		fprintf(fp, "o obj%d\ng grp%d\n", i, obj_idx);
-
-		const ofbx::Mesh& mesh = *scene.getMesh(i);
-		const ofbx::Geometry& geom = *mesh.getGeometry();
-		int vertex_count = geom.getVertexCount();
-		const ofbx::Vec3* vertices = geom.getVertices();
-		for (int i = 0; i < vertex_count; ++i)
-		{
-			ofbx::Vec3 v = vertices[i];
-			fprintf(fp, "v %f %f %f\n", v.x, v.y, v.z);
-		}
-
-		bool has_normals = geom.getNormals() != nullptr;
-		if (has_normals)
-		{
-			const ofbx::Vec3* normals = geom.getNormals();
-			int count = geom.getIndexCount();
-
-			for (int i = 0; i < count; ++i)
-			{
-				ofbx::Vec3 n = normals[i];
-				fprintf(fp, "vn %f %f %f\n", n.x, n.y, n.z);
-			}
-		}
-
-		bool has_uvs = geom.getUVs() != nullptr;
-		if (has_uvs)
-		{
-			const ofbx::Vec2* uvs = geom.getUVs();
-			int count = geom.getIndexCount();
-
-			for (int i = 0; i < count; ++i)
-			{
-				ofbx::Vec2 uv = uvs[i];
-				fprintf(fp, "vt %f %f\n", uv.x, uv.y);
-			}
-		}
-
-		const int* faceIndices = geom.getFaceIndices();
-		int index_count = geom.getIndexCount();
-		bool new_face = true;
-		for (int i = 0; i < index_count; ++i)
-		{
-			if (new_face)
-			{
-				fputs("f ", fp);
-				new_face = false;
-			}
-			int idx = (faceIndices[i] < 0) ? -faceIndices[i] : (faceIndices[i] + 1);
-			int vertex_idx = indices_offset + idx;
-			fprintf(fp, "%d", vertex_idx);
-
-			if (has_uvs)
-			{
-				int uv_idx = normals_offset + i + 1;
-				fprintf(fp, "/%d", uv_idx);
-			}
-			else
-			{
-				fprintf(fp, "/");
-			}
-
-			if (has_normals)
-			{
-				int normal_idx = normals_offset + i + 1;
-				fprintf(fp, "/%d", normal_idx);
-			}
-			else
-			{
-				fprintf(fp, "/");
-			}
-
-			new_face = faceIndices[i] < 0;
-			fputc(new_face ? '\n' : ' ', fp);
-		}
-
-		indices_offset += vertex_count;
-		normals_offset += index_count;
-		++obj_idx;
-	}
-	fclose(fp);
-	return true;
-}
-
-template <int N>
-void catProperty(char(&out)[N], const ofbx::IElementProperty& prop)
-{
-	char tmp[128];
-	switch (prop.getType())
-	{
-	case ofbx::IElementProperty::DOUBLE: sprintf_s(tmp, "%f", prop.getValue().toDouble()); break;
-	case ofbx::IElementProperty::LONG: sprintf_s(tmp, "%" PRId64, prop.getValue().toU64()); break;
-	case ofbx::IElementProperty::INTEGER: sprintf_s(tmp, "%d", prop.getValue().toInt()); break;
-	case ofbx::IElementProperty::STRING: prop.getValue().toString(tmp); break;
-	default: sprintf_s(tmp, "Type: %c", (char)prop.getType()); break;
-	}
-	strcat_s(out, tmp);
-}
-
-bool FBXImporter::LoadData()
-{
-	const ofbx::IElement* root = g_scene->getRootElement();
-
-	if (root && root->getFirstChild())
-	{
-		for (const ofbx::IElement* element = root->getFirstChild(); element; element = element->getSibling())
-		{
-			auto id = element->getID();
-			char label[128];
-			id.toString(label);
-			strcat_s(label, "(");
-			ofbx::IElementProperty* prop = element->getFirstProperty();
-			bool first = true;
-			while (prop)
-			{
-				if (!first)
-					strcat_s(label, ", ");
-				first = false;
-				catProperty(label, *prop);
-				prop = prop->getNext();
-			}
-			strcat_s(label, ")");
-		}
-	}
+	// Destroy the SDK manager and all the other objects it was handling.
+	lSdkManager->Destroy();
 
 	return true;
 }
