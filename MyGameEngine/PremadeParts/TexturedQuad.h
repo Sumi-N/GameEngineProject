@@ -26,9 +26,9 @@ inline void TexturedQuad::Boot()
 	};
 
 	TextureAttribute* texture = new TextureAttribute();
-	texture->Load("../../Assets/textures/albedo/brickwall.png", TextureType::PB_Diffuse);
+	texture->Load(PATH_SUFFIX "Assets/textures/albedo/brickwall.png", TextureType::PB_Diffuse);
 	TextureAttribute* texture2 = new TextureAttribute();
-	texture2->Load("../../Assets/textures/albedo/brickwall.png", TextureType::PB_Specular);
+	texture2->Load(PATH_SUFFIX "Assets/textures/albedo/brickwall.png", TextureType::PB_Specular);
 
 	OwningPointer<EffectComponent> effect = OwningPointer<EffectComponent>::Create(effect);
 	effect->owner = Entity::Query(this).p;

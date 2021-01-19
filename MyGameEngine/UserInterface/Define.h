@@ -12,4 +12,6 @@
 
 #include <functional>
 
+#include <ResourceManagement/FBXImporter.h>
+
 #include <APIs/UserInterfaceAPI/imgui/imgui.h>

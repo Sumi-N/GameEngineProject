@@ -5,6 +5,8 @@
 #include <Logging/DebugLog.h>
 #include <Logging/Assert.h>
 #include <Math/Vector.h>
+#include <Math/Matrix.h>
+#include <Math/Quaternion.h>
 
 #include <APIs/ImpoterAPI/OpenFBX/ofbx.h>
 #include <APIs/ImpoterAPI/tinyobjloader/tiny_obj_loader.h>

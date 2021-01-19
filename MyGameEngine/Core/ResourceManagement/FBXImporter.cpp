@@ -1,4 +1,5 @@
 #include "FBXImporter.h"
+#include <inttypes.h>
 
 bool FBXImporter::Import(const char* filepath)
 {
@@ -21,12 +22,12 @@ bool FBXImporter::Import(const char* filepath)
 		saveAsOBJ(*g_scene, "out.obj");
 	}
 
-	int count = g_scene->getMesh(0)->getGeometry()->getVertexCount();
-	
-	const ofbx::Pose* pose;
-	const ofbx::Mesh* mesh;
-	mesh = g_scene->getMesh(0);
-	pose = mesh->getPose();
+	//int count = g_scene->getMesh(0)->getGeometry()->getVertexCount();
+	//
+	//const ofbx::Pose* pose;
+	//const ofbx::Mesh* mesh;
+	//mesh = g_scene->getMesh(0);
+	//pose = mesh->getPose();
 
 	delete[] content;
 
@@ -124,5 +125,49 @@ bool FBXImporter::saveAsOBJ(ofbx::IScene& scene, const char* path)
 		++obj_idx;
 	}
 	fclose(fp);
+	return true;
+}
+
+template <int N>
+void catProperty(char(&out)[N], const ofbx::IElementProperty& prop)
+{
+	char tmp[128];
+	switch (prop.getType())
+	{
+	case ofbx::IElementProperty::DOUBLE: sprintf_s(tmp, "%f", prop.getValue().toDouble()); break;
+	case ofbx::IElementProperty::LONG: sprintf_s(tmp, "%" PRId64, prop.getValue().toU64()); break;
+	case ofbx::IElementProperty::INTEGER: sprintf_s(tmp, "%d", prop.getValue().toInt()); break;
+	case ofbx::IElementProperty::STRING: prop.getValue().toString(tmp); break;
+	default: sprintf_s(tmp, "Type: %c", (char)prop.getType()); break;
+	}
+	strcat_s(out, tmp);
+}
+
+bool FBXImporter::LoadData()
+{
+	const ofbx::IElement* root = g_scene->getRootElement();
+
+	if (root && root->getFirstChild())
+	{
+		for (const ofbx::IElement* element = root->getFirstChild(); element; element = element->getSibling())
+		{
+			auto id = element->getID();
+			char label[128];
+			id.toString(label);
+			strcat_s(label, "(");
+			ofbx::IElementProperty* prop = element->getFirstProperty();
+			bool first = true;
+			while (prop)
+			{
+				if (!first)
+					strcat_s(label, ", ");
+				first = false;
+				catProperty(label, *prop);
+				prop = prop->getNext();
+			}
+			strcat_s(label, ")");
+		}
+	}
+
 	return true;
 }

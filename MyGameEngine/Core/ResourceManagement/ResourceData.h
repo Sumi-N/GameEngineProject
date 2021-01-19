@@ -15,11 +15,6 @@ struct MeshData
 	Vec3f bitangent;
 };
 
-struct Joint
-{
-
-};
-
 enum class TextureType : int8_t
 {
 	SkyBox = -1,
@@ -39,4 +34,31 @@ enum class TextureType : int8_t
 	PB_Specular = 1,
 	PB_Normal = 2,
 	PB_Displacement = 3,
+};
+
+struct Joint
+{
+	Mat4f       inversed; // inversed bind pose translation matrix
+	const char* name;
+	uint8_t     parent;
+};
+
+struct Skeleton
+{
+	uint32_t joint_count;
+	Joint*   joints;
+};
+
+struct JointPose
+{
+	Quaternionf rot;
+	Vec4f       trans;
+	Vec4f       scale;
+};
+
+struct SkeletonPose
+{
+	Skeleton*  skeletons;
+	JointPose* local_pose;
+	Mat4f      global_pose;
 };

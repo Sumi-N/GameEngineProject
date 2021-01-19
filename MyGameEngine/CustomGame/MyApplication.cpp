@@ -15,7 +15,7 @@ public:
 
 MyApplication::MyApplication()
 {
-	TestScene::PBR_9Balls();
+	//TestScene::PBR_9Balls();
 	//TestScene::PBR_Red_Balls();
 	//TestScene::PhoneBlinn_Teapots();
 	//TestScene::PhoneBlinn_Lights();

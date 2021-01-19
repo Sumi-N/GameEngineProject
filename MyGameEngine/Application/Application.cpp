@@ -11,9 +11,6 @@ Application::Application()
 
 void Application::Boot()
 {
-	FBXImporter fbx;
-	fbx.Import(PATH_SUFFIX MESH_PATH "gunhand.fbx");
-
 	Thread_Game.Create();
 	Thread_Render.Create();
 

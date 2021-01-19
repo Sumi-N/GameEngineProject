@@ -1,4 +1,8 @@
 #include "ImguiLayer.h"
+#include <inttypes.h>
+
+#include <iostream>
+#include <string>
 
 ImguiLayer::ImguiLayer()
 	:Layer()
@@ -13,6 +17,10 @@ ImguiLayer::~ImguiLayer()
 
 void ImguiLayer::OnAttach()
 {
+	FBXImporter fbx;
+	fbx.Import(PATH_SUFFIX MESH_PATH "gunhand.fbx");
+	this->g_scene = fbx.GetScene();
+
 	ImGui::CreateContext();
 	ImGui::StyleColorsDark();
 
@@ -58,12 +66,14 @@ void ImguiLayer::OnUpdate()
 	ImGuiIO& io = ImGui::GetIO();
 
 	ImGui_ImplOpenGL3_NewFrame();
-	ImGui::NewFrame();
+	//ImGui::NewFrame();
 
-	static bool show = true;
-	ImGui::ShowDemoWindow(&show);
+	//static bool show = true;
+	//ImGui::ShowDemoWindow(&show);
 
-	ImGui::Render();
+	//ImGui::Render();
+
+	onGUI();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
@@ -122,3 +132,235 @@ bool ImguiLayer::OnWindowResizedEvent(WindowResizeEvent& e)
 	return true;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void ImguiLayer::onGUI()
+{
+
+	auto& io = ImGui::GetIO();
+	io.KeyShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
+	io.KeyCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
+	io.KeyCtrl = (GetKeyState(VK_MENU) & 0x8000) != 0;
+
+	ImGui::NewFrame();
+
+	if (g_scene)
+	{
+		//		ImGui::RootDock(ImVec2(0, 0), ImGui::GetIO().DisplaySize);
+		if (ImGui::Begin("Elements"))
+		{
+			const ofbx::IElement* root = g_scene->getRootElement();
+			if (root && root->getFirstChild()) showGUI(*root);
+		}
+		ImGui::End();
+		if (ImGui::Begin("Properties") && g_selected_element)
+		{
+			ofbx::IElementProperty* prop = g_selected_element->getFirstProperty();
+			if (prop) showGUI(*prop);
+		}
+		ImGui::End();
+
+		showObjectsGUI(*g_scene);
+	}
+
+	ImGui::Render();
+}
+
+template <int N>
+void ImguiLayer::toString(ofbx::DataView view, char(&out)[N])
+{
+	int len = int(view.end - view.begin);
+	if (len > sizeof(out) - 1) len = sizeof(out) - 1;
+	strncpy(out, (const char*)view.begin, len);
+	out[len] = 0;
+}
+
+
+int ImguiLayer::getPropertyCount(ofbx::IElementProperty* prop)
+{
+	return prop ? getPropertyCount(prop->getNext()) + 1 : 0;
+}
+
+
+template <int N>
+void ImguiLayer::catProperty(char(&out)[N], const ofbx::IElementProperty& prop)
+{
+	char tmp[128];
+	switch (prop.getType())
+	{
+	case ofbx::IElementProperty::DOUBLE: sprintf_s(tmp, "%f", prop.getValue().toDouble()); break;
+	case ofbx::IElementProperty::LONG: sprintf_s(tmp, "%" PRId64, prop.getValue().toU64()); break;
+	case ofbx::IElementProperty::INTEGER: sprintf_s(tmp, "%d", prop.getValue().toInt()); break;
+	case ofbx::IElementProperty::STRING: prop.getValue().toString(tmp); break;
+	default: sprintf_s(tmp, "Type: %c", (char)prop.getType()); break;
+	}
+	strcat_s(out, tmp);
+}
+
+
+void ImguiLayer::showGUI(const ofbx::IElement& parent)
+{
+	for (const ofbx::IElement* element = parent.getFirstChild(); element; element = element->getSibling())
+	{
+		auto id = element->getID();
+		char label[128];
+		id.toString(label);
+		strcat_s(label, " (");
+		ofbx::IElementProperty* prop = element->getFirstProperty();
+		bool first = true;
+		while (prop)
+		{
+			if (!first)
+				strcat_s(label, ", ");
+			first = false;
+			catProperty(label, *prop);
+			prop = prop->getNext();
+		}
+		strcat_s(label, ")");
+
+		ImGui::PushID((const void*)id.begin);
+		ImGuiTreeNodeFlags flags = g_selected_element == element ? ImGuiTreeNodeFlags_Selected : 0;
+		if (!element->getFirstChild()) flags |= ImGuiTreeNodeFlags_Leaf;
+		if (ImGui::TreeNodeEx(label, flags))
+		{
+			if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(0)) g_selected_element = element;
+			if (element->getFirstChild()) showGUI(*element);
+			ImGui::TreePop();
+		}
+		else
+		{
+			if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(0)) g_selected_element = element;
+		}
+		ImGui::PopID();
+	}
+}
+
+
+template <typename T>
+void ImguiLayer::showArray(const char* label, const char* format, ofbx::IElementProperty& prop)
+{
+	if (!ImGui::CollapsingHeader(label)) return;
+
+	int count = prop.getCount();
+	ImGui::Text("Count: %d", count);
+	std::vector<T> tmp;
+	tmp.resize(count);
+	prop.getValues(&tmp[0], int(sizeof(tmp[0]) * tmp.size()));
+	for (T v : tmp)
+	{
+		ImGui::Text(format, v);
+	}
+}
+
+
+void ImguiLayer::showGUI(ofbx::IElementProperty& prop)
+{
+	ImGui::PushID((void*)&prop);
+	char tmp[256];
+	switch (prop.getType())
+	{
+	case ofbx::IElementProperty::LONG: ImGui::Text("Long: %" PRId64, prop.getValue().toU64()); break;
+	case ofbx::IElementProperty::FLOAT: ImGui::Text("Float: %f", prop.getValue().toFloat()); break;
+	case ofbx::IElementProperty::DOUBLE: ImGui::Text("Double: %f", prop.getValue().toDouble()); break;
+	case ofbx::IElementProperty::INTEGER: ImGui::Text("Integer: %d", prop.getValue().toInt()); break;
+	case ofbx::IElementProperty::ARRAY_FLOAT: showArray<float>("float array", "%f", prop); break;
+	case ofbx::IElementProperty::ARRAY_DOUBLE: showArray<double>("double array", "%f", prop); break;
+	case ofbx::IElementProperty::ARRAY_INT: showArray<int>("int array", "%d", prop); break;
+	case ofbx::IElementProperty::ARRAY_LONG: showArray<ofbx::u64>("long array", "%" PRId64, prop); break;
+	case ofbx::IElementProperty::STRING:
+		toString(prop.getValue(), tmp);
+		ImGui::Text("String: %s", tmp);
+		break;
+	default:
+		ImGui::Text("Other: %c", (char)prop.getType());
+		break;
+	}
+
+	ImGui::PopID();
+	if (prop.getNext()) showGUI(*prop.getNext());
+}
+
+
+void ImguiLayer::showCurveGUI(const ofbx::Object& object)
+{
+	const ofbx::AnimationCurve& curve = static_cast<const ofbx::AnimationCurve&>(object);
+
+	const int c = curve.getKeyCount();
+	for (int i = 0; i < c; ++i)
+	{
+		const float t = (float)ofbx::fbxTimeToSeconds(curve.getKeyTime()[i]);
+		const float v = curve.getKeyValue()[i];
+		ImGui::Text("%fs: %f ", t, v);
+
+	}
+}
+
+
+void ImguiLayer::showObjectGUI(const ofbx::Object& object)
+{
+	const char* label;
+	switch (object.getType())
+	{
+	case ofbx::Object::Type::GEOMETRY: label = "geometry"; break;
+	case ofbx::Object::Type::MESH: label = "mesh"; break;
+	case ofbx::Object::Type::MATERIAL: label = "material"; break;
+	case ofbx::Object::Type::ROOT: label = "root"; break;
+	case ofbx::Object::Type::TEXTURE: label = "texture"; break;
+	case ofbx::Object::Type::NULL_NODE: label = "null"; break;
+	case ofbx::Object::Type::LIMB_NODE: label = "limb node"; break;
+	case ofbx::Object::Type::NODE_ATTRIBUTE: label = "node attribute"; break;
+	case ofbx::Object::Type::CLUSTER: label = "cluster"; break;
+	case ofbx::Object::Type::SKIN: label = "skin"; break;
+	case ofbx::Object::Type::ANIMATION_STACK: label = "animation stack"; break;
+	case ofbx::Object::Type::ANIMATION_LAYER: label = "animation layer"; break;
+	case ofbx::Object::Type::ANIMATION_CURVE: label = "animation curve"; break;
+	case ofbx::Object::Type::ANIMATION_CURVE_NODE: label = "animation curve node"; break;
+	default: assert(false); break;
+	}
+
+	ImGuiTreeNodeFlags flags = g_selected_object == &object ? ImGuiTreeNodeFlags_Selected : 0;
+	char tmp[128];
+	sprintf_s(tmp, "%" PRId64 " %s (%s)", object.id, object.name, label);
+	if (ImGui::TreeNodeEx(tmp, flags))
+	{
+		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(0)) g_selected_object = &object;
+		int i = 0;
+		while (ofbx::Object* child = object.resolveObjectLink(i))
+		{
+			showObjectGUI(*child);
+			++i;
+		}
+		if (object.getType() == ofbx::Object::Type::ANIMATION_CURVE)
+		{
+			showCurveGUI(object);
+		}
+
+		ImGui::TreePop();
+	}
+	else
+	{
+		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(0)) g_selected_object = &object;
+	}
+}
+
+
+void ImguiLayer::showObjectsGUI(const ofbx::IScene& scene)
+{
+	if (!ImGui::Begin("Objects"))
+	{
+		ImGui::End();
+		return;
+	}
+	const ofbx::Object* root = scene.getRoot();
+	if (root) showObjectGUI(*root);
+
+	int count = scene.getAnimationStackCount();
+	for (int i = 0; i < count; ++i)
+	{
+		const ofbx::Object* stack = scene.getAnimationStack(i);
+		showObjectGUI(*stack);
+	}
+
+	ImGui::End();
+}
