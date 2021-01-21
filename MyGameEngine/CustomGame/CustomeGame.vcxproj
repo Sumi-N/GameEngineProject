@@ -84,6 +84,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="MyApplication.cpp" />
+    <ClCompile Include="TestScene_Importer.cpp" />
     <ClCompile Include="TestScene_Normal_Debug_Plane.cpp" />
     <ClCompile Include="TestScene_PBR_9Balls.cpp" />
     <ClCompile Include="TestScene_PBR_Red_Balls.cpp" />

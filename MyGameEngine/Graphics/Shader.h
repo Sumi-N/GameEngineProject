@@ -10,7 +10,7 @@ public:
 		evalpath    (nullptr),
 		geopath     (nullptr),
 		fragpath    (nullptr)
-		{}
+	{}
 
 	Shader(const char* i_vert, const char* i_frag) :
 		vertpath    (i_vert),

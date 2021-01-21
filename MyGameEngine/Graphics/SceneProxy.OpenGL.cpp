@@ -42,11 +42,12 @@ void SceneProxy::InitBuffer()
 
 void SceneProxy::InitMeshData()
 {
-	// Set vertex data to vertex buffer
+	// Set vertex data to vertex buffer, index data to index buffer
 	glBufferData(GL_ARRAY_BUFFER, mesh->data.size() * sizeof(mesh->data[0]), mesh->data.data(), GL_STATIC_DRAW);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->index.size() * sizeof(mesh->index[0]), mesh->index.data(), GL_STATIC_DRAW);
 
 	// Enable vertex attribute
+	// From 0: vertex, 1: normal, 2: uv coordinate, 3: tangent, 4: bitangent
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);

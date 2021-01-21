@@ -17,9 +17,6 @@ ImguiLayer::~ImguiLayer()
 
 void ImguiLayer::OnAttach()
 {
-	FBXImporter fbx;
-	fbx.Import(PATH_SUFFIX MESH_PATH "gunhand.fbx");
-
 	ImGui::CreateContext();
 	ImGui::StyleColorsDark();
 

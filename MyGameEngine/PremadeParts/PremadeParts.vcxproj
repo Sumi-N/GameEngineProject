@@ -89,6 +89,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Cube.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="PremadeObject.h" />

@@ -25,20 +25,6 @@ inline void PremadeObjebct::Boot()
 	mesh->owner = Entity::Query(this).p;
 	Entity::RegisterMeshComponent(mesh);
 
-	//const char* shaderpaths[] =
-	//{
-	//	PATH_SUFFIX SHADER_PATH DEBUG_POLYGON_VERT,
-	//	nullptr,
-	//	nullptr,
-	//	PATH_SUFFIX SHADER_PATH DEBUG_POLYGON_GEO,
-	//	PATH_SUFFIX SHADER_PATH DEBUG_POLYGON_FRAG,
-	//};
-
-	//OwningPointer<EffectComponent> effect;
-	//effect = ObjectFactory<EffectComponent>::Create();
-	//effect->owner = Entity::Query(this).p;
-	//effect->RegisterShaderPath(shaderpaths);
-	//Entity::RegisterEffectComponent(effect);
 
 #if defined(_DEBUG) && !defined(NDEBUG)
 	//SHOW_DEBUG_POLYGON
@@ -50,8 +36,6 @@ inline void PremadeObjebct::Boot()
 
 #endif // DEBUG
 
-	{
-	}
 }
 
 inline void PremadeObjebct::Init()
