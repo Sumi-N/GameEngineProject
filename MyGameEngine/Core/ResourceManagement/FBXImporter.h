@@ -17,6 +17,6 @@ public:
 
 public:
 	bool LoadMesh(const char* filename, std::vector<MeshData>& data, std::vector<int>& index);
-	void ImportMesh(FbxNode* pNode, std::vector<MeshData>& data, std::vector<int>& index);
+	void ImportMesh(FbxNode* pNode, std::vector<MeshData>& data, std::vector<int>& index, Mat4f model_matrix);
 };
 

@@ -18,6 +18,6 @@ out VS_OUT{
 
 void main()
 {
-	gl_Position = model_view_perspective_matrix * vec4(model_position, 1);
-	vs_out.world_normal               = normalize(mat3(model_inverse_transpose_matrix) * model_normal);
+	gl_Position          = model_view_perspective_matrix * vec4(model_position, 1);
+	vs_out.world_normal  = normalize(mat3(model_inverse_transpose_matrix) * model_normal);
 }

@@ -21,12 +21,11 @@ layout (std140, binding = 0) uniform const_camera
 
 out VS_OUT{
 	// Normal vector of the object at world coordinate
-	vec3 world_normal;
+	vec3 normal;
 } vs_out;
 
 void main()
 {
-	gl_Position         = model_view_perspective_matrix * vec4(model_position, 1);
-	//vs_out.world_normal = normalize(perspective_matrix * view_matrix * vec4(mat3(model_inverse_transpose_matrix) * model_normal, 0.0));
-	vs_out.world_normal = model_normal;
+	gl_Position         = model_view_perspective_matrix * vec4(model_position, 1.0);
+	vs_out.normal       = normalize(mat3(perspective_matrix) * mat3(view_matrix) * mat3(model_inverse_transpose_matrix) * model_normal);
 }

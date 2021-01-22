@@ -4,18 +4,18 @@
 
 #include <math.h>
 
+// Elements of the matrix are column-major:
+// [ 0, 4,  8, 12]  //[0, 3, 6]
+// [ 1, 5,  9, 13]  //[1, 4, 7]
+// [ 2, 6, 10, 14]  //[2, 5, 8]
+// [ 3, 7, 11, 15] 
+
 namespace Math
 {
 	template<typename T>
 	class Matrix4
 	{
 	public:
-
-		// Elements of the matrix are column-major:
-		// [ 0, 4,  8, 12] 
-		// [ 1, 5,  9, 13] 
-		// [ 2, 6, 10, 14] 
-		// [ 3, 7, 11, 15] 
 		union
 		{
 			T ele[16];
@@ -52,7 +52,18 @@ namespace Math
 		static Matrix4<T> TruncateToMat3(Matrix4<T> i_m);
 	};
 
+	//template<typename T>
+	//class Matrix3
+	//{
+	//public:
+	//	union
+	//	{
+	//		T ele[16];
+	//		Vec3<T> column[3];
+	//	};
 
+	//	Matrix3();
+	//};
 }
 
 typedef Math::Matrix4<float> Mat4f;

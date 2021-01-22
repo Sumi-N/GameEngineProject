@@ -2,12 +2,7 @@
 layout (triangles) in;
 layout (line_strip, max_vertices = 6) out;
 
-out VS_OUT{
-	// Normal vector of the object at world coordinate
-	vec3 world_normal;
-} gs_in[];
-
-const float MAGNITUDE = 10.0;
+const float MAGNITUDE = 0.4;
 
 layout (std140, binding = 1) uniform const_model
 {
@@ -24,15 +19,19 @@ layout (std140, binding = 0) uniform const_camera
 	float camera_padding;
 };
 
+in VS_OUT{
+	// Normal vector of the object at world coordinate
+	vec3 normal;
+} gs_in[];
 
 void GenerateLine(int index)
 {
-    vec4 world_normal = normalize(perspective_matrix * view_matrix * vec4(mat3(model_inverse_transpose_matrix) * gs_in[index].world_normal, 0.0));
 
     gl_Position = gl_in[index].gl_Position;
     EmitVertex();
-    gl_Position = gl_in[index].gl_Position + vec4(gs_in[index].world_normal, 1.0);
-    //gl_Position = gl_in[index].gl_Position + vec4(10, 0, 0, 0);
+    gl_Position = gl_in[index].gl_Position + 
+                                        vec4(gs_in[index].normal, 0.0) * 3;
+
     EmitVertex();
     EndPrimitive();
 }

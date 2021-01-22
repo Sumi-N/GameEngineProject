@@ -198,9 +198,9 @@ namespace Math {
 		Vec4(Vec3<T> i_v, T i_w) : x(i_v.x), y(i_v.y), z(i_v.z), w(i_w) {}
 		Vec4(T i_x, T i_y, T i_z, T i_w) : x(i_x), y(i_y), z(i_z), w(i_w) {}
 
-		template <typename U> 
+		explicit Vec4(Vec3<T> const& t) : x(t.x), y(t.y), z(t.z), w(1) {}
+		template <typename U>
 		explicit Vec4(Vec4<U> const& u) : x(static_cast<T>(u.x)), y(static_cast<T>(u.y)), z(static_cast<T>(u.z)), z(static_cast<T>(u.w)) {}
-		explicit Vec4(Vec3<T> const& t) : x(t.x), y(t.y), z(t.z), w(0) {}
 
 		//!@ Operator with constant value
 		friend Vec4 operator + (T t, Vec4 const& u) { Vec4 o_v; o_v.x = t + u.x; o_v.y = t + u.y; o_v.z = t + u.z; o_v.w = t + u.w; return o_v; }
@@ -258,7 +258,7 @@ namespace Math {
 		template <typename U>
 		explicit Vec4(Vec4<U> const& u) : x(static_cast<float>(u.x)), y(static_cast<float>(u.y)), z(static_cast<float>(u.z)), z(static_cast<float>(u.w)) {}
 		template <typename U>
-		explicit Vec4(Vec3<U> const& t) : x(t.x), y(t.y), z(t.z), w(0) {}
+		explicit Vec4(Vec3<U> const& t) : x(t.x), y(t.y), z(t.z), w(1.0f) {}
 
 		Vec4<float> operator + (Vec4<float> const& i_v) const;
 		Vec4<float> operator - (Vec4<float> const& i_v) const;
