@@ -10,12 +10,6 @@
 
 void TestScene::Importer()
 {
-	FBXImporter fbx;
-	fbx.Import(PATH_SUFFIX MESH_PATH "twocubes.fbx");
-	std::vector<MeshData> data;
-	std::vector<int> index;
-	//fbx.LoadMesh(PATH_SUFFIX MESH_PATH "cube.fbx", data, index);
-
 	// Setting up camera
 	OwningPointer<MyCamera> mycamera = OwningPointer<MyCamera>::Create(mycamera);
 	Entity::RegisterCamera(mycamera);

@@ -15,6 +15,15 @@ struct MeshData
 	Vec3f bitangent;
 };
 
+struct MaterialData
+{
+	Vec3f ambient;
+	Vec3f diffuse;
+	Vec3f emissive;
+	Vec3f specular;
+	float shininess;
+};
+
 enum class TextureType : int8_t
 {
 	SkyBox = -1,
@@ -40,13 +49,18 @@ struct Joint
 {
 	Mat4f       inversed; // inversed bind pose translation matrix
 	const char* name;
-	uint8_t     parent;
+	uint8_t     parent_index;
+};
+
+struct BlendingWeight
+{
+	int index;
+	float weight;
 };
 
 struct Skeleton
 {
-	uint32_t joint_count;
-	Joint*   joints;
+	std::vector<Joint>   joints;
 };
 
 struct JointPose

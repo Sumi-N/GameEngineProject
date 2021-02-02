@@ -1,5 +1,7 @@
 #include "FBXImporter.h"
 
+#define FBXSDK_SHARED
+
 /* Tab character ("\t") counter */
 int numTabs = 0;
 
@@ -35,9 +37,12 @@ bool FBXImporter::Import(const char* filepath)
 	// The file is imported, so get rid of the importer.
 	lImporter->Destroy();
 
+	//FbxGeometryConverter geometryConverter(lSdkManager);
+	//geometryConverter.SplitMeshesPerMaterial(lScene, true);
+
 	// Print the nodes of the scene and their attributes recursively.
-// Note that we are not printing the root node because it should
-// not contain any attributes.
+	// Note that we are not printing the root node because it should
+	// not contain any attributes.
 	FbxNode* lRootNode = lScene->GetRootNode();
 	if (lRootNode)
 	{
@@ -182,14 +187,45 @@ bool FBXImporter::LoadMesh(const char* filename, std::vector<MeshData>& data, st
 	// The file is imported, so get rid of the importer.
 	lImporter->Destroy();
 
-	// Print the nodes of the scene and their attributes recursively.
-	// Note that we are not printing the root node because it should
-	// not contain any attributes.
+	// Triangulate the meshes
+	FbxGeometryConverter geometryConverter(lSdkManager);
+	DEBUG_ASSERT(geometryConverter.Triangulate(lScene, true));
+	geometryConverter.RemoveBadPolygonsFromMeshes(lScene);
+
+	// Split mesh per material
+	geometryConverter.SplitMeshesPerMaterial(lScene, true);
+
+	// Get the root node
 	FbxNode* lRootNode = lScene->GetRootNode();
 	if (lRootNode)
 	{
 		for (int i = 0; i < lRootNode->GetChildCount(); i++)
 			ImportMesh(lRootNode->GetChild(i), data, index, Mat4f());
+	}
+
+	{
+		// Get mesh in the scene
+		//int meshCount = lScene->GetSrcObjectCount<FbxMesh>();
+
+		//for (int i = 0; i < meshCount; ++i)
+		{
+			//auto* mesh = lScene->GetSrcObject<FbxMesh>(i);
+			//std::string name = mesh->GetName();
+
+		}
+	}
+
+	{
+		// Get materials in the scene
+		auto materialCount = lScene->GetMaterialCount();
+
+		for (int i = 0; i < materialCount; ++i)
+		{
+			FbxSurfaceMaterial* material = lScene->GetMaterial(i);
+			std::string name = material->GetName();
+			//printf(name.c_str());
+			//printf("\n");
+		}
 	}
 
 	// Destroy the SDK manager and all the other objects it was handling.
@@ -198,12 +234,12 @@ bool FBXImporter::LoadMesh(const char* filename, std::vector<MeshData>& data, st
 	return true;
 }
 
-void FBXImporter::ImportMesh(FbxNode* pNode, std::vector<MeshData>& data, std::vector<int>& index, Mat4f model_matrix)
+bool FBXImporter::ImportMesh(FbxNode* pNode, std::vector<MeshData>& data, std::vector<int>& index, Mat4f model_matrix)
 {
 	// Get translation rotation scale
-	Vec3f translation(pNode->LclTranslation.Get().mData[0], pNode->LclTranslation.Get().mData[1], pNode->LclTranslation.Get().mData[2]);
-	Vec3f rotation(pNode->LclRotation.Get().mData[0], pNode->LclRotation.Get().mData[1], pNode->LclRotation.Get().mData[2]);
-	Vec3f scaling(pNode->LclScaling.Get().mData[0], pNode->LclScaling.Get().mData[1], pNode->LclScaling.Get().mData[2]);
+	Vec3f translation((float)pNode->LclTranslation.Get().mData[0], (float)pNode->LclTranslation.Get().mData[1], (float)pNode->LclTranslation.Get().mData[2]);
+	Vec3f rotation((float)pNode->LclRotation.Get().mData[0], (float)pNode->LclRotation.Get().mData[1], (float)pNode->LclRotation.Get().mData[2]);
+	Vec3f scaling((float)pNode->LclScaling.Get().mData[0], (float)pNode->LclScaling.Get().mData[1], (float)pNode->LclScaling.Get().mData[2]);
 
 	// Make a model matrix
 	Mat4f translation_mat = Mat4f::Translate(translation);
@@ -214,13 +250,17 @@ void FBXImporter::ImportMesh(FbxNode* pNode, std::vector<MeshData>& data, std::v
 	model_matrix = translation_mat * rotation_mat_z * rotation_mat_y * rotation_mat_x * scaling_mat * model_matrix;
 	Mat4f model_inverse_transpose_matrix = Mat4f::Transpose(Mat4f::Inverse(model_matrix));
 
+	FbxDouble3 geo_translation = pNode->GeometricTranslation.Get();
+	FbxDouble3 geo_rotation = pNode->GeometricRotation.Get();
+	FbxDouble3 get_scaling = pNode->GeometricScaling.Get();
+
 	// Search the node's attributes.
 	for (int i = 0; i < pNode->GetNodeAttributeCount(); i++)
 	{
 		if (pNode->GetNodeAttributeByIndex(i)->GetAttributeType() == FbxNodeAttribute::eMesh)
 		{
 			// Get the mesh pointer
-			FbxMesh* pMesh = (FbxMesh*)pNode->GetNodeAttribute();
+			FbxMesh* pMesh = (FbxMesh*)pNode->GetNodeAttributeByIndex(i);
 
 			// Get index array and the size
 			int  index_count = pMesh->GetPolygonVertexCount();
@@ -233,168 +273,77 @@ void FBXImporter::ImportMesh(FbxNode* pNode, std::vector<MeshData>& data, std::v
 			FbxArray< FbxVector4 > normal_array;
 			pMesh->GetPolygonVertexNormals(normal_array);
 
-			// Current vertex count
-			int c = 0;
+			// Get UV layer names
+			FbxStringList uvsetName;
+			pMesh->GetUVSetNames(uvsetName);
+
 			// Current index count
-			int n = 0 + index.size();
+			int n = 0 + (int)index.size();
 			
-			// Make sure to check the polygon size, otherwise, the conversion below doesn't work correctly.
-			// Currently we only support polygon size 3 and 4
+			// The reason we can assume each polygon has 3 vertices is because we called triangulate function before
 			for (int j = 0; j < pMesh->GetPolygonCount(); j++)
 			{
-				if (pMesh->GetPolygonSize(j) == 3)
+				index.push_back(n + 3 * j + 0);
+				index.push_back(n + 3 * j + 1);
+				index.push_back(n + 3 * j + 2);
+
+				MeshData p1, p2, p3;
+
+				p1.vertex.x = (float)vertex_array[index_array[3 * j + 0]].mData[0];
+				p1.vertex.y = (float)vertex_array[index_array[3 * j + 0]].mData[1];
+				p1.vertex.z = (float)vertex_array[index_array[3 * j + 0]].mData[2];
+							
+				p2.vertex.x = (float)vertex_array[index_array[3 * j + 1]].mData[0];
+				p2.vertex.y = (float)vertex_array[index_array[3 * j + 1]].mData[1];
+				p2.vertex.z = (float)vertex_array[index_array[3 * j + 1]].mData[2];
+					
+				p3.vertex.x = (float)vertex_array[index_array[3 * j + 2]].mData[0];
+				p3.vertex.y = (float)vertex_array[index_array[3 * j + 2]].mData[1];
+				p3.vertex.z = (float)vertex_array[index_array[3 * j + 2]].mData[2];
+
+				p1.normal.x = (float)normal_array[3 * j + 0].mData[0];
+				p1.normal.y = (float)normal_array[3 * j + 0].mData[1];
+				p1.normal.z = (float)normal_array[3 * j + 0].mData[2];
+								   
+				p2.normal.x = (float)normal_array[3 * j + 1].mData[0];
+				p2.normal.y = (float)normal_array[3 * j + 1].mData[1];
+				p2.normal.z = (float)normal_array[3 * j + 1].mData[2];
+							
+				p3.normal.x = (float)normal_array[3 * j + 2].mData[0];
+				p3.normal.y = (float)normal_array[3 * j + 2].mData[1];
+				p3.normal.z = (float)normal_array[3 * j + 2].mData[2];
+
+				p1.vertex = model_matrix * p1.vertex;
+				p2.vertex = model_matrix * p2.vertex;
+				p3.vertex = model_matrix * p3.vertex;
+
+				p1.normal = model_inverse_transpose_matrix * p1.normal;
+				p2.normal = model_inverse_transpose_matrix * p2.normal;
+				p3.normal = model_inverse_transpose_matrix * p3.normal;
+
+				// Get the first UV sets
+				if (uvsetName.GetCount() > 0)
 				{
-					index.push_back(c);
-					index.push_back(c + 1);
-					index.push_back(c + 2);
+					FbxVector2 uv1, uv2, uv3;
+					bool flag1, flag2, flag3;
 
-					MeshData p1, p2, p3;
+					pMesh->GetPolygonVertexUV(j, 0, uvsetName.GetStringAt(0), uv1, flag1);
+					pMesh->GetPolygonVertexUV(j, 1, uvsetName.GetStringAt(0), uv2, flag2);
+					pMesh->GetPolygonVertexUV(j, 2, uvsetName.GetStringAt(0), uv3, flag3);
 
-					p1.vertex.x = vertex_array[index_array[c + 0]].mData[0];
-					p1.vertex.y = vertex_array[index_array[c + 0]].mData[1];
-					p1.vertex.z = vertex_array[index_array[c + 0]].mData[2];
-
-					p2.vertex.x = vertex_array[index_array[c + 1]].mData[0];
-					p2.vertex.y = vertex_array[index_array[c + 1]].mData[1];
-					p2.vertex.z = vertex_array[index_array[c + 1]].mData[2];
-
-					p3.vertex.x = vertex_array[index_array[c + 2]].mData[0];
-					p3.vertex.y = vertex_array[index_array[c + 2]].mData[1];
-					p3.vertex.z = vertex_array[index_array[c + 2]].mData[2];
-
-					p1.normal.x = normal_array[c + 0].mData[0];
-					p1.normal.y = normal_array[c + 0].mData[1];
-					p1.normal.z = normal_array[c + 0].mData[2];
-											   
-					p2.normal.x = normal_array[c + 1].mData[0];
-					p2.normal.y = normal_array[c + 1].mData[1];
-					p2.normal.z = normal_array[c + 1].mData[2];
-											   
-					p3.normal.x = normal_array[c + 2].mData[0];
-					p3.normal.y = normal_array[c + 2].mData[1];
-					p3.normal.z = normal_array[c + 2].mData[2];
-
-					// UVs
-					if (pMesh->GetUVLayerCount() != 0)
-					{
-						DEBUG_PRINT("I haven't implement uv layer");
-						//FbxStringList UVNames;
-						//pMesh->GetUVSetNames(UVNames);
-					}
-
-					p1.vertex = model_matrix * p1.vertex;
-					p2.vertex = model_matrix * p2.vertex;
-					p3.vertex = model_matrix * p3.vertex;
-
-					p1.normal = model_inverse_transpose_matrix * p1.normal;
-					p2.normal = model_inverse_transpose_matrix * p2.normal;
-					p3.normal = model_inverse_transpose_matrix * p3.normal;
-
-					data.push_back(p1);
-					data.push_back(p2);
-					data.push_back(p3);
-
-					c += 3;
-					n += 3;
+					p1.uv.x = (float)uv1.mData[0];
+					p1.uv.y = (float)uv1.mData[1];
+							  
+					p2.uv.x = (float)uv2.mData[0];
+					p2.uv.y = (float)uv2.mData[1];
+							  
+					p2.uv.x = (float)uv3.mData[0];
+					p2.uv.y = (float)uv3.mData[1];
 				}
-				else if (pMesh->GetPolygonSize(j) == 4)
-				{
-					index.push_back(n + 0);
-					index.push_back(n + 1);
-					index.push_back(n + 2);
-					index.push_back(n + 3);
-					index.push_back(n + 4);
-					index.push_back(n + 5);
 
-					MeshData p1, p2, p3, p4, p5, p6;
-
-					p1.vertex.x = vertex_array[index_array[c + 0]].mData[0];
-					p1.vertex.y = vertex_array[index_array[c + 0]].mData[1];
-					p1.vertex.z = vertex_array[index_array[c + 0]].mData[2];
-														   	 
-					p2.vertex.x = vertex_array[index_array[c + 1]].mData[0];
-					p2.vertex.y = vertex_array[index_array[c + 1]].mData[1];
-					p2.vertex.z = vertex_array[index_array[c + 1]].mData[2];
-														   	 
-					p3.vertex.x = vertex_array[index_array[c + 2]].mData[0];
-					p3.vertex.y = vertex_array[index_array[c + 2]].mData[1];
-					p3.vertex.z = vertex_array[index_array[c + 2]].mData[2];
-														   	 
-					p4.vertex.x = vertex_array[index_array[c + 0]].mData[0];
-					p4.vertex.y = vertex_array[index_array[c + 0]].mData[1];
-					p4.vertex.z = vertex_array[index_array[c + 0]].mData[2];
-														   	 
-					p5.vertex.x = vertex_array[index_array[c + 2]].mData[0];
-					p5.vertex.y = vertex_array[index_array[c + 2]].mData[1];
-					p5.vertex.z = vertex_array[index_array[c + 2]].mData[2];
-														   	 
-					p6.vertex.x = vertex_array[index_array[c + 3]].mData[0];
-					p6.vertex.y = vertex_array[index_array[c + 3]].mData[1];
-					p6.vertex.z = vertex_array[index_array[c + 3]].mData[2];
-
-					p1.normal.x = normal_array[c + 0].mData[0];
-					p1.normal.y = normal_array[c + 0].mData[1];
-					p1.normal.z = normal_array[c + 0].mData[2];
-											   
-					p2.normal.x = normal_array[c + 1].mData[0];
-					p2.normal.y = normal_array[c + 1].mData[1];
-					p2.normal.z = normal_array[c + 1].mData[2];
-											   
-					p3.normal.x = normal_array[c + 2].mData[0];
-					p3.normal.y = normal_array[c + 2].mData[1];
-					p3.normal.z = normal_array[c + 2].mData[2];
-											   
-					p4.normal.x = normal_array[c + 0].mData[0];
-					p4.normal.y = normal_array[c + 0].mData[1];
-					p4.normal.z = normal_array[c + 0].mData[2];
-											   
-					p5.normal.x = normal_array[c + 2].mData[0];
-					p5.normal.y = normal_array[c + 2].mData[1];
-					p5.normal.z = normal_array[c + 2].mData[2];
-											   
-					p6.normal.x = normal_array[c + 3].mData[0];
-					p6.normal.y = normal_array[c + 3].mData[1];
-					p6.normal.z = normal_array[c + 3].mData[2];
-
-					// UVs
-					if (pMesh->GetUVLayerCount() != 0)
-					{
-						DEBUG_PRINT("I haven't implement uv layer");
-						//FbxStringList UVNames;
-						//pMesh->GetUVSetNames(UVNames);
-					}
-
-					p1.vertex = model_matrix * p1.vertex;
-					p2.vertex = model_matrix * p2.vertex;
-					p3.vertex = model_matrix * p3.vertex;
-					p4.vertex = model_matrix * p4.vertex;
-					p5.vertex = model_matrix * p5.vertex;
-					p6.vertex = model_matrix * p6.vertex;
-
-					p1.normal = model_inverse_transpose_matrix * p1.normal;
-					p2.normal = model_inverse_transpose_matrix * p2.normal;
-					p3.normal = model_inverse_transpose_matrix * p3.normal;
-					p4.normal = model_inverse_transpose_matrix * p4.normal;
-					p5.normal = model_inverse_transpose_matrix * p5.normal;
-					p6.normal = model_inverse_transpose_matrix * p6.normal;
-
-					data.push_back(p1);
-					data.push_back(p2);
-					data.push_back(p3);
-					data.push_back(p4);
-					data.push_back(p5);
-					data.push_back(p6);
-
-					c += 4;
-					n += 6;
-				}
-				else
-				{
-					DEBUG_PRINT("There is an polygon that didn't load correctly in fbx file");
-					//int this_polygon_count = pMesh->GetPolygonSize(j);
-					//int number_of_vertices = (this_polygon_count - 3) * 3;
-					//c += this_polygon_count;
-				}
+				data.push_back(p1);
+				data.push_back(p2);
+				data.push_back(p3);
 			}
 
 			//// Index
@@ -433,4 +382,232 @@ void FBXImporter::ImportMesh(FbxNode* pNode, std::vector<MeshData>& data, std::v
 	{
 		//ImportMesh(pNode->GetChild(j), data, index, model_matrix);
 	}
+
+	return true;
 }
+
+bool FBXImporter::ImportMaterial(FbxSurfaceMaterial* material, MaterialData& mat)
+{
+	//Vec3f ambient(0, 0, 0);
+	//Vec3f diffuse(1, 1, 1);
+	//Vec3f emissive(0, 0, 0);
+	//Vec3f specular(0, 0, 0);
+	//float shininess = 80.0;
+
+	//// Get material information
+	//{
+	//	FbxProperty prop = material->FindProperty(FbxSurfaceMaterial::sAmbient);
+	//	if (prop.IsValid())
+	//	{
+	//		const auto& color = prop.Get<FbxDouble3>();
+	//		ambient = Vec3f(color[0], color[1], color[2]);
+	//	}
+	//}
+	//{
+	//	FbxProperty prop = material->FindProperty(FbxSurfaceMaterial::sDiffuse);
+	//	if (prop.IsValid())
+	//	{
+	//		const auto& color = prop.Get<FbxDouble3>();
+	//		diffuse = Vec3f(color[0], color[1], color[2]);
+	//	}
+	//}
+	//{
+	//	FbxProperty prop = material->FindProperty(FbxSurfaceMaterial::sEmissive);
+	//	if (prop.IsValid())
+	//	{
+	//		const auto& color = prop.Get<FbxDouble3>();
+	//		emissive = Vec3f(color[0], color[1], color[2]);
+	//	}
+	//}
+	//{
+	//	FbxProperty prop = material->FindProperty(FbxSurfaceMaterial::sSpecular);
+	//	if (prop.IsValid())
+	//	{
+	//		const auto& color = prop.Get<FbxDouble3>();
+	//		specular = Vec3f(color[0], color[1], color[2]);
+	//	}
+	//}
+	//{
+	//	FbxProperty prop = material->FindProperty(FbxSurfaceMaterial::sShininess);
+	//	if (prop.IsValid())
+	//	{
+	//		shininess = prop.Get<FbxDouble>();
+	//	}
+	//}
+
+	//mat.ambient   = ambient;
+	//mat.diffuse   = diffuse;
+	//mat.emissive = emissive;
+	//mat.specular  = specular;
+	//mat.shininess = shininess;
+
+	//{
+	//	// Get the texture that is attached to diffuse
+	//	FbxProperty prop = material->FindProperty(FbxSurfaceMaterial::sDiffuse);
+	//	if (prop.GetSrcObjectCount<FbxFileTexture>() > 0)
+	//	{
+	//		// Get the first texture only
+	//		FbxFileTexture* texture = prop.GetSrcObject<FbxFileTexture>(0);
+	//		if (texture)
+	//		{
+	//			// Get the file path
+	//			const char * name = (const char*)(FbxPathUtils::GetFileName(texture->GetFileName()));
+
+	//			//// Read the texture and flip it
+	//			// Had to implement a loading function here
+	//		}
+	//	}
+	//}
+
+	return true;
+}
+
+
+void FBXImporter::ProcessSkeletonHierarchy(FbxNode* inRootNode, Skeleton skeleton)
+{
+
+	for (int childIndex = 0; childIndex < inRootNode->GetChildCount(); ++childIndex)
+	{
+		FbxNode* currNode = inRootNode->GetChild(childIndex);
+		ProcessSkeletonHierarchyRecursively(currNode, 0, 0, -1, skeleton);
+	}
+}
+
+void FBXImporter::ProcessSkeletonHierarchyRecursively(FbxNode* inNode, int inDepth, int myIndex, int inParentIndex, Skeleton skeleton)
+{
+	if (inNode->GetNodeAttribute() && inNode->GetNodeAttribute()->GetAttributeType() && inNode->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eSkeleton)
+	{
+		Joint currJoint;
+		currJoint.parent_index = inParentIndex;
+		currJoint.name = inNode->GetName();
+		skeleton.joints.push_back(currJoint);
+	}
+	for (int i = 0; i < inNode->GetChildCount(); i++)
+	{
+		ProcessSkeletonHierarchyRecursively(inNode->GetChild(i), inDepth + 1, skeleton.joints.size(), myIndex, skeleton);
+	}
+}
+
+void FBXImporter::ProcessJointsAndAnimations(FbxNode* inNode, Skeleton skeleton)
+{
+	FbxMesh* currMesh = inNode->GetMesh();
+	unsigned int numOfDeformers = currMesh->GetDeformerCount();
+	// This geometry transform is something I cannot understand
+	// I think it is from MotionBuilder
+	// If you are using Maya for your models, 99% this is just an
+	// identity matrix
+	// But I am taking it into account anyways......
+	FbxAMatrix geometryTransform = GetGeometryTransformation(inNode);
+
+	// A deformer is a FBX thing, which contains some clusters
+	// A cluster contains a link, which is basically a joint
+	// Normally, there is only one deformer in a mesh
+	for (unsigned int deformerIndex = 0; deformerIndex < numOfDeformers; ++deformerIndex)
+	{
+		// There are many types of deformers in Maya,
+		// We are using only skins, so we see if this is a skin
+		FbxSkin* currSkin = reinterpret_cast<FbxSkin*>(currMesh->GetDeformer(deformerIndex, FbxDeformer::eSkin));
+		if (!currSkin)
+		{
+			continue;
+		}
+
+		unsigned int numOfClusters = currSkin->GetClusterCount();
+		for (unsigned int clusterIndex = 0; clusterIndex < numOfClusters; ++clusterIndex)
+		{
+			FbxCluster* currCluster = currSkin->GetCluster(clusterIndex);
+			std::string currJointName = currCluster->GetLink()->GetName();
+			unsigned int currJointIndex = FindJointIndexUsingName(currJointName.c_str(), skeleton);
+			FbxAMatrix transformMatrix;
+			FbxAMatrix transformLinkMatrix;
+			FbxAMatrix globalBindposeInverseMatrix;
+
+			currCluster->GetTransformMatrix(transformMatrix);	// The transformation of the mesh at binding time
+			currCluster->GetTransformLinkMatrix(transformLinkMatrix);	// The transformation of the cluster(joint) at binding time from joint space to world space
+			globalBindposeInverseMatrix = transformLinkMatrix.Inverse() * transformMatrix * geometryTransform;
+
+			// Update the information in mSkeleton 
+			skeleton.joints[currJointIndex].inversed = convertFBXMatrix(globalBindposeInverseMatrix);
+			//skeleton.joints[currJointIndex].mNode = currCluster->GetLink();
+
+			// Associate each joint with the control points it affects
+			unsigned int numOfIndices = currCluster->GetControlPointIndicesCount();
+			for (unsigned int i = 0; i < numOfIndices; ++i)
+			{
+				BlendingWeight currBlendingIndexWeightPair;
+				currBlendingIndexWeightPair.index = currJointIndex;
+				currBlendingIndexWeightPair.weight = currCluster->GetControlPointWeights()[i];
+				//mControlPoints[currCluster->GetControlPointIndices()[i]]->mBlendingInfo.push_back(currBlendingIndexWeightPair);
+			}
+
+			// Get animation information
+			// Now only supports one take
+			//FbxAnimStack* currAnimStack = mFBXScene->GetSrcObject<FbxAnimStack>(0);
+			//FbxString animStackName = currAnimStack->GetName();
+			//mAnimationName = animStackName.Buffer();
+			//FbxTakeInfo* takeInfo = mFBXScene->GetTakeInfo(animStackName);
+			//FbxTime start = takeInfo->mLocalTimeSpan.GetStart();
+			//FbxTime end = takeInfo->mLocalTimeSpan.GetStop();
+			//mAnimationLength = end.GetFrameCount(FbxTime::eFrames24) - start.GetFrameCount(FbxTime::eFrames24) + 1;
+			//Keyframe** currAnim = &mSkeleton.mJoints[currJointIndex].mAnimation;
+
+			//for (FbxLongLong i = start.GetFrameCount(FbxTime::eFrames24); i <= end.GetFrameCount(FbxTime::eFrames24); ++i)
+			//{
+			//	FbxTime currTime;
+			//	currTime.SetFrame(i, FbxTime::eFrames24);
+			//	*currAnim = new Keyframe();
+			//	(*currAnim)->mFrameNum = i;
+			//	FbxAMatrix currentTransformOffset = inNode->EvaluateGlobalTransform(currTime) * geometryTransform;
+			//	(*currAnim)->mGlobalTransform = currentTransformOffset.Inverse() * currCluster->GetLink()->EvaluateGlobalTransform(currTime);
+			//	currAnim = &((*currAnim)->mNext);
+			//}
+		}
+	}
+
+	// Some of the control points only have less than 4 joints
+	// affecting them.
+	// For a normal renderer, there are usually 4 joints
+	// I am adding more dummy joints if there isn't enough
+	//BlendingIndexWeightPair currBlendingIndexWeightPair;
+	//currBlendingIndexWeightPair.mBlendingIndex = 0;
+	//currBlendingIndexWeightPair.mBlendingWeight = 0;
+	//for (auto itr = mControlPoints.begin(); itr != mControlPoints.end(); ++itr)
+	//{
+	//	for (unsigned int i = itr->second->mBlendingInfo.size(); i <= 4; ++i)
+	//	{
+	//		itr->second->mBlendingInfo.push_back(currBlendingIndexWeightPair);
+	//	}
+	//}
+}
+
+FbxAMatrix FBXImporter::GetGeometryTransformation(FbxNode* inNode)
+{
+	if (!inNode)
+	{
+		throw std::exception("Null for mesh geometry");
+	}
+
+	const FbxVector4 lT = inNode->GetGeometricTranslation(FbxNode::eSourcePivot);
+	const FbxVector4 lR = inNode->GetGeometricRotation(FbxNode::eSourcePivot);
+	const FbxVector4 lS = inNode->GetGeometricScaling(FbxNode::eSourcePivot);
+
+	return FbxAMatrix(lT, lR, lS);
+}
+
+int FBXImporter::FindJointIndexUsingName(const char* name, Skeleton skeleton)
+{
+	for (int i = 0; skeleton.joints.size(); i++)
+	{
+		if (skeleton.joints[i].name == name)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+
+Mat4f FBXImporter::convertFBXMatrix(FbxAMatrix)
+{
+	return Mat4f();
+}
+

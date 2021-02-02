@@ -72,6 +72,16 @@ void Shader::LoadShader(Shader& io_shader, const char* i_vert, const char* i_fra
 	std::vector<GLchar> vertsrc;
 	std::vector<GLchar> fragsrc;
 
+	if (!strstr(i_vert, "vert.glsl"))
+	{
+		DEBUG_ASSERT(false);
+	}
+
+	if (!strstr(i_frag, "frag.glsl"))
+	{
+		DEBUG_ASSERT(false);
+	}
+
 	ReadShaderSource(i_vert, vertsrc);
 	ReadShaderSource(i_frag, fragsrc);
 
@@ -114,6 +124,21 @@ void Shader::LoadShader(Shader& io_shader, const char* i_vert, const char* i_geo
 	std::vector<GLchar> vertsrc;
 	std::vector<GLchar> geosrc;
 	std::vector<GLchar> fragsrc;
+
+	if (!strstr(i_vert, "vert.glsl"))
+	{
+		DEBUG_ASSERT(false);
+	}
+
+	if (!strstr(i_geo, "geo.glsl"))
+	{
+		DEBUG_ASSERT(false);
+	}
+
+	if (!strstr(i_frag, "frag.glsl"))
+	{
+		DEBUG_ASSERT(false);
+	}
 
 	ReadShaderSource(i_vert, vertsrc);
 	ReadShaderSource(i_geo, geosrc);
@@ -162,6 +187,26 @@ void Shader::LoadShader(Shader& io_shader, const char* i_vert, const char* i_con
 	std::vector<GLchar> controlsrc;
 	std::vector<GLchar> evalsrc;
 	std::vector<GLchar> fragsrc;
+
+	if (!strstr(i_vert, "vert.glsl"))
+	{
+		DEBUG_ASSERT(false);
+	}
+
+	if (!strstr(i_control, "control.glsl"))
+	{
+		DEBUG_ASSERT(false);
+	}
+
+	if (!strstr(i_eval, "eval.glsl"))
+	{
+		DEBUG_ASSERT(false);
+	}
+
+	if (!strstr(i_frag, "frag.glsl"))
+	{
+		DEBUG_ASSERT(false);
+	}
 
 	ReadShaderSource(i_vert, vertsrc);
 	ReadShaderSource(i_control, controlsrc);
@@ -215,6 +260,31 @@ void Shader::LoadShader(Shader& io_shader, const char* i_vert, const char* i_con
 	std::vector<GLchar> evalsrc;
 	std::vector<GLchar> geosrc;
 	std::vector<GLchar> fragsrc;
+
+	if (!strstr(i_vert, "vert.glsl"))
+	{
+		DEBUG_ASSERT(false);
+	}
+
+	if (!strstr(i_control, "control.glsl"))
+	{
+		DEBUG_ASSERT(false);
+	}
+
+	if (!strstr(i_eval, "eval.glsl"))
+	{
+		DEBUG_ASSERT(false);
+	}
+
+	if (!strstr(i_geo, "geo.glsl"))
+	{
+		DEBUG_ASSERT(false);
+	}
+
+	if (!strstr(i_frag, "frag.glsl"))
+	{
+		DEBUG_ASSERT(false);
+	}
 
 	ReadShaderSource(i_vert, vertsrc);
 	ReadShaderSource(i_control, controlsrc);

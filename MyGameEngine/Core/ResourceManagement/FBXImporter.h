@@ -17,6 +17,17 @@ public:
 
 public:
 	bool LoadMesh(const char* filename, std::vector<MeshData>& data, std::vector<int>& index);
-	void ImportMesh(FbxNode* pNode, std::vector<MeshData>& data, std::vector<int>& index, Mat4f model_matrix);
+	bool ImportMesh(FbxNode* pNode, std::vector<MeshData>& data, std::vector<int>& index, Mat4f model_matrix);
+
+	bool ImportMaterial(FbxSurfaceMaterial*, MaterialData&);
+
+	void ProcessSkeletonHierarchy(FbxNode*, Skeleton);
+	void ProcessSkeletonHierarchyRecursively(FbxNode* , int, int, int, Skeleton);
+
+	void ProcessJointsAndAnimations(FbxNode*, Skeleton);
+	FbxAMatrix GetGeometryTransformation(FbxNode*);
+
+	int FindJointIndexUsingName(const char*, Skeleton);
+	Mat4f convertFBXMatrix(FbxAMatrix);
 };
 

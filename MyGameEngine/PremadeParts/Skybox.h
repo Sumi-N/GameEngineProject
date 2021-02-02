@@ -16,7 +16,7 @@ inline void SkyBox::Boot()
 
 
 	OwningPointer<TextureAttribute> texture = OwningPointer<TextureAttribute>::Create(texture);
-	texture->Load(PATH_SUFFIX TEXTURE_PATH SKYBOX_HDR_PINTREE, TextureType::SkyBox);
+	texture->Load(PATH_SUFFIX TEXTURE_PATH SKYBOX_HDR_FROZEN_WATERFALL, TextureType::SkyBox);
 
 	const char* shaderpaths[] =
 	{

@@ -262,7 +262,15 @@ paket-files/
 __pycache__/
 *.pyc
 
-# Exculde from ignoring certain obj files for models in a certain directory
+# There are 2 types of files that has obj extention
+# Git ignore usually ignore files that has obj extention
+# However we want to upload model files that also have obj extention
+# So we want to exculde the directory that store model files from git ignore setting
 !MyGameEngine/Assets/**
 !MyGameEngine/Core/*
 !MyGameEngine/APIs/**
+
+
+# For copy right reason, we want to exclude certain directories
+MyGameEngine/Assets/models/NotFree/
+MyGameEngine/Assets/textures/NotFree/
