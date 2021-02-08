@@ -8,7 +8,7 @@
 #include <Math/Matrix.h>
 #include <Math/Quaternion.h>
 
-#include <External/ImporterAPI/tinyobjloader/tiny_obj_loader.h>
-#include <External/ImporterAPI/loadpng/lodepng.h>
+#include <External/tinyobjloader/tiny_obj_loader.h>
+#include <External/loadpng/lodepng.h>
 #pragma warning(disable : 4996)
-#include <External/ImporterAPI/cyCodeBase/cyTriMesh.h>
+#include <External/cyCodeBase/cyTriMesh.h>

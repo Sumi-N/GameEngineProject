@@ -32,22 +32,22 @@
     <ClInclude Include="UserInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\External\UserInterfaceAPI\imgui\imconfig.h">
+    <ClInclude Include="..\..\External\imgui\imconfig.h">
       <Filter>API%27s Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\External\UserInterfaceAPI\imgui\imgui.h">
+    <ClInclude Include="..\..\External\imgui\imgui.h">
       <Filter>API%27s Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\External\UserInterfaceAPI\imgui\imgui_internal.h">
+    <ClInclude Include="..\..\External\imgui\imgui_internal.h">
       <Filter>API%27s Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\External\UserInterfaceAPI\imgui\imstb_rectpack.h">
+    <ClInclude Include="..\..\External\imgui\imstb_rectpack.h">
       <Filter>API%27s Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\External\UserInterfaceAPI\imgui\imstb_textedit.h">
+    <ClInclude Include="..\..\External\imgui\imstb_textedit.h">
       <Filter>API%27s Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\External\UserInterfaceAPI\imgui\imstb_truetype.h">
+    <ClInclude Include="..\..\External\imgui\imstb_truetype.h">
       <Filter>API%27s Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -67,16 +67,16 @@
     <ClCompile Include="UserInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\External\UserInterfaceAPI\imgui\imgui.cpp">
+    <ClCompile Include="..\..\External\imgui\imgui.cpp">
       <Filter>API%27s Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\External\UserInterfaceAPI\imgui\imgui_demo.cpp">
+    <ClCompile Include="..\..\External\imgui\imgui_demo.cpp">
       <Filter>API%27s Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\External\UserInterfaceAPI\imgui\imgui_draw.cpp">
+    <ClCompile Include="..\..\External\imgui\imgui_draw.cpp">
       <Filter>API%27s Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\External\UserInterfaceAPI\imgui\imgui_widgets.cpp">
+    <ClCompile Include="..\..\External\imgui\imgui_widgets.cpp">
       <Filter>API%27s Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -3,7 +3,7 @@
 #ifndef STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
 #endif
-#include <External/ImporterAPI/stb/stb_image.h>
+#include <External/stb/stb_image.h>
 
 void Tempest::LoadMesh(const char* filename, std::vector<MeshData>& data, std::vector<int>& index)
 {

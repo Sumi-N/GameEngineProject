@@ -96,7 +96,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\External\ImporterAPI\loadpng\lodepng.cpp" />
+    <ClCompile Include="..\..\..\External\loadpng\lodepng.cpp" />
     <ClCompile Include="Define.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -109,8 +109,8 @@
     <ClCompile Include="Importer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\External\ImporterAPI\loadpng\lodepng.h" />
-    <ClInclude Include="..\..\..\External\ImporterAPI\stb\stb_image.h" />
+    <ClInclude Include="..\..\..\External\loadpng\lodepng.h" />
+    <ClInclude Include="..\..\..\External\stb\stb_image.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="FBXImporter.h" />
     <ClInclude Include="Importer.h" />
