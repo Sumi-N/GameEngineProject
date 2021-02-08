@@ -3,57 +3,62 @@
 
 #ifdef ENGINE_PLATFORM_WINDOWS
 
-void Input::InitForWindows(HWND i_handler)
+namespace Tempest
 {
-	window_hanlder = i_handler;
-}
 
-bool Input::IsKeyPressed(VirtualKey i_keyCode)
-{
-	const auto keyState = GetAsyncKeyState(static_cast<uint_fast8_t>(i_keyCode));
-	const short isKeyDownMask = ~1;
-
-	return (keyState & isKeyDownMask) != 0;
-}
-
-bool Input::IsKeyReleased(VirtualKey i_keyCode)
-{
-	const auto keyState = GetAsyncKeyState(static_cast<uint_fast8_t>(i_keyCode));
-	const short isKeyDownMask = ~1;
-
-	return (keyState & isKeyDownMask) == 0;
-}
-
-void Input::Populate()
-{
-	if (window_hanlder != GetForegroundWindow())
+	void Input::InitForWindows(HWND i_handler)
 	{
-		return;
+		window_hanlder = i_handler;
 	}
 
-	POINT mouse;
-	GetCursorPos(&mouse);
-	ScreenToClient(window_hanlder, &mouse);
-
-	past_xpos = xpos; past_ypos = ypos;
-	xpos = static_cast<float>(mouse.x);
-	ypos = static_cast<float>(mouse.y);
-
-	for(size_t i = 0; i < 256; i++)
+	bool Input::IsKeyPressed(VirtualKey i_keyCode)
 	{
-		VirtualKey vkey = static_cast<VirtualKey>(i);
+		const auto keyState = GetAsyncKeyState(static_cast<uint_fast8_t>(i_keyCode));
+		const short isKeyDownMask = ~1;
 
-		paststate.at(vkey) = state.at(vkey);
+		return (keyState & isKeyDownMask) != 0;
+	}
 
-		if (IsKeyPressed(vkey))
+	bool Input::IsKeyReleased(VirtualKey i_keyCode)
+	{
+		const auto keyState = GetAsyncKeyState(static_cast<uint_fast8_t>(i_keyCode));
+		const short isKeyDownMask = ~1;
+
+		return (keyState & isKeyDownMask) == 0;
+	}
+
+	void Input::Populate()
+	{
+		if (window_hanlder != GetForegroundWindow())
 		{
-			state.at(vkey) = true;
+			return;
 		}
-		else if(IsKeyReleased(vkey))
+
+		POINT mouse;
+		GetCursorPos(&mouse);
+		ScreenToClient(window_hanlder, &mouse);
+
+		past_xpos = xpos; past_ypos = ypos;
+		xpos = static_cast<float>(mouse.x);
+		ypos = static_cast<float>(mouse.y);
+
+		for (size_t i = 0; i < 256; i++)
 		{
-			state.at(vkey) = false;
+			VirtualKey vkey = static_cast<VirtualKey>(i);
+
+			paststate.at(vkey) = state.at(vkey);
+
+			if (IsKeyPressed(vkey))
+			{
+				state.at(vkey) = true;
+			}
+			else if (IsKeyReleased(vkey))
+			{
+				state.at(vkey) = false;
+			}
 		}
 	}
+
 }
 
 #endif // ENGINE_PLATFORM_WINDOWS

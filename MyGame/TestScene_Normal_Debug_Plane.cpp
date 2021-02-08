@@ -9,23 +9,26 @@
 
 #include "NormalMapDebugPlane.h"
 
-void TestScene::Normal_Debug_Plane()
+namespace Tempest
 {
-	// Setting up camera
-	OwningPointer<MyCamera> mycamera = OwningPointer<MyCamera>::Create(mycamera);
-	Entity::RegisterCamera(mycamera);
+	void TestScene::Normal_Debug_Plane()
+	{
+		// Setting up camera
+		OwningPointer<MyCamera> mycamera = OwningPointer<MyCamera>::Create(mycamera);
+		Entity::RegisterCamera(mycamera);
 
-	// Setting up skybox
-	OwningPointer<MySkyBox> myskybox = OwningPointer<MySkyBox>::Create(myskybox);
-	Entity::RegisterSkyBox(myskybox);
+		// Setting up skybox
+		OwningPointer<MySkyBox> myskybox = OwningPointer<MySkyBox>::Create(myskybox);
+		Entity::RegisterSkyBox(myskybox);
 
-	// Setting up quad3
-	OwningPointer<NormalMapDebugPlane> normalplane = OwningPointer<NormalMapDebugPlane>::Create(normalplane);
-	Entity::Register(normalplane);
+		// Setting up quad3
+		OwningPointer<NormalMapDebugPlane> normalplane = OwningPointer<NormalMapDebugPlane>::Create(normalplane);
+		Entity::Register(normalplane);
 
-	OwningPointer<MyPointLight> pointlight = OwningPointer<MyPointLight>::Create(pointlight);
-	pointlight->intensity = Vec3f(25.0f, 25.0f, 25.0f);
-	pointlight->pos = Vec3f(0.f, 0.f, -40.f);
+		OwningPointer<MyPointLight> pointlight = OwningPointer<MyPointLight>::Create(pointlight);
+		pointlight->intensity = Vec3f(25.0f, 25.0f, 25.0f);
+		pointlight->pos = Vec3f(0.f, 0.f, -40.f);
 
-	Entity::RegisterPointLight(pointlight);
+		Entity::RegisterPointLight(pointlight);
+	}
 }

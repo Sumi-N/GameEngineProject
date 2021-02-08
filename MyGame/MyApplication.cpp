@@ -6,7 +6,7 @@
 
 
 
-class MyApplication : public Application
+class MyApplication : public Tempest::Application
 {
 public:
 	MyApplication();
@@ -24,11 +24,11 @@ MyApplication::MyApplication()
 
 	//TestScene::Two_Cameras();
 
-	Execute();
+	Tempest::Application::Execute();
 }
 
 
-Application* Create()
+Tempest::Application* Tempest::Create()
 {
 	return new MyApplication();
 }

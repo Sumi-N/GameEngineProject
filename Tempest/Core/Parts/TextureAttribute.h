@@ -3,26 +3,35 @@
 #include "Define.h"
 #include "Attribute.h"
 
-
-class TextureAttribute : public Attribute
+namespace Tempest
 {
-public:
-	TextureAttribute() : width(), height(), hdrpixels(nullptr) {}
-	~TextureAttribute() {if(hdrpixels) delete hdrpixels;}
 
-	std::vector<Vec3u8t> pixels;
-	int width, height;
-	TextureType type = static_cast<TextureType>(0);
+	class TextureAttribute : public Attribute
+	{
+	public:
+		TextureAttribute() : width(), height(), hdrpixels(nullptr)
+		{
+		}
+		~TextureAttribute()
+		{
+			if (hdrpixels) delete hdrpixels;
+		}
 
-	// Texture for hdr
-	float* hdrpixels;
+		std::vector<Vec3u8t> pixels;
+		int width, height;
+		TextureType type = static_cast<TextureType>(0);
 
-	virtual bool Load(char const* i_filename, TextureType i_type);
-};
+		// Texture for hdr
+		float* hdrpixels;
 
-inline bool TextureAttribute::Load(char const* i_filename, TextureType i_type)
-{
-	type = i_type;
+		virtual bool Load(char const* i_filename, TextureType i_type);
+	};
 
-	return Tempest::LoadTexture(i_filename, pixels, width, height, hdrpixels);
+	inline bool TextureAttribute::Load(char const* i_filename, TextureType i_type)
+	{
+		type = i_type;
+
+		return Tempest::LoadTexture(i_filename, pixels, width, height, hdrpixels);
+	}
+
 }

@@ -1,24 +1,37 @@
 #pragma once
 #include "Event.h"
 
-class WindowResizeEvent : public Event
+namespace Tempest
 {
-public:
-	WindowResizeEvent(unsigned int i_width, unsigned int i_height) : width(i_width), height(i_height){};
 
-	unsigned int GetWidth(){return width; }
-	unsigned int GetHeight(){return height; }
+	class WindowResizeEvent : public Event
+	{
+	public:
+		WindowResizeEvent(unsigned int i_width, unsigned int i_height) : width(i_width), height(i_height)
+		{
+		};
 
-	EVENT_CLASS_MACRO(WindowResize, WindowEvent)
+		unsigned int GetWidth()
+		{
+			return width;
+		}
+		unsigned int GetHeight()
+		{
+			return height;
+		}
 
-private:
-	unsigned int width, height;
-};
+		EVENT_CLASS_MACRO(WindowResize, WindowEvent)
 
-class WindowCloseEvent : public Event
-{
-public:
-	WindowCloseEvent() = default;
+	private:
+		unsigned int width, height;
+	};
 
-	EVENT_CLASS_MACRO(WindowClose, WindowEvent)
-};
+	class WindowCloseEvent : public Event
+	{
+	public:
+		WindowCloseEvent() = default;
+
+		EVENT_CLASS_MACRO(WindowClose, WindowEvent)
+	};
+
+}

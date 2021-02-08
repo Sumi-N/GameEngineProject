@@ -4,6 +4,8 @@
 #include "SceneProxy.h"
 #include "RenderState.h"
 
+using namespace Tempest;
+
 class SceneEntity
 {
 public:

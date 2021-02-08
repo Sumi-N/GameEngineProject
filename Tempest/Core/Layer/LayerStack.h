@@ -2,19 +2,24 @@
 #include "Define.h"
 #include "Layer.h"
 
-class LayerStack
+namespace Tempest
 {
-public:
-	LayerStack() = default;
-	~LayerStack();
 
-	void PushLayer(Layer*);
-	void PushOverlay(Layer*);
-	void PopLayer(Layer*);
-	void CleanUp();
+	class LayerStack
+	{
+	public:
+		LayerStack() = default;
+		~LayerStack();
 
-	std::vector<Layer*> Layers();
-private:
-	std::vector<Layer *> layers;
-	unsigned int insert_index = 0;
-};
+		void PushLayer(Layer*);
+		void PushOverlay(Layer*);
+		void PopLayer(Layer*);
+		void CleanUp();
+
+		std::vector<Layer*> Layers();
+	private:
+		std::vector<Layer*> layers;
+		unsigned int insert_index = 0;
+	};
+
+}

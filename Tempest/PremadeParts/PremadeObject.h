@@ -2,43 +2,50 @@
 
 #include "Define.h"
 
-class PremadeObjebct : public Object
+namespace Tempest
 {
-public:
-	PremadeObjebct() : mesh(nullptr){}
 
-	void Boot() override;
-	void Init() override;
+	class PremadeObjebct : public Object
+	{
+	public:
+		PremadeObjebct() : mesh(nullptr)
+		{
+		}
 
-protected:
-	OwningPointer<MeshComponent> mesh;
-};
+		void Boot() override;
+		void Init() override;
 
-inline void PremadeObjebct::Boot()
-{
-	Object::Boot();
+	protected:
+		OwningPointer<MeshComponent> mesh;
+	};
 
-	mesh = OwningPointer<MeshComponent>::Create(mesh);
-	OwningPointer<MaterialAttribute> material;
-	material = OwningPointer<MaterialAttribute>::Create(material);
-	mesh->SetMaterial(material);
-	mesh->owner = Entity::Query(this).p;
-	Entity::RegisterMeshComponent(mesh);
+	inline void PremadeObjebct::Boot()
+	{
+		Object::Boot();
+
+		mesh = OwningPointer<MeshComponent>::Create(mesh);
+		OwningPointer<MaterialAttribute> material;
+		material = OwningPointer<MaterialAttribute>::Create(material);
+		mesh->SetMaterial(material);
+		mesh->owner = Entity::Query(this).p;
+		Entity::RegisterMeshComponent(mesh);
 
 
 #if defined(_DEBUG) && !defined(NDEBUG)
-	//SHOW_DEBUG_POLYGON
-	//SHOW_DEBUG_NORMAL_COLOR
-	//SHOW_DEBUG_NORMAL_VECTOR
-	//SHOW_DEBUG_VIEWDIRECTION
-	//SHOW_DEBUG_LIGHTDIRECTION
-	//SHOW_DEBUG_BP_BASIC
+		//SHOW_DEBUG_POLYGON
+		//SHOW_DEBUG_NORMAL_COLOR
+		//SHOW_DEBUG_NORMAL_VECTOR
+		//SHOW_DEBUG_VIEWDIRECTION
+		//SHOW_DEBUG_LIGHTDIRECTION
+		//SHOW_DEBUG_BP_BASIC
 
 #endif // DEBUG
 
-}
+	}
 
-inline void PremadeObjebct::Init()
-{
-	Object::Init();
+	inline void PremadeObjebct::Init()
+	{
+		Object::Init();
+	}
+
 }

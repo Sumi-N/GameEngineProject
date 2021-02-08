@@ -2,6 +2,8 @@
 #include "Define.h"
 #include "Shader.h"
 
+using namespace Tempest;
+
 constexpr std::pair<TextureType, int> TextureUnitList[] =
 {
 	{TextureType::SkyBox, 2},

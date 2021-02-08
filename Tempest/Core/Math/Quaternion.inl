@@ -78,7 +78,7 @@ namespace Math
 	template<typename T>
 	inline Quaternion<T> Quaternion<T>::EulerToQuaternion(float const& i_x, float const& i_y, float const& i_z)
 	{
-		//https://www.kazetest.com/vcmemo/quaternion/quaternion.htm
+		//https://www.kazetest.com/vcmemo/quaternion/quaternion.html
 		T x = 2 * i_x *  static_cast<float>(M_PI) / 360;
 		T y = 2 * i_y *static_cast<float>(M_PI) / 360;
 		T z = 2 * i_z * static_cast<float>(M_PI) / 360;

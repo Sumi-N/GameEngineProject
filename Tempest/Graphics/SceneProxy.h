@@ -3,6 +3,8 @@
 #include "Define.h"
 #include "RenderState.h"
 
+using namespace Tempest;
+
 enum class DrawType : unsigned int
 {
 #ifdef ENGINE_GRAPHIC_OPENGL

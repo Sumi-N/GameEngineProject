@@ -1,53 +1,78 @@
 #pragma once
 #include "Event.h"
 
-class MouseMovedEvent : public Event
+namespace Tempest
 {
-public:
-	MouseMovedEvent(float x, float y) : xpos(x), ypos(y){};
 
-	float GetX() const {return xpos; }
-	float GetY() const {return ypos; }
+	class MouseMovedEvent : public Event
+	{
+	public:
+		MouseMovedEvent(float x, float y) : xpos(x), ypos(y)
+		{
+		};
 
-	EVENT_CLASS_MACRO(MouseMoved, MouseEvent)
+		float GetX() const
+		{
+			return xpos;
+		}
+		float GetY() const
+		{
+			return ypos;
+		}
 
-private:
-	float xpos, ypos;
-};
+		EVENT_CLASS_MACRO(MouseMoved, MouseEvent)
 
-class MouseScrolledEvent : public Event
-{
-public:
-	MouseScrolledEvent(float x, float y) : xpos(x), ypos(y){};
+	private:
+		float xpos, ypos;
+	};
 
-	EVENT_CLASS_MACRO(MouseScrolled, MouseEvent)
+	class MouseScrolledEvent : public Event
+	{
+	public:
+		MouseScrolledEvent(float x, float y) : xpos(x), ypos(y)
+		{
+		};
 
-private:
-	float xpos, ypos;
-};
+		EVENT_CLASS_MACRO(MouseScrolled, MouseEvent)
 
-class MouseButtonPressedEvent : public Event
-{
-public:
-	MouseButtonPressedEvent(VirtualKey i_vkey) : vkey(i_vkey){};
+	private:
+		float xpos, ypos;
+	};
 
-	VirtualKey GetMouseButton() const {return vkey;}
+	class MouseButtonPressedEvent : public Event
+	{
+	public:
+		MouseButtonPressedEvent(VirtualKey i_vkey) : vkey(i_vkey)
+		{
+		};
 
-	EVENT_CLASS_MACRO(MouseButtonPressed, MouseEvent)
+		VirtualKey GetMouseButton() const
+		{
+			return vkey;
+		}
 
-private:
-	VirtualKey vkey;
-};
+		EVENT_CLASS_MACRO(MouseButtonPressed, MouseEvent)
 
-class MouseButtonReleasedEvent : public Event
-{
-public:
-	MouseButtonReleasedEvent(VirtualKey i_vkey) : vkey(i_vkey){};
+	private:
+		VirtualKey vkey;
+	};
 
-	VirtualKey GetMouseButton() const {return vkey;}
+	class MouseButtonReleasedEvent : public Event
+	{
+	public:
+		MouseButtonReleasedEvent(VirtualKey i_vkey) : vkey(i_vkey)
+		{
+		};
 
-	EVENT_CLASS_MACRO(MouseButtonReleased, MouseEvent)
+		VirtualKey GetMouseButton() const
+		{
+			return vkey;
+		}
 
-private:
-	VirtualKey vkey;
-};
+		EVENT_CLASS_MACRO(MouseButtonReleased, MouseEvent)
+
+	private:
+		VirtualKey vkey;
+	};
+
+}

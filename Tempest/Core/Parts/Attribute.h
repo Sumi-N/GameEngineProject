@@ -2,8 +2,15 @@
 
 #include "Define.h"
 
-class Attribute
+namespace Tempest
 {
-public:
-	virtual ~Attribute(){};
-};
+
+	class Attribute
+	{
+	public:
+		virtual ~Attribute()
+		{
+		};
+	};
+
+}

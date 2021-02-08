@@ -3,23 +3,38 @@
 #include "Define.h"
 #include "Object.h"
 
-class Component
+namespace Tempest
 {
-public:
-	virtual ~Component(){};
 
-	ObservingPointer<Object> pointer;
+	class Component
+	{
+	public:
+		virtual ~Component()
+		{
+		};
 
-	virtual void Boot();
-	virtual void Init();
-	virtual void Update(float);
-	virtual void CleanUp();
-};
+		ObservingPointer<Object> pointer;
 
-inline void Component::Boot() {}
+		virtual void Boot();
+		virtual void Init();
+		virtual void Update(float);
+		virtual void CleanUp();
+	};
 
-inline void Component::Init() {}
+	inline void Component::Boot()
+	{
+	}
 
-inline void Component::Update(float i_dt) {}
+	inline void Component::Init()
+	{
+	}
 
-inline void Component::CleanUp() {}
+	inline void Component::Update(float i_dt)
+	{
+	}
+
+	inline void Component::CleanUp()
+	{
+	}
+
+}

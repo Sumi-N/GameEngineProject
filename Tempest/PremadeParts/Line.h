@@ -2,8 +2,13 @@
 
 #include "Define.h"
 
-class Line : public Object
+namespace Tempest
 {
-	void Boot() override;
-	void Init() override;
-};
+
+	class Line : public Object
+	{
+		void Boot() override;
+		void Init() override;
+	};
+
+}

@@ -2,23 +2,28 @@
 #include "Define.h"
 #include "imgui_impl_opengl3.h"
 
-class ImguiLayer : public Layer
+namespace Tempest
 {
-public:
-	ImguiLayer();
-	~ImguiLayer();
 
-	void OnAttach();
-	void OnDetach();
+	class ImguiLayer : public Layer
+	{
+	public:
+		ImguiLayer();
+		~ImguiLayer();
 
-	void OnUpdate() override;
-	void OnEvent(Event& event) override;
+		void OnAttach();
+		void OnDetach();
 
-private:
-	bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& e);
-	bool OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e);
-	bool OnMouseMovedEvent(MouseMovedEvent& e);
-	bool OnKeyPressedEvent(KeyPressedEvent& e);
-	bool OnKeyRelasedEvent(KeyReleasedEvent& e);
-	bool OnWindowResizedEvent(WindowResizeEvent& e);
-};
+		void OnUpdate() override;
+		void OnEvent(Event& event) override;
+
+	private:
+		bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& e);
+		bool OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e);
+		bool OnMouseMovedEvent(MouseMovedEvent& e);
+		bool OnKeyPressedEvent(KeyPressedEvent& e);
+		bool OnKeyRelasedEvent(KeyReleasedEvent& e);
+		bool OnWindowResizedEvent(WindowResizeEvent& e);
+	};
+
+}

@@ -1,15 +1,28 @@
 #pragma once
 #include "Define.h"
 
-class Layer
+namespace Tempest
 {
-public:
-	Layer() = default;
-	virtual ~Layer() = default;
 
-	virtual void OnAttach() {};
-	virtual void OnDetach() {};	
-	virtual void OnUpdate() {};
+	class Layer
+	{
+	public:
+		Layer() = default;
+		virtual ~Layer() = default;
 
-	virtual void OnEvent(Event& event) {}; 
-};
+		virtual void OnAttach()
+		{
+		};
+		virtual void OnDetach()
+		{
+		};
+		virtual void OnUpdate()
+		{
+		};
+
+		virtual void OnEvent(Event& event)
+		{
+		};
+	};
+
+}

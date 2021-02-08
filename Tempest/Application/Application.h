@@ -5,28 +5,35 @@
 #include "RenderThread.h"
 #include "Window.h"
 
-class Application
+namespace Tempest
 {
-public:
-	Application();
-	virtual ~Application(){};
-	
-protected:
-	void Execute();
 
-private:
-	static void Boot();
-	static void Start();
-	static void BootRenderThread();
-	static void BootGameThread();
-	static void RunGameThread();
-	static void RunRenderThread();
-};
+	class Application
+	{
+	public:
+		Application();
+		virtual ~Application()
+		{
+		};
 
-inline void Application::Execute()
-{
-	Application::Boot();
-	Application::Start();
+	protected:
+		void Execute();
+
+	private:
+		static void Boot();
+		static void Start();
+		static void BootRenderThread();
+		static void BootGameThread();
+		static void RunGameThread();
+		static void RunRenderThread();
+	};
+
+	inline void Application::Execute()
+	{
+		Application::Boot();
+		Application::Start();
+	}
+
+	static Application* Create();
+
 }
-
-static Application* Create();
