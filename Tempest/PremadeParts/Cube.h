@@ -18,7 +18,7 @@ inline void Cube::Boot()
 
 	//mesh->Load(PATH_SUFFIX MESH_PATH FILENAME_SPHERE);
 	
-	FBXImporter fbx;
+	//FBXImporter fbx;
 	//fbx.Import(PATH_SUFFIX MESH_PATH "NotFree/Iris_Costume.fbx");
 	//fbx.LoadMesh(PATH_SUFFIX MESH_PATH "NotFree/Iris_Nude.fbx", mesh->data, mesh->index);
 

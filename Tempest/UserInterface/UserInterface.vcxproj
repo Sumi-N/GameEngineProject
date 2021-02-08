@@ -38,9 +38,11 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\EngineDefaults.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\EngineDefaults.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -59,7 +61,6 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Core\;$(SolutionDir)APIs\;$(SolutionDir)APIs\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Define.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>Define.h</ForcedIncludeFiles>
@@ -78,7 +79,6 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Core\;$(SolutionDir)APIs\;$(SolutionDir)APIs\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Define.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>Define.h</ForcedIncludeFiles>
@@ -92,12 +92,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\APIs\UserInterfaceAPI\imgui\imconfig.h" />
-    <ClInclude Include="..\APIs\UserInterfaceAPI\imgui\imgui.h" />
-    <ClInclude Include="..\APIs\UserInterfaceAPI\imgui\imgui_internal.h" />
-    <ClInclude Include="..\APIs\UserInterfaceAPI\imgui\imstb_rectpack.h" />
-    <ClInclude Include="..\APIs\UserInterfaceAPI\imgui\imstb_textedit.h" />
-    <ClInclude Include="..\APIs\UserInterfaceAPI\imgui\imstb_truetype.h" />
+    <ClInclude Include="..\..\External\UserInterfaceAPI\imgui\imconfig.h" />
+    <ClInclude Include="..\..\External\UserInterfaceAPI\imgui\imgui.h" />
+    <ClInclude Include="..\..\External\UserInterfaceAPI\imgui\imgui_internal.h" />
+    <ClInclude Include="..\..\External\UserInterfaceAPI\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\..\External\UserInterfaceAPI\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\..\External\UserInterfaceAPI\imgui\imstb_truetype.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="ImguiLayer.h" />
     <ClInclude Include="imgui_impl_glfw.h" />
@@ -105,10 +105,10 @@
     <ClInclude Include="UserInterface.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\APIs\UserInterfaceAPI\imgui\imgui.cpp" />
-    <ClCompile Include="..\APIs\UserInterfaceAPI\imgui\imgui_demo.cpp" />
-    <ClCompile Include="..\APIs\UserInterfaceAPI\imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\APIs\UserInterfaceAPI\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="..\..\External\UserInterfaceAPI\imgui\imgui.cpp" />
+    <ClCompile Include="..\..\External\UserInterfaceAPI\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\..\External\UserInterfaceAPI\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\..\External\UserInterfaceAPI\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Define.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -127,9 +127,6 @@
     </ProjectReference>
     <ProjectReference Include="..\Core\ResourceManagement\ResourceManagement.vcxproj">
       <Project>{4590a9a9-0184-4a56-b1cc-3b585d51fc0d}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Graphics\Graphics.vcxproj">
-      <Project>{6809ac33-2d2c-4a2f-9a7f-c187a9307703}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

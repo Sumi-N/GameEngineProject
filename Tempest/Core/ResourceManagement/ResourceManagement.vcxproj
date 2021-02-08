@@ -37,9 +37,11 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\EngineDefaults.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\EngineDefaults.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -64,7 +66,6 @@
       <PrecompiledHeaderFile>Define.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Core\;$(SolutionDir)APIs\;$(SolutionDir)APIs\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -74,7 +75,6 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)APIs\ImporterAPI\FBX SDK\2020.0.1\lib\vs2017\x64\release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libfbxsdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -86,7 +86,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Define.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>Define.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Core\;$(SolutionDir)APIs\;$(SolutionDir)APIs\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -94,11 +93,10 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)APIs\ImporterAPI\FBX SDK\2020.0.1\lib\vs2017\x64\debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libfbxsdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\APIs\ImporterAPI\loadpng\lodepng.cpp" />
+    <ClCompile Include="..\..\..\External\ImporterAPI\loadpng\lodepng.cpp" />
     <ClCompile Include="Define.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -111,8 +109,8 @@
     <ClCompile Include="Importer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\APIs\ImporterAPI\loadpng\lodepng.h" />
-    <ClInclude Include="..\..\APIs\ImporterAPI\stb\stb_image.h" />
+    <ClInclude Include="..\..\..\External\ImporterAPI\loadpng\lodepng.h" />
+    <ClInclude Include="..\..\..\External\ImporterAPI\stb\stb_image.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="FBXImporter.h" />
     <ClInclude Include="Importer.h" />

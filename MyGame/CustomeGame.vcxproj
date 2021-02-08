@@ -37,9 +37,11 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Tempest\EngineDefaults.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Tempest\EngineDefaults.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -60,7 +62,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Core\;$(SolutionDir)APIs\;$(SolutionDir)APIs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -75,7 +76,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Core\;$(SolutionDir)APIs\;$(SolutionDir)APIs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -91,20 +91,6 @@
     <ClCompile Include="TestScene_PhoneBlinn_Lights.cpp" />
     <ClCompile Include="TestScene_PhoneBlinn_Teapots.cpp" />
     <ClCompile Include="TestScene_Two_Cameras.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Application\Application.vcxproj">
-      <Project>{a4a992b0-4300-4d9f-bd91-9ba6afe44d21}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Core\Input\Input.vcxproj">
-      <Project>{725cccc9-d908-4257-b0e5-54bebf75b3ef}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Core\Parts\Parts.vcxproj">
-      <Project>{f0dcb746-4531-4351-9a6e-140c336a3c35}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\PremadeParts\PremadeParts.vcxproj">
-      <Project>{ead6194a-8725-4dd7-b303-c09c40905cc9}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BathRoomTileSphere.h" />
@@ -123,6 +109,20 @@
     <ClInclude Include="Teapot.h" />
     <ClInclude Include="TestScenes.h" />
     <ClInclude Include="WarnPaintedCement.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tempest\Application\Application.vcxproj">
+      <Project>{a4a992b0-4300-4d9f-bd91-9ba6afe44d21}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Tempest\Core\Input\Input.vcxproj">
+      <Project>{725cccc9-d908-4257-b0e5-54bebf75b3ef}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Tempest\Core\Parts\Parts.vcxproj">
+      <Project>{f0dcb746-4531-4351-9a6e-140c336a3c35}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Tempest\PremadeParts\PremadeParts.vcxproj">
+      <Project>{ead6194a-8725-4dd7-b303-c09c40905cc9}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

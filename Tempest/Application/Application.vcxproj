@@ -37,9 +37,11 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\EngineDefaults.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\EngineDefaults.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -58,7 +60,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Core\;$(SolutionDir)APIs\;$(SolutionDir)APIs\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Define.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>Define.h</ForcedIncludeFiles>
@@ -77,7 +78,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Core\;$(SolutionDir)APIs\;$(SolutionDir)APIs\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Define.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>Define.h</ForcedIncludeFiles>
@@ -90,6 +90,26 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Define.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GameThread.cpp" />
+    <ClCompile Include="RenderThread.cpp" />
+    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="Window.win.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="Define.h" />
+    <ClInclude Include="EntryPoint.h" />
+    <ClInclude Include="GameThread.h" />
+    <ClInclude Include="RenderThread.h" />
+    <ClInclude Include="Window.h" />
+    <ClInclude Include="Window.win.h" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\EntitySystem\EntitySystem.vcxproj">
       <Project>{8d7d6eb2-5151-4527-934b-d775d58f0994}</Project>
@@ -118,26 +138,6 @@
     <ProjectReference Include="..\UserInterface\UserInterface.vcxproj">
       <Project>{2ca513af-6a8a-47ea-8153-9944ffdb83aa}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Application.cpp" />
-    <ClCompile Include="Define.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="GameThread.cpp" />
-    <ClCompile Include="RenderThread.cpp" />
-    <ClCompile Include="Window.cpp" />
-    <ClCompile Include="Window.win.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Application.h" />
-    <ClInclude Include="Define.h" />
-    <ClInclude Include="EntryPoint.h" />
-    <ClInclude Include="GameThread.h" />
-    <ClInclude Include="RenderThread.h" />
-    <ClInclude Include="Window.h" />
-    <ClInclude Include="Window.win.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

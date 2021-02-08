@@ -27,7 +27,7 @@
     <ClCompile Include="Importer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\APIs\ImporterAPI\loadpng\lodepng.cpp">
+    <ClCompile Include="..\..\..\External\ImporterAPI\loadpng\lodepng.cpp">
       <Filter>API%27s Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,10 +44,10 @@
     <ClInclude Include="ResourceData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\APIs\ImporterAPI\loadpng\lodepng.h">
+    <ClInclude Include="..\..\..\External\ImporterAPI\loadpng\lodepng.h">
       <Filter>API%27s Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\APIs\ImporterAPI\stb\stb_image.h">
+    <ClInclude Include="..\..\..\External\ImporterAPI\stb\stb_image.h">
       <Filter>API%27s Files</Filter>
     </ClInclude>
   </ItemGroup>

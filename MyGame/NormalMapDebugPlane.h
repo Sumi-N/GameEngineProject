@@ -16,10 +16,10 @@ inline void NormalMapDebugPlane::Boot()
 	OwningPointer<TextureAttribute> quadtexture3 = OwningPointer<TextureAttribute>::Create(quadtexture3);
 	OwningPointer<TextureAttribute> quadtexture4 = OwningPointer<TextureAttribute>::Create(quadtexture4);
 
-	quadtexture->Load("../../Assets/textures/albedo/gray.png", TextureType::PB_Diffuse);
-	quadtexture2->Load("../../Assets/textures/albedo/gray.png", TextureType::PB_Specular);
-	quadtexture3->Load("../../Assets/textures/normal/teapot_normal.png", TextureType::PB_Normal);
-	quadtexture4->Load("../../Assets/textures/displacement/teapot_disp.png", TextureType::PB_Displacement);
+	quadtexture->Load(PATH_SUFFIX "Assets/textures/albedo/gray.png", TextureType::PB_Diffuse);
+	quadtexture2->Load(PATH_SUFFIX "Assets/textures/albedo/gray.png", TextureType::PB_Specular);
+	quadtexture3->Load(PATH_SUFFIX "Assets/textures/normal/teapot_normal.png", TextureType::PB_Normal);
+	quadtexture4->Load(PATH_SUFFIX "Assets/textures/displacement/teapot_disp.png", TextureType::PB_Displacement);
 
 	//Shader* quadshader  = new Shader(PATH_SUFFIX SHADER_PATH "test_purpose/test_tessellation.vert.glsl", PATH_SUFFIX SHADER_PATH "debug_purpose/debug_polygon.geo.glsl", PATH_SUFFIX SHADER_PATH "debug_purpose/debug_polygon.frag.glsl");
 	//Shader* debugshader = new Shader(PATH_SUFFIX SHADER_PATH "test_purpose/test_tessellation.vert.glsl", PATH_SUFFIX SHADER_PATH "test_purpose/test_tessellation.control.glsl", PATH_SUFFIX SHADER_PATH "test_purpose/test_tessellation.eval.glsl", PATH_SUFFIX SHADER_PATH "test_purpose/normal_mapping.frag.glsl");
