@@ -103,18 +103,18 @@
       </ForcedIncludeFiles>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="FBXImporter.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="Importer.cpp" />
+    <ClCompile Include="MeshLoader.cpp" />
+    <ClCompile Include="ResourceLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\External\loadpng\lodepng.h" />
     <ClInclude Include="..\..\..\External\stb\stb_image.h" />
     <ClInclude Include="Define.h" />
-    <ClInclude Include="FBXImporter.h" />
     <ClInclude Include="Importer.h" />
+    <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="ResourceData.h" />
+    <ClInclude Include="ResourceLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Logging\Logging.vcxproj">

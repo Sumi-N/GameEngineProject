@@ -47,6 +47,8 @@
 #define MESH_PATH        "Assets/models/"
 #define SHADER_PATH      "Assets/shaders/"
 #define TEXTURE_PATH     "Assets/textures/"
+#define INT_MESH_PATH    "Assets/int/mesh/"
+#define BIN_MESH_PATH    "Assets/bin/mesh/"
 
 //////////////////////////////
 // Mesh Data

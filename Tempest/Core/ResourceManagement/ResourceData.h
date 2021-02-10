@@ -2,9 +2,7 @@
 
 #include "Define.h"
 
-#ifdef ENGINE_PLATFORM_WINDOWS
 __declspec(align(16))
-#endif // ENGINE_PLATFORM_WINDOWS
 struct MeshData
 {
 	Vec3f vertex;
