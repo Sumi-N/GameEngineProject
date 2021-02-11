@@ -15,21 +15,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Importer.cpp">
+    <ClCompile Include="GeometryConverter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OBJImporter.cpp">
+    <ClCompile Include="OBJConverter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="FileAssistanceSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Importer.h">
+    <ClInclude Include="GeometryConverter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OBJImporter.h">
+    <ClInclude Include="OBJConverter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileAssistanceSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

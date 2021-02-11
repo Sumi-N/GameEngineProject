@@ -84,15 +84,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Importer.cpp" />
-    <ClCompile Include="OBJImporter.cpp" />
+    <ClCompile Include="FileAssistanceSystem.cpp" />
+    <ClCompile Include="GeometryConverter.cpp" />
+    <ClCompile Include="OBJConverter.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Importer.h" />
-    <ClInclude Include="OBJImporter.h" />
+    <ClInclude Include="FileAssistanceSystem.h" />
+    <ClInclude Include="GeometryConverter.h" />
+    <ClInclude Include="OBJConverter.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Tempest\Core\Logging\Logging.vcxproj">
+      <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Tempest\Core\ResourceManagement\ResourceManagement.vcxproj">
       <Project>{4590a9a9-0184-4a56-b1cc-3b585d51fc0d}</Project>
     </ProjectReference>
