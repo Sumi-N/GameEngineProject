@@ -1,11 +1,12 @@
 #include "MeshComponent.h"
+#include "ResourceManagement/MeshLoader.h"
 
 namespace Tempest
 {
 
 	bool MeshComponent::Load(const char* filename)
 	{
-		Tempest::LoadMesh(filename, data, index);
+		ReadGeometry(filename, data, index);
 
 		if (data.empty())
 			return false;

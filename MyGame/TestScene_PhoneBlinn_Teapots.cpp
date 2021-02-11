@@ -111,6 +111,6 @@ namespace Tempest
 
 		Entity::RegisterAmbientLight(ambientlight);
 		Entity::RegisterPointLight(pointlight);
-		Entity::RegisterPointLight(pointlight2);
+		//Entity::RegisterPointLight(pointlight2);
 	}
 }

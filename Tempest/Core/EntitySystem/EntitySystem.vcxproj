@@ -104,9 +104,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Debug\Debug.vcxproj">
-      <Project>{26bee3b0-bb11-4fe0-8c7f-b655aa37ebaf}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\MemoryManagement\MemoryManagement.vcxproj">
       <Project>{4de6446c-e0a9-4b48-9d06-821a246ef395}</Project>
     </ProjectReference>

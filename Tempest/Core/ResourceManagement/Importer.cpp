@@ -5,7 +5,7 @@
 #endif
 #include <External/stb/stb_image.h>
 
-void Tempest::LoadMesh(const char* filename, std::vector<MeshData>& data, std::vector<int>& index)
+void Tempest::ReadGeometry(const char* filename, std::vector<MeshData>& data, std::vector<int>& index)
 {
 	cy::TriMesh tmpdata;
 	tmpdata.LoadFromFileObj(filename, true);
