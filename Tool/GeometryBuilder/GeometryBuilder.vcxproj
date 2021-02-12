@@ -86,12 +86,10 @@
   <ItemGroup>
     <ClCompile Include="FileAssistanceSystem.cpp" />
     <ClCompile Include="GeometryConverter.cpp" />
-    <ClCompile Include="OBJConverter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileAssistanceSystem.h" />
     <ClInclude Include="GeometryConverter.h" />
-    <ClInclude Include="OBJConverter.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Tempest\Core\Logging\Logging.vcxproj">

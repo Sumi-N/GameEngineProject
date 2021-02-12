@@ -395,6 +395,7 @@ public:
 	template<class U>
 	ObservingPointer(const OwningPointer<U>& i_owner) : ref(i_owner.ref), data(i_owner.data)
 	{
+
 		ref->ObserverReferences++;
 	};
 

@@ -13,8 +13,12 @@ public:
 	static std::vector<MeshData> data;
 	static std::vector<int>      index;
 
-	virtual bool ReadGeometry(std::filesystem::path const) = 0;
+	bool ReadGeometry(std::filesystem::path const) ;
 
 	bool WriteBinary(std::filesystem::path const);
+
+private:
+	bool ReadOBJ(std::filesystem::path const);
+	bool ReadFBX(std::filesystem::path const);
 };
 

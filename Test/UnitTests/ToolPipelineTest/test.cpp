@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include <Tool/GeometryBuilder/OBJConverter.h>
+#include <Tool/GeometryBuilder/GeometryConverter.h>
 #include <Tool/GeometryBuilder/FileAssistanceSystem.h>
 #include <ResourceManagement/MeshLoader.h>
 
@@ -13,7 +13,7 @@ class GeometryBuilderTest : public ::testing::Test
 protected:
 
 	FileAssistanceSystem fas;
-	OBJConverter obj;
+	GeometryConverter obj;
 
 	GeometryBuilderTest() {}
 	virtual ~GeometryBuilderTest() {}
@@ -44,6 +44,17 @@ TEST_F(GeometryBuilderTest, SetupFileAssistanceSystemTest) {
 TEST_F(GeometryBuilderTest, ReadOBJTest)
 {
 	std::filesystem::path filepath = fas.input_dir.string() + std::filesystem::path(INTDATA).string();
+
+	EXPECT_TRUE(obj.ReadGeometry(filepath));
+
+	size_t data_size = GeometryConverter::data.size();
+
+	EXPECT_EQ(data_size, 2880);
+}
+
+TEST_F(GeometryBuilderTest, ReadFBXTest)
+{
+	std::filesystem::path filepath = fas.input_dir.string() + std::filesystem::path("twocubes.fbx").string();
 
 	EXPECT_TRUE(obj.ReadGeometry(filepath));
 

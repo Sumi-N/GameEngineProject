@@ -2,10 +2,16 @@
 #include "Define.h"
 #include "ResourceData.h"
 #include "ResourceLoader.h"
+#include <Logging/Result.h>
 
-class MeshLoader : ResourceLoader
+namespace Tempest
 {
-public:
-	bool Load(const char*, std::vector<MeshData>&, std::vector<int>&);
-};
+
+	class MeshLoader : ResourceLoader
+	{
+	public:
+		Result Load(const char*, std::vector<MeshData>&, std::vector<int>&);
+	};
+
+}
 

@@ -19,7 +19,7 @@ namespace Tempest
 	{
 		PremadeObjebct::Boot();
 
-		mesh->Load(PATH_SUFFIX MESH_PATH "teapot.obj");
+		mesh->Load(PATH_SUFFIX BIN_MESH_PATH "teapot.tmd");
 
 		OwningPointer<TextureAttribute> teapottexture = OwningPointer<TextureAttribute>::Create(teapottexture);
 		OwningPointer<TextureAttribute> teapottexture2 = OwningPointer<TextureAttribute>::Create(teapottexture2);

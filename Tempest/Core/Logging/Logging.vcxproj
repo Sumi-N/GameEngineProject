@@ -15,6 +15,7 @@
     <ClInclude Include="DebugLog.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="MemoryLeakDetection.h" />
+    <ClInclude Include="Result.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Assert.cpp" />

@@ -44,7 +44,6 @@
 // General Asset Path
 //////////////////////////////
 #define PATH_SUFFIX      "../"
-#define MESH_PATH        "Assets/models/"
 #define SHADER_PATH      "Assets/shaders/"
 #define TEXTURE_PATH     "Assets/textures/"
 #define INT_MESH_PATH    "Assets/int/mesh/"
@@ -54,10 +53,10 @@
 // Mesh Data
 //////////////////////////////
 
-#define FILENAME_CUBEMAP "cubemap.obj"
-#define FILENAME_QUAD    "quad.obj"
-#define FILENAME_SPHERE  "sphere.obj"
-#define FILENAME_CAMERA  "camera.obj"
+#define FILENAME_CUBEMAP "cubemap.tmd"
+#define FILENAME_QUAD    "quad.tmd"
+#define FILENAME_SPHERE  "sphere.tmd"
+#define FILENAME_CAMERA  "camera.tmd"
 
 //////////////////////////////
 // Texture Data

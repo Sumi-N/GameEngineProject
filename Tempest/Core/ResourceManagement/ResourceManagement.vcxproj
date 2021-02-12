@@ -97,6 +97,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\External\loadpng\lodepng.cpp" />
+    <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="Define.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -110,6 +111,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\External\loadpng\lodepng.h" />
     <ClInclude Include="..\..\..\External\stb\stb_image.h" />
+    <ClInclude Include="AssetManager.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Importer.h" />
     <ClInclude Include="MeshLoader.h" />

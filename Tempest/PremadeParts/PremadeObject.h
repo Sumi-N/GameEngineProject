@@ -8,12 +8,11 @@ namespace Tempest
 	class PremadeObjebct : public Object
 	{
 	public:
-		PremadeObjebct() : mesh(nullptr)
-		{
-		}
+		PremadeObjebct() : mesh(nullptr) {}
 
-		void Boot() override;
-		void Init() override;
+		virtual void Boot() override;
+		virtual void Init() override;
+		OwningPointer<MeshComponent> GetMeshComponent();
 
 	protected:
 		OwningPointer<MeshComponent> mesh;
@@ -46,6 +45,19 @@ namespace Tempest
 	inline void PremadeObjebct::Init()
 	{
 		Object::Init();
+	}
+
+	inline OwningPointer<MeshComponent> PremadeObjebct::GetMeshComponent()
+	{
+		if (mesh)
+		{
+			return mesh;
+		}
+		else
+		{
+			DEBUG_ASSERT(false);
+			return OwningPointer<MeshComponent>();
+		}
 	}
 
 }

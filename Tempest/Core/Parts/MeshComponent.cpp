@@ -6,7 +6,17 @@ namespace Tempest
 
 	bool MeshComponent::Load(const char* filename)
 	{
-		ReadGeometry(filename, data, index);
+		if (IsLoaded())
+		{
+			DEBUG_PRINT("The data is loaded twice in this mesh component");
+			CleanMesh();
+		}
+
+		MeshLoader meshloader;
+		if (!meshloader.Load(filename, data, index))
+		{
+			DEBUG_PRINT("Failed to load the mesh data %s", filename);
+		}
 
 		if (data.empty())
 			return false;
@@ -48,4 +58,19 @@ namespace Tempest
 		material = i_material;
 	}
 
+	bool MeshComponent::IsLoaded() const
+	{
+		if (!data.empty() || !index.empty())
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	void MeshComponent::CleanMesh()
+	{
+		data.clear();
+		index.clear();
+	}
 }

@@ -14,21 +14,24 @@ namespace Tempest
 		ObservingPointer<Object> owner;
 		OwningPointer<MaterialAttribute> material;
 
-		// Index data
 		std::vector<MeshData> data;
 		std::vector<int>   index;
 
 		Mat4f model_mat;
 		Mat4f model_inverse_transpose_mat;
 
-		bool Load(const char* filename);
-		void Boot() override;
-		void Init() override;
-		void Update(float i_dt) override;
-		void CleanUp() override;
+		virtual void Boot() override;
+		virtual void Init() override;
+		virtual void Update(float i_dt) override;
+		virtual void CleanUp() override;
 
+		bool Load(const char* filename);
 		void SetMaterial(MaterialAttribute*);
 		void SetMaterial(OwningPointer<MaterialAttribute>);
+
+	private:
+		bool IsLoaded() const;
+		void CleanMesh();
 	};
 
 }
