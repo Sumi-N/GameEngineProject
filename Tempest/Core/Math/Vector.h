@@ -130,7 +130,6 @@ namespace Math {
 	public:
 		union 
 		{
-			__m128 m_vec;
 			struct { float x, y, z; };
 			struct { float r, g, b; };
 		};
@@ -271,13 +270,14 @@ namespace Math {
 
 typedef Math::Vec2<float>            Vec2f;
 typedef Math::Vec3<uint8_t>          Vec3u8t;
-//typedef Math::Vec3<unsigned short>   Vec3us;
-//typedef Math::Vec3<short>            Vec3s;
-//typedef Math::Vec3<unsigned int>     Vec3ui;
-//typedef Math::Vec3<int>              Vec3i;
+typedef Math::Vec3<unsigned short>   Vec3us;
+typedef Math::Vec3<short>            Vec3s;
+typedef Math::Vec3<unsigned int>     Vec3ui;
+typedef Math::Vec3<int>              Vec3i;
 typedef Math::Vec3<float>            Vec3f;
 typedef Math::Vec3<double>           Vec3d;
 
+typedef Math::Vec4<uint8_t>			 Vec4u8t;
 typedef Math::Vec4<float>            Vec4f;
 typedef Math::Vec4<double>           Vec4d;
 
