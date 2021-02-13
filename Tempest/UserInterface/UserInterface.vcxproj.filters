@@ -29,9 +29,6 @@
     <ClInclude Include="imgui_impl_opengl3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UserInterface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\External\imgui\imconfig.h">
       <Filter>API%27s Files</Filter>
     </ClInclude>
@@ -64,9 +61,6 @@
     <ClCompile Include="ImguiLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UserInterface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\External\imgui\imgui.cpp">
       <Filter>API%27s Files</Filter>
     </ClCompile>
@@ -77,6 +71,9 @@
       <Filter>API%27s Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\External\imgui\imgui_widgets.cpp">
+      <Filter>API%27s Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\External\imgui\imgui_tables.cpp">
       <Filter>API%27s Files</Filter>
     </ClCompile>
   </ItemGroup>

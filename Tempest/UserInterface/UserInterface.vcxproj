@@ -102,12 +102,12 @@
     <ClInclude Include="ImguiLayer.h" />
     <ClInclude Include="imgui_impl_glfw.h" />
     <ClInclude Include="imgui_impl_opengl3.h" />
-    <ClInclude Include="UserInterface.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\External\imgui\imgui.cpp" />
     <ClCompile Include="..\..\External\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\..\External\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\..\External\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\..\External\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Define.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -116,7 +116,6 @@
     <ClCompile Include="ImguiLayer.cpp" />
     <ClCompile Include="imgui_impl_glfw.cpp" />
     <ClCompile Include="imgui_impl_opengl3.cpp" />
-    <ClCompile Include="UserInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Input\Input.vcxproj">
@@ -124,9 +123,6 @@
     </ProjectReference>
     <ProjectReference Include="..\Core\Logging\Logging.vcxproj">
       <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Core\ResourceManagement\ResourceManagement.vcxproj">
-      <Project>{4590a9a9-0184-4a56-b1cc-3b585d51fc0d}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

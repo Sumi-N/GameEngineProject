@@ -7,7 +7,7 @@ namespace Tempest
 	{
 	public:
 
-		T* Get(const Handle<T> i_handle);
+		//T* Get(const Handle<T> i_handle);
 
 	private:
 

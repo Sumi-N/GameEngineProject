@@ -77,7 +77,7 @@ TEST_F(GeometryBuilderTest, ReadBinaryTest)
 {
 	std::string pathname = fas.output_dir.string() + std::filesystem::path(BINDAT).string();
 
-	MeshLoader loader;
+	Tempest::MeshLoader loader;
 
 	EXPECT_TRUE(loader.Load(pathname.c_str(),mesh_data, mesh_index));
 
