@@ -1,6 +1,5 @@
 #pragma once
 #include "Define.h"
-#include "imgui_impl_opengl3.h"
 
 namespace Tempest
 {
@@ -11,19 +10,13 @@ namespace Tempest
 		ImguiLayer();
 		~ImguiLayer();
 
-		void OnAttach();
-		void OnDetach();
+		virtual void OnAttach() override;
+		virtual void OnDetach() override;
 
-		void OnUpdate() override;
-		void OnEvent(Event& event) override;
+		virtual void OnUpdate() override;
 
-	private:
-		bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& e);
-		bool OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e);
-		bool OnMouseMovedEvent(MouseMovedEvent& e);
-		bool OnKeyPressedEvent(KeyPressedEvent& e);
-		bool OnKeyRelasedEvent(KeyReleasedEvent& e);
-		bool OnWindowResizedEvent(WindowResizeEvent& e);
+		void Begin();
+		void End();
 	};
 
 }

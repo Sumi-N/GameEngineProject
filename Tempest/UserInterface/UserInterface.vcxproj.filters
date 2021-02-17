@@ -12,9 +12,6 @@
     <Filter Include="Header Files">
       <UniqueIdentifier>{2946672f-1242-4e39-923e-bb2c6d66d7fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="API%27s Files">
-      <UniqueIdentifier>{d0cbbba7-824e-4712-9637-8c45bc18733d}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h">
@@ -23,58 +20,16 @@
     <ClInclude Include="ImguiLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="imgui_impl_glfw.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui_impl_opengl3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\External\imgui\imconfig.h">
-      <Filter>API%27s Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\External\imgui\imgui.h">
-      <Filter>API%27s Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\External\imgui\imgui_internal.h">
-      <Filter>API%27s Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\External\imgui\imstb_rectpack.h">
-      <Filter>API%27s Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\External\imgui\imstb_textedit.h">
-      <Filter>API%27s Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\External\imgui\imstb_truetype.h">
-      <Filter>API%27s Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Define.cpp">
       <Filter>Precompiled Header</Filter>
     </ClCompile>
-    <ClCompile Include="imgui_impl_glfw.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui_impl_opengl3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ImguiLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\External\imgui\imgui.cpp">
-      <Filter>API%27s Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\External\imgui\imgui_demo.cpp">
-      <Filter>API%27s Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\External\imgui\imgui_draw.cpp">
-      <Filter>API%27s Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\External\imgui\imgui_widgets.cpp">
-      <Filter>API%27s Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\External\imgui\imgui_tables.cpp">
-      <Filter>API%27s Files</Filter>
+    <ClCompile Include="ImguiBuild.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

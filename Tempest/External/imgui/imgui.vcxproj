@@ -12,10 +12,10 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{2CA513AF-6A8A-47EA-8153-9944FFDB83AA}</ProjectGuid>
-    <RootNamespace>UserInterface</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{1ffca871-4d34-497d-bf09-db6a91f02bf2}</ProjectGuid>
+    <RootNamespace>imgui</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>UserInterface</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -38,36 +38,26 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\EngineDefaults.props" />
-    <Import Project="..\OpenGL_Debug.props" />
+    <Import Project="..\..\EngineDefaults.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\EngineDefaults.props" />
-    <Import Project="..\OpenGL.props" />
+    <Import Project="..\..\EngineDefaults.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>false</SDLCheck>
+      <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>Define.h</PrecompiledHeaderFile>
-      <ForcedIncludeFiles>Define.h</ForcedIncludeFiles>
-      <LanguageStandard>Default</LanguageStandard>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -79,14 +69,10 @@
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>false</SDLCheck>
+      <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>Define.h</PrecompiledHeaderFile>
-      <ForcedIncludeFiles>Define.h</ForcedIncludeFiles>
-      <LanguageStandard>Default</LanguageStandard>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -96,27 +82,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Define.h" />
-    <ClInclude Include="ImguiLayer.h" />
+    <ClInclude Include="..\..\..\External\imgui\imconfig.h" />
+    <ClInclude Include="..\..\..\External\imgui\imgui.h" />
+    <ClInclude Include="..\..\..\External\imgui\imgui_internal.h" />
+    <ClInclude Include="..\..\..\External\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\..\..\External\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\..\..\External\imgui\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Define.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="ImguiBuild.cpp" />
-    <ClCompile Include="ImguiLayer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Core\Input\Input.vcxproj">
-      <Project>{725cccc9-d908-4257-b0e5-54bebf75b3ef}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Core\Logging\Logging.vcxproj">
-      <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\External\imgui\imgui.vcxproj">
-      <Project>{1ffca871-4d34-497d-bf09-db6a91f02bf2}</Project>
-    </ProjectReference>
+    <ClCompile Include="..\..\..\External\imgui\imgui.cpp" />
+    <ClCompile Include="..\..\..\External\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\..\..\External\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\..\..\External\imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\..\..\External\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

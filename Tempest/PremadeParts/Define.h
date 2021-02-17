@@ -12,7 +12,6 @@
 #include <Parts/MaterialAttribute.h>
 
 #include <EntitySystem/Entity.h>
-#include <Graphics/SceneEntity.h>
 
 
 //////////////////////////////

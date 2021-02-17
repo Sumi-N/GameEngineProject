@@ -17,6 +17,8 @@ namespace Tempest
 		WindowProperty property;
 		window->Init(property);
 
+		WindowsHanlder = window->GetNaitiveWindowsHandler();
+
 		// Push imgui layer to layer stack
 		ImguiLayer* imgui_layer = new ImguiLayer();
 		layerstack.PushLayer(imgui_layer);
@@ -26,7 +28,6 @@ namespace Tempest
 
 		// Initialize OpenGL
 		Graphic::Boot();
-		WindowsHanlder = window->GetNaitiveWindowsHandler();
 	}
 
 	void RenderThread::Init()

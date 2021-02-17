@@ -14,13 +14,13 @@
 #include <Core/Input/MouseEvent.h>
 #include <Core/Input/KeyEvent.h>
 #include <Core/INput/ApplicationEvent.h>
-// Graphics
-#include <Graphics/Graphic.h>
-#include <Graphics/ConstantBuffer.h>
 
 #include <functional>
 // UserInterface
 #include <UserInterface/ImguiLayer.h>
+
+#include <Graphics/Graphic.h>
+#include <Graphics/ConstantBuffer.h>
 
 extern Input UserInput;
 

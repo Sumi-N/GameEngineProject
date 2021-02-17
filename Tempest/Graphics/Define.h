@@ -18,10 +18,10 @@
 
 	#pragma comment(lib, "opengl32.lib")
 
-	#include <External/glew-2.1.0/include/GL/glew.h>
-	#include <External/glfw-3.3.bin.WIN64/include/GLFW/glfw3.h>
+	#include <GL/glew.h>
+	#include <GLFW/glfw3.h>
 	#define GLFW_EXPOSE_NATIVE_WIN32
-	#include <External/glfw-3.3.bin.WIN64/include/GLFW/glfw3native.h>
+	#include <GLFW/glfw3native.h>
 
 
 #elif ENGINE_GRAPHIC_VULKAN

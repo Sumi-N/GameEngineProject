@@ -1,5 +1,6 @@
 #include "GameThread.h"
 
+
 namespace Tempest
 {
 	extern GraphicRequiredData* data_game_own;
