@@ -12,6 +12,7 @@ public:
 
 
 	HWND GetNaitiveWindowsHandler();
+	GLFWwindow* GetGLFWWindow();
 
 private:
 	GLFWwindow* glfwwindow;

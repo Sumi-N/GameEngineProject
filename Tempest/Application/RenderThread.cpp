@@ -21,6 +21,7 @@ namespace Tempest
 
 		// Push imgui layer to layer stack
 		ImguiLayer* imgui_layer = new ImguiLayer();
+		imgui_layer->window = window->GetGLFWWindow();
 		layerstack.PushLayer(imgui_layer);
 
 		// Bind event callbacks including the callbacks that are in imgui layer and other layers 

@@ -168,6 +168,11 @@ namespace Tempest
 		return glfwGetWin32Window(glfwwindow);
 	}
 
+	GLFWwindow* Window::GetGLFWWindow()
+	{
+		return glfwwindow;
+	}
+
 }
 
 #endif // ENGINE_PLATFORM_WINDOWS

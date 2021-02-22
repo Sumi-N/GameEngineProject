@@ -17,6 +17,9 @@ namespace Tempest
 
 		void Begin();
 		void End();
+
+	public:
+		GLFWwindow* window = nullptr;
 	};
 
 }

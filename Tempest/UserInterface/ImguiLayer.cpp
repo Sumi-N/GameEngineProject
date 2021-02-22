@@ -41,6 +41,10 @@ namespace Tempest
 		}
 
 
+		if (!window)
+		{
+			DEBUG_ASSERT(false);
+		}
 
 		// Setup Platform/Renderer backends
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -56,17 +60,12 @@ namespace Tempest
 
 	void ImguiLayer::OnUpdate()
 	{
-		ImGuiIO& io = ImGui::GetIO();
-
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui::NewFrame();
+		Begin();
 
 		static bool show = true;
 		ImGui::ShowDemoWindow(&show);
 
-		ImGui::Render();
-
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		End();
 	}
 
 	void ImguiLayer::Begin()
@@ -79,7 +78,17 @@ namespace Tempest
 	void ImguiLayer::End()
 	{
 		ImGuiIO& io = ImGui::GetIO();
+		io.DisplaySize = ImVec2(1920, 1080);
 
 		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			GLFWwindow* backup_current_context = glfwGetCurrentContext();
+			ImGui::UpdatePlatformWindows();
+			ImGui::RenderPlatformWindowsDefault();
+			glfwMakeContextCurrent(backup_current_context);
+		}
 	}
 }
