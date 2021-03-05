@@ -16,12 +16,12 @@ public:
 MyApplication::MyApplication()
 {
 	//TestScene::PBR_9Balls();
-	TestScene::PBR_Red_Balls();
+	//TestScene::PBR_Red_Balls();
 	//TestScene::PhoneBlinn_Teapots();
 	//TestScene::PhoneBlinn_Lights();
 	//TestScene::Normal_Debug_Plane();
 
-	//TestScene::Two_Cameras();
+	TestScene::Two_Cameras();
 
 	Tempest::Application::Execute();
 }
