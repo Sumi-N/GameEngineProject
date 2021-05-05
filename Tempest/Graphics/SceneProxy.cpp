@@ -5,7 +5,6 @@
 void SceneProxy::Init()
 {
 	InitBuffer();
-	InitMeshData();
 }
 
 void SceneProxy::AddRenderState(OwningPointer<RenderState> i_state)
@@ -29,4 +28,22 @@ void SceneProxy::CheckDrawType(Shader i_shader)
 		drawtype = DrawType::PATCHES;
 	else
 		drawtype = originaltype;
+}
+
+void SceneProxy::InitBuffer()
+{
+	if (vbuffer.CheckStructDataSize(sizeof(mesh->data[0])))
+	{
+		vbuffer.InitData(mesh->data.size() * sizeof(mesh->data[0]), mesh->data.data());
+	}
+	ibuffer.InitData(mesh->index.size() * sizeof(mesh->index[0]), mesh->index.data());
+
+	// Memorize index size for Draw() fucntion
+	indexsize = static_cast<unsigned int>(mesh->index.size()) * sizeof(mesh->index[0]);
+}
+
+void SceneProxy::CleanUpBuffer() const
+{
+	vbuffer.CleanUp();
+	ibuffer.CleanUp();
 }

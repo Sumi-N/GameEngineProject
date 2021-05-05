@@ -58,12 +58,12 @@ inline void Graphic::Init(unsigned int i_width, unsigned int i_height)
 	viewport_height = i_height;
 
 	// Init uniform buffers
-	constant_camera.Init(ConstantData::Index::Camera, ConstantData::Size::Camera);
-	constant_model.Init(ConstantData::Index::Model, ConstantData::Size::Model);
-	constant_material.Init(ConstantData::Index::Material, ConstantData::Size::Material);
-	constant_light.Init(ConstantData::Index::Light, ConstantData::Size::Light);
-	constant_skybox.Init(ConstantData::Index::SkyBox, ConstantData::Size::SkyBox);
-	constant_cubemap.Init(ConstantData::Index::CubeMap, ConstantData::Size::CubeMap);
+	constant_camera.Init(ConstantData::Index::Camera);
+	constant_model.Init(ConstantData::Index::Model);
+	constant_material.Init(ConstantData::Index::Material);
+	constant_light.Init(ConstantData::Index::Light);
+	constant_skybox.Init(ConstantData::Index::SkyBox);
+	constant_cubemap.Init(ConstantData::Index::CubeMap);
 
 	// Init frame buffers
 	for (int i = 0; i < MAX_POINT_LIGHT_NUM; i++)

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Define.h"
+#include "Buffer.h"
 #include "RenderState.h"
 
 using namespace Tempest;
@@ -35,22 +36,17 @@ protected:
 	DrawType drawtype     = DrawType::TRIANGLE;
 
 	void InitBuffer();
-	void InitMeshData();
 	void CheckDrawType(Shader i_shader);
 	void SetDrawType(DrawType i_drawtype){drawtype = i_drawtype;};
 	void CleanUpBuffer();
 
+	VertexBuffer vbuffer;
+	IndexBuffer  ibuffer;
+
 #ifdef ENGINE_GRAPHIC_OPENGL
 
-	// Buffer data
-	GLuint vertexarrayid   = 0;
-	GLuint vertexbufferid  = 0;
-	GLuint indexbufferid   = 0;
+	//// Buffer data
 	unsigned int indexsize = 0;
-
-	// Texture data
-	std::vector<GLuint> textureids;
-	std::vector<GLuint> textureunits;
 
 #endif // ENGINE_GRAPHIC_OPENGL
 };

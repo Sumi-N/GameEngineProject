@@ -40,6 +40,9 @@
     <ClInclude Include="Define.h">
       <Filter>Precompiled Header</Filter>
     </ClInclude>
+    <ClInclude Include="Buffer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConstantBuffer.OpenGL.cpp">
@@ -77,6 +80,9 @@
     </ClCompile>
     <ClCompile Include="Define.cpp">
       <Filter>Precompiled Header</Filter>
+    </ClCompile>
+    <ClCompile Include="Buffer.OpenGL.cpp">
+      <Filter>OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

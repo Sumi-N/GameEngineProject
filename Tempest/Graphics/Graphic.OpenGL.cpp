@@ -20,7 +20,7 @@ void Graphic::Boot()
 
 void Graphic::PreCompute()
 {
-	// Create uniform date for 6 cube map directions
+	// Create uniform date for 6 directions of the cube map
 	{
 		Mat4f pv_mats[6];
 		Mat4f view[6];
@@ -49,8 +49,8 @@ void Graphic::PreCompute()
 
 	if (SceneEntity::SkyBoxProxy)
 	{
+		// Render HDR
 		{
-			// Render HDR
 			frame_cubemap.BindFrame();
 			SceneEntity::SkyBoxProxy->states[0]->BindTextureUnit();
 			frame_cubemap.RenderOnce();

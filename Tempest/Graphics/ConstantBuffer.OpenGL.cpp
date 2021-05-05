@@ -10,10 +10,10 @@ ConstantBuffer::~ConstantBuffer()
 {
 }
 
-void ConstantBuffer::Init(ConstantData::Index i_index, ConstantData::Size i_size)
+void ConstantBuffer::Init(ConstantData::Index i_index)
 {
 	index = static_cast<GLuint>(i_index);
-	size = static_cast<GLsizeiptr>(i_size);
+	size = static_cast<GLsizeiptr>(ConstantData::GetDataSize(i_index));
 
 	glGenBuffers(1, &bufferid);
 	glBindBuffer(GL_UNIFORM_BUFFER, bufferid);

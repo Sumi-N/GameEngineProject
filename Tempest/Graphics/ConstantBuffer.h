@@ -3,15 +3,13 @@
 
 namespace ConstantData
 {
-	namespace SubData
+	
+	struct PointLight
 	{
-		struct PointLight
-		{
-			Vec4f intensity;
-			Vec4f position;
-			Vec3f attenuation; // Doesn't require padding
-		};
-	}
+		Vec4f intensity;
+		Vec4f position;
+		Vec3f attenuation; // Doesn't require padding
+	};
 
 	struct Camera
 	{
@@ -44,7 +42,7 @@ namespace ConstantData
 		Vec4f ambient_intensity;
 		Vec4f directional_intensity;
 		Vec4f directional_direction;
-		SubData::PointLight pointlights[MAX_POINT_LIGHT_NUM];
+		PointLight pointlights[MAX_POINT_LIGHT_NUM];
 		int   point_num;
 		int   nth_point;
 	};
@@ -76,15 +74,21 @@ namespace ConstantData
 		CubeMap  = 5,
 	};
 
-	enum class Size : uint16_t
+	static uint32_t GetDataSize(Index index)
 	{
-		Camera   = sizeof(ConstantData::Camera),
-		Model    = sizeof(ConstantData::Model),
-		Material = sizeof(ConstantData::Material),
-		Light    = sizeof(ConstantData::Light),
-		SkyBox   = sizeof(ConstantData::SkyBox),
-		CubeMap  = sizeof(ConstantData::CubeMap),
-	};
+		switch (index)
+		{
+		case Index::Camera:     return sizeof(ConstantData::Camera);
+		case Index::Model:      return sizeof(ConstantData::Model);
+		case Index::Material:   return sizeof(ConstantData::Material);
+		case Index::Light:      return sizeof(ConstantData::Light);
+		case Index::SkyBox:     return sizeof(ConstantData::SkyBox);
+		case Index::CubeMap:    return sizeof(ConstantData::CubeMap);
+		}
+
+		DEBUG_ASSERT(false);
+		return 0;
+	}
 }
 
 class ConstantBuffer
@@ -99,7 +103,7 @@ public:
 	GLsizeiptr size = 0;
 #endif // ENGINE_GRAPHIC_OPENGL
 
-	void Init(ConstantData::Index, ConstantData::Size);
+	void Init(ConstantData::Index);
 	void Update(const void* const);
 };
 
