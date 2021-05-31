@@ -263,6 +263,38 @@ namespace Math {
 	}
 
 	template<typename T>
+	inline Matrix4<T> Matrix4<T>::EulerAngleZYX(T x, T y, T z)
+	{
+		Matrix4 o_m;
+
+		T c1 = cosf(x);
+		T s1 = sinf(x);
+		T c2 = cosf(y);
+		T s2 = sinf(y);
+		T c3 = cosf(z);
+		T s3 = sinf(z);
+
+		o_m.ele[0] = c1 * c2;
+		o_m.ele[1] = c2 * s1;
+		o_m.ele[2] = -s2;
+		o_m.ele[3] = static_cast<T>(0);
+		o_m.ele[4] = c1 * s2 * s3 - c3 * s1;
+		o_m.ele[5] = c1 * c3 + s1 * s2 * s3;
+		o_m.ele[6] = c2 * s3;
+		o_m.ele[7] = static_cast<T>(0);
+		o_m.ele[8] = s1 * s3 + c1 * c3 * s2;
+		o_m.ele[9] = c3 * s1 * s2 - c1 * s3;
+		o_m.ele[10] = c2 * c3;
+		o_m.ele[11] = static_cast<T>(0);
+		o_m.ele[12] = static_cast<T>(0);
+		o_m.ele[13] = static_cast<T>(0);
+		o_m.ele[14] = static_cast<T>(0);
+		o_m.ele[15] = static_cast<T>(1);
+
+		return o_m;
+	}
+
+	template<typename T>
 	inline Matrix4<T> Matrix4<T>::Scale(Vec3<T> i_v)
 	{
 		Matrix4 o_m;

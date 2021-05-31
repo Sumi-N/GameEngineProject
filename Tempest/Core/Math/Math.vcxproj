@@ -84,6 +84,7 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Quaternion.h" />
+    <ClInclude Include="Util.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>

@@ -14,7 +14,7 @@ namespace Tempest
 		ObservingPointer<Object> owner;
 		OwningPointer<MaterialAttribute> material;
 
-		std::vector<MeshData> data;
+		std::vector<Resource::Mesh> data;
 		std::vector<int>   index;
 
 		Mat4f model_mat;

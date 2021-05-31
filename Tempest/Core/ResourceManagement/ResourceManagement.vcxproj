@@ -97,7 +97,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\External\loadpng\lodepng.cpp" />
-    <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="Define.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -105,7 +104,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Importer.cpp" />
-    <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -114,9 +112,8 @@
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Importer.h" />
-    <ClInclude Include="MeshLoader.h" />
-    <ClInclude Include="ResourceData.h" />
     <ClInclude Include="ResourceLoader.h" />
+    <ClInclude Include="ResourceData.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Logging\Logging.vcxproj">

@@ -2,8 +2,9 @@
 #include <iostream>
 
 #include "GeometryConverter.h"
+#include "FBXLoader.h"
 
-std::vector<MeshData> GeometryConverter::data;
+std::vector<Resource::Mesh> GeometryConverter::data;
 std::vector<int>      GeometryConverter::index;
 
 GeometryConverter::GeometryConverter()
@@ -65,7 +66,7 @@ bool GeometryConverter::WriteBinary(std::filesystem::path const o_filepath)
 	outfile.write(reinterpret_cast<char*>(&data_size), sizeof(size_t));
 	outfile.write(reinterpret_cast<char*>(&index_size), sizeof(size_t));
 
-	outfile.write(reinterpret_cast<char*>(data.data()), data_size * sizeof(MeshData));
+	outfile.write(reinterpret_cast<char*>(data.data()), data_size * sizeof(Resource::Mesh));
 	outfile.write(reinterpret_cast<char*>(index.data()), index_size * sizeof(int));
 
 	outfile.close();
@@ -138,7 +139,7 @@ bool GeometryConverter::ReadOBJ(std::filesystem::path const i_filepath)
 		index.push_back(indexOffset + 1);
 		index.push_back(indexOffset + 2);
 
-		MeshData tmp1, tmp2, tmp3;
+		Resource::Mesh tmp1, tmp2, tmp3;
 
 		cy::TriMesh::TriFace vertexFace = tmpdata.F((int)i);
 
@@ -235,6 +236,11 @@ bool GeometryConverter::ReadOBJ(std::filesystem::path const i_filepath)
 
 bool GeometryConverter::ReadFBX(std::filesystem::path const i_filepath)
 {
-	return false;
+	bool result = false;
+	result = FBXLoader::Init(i_filepath.string().c_str());
+	//FBXLoader::PrintData();
+	FBXLoader::LoadMesh(data, index);
+
+	return result;
 }
 

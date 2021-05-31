@@ -19,11 +19,7 @@ namespace Tempest
 	{
 		PremadeObjebct::Boot();
 
-		//mesh->Load(PATH_SUFFIX MESH_PATH FILENAME_SPHERE);
-
-		//FBXImporter fbx;
-		//fbx.Import(PATH_SUFFIX MESH_PATH "NotFree/Iris_Costume.fbx");
-		//fbx.LoadMesh(PATH_SUFFIX MESH_PATH "NotFree/Iris_Nude.fbx", mesh->data, mesh->index);
+		mesh->Load(PATH_SUFFIX BIN_MESH_PATH "SK_PlayerCharacter.tmd");
 
 		//OwningPointer<TextureAttribute> diffuse = OwningPointer<TextureAttribute>::Create(diffuse);
 		//OwningPointer<TextureAttribute> speclar = OwningPointer<TextureAttribute>::Create(speclar);
@@ -31,14 +27,6 @@ namespace Tempest
 		//diffuse->Load(PATH_SUFFIX TEXTURE_PATH "NotFree/tex_fuku2_Anon.png", TextureType::PB_Diffuse);
 		//speclar->Load(PATH_SUFFIX TEXTURE_PATH "NotFree/tex_fuku2_Anon.png", TextureType::PB_Specular);
 
-		//const char* shaderpaths[] =
-		//{
-		//	PATH_SUFFIX SHADER_PATH BLINN_PHONG_VERT,
-		//	nullptr,
-		//	nullptr,
-		//	nullptr,
-		//	PATH_SUFFIX SHADER_PATH BLINN_PHONG_FRAG,
-		//};
 
 		const char* shaderpaths[] =
 		{
@@ -58,8 +46,8 @@ namespace Tempest
 		effect->RegisterShaderPath(shaderpaths);
 		Entity::RegisterEffectComponent(effect);
 
-		this->Translate(Vec3f(0, 0, -80));
-		this->scale = Vec3f(1.0f, 1.0f, 1.0f);
+		this->Translate(Vec3f(0, -10, -40));
+		this->scale = Vec3f(0.1f, 0.1f, 0.1f);
 		//this->rot.x = -90;
 
 		//SHOW_DEBUG_POLYGON
@@ -70,8 +58,8 @@ namespace Tempest
 	{
 		PremadeObjebct::Init();
 
-		mesh->material->metalic = 0.9f;
-		mesh->material->roughness = 0.9f;
+		mesh->material->metalic = 0.99f;
+		mesh->material->roughness = 0.1f;
 	}
 
 }

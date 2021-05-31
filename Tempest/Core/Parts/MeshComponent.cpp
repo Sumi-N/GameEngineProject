@@ -1,5 +1,5 @@
 #include "MeshComponent.h"
-#include "ResourceManagement/MeshLoader.h"
+#include "ResourceManagement/ResourceLoader.h"
 
 namespace Tempest
 {
@@ -8,7 +8,7 @@ namespace Tempest
 	{
 		if (IsLoaded())
 		{
-			DEBUG_PRINT("The data is loaded twice in this mesh component");
+			DEBUG_PRINT("The data in this mesh is cleaned");
 			CleanMesh();
 		}
 

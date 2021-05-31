@@ -8,7 +8,7 @@
 
 namespace Tempest
 {
-	void TestScene::GeoemetryConverter()
+	void TestScene::Importer()
 	{
 		// Setting up camera
 		OwningPointer<MyCamera> mycamera = OwningPointer<MyCamera>::Create(mycamera);

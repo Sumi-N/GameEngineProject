@@ -10,7 +10,7 @@ public:
 	GeometryConverter();
 	~GeometryConverter();
 
-	static std::vector<MeshData> data;
+	static std::vector<Resource::Mesh> data;
 	static std::vector<int>      index;
 
 	bool ReadGeometry(std::filesystem::path const) ;
@@ -18,6 +18,7 @@ public:
 	bool WriteBinary(std::filesystem::path const);
 
 private:
+
 	bool ReadOBJ(std::filesystem::path const);
 	bool ReadFBX(std::filesystem::path const);
 };

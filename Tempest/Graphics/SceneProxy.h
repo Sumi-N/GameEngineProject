@@ -38,7 +38,7 @@ protected:
 	void InitBuffer();
 	void CheckDrawType(Shader i_shader);
 	void SetDrawType(DrawType i_drawtype){drawtype = i_drawtype;};
-	void CleanUpBuffer();
+	void CleanUpBuffer() const;
 
 	VertexBuffer vbuffer;
 	IndexBuffer  ibuffer;
