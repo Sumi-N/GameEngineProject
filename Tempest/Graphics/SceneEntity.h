@@ -22,7 +22,7 @@ inline void SceneEntity::Init()
 		SceneProxy* proxy = new SceneProxy();
 		SceneEntity::SkyBoxProxy = proxy;
 
-		SkyBoxProxy->mesh = Entity::Skybox->mesh;
+		SkyBoxProxy->mesh = Entity::Skybox->mesh->mesh;
 		SkyBoxProxy->Init();
 
 		RenderState* state = new RenderState();
@@ -38,7 +38,9 @@ inline void SceneEntity::Init()
 	for (auto it = Entity::MeshComponentList.begin(); it != Entity::MeshComponentList.end(); ++it)
 	{
 		SceneProxy * proxy = new SceneProxy();
-		proxy->mesh = *it;
+		proxy->mesh_component = (*it);
+		proxy->mesh = (*it)->mesh;
+		proxy->material = (*it)->material_attribute->material;
 		proxy->Init();
 
 		OwningPointer<SceneProxy> proxyhandler;

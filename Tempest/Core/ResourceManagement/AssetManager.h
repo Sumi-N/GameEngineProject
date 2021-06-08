@@ -40,6 +40,6 @@ namespace Tempest
 		static std::map<uint16_t, T*> path_data_map;		
 	};
 	
-	typedef AssetManager<Resource::Mesh> MeshManager;
+	typedef AssetManager<Resource::MeshPoint> MeshManager;
 }
 

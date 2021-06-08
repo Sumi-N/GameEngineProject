@@ -18,7 +18,7 @@ void SceneProxy::Draw()
 }
 
 // This function calls draw function without binding any shader.
-// If shader is already binded, it will better call this.
+// Calling this function is recommended if shader is already binded.
 void SceneProxy::DrawMeshOnly()
 {
 	vbuffer.Bind();

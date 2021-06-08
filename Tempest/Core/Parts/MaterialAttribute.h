@@ -11,42 +11,24 @@ namespace Tempest
 	public:
 		MaterialAttribute();
 
-		// Ambient, Diffuse, Specular
-		Vec3f Ka, Kd, Ks;
-		// Specular exponent
-		float Ns;
-
-		Vec4f albedo;
-		float roughness, metalic;
-
-		void SetMaterialValue(Vec3f, float);
+		OwningPointer<Resource::Material> material;
+				
 		void SetMaterialValue(Vec4f i_albedo, float roughness, float metalic);
 	};
 
-	inline MaterialAttribute::MaterialAttribute() :
-		Ka(Vec3f(0.50980395f, 0.0, 0.0)),
-		Kd(Vec3f(0.50980395f, 0.0, 0.0)),
-		Ks(Vec3f(0.80099994f, 0.80099994f, 0.80099994f)),
-		Ns(10.0f),
-		albedo(Vec4f(0.50980395f, 0.0, 0.0, 1.0f)),
-		roughness(1.0f), metalic(1.0f)
+	inline MaterialAttribute::MaterialAttribute() 
 	{
-	}
-
-
-	inline void MaterialAttribute::SetMaterialValue(Vec3f i_values, float i_specular)
-	{
-		Ka = i_values;
-		Kd = i_values;
-		Ks = i_values;
-		Ns = i_specular;
-	}
+		material = OwningPointer<Resource::Material>::Create(material);
+		material->albedo    = Vec4f(0.50980395f, 0.0, 0.0, 1.0f);
+		material->roughness = 1.0f;
+		material->metalic   = 1.0f;
+	}	
 
 	inline void MaterialAttribute::SetMaterialValue(Vec4f i_albedo, float i_roughness, float i_metalic)
 	{
-		albedo = i_albedo;
-		roughness = i_roughness;
-		metalic = i_metalic;
+		material->albedo = i_albedo;
+		material->roughness = i_roughness;
+		material->metalic = i_metalic;
 	}
 
 }

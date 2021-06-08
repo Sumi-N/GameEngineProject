@@ -4,7 +4,7 @@
 
 namespace Tempest
 {
-	Result MeshLoader::Load(const char* o_filepath, std::vector<Resource::Mesh>& o_data, std::vector<int>& o_index)
+	Result MeshLoader::Load(const char* o_filepath, std::vector<Resource::MeshPoint>& o_data, std::vector<uint32_t>& o_index)
 	{
 		std::ifstream infile(o_filepath, std::ios::out | std::ios::binary);
 
@@ -21,8 +21,8 @@ namespace Tempest
 		o_data.resize(data_size);
 		o_index.resize(index_size);
 
-		infile.read(reinterpret_cast<char*>(o_data.data()), data_size * sizeof(Resource::Mesh));
-		infile.read(reinterpret_cast<char*>(o_index.data()), index_size * sizeof(Resource::Mesh));
+		infile.read(reinterpret_cast<char*>(o_data.data()), data_size * sizeof(Resource::MeshPoint));
+		infile.read(reinterpret_cast<char*>(o_index.data()), index_size * sizeof(Resource::MeshPoint));
 
 		infile.close();
 

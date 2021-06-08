@@ -11,11 +11,10 @@ namespace Tempest
 	class MeshComponent : public Component
 	{
 	public:
-		ObservingPointer<Object> owner;
-		OwningPointer<MaterialAttribute> material;
+		OwningPointer<Resource::Mesh> mesh;
 
-		std::vector<Resource::Mesh> data;
-		std::vector<int>   index;
+		ObservingPointer<Object> owner;
+		OwningPointer<MaterialAttribute> material_attribute;		
 
 		Mat4f model_mat;
 		Mat4f model_inverse_transpose_mat;
@@ -30,7 +29,7 @@ namespace Tempest
 		void SetMaterial(OwningPointer<MaterialAttribute>);
 
 	private:
-		bool IsLoaded() const;
+		bool IsLoaded();
 		void CleanMesh();
 	};
 

@@ -58,8 +58,8 @@ namespace Tempest
 	{
 		PremadeObjebct::Init();
 
-		mesh->material->metalic = 0.99f;
-		mesh->material->roughness = 0.1f;
+		mesh->material_attribute->material->metalic = 0.99f;
+		mesh->material_attribute->material->roughness = 0.1f;
 	}
 
 }

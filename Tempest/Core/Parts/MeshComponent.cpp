@@ -12,13 +12,15 @@ namespace Tempest
 			CleanMesh();
 		}
 
+		mesh = OwningPointer<Resource::Mesh>::Create(mesh);
+
 		MeshLoader meshloader;
-		if (!meshloader.Load(filename, data, index))
+		if (!meshloader.Load(filename, mesh->data, mesh->index))
 		{
 			DEBUG_PRINT("Failed to load the mesh data %s", filename);
 		}
 
-		if (data.empty())
+		if (mesh->data.empty())
 			return false;
 		return true;
 	}
@@ -50,27 +52,30 @@ namespace Tempest
 
 	void MeshComponent::SetMaterial(MaterialAttribute* i_material)
 	{
-		material = i_material;
+		material_attribute = i_material;
 	}
 
 	void MeshComponent::SetMaterial(OwningPointer<MaterialAttribute> i_material)
 	{
-		material = i_material;
+		material_attribute = i_material;
 	}
 
-	bool MeshComponent::IsLoaded() const
+	bool MeshComponent::IsLoaded() 
 	{
-		if (!data.empty() || !index.empty())
+		if (mesh)
 		{
-			return true;
+			if (!mesh->data.empty() || !mesh->index.empty())
+			{
+				return true;
+			}
 		}
 
 		return false;
 	}
 
 	void MeshComponent::CleanMesh()
-	{
-		data.clear();
-		index.clear();
+	{	
+		mesh->data.clear();
+		mesh->index.clear();
 	}
 }

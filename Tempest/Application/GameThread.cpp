@@ -149,24 +149,22 @@ namespace Tempest
 			}
 		}
 
-		// Submit object data
-		// TODO: This need to be fixed
 		{
 			for (auto it = SceneEntity::List.begin(); it != SceneEntity::List.end(); ++it)
 			{
 				// Submit material data
 				ConstantData::Material material;
-				material.diffuse = Vec4f((*it)->mesh->material->Kd, 1.0f);
-				material.specular = Vec4f((*it)->mesh->material->Ks, (*it)->mesh->material->Ns);
-				material.albedo = (*it)->mesh->material->albedo;
-				material.metalic = (*it)->mesh->material->metalic;
-				material.roughness = (*it)->mesh->material->roughness;
+				material.diffuse = Vec4f(0.5f, 0.0f, 0.0f, 1.0f);
+				material.specular = Vec4f(0.8f, 0.8f, 0.8f, 10.0f);
+				material.albedo = (*it)->material->albedo;
+				material.metalic = (*it)->material->metalic;
+				material.roughness = (*it)->material->roughness;
 				data_game_own->material_data.push_back(material);
 
 				// Submit mesh data
 				ConstantData::Model model;
-				model.model_inverse_transpose_matrix = (*it)->mesh->model_inverse_transpose_mat;
-				model.model_position_matrix = (*it)->mesh->model_mat;
+				model.model_inverse_transpose_matrix = (*it)->mesh_component->model_inverse_transpose_mat;
+				model.model_position_matrix = (*it)->mesh_component->model_mat;
 				data_game_own->model_data.push_back(model);
 
 			}

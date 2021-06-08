@@ -10,7 +10,7 @@ public:
 	GeometryConverter();
 	~GeometryConverter();
 
-	static std::vector<Resource::Mesh> data;
+	static std::vector<Resource::MeshPoint> data;
 	static std::vector<int>      index;
 
 	bool ReadGeometry(std::filesystem::path const) ;

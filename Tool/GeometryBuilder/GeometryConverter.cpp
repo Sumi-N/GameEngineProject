@@ -4,7 +4,7 @@
 #include "GeometryConverter.h"
 #include "FBXLoader.h"
 
-std::vector<Resource::Mesh> GeometryConverter::data;
+std::vector<Resource::MeshPoint> GeometryConverter::data;
 std::vector<int>      GeometryConverter::index;
 
 GeometryConverter::GeometryConverter()
@@ -66,7 +66,7 @@ bool GeometryConverter::WriteBinary(std::filesystem::path const o_filepath)
 	outfile.write(reinterpret_cast<char*>(&data_size), sizeof(size_t));
 	outfile.write(reinterpret_cast<char*>(&index_size), sizeof(size_t));
 
-	outfile.write(reinterpret_cast<char*>(data.data()), data_size * sizeof(Resource::Mesh));
+	outfile.write(reinterpret_cast<char*>(data.data()), data_size * sizeof(Resource::MeshPoint));
 	outfile.write(reinterpret_cast<char*>(index.data()), index_size * sizeof(int));
 
 	outfile.close();
@@ -139,7 +139,7 @@ bool GeometryConverter::ReadOBJ(std::filesystem::path const i_filepath)
 		index.push_back(indexOffset + 1);
 		index.push_back(indexOffset + 2);
 
-		Resource::Mesh tmp1, tmp2, tmp3;
+		Resource::MeshPoint tmp1, tmp2, tmp3;
 
 		cy::TriMesh::TriFace vertexFace = tmpdata.F((int)i);
 

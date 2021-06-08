@@ -46,10 +46,10 @@ namespace Tempest
 	{
 		Sphere::Init();
 
-		mesh->material->albedo = Vec4f(1.0, 0, 0, 1.0);
+		mesh->material_attribute->material->albedo = Vec4f(1.0, 0, 0, 1.0);
 
-		mesh->material->metalic = metalic;
-		mesh->material->roughness = roughness;
+		mesh->material_attribute->material->metalic = metalic;
+		mesh->material_attribute->material->roughness = roughness;
 	}
 
 	inline void SpherePBR_Test::ChangePos(const Vec3f& i_pos)

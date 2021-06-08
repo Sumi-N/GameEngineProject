@@ -27,13 +27,15 @@ public:
 	void DrawMeshOnly();
 	void CleanUp();	
 
-	OwningPointer<MeshComponent> mesh;
+	OwningPointer<MeshComponent> mesh_component;
+	OwningPointer<Resource::Mesh> mesh;
+	OwningPointer<Resource::Material> material;
 	std::vector<OwningPointer<RenderState>> states;
-
+	
 protected:
 
-	DrawType originaltype = DrawType::TRIANGLE;
-	DrawType drawtype     = DrawType::TRIANGLE;
+	const DrawType defaulttype = DrawType::TRIANGLE;
+	DrawType drawtype          = DrawType::TRIANGLE;
 
 	void InitBuffer();
 	void CheckDrawType(Shader i_shader);

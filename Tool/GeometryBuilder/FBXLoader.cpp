@@ -168,7 +168,7 @@ namespace FBXLoader
 		return true;
 	}
 
-	bool LoadMesh(std::vector<Resource::Mesh>& mesh, std::vector<int>& index)
+	bool LoadMesh(std::vector<Resource::MeshPoint>& mesh, std::vector<int>& index)
 	{
 		//Get mesh in the scene
 		int meshCount = lScene->GetSrcObjectCount<FbxMesh>();
@@ -257,7 +257,7 @@ namespace FBXLoader
 				index.push_back(n + 3 * j + 1);
 				index.push_back(n + 3 * j + 2);
 
-				Resource::Mesh p1, p2, p3;
+				Resource::MeshPoint p1, p2, p3;
 
 				p1.vertex.x = (float)vertex_array[index_array[3 * j + 0]].mData[0];
 				p1.vertex.y = (float)vertex_array[index_array[3 * j + 0]].mData[1];

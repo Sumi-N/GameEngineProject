@@ -70,7 +70,7 @@ TEST_F(GeometryBuilderTest, WriteBinaryTest)
 	EXPECT_TRUE(obj.WriteBinary(filepath));
 }
 
-std::vector<Resource::Mesh> mesh_data;
+std::vector<Resource::MeshPoint> mesh_data;
 std::vector<int> mesh_index;
 
 TEST_F(GeometryBuilderTest, ReadBinaryTest)

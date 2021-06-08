@@ -14,7 +14,7 @@ namespace Tempest
 	class MeshLoader : ResourceLoader
 	{
 	public:
-		Result Load(const char*, std::vector<Resource::Mesh>&, std::vector<int>&);
+		Result Load(const char*, std::vector<Resource::MeshPoint>&, std::vector<uint32_t>&);
 	};
 
 }

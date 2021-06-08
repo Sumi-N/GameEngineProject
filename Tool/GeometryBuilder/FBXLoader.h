@@ -15,7 +15,7 @@ namespace FBXLoader
 	void PrintAttribute(FbxNodeAttribute*);
 	FbxString GetAttributeTypeName(FbxNodeAttribute::EType);
 
-	bool LoadMesh(std::vector<Resource::Mesh>& , std::vector<int>&);
+	bool LoadMesh(std::vector<Resource::MeshPoint>& , std::vector<int>&);
 	FbxAMatrix GetGeometryTransformation(FbxNode* inNode);
 }
 

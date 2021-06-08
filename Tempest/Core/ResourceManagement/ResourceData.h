@@ -27,7 +27,7 @@ namespace Resource
 {
 
 	//__declspec(align(16))
-	struct Mesh
+	struct MeshPoint
 	{
 		Vec3f vertex;
 		Vec3f normal;
@@ -37,19 +37,29 @@ namespace Resource
 		Vec3f bitangent;
 	};
 
-	struct SkeletonMesh : public Mesh
+	struct SkeletonMeshPoint : public MeshPoint
 	{
 		Vec4u8t index;
 		Vec4f   weight;
 	};
 
+	struct Mesh
+	{
+		std::vector<MeshPoint> data;
+		std::vector<uint32_t> index;
+	};
+
+	struct SkeletonMesh
+	{
+		std::vector<SkeletonMeshPoint> data;
+		std::vector<uint32_t> index;
+	};
+
 	struct Material
 	{
-		Vec3f ambient;
-		Vec3f diffuse;
-		Vec3f emissive;
-		Vec3f specular;
-		float shininess;
+		Vec4f albedo;
+		float roughness;
+		float metalic;		
 	};
 
 	struct Joint
