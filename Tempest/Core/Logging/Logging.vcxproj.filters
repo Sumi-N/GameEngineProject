@@ -27,9 +27,6 @@
     <ClInclude Include="Define.h">
       <Filter>Precompiled Header</Filter>
     </ClInclude>
-    <ClInclude Include="Result.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DebugLog.cpp">

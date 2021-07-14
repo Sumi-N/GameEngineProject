@@ -1,6 +1,8 @@
 #include <fstream>
 #include <iostream>
 
+#include <External/cyCodeBase/cyTriMesh.h>
+
 #include "GeometryConverter.h"
 #include "FBXLoader.h"
 

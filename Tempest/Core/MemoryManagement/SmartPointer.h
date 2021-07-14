@@ -185,8 +185,18 @@ public:
 	// Don't really need to implement this. If it's not here it'll go through OwningPointer & operator=( OwningPointer & i_other);
 	OwningPointer& operator=(std::nullptr_t i_null)
 	{
-		DEBUG_PRINT("The OwningPointer is about to assigned nullptr");
-		DEBUG_ASSERT(false);
+		if (ref != nullptr)
+		{
+			ref->ObserverReferences--;
+			if (ref->OwnerReferences == 0)
+			{
+				delete ref;
+				delete data;
+			}
+		}
+		ref = nullptr;
+		data = nullptr;
+		return *this;
 	};
 
 	// Assignment Operator - Assigning directly from an existing pointer

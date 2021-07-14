@@ -1,10 +1,10 @@
 #include "MeshComponent.h"
-#include "ResourceManagement/ResourceLoader.h"
+#include "ResourceManagement/AssetManager.h"
 
 namespace Tempest
 {
 
-	bool MeshComponent::Load(const char* filename)
+	bool MeshComponent::Load(const char* i_filename)
 	{
 		if (IsLoaded())
 		{
@@ -12,16 +12,15 @@ namespace Tempest
 			CleanMesh();
 		}
 
-		mesh = OwningPointer<Resource::Mesh>::Create(mesh);
-
-		MeshLoader meshloader;
-		if (!meshloader.Load(filename, mesh->data, mesh->index))
+		//mesh = OwningPointer<Resource::Mesh>(pmesh);
+		mesh = AssetManager<Resource::Mesh>::Load(i_filename);		
+		
+		if (mesh == nullptr)
 		{
-			DEBUG_PRINT("Failed to load the mesh data %s", filename);
+			DEBUG_PRINT("Failed to load the mesh data %s", i_filename);
+			return false;
 		}
 
-		if (mesh->data.empty())
-			return false;
 		return true;
 	}
 

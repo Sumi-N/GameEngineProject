@@ -23,11 +23,11 @@ namespace Tempest
 		OwningPointer<TextureAttribute> roughness = OwningPointer<TextureAttribute>::Create(roughness);
 		OwningPointer<TextureAttribute> metalic = OwningPointer<TextureAttribute>::Create(metalic);
 
-		albedo->Load(PATH_SUFFIX TEXTURE_PATH GOLD_SCUFFED_BOOSTED_ALBEDO, TextureType::Albedo);
-		normal->Load(PATH_SUFFIX TEXTURE_PATH GOLD_SCUFFED_NORMAL, TextureType::Normal);
-		roughness->Load(PATH_SUFFIX TEXTURE_PATH GOLD_SCUFFED_ROUGHNESS, TextureType::Roughness);
-		metalic->Load(PATH_SUFFIX TEXTURE_PATH GOLD_SCUFFED_METALIC, TextureType::Metalic);
-
+		albedo->Load(PATH_SUFFIX BIN_TEXTURE_PATH  "albedo/gold-scuffed_basecolor.ttd", TextureType::Albedo);
+		normal->Load(PATH_SUFFIX BIN_TEXTURE_PATH "normal/gold-scuffed_normal.ttd", TextureType::Normal);
+		roughness->Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/gold-scuffed_roughness.ttd", TextureType::Roughness);
+		metalic->Load(PATH_SUFFIX BIN_TEXTURE_PATH "metallic/gold-scuffed_metalic.ttd", TextureType::Metalic);
+		
 		const char* shaderpaths[] =
 		{
 			PATH_SUFFIX SHADER_PATH DISNEY_PBR_VERT,

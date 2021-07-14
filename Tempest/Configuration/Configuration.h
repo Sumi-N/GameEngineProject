@@ -43,11 +43,13 @@
 //////////////////////////////
 // General Asset Path
 //////////////////////////////
-#define PATH_SUFFIX      "../"
-#define SHADER_PATH      "Assets/shaders/"
-#define TEXTURE_PATH     "Assets/textures/"
-#define INT_MESH_PATH    "Assets/int/mesh/"
-#define BIN_MESH_PATH    "Assets/bin/mesh/"
+#define PATH_SUFFIX      "..\\"
+#define SHADER_PATH      "Assets\\shaders\\"
+#define TEXTURE_PATH     "Assets\\textures\\"
+#define INT_MESH_PATH    "Assets\\int\\mesh\\"
+#define BIN_MESH_PATH    "Assets\\bin\\mesh\\"
+#define INT_TEXTURE_PATH "Assets\\int\\texture\\"
+#define BIN_TEXTURE_PATH "Assets\\bin\\texture\\"
 
 //////////////////////////////
 // Mesh Data
@@ -62,32 +64,16 @@
 // Texture Data
 //////////////////////////////
 
-#define SKYBOX_POSX      "skyboxe/cubemap_posx.png"
-#define SKYBOX_NEGX      "skyboxe/cubemap_negx.png"
-#define SKYBOX_POSY      "skyboxe/cubemap_posy.png"
-#define SKYBOX_NEGY      "skyboxe/cubemap_negy.png"
-#define SKYBOX_POSZ      "skyboxe/cubemap_posz.png"
-#define SKYBOX_NEGZ      "skyboxe/cubemap_negz.png"
+#define SKYBOX_POSX      "skybox/cubemap_posx.png"
+#define SKYBOX_NEGX      "skybox/cubemap_negx.png"
+#define SKYBOX_POSY      "skybox/cubemap_posy.png"
+#define SKYBOX_NEGY      "skybox/cubemap_negy.png"
+#define SKYBOX_POSZ      "skybox/cubemap_posz.png"
+#define SKYBOX_NEGZ      "skybox/cubemap_negz.png"
 
 #define SKYBOX_HDR_BLACK            "hdr/black.hdr"
 #define SKYBOX_HDR_PINTREE          "hdr/Arches_E_PineTree_3k.hdr"
 #define SKYBOX_HDR_FROZEN_WATERFALL "hdr/Frozen_Waterfall_Ref.hdr"
-
-#define RUSTED_IRON_ALBEDO    "albedo/rustediron.png"
-#define RUSTED_IRON_NORMAL    "normal/rustediron.png"
-#define RUSTED_IRON_METALIC   "metallic/rustediron.png"
-#define RUSTED_IRON_ROUGHNESS "roughness/rustediron.png"
-
-#define GOLD_SCUFFED_ALBEDO         "albedo/gold-scuffed_basecolor.png"
-#define GOLD_SCUFFED_BOOSTED_ALBEDO "albedo/gold-scuffed_basecolor-boosted.png"
-#define GOLD_SCUFFED_NORMAL         "normal/gold-scuffed_normal.png"
-#define GOLD_SCUFFED_METALIC        "metallic/gold-scuffed_metalic.png"
-#define GOLD_SCUFFED_ROUGHNESS      "roughness/gold-scuffed_roughness.png"
-
-#define WARN_PAINTED_CEMENT_ALBEDO     "albedo/wornpaintedcement-albedo.png"
-#define WARN_PAINTED_CEMENT_NORMAL     "normal/wornpaintedcement-normal.png"
-#define WARN_PAINTED_CEMENT_METALIC    "metallic/wornpaintedcement-metalness.png"
-#define WARN_PAINTED_CEMENT_ROUGHNESS  "roughness/wornpaintedcement-roughness.png"
 
 //////////////////////////////
 // Shader Data

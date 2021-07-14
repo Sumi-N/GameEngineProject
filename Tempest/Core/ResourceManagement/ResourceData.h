@@ -43,18 +43,6 @@ namespace Resource
 		Vec4f   weight;
 	};
 
-	struct Mesh
-	{
-		std::vector<MeshPoint> data;
-		std::vector<uint32_t> index;
-	};
-
-	struct SkeletonMesh
-	{
-		std::vector<SkeletonMeshPoint> data;
-		std::vector<uint32_t> index;
-	};
-
 	struct Material
 	{
 		Vec4f albedo;
@@ -98,4 +86,66 @@ namespace Resource
 		bool                         is_looping;
 	};
 
+	struct Mesh
+	{
+		std::vector<MeshPoint> data;
+		std::vector<uint32_t> index;
+
+		static Tempest::Result Load(const char* i_filepath, std::vector<Resource::MeshPoint>& o_data, std::vector<uint32_t>& o_index)
+		{		
+			Tempest::File in(i_filepath, Tempest::File::Format::BinaryRead);
+
+			in.Open();
+
+			size_t data_size;
+			size_t index_size;
+			in.Read(&data_size, sizeof(size_t));
+			in.Read(&index_size, sizeof(size_t));
+
+			o_data.resize(data_size);
+			o_index.resize(index_size);
+
+			in.Read(o_data.data(), data_size * sizeof(Resource::MeshPoint));
+			in.Read(o_index.data(), index_size * sizeof(Resource::MeshPoint));
+
+			in.Close();
+
+			return Tempest::ResultValue::Success;
+		}
+	};
+
+	struct SkeletonMesh
+	{
+		std::vector<SkeletonMeshPoint> data;
+		std::vector<uint32_t> index;
+	};
+
+	struct  Texture
+	{
+		int width, height;
+		std::vector<Vec3u8t> pixels;
+
+		static Tempest::Result Load(const char* i_filepath, int& o_width, int& o_height, std::vector<Vec3u8t>& o_pixels)
+		{
+			o_pixels.clear();
+
+			Tempest::File in(i_filepath, Tempest::File::Format::BinaryRead);
+
+			in.Open();
+
+			in.Read(&o_width, sizeof(int));
+			in.Read(&o_height, sizeof(int));
+
+			o_pixels.resize((size_t)o_width * o_height);
+
+
+			in.Read(o_pixels.data(), (size_t)o_width * o_height * sizeof(Vec3u8t));			
+
+			in.Close();
+
+			DEBUG_PRINT("Succeed loading texture %s", i_filepath);
+
+			return Tempest::ResultValue::Success;
+		}
+	};
 }

@@ -27,9 +27,6 @@
     <ClCompile Include="..\..\..\External\loadpng\lodepng.cpp">
       <Filter>API%27s Files</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h">
@@ -48,9 +45,6 @@
       <Filter>API%27s Files</Filter>
     </ClInclude>
     <ClInclude Include="AssetManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

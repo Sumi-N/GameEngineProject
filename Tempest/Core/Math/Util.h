@@ -4,13 +4,15 @@
 
 namespace Math
 {
+	constexpr float pi = 3.14159265359f;
+
 	static float DegreeToRadian(float i_degree)
 	{
-		return i_degree * 3.14159265359 / 180.0;
+		return i_degree * pi / 180.0f;
 	}
 
 	static float RadianToDegree(float i_radian)
 	{
-		return i_radian * 180 / 3.14159265359;
+		return i_radian * 180.0f / pi;
 	}
 }

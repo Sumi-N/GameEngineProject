@@ -41,7 +41,7 @@ bool Tempest::LoadTexture(const char* i_filename, std::vector<Vec3u8t>& pixels, 
 		stbi_set_flip_vertically_on_load(true);
 		hdrpixels = stbi_loadf(i_filename, &width, &height, &nrComponents, 0);
 
-		if (hdrpixels)
+		if (hdrpixels)	
 		{
 			success = true;
 		}

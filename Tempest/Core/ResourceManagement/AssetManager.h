@@ -1,45 +1,76 @@
 #pragma once
+#include "Define.h"
 #include "ResourceData.h"
 
 namespace Tempest
 {
 
-	template<class T, class U = std::string>
+	template<typename T, typename U = String>
 	class AssetManager
 	{				
-
 	public:
-
-		template<T> 
-		class Handler
-		{			
-		public:
-			uint16_t GetID(){ return id;};
-		private:
-			static uint16_t global_num = 0;
-			uint16_t id;			
-		};
-
-		static T* Get(Handler<T> i_handler)
-		{			
-			auto it = path_data_map.find(i_handler.GetID());
-			if (it != path_data_map.end())
-			{
-				return 
-			}
-			return nullptr;
-		}
-
-		static Handler<T> Load(const U i_string)
+		static OwningPointer<T> Get(U i_filename)
 		{
-			
+			auto it = table.find(i_filename);
+			if (it != table.end())
+			{
+				return it->second;
+			}
+			return OwningPointer<Resource::Mesh>();
 		}
 
+		static OwningPointer<T> Load(U i_filename) {};
 	private:
-
-		static std::map<uint16_t, T*> path_data_map;		
+		static std::map<U, OwningPointer<T>> table;				
 	};
-	
-	typedef AssetManager<Resource::MeshPoint> MeshManager;
+
+	template <>
+	class AssetManager<Resource::Mesh, String>
+	{
+	public:
+		static OwningPointer<Resource::Mesh>  Get(String i_filename)
+		{
+			auto it = table.find(i_filename);
+			if (it != table.end())
+			{
+				return it->second;
+			}
+			return OwningPointer<Resource::Mesh>();
+		}
+
+		static OwningPointer<Resource::Mesh> Load(String i_filename)
+		{
+			auto it = table.find(i_filename);
+			if (it != table.end())
+			{
+				DEBUG_PRINT("%s is already loaded", i_filename.c_str());
+
+				return it->second;
+			}
+			else
+			{				
+				OwningPointer<Resource::Mesh> mesh = OwningPointer<Resource::Mesh>::Create(mesh);
+				if (Resource::Mesh::Load(i_filename.c_str(), mesh->data, mesh->index))
+				{
+					table.insert({ i_filename, mesh });
+
+					DEBUG_PRINT("Mesh data %s is loaded", i_filename.c_str());
+
+					return mesh;
+				}
+				else
+				{
+					return OwningPointer<Resource::Mesh>();
+				}
+			}			
+		}
+	private:
+		static std::map<String, OwningPointer<Resource::Mesh>> table;
+	};
+
+	template <typename T, typename U>
+	std::map<U, OwningPointer<T>> AssetManager<T, U>::table;
+
+	std::map<String, OwningPointer<Resource::Mesh>> AssetManager<Resource::Mesh, String>::table;
 }
 

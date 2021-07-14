@@ -31,7 +31,16 @@ namespace Tempest
 	{
 		type = i_type;
 
-		return Tempest::LoadTexture(i_filename, pixels, width, height, hdrpixels);
+		File file(i_filename, File::Format::Default);		
+
+		if (file.GetExtensionName() != ".ttd")
+		{
+			return Tempest::LoadTexture(i_filename, pixels, width, height, hdrpixels);
+		}
+		else
+		{
+			return Resource::Texture::Load(i_filename, width, height, pixels);
+		}
 	}
 
 }

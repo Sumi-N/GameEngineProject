@@ -2,7 +2,6 @@
 
 #include <Tool/GeometryBuilder/GeometryConverter.h>
 #include <Tool/GeometryBuilder/FileAssistanceSystem.h>
-#include <ResourceManagement/MeshLoader.h>
 
 #define INTDATA "sphere.obj"
 #define BINDAT  "sphere.tmd"
@@ -77,9 +76,7 @@ TEST_F(GeometryBuilderTest, ReadBinaryTest)
 {
 	std::string pathname = fas.output_dir.string() + std::filesystem::path(BINDAT).string();
 
-	Tempest::MeshLoader loader;
-
-	EXPECT_TRUE(loader.Load(pathname.c_str(),mesh_data, mesh_index));
+	EXPECT_TRUE(Resource::Mesh::Load(pathname.c_str(),mesh_data, mesh_index) == Tempest::ResultValue::Success);
 
 	EXPECT_EQ(mesh_data.size(), 2880);
 }

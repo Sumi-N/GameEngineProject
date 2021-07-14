@@ -1,6 +1,5 @@
 #include <Tool/GeometryBuilder/GeometryConverter.h>
 #include <Tool/GeometryBuilder/FileAssistanceSystem.h>
-#include <ResourceManagement/MeshLoader.h>
 
 #define INTDATA "sphere.obj"
 #define BINDAT  "sphere.tmd"

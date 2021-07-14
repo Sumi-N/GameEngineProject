@@ -22,10 +22,10 @@ namespace Tempest
 		OwningPointer<TextureAttribute> roughness = OwningPointer<TextureAttribute>::Create(roughness);
 		OwningPointer<TextureAttribute> metalic = OwningPointer<TextureAttribute>::Create(metalic);
 
-		albedo->Load(PATH_SUFFIX TEXTURE_PATH "albedo/metalgrid1_basecolor.png", TextureType::Albedo);
-		normal->Load(PATH_SUFFIX TEXTURE_PATH "normal/metalgrid1_normal-ogl.png", TextureType::Normal);
-		roughness->Load(PATH_SUFFIX TEXTURE_PATH "roughness/metalgrid1_roughness.png", TextureType::Roughness);
-		metalic->Load(PATH_SUFFIX TEXTURE_PATH "metallic/metalgrid1_metallic.png", TextureType::Metalic);
+		albedo->Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo/metalgrid1_basecolor.ttd", TextureType::Albedo);
+		normal->Load(PATH_SUFFIX BIN_TEXTURE_PATH "normal/metalgrid1_normal-ogl.ttd", TextureType::Normal);
+		roughness->Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/metalgrid1_roughness.ttd", TextureType::Roughness);
+		metalic->Load(PATH_SUFFIX BIN_TEXTURE_PATH "metallic/metalgrid1_metallic.ttd", TextureType::Metalic);
 
 		const char* shaderpaths[] =
 		{

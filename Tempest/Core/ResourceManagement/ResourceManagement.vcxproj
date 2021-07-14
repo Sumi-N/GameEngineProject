@@ -104,7 +104,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Importer.cpp" />
-    <ClCompile Include="ResourceLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\External\loadpng\lodepng.h" />
@@ -112,7 +111,6 @@
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Importer.h" />
-    <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="ResourceData.h" />
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +119,9 @@
     </ProjectReference>
     <ProjectReference Include="..\Math\Math.vcxproj">
       <Project>{c8572e70-1b3f-469b-bb92-96dd46c72504}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.vcxproj">
+      <Project>{883f681d-4804-427d-9fff-d4c138b37281}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
