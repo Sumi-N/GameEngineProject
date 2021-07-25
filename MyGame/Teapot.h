@@ -19,15 +19,15 @@ namespace Tempest
 	{
 		PremadeObjebct::Boot();
 
-		mesh->Load(PATH_SUFFIX BIN_MESH_PATH "teapot.tmd");
+		mesh_component->Load(PATH_SUFFIX BIN_MESH_PATH "teapot.tmd");
 
 		OwningPointer<TextureAttribute> teapottexture = OwningPointer<TextureAttribute>::Create(teapottexture);
 		OwningPointer<TextureAttribute> teapottexture2 = OwningPointer<TextureAttribute>::Create(teapottexture2);
 		OwningPointer<TextureAttribute> teapottexture3 = OwningPointer<TextureAttribute>::Create(teapottexture3);
 
-		teapottexture->Load(PATH_SUFFIX TEXTURE_PATH "albedo/brickwall.png", TextureType::PB_Diffuse);
-		teapottexture2->Load(PATH_SUFFIX TEXTURE_PATH "albedo/brickwall.png", TextureType::PB_Specular);
-		teapottexture3->Load(PATH_SUFFIX TEXTURE_PATH "normal/brickwall_normal.png", TextureType::PB_Normal);
+		teapottexture->Load(PATH_SUFFIX INT_TEXTURE_PATH "albedo\\brickwall.png", TextureType::PB_Diffuse);
+		teapottexture2->Load(PATH_SUFFIX INT_TEXTURE_PATH "albedo\\brickwall.png", TextureType::PB_Specular);
+		teapottexture3->Load(PATH_SUFFIX INT_TEXTURE_PATH "normal\\brickwall_normal.png", TextureType::PB_Normal);
 
 		const char* shaderpaths[] =
 		{

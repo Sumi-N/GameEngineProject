@@ -11,14 +11,14 @@ namespace Tempest
 	class CubeMap : public Object
 	{
 	public:
-		CubeMap() : mesh(nullptr), effect(nullptr)
+		CubeMap() : mesh_component(nullptr), effect(nullptr)
 		{
 		}
 		virtual ~CubeMap()
 		{
 		}
 		virtual void Boot() override;
-		OwningPointer<MeshComponent> mesh;
+		OwningPointer<MeshComponent> mesh_component;
 		OwningPointer<EffectComponent> effect;
 	};
 

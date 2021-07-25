@@ -50,9 +50,8 @@ namespace Tempest
 		{
 			read_stream.open(filepath, std::ifstream::in | std::ifstream::binary);
 
-			if (!write_stream)
-			{
-				DEBUG_ASSERT(false);
+			if (!read_stream.is_open())
+			{				
 				return ResultValue::Failure;
 			}
 
@@ -68,9 +67,8 @@ namespace Tempest
 
 			write_stream.open(filepath, std::ifstream::out | std::ifstream::binary);
 
-			if (!write_stream)
-			{
-				DEBUG_ASSERT(false);
+			if (!write_stream.is_open())
+			{				
 				return ResultValue::Failure;
 			}
 
@@ -98,9 +96,12 @@ namespace Tempest
 	{		
 		if (format == Format::BinaryWrite)
 		{			
-			write_stream.write(reinterpret_cast<char*>(i_ptr), i_size);		
+			if (write_stream.is_open())
+			{
+				write_stream.write(reinterpret_cast<char*>(i_ptr), i_size);
 
-			return ResultValue::Success;
+				return ResultValue::Success;
+			}
 		}
 
 		return ResultValue::Failure;
@@ -110,9 +111,12 @@ namespace Tempest
 	{
 		if (format == Format::BinaryRead)
 		{
-			read_stream.read(reinterpret_cast<char*>(o_ptr), i_size);
+			if (read_stream.is_open())
+			{
+				read_stream.read(reinterpret_cast<char*>(o_ptr), i_size);
 
-			return ResultValue::Success;
+				return ResultValue::Success;
+			}
 		}
 
 		return ResultValue::Failure;

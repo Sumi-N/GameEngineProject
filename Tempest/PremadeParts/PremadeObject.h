@@ -8,26 +8,26 @@ namespace Tempest
 	class PremadeObjebct : public Object
 	{
 	public:
-		PremadeObjebct() : mesh(nullptr) {}
+		PremadeObjebct() : mesh_component(nullptr) {}
 
 		virtual void Boot() override;
 		virtual void Init() override;
 		OwningPointer<MeshComponent> GetMeshComponent();
 
 	protected:
-		OwningPointer<MeshComponent> mesh;
+		OwningPointer<MeshComponent> mesh_component;
 	};
 
 	inline void PremadeObjebct::Boot()
 	{
 		Object::Boot();
 
-		mesh = OwningPointer<MeshComponent>::Create(mesh);
+		mesh_component = OwningPointer<MeshComponent>::Create(mesh_component);
 		OwningPointer<MaterialAttribute> material;
 		material = OwningPointer<MaterialAttribute>::Create(material);
-		mesh->SetMaterial(material);
-		mesh->owner = Entity::Query(this).p;
-		Entity::RegisterMeshComponent(mesh);
+		mesh_component->SetMaterial(material);
+		mesh_component->owner = Entity::Query(this).p;
+		Entity::RegisterMeshComponent(mesh_component);
 
 
 #if defined(_DEBUG) && !defined(NDEBUG)
@@ -49,9 +49,9 @@ namespace Tempest
 
 	inline OwningPointer<MeshComponent> PremadeObjebct::GetMeshComponent()
 	{
-		if (mesh)
+		if (mesh_component)
 		{
-			return mesh;
+			return mesh_component;
 		}
 		else
 		{

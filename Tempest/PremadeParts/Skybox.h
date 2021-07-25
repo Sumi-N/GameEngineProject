@@ -14,12 +14,12 @@ namespace Tempest
 	{
 		CubeMap::Boot();
 
-		OwningPointer<MeshComponent>::Create(mesh);
-		mesh->Load(PATH_SUFFIX BIN_MESH_PATH FILENAME_CUBEMAP);
+		OwningPointer<MeshComponent>::Create(mesh_component);
+		mesh_component->Load(PATH_SUFFIX BIN_MESH_PATH FILENAME_CUBEMAP);
 
 
 		OwningPointer<TextureAttribute> texture = OwningPointer<TextureAttribute>::Create(texture);
-		texture->Load(PATH_SUFFIX TEXTURE_PATH SKYBOX_HDR_FROZEN_WATERFALL, TextureType::SkyBox);
+		texture->Load(PATH_SUFFIX INT_TEXTURE_PATH SKYBOX_HDR_FROZEN_WATERFALL, TextureType::SkyBox);
 
 		const char* shaderpaths[] =
 		{

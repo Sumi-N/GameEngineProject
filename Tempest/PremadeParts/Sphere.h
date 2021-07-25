@@ -20,8 +20,7 @@ namespace Tempest
 	{
 		PremadeObjebct::Boot();
 
-		mesh->Load(PATH_SUFFIX BIN_MESH_PATH FILENAME_SPHERE);
-		//mesh->Load(PATH_SUFFIX BIN_MESH_PATH "a");
+		mesh_component->Load(PATH_SUFFIX BIN_MESH_PATH FILENAME_SPHERE);		
 	}
 
 	inline void Sphere::Init()

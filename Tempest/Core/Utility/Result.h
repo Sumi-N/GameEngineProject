@@ -2,6 +2,14 @@
 
 #include "Define.h"
 
+#define RETURN_IFNOT_SUCCESS(i_condition)\
+	{\
+		if(static_cast<Tempest::Result>(i_condition) != Tempest::ResultValue::Success)\
+		{\
+			return i_condition;\
+		}\
+	}
+
 namespace Tempest
 {
 	enum class eResult : bool

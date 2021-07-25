@@ -3,25 +3,24 @@
 
 namespace Tempest
 {
-
-	bool MeshComponent::Load(const char* i_filename)
+	void MeshComponent::ReplaceWithDummyMesh(OwningPointer<Resource::Mesh>& o_mesh)
 	{
-		if (IsLoaded())
-		{
-			DEBUG_PRINT("The data in this mesh is cleaned");
-			CleanMesh();
-		}
+		o_mesh = OwningPointer<Resource::Mesh>::Create(o_mesh);
+		o_mesh->data.resize(6);
+		o_mesh->index.resize(6);
+		o_mesh->data[0].vertex = Vec3f( 10,  10, 0);
+		o_mesh->data[1].vertex = Vec3f(-10, -10, 0);
+		o_mesh->data[2].vertex = Vec3f( 10, -10, 0);
+		o_mesh->data[3].vertex = Vec3f( 10,  10, 0);
+		o_mesh->data[4].vertex = Vec3f(-10,  10, 0);
+		o_mesh->data[5].vertex = Vec3f(-10, -10, 0);
 
-		//mesh = OwningPointer<Resource::Mesh>(pmesh);
-		mesh = AssetManager<Resource::Mesh>::Load(i_filename);		
-		
-		if (mesh == nullptr)
-		{
-			DEBUG_PRINT("Failed to load the mesh data %s", i_filename);
-			return false;
-		}
-
-		return true;
+		o_mesh->index[0] = 0;
+		o_mesh->index[1] = 1;
+		o_mesh->index[2] = 2;
+		o_mesh->index[3] = 3;
+		o_mesh->index[4] = 4;
+		o_mesh->index[5] = 5;
 	}
 
 	void MeshComponent::Boot()
@@ -47,6 +46,27 @@ namespace Tempest
 	void MeshComponent::CleanUp()
 	{
 
+	}
+
+	bool MeshComponent::Load(const char* i_filename)
+	{
+		if (IsLoaded())
+		{
+			DEBUG_PRINT("The data in this mesh is cleaned");
+			CleanMesh();
+		}
+
+		mesh = AssetManager<Resource::Mesh>::Load(i_filename);
+
+		if (mesh == nullptr)
+		{
+			DEBUG_PRINT("Failed to load the mesh data %s, replaced with dummy mesh", i_filename);
+			ReplaceWithDummyMesh(mesh);
+
+			return true;
+		}
+
+		return true;
 	}
 
 	void MeshComponent::SetMaterial(MaterialAttribute* i_material)

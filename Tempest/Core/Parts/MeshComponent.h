@@ -19,6 +19,7 @@ namespace Tempest
 		Mat4f model_mat;
 		Mat4f model_inverse_transpose_mat;
 
+		static void ReplaceWithDummyMesh(OwningPointer<Resource::Mesh>&);
 		virtual void Boot() override;
 		virtual void Init() override;
 		virtual void Update(float i_dt) override;

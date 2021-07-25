@@ -19,7 +19,7 @@ namespace Tempest
 	{
 		PremadeObjebct::Boot();
 
-		mesh->Load(PATH_SUFFIX BIN_MESH_PATH "SK_PlayerCharacter.tmd");
+		mesh_component->Load(PATH_SUFFIX BIN_MESH_PATH "SK_PlayerCharacter.tmd");
 
 		//OwningPointer<TextureAttribute> diffuse = OwningPointer<TextureAttribute>::Create(diffuse);
 		//OwningPointer<TextureAttribute> speclar = OwningPointer<TextureAttribute>::Create(speclar);
@@ -58,8 +58,8 @@ namespace Tempest
 	{
 		PremadeObjebct::Init();
 
-		mesh->material_attribute->material->metalic = 0.99f;
-		mesh->material_attribute->material->roughness = 0.1f;
+		mesh_component->material_attribute->material->metalic = 0.99f;
+		mesh_component->material_attribute->material->roughness = 0.1f;
 	}
 
 }

@@ -50,6 +50,12 @@ public:
 	// Standard Constructor
 	explicit OwningPointer(T* i_ptr)
 	{
+		if (i_ptr == nullptr)
+		{			
+			ref = nullptr;
+			data = nullptr;
+			return;
+		}
 		data = i_ptr;
 		ref = new ReferenceCounters(1, 0);
 	};
@@ -99,7 +105,24 @@ public:
 	OwningPointer& operator=(const OwningPointer& i_other)
 	{
 		if (this == &i_other)
+		{
 			return *this;
+		}
+		else if (i_other.ref == nullptr)
+		{
+			if (ref != nullptr)
+			{
+				ref->ObserverReferences--;
+				if (ref->OwnerReferences == 0)
+				{
+					delete ref;
+					delete data;
+				}
+			}
+			ref = nullptr;
+			data = nullptr;
+			return *this;
+		}
 		else
 		{
 			if (ref != nullptr)
@@ -110,7 +133,8 @@ public:
 					delete ref;
 					delete data;
 				}
-			}
+			}			
+
 			this->ref = i_other.ref;
 			this->data = i_other.data;
 			ref->OwnerReferences++;

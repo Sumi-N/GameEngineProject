@@ -17,7 +17,7 @@ namespace Tempest
 	{
 		PremadeObjebct::Boot();
 
-		mesh->Load(PATH_SUFFIX BIN_MESH_PATH FILENAME_QUAD);
+		mesh_component->Load(PATH_SUFFIX BIN_MESH_PATH FILENAME_QUAD);
 
 		const char* shaderpaths[] =
 		{
