@@ -2,6 +2,8 @@
 
 #include "Define.h"
 
+using namespace Tempest;
+
 enum class TextureType : int8_t
 {
 	SkyBox = -1,
@@ -54,13 +56,13 @@ namespace Resource
 	{
 		Mat4f       inversed; // inversed bind pose translation matrix
 		Vec3f       coord;
-		std::string name;
+		String name;
 		uint8_t     parent_index;
 	};
 
 	struct Skeleton
 	{
-		std::vector<Joint>   joints;
+		Array<Joint>   joints;
 	};
 
 	struct JointPose
@@ -74,7 +76,7 @@ namespace Resource
 
 	struct AnimationSample
 	{
-		std::vector<JointPose> jointposes;
+		Array<JointPose> jointposes;
 	};
 
 	struct AnimationClip
@@ -82,16 +84,16 @@ namespace Resource
 		Skeleton*                    skeleton;
 		float                        frame_per_second;
 		int                          frame_count;
-		std::vector<AnimationSample> samples;
+		Array<AnimationSample> samples;
 		bool                         is_looping;
 	};
 
 	struct Mesh
 	{
-		std::vector<MeshPoint> data;
-		std::vector<uint32_t> index;
+		Array<MeshPoint> data;
+		Array<uint32_t> index;
 
-		static Tempest::Result Load(const char* i_filepath, std::vector<Resource::MeshPoint>& o_data, std::vector<uint32_t>& o_index)
+		static Tempest::Result Load(const char* i_filepath, Array<Resource::MeshPoint>& o_data, Array<uint32_t>& o_index)
 		{				
 			Tempest::File in(i_filepath, Tempest::File::Format::BinaryRead);
 
@@ -117,16 +119,16 @@ namespace Resource
 
 	struct SkeletonMesh
 	{
-		std::vector<SkeletonMeshPoint> data;
-		std::vector<uint32_t> index;
+		Array<SkeletonMeshPoint> data;
+		Array<uint32_t> index;
 	};
 
 	struct  Texture
 	{
 		int width, height;
-		std::vector<Vec3u8t> pixels;
+		Array<Vec3u8t> pixels;
 
-		static Tempest::Result Load(const char* i_filepath, int& o_width, int& o_height, std::vector<Vec3u8t>& o_pixels)
+		static Tempest::Result Load(const char* i_filepath, int& o_width, int& o_height, Array<Vec3u8t>& o_pixels)
 		{
 			o_pixels.clear();
 
