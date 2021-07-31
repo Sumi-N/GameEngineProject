@@ -60,7 +60,7 @@ namespace Tempest
 
 		if (mesh == nullptr)
 		{
-			DEBUG_PRINT("Failed to load the mesh data %s, replaced with dummy mesh", i_filename);
+			DEBUG_PRINT("Failed to load the mesh data %s, replaced it with dummy mesh", i_filename);
 			ReplaceWithDummyMesh(mesh);
 
 			return true;

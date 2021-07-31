@@ -32,14 +32,14 @@ namespace Tempest
 
 		struct Element
 		{
-			std::string name;
+			String name;
 			Type type;
 			uint32_t size;
 			size_t offset;
 			bool normalized;
 
 			Element() = default;
-			Element(Type i_type, const std::string& i_name, bool i_normalized = false)
+			Element(Type i_type, const String& i_name, bool i_normalized = false)
 				:type(i_type), name(i_name), size(GetDataSize(type)), offset(0), normalized(i_normalized)
 			{
 			}
@@ -55,7 +55,7 @@ namespace Tempest
 				CalculateOffsetsAndStride();
 			}
 
-			std::vector<Element> elemetns;
+			Array<Element> elemetns;
 			uint32_t stride = 0;
 
 		private:
