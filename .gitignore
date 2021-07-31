@@ -267,12 +267,11 @@ __pycache__/
 # However we want to upload model files that also have obj extention
 # So we want to exculde the directory that store model files from git ignore setting
 !Assets/shaders/**
-Assets/models/**
-Assets/textures/**
+!Assets/int/mesh/*.obj
 Assets/bin/**
 
 
-# For copy right reason, we want to exclude certain directories
+# Due to copyrights, we want to exclude certain directories
 #Assets/models/NotFree/
 #Assets/textures/NotFree/
 *.tmd

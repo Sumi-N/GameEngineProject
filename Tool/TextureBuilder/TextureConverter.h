@@ -1,8 +1,10 @@
 #pragma once
 
 #include <Math/Vector.h>
-#include <Utility/Result.h>
+#include <Utility/File.h>
 #include <ResourceManagement/ResourceData.h>
+
+#include <External/loadpng/lodepng.h>
 
 class TextureConverter
 {

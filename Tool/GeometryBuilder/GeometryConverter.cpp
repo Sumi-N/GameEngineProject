@@ -1,98 +1,61 @@
-#include <fstream>
-#include <iostream>
-
-#include <External/cyCodeBase/cyTriMesh.h>
-
 #include "GeometryConverter.h"
 #include "FBXLoader.h"
 
-std::vector<Resource::MeshPoint> GeometryConverter::data;
-std::vector<int>      GeometryConverter::index;
-
-GeometryConverter::GeometryConverter()
+Tempest::Result GeometryConverter::ConvertGeometry(const char* i_filename, const char* o_filename)
 {
+	Tempest::File in(i_filename, Tempest::File::Format::BinaryRead);
 
-}
+	Array<Resource::MeshPoint> data;
+	Array<int>                 index;
 
-GeometryConverter::~GeometryConverter()
-{
-
-}
-
-bool GeometryConverter::ReadGeometry(std::filesystem::path const i_filepath)
-{
-	bool result;
-	std::string extention = i_filepath.filename().extension().string();
-	std::transform(extention.begin(), extention.end(), extention.begin(), ::tolower);
-
-	if (extention == ".obj")
+	if (in.GetExtensionName() == ".obj")
 	{
-		result = ReadOBJ(i_filepath);
+		RETURN_IFNOT_SUCCESS(ReadOBJ(i_filename, data, index));
 	}
-	else if (extention == ".fbx")
+	else if (in.GetExtensionName() == ".fbx")
 	{
-		result = ReadFBX(i_filepath);
-	}
-	else
-	{
-		DEBUG_ASSERT(false);
+		RETURN_IFNOT_SUCCESS(ReadFBX(i_filename, data, index));
 	}
 
-	return result;
-}
-
-bool GeometryConverter::WriteBinary(std::filesystem::path const o_filepath)
-{
-	//Create the file if directory doesn't exist
-	if (!std::filesystem::exists(o_filepath.parent_path()))
-	{
-		std::filesystem::create_directories(o_filepath.parent_path());
-	}
-
-	std::ofstream outfile(o_filepath.c_str(), std::ifstream::binary);
-
-	if (!outfile)
-	{
-		DEBUG_ASSERT(false);
-		return false;
-	}
+	Tempest::File out(o_filename, Tempest::File::Format::BinaryWrite);
 
 	size_t data_size = data.size();
 	size_t index_size = index.size();
 
 	if (data_size == 0 || index_size == 0)
 	{
-		return false;
+		return Tempest::ResultValue::Failure;
 	}
 
-	outfile.write(reinterpret_cast<char*>(&data_size), sizeof(size_t));
-	outfile.write(reinterpret_cast<char*>(&index_size), sizeof(size_t));
+	RETURN_IFNOT_SUCCESS(out.Open());
 
-	outfile.write(reinterpret_cast<char*>(data.data()), data_size * sizeof(Resource::MeshPoint));
-	outfile.write(reinterpret_cast<char*>(index.data()), index_size * sizeof(int));
+	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&data_size), sizeof(size_t)));
+	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&index_size), sizeof(size_t)));
+	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(data.data()), data_size *  sizeof(Resource::MeshPoint)));
+	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(index.data()), index_size * sizeof(int)));
 
-	outfile.close();
-
-	return true;
+	out.Close();
+	
+	return Tempest::ResultValue::Success;
 }
 
-bool GeometryConverter::ReadOBJ(std::filesystem::path const i_filepath)
+Tempest::Result GeometryConverter::ReadOBJ(const char* i_filename, Array<Resource::MeshPoint>& o_data, Array<int>& o_index)
 {
-	if (!data.empty())
+	if (!o_data.empty())
 	{
-		data.clear();
+		o_data.clear();
 	}
 
-	if (!index.empty())
+	if (!o_index.empty())
 	{
-		index.clear();
+		o_index.clear();
 	}
 
 	cy::TriMesh tmpdata;
 
-	if (!tmpdata.LoadFromFileObj(i_filepath.string().c_str(), true))
+	if (!tmpdata.LoadFromFileObj(i_filename, true))
 	{
-		return false;
+		return Tempest::ResultValue::Failure;
 	}
 	tmpdata.ComputeNormals();
 
@@ -137,9 +100,9 @@ bool GeometryConverter::ReadOBJ(std::filesystem::path const i_filepath)
 	{
 		unsigned indexOffset = (unsigned int)i * 3;
 
-		index.push_back(indexOffset + 0);
-		index.push_back(indexOffset + 1);
-		index.push_back(indexOffset + 2);
+		o_index.push_back(indexOffset + 0);
+		o_index.push_back(indexOffset + 1);
+		o_index.push_back(indexOffset + 2);
 
 		Resource::MeshPoint tmp1, tmp2, tmp3;
 
@@ -188,23 +151,23 @@ bool GeometryConverter::ReadOBJ(std::filesystem::path const i_filepath)
 			tmp3.uv.y = textCoordMap[textureFace.v[2]].y;
 		}
 
-		data.push_back(tmp1);
-		data.push_back(tmp2);
-		data.push_back(tmp3);
+		o_data.push_back(tmp1);
+		o_data.push_back(tmp2);
+		o_data.push_back(tmp3);
 	}
 
 	for (size_t i = 0; i < facenum; i++)
 	{
-		Vec3f pos1 = data[index[3 * i + 0]].vertex;
-		Vec3f pos2 = data[index[3 * i + 1]].vertex;
-		Vec3f pos3 = data[index[3 * i + 2]].vertex;
+		Vec3f pos1 = o_data[o_index[3 * i + 0]].vertex;
+		Vec3f pos2 = o_data[o_index[3 * i + 1]].vertex;
+		Vec3f pos3 = o_data[o_index[3 * i + 2]].vertex;
 
 		Vec3f edge1 = pos2 - pos1;
 		Vec3f edge2 = pos3 - pos1;
 
-		Vec2f uv1 = data[index[3 * i + 0]].uv;
-		Vec2f uv2 = data[index[3 * i + 1]].uv;
-		Vec2f uv3 = data[index[3 * i + 2]].uv;
+		Vec2f uv1 = o_data[o_index[3 * i + 0]].uv;
+		Vec2f uv2 = o_data[o_index[3 * i + 1]].uv;
+		Vec2f uv3 = o_data[o_index[3 * i + 2]].uv;
 
 		Vec2f deltauv1 = uv2 - uv1;
 		Vec2f deltauv2 = uv3 - uv1;
@@ -223,26 +186,32 @@ bool GeometryConverter::ReadOBJ(std::filesystem::path const i_filepath)
 		bitangent.z = f * (-deltauv2.x * edge1.z + deltauv1.x * edge2.z);
 		bitangent.Normalize();
 
-		data[index[3 * i + 0]].tangent = tangent;
-		data[index[3 * i + 0]].bitangent = bitangent;
+		o_data[o_index[3 * i + 0]].tangent = tangent;
+		o_data[o_index[3 * i + 0]].bitangent = bitangent;
 
-		data[index[3 * i + 1]].tangent = tangent;
-		data[index[3 * i + 1]].bitangent = bitangent;
+		o_data[o_index[3 * i + 1]].tangent = tangent;
+		o_data[o_index[3 * i + 1]].bitangent = bitangent;
 
-		data[index[3 * i + 2]].tangent = tangent;
-		data[index[3 * i + 2]].bitangent = bitangent;
+		o_data[o_index[3 * i + 2]].tangent = tangent;
+		o_data[o_index[3 * i + 2]].bitangent = bitangent;
 	}
 
-	return true;
+	return Tempest::ResultValue::Success;
 }
 
-bool GeometryConverter::ReadFBX(std::filesystem::path const i_filepath)
-{
-	bool result = false;
-	result = FBXLoader::Init(i_filepath.string().c_str());
+Tempest::Result GeometryConverter::ReadFBX(const char* i_filename, Array<Resource::MeshPoint>& o_data, Array<int>& o_index)
+{	
+	if (!FBXLoader::Init(i_filename))
+	{
+		return Tempest::ResultValue::Failure;
+	}
+
 	//FBXLoader::PrintData();
-	FBXLoader::LoadMesh(data, index);
 
-	return result;
+	if (!FBXLoader::LoadMesh(o_data, o_index))
+	{
+		return Tempest::ResultValue::Failure;
+	}
+
+	return Tempest::ResultValue::Success;
 }
-

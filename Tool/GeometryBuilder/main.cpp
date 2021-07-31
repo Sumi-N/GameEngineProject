@@ -1,29 +1,32 @@
-#include <Tool/GeometryBuilder/GeometryConverter.h>
-#include <Tool/GeometryBuilder/FileAssistanceSystem.h>
+#include "GeometryConverter.h"
+#include <Utility/File.h>
 
-#define INTDATA "sphere.obj"
-#define BINDAT  "sphere.tmd"
+using namespace Tempest;
 
-FileAssistanceSystem fas;
-GeometryConverter obj;
+const String path_in = INT_MESH_PATH;
+const String path_out = BIN_MESH_PATH;
 
 int main()
 {
+	String fullpath = "..\\..\\" + path_in;
 
-	fas.input_dir = "../../" INT_MESH_PATH;
-	fas.output_dir = "../../" BIN_MESH_PATH;
+	Array<String> filepaths = File::GetAllFilePathsBelowTheDirectory(fullpath);
 
-	fas.GetInputFiles();
-  	fas.GetOutputPaths();
+	for (auto i_entry : filepaths)
+	{
+		String o_entry = File::ReplaceExtension(i_entry, "tmd");
 
-	std::filesystem::path infilepath = fas.input_dir.string() + std::filesystem::path("SK_PlayerCharacter.fbx").string();
+		String copy_from_path = "..\\..\\" + path_in + i_entry;
+		String copy_to_path = "..\\..\\" + path_out + o_entry;
+		
+		Result result = GeometryConverter::ConvertGeometry(copy_from_path.c_str(), copy_to_path.c_str());
 
-	obj.ReadGeometry(infilepath);
-
-	size_t data_size = GeometryConverter::data.size();
-
-	std::filesystem::path outfilepath = fas.output_dir.string() + std::filesystem::path("SK_PlayerCharacter.tmd").string();
-	obj.WriteBinary(outfilepath);
+		if (result != ResultValue::Success)
+		{
+			DEBUG_PRINT("Failed to convert texture %s", i_entry);
+			//DEBUG_ASSERT(false);
+		}
+	}
 
 	return 0;
 }

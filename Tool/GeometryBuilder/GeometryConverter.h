@@ -1,25 +1,17 @@
 #pragma once
-#include <vector>
-#include <filesystem>
 
+#include <Utility/File.h>
 #include <ResourceManagement/ResourceData.h>
+
+#include <External/cyCodeBase/cyTriMesh.h>
 
 class GeometryConverter
 {
 public:
-	GeometryConverter();
-	~GeometryConverter();
-
-	static std::vector<Resource::MeshPoint> data;
-	static std::vector<int>      index;
-
-	bool ReadGeometry(std::filesystem::path const) ;
-
-	bool WriteBinary(std::filesystem::path const);
+	static Tempest::Result ConvertGeometry(const char*, const char*);
 
 private:
-
-	bool ReadOBJ(std::filesystem::path const);
-	bool ReadFBX(std::filesystem::path const);
+	static Tempest::Result ReadOBJ(const char*, Array<Resource::MeshPoint>&, Array<int>&);
+	static Tempest::Result ReadFBX(const char*, Array<Resource::MeshPoint>&, Array<int>&);
 };
 

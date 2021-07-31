@@ -1,15 +1,4 @@
-#include <fstream>
-#include <iostream>
-
-#include <Utility/File.h>
 #include "TextureConverter.h"
-
-#include <External/loadpng/lodepng.h>
-
-//#ifndef STB_IMAGE_IMPLEMENTATION
-//#define STB_IMAGE_IMPLEMENTATION
-//#endif
-//#include <External/stb/stb_image.h>
 
 Tempest::Result TextureConverter::ConvertTexture(const char* i_filename, const char* o_filename)
 {

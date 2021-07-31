@@ -99,13 +99,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="FBXLoader.cpp" />
-    <ClCompile Include="FileAssistanceSystem.cpp" />
     <ClCompile Include="GeometryConverter.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FBXLoader.h" />
-    <ClInclude Include="FileAssistanceSystem.h" />
     <ClInclude Include="GeometryConverter.h" />
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +115,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\Tempest\Core\ResourceManagement\ResourceManagement.vcxproj">
       <Project>{4590a9a9-0184-4a56-b1cc-3b585d51fc0d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Tempest\Core\Utility\Utility.vcxproj">
+      <Project>{883f681d-4804-427d-9fff-d4c138b37281}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
