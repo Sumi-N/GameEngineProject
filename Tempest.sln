@@ -61,6 +61,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TextureBuilder", "Tool\Text
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utility", "Tempest\Core\Utility\Utility.vcxproj", "{883F681D-4804-427D-9FFF-D4C138B37281}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test_MemoryManagement", "Test\UnitTests\Test_MemoryManagement\Test_MemoryManagement.vcxproj", "{74D65ABE-FED1-459B-89C1-D3CFA3D19585}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -159,6 +161,10 @@ Global
 		{883F681D-4804-427D-9FFF-D4C138B37281}.Debug|x64.Build.0 = Debug|x64
 		{883F681D-4804-427D-9FFF-D4C138B37281}.Release|x64.ActiveCfg = Release|x64
 		{883F681D-4804-427D-9FFF-D4C138B37281}.Release|x64.Build.0 = Release|x64
+		{74D65ABE-FED1-459B-89C1-D3CFA3D19585}.Debug|x64.ActiveCfg = Debug|x64
+		{74D65ABE-FED1-459B-89C1-D3CFA3D19585}.Debug|x64.Build.0 = Debug|x64
+		{74D65ABE-FED1-459B-89C1-D3CFA3D19585}.Release|x64.ActiveCfg = Release|x64
+		{74D65ABE-FED1-459B-89C1-D3CFA3D19585}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -188,6 +194,7 @@ Global
 		{1FFCA871-4D34-497D-BF09-DB6A91F02BF2} = {BB2F8603-1BCD-48F9-A9B3-5D3E380096E9}
 		{2F2F9E50-AEB8-45B0-9D77-51E21FBC6056} = {86B342BF-936F-44CD-B8EA-C768A8CE0EA2}
 		{883F681D-4804-427D-9FFF-D4C138B37281} = {3145ED23-F694-44A7-B911-78A02D66BD0D}
+		{74D65ABE-FED1-459B-89C1-D3CFA3D19585} = {CE2AE061-D19B-455F-8642-6DF02FA6C8AD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1B7CED8D-4054-4DBF-B591-A795C68F161F}

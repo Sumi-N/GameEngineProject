@@ -104,7 +104,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\External\stb\stb_image.h" />
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="ResourceData.h" />

@@ -5,6 +5,9 @@
     <ClInclude Include="Define.h">
       <Filter>Precompiled Header</Filter>
     </ClInclude>
+    <ClInclude Include="MemorySystem.h" />
+    <ClInclude Include="HeapManager.h" />
+    <ClInclude Include="FixedSizeAllocator.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precompiled Header">
@@ -15,5 +18,9 @@
     <ClCompile Include="Define.cpp">
       <Filter>Precompiled Header</Filter>
     </ClCompile>
+    <ClCompile Include="Allocator.cpp" />
+    <ClCompile Include="HeapManager.cpp" />
+    <ClCompile Include="MemorySystem.cpp" />
+    <ClCompile Include="BitArray.cpp" />
   </ItemGroup>
 </Project>

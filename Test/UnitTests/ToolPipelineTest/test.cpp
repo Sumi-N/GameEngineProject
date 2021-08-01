@@ -2,9 +2,6 @@
 
 #include <Tool/GeometryBuilder/GeometryConverter.h>
 
-#define INTDATA "sphere.obj"
-#define BINDAT  "sphere.tmd"
-
 //class GeometryBuilderTest : public ::testing::Test
 //{
 //
