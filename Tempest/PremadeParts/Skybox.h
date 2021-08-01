@@ -19,7 +19,7 @@ namespace Tempest
 
 
 		OwningPointer<TextureAttribute> texture = OwningPointer<TextureAttribute>::Create(texture);
-		texture->Load(PATH_SUFFIX INT_TEXTURE_PATH SKYBOX_HDR_FROZEN_WATERFALL, TextureType::SkyBox);
+		texture->Load(PATH_SUFFIX BIN_TEXTURE_PATH SKYBOX_HDR_PINTREE, TextureType::SkyBox);
 
 		const char* shaderpaths[] =
 		{

@@ -128,24 +128,32 @@ namespace Resource
 		int width, height;
 		Array<Vec3u8t> pixels;
 
-		static Tempest::Result Load(const char* i_filepath, int& o_width, int& o_height, Array<Vec3u8t>& o_pixels)
+		static Tempest::Result Load(const char* i_filepath, size_t& o_width, size_t& o_height, Array<Vec3u8t>& o_pixels)
 		{
+			TextureType type;
 			o_pixels.clear();
 
 			Tempest::File in(i_filepath, Tempest::File::Format::BinaryRead);
 
 			RETURN_IFNOT_SUCCESS(in.Open());
 
-			RETURN_IFNOT_SUCCESS(in.Read(&o_width, sizeof(int)))
-			RETURN_IFNOT_SUCCESS(in.Read(&o_height, sizeof(int)))
+			RETURN_IFNOT_SUCCESS(in.Read(&type, sizeof(uint8_t)));
+			RETURN_IFNOT_SUCCESS(in.Read(&o_width, sizeof(int)));
+			RETURN_IFNOT_SUCCESS(in.Read(&o_height, sizeof(int)));
 
-			o_pixels.resize((size_t)o_width * o_height);
-
-
-			RETURN_IFNOT_SUCCESS(in.Read(o_pixels.data(), (size_t)o_width * o_height * sizeof(Vec3u8t)))
+			if (type == TextureType::SkyBox)
+			{
+				size_t fixed_size = sizeof(float) * 3 / sizeof(Vec3u8t);
+				o_pixels.resize(o_width * o_height * fixed_size);
+				RETURN_IFNOT_SUCCESS(in.Read(o_pixels.data(), sizeof(float) * o_width * o_height * static_cast<size_t>(3)));
+			}
+			else
+			{
+				o_pixels.resize(o_width * o_height);
+				RETURN_IFNOT_SUCCESS(in.Read(o_pixels.data(), o_width * o_height * sizeof(Vec3u8t)));				
+			}
 
 			in.Close();
-
 			DEBUG_PRINT("Succeed loading texture %s", i_filepath);
 
 			return Tempest::ResultValue::Success;

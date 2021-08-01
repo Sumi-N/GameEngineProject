@@ -4,8 +4,6 @@
 #include <Utility/File.h>
 #include <ResourceManagement/ResourceData.h>
 
-#include <External/loadpng/lodepng.h>
-
 class TextureConverter
 {
 public:

@@ -71,9 +71,9 @@
 #define SKYBOX_POSZ      "skybox\\cubemap_posz.png"
 #define SKYBOX_NEGZ      "skybox\\cubemap_negz.png"
 
-#define SKYBOX_HDR_BLACK            "hdr\\black.hdr"
-#define SKYBOX_HDR_PINTREE          "hdr\\Arches_E_PineTree_3k.hdr"
-#define SKYBOX_HDR_FROZEN_WATERFALL "hdr\\Frozen_Waterfall_Ref.hdr"
+#define SKYBOX_HDR_BLACK            "hdr\\black.ttd"
+#define SKYBOX_HDR_PINTREE          "hdr\\Arches_E_PineTree_3k.ttd"
+#define SKYBOX_HDR_FROZEN_WATERFALL "hdr\\Frozen_Waterfall_Ref.ttd"
 
 //////////////////////////////
 //  Shader Data

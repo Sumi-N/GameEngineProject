@@ -21,6 +21,9 @@
     <ClInclude Include="..\..\External\loadpng\lodepng.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\External\stb\stb_image.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TextureConverter.cpp">
