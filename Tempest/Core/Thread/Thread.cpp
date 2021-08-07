@@ -1,78 +1,81 @@
 #include "Thread.h"
 
-void Thread::Create()
+namespace Tempest
 {
-	thread_id = ThreadManager::RegisterThread(mutex, condition, bready);
-}
-
-void Thread::Boot()
-{
-
-}
-
-void Thread::Init()
-{
-
-}
-
-void Thread::Run()
-{
-	while (brunning)
+	void Thread::Create()
 	{
-		{
-			std::lock_guard<std::mutex> lock_guard(mutex);
-
-			CriticalSection();
-
-			condition.notify_one();
-		}
-
-		{
-			NonCriticalSection();
-		}
-
-		{
-			std::unique_lock<std::mutex> unique_lock_guard(*ThreadManager::Mutexs[ThreadManager::GetOtherThreadID(thread_id)]);
-
-			while (!(*ThreadManager::b_thread_ready[ThreadManager::GetOtherThreadID(thread_id)]))
-			{
-				ThreadManager::Conditions[ThreadManager::GetOtherThreadID(thread_id)]->wait(unique_lock_guard);
-			}
-
-			SecondCriticalSection();
-		}
-
-		FollowupSection();
+		thread_id = ThreadManager::RegisterThread(mutex, condition, bready);
 	}
 
-	CleanUp();
-}
+	void Thread::Boot()
+	{
 
-void Thread::CleanUp()
-{
+	}
 
-}
+	void Thread::Init()
+	{
 
-void Thread::Eject()
-{
-}
+	}
 
-void Thread::CriticalSection()
-{
+	void Thread::Run()
+	{
+		while (brunning)
+		{
+			{
+				std::lock_guard<std::mutex> lock_guard(mutex);
 
-}
+				CriticalSection();
 
-void Thread::NonCriticalSection()
-{
+				condition.notify_one();
+			}
 
-}
+			{
+				NonCriticalSection();
+			}
 
-void Thread::SecondCriticalSection()
-{
+			{
+				std::unique_lock<std::mutex> unique_lock_guard(*ThreadManager::Mutexs[ThreadManager::GetOtherThreadID(thread_id)]);
 
-}
+				while (!(*ThreadManager::b_thread_ready[ThreadManager::GetOtherThreadID(thread_id)]))
+				{
+					ThreadManager::Conditions[ThreadManager::GetOtherThreadID(thread_id)]->wait(unique_lock_guard);
+				}
 
-void Thread::FollowupSection()
-{
+				SecondCriticalSection();
+			}
 
+			FollowupSection();
+		}
+
+		CleanUp();
+	}
+
+	void Thread::CleanUp()
+	{
+
+	}
+
+	void Thread::Eject()
+	{
+	}
+
+	void Thread::CriticalSection()
+	{
+
+	}
+
+	void Thread::NonCriticalSection()
+	{
+
+	}
+
+	void Thread::SecondCriticalSection()
+	{
+
+	}
+
+	void Thread::FollowupSection()
+	{
+
+	}
 }

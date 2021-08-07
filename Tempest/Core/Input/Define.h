@@ -1,9 +1,9 @@
 #pragma once
 #include <Configuration/Configuration.h>
 #include <Logging/DebugLog.h>
+#include <Utility/Array.h>
 
 #include <unordered_map>
-#include <vector>
 #include <utility>
 
 #ifdef ENGINE_PLATFORM_WINDOWS

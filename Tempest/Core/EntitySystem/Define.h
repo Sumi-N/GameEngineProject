@@ -9,5 +9,4 @@
 #include <Core/Parts/CubeMap.h>
 #include <Core/MemoryManagement/SmartPointer.h>
 #include <Core/Debug/DebugRay.h>
-
-#include <vector>
+#include <Utility/Array.h>

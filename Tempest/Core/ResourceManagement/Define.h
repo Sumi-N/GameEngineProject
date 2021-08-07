@@ -10,5 +10,6 @@
 #include <MemoryManagement/SmartPointer.h>
 #include <Utility/Result.h>
 #include <Utility/File.h>
+#include <Utility/Array.h>
 
 #include <External/loadpng/lodepng.h>

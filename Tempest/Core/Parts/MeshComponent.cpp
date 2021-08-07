@@ -56,7 +56,10 @@ namespace Tempest
 			CleanMesh();
 		}
 
-		mesh = AssetManager<Resource::Mesh>::Load(i_filename);
+		//mesh = AssetManager<Resource::Mesh>::Load(i_filename);
+		OwningPointer<Resource::Mesh> thismesh = OwningPointer<Resource::Mesh>::Create(thismesh);
+		Resource::Mesh::Load(i_filename, thismesh->data, thismesh->index);
+		mesh = thismesh;
 
 		if (mesh == nullptr)
 		{

@@ -2,29 +2,33 @@
 #include "Define.h"
 #include "ThreadManager.h"
 
-
-class Thread
+namespace Tempest
 {
-public:
-	Thread():brunning(true), bready(false),thread_id(255){}
-	void Create();
-	virtual void Boot();
-	virtual void Init();
-	virtual void Run();
-	virtual void CleanUp();
-	virtual void Eject();
+	class Thread
+	{
+	public:
+		Thread() :brunning(true), bready(false), thread_id(255)
+		{
+		}
+		void Create();
+		virtual void Boot();
+		virtual void Init();
+		virtual void Run();
+		virtual void CleanUp();
+		virtual void Eject();
 
-	bool bready;
-	std::mutex mutex;
-	std::condition_variable condition;
+		bool bready;
+		std::mutex mutex;
+		std::condition_variable condition;
 
-protected:
+	protected:
 
-	bool brunning;
-	uint8_t thread_id;
+		bool brunning;
+		uint8_t thread_id;
 
-	virtual void CriticalSection();
-	virtual void NonCriticalSection();
-	virtual void SecondCriticalSection();
-	virtual void FollowupSection();	
-};
+		virtual void CriticalSection();
+		virtual void NonCriticalSection();
+		virtual void SecondCriticalSection();
+		virtual void FollowupSection();
+	};
+}

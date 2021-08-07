@@ -5,7 +5,7 @@ template<class T>
 class Entity
 {
 public:
-	std::vector<OwningPointer<T>> list;
+	Array<OwningPointer<T>> list;
 
 	OwningPointer<T> Register()
 	{

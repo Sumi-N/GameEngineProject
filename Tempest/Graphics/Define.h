@@ -8,9 +8,9 @@
 #include <Parts/TextureAttribute.h>
 #include <MemoryManagement/SmartPointer.h>
 #include <EntitySystem/Entity.h>
+#include <Utility/Array.h>
 
 // For reading shader data in shader class
-#include <vector>
 #include <fstream>
 #include <iostream>
 

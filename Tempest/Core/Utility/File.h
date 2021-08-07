@@ -2,13 +2,11 @@
 
 #include "Define.h"
 #include "Result.h"
+#include "Array.h"
 
 namespace Tempest
 {
 	typedef std::string String;
-
-	template<typename T>
-	using Array = std::vector<T>;
 
 	class File
 	{

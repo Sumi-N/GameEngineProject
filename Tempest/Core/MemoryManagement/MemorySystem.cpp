@@ -2,8 +2,7 @@
 #include "HeapManager.h"
 
 bool InitializeMemorySystem(void* i_pHeapMemory, size_t i_sizeHeapMemory, unsigned int i_OptionalNumDescriptors)
-{
-
+{	
 	_current = i_pHeapMemory;
 	_current = allocator[0].initialize(_current, 16);
 	_current = allocator[1].initialize(_current, 32);
@@ -29,6 +28,8 @@ void DestroyMemorySystem()
 //Allocate memory to certain heap manager depend on how much size the allocation is 
 void* AllocMemory(size_t size)
 {
+	return generalmanager._alloc(size);
+
 	if (size <= 16)
 	{
 		return	allocator[0].alloc();

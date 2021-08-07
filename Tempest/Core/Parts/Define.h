@@ -5,5 +5,4 @@
 #include <Logging/Assert.h>
 #include <Math/Vector.h>
 #include <Math/Matrix.h>
-
-#include <vector>
+#include <Utility/Array.h>

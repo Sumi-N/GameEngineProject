@@ -15,7 +15,7 @@
 
 bool MemorySystem_UnitTest();
 
-TEST(ResouceManagement, TestName)
+TEST(ResouceManagement, HeapManager)
 {
 
 	const size_t 		sizeHeap = 1024 * 1024;

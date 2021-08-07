@@ -4,6 +4,8 @@
 #include <Configuration/Configuration.h>
 // Time
 #include <Core/Time/Time.h>
+// Memory Management
+#include <Core/MemoryManagement/MemorySystem.h>
 // Entity System
 #include <Core/EntitySystem/Entity.h>
 // Thread

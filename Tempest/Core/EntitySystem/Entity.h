@@ -22,18 +22,18 @@ namespace Tempest
 	{
 	public:
 		// Object list
-		static std::vector<ObjectHandler> ObjectList;
+		static Array<ObjectHandler> ObjectList;
 		// Cameras, the current camera is always the 0 index
-		static std::vector<OwningPointer<Camera>> Cameras;
+		static Array<OwningPointer<Camera>> Cameras;
 		// Sky box
 		static OwningPointer<CubeMap> Skybox;
 		// Lights 
 		static OwningPointer<AmbientLight> Ambient;
-		static std::vector<OwningPointer<PointLight>> PointLightList;
+		static Array<OwningPointer<PointLight>> PointLightList;
 		static OwningPointer<DirectionalLight> Directional;
 		// Component list
-		static std::vector<OwningPointer<MeshComponent>> MeshComponentList;
-		static std::vector<OwningPointer<EffectComponent>> EffectComponentList;
+		static Array<OwningPointer<MeshComponent>> MeshComponentList;
+		static Array<OwningPointer<EffectComponent>> EffectComponentList;
 
 
 		static void Register(const OwningPointer<Object>&);

@@ -2,7 +2,7 @@
 
 static void* _head;
 static void* _current;
-static void* _over;
+static void* _end;
 static size_t _size;
 
 class HeapManager
@@ -14,7 +14,7 @@ public:
 	{
 		//Guard banding
 		unsigned char tailguardbanding;
-		bool exit;
+		bool exist;
 		size_t size;
 		//Guard banding
 		unsigned char headguardbanding;
@@ -22,7 +22,7 @@ public:
 #else
 	typedef struct Unit
 	{
-		bool exit;
+		bool exist;
 		size_t size;
 	} Unit;
 #endif 

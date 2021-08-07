@@ -93,9 +93,9 @@ namespace Resource
 		Array<MeshPoint> data;
 		Array<uint32_t> index;
 
-		static Tempest::Result Load(const char* i_filepath, Array<Resource::MeshPoint>& o_data, Array<uint32_t>& o_index)
+		static Result Load(const char* i_filepath, Array<Resource::MeshPoint>& o_data, Array<uint32_t>& o_index)
 		{				
-			Tempest::File in(i_filepath, Tempest::File::Format::BinaryRead);
+			File in(i_filepath, File::Format::BinaryRead);
 
 			RETURN_IFNOT_SUCCESS(in.Open())
 
@@ -113,7 +113,7 @@ namespace Resource
 
 			in.Close();
 
-			return Tempest::ResultValue::Success;
+			return ResultValue::Success;
 		}
 	};
 
@@ -128,12 +128,12 @@ namespace Resource
 		int width, height;
 		Array<Vec3u8t> pixels;
 
-		static Tempest::Result Load(const char* i_filepath, size_t& o_width, size_t& o_height, Array<Vec3u8t>& o_pixels)
+		static Result Load(const char* i_filepath, size_t& o_width, size_t& o_height, Array<Vec3u8t>& o_pixels)
 		{
 			TextureType type;
 			o_pixels.clear();
 
-			Tempest::File in(i_filepath, Tempest::File::Format::BinaryRead);
+			File in(i_filepath, File::Format::BinaryRead);
 
 			RETURN_IFNOT_SUCCESS(in.Open());
 
@@ -156,7 +156,7 @@ namespace Resource
 			in.Close();
 			DEBUG_PRINT("Succeed loading texture %s", i_filepath);
 
-			return Tempest::ResultValue::Success;
+			return ResultValue::Success;
 		}
 	};
 }
