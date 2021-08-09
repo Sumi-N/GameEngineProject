@@ -3,8 +3,20 @@
 //////////////////////////////
 //  Custom heap allocator
 //////////////////////////////
-//#define CUSTOM_ALLOCATOR
-#define USE_STANDARD_ARRAY
+#define ENABLE_CUSTOM_ALLOCATOR
+
+#ifndef ENABLE_CUSTOM_ALLOCATOR
+	#define USE_STANDARD_ARRAY
+#else
+	#ifdef USE_STANDARD_ARRAY
+		#undef  USE_STANDARD_ARRAY
+	#endif USE_STANDARD_ARRAY
+	
+	#define USE_STANDARD_ARRAY
+	#define HEAP_SIZE      1024*1024*1024
+	#define NUM_DESCRIPTOR 2048
+	
+#endif // ENABLE_CUSTOM_ALLOCATOR
 
 //////////////////////////////
 //  Graphic API configuration

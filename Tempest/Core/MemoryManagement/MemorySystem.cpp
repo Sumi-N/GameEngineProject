@@ -3,6 +3,8 @@
 
 bool InitializeMemorySystem(void* i_pHeapMemory, size_t i_sizeHeapMemory, unsigned int i_OptionalNumDescriptors)
 {	
+	IsHeapInitialized = true;
+
 	_current = i_pHeapMemory;
 	_current = allocator[0].initialize(_current, 16);
 	_current = allocator[1].initialize(_current, 32);
@@ -10,6 +12,11 @@ bool InitializeMemorySystem(void* i_pHeapMemory, size_t i_sizeHeapMemory, unsign
 	_current = allocator[3].initialize(_current, 96);
 	HeapManager::initialize(reinterpret_cast<void*>(reinterpret_cast<size_t>(_current) + 96 * 200), i_sizeHeapMemory - (16 * 200 + 32 * 200 + 96 * 400));
 	return true;
+}
+
+bool IsHeapAlive()
+{
+	return IsHeapInitialized;
 }
 
 void Collect()
@@ -22,6 +29,7 @@ void Collect()
 
 void DestroyMemorySystem()
 {
+	IsHeapInitialized = false;
 	// Destroy your HeapManager and FixedSizeAllocators
 }
 

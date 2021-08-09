@@ -4,19 +4,15 @@
 namespace Tempest
 {
 
-	Array<ObjectHandler>                  Entity::ObjectList;
+	Array<ObjectHandler>                       Entity::ObjectList;
+	Array<OwningPointer<Camera>>               Entity::Cameras;	
+	Array<OwningPointer<PointLight>>           Entity::PointLightList;	
+	Array<OwningPointer<MeshComponent>>        Entity::MeshComponentList;
+	Array<OwningPointer<EffectComponent>>      Entity::EffectComponentList;
 
-	Array<OwningPointer<Camera>>          Entity::Cameras;
-
-	OwningPointer<CubeMap>                      Entity::Skybox;
-
-	OwningPointer<AmbientLight>                 Entity::Ambient;
-	Array<OwningPointer<PointLight>>      Entity::PointLightList;
-	OwningPointer<DirectionalLight>             Entity::Directional;
-
-	Array<OwningPointer<MeshComponent>>   Entity::MeshComponentList;
-	Array<OwningPointer<EffectComponent>> Entity::EffectComponentList;
-
+	OwningPointer<CubeMap>                     Entity::Skybox;
+	OwningPointer<AmbientLight>                Entity::Ambient;
+	OwningPointer<DirectionalLight>            Entity::Directional;
 
 	void Entity::Register(const OwningPointer<Object>& i_obj)
 	{

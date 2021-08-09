@@ -6,11 +6,13 @@
 int main()
 {
 	MEMORY_LEAK_DETECTION
+
+#ifdef ENABLE_CUSTOM_ALLOCATOR
+	INITIALIZE_HEAP_MANAGER
+#endif
+
 	auto app = Tempest::Create();
-	delete app;
-	
-	//DestroyMemorySystem();
-	//HeapFree(GetProcessHeap(), 0, pHeapMemory);
+	delete app;	
 
 	return 0;
 };

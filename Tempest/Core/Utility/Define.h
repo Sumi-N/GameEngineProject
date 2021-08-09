@@ -7,3 +7,5 @@
 
 #include <Logging/DebugLog.h>
 #include <Logging/Assert.h>
+
+#include <MemoryManagement/MemorySystem.h>

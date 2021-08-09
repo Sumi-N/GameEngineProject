@@ -31,3 +31,9 @@ extern Input UserInput;
 // which might overwrite new keywords exist in the other libraries 
 #include <Logging/MemoryLeakDetection.h>
 
+
+#ifdef ENABLE_CUSTOM_ALLOCATOR
+	#define INITIALIZE_HEAP_MANAGER \
+		void* pHeapMemory = HeapAlloc(GetProcessHeap(), 0, HEAP_SIZE); \
+		bool result = InitializeMemorySystem(pHeapMemory, HEAP_SIZE, NUM_DESCRIPTOR);
+#endif // ENABLE_CUSTOM_ALLOCATOR

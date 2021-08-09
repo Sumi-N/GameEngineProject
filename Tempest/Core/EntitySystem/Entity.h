@@ -8,50 +8,37 @@ namespace Tempest
 	class ObjectHandler
 	{
 	public:
-		ObjectHandler(Object* i_objpointer) : p(i_objpointer)
-		{
-		}
-		ObjectHandler(OwningPointer<Object> i_obj) : p(i_obj)
-		{
-		}
-		OwningPointer<Object> p;
-	private:
+		ObjectHandler(Object* i_objpointer)		   : p(i_objpointer) {}
+		ObjectHandler(OwningPointer<Object> i_obj) : p(i_obj)        {}
+
+		OwningPointer<Object> p;	
 	};
 
 	class Entity
 	{
-	public:
-		// Object list
-		static Array<ObjectHandler> ObjectList;
-		// Cameras, the current camera is always the 0 index
-		static Array<OwningPointer<Camera>> Cameras;
-		// Sky box
-		static OwningPointer<CubeMap> Skybox;
-		// Lights 
-		static OwningPointer<AmbientLight> Ambient;
-		static Array<OwningPointer<PointLight>> PointLightList;
-		static OwningPointer<DirectionalLight> Directional;
-		// Component list
-		static Array<OwningPointer<MeshComponent>> MeshComponentList;
+	public:		
+		static Array<ObjectHandler>                  ObjectList;		
+		static Array<OwningPointer<Camera>>          Cameras;				
+		static Array<OwningPointer<PointLight>>      PointLightList;		
+		static Array<OwningPointer<MeshComponent>>   MeshComponentList;
 		static Array<OwningPointer<EffectComponent>> EffectComponentList;
 
+		static OwningPointer<CubeMap>          Skybox;
+		static OwningPointer<AmbientLight>     Ambient;
+		static OwningPointer<DirectionalLight> Directional;
 
-		static void Register(const OwningPointer<Object>&);
+
+		
 		static ObjectHandler Query(Object*);
 
-		static void RegisterCamera(const OwningPointer<Camera>&);
-
-		static void RegisterSkyBox(const OwningPointer<CubeMap>&);
-
-		static void RegisterAmbientLight(const OwningPointer<AmbientLight>&);
-
+		static void Register                (const OwningPointer<Object>&);
+		static void RegisterCamera          (const OwningPointer<Camera>&);
+		static void RegisterSkyBox          (const OwningPointer<CubeMap>&);
+		static void RegisterAmbientLight    (const OwningPointer<AmbientLight>&);
 		static void RegisterDirectionalLight(const OwningPointer<DirectionalLight>&);
-
-		static void RegisterPointLight(const OwningPointer<PointLight>&);
-
-		static void RegisterMeshComponent(const OwningPointer<MeshComponent>&);
-
-		static void RegisterEffectComponent(const OwningPointer<EffectComponent>&);
+		static void RegisterPointLight      (const OwningPointer<PointLight>&);
+		static void RegisterMeshComponent   (const OwningPointer<MeshComponent>&);
+		static void RegisterEffectComponent (const OwningPointer<EffectComponent>&);
 
 		static void Boot();
 		static void Init();
