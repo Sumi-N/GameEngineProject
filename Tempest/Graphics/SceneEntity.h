@@ -9,7 +9,7 @@ using namespace Tempest;
 class SceneEntity
 {
 public:
-	static std::vector<OwningPointer<SceneProxy>> List;
+	static Array<OwningPointer<SceneProxy>> List;
 	static OwningPointer<SceneProxy> SkyBoxProxy;
 	static void Init();
 };
@@ -35,7 +35,7 @@ inline void SceneEntity::Init()
 	}
 
 	// Create scene format from entity
-	for (auto it = Entity::MeshComponentList.begin(); it != Entity::MeshComponentList.end(); ++it)
+	for (auto it = Entity::MeshComponentList.Begin(); it != Entity::MeshComponentList.End(); ++it)
 	{
 		SceneProxy * proxy = new SceneProxy();		
 		proxy->mesh_component = (*it);
@@ -47,7 +47,7 @@ inline void SceneEntity::Init()
 		proxyhandler = proxy;
 
 		// Create render state
-		for (auto it2 = Entity::EffectComponentList.begin(); it2 != Entity::EffectComponentList.end(); ++it2)
+		for (auto it2 = Entity::EffectComponentList.Begin(); it2 != Entity::EffectComponentList.End(); ++it2)
 		{
 			if ((*it)->owner == (*it2)->owner)
 			{
@@ -55,7 +55,7 @@ inline void SceneEntity::Init()
 				state->InitShader((*it2)->shaderpaths);
 
 				// Create buffer for texture
-				for (auto it3 = (*it2)->textures.begin(); it3 != (*it2)->textures.end(); ++it3)
+				for (auto it3 = (*it2)->textures.Begin(); it3 != (*it2)->textures.End(); ++it3)
 				{
 					state->InitTexture(*it3);
 				}
@@ -66,6 +66,6 @@ inline void SceneEntity::Init()
 			}
 		}
 
-		List.push_back(proxyhandler);
+		List.PushBack(proxyhandler);
 	}
 }

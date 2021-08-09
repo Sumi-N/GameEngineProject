@@ -61,7 +61,7 @@ void Shader::BindShader()
 	glUseProgram(programid);
 }
 
-bool Shader::HasTessellationShader()
+bool Shader::HasTessellationShader() const
 {
 	// Check if the data required to draw in patches or not
 	return (controlpath && evalpath) ? true : false;

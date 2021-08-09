@@ -105,11 +105,11 @@ namespace Resource
 			RETURN_IFNOT_SUCCESS(in.Read(&data_size, sizeof(size_t)))
 			RETURN_IFNOT_SUCCESS(in.Read(&index_size, sizeof(size_t)))
 
-			o_data.resize(data_size);
-			o_index.resize(index_size);
+			o_data.Resize(data_size);
+			o_index.Resize(index_size);
 
-			RETURN_IFNOT_SUCCESS(in.Read(o_data.data(), data_size * sizeof(Resource::MeshPoint)))
-			RETURN_IFNOT_SUCCESS(in.Read(o_index.data(), index_size * sizeof(Resource::MeshPoint)))
+			RETURN_IFNOT_SUCCESS(in.Read(o_data.Data(), data_size * sizeof(Resource::MeshPoint)))
+			RETURN_IFNOT_SUCCESS(in.Read(o_index.Data(), index_size * sizeof(Resource::MeshPoint)))
 
 			in.Close();
 
@@ -131,7 +131,7 @@ namespace Resource
 		static Result Load(const char* i_filepath, size_t& o_width, size_t& o_height, Array<Vec3u8t>& o_pixels)
 		{
 			TextureType type;
-			o_pixels.clear();
+			o_pixels.Clear();
 
 			File in(i_filepath, File::Format::BinaryRead);
 
@@ -144,13 +144,13 @@ namespace Resource
 			if (type == TextureType::SkyBox)
 			{
 				size_t fixed_size = sizeof(float) * 3 / sizeof(Vec3u8t);
-				o_pixels.resize(o_width * o_height * fixed_size);
-				RETURN_IFNOT_SUCCESS(in.Read(o_pixels.data(), sizeof(float) * o_width * o_height * static_cast<size_t>(3)));
+				o_pixels.Resize(o_width * o_height * fixed_size);
+				RETURN_IFNOT_SUCCESS(in.Read(o_pixels.Data(), sizeof(float) * o_width * o_height * static_cast<size_t>(3)));
 			}
 			else
 			{
-				o_pixels.resize(o_width * o_height);
-				RETURN_IFNOT_SUCCESS(in.Read(o_pixels.data(), o_width * o_height * sizeof(Vec3u8t)));				
+				o_pixels.Resize(o_width * o_height);
+				RETURN_IFNOT_SUCCESS(in.Read(o_pixels.Data(), o_width * o_height * sizeof(Vec3u8t)));				
 			}
 
 			in.Close();

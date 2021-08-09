@@ -45,7 +45,7 @@ void RenderState::InitTexture(ObservingPointer<TextureAttribute> i_textureattrib
 				glGenTextures(1, &textureids[textureids.size() - 1]);
 				glActiveTexture(GL_TEXTURE0 + TextureUnitList[i].second);
 				glBindTexture(GL_TEXTURE_2D, textureids[textureids.size() - 1]);
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, i_textureattribute->width, i_textureattribute->height, 0, GL_RGB, GL_FLOAT, i_textureattribute->pixels.data());
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, i_textureattribute->width, i_textureattribute->height, 0, GL_RGB, GL_FLOAT, i_textureattribute->pixels.Data());
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -58,7 +58,7 @@ void RenderState::InitTexture(ObservingPointer<TextureAttribute> i_textureattrib
 				glGenTextures(1, &textureids[textureids.size() - 1]);
 				glActiveTexture(GL_TEXTURE0 + TextureUnitList[i].second);
 				glBindTexture(GL_TEXTURE_2D, textureids[textureids.size() - 1]);
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, i_textureattribute->width, i_textureattribute->height, 0, GL_RGB, GL_UNSIGNED_BYTE, i_textureattribute->pixels.data());
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, i_textureattribute->width, i_textureattribute->height, 0, GL_RGB, GL_UNSIGNED_BYTE, i_textureattribute->pixels.Data());
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

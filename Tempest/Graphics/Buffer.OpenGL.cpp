@@ -54,7 +54,7 @@ namespace Tempest
 
 		// Fill in the data to the vertex buffer
 		glBufferData(GL_ARRAY_BUFFER, i_size, i_data, GL_STATIC_DRAW);
-		for (int i = 0; i < layout.elemetns.size(); i++)
+		for (int i = 0; i < layout.elemetns.Size(); i++)
 		{
 			glEnableVertexAttribArray(i);
 			glVertexAttribPointer(i, layout.elemetns[i].size / sizeof(float), GL_FLOAT, GL_FALSE, layout.stride, (void*)(layout.elemetns[i].offset));

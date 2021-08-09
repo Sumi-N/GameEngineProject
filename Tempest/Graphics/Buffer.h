@@ -50,8 +50,15 @@ namespace Tempest
 		public:
 			Layout() { }
 			Layout(std::initializer_list<Element> i_elements)
-				:elemetns(i_elements)
+			// This used to be like this
+			// need to be fixed later				
+			// Layout(std::initializer_list<Element> i_elements)
+			// :elemetns(i_elements)
+			//{
+			//	CalculateOffsetsAndStride();
+			//}				
 			{
+				elemetns.vector = i_elements; 
 				CalculateOffsetsAndStride();
 			}
 
@@ -64,7 +71,7 @@ namespace Tempest
 			{
 				size_t offset = 0;
 				stride = 0;
-				for (auto& element : elemetns)
+				for (auto& element : elemetns.vector)
 				{
 					element.offset = offset;
 					offset += element.size;

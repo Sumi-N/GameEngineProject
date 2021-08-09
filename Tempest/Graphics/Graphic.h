@@ -10,8 +10,8 @@
 struct GraphicRequiredData
 {
 	ConstantData::Camera camera;
-	std::vector<ConstantData::Model> model_data;
-	std::vector<ConstantData::Material> material_data;
+	Array<ConstantData::Model> model_data;
+	Array<ConstantData::Material> material_data;
 	ConstantData::Light  light;
 	ConstantData::CubeMap shadow[MAX_POINT_LIGHT_NUM];
 

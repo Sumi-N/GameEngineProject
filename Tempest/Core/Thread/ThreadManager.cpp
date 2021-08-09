@@ -11,9 +11,9 @@ namespace Tempest
 
 	uint8_t ThreadManager::RegisterThread(std::mutex& i_mutex, std::condition_variable& i_condition, bool& i_bool)
 	{
-		Mutexs.push_back(&i_mutex);
-		Conditions.push_back(&i_condition);
-		b_thread_ready.push_back(&i_bool);
+		Mutexs.PushBack(&i_mutex);
+		Conditions.PushBack(&i_condition);
+		b_thread_ready.PushBack(&i_bool);
 
 		return ThreadCounter++;
 	}

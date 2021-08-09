@@ -1,4 +1,5 @@
 #pragma once
+#include "Define.h"
 
 static void* _head;
 static void* _current;
@@ -13,11 +14,11 @@ public:
 	typedef struct Unit
 	{
 		//Guard banding
-		unsigned char tailguardbanding;
+		unsigned char headguardbanding;		
 		bool exist;
 		size_t size;
 		//Guard banding
-		unsigned char headguardbanding;
+		unsigned char tailguardbanding;
 	} Unit;
 #else
 	typedef struct Unit
@@ -29,8 +30,9 @@ public:
 
 public:
 	static void* initialize(void*, size_t);
-	void* _alloc(size_t);
-	bool _free(void*);
+	void* alloc(size_t);
+	void* realloc(void*, size_t);
+	bool free(void*);
 	void collect();
 };
 

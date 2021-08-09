@@ -20,7 +20,7 @@ namespace Tempest
 		//private:
 		ObservingPointer<Object> owner;
 		const char* shaderpaths[5];
-		std::vector<OwningPointer<TextureAttribute>> textures;
+		Array<OwningPointer<TextureAttribute>> textures;
 	};
 
 	inline EffectComponent::EffectComponent() : shaderpaths()
@@ -40,12 +40,12 @@ namespace Tempest
 	{
 		OwningPointer<TextureAttribute> texturehandler;
 		texturehandler = i_texture;
-		textures.push_back(texturehandler);
+		textures.PushBack(texturehandler);
 	}
 
 	inline void EffectComponent::SetTexture(OwningPointer<TextureAttribute> i_texture)
 	{
-		textures.push_back(i_texture);
+		textures.PushBack(i_texture);
 	}
 
 	inline void EffectComponent::ReplaceTexture(TextureAttribute* i_texture, int ith_item = 0)

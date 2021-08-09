@@ -50,7 +50,7 @@ public:
 	void SetShader(const char* i_vert, const char* i_control, const char* i_eval, const char* i_geo, const char* i_frag);
 	void LoadShader();
 	void BindShader();
-	bool HasTessellationShader();
+	bool HasTessellationShader() const;
 
 private:
 	const char* vertpath;

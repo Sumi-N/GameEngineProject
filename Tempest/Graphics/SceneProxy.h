@@ -30,7 +30,7 @@ public:
 	OwningPointer<MeshComponent> mesh_component;
 	OwningPointer<Resource::Mesh> mesh;
 	OwningPointer<Resource::Material> material;
-	std::vector<OwningPointer<RenderState>> states;
+	Array<OwningPointer<RenderState>> states;
 	
 protected:
 
@@ -38,7 +38,7 @@ protected:
 	DrawType drawtype          = DrawType::TRIANGLE;
 
 	void InitBuffer();
-	void CheckDrawType(Shader i_shader);
+	void CheckDrawType(const Shader i_shader);
 	void SetDrawType(DrawType i_drawtype){drawtype = i_drawtype;};
 	void CleanUpBuffer() const;
 

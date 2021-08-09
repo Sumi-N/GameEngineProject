@@ -2,5 +2,5 @@
 
 #include "SceneEntity.h"
 
-std::vector<OwningPointer<SceneProxy>> SceneEntity::List;
+Array<OwningPointer<SceneProxy>> SceneEntity::List;
 OwningPointer<SceneProxy> SceneEntity::SkyBoxProxy;

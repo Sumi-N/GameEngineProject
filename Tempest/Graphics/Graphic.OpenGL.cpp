@@ -105,9 +105,9 @@ void Graphic::Update(GraphicRequiredData * i_data)
 		{
 			glClear(GL_DEPTH_BUFFER_BIT);
 
-			for (int j = 0; j < SceneEntity::List.size(); j++)
+			for (int j = 0; j < SceneEntity::List.Size(); j++)
 			{
-				if (i_data->model_data.size() != 0)
+				if (i_data->model_data.Size() != 0)
 				{
 					auto& data_model = i_data->model_data[j];
 					constant_model.Update(&data_model);
@@ -124,9 +124,9 @@ void Graphic::Update(GraphicRequiredData * i_data)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// Rendering objects
-		for (int i = 0; i < SceneEntity::List.size(); i++)
+		for (int i = 0; i < SceneEntity::List.Size(); i++)
 		{
-			if (i_data->model_data.size() != 0)
+			if (i_data->model_data.Size() != 0)
 			{
 				auto& data_model = i_data->model_data[i];
 				data_model.model_view_perspective_matrix = data_camera.perspective_matrix * data_camera.view_matrix * data_model.model_position_matrix;
@@ -173,8 +173,8 @@ void Graphic::Update(GraphicRequiredData * i_data)
 
 void Graphic::PostUpdate(GraphicRequiredData* i_data)
 {
-	i_data->model_data.clear();
-	i_data->material_data.clear();
+	i_data->model_data.Clear();
+	i_data->material_data.Clear();
 }
 
 void Graphic::CleanUp()

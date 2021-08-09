@@ -6,8 +6,8 @@ namespace Tempest
 	void MeshComponent::ReplaceWithDummyMesh(OwningPointer<Resource::Mesh>& o_mesh)
 	{
 		o_mesh = OwningPointer<Resource::Mesh>::Create(o_mesh);
-		o_mesh->data.resize(6);
-		o_mesh->index.resize(6);
+		o_mesh->data.Resize(6);
+		o_mesh->index.Resize(6);
 		o_mesh->data[0].vertex = Vec3f( 10,  10, 0);
 		o_mesh->data[1].vertex = Vec3f(-10, -10, 0);
 		o_mesh->data[2].vertex = Vec3f( 10, -10, 0);
@@ -86,7 +86,7 @@ namespace Tempest
 	{
 		if (mesh)
 		{
-			if (!mesh->data.empty() || !mesh->index.empty())
+			if (!mesh->data.Empty() || !mesh->index.Empty())
 			{
 				return true;
 			}
@@ -97,7 +97,7 @@ namespace Tempest
 
 	void MeshComponent::CleanMesh()
 	{	
-		mesh->data.clear();
-		mesh->index.clear();
+		mesh->data.Clear();
+		mesh->index.Clear();
 	}
 }

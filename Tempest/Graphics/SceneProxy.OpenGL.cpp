@@ -5,7 +5,7 @@
 
 void SceneProxy::Draw()
 {
-	for(int i = 0; i < states.size(); i++)
+	for(int i = 0; i < states.Size(); i++)
 	{ 
 		states[i]->BindShaderState();
 

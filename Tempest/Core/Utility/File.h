@@ -130,7 +130,7 @@ namespace Tempest
 								
 				String processed_path = entry.path().string().erase(0, i_pathname.length());
 
-				filenames.push_back(processed_path);
+				filenames.PushBack(processed_path);
 			}
 		}
 

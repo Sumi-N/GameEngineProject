@@ -129,28 +129,28 @@ namespace Tempest
 			//data_game_own->shadow.directional_view_perspective_matrix = Entity::Directional->light_space_mat;
 
 			// Submit point lights data
-			if (Entity::PointLightList.size() != 0)
+			if (Entity::PointLightList.Size() != 0)
 			{
-				data_game_own->light.point_num = static_cast<int>(Entity::PointLightList.size());
+				data_game_own->light.point_num = static_cast<int>(Entity::PointLightList.Size());
 
-				for (auto it = Entity::PointLightList.begin(); it != Entity::PointLightList.end(); ++it)
+				for (auto it = Entity::PointLightList.Begin(); it != Entity::PointLightList.End(); ++it)
 				{
 					// Submit point light data
-					data_game_own->light.pointlights[std::distance(Entity::PointLightList.begin(), it)].intensity = Vec4f((*it)->intensity);
-					data_game_own->light.pointlights[std::distance(Entity::PointLightList.begin(), it)].position = Vec4f((*it)->pos);
-					data_game_own->light.pointlights[std::distance(Entity::PointLightList.begin(), it)].attenuation = (*it)->attenuation;
+					data_game_own->light.pointlights[std::distance(Entity::PointLightList.Begin(), it)].intensity = Vec4f((*it)->intensity);
+					data_game_own->light.pointlights[std::distance(Entity::PointLightList.Begin(), it)].position = Vec4f((*it)->pos);
+					data_game_own->light.pointlights[std::distance(Entity::PointLightList.Begin(), it)].attenuation = (*it)->attenuation;
 
 					for (int i = 0; i < 6; i++)
 					{
-						data_game_own->shadow[std::distance(Entity::PointLightList.begin(), it)].view_perspective_matrix[i] = (*it)->light_space_mats[i];
-						data_game_own->shadow[std::distance(Entity::PointLightList.begin(), it)].position = Vec4f((*it)->pos);
+						data_game_own->shadow[std::distance(Entity::PointLightList.Begin(), it)].view_perspective_matrix[i] = (*it)->light_space_mats[i];
+						data_game_own->shadow[std::distance(Entity::PointLightList.Begin(), it)].position = Vec4f((*it)->pos);
 					}
 				}
 			}
 		}
 
 		{
-			for (auto it = SceneEntity::List.begin(); it != SceneEntity::List.end(); ++it)
+			for (auto it = SceneEntity::List.Begin(); it != SceneEntity::List.End(); ++it)
 			{
 				// Submit material data
 				ConstantData::Material material;
@@ -159,13 +159,13 @@ namespace Tempest
 				material.albedo = (*it)->material->albedo;
 				material.metalic = (*it)->material->metalic;
 				material.roughness = (*it)->material->roughness;
-				data_game_own->material_data.push_back(material);
+				data_game_own->material_data.PushBack(material);
 
 				// Submit mesh data
 				ConstantData::Model model;
 				model.model_inverse_transpose_matrix = (*it)->mesh_component->model_inverse_transpose_mat;
 				model.model_position_matrix = (*it)->mesh_component->model_mat;
-				data_game_own->model_data.push_back(model);
+				data_game_own->model_data.PushBack(model);
 
 			}
 		}
