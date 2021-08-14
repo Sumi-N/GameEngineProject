@@ -86,4 +86,3 @@ void FreeMemory(void* i_ptr)
 	//	generalmanager._free(i_ptr);
 	//}
 }
-

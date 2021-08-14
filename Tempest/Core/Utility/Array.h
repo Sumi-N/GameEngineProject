@@ -165,8 +165,8 @@ namespace Tempest
 		}
 		this->max_size = i_array.MaxSize();
 		this->capacity = i_array.Capacity();
-		this->size = i_array.Size();
-		this->data = reinterpret_cast<T*>(AllocMemory(max_size));
+		this->size     = i_array.Size();
+		this->data     = reinterpret_cast<T*>(AllocMemory(max_size));
 		memcpy(this->data, i_array.Data(), max_size * sizeof(T));
 	}
 
@@ -212,16 +212,25 @@ namespace Tempest
 	{
 		if (max_size == 0 || !data)
 		{
-			data = reinterpret_cast<T*>(AllocMemory(i_size * sizeof(T)));
+			data = reinterpret_cast<T*>(AllocMemory(i_size * sizeof(T)));			
 			max_size = i_size;
 			size     = i_size;
 			return;
 		}
 		
-		
-		data = reinterpret_cast<T*>(ReallocMemory(reinterpret_cast<void*>(data), i_size * sizeof(T)));
-		max_size = i_size;
-		size     = i_size;		
+		if (i_size <= max_size)
+		{
+			if (i_size > size)
+			{
+				size = i_size;
+			}			
+		}
+		else
+		{
+			data = reinterpret_cast<T*>(ReallocMemory(reinterpret_cast<void*>(data), i_size * sizeof(T)));			
+			max_size = i_size;
+			size = i_size;
+		}
 	}
 
 	template <typename T>
@@ -261,17 +270,18 @@ namespace Tempest
 	{
 		if (max_size == 0 || !data)
 		{
-			data = reinterpret_cast<T*>(AllocMemory(granularity * sizeof(T)));
+			data = reinterpret_cast<T*>(AllocMemory(granularity * sizeof(T)));			
 			max_size += granularity;
 		}
 
 		if (size >= max_size)
 		{						
-			data = reinterpret_cast<T*>(ReallocMemory(reinterpret_cast<void*>(data), (max_size + granularity) * sizeof(T)));
+			data = reinterpret_cast<T*>(ReallocMemory(reinterpret_cast<void*>(data), (max_size + granularity) * sizeof(T)));			
 			max_size += granularity;
 		}
 
-		T& tmp = UnsafeAt(size);
+		memset(reinterpret_cast<void*>(&UnsafeAt(size)), 0, granularity * sizeof(T));
+		T& tmp = UnsafeAt(size);		
 		tmp = i_data;
 		size++;
 	}

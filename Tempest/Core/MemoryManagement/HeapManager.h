@@ -11,7 +11,7 @@ class HeapManager
 public:
 #ifdef _DEBUG
 
-	typedef struct Unit
+	typedef struct Block
 	{
 		//Guard banding
 		unsigned char headguardbanding;		
@@ -19,13 +19,13 @@ public:
 		size_t size;
 		//Guard banding
 		unsigned char tailguardbanding;
-	} Unit;
+	} Block;
 #else
-	typedef struct Unit
+	typedef struct Block
 	{
 		bool exist;
 		size_t size;
-	} Unit;
+	} Block;
 #endif 
 
 public:
@@ -33,6 +33,6 @@ public:
 	void* alloc(size_t);
 	void* realloc(void*, size_t);
 	bool free(void*);
-	void collect();
+	void collect();	
 };
 

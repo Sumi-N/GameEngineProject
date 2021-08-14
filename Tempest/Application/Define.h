@@ -34,6 +34,6 @@ extern Input UserInput;
 
 #ifdef ENABLE_CUSTOM_ALLOCATOR
 	#define INITIALIZE_HEAP_MANAGER \
-		void* pHeapMemory = HeapAlloc(GetProcessHeap(), 0, HEAP_SIZE); \
+		void* pHeapMemory = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, HEAP_SIZE); \
 		InitializeMemorySystem(pHeapMemory, HEAP_SIZE, NUM_DESCRIPTOR);	
 #endif // ENABLE_CUSTOM_ALLOCATOR

@@ -16,41 +16,42 @@ void* HeapManager::initialize(void* i_ptr, size_t i_size)
 		return nullptr;
 	}
 
-	static_cast<Unit*>(_head)->exist = false;
-	static_cast<Unit*>(_head)->size = i_size;
+	static_cast<Block*>(_head)->exist = false;
+	static_cast<Block*>(_head)->size = i_size - sizeof(Block);
 
 	return _current;
 }
 
 void* HeapManager::alloc(size_t i_size)
 {
-	bool require_collect = false;
-
-	_current = _head;
-	Unit* iterator = static_cast<Unit*>(_current);
+	bool need_to_collect = false;
+	
+	Block* current_block = static_cast<Block*>(_current);
 
 	//Check if there is a space to insert block
-	while (iterator->exist == true || iterator->size < i_size + sizeof(Unit))
+	while (current_block->exist == true || current_block->size < i_size + sizeof(Block))
 	{
-		_current = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + iterator->size + sizeof(Unit));
-		iterator = static_cast<Unit*>(_current);
-		if (_current >= _end)
+		_current = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + current_block->size + sizeof(Block));
+		current_block = static_cast<Block*>(_current);
+		if (reinterpret_cast<size_t>(_current) >= reinterpret_cast<size_t>(_end) + sizeof(Block))
 		{
 			DEBUG_PRINT("Start collecting the heap since there is not enought memory to allocate");
-			require_collect = true;
+			need_to_collect = true;
 			break;
 		}
 	}
 
-	if (require_collect)
+	if (need_to_collect)
 	{
-		_current = _head;
-		iterator = static_cast<Unit*>(_current);
+		collect();
 
-		while (iterator->exist == true || iterator->size < i_size + sizeof(Unit))
+		_current = _head;
+		current_block = static_cast<Block*>(_current);
+
+		while (current_block->exist == true || current_block->size < i_size + sizeof(Block))
 		{
-			_current = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + iterator->size + sizeof(Unit));
-			iterator = static_cast<Unit*>(_current);
+			_current = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + current_block->size + sizeof(Block));
+			current_block = static_cast<Block*>(_current);
 			if (_current >= _end)
 			{				
 				DEBUG_PRINT("There is not enough memory to allocate");
@@ -60,15 +61,20 @@ void* HeapManager::alloc(size_t i_size)
 		}
 	}
 
-	//Split one descriptor to two descriptors
-	size_t empty_space = iterator->size;
-	iterator->exist = true;
-	iterator->size = i_size;
-	void* return_address = reinterpret_cast<void*>(reinterpret_cast<size_t>(_current) + sizeof(Unit));
-	_current = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + iterator->size + sizeof(Unit));
-	Unit* padding = static_cast<Unit*>(_current);
-	padding->exist = false;
-	padding->size = empty_space - (i_size + sizeof(Unit));
+	//Now split the descriptor to two descriptors
+
+	size_t available_space = current_block->size;
+
+	current_block->exist = true;
+	current_block->size = i_size;
+	void* return_address = reinterpret_cast<void*>(reinterpret_cast<size_t>(_current) + sizeof(Block));
+
+	void * next = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + sizeof(Block) + current_block->size);
+	Block* next_block = static_cast<Block*>(next);
+	next_block->exist = false;
+	next_block->size = available_space - (i_size + sizeof(Block));
+	_current = next;	
+
 	return return_address;
 }
 
@@ -79,33 +85,38 @@ void* HeapManager::realloc(void* i_ptr, size_t i_size)
 		DEBUG_ASSERT(false);
 	}
 
-	bool require_collect = false;
+	bool need_to_collect = false;
 
-	_current = _head;
-	Unit* iterator = static_cast<Unit*>(_current);
+	void* previouse = reinterpret_cast<void*>(reinterpret_cast<size_t>(i_ptr) + sizeof(Block));
+	Block* previouse_block = reinterpret_cast<Block*>(previouse);
+	previouse_block->exist = false;
+	
+	Block* current_block = static_cast<Block*>(_current);
 
 	//Check if there is a space to insert block
-	while (iterator->exist == true || iterator->size < i_size + sizeof(Unit))
+	while (current_block->exist == true || current_block->size < i_size + sizeof(Block))
 	{
-		_current = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + iterator->size + sizeof(Unit));
-		iterator = static_cast<Unit*>(_current);
+		_current = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + current_block->size + sizeof(Block));
+		current_block = static_cast<Block*>(_current);
 		if (_current >= _end)
 		{
 			DEBUG_PRINT("Start collecting the heap since there is not enought memory to allocate");
-			require_collect = true;
+			need_to_collect = true;
 			break;
 		}
 	}
 
-	if (require_collect)
+	if (need_to_collect)
 	{
-		_current = _head;
-		iterator = static_cast<Unit*>(_current);
+		collect();
 
-		while (iterator->exist == true || iterator->size < i_size + sizeof(Unit))
+		_current = _head;
+		current_block = static_cast<Block*>(_current);
+
+		while (current_block->exist == true || current_block->size < i_size + sizeof(Block))
 		{
-			_current = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + iterator->size + sizeof(Unit));
-			iterator = static_cast<Unit*>(_current);
+			_current = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + current_block->size + sizeof(Block));
+			current_block = static_cast<Block*>(_current);
 			if (_current >= _end)
 			{
 				DEBUG_PRINT("There is not enough memory to allocate");
@@ -116,14 +127,15 @@ void* HeapManager::realloc(void* i_ptr, size_t i_size)
 	}
 
 	//Split one descriptor to two descriptors
-	size_t empty_space = iterator->size;
-	iterator->exist = true;
-	iterator->size = i_size;
-	void* return_address = reinterpret_cast<void*>(reinterpret_cast<size_t>(_current) + sizeof(Unit));
-	_current = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + iterator->size + sizeof(Unit));
-	Unit* padding = static_cast<Unit*>(_current);
-	padding->exist = false;
-	padding->size = empty_space - (i_size + sizeof(Unit));
+	size_t available_space = current_block->size;
+	current_block->exist = true;
+	current_block->size = i_size;
+	void* return_address = reinterpret_cast<void*>(reinterpret_cast<size_t>(_current) + sizeof(Block));
+
+	void* next = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + sizeof(Block) + current_block->size);
+	Block* next_block = static_cast<Block*>(next);
+	next_block->exist = false;
+	next_block->size = available_space - (i_size + sizeof(Block));
 
 	memcpy(return_address, i_ptr, i_size);
 
@@ -139,38 +151,47 @@ bool HeapManager::free(void* i_ptr)
 		DEBUG_ASSERT(false);
 	}
 
-	_current = reinterpret_cast<void*>(reinterpret_cast<size_t>(i_ptr) - sizeof(Unit));
-	Unit* freeing_descriptor = static_cast<Unit*>(_current);
-	if (!freeing_descriptor->exist)
+	void* freeing = reinterpret_cast<void*>(reinterpret_cast<size_t>(i_ptr) - sizeof(Block));
+	Block* freeing_block = static_cast<Block*>(freeing);
+	if (!freeing_block->exist)
 	{
 		DEBUG_ASSERT(false);
 	}
-	freeing_descriptor->exist = false;
+	freeing_block->exist = false;
 	return true;
 }
 
 void HeapManager::collect()
 {
-	_current = _head;
-	Unit* current_descriptor = static_cast<Unit*>(_current);
-	void* _next = reinterpret_cast<void*>(reinterpret_cast<size_t>(_current) + current_descriptor->size + sizeof(Unit));
-	Unit* nextdescriptor = static_cast<Unit*>(_next);
-	while (_next <= _end)
-	{
-		if (current_descriptor->exist == false && nextdescriptor->exist == false)
+	void*  current_collecting       = _head;
+	Block* current_collecting_block = static_cast<Block*>(current_collecting);
+	void*  next_collecting          = reinterpret_cast<void*>(reinterpret_cast<size_t>(current_collecting) + current_collecting_block->size + sizeof(Block));
+	Block* next_collecting_block    = static_cast<Block*>(next_collecting);
+	
+	do{
+		if (current_collecting_block->exist == false && next_collecting_block->exist == false)
 		{
-			current_descriptor->size += (nextdescriptor->size + sizeof(Unit));
-			_next = reinterpret_cast<void*>(reinterpret_cast<size_t>(_next) + nextdescriptor->size + sizeof(Unit));
-			nextdescriptor = static_cast<Unit*>(_next);
+			current_collecting_block->size += (next_collecting_block->size + sizeof(Block));
+			next_collecting = reinterpret_cast<void*>(reinterpret_cast<size_t>(next_collecting) + next_collecting_block->size + sizeof(Block));
+			next_collecting_block = static_cast<Block*>(next_collecting);
+		}
+		else if(next_collecting_block->exist == false)
+		{
+			current_collecting = next_collecting;
+			current_collecting_block = static_cast<Block*>(current_collecting);
+			next_collecting = reinterpret_cast<void*>(reinterpret_cast<size_t>(next_collecting) + next_collecting_block->size + sizeof(Block));			
+			next_collecting_block = static_cast<Block*>(next_collecting);
 		}
 		else
 		{
-			_current = _next;
-			_next = reinterpret_cast<void*>(reinterpret_cast<size_t>(_next) + nextdescriptor->size + sizeof(Unit));
-			current_descriptor = static_cast<Unit*>(_current);
-			nextdescriptor = static_cast<Unit*>(_next);
+			current_collecting = reinterpret_cast<void*>(reinterpret_cast<size_t>(next_collecting) + next_collecting_block->size + sizeof(Block));
+			current_collecting_block = static_cast<Block*>(current_collecting);
+			next_collecting = reinterpret_cast<void*>(reinterpret_cast<size_t>(current_collecting) + current_collecting_block->size + sizeof(Block));
+			next_collecting_block = static_cast<Block*>(next_collecting);
 		}
-	}
+	} 
+	while 
+	(reinterpret_cast<size_t>(next_collecting) + next_collecting_block->size + sizeof(Block) <= reinterpret_cast<size_t>(_end));
 
 	return;
 }
