@@ -40,12 +40,12 @@ void RenderState::InitTexture(ObservingPointer<TextureAttribute> i_textureattrib
 		{
 			if (i_textureattribute->type == TextureType::SkyBox)
 			{
-				textureunits.push_back(TextureUnitList[i].second);
-				textureids.resize(textureunits.size());
-				glGenTextures(1, &textureids[textureids.size() - 1]);
+				textureunits.PushBack(TextureUnitList[i].second);
+				textureids.Resize(textureunits.Size());
+				glGenTextures(1, &textureids[textureids.Size() - 1]);
 				glActiveTexture(GL_TEXTURE0 + TextureUnitList[i].second);
-				glBindTexture(GL_TEXTURE_2D, textureids[textureids.size() - 1]);
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, i_textureattribute->width, i_textureattribute->height, 0, GL_RGB, GL_FLOAT, i_textureattribute->pixels.Data());
+				glBindTexture(GL_TEXTURE_2D, textureids[textureids.Size() - 1]);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, static_cast<GLsizei>(i_textureattribute->width), static_cast<GLsizei>(i_textureattribute->height), 0, GL_RGB, GL_FLOAT, i_textureattribute->pixels.Data());
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -53,12 +53,12 @@ void RenderState::InitTexture(ObservingPointer<TextureAttribute> i_textureattrib
 			}
 			else
 			{
-				textureunits.push_back(TextureUnitList[i].second);
-				textureids.resize(textureunits.size());
-				glGenTextures(1, &textureids[textureids.size() - 1]);
+				textureunits.PushBack(TextureUnitList[i].second);
+				textureids.Resize(textureunits.Size());
+				glGenTextures(1, &textureids[textureids.Size() - 1]);
 				glActiveTexture(GL_TEXTURE0 + TextureUnitList[i].second);
-				glBindTexture(GL_TEXTURE_2D, textureids[textureids.size() - 1]);
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, i_textureattribute->width, i_textureattribute->height, 0, GL_RGB, GL_UNSIGNED_BYTE, i_textureattribute->pixels.Data());
+				glBindTexture(GL_TEXTURE_2D, textureids[textureids.Size() - 1]);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, static_cast<GLsizei>(i_textureattribute->width), static_cast<GLsizei>(i_textureattribute->height), 0, GL_RGB, GL_UNSIGNED_BYTE, i_textureattribute->pixels.Data());
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -74,7 +74,7 @@ void RenderState::InitTexture(ObservingPointer<TextureAttribute> i_textureattrib
 
 void RenderState::BindTextureUnit()
 {
-	for (int i = 0; i < textureunits.size(); i++)
+	for (int i = 0; i < textureunits.Size(); i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + textureunits[i]);
 		glBindTexture(GL_TEXTURE_2D, textureids[i]);
@@ -89,7 +89,7 @@ void RenderState::BindShaderState()
 
 void RenderState::UnBindShaderState()
 {
-	for (int i = 0; i < textureunits.size(); i++)
+	for (int i = 0; i < textureunits.Size(); i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + textureunits[i]);
 		glBindTexture(GL_TEXTURE_2D, 0);

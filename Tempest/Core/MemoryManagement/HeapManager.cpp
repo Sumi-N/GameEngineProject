@@ -2,6 +2,11 @@
 
 void* HeapManager::initialize(void* i_ptr, size_t i_size)
 {
+	if (!i_ptr)
+	{
+		DEBUG_ASSERT(false);
+	}
+
 	_head = i_ptr;
 	_current = i_ptr;
 	_size = i_size;
@@ -49,7 +54,7 @@ void* HeapManager::alloc(size_t i_size)
 			if (_current >= _end)
 			{				
 				DEBUG_PRINT("There is not enough memory to allocate");
-				DEBUG_ASSERT(true);
+				DEBUG_ASSERT(false);
 				return nullptr;
 			}
 		}
@@ -69,6 +74,11 @@ void* HeapManager::alloc(size_t i_size)
 
 void* HeapManager::realloc(void* i_ptr, size_t i_size)
 {
+	if (!i_ptr)
+	{
+		DEBUG_ASSERT(false);
+	}
+
 	bool require_collect = false;
 
 	_current = _head;
@@ -99,7 +109,7 @@ void* HeapManager::realloc(void* i_ptr, size_t i_size)
 			if (_current >= _end)
 			{
 				DEBUG_PRINT("There is not enough memory to allocate");
-				DEBUG_ASSERT(true);
+				DEBUG_ASSERT(false);
 				return nullptr;
 			}
 		}
@@ -115,7 +125,7 @@ void* HeapManager::realloc(void* i_ptr, size_t i_size)
 	padding->exist = false;
 	padding->size = empty_space - (i_size + sizeof(Unit));
 
-	memcpy(i_ptr, return_address, i_size);
+	memcpy(return_address, i_ptr, i_size);
 
 	free(i_ptr);
 
@@ -124,11 +134,16 @@ void* HeapManager::realloc(void* i_ptr, size_t i_size)
 
 bool HeapManager::free(void* i_ptr)
 {
+	if (!i_ptr)
+	{
+		DEBUG_ASSERT(false);
+	}
+
 	_current = reinterpret_cast<void*>(reinterpret_cast<size_t>(i_ptr) - sizeof(Unit));
 	Unit* freeing_descriptor = static_cast<Unit*>(_current);
 	if (!freeing_descriptor->exist)
 	{
-		DEBUG_ASSERT(true);
+		DEBUG_ASSERT(false);
 	}
 	freeing_descriptor->exist = false;
 	return true;

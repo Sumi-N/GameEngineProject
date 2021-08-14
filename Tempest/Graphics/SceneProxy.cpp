@@ -26,9 +26,9 @@ void SceneProxy::InitBuffer()
 {
 	if (vbuffer.CheckStructDataSize(sizeof(mesh->data[0])))
 	{
-		vbuffer.InitData(mesh->data.Size() * sizeof(mesh->data[0]), mesh->data.Data());
+		vbuffer.InitData(static_cast<uint32_t>(mesh->data.Size()) * sizeof(mesh->data[0]), mesh->data.Data());
 	}
-	ibuffer.InitData(mesh->index.Size() * sizeof(mesh->index[0]), mesh->index.Data());
+	ibuffer.InitData(static_cast<uint32_t>(mesh->index.Size()) * sizeof(mesh->index[0]), mesh->index.Data());
 
 	// Memorize index size for Draw() fucntion
 	indexsize = static_cast<unsigned int>(mesh->index.Size()) * sizeof(mesh->index[0]);

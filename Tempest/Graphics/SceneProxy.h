@@ -19,6 +19,8 @@ class SceneProxy
 {
 
 public:
+	SceneProxy()  = default;
+	~SceneProxy() = default;
 
 	void Init();
 	void AddRenderState(OwningPointer<RenderState>);

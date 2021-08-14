@@ -32,38 +32,43 @@ namespace Tempest
 
 		struct Element
 		{
-			String name;
+			//String name;
 			Type type;
 			uint32_t size;
 			size_t offset;
 			bool normalized;
 
 			Element() = default;
-			Element(Type i_type, const String& i_name, bool i_normalized = false)
-				:type(i_type), name(i_name), size(GetDataSize(type)), offset(0), normalized(i_normalized)
-			{
-			}
+			Element(Type i_type, bool i_normalized = false)
+				: type(i_type), size(GetDataSize(type)), offset(0), normalized(i_normalized) {}
+			//Element(Type i_type, const String& i_name, bool i_normalized = false)
+				//: type(i_type), name(i_name), size(GetDataSize(type)), offset(0), normalized(i_normalized) {}
 		};
 
 		class Layout
 		{
 		public:
 			Layout() { }
-			Layout(std::initializer_list<Element> i_elements)
-			// This used to be like this
-			// need to be fixed later				
-			// Layout(std::initializer_list<Element> i_elements)
-			// :elemetns(i_elements)
-			//{
-			//	CalculateOffsetsAndStride();
-			//}				
+			Layout(std::initializer_list<Element> i_elements)			
 			{
-				elemetns.vector = i_elements; 
+#ifdef USE_STANDARD_ARRAY
+				elemetns.vector = i_elements;
+#else
+				elemetns.Convert(i_elements);
+#endif // USE_STANDARD_ARRAY				
 				CalculateOffsetsAndStride();
 			}
 
 			Array<Element> elemetns;
 			uint32_t stride = 0;
+
+			Layout& operator= (Layout i_layout)
+			{
+				elemetns = i_layout.elemetns;
+				stride   = i_layout.stride;
+
+				return *this;
+			}
 
 		private:
 
@@ -71,12 +76,21 @@ namespace Tempest
 			{
 				size_t offset = 0;
 				stride = 0;
+#ifdef USE_STANDARD_ARRAY
 				for (auto& element : elemetns.vector)
 				{
 					element.offset = offset;
 					offset += element.size;
 					stride += element.size;
 				}
+#else
+				for (auto element = elemetns.Begin(); element != elemetns.End(); ++element)
+				{
+					element->offset = offset;					
+					offset += element->size;
+					stride += element->size;
+				}
+#endif // USE_STANDARD_ARRAY					
 			}
 		};
 
@@ -96,7 +110,9 @@ namespace Tempest
 		void CleanUp() const;
 
 		const BufferData::Layout& GetLayout() const {return layout; }
-		const void SetLayout(BufferData::Layout& i_layout) {layout = i_layout; }
+		const void SetLayout(BufferData::Layout& i_layout) {
+			layout = i_layout; 
+		}
 
 	private:
 		BufferData::Layout layout;

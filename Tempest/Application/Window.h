@@ -6,7 +6,7 @@ namespace Tempest
 
 	struct WindowProperty
 	{
-		std::string title;
+		std::string  title;
 		unsigned int width;
 		unsigned int height;
 
@@ -33,13 +33,14 @@ namespace Tempest
 
 		struct WindowData
 		{
-			std::string title;
-			unsigned int width, height;
-			bool VSync;
+			std::string  title;
+			unsigned int width; 
+			unsigned int height;
+			bool         VSync;
 
 			std::function<void(Event&)> eventcallback;
 
-			WindowData() = default;
+			WindowData() : title("Empty"), width(0), height(0), VSync(false) {};
 		} data;
 
 #ifdef  ENGINE_PLATFORM_WINDOWS

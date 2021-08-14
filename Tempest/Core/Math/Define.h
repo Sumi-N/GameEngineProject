@@ -12,8 +12,8 @@
 
 namespace Math
 {
-	template <typename T> inline T     Sqrt(T const &i)           { return (T)std::sqrt(i); }
-	template <typename T> inline T Pi () { return static_cast<T>(3.141592653589793238462643383279502884197169); }
+	template <typename T> inline T Sqrt(T const &i)  { return (T)std::sqrt(i); }
+	template <typename T> inline T Pi  ()            { return static_cast<T>(3.141592653589793238462643383279502884197169); }
 
 
 #ifdef _USEINTRINSIC_

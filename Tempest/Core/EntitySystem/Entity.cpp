@@ -93,7 +93,7 @@ namespace Tempest
 		{
 			Entity::Directional = OwningPointer<DirectionalLight>::Create(Directional);
 			Entity::Directional->intensity = Vec3f(0, 0, 0);
-			Entity::Directional->direction = Vec3f(0, -1, 0);
+			Entity::Directional->direction = Vec3f(0,-1, 0);
 		}
 
 		// Check if point light exist in a scene, if not create one

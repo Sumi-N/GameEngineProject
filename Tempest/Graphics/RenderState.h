@@ -35,8 +35,8 @@ private:
 
 #ifdef  ENGINE_GRAPHIC_OPENGL
 	// Texture data
-	std::vector<GLuint> textureids;
-	std::vector<GLuint> textureunits;
+	Array<GLuint> textureids;
+	Array<GLuint> textureunits;
 #endif //  ENGINE_GRAPHIC_OPENGL
 };
 

@@ -7,11 +7,17 @@ namespace Tempest
 	VertexBuffer::VertexBuffer()
 	{
 		// Set Layout
-		BufferData::Element vertex(BufferData::Type::Float3, "vertex");
+/*		BufferData::Element vertex(BufferData::Type::Float3, "vertex");
 		BufferData::Element normal(BufferData::Type::Float3, "normal");
 		BufferData::Element uvcoord(BufferData::Type::Float2, "uvcoord");
 		BufferData::Element tangent(BufferData::Type::Float3, "tangent");
-		BufferData::Element bitangent(BufferData::Type::Float3, "bitangent");		
+		BufferData::Element bitangent(BufferData::Type::Float3, "bitangent");*/		
+
+		BufferData::Element vertex(BufferData::Type::Float3);
+		BufferData::Element normal(BufferData::Type::Float3);
+		BufferData::Element uvcoord(BufferData::Type::Float2);
+		BufferData::Element tangent(BufferData::Type::Float3);
+		BufferData::Element bitangent(BufferData::Type::Float3);
 
 		BufferData::Layout vbufflayout({vertex, normal, uvcoord, tangent, bitangent});
 		

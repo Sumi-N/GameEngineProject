@@ -9,12 +9,7 @@ int main()
 
 #ifdef ENABLE_CUSTOM_ALLOCATOR
 	INITIALIZE_HEAP_MANAGER
-#endif
-	pHeapMemory = HeapAlloc(GetProcessHeap(), 0, HEAP_SIZE); 
-	if (!pHeapMemory)
-	{
-		DEBUG_ASSERT(true); 
-	}		
+#endif	
 
 	auto app = Tempest::Create();
 	delete app;	

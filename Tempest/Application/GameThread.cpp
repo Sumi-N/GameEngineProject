@@ -135,15 +135,15 @@ namespace Tempest
 
 				for (auto it = Entity::PointLightList.Begin(); it != Entity::PointLightList.End(); ++it)
 				{
-					// Submit point light data
-					data_game_own->light.pointlights[std::distance(Entity::PointLightList.Begin(), it)].intensity = Vec4f((*it)->intensity);
-					data_game_own->light.pointlights[std::distance(Entity::PointLightList.Begin(), it)].position = Vec4f((*it)->pos);
-					data_game_own->light.pointlights[std::distance(Entity::PointLightList.Begin(), it)].attenuation = (*it)->attenuation;
+					// Submit point light data					
+					data_game_own->light.pointlights[Utility::Distance<OwningPointer<PointLight>>(Entity::PointLightList.Begin(), it)].intensity = Vec4f((*it)->intensity);
+					data_game_own->light.pointlights[Utility::Distance<OwningPointer<PointLight>>(Entity::PointLightList.Begin(), it)].position = Vec4f((*it)->pos);
+					data_game_own->light.pointlights[Utility::Distance<OwningPointer<PointLight>>(Entity::PointLightList.Begin(), it)].attenuation = (*it)->attenuation;
 
 					for (int i = 0; i < 6; i++)
 					{
-						data_game_own->shadow[std::distance(Entity::PointLightList.Begin(), it)].view_perspective_matrix[i] = (*it)->light_space_mats[i];
-						data_game_own->shadow[std::distance(Entity::PointLightList.Begin(), it)].position = Vec4f((*it)->pos);
+						data_game_own->shadow[Utility::Distance<OwningPointer<PointLight>>(Entity::PointLightList.Begin(), it)].view_perspective_matrix[i] = (*it)->light_space_mats[i];
+						data_game_own->shadow[Utility::Distance<OwningPointer<PointLight>>(Entity::PointLightList.Begin(), it)].position = Vec4f((*it)->pos);
 					}
 				}
 			}
