@@ -14,5 +14,9 @@ int main()
 	auto app = Tempest::Create();
 	delete app;	
 
+#ifdef ENABLE_CUSTOM_ALLOCATOR
+	//FINALIZE_HEAP_MANAGER
+#endif	
+
 	return 0;
 };

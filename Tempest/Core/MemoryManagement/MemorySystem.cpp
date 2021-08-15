@@ -19,7 +19,7 @@ bool IsHeapAlive()
 	return IsHeapInitialized;
 }
 
-void DestroyMemorySystem()
+void FinalizeMemorySystem()
 {
 	IsHeapInitialized = false;
 	// Destroy your HeapManager and FixedSizeAllocators

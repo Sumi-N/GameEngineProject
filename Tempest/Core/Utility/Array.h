@@ -182,7 +182,8 @@ namespace Tempest
 		{
 			(*it).~T();
 		}
-		FreeMemory(data);
+		if(data)
+			FreeMemory(data);
 	}
 
 	template <typename T>
@@ -285,17 +286,30 @@ namespace Tempest
 	{
 		if (max_size == 0 || !data)
 		{
-			data = reinterpret_cast<T*>(AllocMemory(granularity * sizeof(T)));			
-			max_size += granularity;
-			memset(static_cast<void*>(&data[size]), 0, granularity * sizeof(T));
+			data = reinterpret_cast<T*>(AllocMemory(granularity * sizeof(T)));
+			max_size += granularity;			
+			memset(static_cast<void*>(&data[size]), 0, sizeof(T));
+			T& pushed_data = data[size];
+			pushed_data = T();
+			pushed_data = i_data;
+			size++;
+
+			return;
 		}
 
 		if (size >= max_size)
-		{						
-			data = reinterpret_cast<T*>(ReallocMemory(reinterpret_cast<void*>(data), (max_size + granularity) * sizeof(T)));			
-			max_size += granularity;
-			memset(static_cast<void*>(&data[size]), 0, granularity * sizeof(T));
+		{
+			data = reinterpret_cast<T*>(ReallocMemory(reinterpret_cast<void*>(data), (max_size + granularity) * sizeof(T)));
+			max_size += granularity;			
+			memset(static_cast<void*>(&data[size]), 0, sizeof(T));
+			T& pushed_data = data[size];
+			pushed_data = T();
+			pushed_data = i_data;
+			size++;
+
+			return;
 		}
+
 		memset(static_cast<void*>(&data[size]), 0, sizeof(T));
 		T& pushed_data = data[size];
 		pushed_data = T();

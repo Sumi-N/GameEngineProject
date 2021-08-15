@@ -10,7 +10,7 @@ void InitializeMemorySystem(void* i_pHeapMemory, size_t i_sizeHeapMemory, unsign
 
 bool IsHeapAlive();
 
-void DestroyMemorySystem();
+void FinalizeMemorySystem();
 
 void* AllocMemory(size_t i_size);
 
