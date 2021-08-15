@@ -27,6 +27,10 @@ namespace ConstantData
 
 	struct Material
 	{
+	public:
+		Material()  = default;
+		~Material() = default;
+
 		Vec4f diffuse;
 		Vec4f specular;
 

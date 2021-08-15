@@ -33,6 +33,28 @@ namespace Math {
 	}
 
 	template<typename T>
+	inline Matrix4<T> Matrix4<T>::operator+(Matrix4<T> const& i_m) const
+	{
+		Matrix4 o_m;
+		for (int i = 0; i < 16; i++)
+		{
+			o_m.ele[i] = this->ele[i] + i_m.ele[i];
+		}
+		return o_m;
+	}
+
+	template<typename T>
+	inline Matrix4<T> Matrix4<T>::operator-(Matrix4<T> const& i_m) const
+	{
+		Matrix4 o_m;
+		for (int i = 0; i < 16; i++)
+		{
+			o_m.ele[i] = this->ele[i] - i_m.ele[i];
+		}
+		return o_m;
+	}
+
+	template<typename T>
 	inline Matrix4<T> Matrix4<T>::operator*(Matrix4<T> const& i_m) const
 	{
 		Matrix4 o_m;
@@ -55,6 +77,27 @@ namespace Math {
 		o_m.ele[15] = ele[3] * i_m.ele[12] + ele[7]  * i_m.ele[13] + ele[11] * i_m.ele[14] + ele[15]  * i_m.ele[15];
 
 		return o_m;
+	}
+
+	template<typename T>
+	inline Matrix4<T> Matrix4<T>::operator/(T const& i_v) const
+	{
+		Matrix4 o_m;
+		for (int i = 0; i < 16; i++)
+		{
+			o_m.ele[i] = this->ele[i] / i_v;
+		}
+		return o_m;
+	}
+
+	template<typename T>
+	inline Matrix4<T>& Matrix4<T>::operator=(Matrix4<T> const& i_m)
+	{
+		for (int i = 0; i < 16; i++)
+		{
+			this->ele[i] = i_m.ele[i];
+		}
+		return *this;
 	}
 
 	template<typename T>
@@ -317,43 +360,3 @@ namespace Math {
 		return o_m;
 	}
 }
-
-#ifndef _USEINTRINSIC_
-
-namespace Math 
-{
-	template<typename T>
-	inline Matrix4<T> Matrix4<T>::operator+(Matrix4<T> const& i_m) const
-	{
-		Matrix4 o_m;
-		for (int i = 0; i < 16; i++)
-		{
-			o_m.ele[i] = this->ele[i] + i_m.ele[i];
-		}
-		return o_m;
-	}
-
-	template<typename T>
-	inline Matrix4<T> Matrix4<T>::operator-(Matrix4<T> const& i_m) const
-	{
-		Matrix4 o_m;
-		for (int i = 0; i < 16; i++)
-		{
-			o_m.ele[i] = this->ele[i] - i_m.ele[i];
-		}
-		return o_m;
-	}
-
-	template<typename T>
-	inline Matrix4<T> Math::Matrix4<T>::operator/(T const& i_v) const
-	{
-		Matrix4 o_m;
-		for (int i = 0; i < 16; i++)
-		{
-			o_m.ele[i] = this->ele[i] / i_v;
-		}
-		return o_m;
-	}
-}
-
-#endif // !_USEINTRINSIC_

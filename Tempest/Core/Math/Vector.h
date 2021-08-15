@@ -212,6 +212,7 @@ namespace Math {
 		Vec4 operator - (Vec4 const& i_v) const { Vec4 o_v; o_v.x = x - i_v.x; o_v.y = y - i_v.y; o_v.z = z - i_v.z; o_v.w = w - i_v.w; return o_v; }
 		Vec4 operator * (Vec4 const& i_v) const { Vec4 o_v; o_v.x = x * i_v.x; o_v.y = y * i_v.y; o_v.z = z * i_v.z; o_v.w = w * i_v.w; return o_v; }
 		Vec4 operator / (Vec4 const& i_v) const { Vec4 o_v; o_v.x = x / i_v.x; o_v.y = y / i_v.y; o_v.z = z / i_v.z; o_v.w = w / i_v.w; return o_v; }
+		Vec4& operator = (Vec4 const& i_v) { this->x = i_v.x; this->y = i_v.y; this->z = i_v.z; this->w = i_v.w; return *this;}
 
 		//!@ Assignment operators
 		Vec4 const& operator += (Vec4 const& i_v) { x += i_v.x; y += i_v.y; z += i_v.z; w += i_v.w; return *this; }
@@ -263,6 +264,7 @@ namespace Math {
 		Vec4<float> operator - (Vec4<float> const& i_v) const;
 		Vec4<float> operator * (Vec4<float> const& i_v) const;
 		Vec4<float> operator / (Vec4<float> const& i_v) const;
+		Vec4<float>& operator = (Vec4<float> const& i_v);
 	};
 
 } // <- namespace Math

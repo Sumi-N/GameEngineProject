@@ -158,15 +158,14 @@ namespace Tempest
 				material.specular = Vec4f(0.8f, 0.8f, 0.8f, 10.0f);
 				material.albedo = (*it)->material->albedo;
 				material.metalic = (*it)->material->metalic;
-				material.roughness = (*it)->material->roughness;
+				material.roughness = (*it)->material->roughness;				
 				data_game_own->material_data.PushBack(material);
 
 				// Submit mesh data
 				ConstantData::Model model;
 				model.model_inverse_transpose_matrix = (*it)->mesh_component->model_inverse_transpose_mat;
 				model.model_position_matrix = (*it)->mesh_component->model_mat;
-				data_game_own->model_data.PushBack(model);
-
+				data_game_own->model_data.PushBack(model);		
 			}
 		}
 	}

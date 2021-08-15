@@ -283,15 +283,15 @@ namespace Tempest
 
 	template <typename T>
 	inline void Array<T>::PushBack(const T& i_data)
-	{
+	{		
 		if (max_size == 0 || !data)
-		{
-			data = reinterpret_cast<T*>(AllocMemory(granularity * sizeof(T)));
+		{			
+			data = reinterpret_cast<T*>(AllocMemory(granularity * sizeof(T)));			
 			max_size += granularity;			
-			memset(static_cast<void*>(&data[size]), 0, sizeof(T));
-			T& pushed_data = data[size];
-			pushed_data = T();
-			pushed_data = i_data;
+			memset(static_cast<void*>(&data[size]), 0, sizeof(T));			
+			T& pushed_data = data[size];			
+			pushed_data = T();			
+			pushed_data = i_data;			
 			size++;
 
 			return;
@@ -331,7 +331,7 @@ namespace Tempest
 		FreeMemory(data);
 		max_size = 0;
 		size = 0;
-		data = nullptr;
+		data = nullptr;		
 	}
 
 	namespace Utility

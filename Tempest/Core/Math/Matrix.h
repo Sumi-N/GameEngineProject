@@ -29,6 +29,7 @@ namespace Math
 		Matrix4<T> operator -(Matrix4<T> const & i_m) const;
 		Matrix4<T> operator *(Matrix4<T> const & i_m) const;
 		Matrix4<T> operator /(T const& i_v) const;
+		Matrix4<T>& operator = (Matrix4<T> const& i_m);
 
 		Vec3<T> operator * (Vec3<T> const & i_v) const;
 		Vec4<T> operator * (Vec4<T> const & i_v) const;
