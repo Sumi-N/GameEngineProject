@@ -9,6 +9,9 @@
 // The data container data requires for render thread 
 struct GraphicRequiredData
 {
+public:
+	GraphicRequiredData() = default;
+
 	ConstantData::Camera camera;
 	Array<ConstantData::Model> model_data;
 	Array<ConstantData::Material> material_data;

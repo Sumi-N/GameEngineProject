@@ -27,8 +27,6 @@ void DestroyMemorySystem()
 
 void* AllocMemory(size_t i_size)
 {
-	return generalmanager.alloc(i_size);
-
 	//if (size <= 16)
 	//{
 	//	return	allocator[0].alloc();
@@ -49,6 +47,7 @@ void* AllocMemory(size_t i_size)
 	//{
 	//	return generalmanager._alloc(size);
 	//}
+	return generalmanager.alloc(i_size);
 }
 
 void* ReallocMemory(void* i_ptr, size_t i_size)
@@ -63,8 +62,6 @@ void Collect()
 
 void FreeMemory(void* i_ptr)
 {
-	generalmanager.free(i_ptr);
-
 	//if (i_ptr >= allocator[0].head && allocator[1].head > i_ptr)
 	//{
 	//	allocator[0].free(i_ptr);
@@ -85,4 +82,5 @@ void FreeMemory(void* i_ptr)
 	//{
 	//	generalmanager._free(i_ptr);
 	//}
+	generalmanager.free(i_ptr);
 }

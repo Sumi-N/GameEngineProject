@@ -7,9 +7,9 @@ namespace Tempest
 	class Thread
 	{
 	public:
-		Thread() :brunning(true), bready(false), thread_id(255)
-		{
-		}
+		Thread() :brunning(true), bready(false), thread_id(255) {}
+		~Thread() = default;
+
 		void Create();
 		virtual void Boot();
 		virtual void Init();

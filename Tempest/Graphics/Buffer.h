@@ -43,6 +43,16 @@ namespace Tempest
 				: type(i_type), size(GetDataSize(type)), offset(0), normalized(i_normalized) {}
 			//Element(Type i_type, const String& i_name, bool i_normalized = false)
 				//: type(i_type), name(i_name), size(GetDataSize(type)), offset(0), normalized(i_normalized) {}
+
+			Element& operator= (Element i_element)
+			{
+				type = i_element.type;
+				size = i_element.size;
+				offset = i_element.offset;
+				normalized = i_element.normalized;
+
+				return *this;
+			}
 		};
 
 		class Layout
@@ -52,19 +62,19 @@ namespace Tempest
 			Layout(std::initializer_list<Element> i_elements)			
 			{
 #ifdef USE_STANDARD_ARRAY
-				elemetns.vector = i_elements;
+				elements.vector = i_elements;
 #else
-				elemetns.Convert(i_elements);
+				elements.Convert(i_elements);
 #endif // USE_STANDARD_ARRAY				
 				CalculateOffsetsAndStride();
 			}
 
-			Array<Element> elemetns;
+			Array<Element> elements;
 			uint32_t stride = 0;
 
 			Layout& operator= (Layout i_layout)
 			{
-				elemetns = i_layout.elemetns;
+				elements = i_layout.elements;
 				stride   = i_layout.stride;
 
 				return *this;
@@ -77,14 +87,14 @@ namespace Tempest
 				size_t offset = 0;
 				stride = 0;
 #ifdef USE_STANDARD_ARRAY
-				for (auto& element : elemetns.vector)
+				for (auto& element : elements.vector)
 				{
 					element.offset = offset;
 					offset += element.size;
 					stride += element.size;
 				}
 #else
-				for (auto element = elemetns.Begin(); element != elemetns.End(); ++element)
+				for (auto element = elements.Begin(); element != elements.End(); ++element)
 				{
 					element->offset = offset;					
 					offset += element->size;

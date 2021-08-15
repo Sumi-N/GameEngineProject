@@ -11,6 +11,9 @@ namespace Tempest
 	class RenderThread : public Thread
 	{
 	public:
+		RenderThread()  = default;
+		~RenderThread() = default;
+
 		void Boot() override;
 		void Init() override;
 		void CriticalSection() override;

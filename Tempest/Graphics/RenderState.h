@@ -20,6 +20,7 @@ class RenderState
 {
 public: 
 	RenderState();
+	~RenderState() = default;
 
 	Shader shader;
 

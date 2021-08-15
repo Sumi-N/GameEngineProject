@@ -29,11 +29,11 @@ void* HeapManager::alloc(size_t i_size)
 	Block* current_block = static_cast<Block*>(_current);
 
 	//Check if there is a space to insert block
-	while (current_block->exist == true || current_block->size < i_size + sizeof(Block))
-	{
+	while (!(current_block->exist == false && current_block->size >= i_size + sizeof(Block)))
+	{		
 		_current = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + current_block->size + sizeof(Block));
 		current_block = static_cast<Block*>(_current);
-		if (reinterpret_cast<size_t>(_current) >= reinterpret_cast<size_t>(_end) + sizeof(Block))
+		if (reinterpret_cast<size_t>(_current) + sizeof(Block) >= reinterpret_cast<size_t>(_end))
 		{
 			DEBUG_PRINT("Start collecting the heap since there is not enought memory to allocate");
 			need_to_collect = true;
@@ -52,7 +52,7 @@ void* HeapManager::alloc(size_t i_size)
 		{
 			_current = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + current_block->size + sizeof(Block));
 			current_block = static_cast<Block*>(_current);
-			if (_current >= _end)
+			if(reinterpret_cast<size_t>(_current) + sizeof(Block) >= reinterpret_cast<size_t>(_end))
 			{				
 				DEBUG_PRINT("There is not enough memory to allocate");
 				DEBUG_ASSERT(false);
@@ -70,10 +70,14 @@ void* HeapManager::alloc(size_t i_size)
 	void* return_address = reinterpret_cast<void*>(reinterpret_cast<size_t>(_current) + sizeof(Block));
 
 	void * next = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + sizeof(Block) + current_block->size);
+
 	Block* next_block = static_cast<Block*>(next);
 	next_block->exist = false;
 	next_block->size = available_space - (i_size + sizeof(Block));
 	_current = next;	
+
+	//DEBUG_PRINT("The _current address is now at %zx", reinterpret_cast<size_t>(_current));
+	//DEBUG_PRINT("The _current empty space now at %zu", reinterpret_cast<size_t>(_end) - reinterpret_cast<size_t>(_current));
 
 	return return_address;
 }
@@ -86,19 +90,15 @@ void* HeapManager::realloc(void* i_ptr, size_t i_size)
 	}
 
 	bool need_to_collect = false;
-
-	void* previouse = reinterpret_cast<void*>(reinterpret_cast<size_t>(i_ptr) + sizeof(Block));
-	Block* previouse_block = reinterpret_cast<Block*>(previouse);
-	previouse_block->exist = false;
 	
 	Block* current_block = static_cast<Block*>(_current);
 
 	//Check if there is a space to insert block
-	while (current_block->exist == true || current_block->size < i_size + sizeof(Block))
+	while (!(current_block->exist == false && current_block->size >= i_size + sizeof(Block)))
 	{
 		_current = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + current_block->size + sizeof(Block));
 		current_block = static_cast<Block*>(_current);
-		if (_current >= _end)
+		if (reinterpret_cast<size_t>(_current) + sizeof(Block) >= reinterpret_cast<size_t>(_end))
 		{
 			DEBUG_PRINT("Start collecting the heap since there is not enought memory to allocate");
 			need_to_collect = true;
@@ -117,7 +117,7 @@ void* HeapManager::realloc(void* i_ptr, size_t i_size)
 		{
 			_current = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + current_block->size + sizeof(Block));
 			current_block = static_cast<Block*>(_current);
-			if (_current >= _end)
+			if(reinterpret_cast<size_t>(_current) + sizeof(Block) >= reinterpret_cast<size_t>(_end))
 			{
 				DEBUG_PRINT("There is not enough memory to allocate");
 				DEBUG_ASSERT(false);
@@ -126,8 +126,10 @@ void* HeapManager::realloc(void* i_ptr, size_t i_size)
 		}
 	}
 
-	//Split one descriptor to two descriptors
+	//Now split the descriptor to two descriptors
+
 	size_t available_space = current_block->size;
+
 	current_block->exist = true;
 	current_block->size = i_size;
 	void* return_address = reinterpret_cast<void*>(reinterpret_cast<size_t>(_current) + sizeof(Block));
@@ -136,10 +138,14 @@ void* HeapManager::realloc(void* i_ptr, size_t i_size)
 	Block* next_block = static_cast<Block*>(next);
 	next_block->exist = false;
 	next_block->size = available_space - (i_size + sizeof(Block));
+	_current = next;
 
 	memcpy(return_address, i_ptr, i_size);
 
 	free(i_ptr);
+
+	//DEBUG_PRINT("The _current address is now at %zx", reinterpret_cast<size_t>(_current));
+	//DEBUG_PRINT("The _current empty space now at %zu", reinterpret_cast<size_t>(_end) - reinterpret_cast<size_t>(_current));
 
 	return return_address;
 }

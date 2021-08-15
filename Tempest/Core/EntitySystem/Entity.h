@@ -8,6 +8,7 @@ namespace Tempest
 	class ObjectHandler
 	{
 	public:
+		ObjectHandler() = default;
 		ObjectHandler(Object* i_objpointer)		   : p(i_objpointer) {}
 		ObjectHandler(OwningPointer<Object> i_obj) : p(i_obj)        {}
 
