@@ -1,6 +1,39 @@
 #include "HeapManager.h"
 
-void* HeapManager::initialize(void* i_ptr, size_t i_size)
+void*  _head;
+void*  _current;
+void*  _end;
+size_t _size;
+
+HeapManager::HeapManager()
+{
+	DEBUG_PRINT("Heap Manager is created");
+
+#ifdef ENABLE_CUSTOM_ALLOCATOR
+	#ifdef ENGINE_PLATFORM_WINDOWS
+		_head = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, HEAP_SIZE);	
+		Initialize(_head, HEAP_SIZE);
+	#endif // ENGINE_PLATFORM_WINDOWS
+#endif // ENABLE_CUSTOM_ALLOCATOR
+
+	is_heap_alive = true;
+}
+
+HeapManager::~HeapManager()
+{
+	is_heap_alive = false;
+
+#ifdef ENABLE_CUSTOM_ALLOCATOR
+	#ifdef ENGINE_PLATFORM_WINDOWS
+		Finalize();	
+		HeapFree(GetProcessHeap(), 0, _head);
+	#endif // ENGINE_PLATFORM_WINDOWS
+
+	DEBUG_PRINT("Heap Manager was destroyed");
+#endif // ENABLE_CUSTOM_ALLOCATOR
+}
+
+void* HeapManager::Initialize(void* i_ptr, size_t i_size)
 {
 	if (!i_ptr)
 	{
@@ -22,7 +55,11 @@ void* HeapManager::initialize(void* i_ptr, size_t i_size)
 	return _current;
 }
 
-void* HeapManager::alloc(size_t i_size)
+void HeapManager::Finalize(){
+
+}
+
+void* HeapManager::Alloc(size_t i_size)
 {
 	bool need_to_collect = false;
 	
@@ -43,7 +80,7 @@ void* HeapManager::alloc(size_t i_size)
 
 	if (need_to_collect)
 	{
-		collect();
+		Collect();
 
 		_current = _head;
 		current_block = static_cast<Block*>(_current);
@@ -82,7 +119,7 @@ void* HeapManager::alloc(size_t i_size)
 	return return_address;
 }
 
-void* HeapManager::realloc(void* i_ptr, size_t i_size)
+void* HeapManager::Realloc(void* i_ptr, size_t i_size)
 {
 	if (!i_ptr)
 	{
@@ -108,7 +145,7 @@ void* HeapManager::realloc(void* i_ptr, size_t i_size)
 
 	if (need_to_collect)
 	{
-		collect();
+		Collect();
 
 		_current = _head;
 		current_block = static_cast<Block*>(_current);
@@ -142,7 +179,7 @@ void* HeapManager::realloc(void* i_ptr, size_t i_size)
 
 	memcpy(return_address, i_ptr, i_size);
 
-	free(i_ptr);
+	Free(i_ptr);
 
 	//DEBUG_PRINT("The _current address is now at %zx", reinterpret_cast<size_t>(_current));
 	//DEBUG_PRINT("The _current empty space now at %zu", reinterpret_cast<size_t>(_end) - reinterpret_cast<size_t>(_current));
@@ -150,7 +187,7 @@ void* HeapManager::realloc(void* i_ptr, size_t i_size)
 	return return_address;
 }
 
-bool HeapManager::free(void* i_ptr)
+bool HeapManager::Free(void* i_ptr)
 {
 	if (!i_ptr)
 	{
@@ -167,7 +204,7 @@ bool HeapManager::free(void* i_ptr)
 	return true;
 }
 
-void HeapManager::collect()
+void HeapManager::Collect()
 {
 	void*  current_collecting       = _head;
 	Block* current_collecting_block = static_cast<Block*>(current_collecting);
@@ -200,4 +237,9 @@ void HeapManager::collect()
 	(reinterpret_cast<size_t>(next_collecting) + next_collecting_block->size + sizeof(Block) <= reinterpret_cast<size_t>(_end));
 
 	return;
+}
+
+bool HeapManager::IsHeapAlive()
+{
+	return is_heap_alive;
 }

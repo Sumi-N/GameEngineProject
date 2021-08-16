@@ -1,10 +1,10 @@
 #pragma once
 #include "Define.h"
 
-static void* _head;
-static void* _current;
-static void* _end;
-static size_t _size;
+extern void* _head;
+extern void* _current;
+extern void* _end;
+extern size_t _size;
 
 class HeapManager
 {
@@ -29,10 +29,19 @@ public:
 #endif 
 
 public:
-	static void* initialize(void*, size_t);
-	void* alloc(size_t);
-	void* realloc(void*, size_t);
-	bool free(void*);
-	void collect();	
+	HeapManager();
+	~HeapManager();
+
+	void* Initialize(void*, size_t);
+	void  Finalize();
+	void* Alloc(size_t);
+	void* Realloc(void*, size_t);
+	bool  Free(void*);
+	void  Collect();
+
+	bool IsHeapAlive();
+
+private:
+	bool is_heap_alive = false;
 };
 

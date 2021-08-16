@@ -223,14 +223,8 @@ namespace Tempest
 		{
 			data = reinterpret_cast<T*>(AllocMemory(i_resize * sizeof(T)));
 			max_size = i_resize;
-			memset(static_cast<void*>(&data[size]), 0, (i_resize - size) * sizeof(T));	
-
-			for (size_t i = size; i < i_resize; i++)
-			{
-				T& tmp = data[i];
-				tmp = T();
-			}			
-			size     = i_resize;
+			memset(static_cast<void*>(&data[size]), 0, (i_resize - size) * sizeof(T));				
+			size = i_resize;
 			return;
 		}
 		

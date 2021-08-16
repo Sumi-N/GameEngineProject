@@ -30,14 +30,3 @@ extern Input UserInput;
 // Put MemoryLeakDetection in the last since there is a macro #define new DEBUG_NEW
 // which might overwrite new keywords exist in the other libraries 
 #include <Logging/MemoryLeakDetection.h>
-
-
-#ifdef ENABLE_CUSTOM_ALLOCATOR
-	#define INITIALIZE_HEAP_MANAGER \
-		void* pHeapMemory = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, HEAP_SIZE); \
-		InitializeMemorySystem(pHeapMemory, HEAP_SIZE, NUM_DESCRIPTOR);	\
-
-	#define FINALIZE_HEAP_MANAGER \
-		FinalizeMemorySystem();	\
-		HeapFree(GetProcessHeap(), 0, pHeapMemory);
-#endif // ENABLE_CUSTOM_ALLOCATOR

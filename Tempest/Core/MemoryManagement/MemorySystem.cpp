@@ -1,28 +1,27 @@
 #include "MemorySystem.h"
 #include "HeapManager.h"
 
-void InitializeMemorySystem(void* i_pHeapMemory, size_t i_sizeHeapMemory, unsigned int i_OptionalNumDescriptors)
-{	
-	IsHeapInitialized = true;
+HeapManager GeneralManager;
 
+void InitializeMemorySystem(void* i_pHeapMemory, size_t i_sizeHeapMemory, unsigned int i_OptionalNumDescriptors)
+{		
 	_current = i_pHeapMemory;
 	/*_current = allocator[0].initialize(_current, 16);
 	_current = allocator[1].initialize(_current, 32);
 	_current = allocator[2].initialize(_current, 96);
 	_current = allocator[3].initialize(_current, 96);*/
 	//HeapManager::initialize(reinterpret_cast<void*>(reinterpret_cast<size_t>(_current) + 96 * 200), i_sizeHeapMemory - (16 * 200 + 32 * 200 + 96 * 400));
-	HeapManager::initialize(reinterpret_cast<void*>(reinterpret_cast<size_t>(_current)), i_sizeHeapMemory);	
+	GeneralManager.Initialize(reinterpret_cast<void*>(reinterpret_cast<size_t>(_current)), i_sizeHeapMemory);
 }
 
 bool IsHeapAlive()
 {
-	return IsHeapInitialized;
+	return GeneralManager.IsHeapAlive();
 }
 
 void FinalizeMemorySystem()
-{
-	IsHeapInitialized = false;
-	// Destroy your HeapManager and FixedSizeAllocators
+{	
+	
 }
 
 void* AllocMemory(size_t i_size)
@@ -47,17 +46,12 @@ void* AllocMemory(size_t i_size)
 	//{
 	//	return generalmanager._alloc(size);
 	//}
-	return generalmanager.alloc(i_size);
+	return GeneralManager.Alloc(i_size);
 }
 
 void* ReallocMemory(void* i_ptr, size_t i_size)
 {
-	return generalmanager.realloc(i_ptr, i_size);
-}
-
-void Collect()
-{
-	generalmanager.collect();
+	return GeneralManager.Realloc(i_ptr, i_size);
 }
 
 void FreeMemory(void* i_ptr)
@@ -82,5 +76,5 @@ void FreeMemory(void* i_ptr)
 	//{
 	//	generalmanager._free(i_ptr);
 	//}
-	generalmanager.free(i_ptr);
+	GeneralManager.Free(i_ptr);
 }
