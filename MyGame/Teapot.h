@@ -25,9 +25,9 @@ namespace Tempest
 		OwningPointer<TextureAttribute> teapottexture2 = OwningPointer<TextureAttribute>::Create(teapottexture2);
 		OwningPointer<TextureAttribute> teapottexture3 = OwningPointer<TextureAttribute>::Create(teapottexture3);
 
-		teapottexture->Load(PATH_SUFFIX INT_TEXTURE_PATH "albedo\\brickwall.png", TextureType::PB_Diffuse);
-		teapottexture2->Load(PATH_SUFFIX INT_TEXTURE_PATH "albedo\\brickwall.png", TextureType::PB_Specular);
-		teapottexture3->Load(PATH_SUFFIX INT_TEXTURE_PATH "normal\\brickwall_normal.png", TextureType::PB_Normal);
+		teapottexture->Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo\\brickwall.ttd", TextureType::PB_Diffuse);
+		teapottexture2->Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo\\brickwall.ttd", TextureType::PB_Specular);
+		teapottexture3->Load(PATH_SUFFIX BIN_TEXTURE_PATH "normal\\brickwall_normal.ttd", TextureType::PB_Normal);
 
 		const char* shaderpaths[] =
 		{
