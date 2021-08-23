@@ -15,7 +15,7 @@
 #include <Core/Input/Event.h>
 #include <Core/Input/MouseEvent.h>
 #include <Core/Input/KeyEvent.h>
-#include <Core/INput/ApplicationEvent.h>
+#include <Core/Input/ApplicationEvent.h>
 
 #include <functional>
 // UserInterface

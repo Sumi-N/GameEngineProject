@@ -11,6 +11,7 @@ namespace Tempest
 	{
 	public:
 		EffectComponent();
+		~EffectComponent() override;
 
 		void RegisterShaderPath(const char**);
 		void SetTexture(TextureAttribute*);
@@ -25,6 +26,11 @@ namespace Tempest
 
 	inline EffectComponent::EffectComponent() : shaderpaths()
 	{
+	}
+
+	inline EffectComponent::~EffectComponent()
+	{
+
 	}
 
 	inline void EffectComponent::RegisterShaderPath(const char** shaderpaths)

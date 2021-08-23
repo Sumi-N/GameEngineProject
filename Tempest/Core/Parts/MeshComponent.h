@@ -11,6 +11,9 @@ namespace Tempest
 	class MeshComponent : public Component
 	{
 	public:
+		MeshComponent() = default;
+		~MeshComponent() = default;
+
 		OwningPointer<Resource::Mesh> mesh;
 
 		ObservingPointer<Object> owner;

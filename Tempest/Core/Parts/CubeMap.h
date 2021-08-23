@@ -11,15 +11,12 @@ namespace Tempest
 	class CubeMap : public Object
 	{
 	public:
-		CubeMap() : mesh_component(nullptr), effect(nullptr)
-		{
-		}
-		virtual ~CubeMap()
-		{
-		}
+		CubeMap() : mesh_component(nullptr), effect_component(nullptr) {}
+		virtual ~CubeMap() {}
+
 		virtual void Boot() override;
 		OwningPointer<MeshComponent> mesh_component;
-		OwningPointer<EffectComponent> effect;
+		OwningPointer<EffectComponent> effect_component;
 	};
 
 	inline void CubeMap::Boot()

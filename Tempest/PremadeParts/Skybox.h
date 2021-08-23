@@ -30,10 +30,10 @@ namespace Tempest
 			PATH_SUFFIX SHADER_PATH SKYBOX_FRAG,
 		};
 
-		OwningPointer<EffectComponent>::Create(effect);
-		effect->owner = Entity::Skybox;
-		effect->RegisterShaderPath(shaderpaths);
-		effect->SetTexture(texture);
+		OwningPointer<EffectComponent>::Create(effect_component);
+		effect_component->owner = Entity::Skybox;
+		effect_component->RegisterShaderPath(shaderpaths);
+		effect_component->SetTexture(texture);
 	}
 
 }

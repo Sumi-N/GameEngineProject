@@ -26,8 +26,8 @@ inline void SceneEntity::Init()
 		SkyBoxProxy->Init();
 
 		RenderState* state = new RenderState();
-		state->InitShader(Entity::Skybox->effect->shaderpaths);
-		state->InitTexture(Entity::Skybox->effect->textures[0]);
+		state->InitShader(Entity::Skybox->effect_component->shaderpaths);
+		state->InitTexture(Entity::Skybox->effect_component->textures[0]);
 
 		OwningPointer<RenderState> renderhandler;
 		renderhandler = state;

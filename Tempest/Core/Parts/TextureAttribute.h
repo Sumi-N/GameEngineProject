@@ -10,7 +10,7 @@ namespace Tempest
 	{
 	public:
 		TextureAttribute() : width(0), height(0) {}
-		~TextureAttribute() = default;
+		~TextureAttribute() {};
 		
 
 		Array<Vec3u8t> pixels;
