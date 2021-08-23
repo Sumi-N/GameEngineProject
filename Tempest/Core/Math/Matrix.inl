@@ -12,6 +12,15 @@ namespace Math {
 	}
 
 	template<typename T>
+	inline Matrix4<T>::Matrix4(T* i_m)
+	{
+		this->ele[0] = i_m[0]; this->ele[1] = i_m[1]; this->ele[2] = i_m[2]; this->ele[3] = i_m[3];
+		this->ele[4] = i_m[4]; this->ele[5] = i_m[5]; this->ele[6] = i_m[6]; this->ele[7] = i_m[7];
+		this->ele[8] = i_m[8]; this->ele[9] = i_m[9]; this->ele[10] = i_m[10]; this->ele[11] = i_m[11];
+		this->ele[12] = i_m[12]; this->ele[13] = i_m[13]; this->ele[14] = i_m[14]; this->ele[15] = i_m[15];
+	}
+
+	template<typename T>
 	inline Matrix4<T>::Matrix4(T i11, T i12, T i13, T i14, T i21, T i22, T i23, T i24, T i31, T i32, T i33, T i34, T i41, T i42, T i43, T i44)
 	{
 		ele[0] = i11;

@@ -7,14 +7,14 @@
 namespace Tempest
 {
 
-	class Camera : public Object
+	class CameraObject : public Object
 	{
 	public:
 		Mat4f view, perspective, orthographics;
 		Mat4f view_perspective_mat;
 	public:
 
-		Camera()
+		CameraObject()
 		{
 			forwardvec = Vec3f(0, 0, -1);
 			upvec = Vec3f(0, 1, 0);
@@ -56,7 +56,7 @@ namespace Tempest
 		OwningPointer<EffectComponent> effect;
 	};
 
-	inline void Camera::Boot()
+	inline void CameraObject::Boot()
 	{
 		Object::Boot();
 
@@ -83,12 +83,12 @@ namespace Tempest
 		//effect->RegisterShaderPath(shaderpaths);
 	}
 
-	inline void Camera::Init()
+	inline void CameraObject::Init()
 	{
 		Object::Init();
 	}
 
-	inline void Camera::Update(float i_dt)
+	inline void CameraObject::Update(float i_dt)
 	{
 		Object::Update(i_dt);
 
@@ -99,12 +99,12 @@ namespace Tempest
 		view_perspective_mat = perspective * view;
 	}
 
-	inline void Camera::MoveCamera(float amount, Vec3f& dir)
+	inline void CameraObject::MoveCamera(float amount, Vec3f& dir)
 	{
 		vel = amount * dir;
 	}
 
-	inline void Camera::RotateAround(float amount, Vec3f& axis)
+	inline void CameraObject::RotateAround(float amount, Vec3f& axis)
 	{
 
 		forwardvec = forwardvec.Rotate(axis, amount);

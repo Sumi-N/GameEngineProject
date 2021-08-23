@@ -19,7 +19,7 @@ namespace Tempest
 	{
 	public:		
 		static Array<ObjectHandler>                  ObjectList;		
-		static Array<OwningPointer<Camera>>          Cameras;				
+		static Array<OwningPointer<CameraObject>>          Cameras;				
 		static Array<OwningPointer<PointLight>>      PointLightList;		
 		static Array<OwningPointer<MeshComponent>>   MeshComponentList;
 		static Array<OwningPointer<EffectComponent>> EffectComponentList;
@@ -33,7 +33,7 @@ namespace Tempest
 		static ObjectHandler Query(Object*);
 
 		static void Register                (const OwningPointer<Object>&);
-		static void RegisterCamera          (const OwningPointer<Camera>&);
+		static void RegisterCamera          (const OwningPointer<CameraObject>&);
 		static void RegisterSkyBox          (const OwningPointer<CubeMap>&);
 		static void RegisterAmbientLight    (const OwningPointer<AmbientLight>&);
 		static void RegisterDirectionalLight(const OwningPointer<DirectionalLight>&);

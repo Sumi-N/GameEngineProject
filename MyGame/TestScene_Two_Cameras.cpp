@@ -2,7 +2,7 @@
 #include "TestScenes.h"
 
 #include "Teapot.h"
-#include "MyCamera.h"
+#include "MyCameraObject.h"
 #include "MyPointLight.h"
 #include "MySkyBox.h"
 
@@ -10,10 +10,10 @@ namespace Tempest
 {
 	void TestScene::Two_Cameras()
 	{
-		OwningPointer<MyCamera> camera1;
-		OwningPointer<MyCamera>::Create(camera1);
-		OwningPointer<MyCamera> camera2;
-		OwningPointer<MyCamera>::Create(camera2);
+		OwningPointer<MyCameraObject> camera1;
+		OwningPointer<MyCameraObject>::Create(camera1);
+		OwningPointer<MyCameraObject> camera2;
+		OwningPointer<MyCameraObject>::Create(camera2);
 
 		Entity::RegisterCamera(camera1);
 		Entity::RegisterCamera(camera2);

@@ -9,9 +9,7 @@ namespace Tempest
 	public:
 
 		Object();
-		virtual ~Object()
-		{
-		};
+		virtual ~Object();
 
 		Vec3f pos, scale, rot;
 		Vec3f vel, acc;
@@ -38,6 +36,11 @@ namespace Tempest
 		acc = Vec3f(0.0, 0.0, 0.0);
 		angvel = Vec3f(0.0, 0.0, 0.0);
 		angacc = Vec3f(0.0, 0.0, 0.0);
+	}
+
+	inline Object::~Object()
+	{
+
 	}
 
 	inline void Object::Boot()

@@ -26,6 +26,7 @@ namespace Math {
 		//!@ Constructor
 		Vec2() = default;
 		Vec2(T i_x, T i_y) : x(i_x), y(i_y) {}
+		~Vec2() = default;
 
 		template <typename U> 
 		explicit Vec2(Vec2<U> const& u) : x(static_cast<T>(u.x)), y(static_cast<T>(u.y)) {}
@@ -81,6 +82,7 @@ namespace Math {
 		//!@ Constructor
 		Vec3() = default;
 		Vec3(T i_x, T i_y, T i_z) : x(i_x), y(i_y), z(i_z) {}
+		~Vec3() = default;
 
 		template <typename U> 
 		explicit Vec3(Vec3<U> const& u) : x(static_cast<T>(u.x)), y(static_cast<T>(u.y)), z(static_cast<T>(u.z)) {}
@@ -137,6 +139,7 @@ namespace Math {
 		//!@ Constructor
 		Vec3() = default;
 		Vec3(float i_x, float i_y, float i_z) : x(i_x), y(i_y), z(i_z) {}
+		~Vec3() = default;
 
 		template <typename U>
 		explicit Vec3(Vec3<U> const& u) : x(static_cast<float>(u.x)), y(static_cast<float>(u.y)), z(static_cast<float>(u.z)){}
@@ -196,6 +199,7 @@ namespace Math {
 		Vec4() = default;
 		Vec4(Vec3<T> i_v, T i_w) : x(i_v.x), y(i_v.y), z(i_v.z), w(i_w) {}
 		Vec4(T i_x, T i_y, T i_z, T i_w) : x(i_x), y(i_y), z(i_z), w(i_w) {}
+		~Vec4() = default;
 
 		explicit Vec4(Vec3<T> const& t) : x(t.x), y(t.y), z(t.z), w(1) {}
 		template <typename U>
@@ -248,6 +252,7 @@ namespace Math {
 		Vec4() = default;
 		Vec4(Vec3<float> i_v, float i_w) : x(i_v.x), y(i_v.y), z(i_v.z), w(i_w) {}
 		Vec4(float i_x, float i_y, float i_z, float i_w) : x(i_x), y(i_y), z(i_z), w(i_w) {}
+		~Vec4() = default;
 
 		//!@ Operator with constant value
 		friend Vec4 operator + (float t, Vec4 const& u) { Vec4 o_v; o_v.x = t + u.x; o_v.y = t + u.y; o_v.z = t + u.z; o_v.w = t + u.w; return o_v; }

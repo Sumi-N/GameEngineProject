@@ -22,13 +22,13 @@ namespace Tempest
 		Mat4f model_mat;
 		Mat4f model_inverse_transpose_mat;
 
-		static void ReplaceWithDummyMesh(OwningPointer<Resource::Mesh>&);
+		static  void ReplaceWithDummyMesh(OwningPointer<Resource::Mesh>&);
 		virtual void Boot() override;
 		virtual void Init() override;
 		virtual void Update(float i_dt) override;
 		virtual void CleanUp() override;
 
-		bool Load(const char* filename);
+		Result Load(const char* filename);
 		void SetMaterial(MaterialAttribute*);
 		void SetMaterial(OwningPointer<MaterialAttribute>);
 

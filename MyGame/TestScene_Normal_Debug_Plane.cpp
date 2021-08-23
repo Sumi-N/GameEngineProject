@@ -3,7 +3,7 @@
 #include "TestScenes.h"
 
 #include "Teapot.h"
-#include "MyCamera.h"
+#include "MyCameraObject.h"
 #include "MyPointLight.h"
 #include "MySkyBox.h"
 
@@ -14,7 +14,7 @@ namespace Tempest
 	void TestScene::Normal_Debug_Plane()
 	{
 		// Setting up camera
-		OwningPointer<MyCamera> mycamera = OwningPointer<MyCamera>::Create(mycamera);
+		OwningPointer<MyCameraObject> mycamera = OwningPointer<MyCameraObject>::Create(mycamera);
 		Entity::RegisterCamera(mycamera);
 
 		// Setting up skybox

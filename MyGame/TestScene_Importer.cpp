@@ -1,17 +1,18 @@
 #pragma once
 #include "TestScenes.h"
 
-#include "MyCamera.h"
+#include "MyCameraObject.h"
 #include "MyPointLight.h"
 #include "MySkyBox.h"
-#include <PremadeParts/Cube.h>
+//#include <PremadeParts/Cube.h>
+#include "Teapot.h"
 
 namespace Tempest
 {
 	void TestScene::Importer()
 	{
 		// Setting up camera
-		OwningPointer<MyCamera> mycamera = OwningPointer<MyCamera>::Create(mycamera);
+		OwningPointer<MyCameraObject> mycamera = OwningPointer<MyCameraObject>::Create(mycamera);
 		Entity::RegisterCamera(mycamera);
 
 		// Setting up skybox
@@ -22,8 +23,5 @@ namespace Tempest
 		pointlight->intensity = Vec3f(25.0f, 25.0f, 25.0f);
 		pointlight->pos = Vec3f(0.f, 0.f, -40.f);
 		Entity::RegisterPointLight(pointlight);
-
-		OwningPointer<Cube> cube = OwningPointer<Cube>::Create(cube);
-		Entity::Register(cube);
 	}
 }

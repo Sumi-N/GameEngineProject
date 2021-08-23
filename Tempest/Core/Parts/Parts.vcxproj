@@ -94,7 +94,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Attribute.h" />
-    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraObject.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="EffectComponent.h" />

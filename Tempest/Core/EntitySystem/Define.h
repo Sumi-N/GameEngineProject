@@ -2,7 +2,7 @@
 
 #include <Configuration/Configuration.h>
 #include <Core/Parts/Object.h>
-#include <Core/Parts/Camera.h>
+#include <Core/Parts/CameraObject.h>
 #include <Core/Parts/Light.h>
 #include <Core/Parts/MeshComponent.h>
 #include <Core/Parts/EffectComponent.h>

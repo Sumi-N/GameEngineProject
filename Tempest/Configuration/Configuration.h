@@ -156,6 +156,3 @@
 
 #define DEBUG_PBR_BASIC_VERT "disney_pbr_model\\disney_pbr_without_textures.vert.glsl"
 #define DEBUG_PBR_BASIC_FRAG "disney_pbr_model\\disney_pbr_without_textures.frag.glsl"
-
-
-

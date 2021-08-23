@@ -18,15 +18,8 @@ namespace Tempest
 	inline void Cube::Boot()
 	{
 		PremadeObjebct::Boot();
-
-		mesh_component->Load(PATH_SUFFIX BIN_MESH_PATH "SK_PlayerCharacter.tmd");
-
-		//OwningPointer<TextureAttribute> diffuse = OwningPointer<TextureAttribute>::Create(diffuse);
-		//OwningPointer<TextureAttribute> speclar = OwningPointer<TextureAttribute>::Create(speclar);
-
-		//diffuse->Load(PATH_SUFFIX TEXTURE_PATH "NotFree/tex_fuku2_Anon.png", TextureType::PB_Diffuse);
-		//speclar->Load(PATH_SUFFIX TEXTURE_PATH "NotFree/tex_fuku2_Anon.png", TextureType::PB_Specular);
-
+		
+		mesh_component->Load(PATH_SUFFIX BIN_MESH_PATH FILENAME_CUBEMAP);
 
 		const char* shaderpaths[] =
 		{

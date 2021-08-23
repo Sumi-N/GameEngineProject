@@ -6,16 +6,27 @@
 
 namespace FBXLoader
 {
+	/////////////////////////////////////
+	// public method
+	/////////////////////////////////////
+
 	bool Init(const char*);
+	bool LoadMesh(Array<Resource::MeshPoint>&, Array<int>&);
+	bool LoadSkeletonMesh(Array<Resource::SkeletonMeshPoint>&, Array<int>&);
+	bool LoadSkeleton(Resource::Skeleton&);
 	void PrintData();
-	void PrintNode(FbxNode*);
 	bool CleanUp();
 
+	/////////////////////////////////////
+	// private method
+	/////////////////////////////////////
+
+	void PrintNode(FbxNode*);
 	void PrintTabs();
 	void PrintAttribute(FbxNodeAttribute*);
 	FbxString GetAttributeTypeName(FbxNodeAttribute::EType);
-
-	bool LoadMesh(std::vector<Resource::MeshPoint>& , std::vector<int>&);
 	FbxAMatrix GetGeometryTransformation(FbxNode* inNode);
+
+	void ProcessSkeletonHierarchyRecursively(FbxNode* inNode, int inDepth, int myIndex, int inParentIndex, Resource::Skeleton& skeleton);
 }
 

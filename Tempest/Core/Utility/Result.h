@@ -127,6 +127,8 @@ namespace Tempest
 		// the task might succeed if tried again at a later time, etc.)
 		constexpr Result TimeOut(eResult::IsFailure, eSystem::General, eSeverity::Warning, __LINE__);
 
+		constexpr Result NoEnumType(eResult::IsFailure, eSystem::General, eSeverity::Error, __LINE__);
+
 		// This can be compared against if the caller wants to know if no value was assigned
 		//constexpr Result Undefined();
 	}

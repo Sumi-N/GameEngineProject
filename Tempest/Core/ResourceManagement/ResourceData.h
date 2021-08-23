@@ -28,7 +28,6 @@ enum class TextureType : int8_t
 namespace Resource
 {
 
-	//__declspec(align(16))
 	struct MeshPoint
 	{
 		Vec3f vertex;
@@ -56,7 +55,7 @@ namespace Resource
 	{
 		Mat4f       inversed; // inversed bind pose translation matrix
 		Vec3f       coord;
-		String name;
+		String      name;
 		uint8_t     parent_index;
 	};
 
@@ -125,6 +124,9 @@ namespace Resource
 
 	struct  Texture
 	{
+		Texture() = default;
+		~Texture() = default;
+
 		int width, height;
 		Array<Vec3u8t> pixels;
 

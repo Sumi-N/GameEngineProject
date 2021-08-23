@@ -20,9 +20,6 @@
     <ClInclude Include="Object.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>Objects</Filter>
     </ClInclude>
@@ -49,6 +46,9 @@
     </ClInclude>
     <ClInclude Include="Define.h">
       <Filter>Precompiled Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraObject.h">
+      <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

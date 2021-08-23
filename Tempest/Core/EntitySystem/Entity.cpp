@@ -5,7 +5,7 @@ namespace Tempest
 {
 
 	Array<ObjectHandler>                       Entity::ObjectList{};
-	Array<OwningPointer<Camera>>               Entity::Cameras{};
+	Array<OwningPointer<CameraObject>>               Entity::Cameras{};
 	Array<OwningPointer<PointLight>>           Entity::PointLightList{};
 	Array<OwningPointer<MeshComponent>>        Entity::MeshComponentList{};
 	Array<OwningPointer<EffectComponent>>      Entity::EffectComponentList{};
@@ -36,7 +36,7 @@ namespace Tempest
 		return ObjectHandler(nullptr);
 	}
 
-	void Entity::RegisterCamera(const OwningPointer<Camera>& i_camera)
+	void Entity::RegisterCamera(const OwningPointer<CameraObject>& i_camera)
 	{
 		Cameras.PushBack(i_camera);
 	}
@@ -76,8 +76,8 @@ namespace Tempest
 		// Check if camera exist, if not create one
 		if (Entity::Cameras.Empty())
 		{
-			OwningPointer<Camera> camera;
-			OwningPointer<Camera>::Create(camera);
+			OwningPointer<CameraObject> camera;
+			OwningPointer<CameraObject>::Create(camera);
 			Cameras.PushBack(camera);
 		}
 

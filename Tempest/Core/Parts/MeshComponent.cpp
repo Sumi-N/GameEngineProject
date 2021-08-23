@@ -48,7 +48,7 @@ namespace Tempest
 
 	}
 
-	bool MeshComponent::Load(const char* i_filename)
+	Result MeshComponent::Load(const char* i_filename)
 	{
 		if (IsLoaded())
 		{
@@ -66,10 +66,10 @@ namespace Tempest
 			DEBUG_PRINT("Failed to load the mesh data %s, replaced it with dummy mesh", i_filename);
 			ReplaceWithDummyMesh(mesh);
 
-			return true;
+			return ResultValue::FileDoesntExist;
 		}
 
-		return true;
+		return ResultValue::Success;
 	}
 
 	void MeshComponent::SetMaterial(MaterialAttribute* i_material)

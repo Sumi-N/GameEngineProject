@@ -1,26 +1,26 @@
 #pragma once
-#include <Parts/Camera.h>
+#include <Parts/CameraObject.h>
 #include <Thread/Define.h>
 #include <Application/Define.h>
 
 namespace Tempest
 {
 
-	class MyCamera :public Camera
+	class MyCameraObject :public CameraObject
 	{
 	public:
 		void Init() override;
 		void Update(float i_dt) override;
 	};
 
-	inline void MyCamera::Init()
+	inline void MyCameraObject::Init()
 	{
-		Camera::Init();
+		CameraObject::Init();
 	}
 
-	inline void MyCamera::Update(float i_dt)
+	inline void MyCameraObject::Update(float i_dt)
 	{
-		Camera::Update(i_dt);
+		CameraObject::Update(i_dt);
 
 		if (UserInput.QueryKey(VirtualKey::KEY_SPACE) == InputState::Released)
 		{

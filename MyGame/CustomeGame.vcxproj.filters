@@ -44,9 +44,6 @@
     <ClInclude Include="Teapot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MyCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="NormalMapDebugPlane.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -88,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="TestScenes.h">
       <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyCameraObject.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
