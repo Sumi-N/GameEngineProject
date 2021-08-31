@@ -32,20 +32,20 @@ namespace Tempest
 
 		struct Element
 		{
-			//String name;
+			String name;
 			Type type;
 			uint32_t size;
 			size_t offset;
 			bool normalized;
 
 			Element() = default;
-			Element(Type i_type, bool i_normalized = false)
-				: type(i_type), size(GetDataSize(type)), offset(0), normalized(i_normalized) {}
-			//Element(Type i_type, const String& i_name, bool i_normalized = false)
-				//: type(i_type), name(i_name), size(GetDataSize(type)), offset(0), normalized(i_normalized) {}
+			Element(Type i_type, const String& i_name, bool i_normalized = false)
+				: type(i_type), name(i_name), size(GetDataSize(type)), offset(0), normalized(i_normalized) {}
 
 			Element& operator= (Element i_element)
 			{
+				name = String();
+				name = i_element.name;
 				type = i_element.type;
 				size = i_element.size;
 				offset = i_element.offset;
@@ -120,9 +120,7 @@ namespace Tempest
 		void CleanUp() const;
 
 		const BufferData::Layout& GetLayout() const {return layout; }
-		const void SetLayout(BufferData::Layout& i_layout) {
-			layout = i_layout; 
-		}
+		const void SetLayout(BufferData::Layout& i_layout) {layout = i_layout; }
 
 	private:
 		BufferData::Layout layout;

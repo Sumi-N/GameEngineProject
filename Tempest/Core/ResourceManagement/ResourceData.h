@@ -40,6 +40,10 @@ namespace Resource
 
 	struct SkeletonMeshPoint : public MeshPoint
 	{
+		SkeletonMeshPoint(): 
+			index(Vec4u8t(255, 255, 255, 255)), 
+			weight(Vec4f(0, 0, 0, 0))
+		{};
 		Vec4u8t index;
 		Vec4f   weight;
 	};
@@ -68,7 +72,7 @@ namespace Resource
 	{
 		Quaternionf rot;
 		Vec4f       trans;
-		Vec4f       scale;
+		Vec3f       scale;
 		Mat4f       global_inversed_matrix;
 		uint8_t     parent_index;
 	};

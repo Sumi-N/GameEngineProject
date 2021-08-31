@@ -138,6 +138,7 @@ namespace Tempest
 		
 		//void		Assign();
 		void		PushBack(const T&);
+		void        PushBack(T&&);
 		//void      PopBack();
 		//Iterator	Insert(const Iterator, const T&);
 		//Iterator	Erase(const Iterator);
@@ -236,9 +237,8 @@ namespace Tempest
 		}
 
 		for (size_t i = size; i < i_resize; i++)
-		{
-			T& tmp = data[i];
-			tmp = T();
+		{			
+			data[i] = T();
 		}
 		size = i_resize;
 	}
@@ -282,10 +282,8 @@ namespace Tempest
 		{			
 			data = reinterpret_cast<T*>(AllocMemory(granularity * sizeof(T)));			
 			max_size += granularity;			
-			memset(static_cast<void*>(&data[size]), 0, sizeof(T));			
-			T& pushed_data = data[size];			
-			pushed_data = T();			
-			pushed_data = i_data;			
+			data[size] = T();
+			data[size] = i_data;
 			size++;
 
 			return;
@@ -294,20 +292,43 @@ namespace Tempest
 		if (size >= max_size)
 		{
 			data = reinterpret_cast<T*>(ReallocMemory(reinterpret_cast<void*>(data), (max_size + granularity) * sizeof(T)));
-			max_size += granularity;			
-			memset(static_cast<void*>(&data[size]), 0, sizeof(T));
-			T& pushed_data = data[size];
-			pushed_data = T();
-			pushed_data = i_data;
+			max_size += granularity;						
+			data[size] = T();
+			data[size] = i_data;
+			size++;
+
+			return;
+		}
+		
+		data[size] = T();
+		data[size] = i_data;
+		size++;
+	}
+
+	template <typename T>
+	inline void Array<T>::PushBack(T&& i_data)
+	{
+		if (max_size == 0 || !data)
+		{
+			data = reinterpret_cast<T*>(AllocMemory(granularity * sizeof(T)));
+			max_size += granularity;						
+			data[size] = std::move(i_data);
 			size++;
 
 			return;
 		}
 
-		memset(static_cast<void*>(&data[size]), 0, sizeof(T));
-		T& pushed_data = data[size];
-		pushed_data = T();
-		pushed_data = i_data;
+		if (size >= max_size)
+		{
+			data = reinterpret_cast<T*>(ReallocMemory(reinterpret_cast<void*>(data), (max_size + granularity) * sizeof(T)));
+			max_size += granularity;						
+			data[size] = std::move(i_data);
+			size++;
+
+			return;
+		}
+		
+		data[size] = std::move(i_data);		
 		size++;
 	}
 

@@ -13,7 +13,11 @@ namespace Math
 	public:
 		// x is a real number part, and y, z ,w are imaginary number part
 		// Quaternion q = x + y * i + z * j + w * k;
-		T x, y, z, w;
+		union
+		{
+			struct{ T x, y, z, w;};
+			T ele[4];
+		};
 		
 		Quaternion();
 		Quaternion(T const&, Vec3<T> const&);
@@ -35,18 +39,20 @@ namespace Math
 		Quaternion const& operator *= (T    const  t) { x *= t; y *= t; z *= t; w *= t; return *this; }
 		Quaternion const& operator /= (T    const  t) { x /= t; y /= t; z /= t; w /= t; return *this; }
 
-		void Normalize ()       { *this /= Length(); }
-		T    Length() const { return sqrt(static_cast<T>(x)* static_cast<T>(x) + static_cast<T>(y)* static_cast<T>(y) + static_cast<T>(z)* static_cast<T>(z) + static_cast<T>(w)* static_cast<T>(w)); }
-		Quaternion<T> Conjugate() const;
-		Quaternion<T> Inverse() const;
-		float Dot(Quaternion<T> i_q);
+		T&   operator [] (size_t const& i){ return this->ele[i]; }
+
+		void          Normalize ()        { *this /= Length(); }
+		T             Length    ()  const { return sqrt(static_cast<T>(x)* static_cast<T>(x) + static_cast<T>(y)* static_cast<T>(y) + static_cast<T>(z)* static_cast<T>(z) + static_cast<T>(w)* static_cast<T>(w)); }
+		Quaternion<T> Conjugate ()  const;
+		Quaternion<T> Inverse   ()  const;
+		float         Dot(Quaternion<T> i_q);
 
 		static Quaternion<T> AngleAxis(float const&, Vec3<T> const&);
 		static Quaternion<T> EulerToQuaternion(float const&, float const&, float const&);
-		static Vec3<T> QuaternionToEuler(Quaternion<T>);
+		static Vec3<T>       QuaternionToEuler(Quaternion<T>);
 		static Quaternion<T> Lerp(Quaternion<T>, Quaternion<T>, float);
 
-		static Matrix4<T> QuaternionToRotationMatix(Quaternion<T>);
+		static Matrix4<T>    QuaternionToRotationMatix(Quaternion<T>);
 	};
 }
 

@@ -15,9 +15,16 @@ namespace FBXLoader
 	}
 
 	namespace
-	{
-		/* Tab character ("\t") counter */
+	{		
 		int numTabs = 0;
+
+		struct BlendingWeight
+		{
+			uint8_t index;
+			float weight;
+		};
+
+		std::multimap<int, BlendingWeight> WeightMap;
 	}
 
 	bool Init(const char* i_filepath)
@@ -193,7 +200,7 @@ namespace FBXLoader
 		return true;
 	}
 
-	bool LoadSkeletonMesh(Array<Resource::SkeletonMeshPoint>& mesh, Array<int>& index)
+	bool LoadSkeletonMesh(Array<Resource::SkeletonMeshPoint>& mesh, Array<int>& index, const Skeleton& skeleton)
 	{
 		// Get mesh in the scene
 		int meshCount = lScene->GetSrcObjectCount<FbxMesh>();
@@ -249,26 +256,26 @@ namespace FBXLoader
 					continue;
 				}
 
-				//unsigned int numOfClusters = currSkin->GetClusterCount();
-				//for (unsigned int clusterIndex = 0; clusterIndex < numOfClusters; ++clusterIndex)
-				//{
-				//	FbxCluster* currCluster = currSkin->GetCluster(clusterIndex);
-				//	std::string currJointName = currCluster->GetLink()->GetName();
-				//	int currJointIndex = FindJointIndexUsingName(currJointName, skeleton);
+				unsigned int numOfClusters = currSkin->GetClusterCount();
+				for (unsigned int clusterIndex = 0; clusterIndex < numOfClusters; ++clusterIndex)
+				{
+					FbxCluster* currCluster = currSkin->GetCluster(clusterIndex);
+					std::string currJointName = currCluster->GetLink()->GetName();
+					int currJointIndex = FindJointIndexUsingName(currJointName, skeleton);
 
-				//	//Associate each joint with the control points it affects
-				//	unsigned int numOfIndices = currCluster->GetControlPointIndicesCount();
-				//	for (unsigned int j = 0; j < numOfIndices; ++j)
-				//	{
-				//		BlendingWeight currBlending;
-				//		currBlending.index = currJointIndex;
-				//		currBlending.weight = currCluster->GetControlPointWeights()[j];
+					//Associate each joint with the control points it affects
+					unsigned int numOfIndices = currCluster->GetControlPointIndicesCount();
+					for (unsigned int j = 0; j < numOfIndices; ++j)
+					{
+						BlendingWeight currBlending;
+						currBlending.index = currJointIndex;
+						currBlending.weight = currCluster->GetControlPointWeights()[j];
 
-				//		int controlpointindex = currCluster->GetControlPointIndices()[j];
+						int controlpointindex = currCluster->GetControlPointIndices()[j];
 
-				//		WeightMap.insert(std::make_pair(controlpointindex, currBlending));
-				//	}
-				//}
+						WeightMap.insert(std::make_pair(controlpointindex, currBlending));
+					}
+				}
 			}
 
 			// Current index count
@@ -337,88 +344,88 @@ namespace FBXLoader
 				}
 
 				// Get skin info from WidhtMap
-				//typedef std::multimap<int, BlendingWeight>::iterator iter;
-				//int this_index = index_array[3 * j + 0];
-				//for (std::pair<iter, iter> range(WeightMap.equal_range(this_index)); range.first != range.second; ++range.first)
-				//{
-				//	if (p1.index.x == -1)
-				//	{
-				//		p1.index.x = range.first->second.index;
-				//		p1.weight.x = range.first->second.weight;
-				//	}
-				//	else if (p1.index.y == -1)
-				//	{
-				//		p1.index.y = range.first->second.index;
-				//		p1.weight.y = range.first->second.weight;
-				//	}
-				//	else if (p1.index.z == -1)
-				//	{
-				//		p1.index.z = range.first->second.index;
-				//		p1.weight.z = range.first->second.weight;
-				//	}
-				//	else
-				//	{
-				//		p1.index.w = range.first->second.index;
-				//		p1.weight.w = range.first->second.weight;
-				//	}
-				//}
+				typedef std::multimap<int, BlendingWeight>::iterator iter;
+				int this_index = index_array[3 * j + 0];
+				for (std::pair<iter, iter> range(WeightMap.equal_range(this_index)); range.first != range.second; ++range.first)
+				{
+					if (p1.index.x == 255)
+					{
+						p1.index.x = range.first->second.index;
+						p1.weight.x = range.first->second.weight;
+					}
+					else if (p1.index.y == 255)
+					{
+						p1.index.y = range.first->second.index;
+						p1.weight.y = range.first->second.weight;
+					}
+					else if (p1.index.z == 255)
+					{
+						p1.index.z = range.first->second.index;
+						p1.weight.z = range.first->second.weight;
+					}
+					else
+					{
+						p1.index.w = range.first->second.index;
+						p1.weight.w = range.first->second.weight;
+					}
+				}
 
-				//this_index = index_array[3 * j + 1];
-				//for (std::pair<iter, iter> range(WeightMap.equal_range(this_index)); range.first != range.second; ++range.first)
-				//{
-				//	if (p2.index.x == -1)
-				//	{
-				//		p2.index.x = range.first->second.index;
-				//		p2.weight.x = range.first->second.weight;
-				//	}
-				//	else if (p2.index.y == -1)
-				//	{
-				//		p2.index.y = range.first->second.index;
-				//		p2.weight.y = range.first->second.weight;
-				//	}
-				//	else if (p2.index.z == -1)
-				//	{
-				//		p2.index.z = range.first->second.index;
-				//		p2.weight.z = range.first->second.weight;
-				//	}
-				//	else
-				//	{
-				//		p2.index.w = range.first->second.index;
-				//		p2.weight.w = range.first->second.weight;
-				//	}
-				//}
+				this_index = index_array[3 * j + 1];
+				for (std::pair<iter, iter> range(WeightMap.equal_range(this_index)); range.first != range.second; ++range.first)
+				{
+					if (p2.index.x == -1)
+					{
+						p2.index.x = range.first->second.index;
+						p2.weight.x = range.first->second.weight;
+					}
+					else if (p2.index.y == -1)
+					{
+						p2.index.y = range.first->second.index;
+						p2.weight.y = range.first->second.weight;
+					}
+					else if (p2.index.z == -1)
+					{
+						p2.index.z = range.first->second.index;
+						p2.weight.z = range.first->second.weight;
+					}
+					else
+					{
+						p2.index.w = range.first->second.index;
+						p2.weight.w = range.first->second.weight;
+					}
+				}
 
-				//this_index = index_array[3 * j + 2];
-				//for (std::pair<iter, iter> range(WeightMap.equal_range(this_index)); range.first != range.second; ++range.first)
-				//{
-				//	if (p3.index.x == -1)
-				//	{
-				//		p3.index.x = range.first->second.index;
-				//		p3.weight.x = range.first->second.weight;
-				//	}
-				//	else if (p3.index.y == -1)
-				//	{
-				//		p3.index.y = range.first->second.index;
-				//		p3.weight.y = range.first->second.weight;
-				//	}
-				//	else if (p3.index.z == -1)
-				//	{
-				//		p3.index.z = range.first->second.index;
-				//		p3.weight.z = range.first->second.weight;
-				//	}
-				//	else
-				//	{
-				//		p3.index.w = range.first->second.index;
-				//		p3.weight.w = range.first->second.weight;
-				//	}
-				//}
+				this_index = index_array[3 * j + 2];
+				for (std::pair<iter, iter> range(WeightMap.equal_range(this_index)); range.first != range.second; ++range.first)
+				{
+					if (p3.index.x == -1)
+					{
+						p3.index.x = range.first->second.index;
+						p3.weight.x = range.first->second.weight;
+					}
+					else if (p3.index.y == -1)
+					{
+						p3.index.y = range.first->second.index;
+						p3.weight.y = range.first->second.weight;
+					}
+					else if (p3.index.z == -1)
+					{
+						p3.index.z = range.first->second.index;
+						p3.weight.z = range.first->second.weight;
+					}
+					else
+					{
+						p3.index.w = range.first->second.index;
+						p3.weight.w = range.first->second.weight;
+					}
+				}
 
 				mesh.PushBack(p1);
 				mesh.PushBack(p2);
 				mesh.PushBack(p3);
 			}
 
-			//WeightMap.clear();
+			WeightMap.clear();
 		}
 
 		return true;
@@ -432,6 +439,36 @@ namespace FBXLoader
 			ProcessSkeletonHierarchyRecursively(currNode, 0, 0, -1, o_skeleton);
 		}
 
+		return true;
+	}
+
+	bool LoadAnimationClip(AnimationClip& o_clip)
+	{
+		// Get animation information
+		// Now only supports one take
+		FbxAnimStack* currAnimStack = lScene->GetSrcObject<FbxAnimStack>(0);
+		if (currAnimStack)
+		{
+			FbxString animStackName = currAnimStack->GetName();
+			auto mAnimationName = animStackName.Buffer();
+			FbxTakeInfo* takeInfo = lScene->GetTakeInfo(animStackName);
+			FbxTime start = takeInfo->mLocalTimeSpan.GetStart();
+			FbxTime end = takeInfo->mLocalTimeSpan.GetStop();
+			FbxLongLong mAnimationLength = end.GetFrameCount(FbxTime::eFrames24) - start.GetFrameCount(FbxTime::eFrames24) + 1;
+
+			o_clip.frame_count = (int)mAnimationLength;
+
+
+			for (FbxLongLong i = start.GetFrameCount(FbxTime::eFrames24); i <= end.GetFrameCount(FbxTime::eFrames24); ++i)
+			{
+				AnimationSample sample;
+
+				FbxTime currTime;
+				currTime.SetFrame(i, FbxTime::eFrames24);
+				LoadAnimationSample(sample, currTime);
+				o_clip.samples.PushBack(sample);
+			}
+		}
 		return true;
 	}
 
@@ -557,10 +594,10 @@ namespace FBXLoader
 			FbxAMatrix global_mat = inNode->EvaluateGlobalTransform().Inverse();
 
 			float elemetns[16] = {
-				global_mat.Get(0, 0),global_mat.Get(0, 1), global_mat.Get(0, 2), global_mat.Get(0, 3),
-				global_mat.Get(1, 0),global_mat.Get(1, 1), global_mat.Get(1, 2), global_mat.Get(1, 3),
-				global_mat.Get(2, 0),global_mat.Get(2, 1), global_mat.Get(2, 2), global_mat.Get(2, 3),
-				global_mat.Get(3, 0),global_mat.Get(3, 1), global_mat.Get(3, 2), global_mat.Get(3, 3),
+				(float)global_mat.Get(0, 0), (float)global_mat.Get(0, 1), (float)global_mat.Get(0, 2), (float)global_mat.Get(0, 3),
+				(float)global_mat.Get(1, 0), (float)global_mat.Get(1, 1), (float)global_mat.Get(1, 2), (float)global_mat.Get(1, 3),
+				(float)global_mat.Get(2, 0), (float)global_mat.Get(2, 1), (float)global_mat.Get(2, 2), (float)global_mat.Get(2, 3),
+				(float)global_mat.Get(3, 0), (float)global_mat.Get(3, 1), (float)global_mat.Get(3, 2), (float)global_mat.Get(3, 3),
 			};
 			currJoint.inversed = Mat4f(elemetns);
 
@@ -570,14 +607,76 @@ namespace FBXLoader
 			Vec3f translation;
 			Vec3f skew;
 			Vec4f perspective;
-			glm::decompose(transformation, scale, rotation, translation, skew, perspective);
+			Mat4f::Decompose(transformation, scale, rotation, translation, skew, perspective);
 			currJoint.coord = translation;
 
 			o_skeleton.joints.PushBack(currJoint);
 		}
 		for (int i = 0; i < inNode->GetChildCount(); i++)
 		{
-			ProcessSkeletonHierarchyRecursively(inNode->GetChild(i), inDepth + 1, o_skeleton.joints.Size(), myIndex, o_skeleton);
+			ProcessSkeletonHierarchyRecursively(inNode->GetChild(i), inDepth + 1, (int)o_skeleton.joints.Size(), myIndex, o_skeleton);
 		}
 	}
+
+	int FindJointIndexUsingName(std::string name, Skeleton skeleton)
+	{
+		for (int i = 0; i < skeleton.joints.Size(); i++)
+		{
+			if (skeleton.joints[i].name.compare(name) == 0)
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	bool LoadAnimationSample(AnimationSample& o_sample, FbxTime time)
+	{
+		for (int childIndex = 0; childIndex < lRootNode->GetChildCount(); ++childIndex)
+		{
+			FbxNode* currNode = lRootNode->GetChild(childIndex);
+			ProcessAnimationSampleRecursively(currNode, 0, 0, -1, o_sample, time);
+		}
+
+		return true;
+	}
+
+	void ProcessAnimationSampleRecursively(FbxNode* inNode, int inDepth, int myIndex, int inParentIndex, AnimationSample& o_sample, FbxTime time)
+	{
+		if (inNode->GetNodeAttribute() && inNode->GetNodeAttribute()->GetAttributeType() && inNode->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eSkeleton)
+		{
+			JointPose currPose;
+			currPose.parent_index = inParentIndex;
+
+			FbxAMatrix global_mat = inNode->EvaluateGlobalTransform(time);
+
+			float elemetns[16] = {
+				(float)global_mat.Get(0, 0), (float)global_mat.Get(0, 1), (float)global_mat.Get(0, 2), (float)global_mat.Get(0, 3),
+				(float)global_mat.Get(1, 0), (float)global_mat.Get(1, 1), (float)global_mat.Get(1, 2), (float)global_mat.Get(1, 3),
+				(float)global_mat.Get(2, 0), (float)global_mat.Get(2, 1), (float)global_mat.Get(2, 2), (float)global_mat.Get(2, 3),
+				(float)global_mat.Get(3, 0), (float)global_mat.Get(3, 1), (float)global_mat.Get(3, 2), (float)global_mat.Get(3, 3),
+			};
+			currPose.global_inversed_matrix = Mat4f(elemetns);
+
+			Mat4f transformation = currPose.global_inversed_matrix;
+			Vec3f scale;
+			Quaternionf rotation;
+			Vec3f translation;
+			Vec3f skew;
+			Vec4f perspective;
+			Mat4f::Decompose(transformation, scale, rotation, translation, skew, perspective);
+
+			currPose.trans = Vec4f(translation, 1.0);
+			currPose.rot = rotation;
+			currPose.scale = scale;
+
+			o_sample.jointposes.PushBack(currPose);
+		}
+
+		for (int i = 0; i < inNode->GetChildCount(); i++)
+		{
+			ProcessAnimationSampleRecursively(inNode->GetChild(i), inDepth + 1, o_sample.jointposes.Size(), myIndex, o_sample, time);
+		}
+	}
+
 }

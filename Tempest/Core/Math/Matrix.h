@@ -12,13 +12,16 @@
 
 namespace Math
 {
+	// Forward Declaration
+	template<typename T> class Quaternion;
+
 	template<typename T>
 	class Matrix4
 	{
 	public:
 		union
 		{
-			T ele[16];
+			T ele[16];			
 			Vec4<T> column[4];
 		};
 
@@ -26,11 +29,12 @@ namespace Math
 		Matrix4(T*);
 		Matrix4(T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T);
 
-		Matrix4<T> operator +(Matrix4<T> const & i_m) const;
-		Matrix4<T> operator -(Matrix4<T> const & i_m) const;
-		Matrix4<T> operator *(Matrix4<T> const & i_m) const;
-		Matrix4<T> operator /(T const& i_v) const;
-		Matrix4<T>& operator = (Matrix4<T> const& i_m);
+		Matrix4<T>  operator +(Matrix4<T> const & i_m) const;
+		Matrix4<T>  operator -(Matrix4<T> const & i_m) const;
+		Matrix4<T>  operator *(Matrix4<T> const & i_m) const;
+		Matrix4<T>  operator /(T const& i_v) const;
+		Matrix4<T>& operator = (Matrix4<T> const& i_m);		
+		Vec4<T>&    operator [](size_t const & i) { return this->column[i]; }
 
 		Vec3<T> operator * (Vec3<T> const & i_v) const;
 		Vec4<T> operator * (Vec4<T> const & i_v) const;
@@ -52,7 +56,9 @@ namespace Math
 		static Matrix4<T> EulerAngleZYX(T x, T y, T z);
 		static Matrix4<T> Scale(Vec3<T> i_v);
 
-		static Matrix4<T> TruncateToMat3(Matrix4<T> i_m);
+		static Matrix4<T> TruncateToMat3(Matrix4<T> i_m);		
+		//static T          Determinant(Matrix4<T> i_m);
+		static bool       Decompose(Matrix4<T> i_matrix, Vec3<T>& o_scale, Quaternion<T>& o_orientation, Vec3<T>& o_translation, Vec3<T>& o_skew, Vec4<T>& o_perspective);
 	};
 
 	//template<typename T>

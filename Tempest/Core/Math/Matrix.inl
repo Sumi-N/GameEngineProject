@@ -2,6 +2,9 @@
 
 namespace Math {
 
+	// Forward Declaration
+	template<typename T> class Quaternion;
+
 	template<typename T>
 	inline Matrix4<T>::Matrix4()
 	{
@@ -23,22 +26,10 @@ namespace Math {
 	template<typename T>
 	inline Matrix4<T>::Matrix4(T i11, T i12, T i13, T i14, T i21, T i22, T i23, T i24, T i31, T i32, T i33, T i34, T i41, T i42, T i43, T i44)
 	{
-		ele[0] = i11;
-		ele[1] = i12;
-		ele[2] = i13;
-		ele[3] = i14;
-		ele[4] = i21;
-		ele[5] = i22;
-		ele[6] = i23;
-		ele[7] = i24;
-		ele[8] = i31;
-		ele[9] = i32;
-		ele[10] = i33;
-		ele[11] = i34;
-		ele[12] = i41;
-		ele[13] = i42;
-		ele[14] = i43;
-		ele[15] = i44;
+		ele[0] = i11; ele[1] = i12; ele[2] = i13; ele[3] = i14;
+		ele[4] = i21; ele[5] = i22; ele[6] = i23; ele[7] = i24;
+		ele[8] = i31; ele[9] = i32; ele[10] = i33; ele[11] = i34;
+		ele[12] = i41; ele[13] = i42; ele[14] = i43; ele[15] = i44;
 	}
 
 	template<typename T>
@@ -367,5 +358,136 @@ namespace Math {
 		o_m.ele[14] = 0;
 		o_m.ele[15] = static_cast<T>(1.0);
 		return o_m;
+	}
+
+	//template<typename T>
+	//inline T Matrix4<T>::Determinant(Matrix4<T> i_m)
+	//{
+
+	//}
+
+	template<typename T>
+	inline bool Matrix4<T>::Decompose(Matrix4<T> i_matrix, Vec3<T>& o_scale, Quaternion<T>& o_orientation, Vec3<T>& o_translation, Vec3<T>& o_skew, Vec4<T>& o_perspective)
+	{
+		Matrix4<T> local_matrix(i_matrix);
+		if (EpsilonEqual(local_matrix[3][3], static_cast<T>(0), (float)1.0e-10))
+			return false;
+
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++)
+				local_matrix[i][j] /= local_matrix[3][3];
+
+		Matrix4<T> perspective_matrix(local_matrix);
+
+		for (int i = 0; i < 3; i++)
+			perspective_matrix[i][3] = static_cast<T>(0);
+		perspective_matrix[3][3] = static_cast<T>(1);
+
+		//if(!EpsilonEqual(Matrix4<T>::Determinant(perspective_matrix), static_cast<T>(0), std::numeric_limits<T>::epsilon<T>()))
+		//	return false;
+
+		if (EpsilonNotEqual(local_matrix[0][3], static_cast<T>(0), (float)1.0e-10) ||
+			EpsilonNotEqual(local_matrix[1][3], static_cast<T>(0), (float)1.0e-10) ||
+			EpsilonNotEqual(local_matrix[2][3], static_cast<T>(0), (float)1.0e-10))
+		{
+			Vec4<T> right_hand_side;
+			right_hand_side.x = local_matrix[0][3];
+			right_hand_side.y = local_matrix[1][3];
+			right_hand_side.z = local_matrix[2][3];
+			right_hand_side.w = local_matrix[3][3];
+
+			Matrix4<T> inversed_perspective_matrix = Inverse(perspective_matrix);
+			Matrix4<T> transposed_inversed_perspective_matrix = Transpose(inversed_perspective_matrix);
+
+			o_perspective = transposed_inversed_perspective_matrix * right_hand_side;
+
+			local_matrix[0][3] = local_matrix[1][3] = local_matrix[2][3] = static_cast<T>(0);
+			local_matrix[3][3] = static_cast<T>(1);
+		}
+		else
+		{
+			o_perspective = Vec4<T>(0, 0, 0, 1);
+		}
+
+		o_translation = Vec3<T>(local_matrix[3]);
+		local_matrix[3] = Vec4<T>(0, 0, 0, local_matrix[3].w);
+
+		Vec3<T> row[3], pdum3;
+
+		// Now get scale and shear.
+		for (int i = 0; i < 3; ++i){ 
+			for (int j = 0; j < 3; ++j)
+			{
+				row[i][j] = local_matrix[i][j];				
+			}
+		}
+
+		// Compute X scale factor and normalize first row.
+		o_scale.x = row[0].Length();
+
+		row[0].Normalize();
+
+		// Compute XY shear factor and make 2nd row orthogonal to 1st.
+		o_skew.z = row[0].Dot(row[1]);
+		row[1] = static_cast<T>(1) * row[1] - o_skew.z * row[0];
+
+		// Now, compute Y scale and normalize 2nd row.
+		o_scale.y = row[1].Length();
+		row[1].Normalize();
+		o_skew.z /= o_scale.y;
+
+		// Compute XZ and YZ shears, orthogonalize 3rd row.
+		o_skew.y = row[0].Dot(row[2]);
+		row[2] = static_cast<T>(1) * row[2] - o_skew.y * row[0];
+		o_skew.x = row[1].Dot(row[2]);
+		row[2] = static_cast<T>(1) * row[2] - o_skew.x * row[1];
+
+		// Next, get Z scale and normalize 3rd row.
+		o_scale.z = row[2].Length();
+		row[2].Normalize();
+		o_skew.y /= o_scale.z;
+		o_skew.x /= o_scale.z;
+		
+		pdum3 = row[1].Cross(row[2]); 
+		if (row[0].Dot(pdum3) < 0)
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				o_scale[i] *= static_cast<T>(-1);
+				row[i]     *= static_cast<T>(-1);
+			}
+		}
+
+		int i, j, k = 0;
+		T root, trace = row[0].x + row[1].y + row[2].z;
+		if (trace > static_cast<T>(0))
+		{
+			root = sqrt(trace + static_cast<T>(1.0));
+			o_orientation.w = static_cast<T>(0.5) * root;
+			root = static_cast<T>(0.5) / root;
+			o_orientation.x = root * (row[1].z - row[2].y);
+			o_orientation.y = root * (row[2].x - row[0].z);
+			o_orientation.z = root * (row[0].y - row[1].x);
+		} // End if > 0
+		else
+		{
+			static int next[3] = { 1, 2, 0 };
+			i = 0;
+			if (row[1].y > row[0].x) i = 1;
+			if (row[2].z > row[i][i]) i = 2;
+			j = next[i];
+			k = next[j];
+
+			root = sqrt(row[i][i] - row[j][j] - row[k][k] + static_cast<T>(1.0));			
+
+			o_orientation[i] = static_cast<T>(0.5) * root;
+			root = static_cast<T>(0.5) / root;
+
+			o_orientation[j] = root * (row[i][j] + row[j][i]);
+			o_orientation[k] = root * (row[i][k] + row[k][i]);
+			o_orientation.w = root * (row[j][k] - row[k][j]);			
+		} // End if <= 0
+
+		return true;
 	}
 }

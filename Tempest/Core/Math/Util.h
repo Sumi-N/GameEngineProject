@@ -15,4 +15,14 @@ namespace Math
 	{
 		return i_radian * 180.0f / pi;
 	}
+
+	static bool EpsilonEqual(float const& x, float const& y, float const& epsilon)
+	{
+		return abs(x - y) < epsilon;
+	}
+
+	static bool EpsilonNotEqual(float const& x, float const& y, float const& epsilon)
+	{
+		return abs(x - y) >= epsilon;
+	}
 }

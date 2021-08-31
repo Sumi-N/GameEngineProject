@@ -1,12 +1,14 @@
 #include "GeometryConverter.h"
 #include "FBXLoader.h"
 
+using namespace Resource;
+
 Tempest::Result GeometryConverter::ConvertGeometry(ConversionType i_conversiontype, const char* i_filename, const char* o_filename)
 {
 	if (i_conversiontype == ConversionType::Mesh)
 	{
-		Array<Resource::MeshPoint> data;
-		Array<int>                 index;
+		Array<MeshPoint> data;
+		Array<int> index;
 
 		Tempest::File in(i_filename, Tempest::File::Format::BinaryRead);
 
@@ -33,7 +35,7 @@ Tempest::Result GeometryConverter::ConvertGeometry(ConversionType i_conversionty
 
 		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&data_size), sizeof(size_t)));
 		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&index_size), sizeof(size_t)));
-		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(data.Data()), data_size * sizeof(Resource::MeshPoint)));
+		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(data.Data()), data_size * sizeof(MeshPoint)));
 		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(index.Data()), index_size * sizeof(int)));
 
 		out.Close();
@@ -42,36 +44,41 @@ Tempest::Result GeometryConverter::ConvertGeometry(ConversionType i_conversionty
 	}
 	else if (i_conversiontype == ConversionType::SkeletonMesh)
 	{
-		Array<Resource::SkeletonMeshPoint> data;
-		Array<int>                 index;
+		Skeleton skeleton;
+		Array<SkeletonMeshPoint> skeleton_mesh;		
+		Array<int>      index;
 
 		Tempest::File in(i_filename, Tempest::File::Format::BinaryRead);
 
 		if (in.GetExtensionName() == ".fbx")
 		{
-			RETURN_IFNOT_SUCCESS(ReadSkeletonMesh(ExtensionType::FBX, i_filename, data, index));
+			RETURN_IFNOT_SUCCESS(ReadSkeletonMesh(ExtensionType::FBX, i_filename, skeleton, skeleton_mesh, index));
 		}
 
 		Tempest::File out(o_filename, Tempest::File::Format::BinaryWrite);
 
-		size_t data_size = data.Size();
+		size_t meshdata_size = skeleton_mesh.Size();
 		size_t index_size = index.Size();
 
-		if (data_size == 0 || index_size == 0)
+		if (meshdata_size == 0 || index_size == 0)
 		{
 			return Tempest::ResultValue::Failure;
 		}
 
 		RETURN_IFNOT_SUCCESS(out.Open());
 
-		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&data_size), sizeof(size_t)));
+		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&meshdata_size), sizeof(size_t)));
 		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&index_size), sizeof(size_t)));
-		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(data.Data()), data_size * sizeof(Resource::MeshPoint)));
+		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(skeleton_mesh.Data()), meshdata_size * sizeof(MeshPoint)));
 		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(index.Data()), index_size * sizeof(int)));
 
 		out.Close();
 
 		return Tempest::ResultValue::Success;
+	}
+	else if (i_conversiontype == ConversionType::AnimationClip)
+	{
+
 	}
 	else
 	{
@@ -79,7 +86,7 @@ Tempest::Result GeometryConverter::ConvertGeometry(ConversionType i_conversionty
 	}
 }
 
-Tempest::Result GeometryConverter::ReadMesh(ExtensionType i_extension, const char* i_filename, Array<Resource::MeshPoint>& o_data, Array<int>& o_index)
+Tempest::Result GeometryConverter::ReadMesh(ExtensionType i_extension, const char* i_filename, Array<MeshPoint>& o_data, Array<int>& o_index)
 {
 	if (!o_data.Empty())
 	{
@@ -146,7 +153,7 @@ Tempest::Result GeometryConverter::ReadMesh(ExtensionType i_extension, const cha
 			o_index.PushBack(indexOffset + 1);
 			o_index.PushBack(indexOffset + 2);
 
-			Resource::MeshPoint tmp1, tmp2, tmp3;
+			MeshPoint tmp1, tmp2, tmp3;
 
 			cy::TriMesh::TriFace vertexFace = tmpdata.F((int)i);
 
@@ -254,7 +261,7 @@ Tempest::Result GeometryConverter::ReadMesh(ExtensionType i_extension, const cha
 	return Tempest::ResultValue::Success;
 }
 
-Tempest::Result GeometryConverter::ReadSkeletonMesh(ExtensionType i_extension, const char* i_filename, Array<Resource::SkeletonMeshPoint>& o_data, Array<int>& o_index)
+Tempest::Result GeometryConverter::ReadSkeletonMesh(ExtensionType i_extension, const char* i_filename, Skeleton& o_skeleton, Array<SkeletonMeshPoint>& o_data, Array<int>& o_index)
 {
 	if (i_extension == ExtensionType::FBX)
 	{
@@ -263,7 +270,12 @@ Tempest::Result GeometryConverter::ReadSkeletonMesh(ExtensionType i_extension, c
 			return Tempest::ResultValue::Failure;
 		}
 
-		if (!FBXLoader::LoadSkeletonMesh(o_data, o_index))
+		if (!FBXLoader::LoadSkeleton(o_skeleton))
+		{
+			return Tempest::ResultValue::Failure;
+		}
+
+		if (!FBXLoader::LoadSkeletonMesh(o_data, o_index, o_skeleton))
 		{
 			return Tempest::ResultValue::Failure;
 		}
