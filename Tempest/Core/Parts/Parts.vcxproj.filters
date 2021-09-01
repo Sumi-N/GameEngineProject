@@ -50,6 +50,9 @@
     <ClInclude Include="CameraObject.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationComponent.h">
+      <Filter>Compontnes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshComponent.cpp">

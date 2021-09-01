@@ -19,6 +19,7 @@ namespace Tempest
 		void   PushBack(const T& i_t)  {vector.push_back(i_t); }
 		void   Clear   ()              {vector.clear(); }
 		size_t Size    ()              {return vector.size(); }
+		void   Convert(std::initializer_list<T> i_list) {vector = i_list; }
 
 		T& operator[](size_t i_size){ return vector[i_size];};
 						

@@ -93,6 +93,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="CameraObject.h" />
     <ClInclude Include="Component.h" />

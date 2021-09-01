@@ -29,8 +29,8 @@ public:
 	void DrawMeshOnly();
 	void CleanUp();	
 
-	OwningPointer<MeshComponent> mesh_component;
-	OwningPointer<Resource::Mesh> mesh;
+	OwningPointer<MeshComponent>      mesh_component;
+	OwningPointer<Resource::Mesh>     mesh;
 	OwningPointer<Resource::Material> material;
 	Array<OwningPointer<RenderState>> states;
 	

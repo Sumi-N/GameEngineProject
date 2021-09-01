@@ -23,11 +23,17 @@ void SceneProxy::CleanUp()
 }
 
 void SceneProxy::InitBuffer()
-{
-	if (vbuffer.CheckStructDataSize(sizeof(mesh->data[0])))
+{	
+	//if (mesh_component->type == 0)
 	{
-		vbuffer.InitData(static_cast<uint32_t>(mesh->data.Size()) * sizeof(mesh->data[0]), mesh->data.Data());
+		vbuffer.InitData(VertexBufferType::Mesh, static_cast<uint32_t>(mesh->data.Size()) * sizeof(mesh->data[0]), mesh->data.Data());
 	}
+	//else if (mesh_component->type == 1)
+	{
+		//Resource::Mesh* test;
+		//Resource::Skeleton* skmesh = reinterpret_cast<Resource::Skeleton*>(test);
+	}
+
 	ibuffer.InitData(static_cast<uint32_t>(mesh->index.Size()) * sizeof(mesh->index[0]), mesh->index.Data());
 
 	// Memorize index size for Draw() fucntion

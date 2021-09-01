@@ -32,7 +32,7 @@ namespace Tempest
 
 		Application,
 		GameThread,
-		RenderThread,
+		RenderThread,		
 
 		Count          // This must be the last
 	};

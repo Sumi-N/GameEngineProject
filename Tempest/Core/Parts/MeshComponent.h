@@ -14,6 +14,7 @@ namespace Tempest
 		MeshComponent() = default;
 		~MeshComponent() = default;
 
+		uint8_t type;
 		OwningPointer<Resource::Mesh> mesh;
 
 		ObservingPointer<Object> owner;
@@ -28,7 +29,7 @@ namespace Tempest
 		virtual void Update(float i_dt) override;
 		virtual void CleanUp() override;
 
-		Result Load(const char* filename);
+		Result Load(const char* i_filename);
 		void SetMaterial(MaterialAttribute*);
 		void SetMaterial(OwningPointer<MaterialAttribute>);
 

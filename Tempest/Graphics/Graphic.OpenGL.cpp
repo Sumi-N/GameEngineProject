@@ -95,7 +95,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 
 
 	// Render shadow to frame buffers
-	for (int i = 0; i < MAX_POINT_LIGHT_NUM; i++)
+	for (int i = 0; i < NUM_MAX_POINT_LIGHT; i++)
 	{
 		// Submit shadow uniform data
 		auto& data_shadow = i_data->shadow[i];
@@ -136,7 +136,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 				constant_material.Update(&data_material);
 
 				// Bind shadow map texture 
-				for (int j = 0; j < MAX_POINT_LIGHT_NUM; j++)
+				for (int j = 0; j < NUM_MAX_POINT_LIGHT; j++)
 				{
 					frame_shadowcubemaps[j].BindTextureUnit();
 				}

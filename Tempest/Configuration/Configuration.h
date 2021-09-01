@@ -3,7 +3,7 @@
 //////////////////////////////
 //  Custom heap allocator
 //////////////////////////////
-#define ENABLE_CUSTOM_ALLOCATOR
+//#define ENABLE_CUSTOM_ALLOCATOR
 
 #ifndef ENABLE_CUSTOM_ALLOCATOR
 	#define USE_STANDARD_ARRAY
@@ -40,11 +40,12 @@
 //////////////////////////////
 //  Screen Setting
 //////////////////////////////
-#define SCREEN_WIDTH 1920
+#define SCREEN_WIDTH  1920
 #define SCREEN_HEIGHT 1080
-#define NEARCLIP 0.1f
-#define FARCLIP  100.0f
-#define FOV      45.0f
+#define NEARCLIP      0.1f
+#define FARCLIP       100.0f
+#define FOV           45.0f
+#define FRAME_RATE    60.0f
 
 
 //////////////////////////////
@@ -52,7 +53,7 @@
 //////////////////////////////
 
 //  Make sure to change the sharer's code if the number here got changed
-#define MAX_POINT_LIGHT_NUM 5
+#define NUM_MAX_POINT_LIGHT 5
 
 //////////////////////////////
 //  General Asset Path

@@ -5,13 +5,6 @@
 
 #include <External/cyCodeBase/cyTriMesh.h>
 
-enum class ConversionType : uint8_t
-{
-	Mesh,
-	SkeletonMesh,
-	AnimationClip,
-};
-
 enum class ExtensionType : uint8_t
 {
 	OBJ,
@@ -23,10 +16,14 @@ using namespace Resource;
 class GeometryConverter
 {
 public:
-	static Tempest::Result ConvertGeometry(ConversionType, const char*, const char*);
+	static Tempest::Result ConvertMesh(const char*, const char*);
+	static Tempest::Result ConvertSkeletonMesh(const char*, const char*);
+	static Tempest::Result ConvertAnimationClip(const char*, const char*);
 
 private:
 	static Tempest::Result ReadMesh(ExtensionType, const char*, Array<MeshPoint>&, Array<int>&);	
 	static Tempest::Result ReadSkeletonMesh(ExtensionType, const char*, Skeleton&, Array<SkeletonMeshPoint>&, Array<int>&);
+	static Tempest::Result ReadAnimationClip(ExtensionType, const char*, AnimationClip&);
+	static Tempest::Result MatchBoneStructure(const Skeleton&, AnimationClip&);
 };
 

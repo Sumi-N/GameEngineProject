@@ -14,7 +14,7 @@ int main()
 
 	for (auto i_entry : filepaths)
 	{
-		String o_entry = File::ReplaceExtension(i_entry, "ttd");	
+		String o_entry = File::ReplaceExtension(i_entry, "tt");	
 
 		String copy_from_path = "..\\..\\" + path_in + i_entry;
 		String copy_to_path   = "..\\..\\" + path_out + o_entry;

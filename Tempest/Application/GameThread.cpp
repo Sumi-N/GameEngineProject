@@ -102,20 +102,20 @@ namespace Tempest
 		// Submit point data 
 		{
 			Debug::Ray ray;
-			ray.startpoint = Entity::Cameras[0]->pos;
-			ray.direction = 2 * (UserInput.X() / SCREEN_WIDTH - 0.5f) * Entity::Cameras[0]->GetRightVec()
-				- 2 * (UserInput.Y() / SCREEN_HEIGHT - 0.5f) * Entity::Cameras[0]->GetUpVec()
-				+ Entity::Cameras[0]->GetForwardVec();
+			ray.startpoint = Entity::CamerasObjects[0]->pos;
+			ray.direction = 2 * (UserInput.X() / SCREEN_WIDTH - 0.5f) * Entity::CamerasObjects[0]->GetRightVec()
+				- 2 * (UserInput.Y() / SCREEN_HEIGHT - 0.5f) * Entity::CamerasObjects[0]->GetUpVec()
+				+ Entity::CamerasObjects[0]->GetForwardVec();
 			ray.GetEndPoint();
-			data_game_own->points[0] = ray.startpoint + 0.1f * Entity::Cameras[0]->GetForwardVec();
+			data_game_own->points[0] = ray.startpoint + 0.1f * Entity::CamerasObjects[0]->GetForwardVec();
 			data_game_own->points[1] = ray.endpoint;
 		}
 
 		// Submit camera data
 		{
-			data_game_own->camera.camera_position_vector = Entity::Cameras[0]->pos;
-			data_game_own->camera.perspective_matrix = Entity::Cameras[0]->perspective;
-			data_game_own->camera.view_matrix = Entity::Cameras[0]->view;
+			data_game_own->camera.camera_position_vector = Entity::CamerasObjects[0]->pos;
+			data_game_own->camera.perspective_matrix = Entity::CamerasObjects[0]->perspective;
+			data_game_own->camera.view_matrix = Entity::CamerasObjects[0]->view;
 		}
 
 		// Submit lights data
@@ -151,6 +151,7 @@ namespace Tempest
 
 		{
 			for (auto it = SceneEntity::List.Begin(); it != SceneEntity::List.End(); ++it)
+			//for (auto it = Entity::MeshComponentList.Begin(); it != Entity::MeshComponentList.End(); ++it)
 			{
 				// Submit material data
 				ConstantData::Material material;

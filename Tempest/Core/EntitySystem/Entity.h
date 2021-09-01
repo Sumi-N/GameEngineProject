@@ -18,11 +18,11 @@ namespace Tempest
 	class Entity
 	{
 	public:		
-		static Array<ObjectHandler>                  ObjectList;		
-		static Array<OwningPointer<CameraObject>>          Cameras;				
-		static Array<OwningPointer<PointLight>>      PointLightList;		
-		static Array<OwningPointer<MeshComponent>>   MeshComponentList;
-		static Array<OwningPointer<EffectComponent>> EffectComponentList;
+		static Array<ObjectHandler>                     ObjectList;
+		static Array<OwningPointer<CameraObject>>       CamerasObjects;
+		static Array<OwningPointer<PointLight>>         PointLightList;
+		static Array<OwningPointer<MeshComponent>>      MeshComponentList;
+		static Array<OwningPointer<EffectComponent>>    EffectComponentList;
 
 		static OwningPointer<CubeMap>          Skybox;
 		static OwningPointer<AmbientLight>     Ambient;
@@ -32,14 +32,14 @@ namespace Tempest
 		
 		static ObjectHandler Query(Object*);
 
-		static void Register                (const OwningPointer<Object>&);
-		static void RegisterCamera          (const OwningPointer<CameraObject>&);
-		static void RegisterSkyBox          (const OwningPointer<CubeMap>&);
-		static void RegisterAmbientLight    (const OwningPointer<AmbientLight>&);
-		static void RegisterDirectionalLight(const OwningPointer<DirectionalLight>&);
-		static void RegisterPointLight      (const OwningPointer<PointLight>&);
-		static void RegisterMeshComponent   (const OwningPointer<MeshComponent>&);
-		static void RegisterEffectComponent (const OwningPointer<EffectComponent>&);
+		static void Register                  (const OwningPointer<Object>&);
+		static void RegisterCamera            (const OwningPointer<CameraObject>&);
+		static void RegisterSkyBox            (const OwningPointer<CubeMap>&);
+		static void RegisterAmbientLight      (const OwningPointer<AmbientLight>&);
+		static void RegisterDirectionalLight  (const OwningPointer<DirectionalLight>&);
+		static void RegisterPointLight        (const OwningPointer<PointLight>&);
+		static void RegisterMeshComponent     (const OwningPointer<MeshComponent>&);
+		static void RegisterEffectComponent   (const OwningPointer<EffectComponent>&);		
 
 		static void Boot();
 		static void Init();

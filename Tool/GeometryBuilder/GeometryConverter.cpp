@@ -3,87 +3,112 @@
 
 using namespace Resource;
 
-Tempest::Result GeometryConverter::ConvertGeometry(ConversionType i_conversiontype, const char* i_filename, const char* o_filename)
+Tempest::Result GeometryConverter::ConvertMesh(const char* i_filename, const char* o_filename)
 {
-	if (i_conversiontype == ConversionType::Mesh)
+	Array<MeshPoint> data;
+	Array<int> index;
+
+	Tempest::File in(i_filename, Tempest::File::Format::BinaryRead);
+
+	if (in.GetExtensionName() == ".obj")
 	{
-		Array<MeshPoint> data;
-		Array<int> index;
-
-		Tempest::File in(i_filename, Tempest::File::Format::BinaryRead);
-
-		if (in.GetExtensionName() == ".obj")
-		{
-			RETURN_IFNOT_SUCCESS(ReadMesh(ExtensionType::OBJ, i_filename, data, index));
-		}
-		else if (in.GetExtensionName() == ".fbx")
-		{
-			RETURN_IFNOT_SUCCESS(ReadMesh(ExtensionType::FBX, i_filename, data, index));
-		}
-
-		Tempest::File out(o_filename, Tempest::File::Format::BinaryWrite);
-
-		size_t data_size = data.Size();
-		size_t index_size = index.Size();
-
-		if (data_size == 0 || index_size == 0)
-		{
-			return Tempest::ResultValue::Failure;
-		}
-
-		RETURN_IFNOT_SUCCESS(out.Open());
-
-		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&data_size), sizeof(size_t)));
-		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&index_size), sizeof(size_t)));
-		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(data.Data()), data_size * sizeof(MeshPoint)));
-		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(index.Data()), index_size * sizeof(int)));
-
-		out.Close();
-
-		return Tempest::ResultValue::Success;
+		RETURN_IFNOT_SUCCESS(ReadMesh(ExtensionType::OBJ, i_filename, data, index));
 	}
-	else if (i_conversiontype == ConversionType::SkeletonMesh)
+	else if (in.GetExtensionName() == ".fbx")
 	{
-		Skeleton skeleton;
-		Array<SkeletonMeshPoint> skeleton_mesh;		
-		Array<int>      index;
-
-		Tempest::File in(i_filename, Tempest::File::Format::BinaryRead);
-
-		if (in.GetExtensionName() == ".fbx")
-		{
-			RETURN_IFNOT_SUCCESS(ReadSkeletonMesh(ExtensionType::FBX, i_filename, skeleton, skeleton_mesh, index));
-		}
-
-		Tempest::File out(o_filename, Tempest::File::Format::BinaryWrite);
-
-		size_t meshdata_size = skeleton_mesh.Size();
-		size_t index_size = index.Size();
-
-		if (meshdata_size == 0 || index_size == 0)
-		{
-			return Tempest::ResultValue::Failure;
-		}
-
-		RETURN_IFNOT_SUCCESS(out.Open());
-
-		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&meshdata_size), sizeof(size_t)));
-		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&index_size), sizeof(size_t)));
-		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(skeleton_mesh.Data()), meshdata_size * sizeof(MeshPoint)));
-		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(index.Data()), index_size * sizeof(int)));
-
-		out.Close();
-
-		return Tempest::ResultValue::Success;
+		RETURN_IFNOT_SUCCESS(ReadMesh(ExtensionType::FBX, i_filename, data, index));
 	}
-	else if (i_conversiontype == ConversionType::AnimationClip)
-	{
 
-	}
-	else
+	Tempest::File out(o_filename, Tempest::File::Format::BinaryWrite);
+
+	size_t data_size = data.Size();
+	size_t index_size = index.Size();
+
+	if (data_size == 0 || index_size == 0)
 	{
 		return Tempest::ResultValue::Failure;
 	}
+
+	RETURN_IFNOT_SUCCESS(out.Open());
+
+	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&data_size), sizeof(size_t)));
+	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&index_size), sizeof(size_t)));
+	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(data.Data()), data_size * sizeof(MeshPoint)));
+	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(index.Data()), index_size * sizeof(int)));
+
+	out.Close();
+
+	return Tempest::ResultValue::Success;
+}
+
+Tempest::Result GeometryConverter::ConvertSkeletonMesh(const char* i_filename, const char* o_filename)
+{
+	Skeleton skeleton;
+	Array<SkeletonMeshPoint> skeleton_mesh;
+	Array<int>      index;
+
+	Tempest::File in(i_filename, Tempest::File::Format::BinaryRead);
+
+	if (in.GetExtensionName() == ".fbx")
+	{
+		RETURN_IFNOT_SUCCESS(ReadSkeletonMesh(ExtensionType::FBX, i_filename, skeleton, skeleton_mesh, index));
+	}
+
+	Tempest::File out(o_filename, Tempest::File::Format::BinaryWrite);
+
+	size_t meshdata_size = skeleton_mesh.Size();
+	size_t index_size = index.Size();
+
+	if (meshdata_size == 0 || index_size == 0)
+	{
+		return Tempest::ResultValue::Failure;
+	}
+
+	RETURN_IFNOT_SUCCESS(out.Open());
+
+	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&meshdata_size), sizeof(size_t)));
+	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&index_size), sizeof(size_t)));
+	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(skeleton_mesh.Data()), meshdata_size * sizeof(MeshPoint)));
+	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(index.Data()), index_size * sizeof(int)));
+
+	out.Close();
+
+	return Tempest::ResultValue::Success;
+}
+
+Tempest::Result GeometryConverter::ConvertAnimationClip(const char* i_filename, const char* o_filename)
+{
+	AnimationClip animation_clip;
+
+	Tempest::File in(i_filename, Tempest::File::Format::BinaryRead);
+
+	if (in.GetExtensionName() == ".fbx")
+	{
+		RETURN_IFNOT_SUCCESS(ReadAnimationClip(ExtensionType::FBX, i_filename, animation_clip));
+	}
+
+	Tempest::File out(o_filename, Tempest::File::Format::BinaryWrite);
+
+	size_t num_samples = animation_clip.samples.Size();
+	size_t num_joints = animation_clip.samples[0].jointposes.Size();	
+
+	if (num_samples == 0)
+	{
+		return Tempest::ResultValue::Failure;
+	}
+
+	RETURN_IFNOT_SUCCESS(out.Open());
+
+	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&num_samples), sizeof(size_t)));
+
+	for (int i = 0; i < num_samples; i++)
+	{
+		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(animation_clip.samples[i].jointposes.Data()), num_joints * sizeof(size_t)));
+	}
+
+	out.Close();
+
+	return Tempest::ResultValue::Success;
 }
 
 Tempest::Result GeometryConverter::ReadMesh(ExtensionType i_extension, const char* i_filename, Array<MeshPoint>& o_data, Array<int>& o_index)
@@ -284,4 +309,29 @@ Tempest::Result GeometryConverter::ReadSkeletonMesh(ExtensionType i_extension, c
 	}
 	
 	return Tempest::ResultValue::Failure;
+}
+
+Tempest::Result GeometryConverter::ReadAnimationClip(ExtensionType i_extension, const char* i_filename, AnimationClip& o_animationclip)
+{
+	if (i_extension == ExtensionType::FBX)
+	{
+		if (!FBXLoader::Init(i_filename))
+		{
+			return Tempest::ResultValue::Failure;
+		}
+
+		if (!FBXLoader::LoadAnimationClip(o_animationclip))
+		{
+			return Tempest::ResultValue::Failure;
+		}
+
+		return Tempest::ResultValue::Success;
+	}
+
+	return Tempest::ResultValue::Failure;
+}
+
+Tempest::Result GeometryConverter::MatchBoneStructure(const Skeleton& i_skeleton, AnimationClip& io_animationclip)
+{
+
 }

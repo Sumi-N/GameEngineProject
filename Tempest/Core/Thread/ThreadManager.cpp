@@ -6,7 +6,7 @@ namespace Tempest
 	Array<std::mutex*>              ThreadManager::Mutexs;
 	Array<std::condition_variable*> ThreadManager::Conditions;
 	Array<bool*>                    ThreadManager::b_thread_ready;
-	uint8_t                               ThreadManager::ThreadCounter = 0;
+	uint8_t                         ThreadManager::ThreadCounter = 0;
 
 
 	uint8_t ThreadManager::RegisterThread(std::mutex& i_mutex, std::condition_variable& i_condition, bool& i_bool)

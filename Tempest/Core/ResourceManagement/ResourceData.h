@@ -80,15 +80,15 @@ namespace Resource
 	struct AnimationSample
 	{
 		Array<JointPose> jointposes;
-	};
+	};	
 
 	struct AnimationClip
 	{
 		Skeleton*                    skeleton;
 		float                        frame_per_second;
 		int                          frame_count;
-		Array<AnimationSample> samples;
-		bool                         is_looping;
+		Array<AnimationSample>       samples;
+		bool                         do_looping;
 	};
 
 	struct Mesh
@@ -124,6 +124,29 @@ namespace Resource
 	{
 		Array<SkeletonMeshPoint> data;
 		Array<uint32_t> index;
+
+		static Result Load(const char* i_filepath, Array<Resource::MeshPoint>& o_data, Array<uint32_t>& o_index)
+		{
+			File in(i_filepath, File::Format::BinaryRead);
+
+			RETURN_IFNOT_SUCCESS(in.Open())
+
+				size_t data_size;
+			size_t index_size;
+
+			RETURN_IFNOT_SUCCESS(in.Read(&data_size, sizeof(size_t)))
+			RETURN_IFNOT_SUCCESS(in.Read(&index_size, sizeof(size_t)))
+
+			o_data.Resize(data_size);
+			o_index.Resize(index_size);
+
+			RETURN_IFNOT_SUCCESS(in.Read(o_data.Data(), data_size * sizeof(Resource::MeshPoint)))
+			RETURN_IFNOT_SUCCESS(in.Read(o_index.Data(), index_size * sizeof(Resource::MeshPoint)))
+
+			in.Close();
+
+			return ResultValue::Success;
+		}
 	};
 
 	struct  Texture

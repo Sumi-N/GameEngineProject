@@ -20,7 +20,7 @@ namespace Tempest
 		};
 
 		File() = delete;
-		File(String i_filepath, Format i_format) :filepath(i_filepath), format(i_format) {};
+		File(String i_filepath, Format i_format = Format::Default) :filepath(i_filepath), format(i_format) {};
 
 		String GetExtensionName() const {return filepath.extension().string(); }
 		String GetPathName()      const {return filepath.parent_path().string(); }

@@ -14,12 +14,12 @@ int main()
 
 	//for (auto i_entry = filepaths.Begin(); i_entry != filepaths.End(); i_entry++)
 	//{
-	//	String o_entry = File::ReplaceExtension(*i_entry, "tmd");
+	//	String o_entry = File::ReplaceExtension(*i_entry, "tm");
 
 	//	String copy_from_path = "..\\..\\" + path_in + *i_entry;
 	//	String copy_to_path = "..\\..\\" + path_out + o_entry;
 	//	
-	//	Result result = GeometryConverter::ConvertGeometry(ConversionType::Mesh, copy_from_path.c_str(), copy_to_path.c_str());
+	//	Result result = GeometryConverter::ConvertMesh(copy_from_path.c_str(), copy_to_path.c_str());
 
 	//	if (result != ResultValue::Success)
 	//	{
@@ -29,12 +29,10 @@ int main()
 
 	{
 		String copy_from_path = "..\\..\\" + path_in + "SK_PlayerCharacter.fbx";
-		String o_entry1 = File::ReplaceExtension(copy_from_path, "tmd");
-		String o_entry2 = File::ReplaceExtension(copy_from_path, "tsm");
-		String copy_to_path1 = "..\\..\\" + path_out + o_entry1;
-		String copy_to_path2 = "..\\..\\" + path_out + o_entry2;
+		String o_entry = File::ReplaceExtension(copy_from_path, "tsm");
+		String copy_to_path = "..\\..\\" + path_out + o_entry;
 
-		Result result = GeometryConverter::ConvertGeometry(ConversionType::SkeletonMesh, copy_from_path.c_str(), copy_to_path.c_str());
+		Result result = GeometryConverter::ConvertSkeletonMesh(copy_from_path.c_str(), copy_to_path.c_str());
 
 		if (result != ResultValue::Success)
 		{
@@ -47,7 +45,7 @@ int main()
 		String o_entry = File::ReplaceExtension(copy_from_path, "tac");		
 		String copy_to_path = "..\\..\\" + path_out + o_entry;		
 
-		Result result = GeometryConverter::ConvertGeometry(ConversionType::AnimationClip, copy_from_path.c_str(), copy_to_path.c_str());
+		Result result = GeometryConverter::ConvertAnimationClip(copy_from_path.c_str(), copy_to_path.c_str());
 
 		if (result != ResultValue::Success)
 		{

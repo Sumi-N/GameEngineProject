@@ -110,6 +110,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimatedPlayer.h" />
     <ClInclude Include="BathRoomTileSphere.h" />
     <ClInclude Include="BrushedMetalSphere.h" />
     <ClInclude Include="DirtyWickerWeaveSphere.h" />

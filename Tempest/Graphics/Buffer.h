@@ -61,11 +61,7 @@ namespace Tempest
 			Layout() { }
 			Layout(std::initializer_list<Element> i_elements)			
 			{
-#ifdef USE_STANDARD_ARRAY
-				elements.vector = i_elements;
-#else
-				elements.Convert(i_elements);
-#endif // USE_STANDARD_ARRAY				
+				elements.Convert(i_elements);			
 				CalculateOffsetsAndStride();
 			}
 
@@ -86,37 +82,36 @@ namespace Tempest
 			{
 				size_t offset = 0;
 				stride = 0;
-#ifdef USE_STANDARD_ARRAY
-				for (auto& element : elements.vector)
-				{
-					element.offset = offset;
-					offset += element.size;
-					stride += element.size;
-				}
-#else
+
 				for (auto element = elements.Begin(); element != elements.End(); ++element)
 				{
 					element->offset = offset;					
 					offset += element->size;
 					stride += element->size;
 				}
-#endif // USE_STANDARD_ARRAY					
+				
 			}
 		};
 
 	}
 
+	enum class VertexBufferType : uint8_t
+	{
+		Mesh         = 0,
+		SkeletonMesh = 1,
+	};
+
 	class VertexBuffer
 	{
-	public:
-		VertexBuffer();
-		~VertexBuffer();
+	public:				
+		VertexBuffer() = default;
+		~VertexBuffer() = default;
 
 		void Bind() const;
 		void Unbind() const;
 
 		bool CheckStructDataSize(uint32_t) const;
-		void InitData(uint32_t, const void*);
+		void InitData(VertexBufferType, uint32_t, const void*);
 		void CleanUp() const;
 
 		const BufferData::Layout& GetLayout() const {return layout; }

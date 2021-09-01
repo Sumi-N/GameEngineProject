@@ -24,7 +24,7 @@ namespace Tempest
 
 		if (UserInput.QueryKey(VirtualKey::KEY_SPACE) == InputState::Released)
 		{
-			if (Entity::Cameras.Size() != 0 && Entity::Cameras.Size() != 1)
+			if (Entity::CamerasObjects.Size() != 0 && Entity::CamerasObjects.Size() != 1)
 				Entity::SwapCamera(0, 1);
 		}
 
