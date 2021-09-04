@@ -2,9 +2,9 @@
 
 #include "SceneProxy.h"
 
-void SceneProxy::Init()
+void SceneProxy::Init(const int num)
 {
-	InitBuffer();
+	InitBuffer(num);
 }
 
 void SceneProxy::AddRenderState(OwningPointer<RenderState> i_state)
@@ -22,16 +22,16 @@ void SceneProxy::CleanUp()
 
 }
 
-void SceneProxy::InitBuffer()
-{	
-	//if (mesh_component->type == 0)
+void SceneProxy::InitBuffer(const int num)
+{		
+	if(num == 0)
 	{
 		vbuffer.InitData(VertexBufferType::Mesh, static_cast<uint32_t>(mesh->data.Size()) * sizeof(mesh->data[0]), mesh->data.Data());
 	}
-	//else if (mesh_component->type == 1)
-	{
-		//Resource::Mesh* test;
-		//Resource::Skeleton* skmesh = reinterpret_cast<Resource::Skeleton*>(test);
+	else if(num == 1)
+	{			
+		Resource::SkeletonMesh* skmesh = reinterpret_cast<Resource::SkeletonMesh*>(&*mesh);
+		vbuffer.InitData(VertexBufferType::SkeletonMesh, static_cast<uint32_t>(skmesh->data.Size()) * sizeof(skmesh->data[0]), skmesh->data.Data());
 	}
 
 	ibuffer.InitData(static_cast<uint32_t>(mesh->index.Size()) * sizeof(mesh->index[0]), mesh->index.Data());

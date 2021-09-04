@@ -33,9 +33,9 @@ namespace Tempest
 			BufferData::Element normal(BufferData::Type::Float3, "normal");
 			BufferData::Element uvcoord(BufferData::Type::Float2, "uvcoord");
 			BufferData::Element tangent(BufferData::Type::Float3, "tangent");
-			BufferData::Element bitangent(BufferData::Type::Float3, "bitangent");
+			BufferData::Element bitangent(BufferData::Type::Float3, "bitangent");			
 
-			BufferData::Layout vbufflayout({ vertex, normal, uvcoord, tangent, bitangent });
+			BufferData::Layout vbufflayout({ vertex, normal, uvcoord, tangent, bitangent,});
 
 			layout = vbufflayout;
 		}
@@ -47,10 +47,11 @@ namespace Tempest
 			BufferData::Element uvcoord(BufferData::Type::Float2, "uvcoord");
 			BufferData::Element tangent(BufferData::Type::Float3, "tangent");
 			BufferData::Element bitangent(BufferData::Type::Float3, "bitangent");
-			BufferData::Element index(BufferData::Type::Float4, "index");
+			BufferData::Element padding(BufferData::Type::Float2, "padding");
+			BufferData::Element index(BufferData::Type::Int4, "index");
 			BufferData::Element weight(BufferData::Type::Float4, "weight");
 
-			BufferData::Layout vbufflayout({ vertex, normal, uvcoord, tangent, bitangent, index, weight });
+			BufferData::Layout vbufflayout({ vertex, normal, uvcoord, tangent, bitangent, padding, index, weight });
 
 			layout = vbufflayout;
 		}

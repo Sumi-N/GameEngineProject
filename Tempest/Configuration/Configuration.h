@@ -3,7 +3,9 @@
 //////////////////////////////
 //  Custom heap allocator
 //////////////////////////////
-//#define ENABLE_CUSTOM_ALLOCATOR
+
+
+#define ENABLE_CUSTOM_ALLOCATOR
 
 #ifndef ENABLE_CUSTOM_ALLOCATOR
 	#define USE_STANDARD_ARRAY
@@ -49,11 +51,16 @@
 
 
 //////////////////////////////
-//  Light Setting
+//  Graphics Setting
 //////////////////////////////
 
-//  Make sure to change the sharer's code if the number here got changed
+//  Make sure to change the shader codes if the number here have been changed
 #define NUM_MAX_POINT_LIGHT 5
+#define BASIC_TEXTURE_SIZE 1024
+#define HALF_TEXTURE_SIZE 512
+#define MINI_TEXTURE_SIZE 32
+#define NUM_DICE_FACES 6
+#define NUM_MAX_BONES 256
 
 //////////////////////////////
 //  General Asset Path
@@ -69,10 +76,10 @@
 // Mesh Data
 //////////////////////////////
 
-#define FILENAME_CUBEMAP "cubemap.tmd"
-#define FILENAME_QUAD    "quad.tmd"
-#define FILENAME_SPHERE  "sphere.tmd"
-#define FILENAME_CAMERA  "camera.tmd"
+#define FILENAME_CUBEMAP "cubemap.tm"
+#define FILENAME_QUAD    "quad.tm"
+#define FILENAME_SPHERE  "sphere.tm"
+#define FILENAME_CAMERA  "camera.tm"
 
 //////////////////////////////
 //  Texture Data
@@ -85,9 +92,9 @@
 #define SKYBOX_POSZ      "skybox\\cubemap_posz.png"
 #define SKYBOX_NEGZ      "skybox\\cubemap_negz.png"
 
-#define SKYBOX_HDR_BLACK            "hdr\\black.ttd"
-#define SKYBOX_HDR_PINTREE          "hdr\\Arches_E_PineTree_3k.ttd"
-#define SKYBOX_HDR_FROZEN_WATERFALL "hdr\\Frozen_Waterfall_Ref.ttd"
+#define SKYBOX_HDR_BLACK            "hdr\\black.tt"
+#define SKYBOX_HDR_PINTREE          "hdr\\Arches_E_PineTree_3k.tt"
+#define SKYBOX_HDR_FROZEN_WATERFALL "hdr\\Frozen_Waterfall_Ref.tt"
 
 //////////////////////////////
 //  Shader Data
@@ -157,3 +164,6 @@
 
 #define DEBUG_PBR_BASIC_VERT "disney_pbr_model\\disney_pbr_without_textures.vert.glsl"
 #define DEBUG_PBR_BASIC_FRAG "disney_pbr_model\\disney_pbr_without_textures.frag.glsl"
+
+#define DEBUG_PBR_ANIMATION_VERT "disney_pbr_model\\disney_pbr_animation_without_textures.vert.glsl"
+#define DEBUG_PBR_ANIMATION_FRAG "disney_pbr_model\\disney_pbr_animation_without_textures.frag.glsl"

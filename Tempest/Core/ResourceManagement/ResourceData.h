@@ -32,20 +32,22 @@ namespace Resource
 	{
 		Vec3f vertex;
 		Vec3f normal;
-		Vec2f uv;
-		//Vec2f padding; //For alignment purpose
+		Vec2f uv;		
 		Vec3f tangent;
-		Vec3f bitangent;
+		Vec3f bitangent;		
 	};
 
-	struct SkeletonMeshPoint : public MeshPoint
+	struct SkeletonMeshPoint : MeshPoint
 	{
 		SkeletonMeshPoint(): 
-			index(Vec4u8t(255, 255, 255, 255)), 
+			padding(Vec2f(0, 0)),
+			index(Vec4i(NUM_MAX_BONES - 1, NUM_MAX_BONES - 1, NUM_MAX_BONES - 1, NUM_MAX_BONES - 1)),
 			weight(Vec4f(0, 0, 0, 0))
 		{};
-		Vec4u8t index;
-		Vec4f   weight;
+
+		Vec2f padding;
+		Vec4i index;
+		Vec4f weight;
 	};
 
 	struct Material
@@ -60,7 +62,7 @@ namespace Resource
 		Mat4f       inversed; // inversed bind pose translation matrix
 		Vec3f       coord;
 		String      name;
-		uint8_t     parent_index;
+		int          parent_index;
 	};
 
 	struct Skeleton
@@ -74,7 +76,7 @@ namespace Resource
 		Vec4f       trans;
 		Vec3f       scale;
 		Mat4f       global_inversed_matrix;
-		uint8_t     parent_index;
+		int         parent_index;
 	};
 
 	struct AnimationSample
@@ -89,6 +91,30 @@ namespace Resource
 		int                          frame_count;
 		Array<AnimationSample>       samples;
 		bool                         do_looping;
+
+		static Result Load(const char* i_filepath, AnimationClip& o_clip)
+		{
+			File in(i_filepath, File::Format::BinaryRead);
+
+			RETURN_IFNOT_SUCCESS(in.Open())
+
+			size_t num_samples;
+			size_t num_joints;
+			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(&num_samples), sizeof(size_t)));
+			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(&num_joints), sizeof(size_t)));
+
+			o_clip.samples.Resize(num_samples);
+
+			for (int i = 0; i < num_samples; i++)
+			{
+				o_clip.samples[i].jointposes.Resize(num_joints);
+				RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_clip.samples[i].jointposes.Data()), num_joints * sizeof(size_t)));
+			}
+
+			in.Close();
+
+			return ResultValue::Success;
+		}
 	};
 
 	struct Mesh
@@ -96,7 +122,7 @@ namespace Resource
 		Array<MeshPoint> data;
 		Array<uint32_t> index;
 
-		static Result Load(const char* i_filepath, Array<Resource::MeshPoint>& o_data, Array<uint32_t>& o_index)
+		static Result Load(const char* i_filepath, Array<MeshPoint>& o_data, Array<uint32_t>& o_index)
 		{				
 			File in(i_filepath, File::Format::BinaryRead);
 
@@ -111,8 +137,8 @@ namespace Resource
 			o_data.Resize(data_size);
 			o_index.Resize(index_size);
 
-			RETURN_IFNOT_SUCCESS(in.Read(o_data.Data(), data_size * sizeof(Resource::MeshPoint)))
-			RETURN_IFNOT_SUCCESS(in.Read(o_index.Data(), index_size * sizeof(Resource::MeshPoint)))
+			RETURN_IFNOT_SUCCESS(in.Read(o_data.Data(), data_size * sizeof(MeshPoint)))
+			RETURN_IFNOT_SUCCESS(in.Read(o_index.Data(), index_size * sizeof(MeshPoint)))
 
 			in.Close();
 
@@ -125,13 +151,13 @@ namespace Resource
 		Array<SkeletonMeshPoint> data;
 		Array<uint32_t> index;
 
-		static Result Load(const char* i_filepath, Array<Resource::MeshPoint>& o_data, Array<uint32_t>& o_index)
+		static Result Load(const char* i_filepath, Array<SkeletonMeshPoint>& o_data, Array<uint32_t>& o_index)
 		{
 			File in(i_filepath, File::Format::BinaryRead);
 
 			RETURN_IFNOT_SUCCESS(in.Open())
 
-				size_t data_size;
+			size_t data_size;
 			size_t index_size;
 
 			RETURN_IFNOT_SUCCESS(in.Read(&data_size, sizeof(size_t)))
@@ -140,8 +166,8 @@ namespace Resource
 			o_data.Resize(data_size);
 			o_index.Resize(index_size);
 
-			RETURN_IFNOT_SUCCESS(in.Read(o_data.Data(), data_size * sizeof(Resource::MeshPoint)))
-			RETURN_IFNOT_SUCCESS(in.Read(o_index.Data(), index_size * sizeof(Resource::MeshPoint)))
+			RETURN_IFNOT_SUCCESS(in.Read(o_data.Data(), data_size * sizeof(SkeletonMeshPoint)))
+			RETURN_IFNOT_SUCCESS(in.Read(o_index.Data(), index_size * sizeof(MeshPoint)))
 
 			in.Close();
 

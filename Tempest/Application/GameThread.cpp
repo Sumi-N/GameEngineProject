@@ -150,23 +150,26 @@ namespace Tempest
 		}
 
 		{
-			for (auto it = SceneEntity::List.Begin(); it != SceneEntity::List.End(); ++it)
-			//for (auto it = Entity::MeshComponentList.Begin(); it != Entity::MeshComponentList.End(); ++it)
+			//for (auto it = SceneEntity::List.Begin(); it != SceneEntity::List.End(); ++it)
+			for (auto it = Entity::MeshComponentList.Begin(); it != Entity::MeshComponentList.End(); ++it)
+			{
+				// Submit mesh data
+				ConstantData::Model model;
+				model.model_inverse_transpose_matrix = (*it)->model_inverse_transpose_mat;
+				model.model_position_matrix = (*it)->model_mat;
+				data_game_own->model_data.PushBack(model);		
+			}
+
+			for (auto it = Entity::EffectComponentList.Begin(); it != Entity::EffectComponentList.End(); ++it)
 			{
 				// Submit material data
 				ConstantData::Material material;
 				material.diffuse = Vec4f(0.5f, 0.0f, 0.0f, 1.0f);
 				material.specular = Vec4f(0.8f, 0.8f, 0.8f, 10.0f);
-				material.albedo = (*it)->material->albedo;
-				material.metalic = (*it)->material->metalic;
-				material.roughness = (*it)->material->roughness;				
+				material.albedo = (*it)->material_attribute->material->albedo;
+				material.metalic = (*it)->material_attribute->material->metalic;
+				material.roughness = (*it)->material_attribute->material->roughness;
 				data_game_own->material_data.PushBack(material);
-
-				// Submit mesh data
-				ConstantData::Model model;
-				model.model_inverse_transpose_matrix = (*it)->mesh_component->model_inverse_transpose_mat;
-				model.model_position_matrix = (*it)->mesh_component->model_mat;
-				data_game_own->model_data.PushBack(model);		
 			}
 		}
 	}

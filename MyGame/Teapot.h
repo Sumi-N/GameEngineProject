@@ -38,13 +38,10 @@ namespace Tempest
 			PATH_SUFFIX SHADER_PATH BLINN_PHONG_FRAG,
 		};
 
-		OwningPointer<EffectComponent> effect = OwningPointer<EffectComponent>::Create(effect);
-		effect->owner = Entity::Query(this).p;
-		effect->RegisterShaderPath(shaderpaths);
-		effect->SetTexture(teapottexture);
-		effect->SetTexture(teapottexture2);
-		effect->SetTexture(teapottexture3);
-		Entity::RegisterEffectComponent(effect);
+		effect_component->RegisterShaderPath(shaderpaths);
+		effect_component->SetTexture(teapottexture);
+		effect_component->SetTexture(teapottexture2);
+		effect_component->SetTexture(teapottexture3);
 	}
 
 	inline void Teapot::Init()

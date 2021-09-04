@@ -8,22 +8,24 @@ const String path_out = BIN_MESH_PATH;
 
 int main()
 {
-	//String fullpath = "..\\..\\" + path_in;
-
-	//Array<String> filepaths = File::GetAllFilePathsBelowTheDirectory(fullpath);
-
-	//for (auto i_entry = filepaths.Begin(); i_entry != filepaths.End(); i_entry++)
 	//{
-	//	String o_entry = File::ReplaceExtension(*i_entry, "tm");
+	//	String fullpath = "..\\..\\" + path_in;
 
-	//	String copy_from_path = "..\\..\\" + path_in + *i_entry;
-	//	String copy_to_path = "..\\..\\" + path_out + o_entry;
-	//	
-	//	Result result = GeometryConverter::ConvertMesh(copy_from_path.c_str(), copy_to_path.c_str());
+	//	Array<String> filepaths = File::GetAllFilePathsBelowTheDirectory(fullpath);
 
-	//	if (result != ResultValue::Success)
+	//	for (auto i_entry = filepaths.Begin(); i_entry != filepaths.End(); i_entry++)
 	//	{
-	//		DEBUG_PRINT("Failed to convert mesh %s", copy_from_path.c_str());
+	//		String o_entry = File::ReplaceExtension(*i_entry, "tm");
+
+	//		String copy_from_path = "..\\..\\" + path_in + *i_entry;
+	//		String copy_to_path = "..\\..\\" + path_out + o_entry;
+
+	//		Result result = GeometryConverter::ConvertMesh(copy_from_path.c_str(), copy_to_path.c_str());
+
+	//		if (result != ResultValue::Success)
+	//		{
+	//			DEBUG_PRINT("Failed to convert mesh %s", copy_from_path.c_str());
+	//		}
 	//	}
 	//}
 

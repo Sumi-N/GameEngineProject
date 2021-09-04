@@ -42,11 +42,3 @@
 #define SPECULAR_BINDING_UNIT            7
 #define BRDF_BINDING_UNIT                8
 #define IMAGE_BINDING_UNIT               9
-
-
-/////////////////////
-#define BASIC_TEXTURE_SIZE 1024
-#define HALF_TEXTURE_SIZE 512
-#define MINI_TEXTURE_SIZE 32
-#define NUM_DICE_FACES 6
-#define NUM_MAX_BONES 256

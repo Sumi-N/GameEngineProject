@@ -18,9 +18,6 @@
     <ClCompile Include="MyApplication.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestScene_Importer.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
     <ClCompile Include="TestScene_Normal_Debug_Plane.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
@@ -37,6 +34,9 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="TestScene_Two_Cameras.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene_SkeletonAnimation.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

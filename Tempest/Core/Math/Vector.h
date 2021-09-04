@@ -307,6 +307,7 @@ typedef Math::Vec3<float>            Vec3f;
 typedef Math::Vec3<double>           Vec3d;
 
 typedef Math::Vec4<uint8_t>			 Vec4u8t;
+typedef Math::Vec4<int>              Vec4i;
 typedef Math::Vec4<float>            Vec4f;
 typedef Math::Vec4<double>           Vec4d;
 

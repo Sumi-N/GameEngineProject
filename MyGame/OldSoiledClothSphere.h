@@ -36,14 +36,11 @@ namespace Tempest
 			PATH_SUFFIX SHADER_PATH DISNEY_PBR_FRAG,
 		};
 
-		OwningPointer<EffectComponent> effect = OwningPointer<EffectComponent>::Create(effect);
-		effect->owner = Entity::Query(this).p;
-		effect->RegisterShaderPath(shaderpaths);
-		effect->SetTexture(albedo);
-		effect->SetTexture(normal);
-		effect->SetTexture(roughness);
-		effect->SetTexture(metalic);
-		Entity::RegisterEffectComponent(effect);
+		effect_component->RegisterShaderPath(shaderpaths);
+		effect_component->SetTexture(albedo);
+		effect_component->SetTexture(normal);
+		effect_component->SetTexture(roughness);
+		effect_component->SetTexture(metalic);
 	}
 
 	inline void OldSoiledClothSphere::Init()

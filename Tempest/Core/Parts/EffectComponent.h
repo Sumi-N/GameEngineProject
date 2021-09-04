@@ -3,6 +3,7 @@
 #include "Define.h"
 #include "Component.h"
 #include "TextureAttribute.h"
+#include "MaterialAttribute.h"
 
 namespace Tempest
 {
@@ -14,6 +15,8 @@ namespace Tempest
 		~EffectComponent() override;
 
 		void RegisterShaderPath(const char**);
+		void SetMaterial(MaterialAttribute*);
+		void SetMaterial(OwningPointer<MaterialAttribute>);
 		void SetTexture(TextureAttribute*);
 		void SetTexture(OwningPointer<TextureAttribute>);
 		void ReplaceTexture(TextureAttribute*, int);
@@ -22,6 +25,7 @@ namespace Tempest
 		ObservingPointer<Object> owner;
 		const char* shaderpaths[5];
 		Array<OwningPointer<TextureAttribute>> textures;
+		OwningPointer<MaterialAttribute> material_attribute;
 	};
 
 	inline EffectComponent::EffectComponent() : shaderpaths()
@@ -40,6 +44,16 @@ namespace Tempest
 		this->shaderpaths[2] = shaderpaths[2];
 		this->shaderpaths[3] = shaderpaths[3];
 		this->shaderpaths[4] = shaderpaths[4];
+	}
+
+	inline void EffectComponent::SetMaterial(MaterialAttribute* i_material)
+	{
+		material_attribute = i_material;
+	}
+
+	inline void EffectComponent::SetMaterial(OwningPointer<MaterialAttribute> i_material)
+	{
+		material_attribute = i_material;
 	}
 
 	inline void EffectComponent::SetTexture(TextureAttribute* i_texture)

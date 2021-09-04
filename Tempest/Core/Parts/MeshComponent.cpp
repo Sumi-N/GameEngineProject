@@ -56,23 +56,20 @@ namespace Tempest
 			CleanMesh();
 		}
 		
-		OwningPointer<Resource::Mesh> thismesh = OwningPointer<Resource::Mesh>::Create(thismesh);
-		Resource::Mesh::Load(i_filename, thismesh->data, thismesh->index);
-		mesh = thismesh;
-		//{
-		//	String file_name(i_filename);
-		//	File file(file_name);
-		//	if (file.GetExtensionName() == ".tmd")
-		//	{
-		//		type = 0;
-		//		mesh = AssetManager<Resource::Mesh>::Load(i_filename);
-		//	}
-		//	else if (file.GetExtensionName() == ".tsm")
-		//	{
-		//		type = 1;
-		//		//mesh = AssetManager<Resource::SkeletonMesh>::Load(i_filename);
-		//	}
-		//}
+		{
+			String file_name(i_filename);
+			File file(file_name);
+			if (file.GetExtensionName() == ".tm")
+			{
+				type = MeshType::Mesh;
+				mesh = AssetManager<Resource::Mesh>::Load(i_filename);
+			}
+			else if (file.GetExtensionName() == ".tsm")
+			{
+				type = MeshType::SkeletonMesh;
+				mesh = OwningPointer<Resource::Mesh>(reinterpret_cast<Resource::Mesh*>(&*AssetManager<Resource::SkeletonMesh>::Load(i_filename)));
+			}
+		}
 
 		if (mesh == nullptr)
 		{
@@ -82,17 +79,8 @@ namespace Tempest
 			return ResultValue::FileDoesntExist;
 		}
 
+		DEBUG_PRINT("Succeed loading the mesh data %s", i_filename);
 		return ResultValue::Success;
-	}
-
-	void MeshComponent::SetMaterial(MaterialAttribute* i_material)
-	{
-		material_attribute = i_material;
-	}
-
-	void MeshComponent::SetMaterial(OwningPointer<MaterialAttribute> i_material)
-	{
-		material_attribute = i_material;
 	}
 
 	bool MeshComponent::IsLoaded() 

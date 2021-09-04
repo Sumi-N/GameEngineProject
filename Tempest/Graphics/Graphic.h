@@ -13,10 +13,10 @@ public:
 	GraphicRequiredData() = default;
 
 	ConstantData::Camera camera;
-	Array<ConstantData::Model> model_data;
-	Array<ConstantData::Material> material_data;
 	ConstantData::Light  light;
 	Array<ConstantData::AnimationBone> animation_bone_data;
+	Array<ConstantData::Model> model_data;
+	Array<ConstantData::Material> material_data;
 	ConstantData::CubeMap shadow[NUM_MAX_POINT_LIGHT];
 
 	// The data requires for draw arbitrary line

@@ -23,7 +23,7 @@ inline void SceneEntity::Init()
 		SceneEntity::SkyBoxProxy = proxy;
 
 		SkyBoxProxy->mesh = Entity::Skybox->mesh_component->mesh;
-		SkyBoxProxy->Init();
+		SkyBoxProxy->Init(static_cast<int>(Entity::Skybox->mesh_component->type));
 
 		RenderState* state = new RenderState();
 		state->InitShader(Entity::Skybox->effect_component->shaderpaths);
@@ -38,10 +38,8 @@ inline void SceneEntity::Init()
 	for (auto it = Entity::MeshComponentList.Begin(); it != Entity::MeshComponentList.End(); ++it)
 	{
 		SceneProxy * proxy = new SceneProxy();		
-		proxy->mesh_component = (*it);
 		proxy->mesh = (*it)->mesh;
-		proxy->material = (*it)->material_attribute->material;
-		proxy->Init();
+		proxy->Init(static_cast<int>((*it)->type));
 
 		OwningPointer<SceneProxy> proxyhandler;
 		proxyhandler = proxy;
@@ -51,8 +49,9 @@ inline void SceneEntity::Init()
 		{
 			if ((*it)->owner == (*it2)->owner)
 			{
-				RenderState *  state = new RenderState();
+				RenderState * state = new RenderState();
 				state->InitShader((*it2)->shaderpaths);
+				state->material = (*it2)->material_attribute->material;
 
 				// Create buffer for texture
 				for (auto it3 = (*it2)->textures.Begin(); it3 != (*it2)->textures.End(); ++it3)

@@ -144,7 +144,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 				frame_irradiance.BindTextureUnit();
 				// Bind specular map texture
 				frame_specular.BindTextureUnit();
-				// Bind brdf look up texture
+				// Bind BRDF look up texture
 				frame_brdf.BindTextureUnit();
 				SceneEntity::List[i]->Draw();
 

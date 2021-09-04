@@ -22,16 +22,14 @@ public:
 	SceneProxy()  = default;
 	~SceneProxy() = default;
 
-	void Init();
+	void Init(const int);
 	void AddRenderState(OwningPointer<RenderState>);
 	void ReplaceRenderState(OwningPointer<RenderState>, int);
 	void Draw();
 	void DrawMeshOnly();
 	void CleanUp();	
 
-	OwningPointer<MeshComponent>      mesh_component;
-	OwningPointer<Resource::Mesh>     mesh;
-	OwningPointer<Resource::Material> material;
+	ObservingPointer<Resource::Mesh>  mesh;
 	Array<OwningPointer<RenderState>> states;
 	
 protected:
@@ -39,7 +37,7 @@ protected:
 	const DrawType defaulttype = DrawType::TRIANGLE;
 	DrawType drawtype          = DrawType::TRIANGLE;
 
-	void InitBuffer();
+	void InitBuffer(const int);
 	void CheckDrawType(const Shader i_shader);
 	void SetDrawType(DrawType i_drawtype){drawtype = i_drawtype;};
 	void CleanUpBuffer() const;

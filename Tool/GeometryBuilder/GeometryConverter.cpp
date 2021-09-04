@@ -68,7 +68,7 @@ Tempest::Result GeometryConverter::ConvertSkeletonMesh(const char* i_filename, c
 
 	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&meshdata_size), sizeof(size_t)));
 	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&index_size), sizeof(size_t)));
-	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(skeleton_mesh.Data()), meshdata_size * sizeof(MeshPoint)));
+	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(skeleton_mesh.Data()), meshdata_size * sizeof(SkeletonMeshPoint)));
 	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(index.Data()), index_size * sizeof(int)));
 
 	out.Close();
@@ -100,6 +100,7 @@ Tempest::Result GeometryConverter::ConvertAnimationClip(const char* i_filename, 
 	RETURN_IFNOT_SUCCESS(out.Open());
 
 	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&num_samples), sizeof(size_t)));
+	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&num_joints), sizeof(size_t)));
 
 	for (int i = 0; i < num_samples; i++)
 	{
@@ -333,5 +334,5 @@ Tempest::Result GeometryConverter::ReadAnimationClip(ExtensionType i_extension, 
 
 Tempest::Result GeometryConverter::MatchBoneStructure(const Skeleton& i_skeleton, AnimationClip& io_animationclip)
 {
-
+	return Tempest::ResultValue::Failure;
 }

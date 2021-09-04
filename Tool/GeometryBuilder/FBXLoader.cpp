@@ -20,7 +20,7 @@ namespace FBXLoader
 
 		struct BlendingWeight
 		{
-			uint8_t index;
+			int   index;
 			float weight;
 		};
 
@@ -348,17 +348,17 @@ namespace FBXLoader
 				int this_index = index_array[3 * j + 0];
 				for (std::pair<iter, iter> range(WeightMap.equal_range(this_index)); range.first != range.second; ++range.first)
 				{
-					if (p1.index.x == 255)
+					if (p1.index.x == NUM_MAX_BONES - 1)
 					{
 						p1.index.x = range.first->second.index;
 						p1.weight.x = range.first->second.weight;
 					}
-					else if (p1.index.y == 255)
+					else if (p1.index.y == NUM_MAX_BONES - 1)
 					{
 						p1.index.y = range.first->second.index;
 						p1.weight.y = range.first->second.weight;
 					}
-					else if (p1.index.z == 255)
+					else if (p1.index.z == NUM_MAX_BONES - 1)
 					{
 						p1.index.z = range.first->second.index;
 						p1.weight.z = range.first->second.weight;
@@ -373,17 +373,17 @@ namespace FBXLoader
 				this_index = index_array[3 * j + 1];
 				for (std::pair<iter, iter> range(WeightMap.equal_range(this_index)); range.first != range.second; ++range.first)
 				{
-					if (p2.index.x == -1)
+					if (p2.index.x == NUM_MAX_BONES - 1)
 					{
 						p2.index.x = range.first->second.index;
 						p2.weight.x = range.first->second.weight;
 					}
-					else if (p2.index.y == -1)
+					else if (p2.index.y == NUM_MAX_BONES - 1)
 					{
 						p2.index.y = range.first->second.index;
 						p2.weight.y = range.first->second.weight;
 					}
-					else if (p2.index.z == -1)
+					else if (p2.index.z == NUM_MAX_BONES - 1)
 					{
 						p2.index.z = range.first->second.index;
 						p2.weight.z = range.first->second.weight;
@@ -398,17 +398,17 @@ namespace FBXLoader
 				this_index = index_array[3 * j + 2];
 				for (std::pair<iter, iter> range(WeightMap.equal_range(this_index)); range.first != range.second; ++range.first)
 				{
-					if (p3.index.x == -1)
+					if (p3.index.x == NUM_MAX_BONES - 1)
 					{
 						p3.index.x = range.first->second.index;
 						p3.weight.x = range.first->second.weight;
 					}
-					else if (p3.index.y == -1)
+					else if (p3.index.y == NUM_MAX_BONES - 1)
 					{
 						p3.index.y = range.first->second.index;
 						p3.weight.y = range.first->second.weight;
 					}
-					else if (p3.index.z == -1)
+					else if (p3.index.z == NUM_MAX_BONES - 1)
 					{
 						p3.index.z = range.first->second.index;
 						p3.weight.z = range.first->second.weight;
@@ -436,7 +436,7 @@ namespace FBXLoader
 		for (int childIndex = 0; childIndex < lRootNode->GetChildCount(); ++childIndex)
 		{
 			FbxNode* currNode = lRootNode->GetChild(childIndex);
-			ProcessSkeletonHierarchyRecursively(currNode, 0, 0, -1, o_skeleton);
+			ProcessSkeletonHierarchyRecursively(currNode, 0, 0, NUM_MAX_BONES - 1, o_skeleton);
 		}
 
 		return true;
@@ -627,7 +627,7 @@ namespace FBXLoader
 				return i;
 			}
 		}
-		return -1;
+		return NUM_MAX_BONES - 1;
 	}
 
 	bool LoadAnimationSample(AnimationSample& o_sample, FbxTime time)
@@ -635,7 +635,7 @@ namespace FBXLoader
 		for (int childIndex = 0; childIndex < lRootNode->GetChildCount(); ++childIndex)
 		{
 			FbxNode* currNode = lRootNode->GetChild(childIndex);
-			ProcessAnimationSampleRecursively(currNode, 0, 0, -1, o_sample, time);
+			ProcessAnimationSampleRecursively(currNode, 0, 0, NUM_MAX_BONES - 1, o_sample, time);
 		}
 
 		return true;
