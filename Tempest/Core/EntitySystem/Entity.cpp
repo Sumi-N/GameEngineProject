@@ -14,26 +14,28 @@ namespace Tempest
 	OwningPointer<AmbientLight>                Entity::Ambient{};
 	OwningPointer<DirectionalLight>            Entity::Directional{};
 
+	AnimationSystem                            Entity::Animation{};
+
 	void Entity::Register(const OwningPointer<Object>& i_obj)
 	{
 		ObjectHandler objhandler(i_obj);
 		ObjectList.PushBack(objhandler);
 	}
 
-	ObjectHandler Entity::Query(Object* i_obj)
+	OwningPointer<Object> Entity::Query(Object* i_obj)
 	{
 		for (auto it = ObjectList.Begin(); it != ObjectList.End(); ++it)
 		{
 			if (it->p == i_obj)
 			{
-				return *it;
+				return it->p;
 			}
 		}
 
 		// Couldn't find the query object pointer
 		DEBUG_ASSERT(false);
 		DEBUG_PRINT("Couldn't find the query object pointer");
-		return ObjectHandler(nullptr);
+		return OwningPointer<Object>();
 	}
 
 	void Entity::RegisterCamera(const OwningPointer<CameraObject>& i_camera)
@@ -69,6 +71,11 @@ namespace Tempest
 	void Entity::RegisterEffectComponent(const OwningPointer<EffectComponent>& i_component)
 	{
 		EffectComponentList.PushBack(i_component);
+	}
+
+	void Entity::RegisterAnimationComponent(const OwningPointer<AnimationComponent>& i_component)
+	{
+		Entity::Animation.Register(i_component);
 	}
 
 	void Entity::Boot()
@@ -134,6 +141,8 @@ namespace Tempest
 		{
 			(*it)->Boot();
 		}
+
+		Animation.Boot();
 	}
 
 	void Entity::Init()
@@ -163,6 +172,8 @@ namespace Tempest
 		{
 			(*it)->Init();
 		}
+
+		Animation.Init();
 	}
 
 	void Entity::Update(float i_dt)
@@ -198,6 +209,8 @@ namespace Tempest
 		{
 			CamerasObjects[0]->Update(i_dt);
 		}
+
+		Animation.Update(i_dt);
 	}
 
 	void Entity::CleanUp()
@@ -206,6 +219,8 @@ namespace Tempest
 		{
 			(*it).p->CleanUp();
 		}
+
+		Animation.CLeanUp();
 	}
 
 	void Entity::SwapCamera(size_t index1, size_t index2)

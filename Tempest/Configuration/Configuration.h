@@ -3,8 +3,6 @@
 //////////////////////////////
 //  Custom heap allocator
 //////////////////////////////
-
-
 #define ENABLE_CUSTOM_ALLOCATOR
 
 #ifndef ENABLE_CUSTOM_ALLOCATOR

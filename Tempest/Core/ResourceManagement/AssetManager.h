@@ -50,7 +50,7 @@ namespace Tempest
 			else
 			{				
 				OwningPointer<Resource::Mesh> mesh = OwningPointer<Resource::Mesh>::Create(mesh);
-				if (Resource::Mesh::Load(i_filename.c_str(), mesh->data, mesh->index))
+				if (Resource::Mesh::Load(i_filename.c_str(), *mesh))
 				{
 					table.insert({ i_filename, mesh });
 
@@ -93,14 +93,14 @@ namespace Tempest
 			}
 			else
 			{
-				OwningPointer<Resource::SkeletonMesh> mesh = OwningPointer<Resource::SkeletonMesh>::Create(mesh);
-				if (Resource::SkeletonMesh::Load(i_filename.c_str(), mesh->data, mesh->index))
+				OwningPointer<Resource::SkeletonMesh> smesh = OwningPointer<Resource::SkeletonMesh>::Create(smesh);
+				if (Resource::SkeletonMesh::Load(i_filename.c_str(), *smesh))
 				{
-					table.insert({ i_filename, mesh });
+					table.insert({ i_filename, smesh });
 
 					DEBUG_PRINT("Mesh data %s is loaded", i_filename.c_str());
 
-					return mesh;
+					return smesh;
 				}
 				else
 				{

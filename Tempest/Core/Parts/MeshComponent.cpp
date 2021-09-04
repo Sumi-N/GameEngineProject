@@ -55,20 +55,16 @@ namespace Tempest
 			DEBUG_PRINT("The data in this mesh is cleaned");
 			CleanMesh();
 		}
-		
+				
+		if (File::GetExtensionName(i_filename) == ".tm")
 		{
-			String file_name(i_filename);
-			File file(file_name);
-			if (file.GetExtensionName() == ".tm")
-			{
-				type = MeshType::Mesh;
-				mesh = AssetManager<Resource::Mesh>::Load(i_filename);
-			}
-			else if (file.GetExtensionName() == ".tsm")
-			{
-				type = MeshType::SkeletonMesh;
-				mesh = OwningPointer<Resource::Mesh>(reinterpret_cast<Resource::Mesh*>(&*AssetManager<Resource::SkeletonMesh>::Load(i_filename)));
-			}
+			type = MeshType::Mesh;
+			mesh = AssetManager<Resource::Mesh>::Load(i_filename);
+		}
+		else if (File::GetExtensionName(i_filename) == ".tsm")
+		{
+			type = MeshType::SkeletonMesh;
+			mesh = OwningPointer<Resource::Mesh>(reinterpret_cast<Resource::Mesh*>(&*AssetManager<Resource::SkeletonMesh>::Load(i_filename)));
 		}
 
 		if (mesh == nullptr)

@@ -3,15 +3,27 @@
 
 using namespace Resource;
 
-class AnimationSystem
+namespace Tempest
 {
-public:
-	AnimationSystem() = default;
-	~AnimationSystem() = default;
+	class AnimationSystem
+	{
+	public:
+		AnimationSystem() = default;
+		~AnimationSystem() = default;
 
-	void Update();
+		void Register(const OwningPointer<AnimationComponent>&);
 
-private:
-	Result InterpolateMatrixOfAFrame(const AnimationClip, const float, Mat4f*);
-};
+		void Boot();
+		void Init();		
+		void Update(float i_dt);
+		void CLeanUp();
 
+		Mat4f bones[NUM_MAX_BONES];
+
+	private:
+		Result InterpolateMatrixBetweenFrames(const AnimationClip, const float, float&, Mat4f*, const bool&);
+
+		Array<OwningPointer<AnimationComponent>> list;
+		float animation_current_time = 0;
+	};
+}

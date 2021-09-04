@@ -129,6 +129,9 @@
     <ClInclude Include="WarnPaintedCement.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Tempest\Animation\Animation.vcxproj">
+      <Project>{cc303b10-d7fa-4acd-b85d-44b6b282193b}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Tempest\Application\Application.vcxproj">
       <Project>{a4a992b0-4300-4d9f-bd91-9ba6afe44d21}</Project>
     </ProjectReference>

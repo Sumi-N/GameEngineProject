@@ -104,7 +104,7 @@ Tempest::Result GeometryConverter::ConvertAnimationClip(const char* i_filename, 
 
 	for (int i = 0; i < num_samples; i++)
 	{
-		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(animation_clip.samples[i].jointposes.Data()), num_joints * sizeof(size_t)));
+		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(animation_clip.samples[i].jointposes.Data()), num_joints * sizeof(JointPose)));
 	}
 
 	out.Close();

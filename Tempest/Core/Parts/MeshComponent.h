@@ -19,9 +19,7 @@ namespace Tempest
 		};
 
 		MeshType type;
-		OwningPointer<Resource::Mesh> mesh;
-
-		ObservingPointer<Object> owner;			
+		OwningPointer<Resource::Mesh> mesh;	
 
 		Mat4f model_mat;
 		Mat4f model_inverse_transpose_mat;

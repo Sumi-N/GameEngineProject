@@ -29,22 +29,28 @@ int main()
 	//	}
 	//}
 
-	{
-		String copy_from_path = "..\\..\\" + path_in + "SK_PlayerCharacter.fbx";
-		String o_entry = File::ReplaceExtension(copy_from_path, "tsm");
-		String copy_to_path = "..\\..\\" + path_out + o_entry;
+	//-------- Skeleton Animation ----------------
 
-		Result result = GeometryConverter::ConvertSkeletonMesh(copy_from_path.c_str(), copy_to_path.c_str());
+	//{
+	//	String copy_from_path = "..\\..\\" + path_in + "SK_PlayerCharacter.fbx";
+	//	String filename = File::GetFileName(copy_from_path);
+	//	String o_entry  = File::ReplaceExtension(filename, "tsm");
+	//	String copy_to_path = "..\\..\\" + path_out + o_entry;
 
-		if (result != ResultValue::Success)
-		{
-			DEBUG_PRINT("Failed to convert skeleton mesh %s", copy_from_path.c_str());
-		}
-	}
+	//	Result result = GeometryConverter::ConvertSkeletonMesh(copy_from_path.c_str(), copy_to_path.c_str());
+
+	//	if (result != ResultValue::Success)
+	//	{
+	//		DEBUG_PRINT("Failed to convert skeleton mesh %s", copy_from_path.c_str());
+	//	}
+	//}
+
+	//-------- Animation Clip ----------------
 
 	{
 		String copy_from_path = "..\\..\\" + path_in + "Anim_PlayerCharacter_run.fbx";
-		String o_entry = File::ReplaceExtension(copy_from_path, "tac");		
+		String filename = File::GetFileName(copy_from_path);
+		String o_entry = File::ReplaceExtension(filename, "tac");
 		String copy_to_path = "..\\..\\" + path_out + o_entry;		
 
 		Result result = GeometryConverter::ConvertAnimationClip(copy_from_path.c_str(), copy_to_path.c_str());

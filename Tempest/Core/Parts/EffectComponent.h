@@ -20,11 +20,9 @@ namespace Tempest
 		void SetTexture(TextureAttribute*);
 		void SetTexture(OwningPointer<TextureAttribute>);
 		void ReplaceTexture(TextureAttribute*, int);
-
-		//private:
-		ObservingPointer<Object> owner;
+		
 		const char* shaderpaths[5];
-		Array<OwningPointer<TextureAttribute>> textures;
+		Array<OwningPointer<TextureAttribute>> texture_attributes;
 		OwningPointer<MaterialAttribute> material_attribute;
 	};
 
@@ -60,19 +58,19 @@ namespace Tempest
 	{
 		OwningPointer<TextureAttribute> texturehandler;
 		texturehandler = i_texture;
-		textures.PushBack(texturehandler);
+		texture_attributes.PushBack(texturehandler);
 	}
 
 	inline void EffectComponent::SetTexture(OwningPointer<TextureAttribute> i_texture)
 	{
-		textures.PushBack(i_texture);
+		texture_attributes.PushBack(i_texture);
 	}
 
 	inline void EffectComponent::ReplaceTexture(TextureAttribute* i_texture, int ith_item = 0)
 	{
 		OwningPointer<TextureAttribute> texturehandler;
 		texturehandler = i_texture;
-		textures[ith_item] = texturehandler;
+		texture_attributes[ith_item] = texturehandler;
 	}
 
 }

@@ -10,4 +10,5 @@
 #include <Core/Parts/CubeMap.h>
 #include <Core/MemoryManagement/SmartPointer.h>
 #include <Core/Debug/DebugRay.h>
+#include <Animation/AnimationSystem.h>
 #include <Utility/Array.h>

@@ -70,10 +70,10 @@ out VS_OUT{
 /////////////////////////////////////////////////////////////////////////////
 void main()
 {
-	vec4 animated_model_position    = weight.x * global_inversed_matrix[index.x] *  vec4(model_position, 1.0)
-									+ weight.y * global_inversed_matrix[index.y] *  vec4(model_position, 1.0)
-									+ weight.z * global_inversed_matrix[index.z] *  vec4(model_position, 1.0)
-									+ weight.w * global_inversed_matrix[index.w] *  vec4(model_position, 1.0);
+	vec4 animated_model_position    = weight.x * global_inversed_matrix[index.x] * vec4(model_position, 1.0)
+									+ weight.y * global_inversed_matrix[index.y] * vec4(model_position, 1.0)
+									+ weight.z * global_inversed_matrix[index.z] * vec4(model_position, 1.0)
+									+ weight.w * global_inversed_matrix[index.w] * vec4(model_position, 1.0);
 
 	vec3 animated_model_normal      = model_normal;
 

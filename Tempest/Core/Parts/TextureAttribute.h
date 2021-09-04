@@ -9,21 +9,35 @@ namespace Tempest
 	class TextureAttribute : public Attribute
 	{
 	public:
-		TextureAttribute() : width(0), height(0) {}
+		TextureAttribute() : type(TextureType::Default) {}
 		~TextureAttribute() {};
 		
 
-		Array<Vec3u8t> pixels;
-		size_t width, height;
-		TextureType type = static_cast<TextureType>(0);
+		OwningPointer<Resource::Texture> texture;
+		TextureType type;
 
-		virtual bool Load(char const* i_filename, TextureType i_type);
+		bool Load(char const* i_filename, TextureType i_type);
+		bool IsLoaded();
 	};
 
 	inline bool TextureAttribute::Load(char const* i_filename, TextureType i_type)
 	{
-		type = i_type;				
-		return Resource::Texture::Load(i_filename, width, height, pixels);		
+		type = i_type;
+		texture = OwningPointer<Resource::Texture>::Create(texture);
+		return Resource::Texture::Load(i_filename, *texture);
+	}
+
+	inline bool TextureAttribute::IsLoaded()
+	{
+		if (texture)
+		{
+			if (!texture->pixels.Empty())
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

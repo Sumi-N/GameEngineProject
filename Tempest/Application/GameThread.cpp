@@ -172,5 +172,12 @@ namespace Tempest
 				data_game_own->material_data.PushBack(material);
 			}
 		}
+
+		{
+			for (int i = 0; i < 50; i++)
+			{
+				data_game_own->animation_bone_data.global_inversed_matrix[i] = Entity::Animation.bones[i];
+			}
+		}
 	}
 }

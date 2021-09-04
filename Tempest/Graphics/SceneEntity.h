@@ -27,7 +27,7 @@ inline void SceneEntity::Init()
 
 		RenderState* state = new RenderState();
 		state->InitShader(Entity::Skybox->effect_component->shaderpaths);
-		state->InitTexture(Entity::Skybox->effect_component->textures[0]);
+		state->InitTexture(Entity::Skybox->effect_component->texture_attributes[0]);
 
 		OwningPointer<RenderState> renderhandler;
 		renderhandler = state;
@@ -54,7 +54,7 @@ inline void SceneEntity::Init()
 				state->material = (*it2)->material_attribute->material;
 
 				// Create buffer for texture
-				for (auto it3 = (*it2)->textures.Begin(); it3 != (*it2)->textures.End(); ++it3)
+				for (auto it3 = (*it2)->texture_attributes.Begin(); it3 != (*it2)->texture_attributes.End(); ++it3)
 				{
 					state->InitTexture(*it3);
 				}

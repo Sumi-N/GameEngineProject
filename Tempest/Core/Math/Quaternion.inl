@@ -159,19 +159,19 @@ namespace Math
 	template<typename T>
 	inline Matrix4<T> Quaternion<T>::QuaternionToRotationMatix(Quaternion<T> i_q)
 	{
-		DEBUG_ASSERT(false);
-		return Matrix4<T>();
+		//DEBUG_ASSERT(false);
+		//return Matrix4<T>();
 
-		//T m11 = i_q.x * i_q.x + i_q.y * i_q.y - i_q.z * i_q.z - i_q.w * i_q.w;
-		//T m12 = 2 * (i_q.y * i_q.z + i_q.w * i_q.x);
-		//T m13 = 2 * (i_q.y * i_q.w - i_q.z * i_q.x);
-		//T m21 = 2 * (i_q.y * i_q.z - i_q.w * i_q.x);
-		//T m22 = i_q.x * i_q.x - i_q.y * i_q.y + i_q.z * i_q.z - i_q.w * i_q.w;
-		//T m23 = 2 * (i_q.z * i_q.w + i_q.x * i_q.y);
-		//T m31 = 2 * (i_q.y * i_q.w + i_q.z * i_q.x);
-		//T m32 = 2 * (i_q.z * i_q.w - i_q.x * i_q.y);
-		//T m33 = i_q.x * i_q.x - i_q.y * i_q.y - i_q.z * i_q.z + i_q.w * i_q.w;
+		T m11 = i_q.x * i_q.x + i_q.y * i_q.y - i_q.z * i_q.z - i_q.w * i_q.w;
+		T m12 = 2 * (i_q.y * i_q.z + i_q.w * i_q.x);
+		T m13 = 2 * (i_q.y * i_q.w - i_q.z * i_q.x);
+		T m21 = 2 * (i_q.y * i_q.z - i_q.w * i_q.x);
+		T m22 = i_q.x * i_q.x - i_q.y * i_q.y + i_q.z * i_q.z - i_q.w * i_q.w;
+		T m23 = 2 * (i_q.z * i_q.w + i_q.x * i_q.y);
+		T m31 = 2 * (i_q.y * i_q.w + i_q.z * i_q.x);
+		T m32 = 2 * (i_q.z * i_q.w - i_q.x * i_q.y);
+		T m33 = i_q.x * i_q.x - i_q.y * i_q.y - i_q.z * i_q.z + i_q.w * i_q.w;
 
-		//return Matrix4<T>(m11, m12, m13, 0, m21, m22, m23, 0, m31, m32, m33, 0, 0, 0, 0, 1);
+		return Matrix4<T>(m11, m12, m13, 0, m21, m22, m23, 0, m31, m32, m33, 0, 0, 0, 0, 1);
 	}
 }

@@ -135,6 +135,9 @@ void Graphic::Update(GraphicRequiredData * i_data)
 				auto& data_material = i_data->material_data[i];
 				constant_material.Update(&data_material);
 
+				auto& data_animation = i_data->animation_bone_data;
+				constant_animationbone.Update(&data_animation);
+
 				// Bind shadow map texture 
 				for (int j = 0; j < NUM_MAX_POINT_LIGHT; j++)
 				{

@@ -33,6 +33,9 @@ namespace Tempest
 
 		static Array<String> GetAllFilePathsBelowTheDirectory(String);
 		static String ReplaceExtension(String, String);
+		static String GetExtensionName(String);
+		static String GetPathName     (String);
+		static String GetFileName     (String);
 
 	private:		
 		std::filesystem::path filepath;
@@ -140,6 +143,21 @@ namespace Tempest
 	inline String File::ReplaceExtension(String i_path, String i_extension)
 	{
 		return std::filesystem::path(i_path).replace_extension(std::filesystem::path(i_extension)).string();
+	}
+
+	inline String File::GetExtensionName(String i_path)
+	{
+		return std::filesystem::path(i_path).extension().string();
+	}
+
+	inline String File::GetPathName(String i_path)
+	{
+		return std::filesystem::path(i_path).parent_path().string();
+	}
+
+	inline String File::GetFileName(String i_path)
+	{
+		return std::filesystem::path(i_path).filename().string();
 	}
 }
 

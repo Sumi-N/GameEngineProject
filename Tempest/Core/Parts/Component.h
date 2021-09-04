@@ -17,6 +17,6 @@ namespace Tempest
 		virtual void Update(float){};
 		virtual void CleanUp(){};
 
-		ObservingPointer<Object> pointer;
+		ObservingPointer<Object> owner;
 	};
 }

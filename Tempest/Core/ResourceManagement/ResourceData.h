@@ -6,23 +6,20 @@ using namespace Tempest;
 
 enum class TextureType : int8_t
 {
-	SkyBox = -1,
-	Ohter = -1,
-
-	//////////////////////
-
-	Albedo = 0,
-	Normal = 1,
-	Roughness = 2,
-	Metalic = 3,
-	AmbientOcclusion = 4,
-
-	//////////////////////
-
-	PB_Diffuse = 0,
-	PB_Specular = 1,
-	PB_Normal = 2,
-	PB_Displacement = 3,
+	Default          = 0,
+	SkyBox           = 1,
+	Albedo           = 2,
+	Normal           = 3,
+	Roughness        = 4,
+	Metalic          = 5,
+	AmbientOcclusion = 6,
+	//-------------------------
+	PB_Diffuse       = Albedo,
+	PB_Specular      = Normal,
+	PB_Normal        = Roughness,
+	PB_Displacement  = Metalic,
+	//--------------------------
+	End,
 };
 
 namespace Resource
@@ -62,7 +59,7 @@ namespace Resource
 		Mat4f       inversed; // inversed bind pose translation matrix
 		Vec3f       coord;
 		String      name;
-		int          parent_index;
+		int         parent_index;
 	};
 
 	struct Skeleton
@@ -87,10 +84,8 @@ namespace Resource
 	struct AnimationClip
 	{
 		Skeleton*                    skeleton;
-		float                        frame_per_second;
 		int                          frame_count;
-		Array<AnimationSample>       samples;
-		bool                         do_looping;
+		Array<AnimationSample>       samples;		
 
 		static Result Load(const char* i_filepath, AnimationClip& o_clip)
 		{
@@ -108,7 +103,7 @@ namespace Resource
 			for (int i = 0; i < num_samples; i++)
 			{
 				o_clip.samples[i].jointposes.Resize(num_joints);
-				RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_clip.samples[i].jointposes.Data()), num_joints * sizeof(size_t)));
+				RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_clip.samples[i].jointposes.Data()), num_joints * sizeof(JointPose)));
 			}
 
 			in.Close();
@@ -122,7 +117,7 @@ namespace Resource
 		Array<MeshPoint> data;
 		Array<uint32_t> index;
 
-		static Result Load(const char* i_filepath, Array<MeshPoint>& o_data, Array<uint32_t>& o_index)
+		static Result Load(const char* i_filepath, Mesh& o_mesh)
 		{				
 			File in(i_filepath, File::Format::BinaryRead);
 
@@ -134,11 +129,11 @@ namespace Resource
 			RETURN_IFNOT_SUCCESS(in.Read(&data_size, sizeof(size_t)))
 			RETURN_IFNOT_SUCCESS(in.Read(&index_size, sizeof(size_t)))
 
-			o_data.Resize(data_size);
-			o_index.Resize(index_size);
+			o_mesh.data.Resize(data_size);
+			o_mesh.index.Resize(index_size);
 
-			RETURN_IFNOT_SUCCESS(in.Read(o_data.Data(), data_size * sizeof(MeshPoint)))
-			RETURN_IFNOT_SUCCESS(in.Read(o_index.Data(), index_size * sizeof(MeshPoint)))
+			RETURN_IFNOT_SUCCESS(in.Read(o_mesh.data.Data(), data_size * sizeof(MeshPoint)))
+			RETURN_IFNOT_SUCCESS(in.Read(o_mesh.index.Data(), index_size * sizeof(MeshPoint)))
 
 			in.Close();
 
@@ -151,7 +146,7 @@ namespace Resource
 		Array<SkeletonMeshPoint> data;
 		Array<uint32_t> index;
 
-		static Result Load(const char* i_filepath, Array<SkeletonMeshPoint>& o_data, Array<uint32_t>& o_index)
+		static Result Load(const char* i_filepath, SkeletonMesh& o_smesh)
 		{
 			File in(i_filepath, File::Format::BinaryRead);
 
@@ -163,11 +158,11 @@ namespace Resource
 			RETURN_IFNOT_SUCCESS(in.Read(&data_size, sizeof(size_t)))
 			RETURN_IFNOT_SUCCESS(in.Read(&index_size, sizeof(size_t)))
 
-			o_data.Resize(data_size);
-			o_index.Resize(index_size);
+			o_smesh.data.Resize(data_size);
+			o_smesh.index.Resize(index_size);
 
-			RETURN_IFNOT_SUCCESS(in.Read(o_data.Data(), data_size * sizeof(SkeletonMeshPoint)))
-			RETURN_IFNOT_SUCCESS(in.Read(o_index.Data(), index_size * sizeof(MeshPoint)))
+			RETURN_IFNOT_SUCCESS(in.Read(o_smesh.data.Data(), data_size * sizeof(SkeletonMeshPoint)))
+			RETURN_IFNOT_SUCCESS(in.Read(o_smesh.index.Data(), index_size * sizeof(MeshPoint)))
 
 			in.Close();
 
@@ -183,29 +178,33 @@ namespace Resource
 		int width, height;
 		Array<Vec3u8t> pixels;
 
-		static Result Load(const char* i_filepath, size_t& o_width, size_t& o_height, Array<Vec3u8t>& o_pixels)
+		static Result Load(const char* i_filepath, Texture& o_texture)
 		{
 			TextureType type;
-			o_pixels.Clear();
+			o_texture.pixels.Clear();
 
 			File in(i_filepath, File::Format::BinaryRead);
 
 			RETURN_IFNOT_SUCCESS(in.Open());
 
 			RETURN_IFNOT_SUCCESS(in.Read(&type, sizeof(uint8_t)));
-			RETURN_IFNOT_SUCCESS(in.Read(&o_width, sizeof(int)));
-			RETURN_IFNOT_SUCCESS(in.Read(&o_height, sizeof(int)));
+			RETURN_IFNOT_SUCCESS(in.Read(&o_texture.width, sizeof(int)));
+			RETURN_IFNOT_SUCCESS(in.Read(&o_texture.height, sizeof(int)));
 
 			if (type == TextureType::SkyBox)
 			{
 				size_t fixed_size = sizeof(float) * 3 / sizeof(Vec3u8t);
-				o_pixels.Resize(o_width * o_height * fixed_size);
-				RETURN_IFNOT_SUCCESS(in.Read(o_pixels.Data(), sizeof(float) * o_width * o_height * static_cast<size_t>(3)));
+				o_texture.pixels.Resize(o_texture.width * o_texture.height * fixed_size);
+				RETURN_IFNOT_SUCCESS(in.Read(o_texture.pixels.Data(), sizeof(float) * o_texture.width * o_texture.height * static_cast<size_t>(3)));
+			}
+			else if(type < TextureType::End)
+			{
+				o_texture.pixels.Resize(o_texture.width * o_texture.height);
+				RETURN_IFNOT_SUCCESS(in.Read(o_texture.pixels.Data(), o_texture.width * o_texture.height * sizeof(Vec3u8t)));				
 			}
 			else
 			{
-				o_pixels.Resize(o_width * o_height);
-				RETURN_IFNOT_SUCCESS(in.Read(o_pixels.Data(), o_width * o_height * sizeof(Vec3u8t)));				
+				DEBUG_ASSERT(false);
 			}
 
 			in.Close();

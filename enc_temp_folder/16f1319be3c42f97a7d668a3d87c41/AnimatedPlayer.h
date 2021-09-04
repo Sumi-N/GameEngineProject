@@ -68,7 +68,6 @@ namespace Tempest
 
 		OwningPointer<AnimationComponent> animation_component = OwningPointer<AnimationComponent>::Create(animation_component);
 		animation_component->owner = Entity::Query(this);
-		animation_component->mesh = mesh_component;
 		animation_component->Load(PATH_SUFFIX BIN_MESH_PATH "Anim_PlayerCharacter_run.tac");
 		Entity::RegisterAnimationComponent(animation_component);
 	}
