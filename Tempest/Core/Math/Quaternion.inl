@@ -159,19 +159,18 @@ namespace Math
 	template<typename T>
 	inline Matrix4<T> Quaternion<T>::QuaternionToRotationMatix(Quaternion<T> i_q)
 	{
-		//DEBUG_ASSERT(false);
-		//return Matrix4<T>();
+		T m00 = static_cast<T>(1) - static_cast<T>(2) * (i_q.y * i_q.y + i_q.z * i_q.z);
+		T m01 = static_cast<T>(2) * (i_q.x * i_q.y + i_q.z * i_q.w);
+		T m02 = static_cast<T>(2) * (i_q.x * i_q.z - i_q.y * i_q.w);
 
-		T m11 = i_q.x * i_q.x + i_q.y * i_q.y - i_q.z * i_q.z - i_q.w * i_q.w;
-		T m12 = 2 * (i_q.y * i_q.z + i_q.w * i_q.x);
-		T m13 = 2 * (i_q.y * i_q.w - i_q.z * i_q.x);
-		T m21 = 2 * (i_q.y * i_q.z - i_q.w * i_q.x);
-		T m22 = i_q.x * i_q.x - i_q.y * i_q.y + i_q.z * i_q.z - i_q.w * i_q.w;
-		T m23 = 2 * (i_q.z * i_q.w + i_q.x * i_q.y);
-		T m31 = 2 * (i_q.y * i_q.w + i_q.z * i_q.x);
-		T m32 = 2 * (i_q.z * i_q.w - i_q.x * i_q.y);
-		T m33 = i_q.x * i_q.x - i_q.y * i_q.y - i_q.z * i_q.z + i_q.w * i_q.w;
+		T m10 = static_cast<T>(2) * (i_q.x * i_q.y - i_q.z * i_q.w);
+		T m11 = static_cast<T>(1) - static_cast<T>(2) * (i_q.x * i_q.x + i_q.z * i_q.z);
+		T m12 = static_cast<T>(2) * (i_q.y * i_q.z + i_q.x * i_q.w);
 
-		return Matrix4<T>(m11, m12, m13, 0, m21, m22, m23, 0, m31, m32, m33, 0, 0, 0, 0, 1);
+		T m20 = static_cast<T>(2) * (i_q.x * i_q.z + i_q.w * i_q.y);
+		T m21 = static_cast<T>(2) * (i_q.y * i_q.z - i_q.x * i_q.w);
+		T m22 = static_cast<T>(1) - static_cast<T>(2) * (i_q.x * i_q.x + i_q.y * i_q.y);
+
+		return Matrix4<T>(m00, m01, m02, 0, m10, m11, m12, 0, m20, m21, m22, 0, 0, 0, 0, 1);
 	}
 }

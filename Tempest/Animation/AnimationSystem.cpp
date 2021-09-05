@@ -4,6 +4,48 @@
 namespace Tempest
 {
 
+	void ConvertJointPoseBySkeleton(AnimationClip& clip, const Skeleton& skeleton)
+	{
+		int diff;
+		bool finished = false;
+
+		for (int i = 0; i < clip.samples.Size(); i++)
+		{
+			diff = 0;
+			for (int j = 0; j < skeleton.joints.Size(); j++)
+			{
+				// For now, it's hard coded. 
+				if (j > 20)
+				{
+					clip.samples[i].jointposes[j].global_inversed_matrix = clip.samples[i].jointposes[j].global_inversed_matrix * skeleton.joints[j].inversed;
+					continue;
+				}
+				if (finished)
+				{
+					clip.samples[i].jointposes[j].parent_index += diff;
+				}
+
+				if (skeleton.joints[j].parent_index != clip.samples[i].jointposes[j].parent_index)
+				{
+					JointPose empty;
+					//empty.global_inverse_matrix = skeleton.joints[j].inversed;
+					empty.global_inversed_matrix = Mat4f{};
+					empty.parent_index = skeleton.joints[j].parent_index;
+
+
+					clip.samples[i].jointposes.Insert(clip.samples[i].jointposes.Begin() + j, empty);
+					diff++;
+					finished = false;
+				}
+				else
+				{
+					clip.samples[i].jointposes[j].global_inversed_matrix = clip.samples[i].jointposes[j].global_inversed_matrix * skeleton.joints[j].inversed;
+					finished = true;
+				}
+			}
+		}
+	}
+
 	void AnimationSystem::Register(const OwningPointer<AnimationComponent>& i_animation)
 	{
 		list.PushBack(i_animation);
@@ -22,6 +64,7 @@ namespace Tempest
 		for (auto it = list.Begin(); it != list.End(); ++it)
 		{
 			(*it)->Init();
+			ConvertJointPoseBySkeleton(*(*it)->clip, *(*it)->skeleton);
 		}
 	}
 
@@ -31,8 +74,13 @@ namespace Tempest
 		{
 			(*it)->Update(i_dt);
 
-			animation_current_time += i_dt;
+			animation_current_time = 5;
 			InterpolateMatrixBetweenFrames(*(*it)->clip, i_dt, animation_current_time, bones, true);
+			
+			for (int i = 0; i < (*it)->skeleton->joints.Size(); i++)
+			{
+				bones[i] = bones[i] * (*it)->skeleton->joints[i].inversed;
+			}
 		}
 	}
 
@@ -48,7 +96,7 @@ namespace Tempest
 	{
 		//int   num_frame_count = i_clip.frame_count;
 		int   num_frame_count = 14;
-		float frame_per_count = 0.01666f;
+		float frame_per_count = 8.57142830;
 		//float frame_per_count = i_clip.frame_per_second;
 
 		int current_frame = static_cast<int>((i_total_passed_time - frame_per_count) / frame_per_count);
@@ -56,7 +104,7 @@ namespace Tempest
 		{
 			current_frame = 0;
 		}
-		current_frame = 5;
+		current_frame = 0;
 
 		if (current_frame >= num_frame_count)
 		{
@@ -97,8 +145,7 @@ namespace Tempest
 		{
 			// t is the ratio of passed time from the last frame in an animation
 			float t = (current_frame + 1) * frame_per_count - i_total_passed_time;
-			t /= frame_per_count;
-			t = 0.5f;
+			t /= frame_per_count;			
 
 			for (int i = 0; i < i_clip.samples[0].jointposes.Size(); i++)
 			{

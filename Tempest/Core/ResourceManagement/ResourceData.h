@@ -65,6 +65,24 @@ namespace Resource
 	struct Skeleton
 	{
 		Array<Joint>   joints;
+
+		static Result Load(const char* i_filepath, Skeleton& o_skeleton)
+		{
+			File in(i_filepath, File::Format::BinaryRead);
+
+			RETURN_IFNOT_SUCCESS(in.Open())
+
+			size_t num_joint;			
+			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(&num_joint), sizeof(size_t)));
+
+			o_skeleton.joints.Resize(num_joint);
+			
+			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_skeleton.joints.Data()), num_joint * sizeof(Joint)));			
+
+			in.Close();
+
+			return ResultValue::Success;
+		}
 	};
 
 	struct JointPose
@@ -93,17 +111,17 @@ namespace Resource
 
 			RETURN_IFNOT_SUCCESS(in.Open())
 
-			size_t num_samples;
-			size_t num_joints;
-			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(&num_samples), sizeof(size_t)));
-			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(&num_joints), sizeof(size_t)));
+			size_t num_sample;
+			size_t num_joint;
+			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(&num_sample), sizeof(size_t)));
+			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(&num_joint), sizeof(size_t)));
 
-			o_clip.samples.Resize(num_samples);
+			o_clip.samples.Resize(num_sample);
 
-			for (int i = 0; i < num_samples; i++)
+			for (int i = 0; i < num_sample; i++)
 			{
-				o_clip.samples[i].jointposes.Resize(num_joints);
-				RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_clip.samples[i].jointposes.Data()), num_joints * sizeof(JointPose)));
+				o_clip.samples[i].jointposes.Resize(num_joint);
+				RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_clip.samples[i].jointposes.Data()), num_joint * sizeof(JointPose)));
 			}
 
 			in.Close();

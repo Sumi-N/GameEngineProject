@@ -13,7 +13,8 @@ namespace Tempest
 		AnimationComponent() : is_looping(false), frame_per_second(0), frame_count(0) {};
 		~AnimationComponent() = default;
 
-		OwningPointer<Resource::AnimationClip> clip;
+		OwningPointer<Resource::Skeleton> skeleton;
+		OwningPointer<Resource::AnimationClip> clip;		
 		ObservingPointer<MeshComponent> mesh;
 		
 		virtual void Boot() override;
@@ -21,14 +22,16 @@ namespace Tempest
 		virtual void Update(float i_dt) override;
 		virtual void CleanUp() override;
 
-		Result Load(const char* i_filename);		
+		Result LoadSkeleton(const char* i_filename);
+		Result LoadClip(const char* i_filename);		
 
 	private:
 		bool  is_looping;
 		float frame_per_second;
 		int   frame_count;
 
-		bool IsLoaded();
+		bool IsSkeletonLoaded();
+		bool IsClipLoaded();
 	};
 
 	inline void AnimationComponent::Boot()
@@ -51,9 +54,21 @@ namespace Tempest
 		Component::CleanUp();
 	}
 
-	inline Result AnimationComponent::Load(const char* i_filename)
+	inline Result AnimationComponent::LoadSkeleton(const char* i_filename)
 	{
-		if (IsLoaded())
+		if (IsSkeletonLoaded())
+		{
+			DEBUG_PRINT("There is a skeleton that is already loaded");
+			DEBUG_ASSERT(false);
+		}
+
+		skeleton = OwningPointer<Resource::Skeleton>::Create(skeleton);
+		return Resource::Skeleton::Load(i_filename, *skeleton);
+	}
+
+	inline Result AnimationComponent::LoadClip(const char* i_filename)
+	{
+		if (IsClipLoaded())
 		{
 			DEBUG_PRINT("There is a clip that is already loaded");
 			DEBUG_ASSERT(false);
@@ -63,7 +78,20 @@ namespace Tempest
 		return Resource::AnimationClip::Load(i_filename, *clip);
 	}
 
-	inline bool AnimationComponent::IsLoaded()
+	inline bool AnimationComponent::IsSkeletonLoaded()
+	{
+		if (skeleton)
+		{
+			if (!skeleton->joints.Empty())
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	inline bool AnimationComponent::IsClipLoaded()
 	{
 		if (clip)
 		{

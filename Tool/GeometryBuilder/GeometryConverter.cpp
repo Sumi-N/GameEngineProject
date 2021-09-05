@@ -41,7 +41,7 @@ Tempest::Result GeometryConverter::ConvertMesh(const char* i_filename, const cha
 	return Tempest::ResultValue::Success;
 }
 
-Tempest::Result GeometryConverter::ConvertSkeletonMesh(const char* i_filename, const char* o_filename)
+Tempest::Result GeometryConverter::ConvertSkeletonAndSkeletonMesh(const char* i_filename, const char* o_file_skeleton, const char* o_file_mesh)
 {
 	Skeleton skeleton;
 	Array<SkeletonMeshPoint> skeleton_mesh;
@@ -54,24 +54,42 @@ Tempest::Result GeometryConverter::ConvertSkeletonMesh(const char* i_filename, c
 		RETURN_IFNOT_SUCCESS(ReadSkeletonMesh(ExtensionType::FBX, i_filename, skeleton, skeleton_mesh, index));
 	}
 
-	Tempest::File out(o_filename, Tempest::File::Format::BinaryWrite);
-
-	size_t meshdata_size = skeleton_mesh.Size();
-	size_t index_size = index.Size();
-
-	if (meshdata_size == 0 || index_size == 0)
 	{
-		return Tempest::ResultValue::Failure;
+		Tempest::File out(o_file_skeleton, Tempest::File::Format::BinaryWrite);
+
+		RETURN_IFNOT_SUCCESS(out.Open());
+
+		size_t num_joint = skeleton.joints.Size();
+		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&num_joint), sizeof(size_t)));
+		
+		for (int i = 0; i < num_joint; i++)
+		{
+			RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&skeleton.joints[i]), sizeof(Joint)));
+		}
+
+		out.Close();
 	}
 
-	RETURN_IFNOT_SUCCESS(out.Open());
+	{
+		Tempest::File out(o_file_mesh, Tempest::File::Format::BinaryWrite);
 
-	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&meshdata_size), sizeof(size_t)));
-	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&index_size), sizeof(size_t)));
-	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(skeleton_mesh.Data()), meshdata_size * sizeof(SkeletonMeshPoint)));
-	RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(index.Data()), index_size * sizeof(int)));
+		size_t data_size = skeleton_mesh.Size();
+		size_t index_size = index.Size();
 
-	out.Close();
+		if (data_size == 0 || index_size == 0)
+		{
+			return Tempest::ResultValue::Failure;
+		}
+
+		RETURN_IFNOT_SUCCESS(out.Open());
+
+		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&data_size), sizeof(size_t)));
+		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&index_size), sizeof(size_t)));
+		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(skeleton_mesh.Data()), data_size * sizeof(SkeletonMeshPoint)));
+		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(index.Data()), index_size * sizeof(int)));
+
+		out.Close();
+	}
 
 	return Tempest::ResultValue::Success;
 }

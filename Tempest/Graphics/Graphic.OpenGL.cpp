@@ -177,7 +177,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 void Graphic::PostUpdate(GraphicRequiredData* i_data)
 {
 	i_data->model_data.Clear();
-	i_data->material_data.Clear();
+	i_data->material_data.Clear();	
 }
 
 void Graphic::CleanUp()

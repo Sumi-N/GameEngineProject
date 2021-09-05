@@ -10,8 +10,9 @@ layout (location = 1) in vec3 model_normal;
 layout (location = 2) in vec2 model_texcoord;
 layout (location = 3) in vec3 model_tangent_vec;
 layout (location = 4) in vec3 model_bitangent_vec;
-layout (location = 5) in ivec4 index;
-layout (location = 6) in vec4  weight;
+layout (location = 5) in vec2 padding;
+layout (location = 6) in ivec4 skin_index;
+layout (location = 7) in vec4  skin_weight;
 
 // Structure define
 //////////////////////////////////////////////////////////////////////////////
@@ -67,13 +68,14 @@ out VS_OUT{
 	mat3 tangent_bitangent_matrix;
 } vs_out;
 
-/////////////////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------------------
+
 void main()
 {
-	vec4 animated_model_position    = weight.x * global_inversed_matrix[index.x] * vec4(model_position, 1.0)
-									+ weight.y * global_inversed_matrix[index.y] * vec4(model_position, 1.0)
-									+ weight.z * global_inversed_matrix[index.z] * vec4(model_position, 1.0)
-									+ weight.w * global_inversed_matrix[index.w] * vec4(model_position, 1.0);
+	vec4 animated_model_position    = skin_weight.x * global_inversed_matrix[skin_index.x] * vec4(model_position, 1.0)
+									+ skin_weight.y * global_inversed_matrix[skin_index.y] * vec4(model_position, 1.0)
+									+ skin_weight.z * global_inversed_matrix[skin_index.z] * vec4(model_position, 1.0)
+									+ skin_weight.w * global_inversed_matrix[skin_index.w] * vec4(model_position, 1.0);	
 
 	vec3 animated_model_normal      = model_normal;
 

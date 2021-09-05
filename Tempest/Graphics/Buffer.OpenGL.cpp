@@ -38,6 +38,22 @@ namespace Tempest
 			BufferData::Layout vbufflayout({ vertex, normal, uvcoord, tangent, bitangent,});
 
 			layout = vbufflayout;
+
+			// Create vertex array 
+			glGenVertexArrays(1, &arrayid);
+			glBindVertexArray(arrayid);
+
+			// Create vertex buffer 
+			glGenBuffers(1, &bufferid);
+			glBindBuffer(GL_ARRAY_BUFFER, bufferid);
+
+			// Fill in the data to the vertex buffer
+			glBufferData(GL_ARRAY_BUFFER, i_size, i_data, GL_STATIC_DRAW);
+			for (int i = 0; i < layout.elements.Size(); i++)
+			{
+				glEnableVertexAttribArray(i);
+				glVertexAttribPointer(i, layout.elements[i].size / sizeof(float), GL_FLOAT, GL_FALSE, layout.stride, (void*)(layout.elements[i].offset));
+			}
 		}
 		else if(i_type == VertexBufferType::SkeletonMesh)
 		{
@@ -54,9 +70,7 @@ namespace Tempest
 			BufferData::Layout vbufflayout({ vertex, normal, uvcoord, tangent, bitangent, padding, index, weight });
 
 			layout = vbufflayout;
-		}
 
-		{
 			// Create vertex array 
 			glGenVertexArrays(1, &arrayid);
 			glBindVertexArray(arrayid);
@@ -67,12 +81,36 @@ namespace Tempest
 
 			// Fill in the data to the vertex buffer
 			glBufferData(GL_ARRAY_BUFFER, i_size, i_data, GL_STATIC_DRAW);
-			for (int i = 0; i < layout.elements.Size(); i++)
+			for (int i = 0; i < 6; i++)
 			{
 				glEnableVertexAttribArray(i);
 				glVertexAttribPointer(i, layout.elements[i].size / sizeof(float), GL_FLOAT, GL_FALSE, layout.stride, (void*)(layout.elements[i].offset));
 			}
-		}		
+
+			glEnableVertexAttribArray(6);
+			glVertexAttribIPointer(6, layout.elements[6].size / sizeof(int), GL_INT, layout.stride, (void*)(layout.elements[6].offset));
+
+			glEnableVertexAttribArray(7);
+			glVertexAttribPointer(7, layout.elements[7].size / sizeof(float), GL_FLOAT, GL_FALSE, layout.stride, (void*)(layout.elements[7].offset));
+		}
+
+		//{
+		//	// Create vertex array 
+		//	glGenVertexArrays(1, &arrayid);
+		//	glBindVertexArray(arrayid);
+
+		//	// Create vertex buffer 
+		//	glGenBuffers(1, &bufferid);
+		//	glBindBuffer(GL_ARRAY_BUFFER, bufferid);
+
+		//	// Fill in the data to the vertex buffer
+		//	glBufferData(GL_ARRAY_BUFFER, i_size, i_data, GL_STATIC_DRAW);
+		//	for (int i = 0; i < layout.elements.Size(); i++)
+		//	{
+		//		glEnableVertexAttribArray(i);
+		//		glVertexAttribPointer(i, layout.elements[i].size / sizeof(float), GL_FLOAT, GL_FALSE, layout.stride, (void*)(layout.elements[i].offset));
+		//	}
+		//}		
 	}
 
 	void VertexBuffer::CleanUp() const

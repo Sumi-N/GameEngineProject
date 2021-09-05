@@ -17,7 +17,7 @@ class GeometryConverter
 {
 public:
 	static Tempest::Result ConvertMesh(const char*, const char*);
-	static Tempest::Result ConvertSkeletonMesh(const char*, const char*);
+	static Tempest::Result ConvertSkeletonAndSkeletonMesh(const char*, const char*, const char*);
 	static Tempest::Result ConvertAnimationClip(const char*, const char*);
 
 private:

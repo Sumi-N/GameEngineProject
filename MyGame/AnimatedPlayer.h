@@ -52,10 +52,10 @@ namespace Tempest
 			PATH_SUFFIX SHADER_PATH "disney_pbr_model\\disney_pbr_animation.frag.glsl",
 		};
 
-		albedo->Load(PATH_SUFFIX BIN_TEXTURE_PATH  "albedo/CharacterBody_BaseColor.tt", TextureType::Albedo);
-		normal->Load(PATH_SUFFIX BIN_TEXTURE_PATH "normal/CharacterBody_Normal.tt", TextureType::Normal);
+		albedo->Load   (PATH_SUFFIX BIN_TEXTURE_PATH "albedo/CharacterBody_BaseColor.tt",    TextureType::Albedo);
+		normal->Load   (PATH_SUFFIX BIN_TEXTURE_PATH "normal/CharacterBody_Normal.tt",       TextureType::Normal);
 		roughness->Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/brushed-metal_roughness.tt", TextureType::Roughness);
-		metalic->Load(PATH_SUFFIX BIN_TEXTURE_PATH "metallic/bathroomtile1_metalness.tt", TextureType::Metalic);
+		metalic->Load  (PATH_SUFFIX BIN_TEXTURE_PATH "metallic/bathroomtile1_metalness.tt",  TextureType::Metalic);
 
 		effect_component->RegisterShaderPath(shaderpaths);	
 		effect_component->SetTexture(albedo);
@@ -63,13 +63,13 @@ namespace Tempest
 		effect_component->SetTexture(roughness);
 		effect_component->SetTexture(metalic);
 
-		//mesh_component->Load(PATH_SUFFIX BIN_MESH_PATH "SK_PlayerCharacter.tm");
 		mesh_component->Load(PATH_SUFFIX BIN_MESH_PATH "SK_PlayerCharacter.tsm");
 
 		OwningPointer<AnimationComponent> animation_component = OwningPointer<AnimationComponent>::Create(animation_component);
 		animation_component->owner = Entity::Query(this);
 		animation_component->mesh = mesh_component;
-		animation_component->Load(PATH_SUFFIX BIN_MESH_PATH "Anim_PlayerCharacter_run.tac");
+		animation_component->LoadSkeleton(PATH_SUFFIX BIN_MESH_PATH "SK_PlayerCharacter.ts");
+		animation_component->LoadClip(PATH_SUFFIX BIN_MESH_PATH "Anim_PlayerCharacter_run.tac");		
 		Entity::RegisterAnimationComponent(animation_component);
 	}
 

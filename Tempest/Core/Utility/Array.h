@@ -48,6 +48,7 @@ namespace Tempest
 			Iterator()                                     : array(nullptr), index(0)       {}
 			Iterator(const Array* i_array, size_t i_index) : array(i_array), index(i_index) {}
 
+			Iterator  operator+ (int t) {Iterator iterator = *this; iterator.index = iterator.index + t; return iterator;  }
 			Iterator& operator= (Iterator i_iterator) {this->array = i_iterator->array; this->index = i_iterator->index; return this;}
 			Iterator& operator++()                    
 			{
@@ -121,10 +122,11 @@ namespace Tempest
 		}
 		Iterator	End		 () {return Iterator(); }
 
-		size_t		Size     () const {return this->size; }
-		size_t		MaxSize  () const {return this->max_size; }
-		size_t		Capacity () const {return this->capacity; }
-		T*          Data     () const {return this->data; };
+		size_t		Size       () const {return this->size; }
+		size_t		MaxSize    () const {return this->max_size; }
+		size_t		Capacity   () const {return this->capacity; }
+		size_t      Granularity() const {return this->granularity; }
+		T*          Data       () const {return this->data; };
 
 		void		Resize   (size_t);		
 		bool		Empty    ();
@@ -141,7 +143,7 @@ namespace Tempest
 		void		PushBack(const T&);
 		void        PushBack(T&&);
 		//void      PopBack();
-		//Iterator	Insert(const Iterator, const T&);
+		Iterator	Insert(const Iterator, const T&);
 		//Iterator	Erase(const Iterator);
 		//void		Swap(Array&);
 		void        Clear();
@@ -169,6 +171,7 @@ namespace Tempest
 		}
 		this->max_size = i_array.MaxSize();
 		this->capacity = i_array.Capacity();
+		this->granularity = i_array.Granularity();
 		this->size     = i_array.Size();
 		this->data     = reinterpret_cast<T*>(AllocMemory(max_size * sizeof(T)));
 		for (size_t i = 0; i < size; i++)
@@ -197,6 +200,7 @@ namespace Tempest
 		}
 		this->max_size = i_array.MaxSize();
 		this->capacity = i_array.Capacity();
+		this->granularity = i_array.Granularity();
 		this->size     = i_array.Size();
 		this->data = reinterpret_cast<T*>(AllocMemory(max_size * sizeof(T)));
 		for (size_t i = 0; i < size; i++)
@@ -226,7 +230,13 @@ namespace Tempest
 			data = reinterpret_cast<T*>(AllocMemory(i_resize * sizeof(T)));
 			max_size = i_resize;
 			memset(static_cast<void*>(&data[size]), 0, (i_resize - size) * sizeof(T));				
+
+			for (size_t i = 0; i < i_resize; i++)
+			{
+				data[i] = std::move(T());
+			}
 			size = i_resize;
+
 			return;
 		}
 		
@@ -239,7 +249,7 @@ namespace Tempest
 
 		for (size_t i = size; i < i_resize; i++)
 		{			
-			data[i] = T();
+			data[i] = std::move(T());
 		}
 		size = i_resize;
 	}
@@ -283,7 +293,7 @@ namespace Tempest
 		{			
 			data = reinterpret_cast<T*>(AllocMemory(granularity * sizeof(T)));			
 			max_size += granularity;			
-			data[size] = T();
+			data[size] = std::move(T());
 			data[size] = i_data;
 			size++;
 
@@ -294,14 +304,14 @@ namespace Tempest
 		{
 			data = reinterpret_cast<T*>(ReallocMemory(reinterpret_cast<void*>(data), (max_size + granularity) * sizeof(T)));
 			max_size += granularity;						
-			data[size] = T();
+			data[size] = std::move(T());
 			data[size] = i_data;
 			size++;
 
 			return;
 		}
 		
-		data[size] = T();
+		data[size] = std::move(T());
 		data[size] = i_data;
 		size++;
 	}
@@ -331,6 +341,33 @@ namespace Tempest
 		
 		data[size] = std::move(i_data);		
 		size++;
+	}
+
+	template <typename T>
+	inline typename Array<T>::Iterator Array<T>::Insert(typename const Array<T>::Iterator i_iterator, const T& i_data)
+	{
+		if (i_iterator.GetArray() != this)
+		{
+			DEBUG_ASSERT(false);
+		}
+
+		if (this->max_size == this->size)
+		{
+			this->PushBack(T{});
+			memmove(static_cast<void*>(&data[i_iterator.GetIndex() + 1]), static_cast<void*>(&data[i_iterator.GetIndex()]), sizeof(T) * (this->size - i_iterator.GetIndex()));
+			T& new_inserted = this->At(i_iterator.GetIndex());
+			new_inserted = i_data;
+			size++;
+		}
+		else
+		{
+			memmove(static_cast<void*>(&data[i_iterator.GetIndex() + 1]), static_cast<void*>(&data[i_iterator.GetIndex()]), sizeof(T) * (this->size - i_iterator.GetIndex()));
+			T& new_inserted = this->At(i_iterator.GetIndex());
+			new_inserted = i_data;
+			size++;
+		}
+		
+		return i_iterator;
 	}
 
 	template <typename T>
