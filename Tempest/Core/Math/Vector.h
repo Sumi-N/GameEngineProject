@@ -36,7 +36,7 @@ namespace Math {
 		friend Vec2 operator + (T t, Vec2 const& u) { Vec2 o_v; o_v.x = t + u.x; o_v.y = t + u.y; return o_v; }
 		friend Vec2 operator - (T t, Vec2 const& u) { Vec2 o_v; o_v.x = t - u.x; o_v.y = t - u.y; return o_v; }
 		friend Vec2 operator * (T t, Vec2 const& u) { Vec2 o_v; o_v.x = t * u.x; o_v.y = t * u.y; return o_v; }
-		       Vec2 operator / (T const t)  const { Vec2 o_v; o_v.x = x / t; o_v.y = y / t; return o_v; }
+		       Vec2 operator / (T const& t)  const { Vec2 o_v; o_v.x = x / t; o_v.y = y / t; return o_v; }
 
 		//!@ Binary operators
 		Vec2 operator + (Vec2 const& i_v) const { Vec2 o_v; o_v.x = x + i_v.x; o_v.y = y + i_v.y; return o_v; }
@@ -93,7 +93,7 @@ namespace Math {
 		friend Vec3 operator + (T t, Vec3 const& u) { Vec3 o_v; o_v.x = t + u.x; o_v.y = t + u.y; o_v.z = t + u.z; return o_v; }
 		friend Vec3 operator - (T t, Vec3 const& u) { Vec3 o_v; o_v.x = t - u.x; o_v.y = t - u.y; o_v.z = t - u.z; return o_v; }
 		friend Vec3 operator * (T t, Vec3 const& u) { Vec3 o_v; o_v.x = t * u.x; o_v.y = t * u.y; o_v.z = t * u.z; return o_v; }
-		       Vec3 operator / (T const t)  const { Vec3 o_v; o_v.x = x / t; o_v.y = y / t; o_v.z = z / t; return o_v; }
+		       Vec3 operator / (T const& t)  const { Vec3 o_v; o_v.x = x / t; o_v.y = y / t; o_v.z = z / t; return o_v; }
 
 		//!@ Binary operators
 		Vec3 operator + (Vec3 const& i_v) const { Vec3 o_v; o_v.x = x + i_v.x; o_v.y = y + i_v.y; o_v.z = z + i_v.z; return o_v; }
@@ -153,7 +153,7 @@ namespace Math {
 		friend Vec3 operator + (float t, Vec3 const& u)	{Vec3 o_v; o_v.x = t + u.x; o_v.y = t + u.y; o_v.z = t + u.z; return o_v;}
 		friend Vec3 operator - (float t, Vec3 const& u) {Vec3 o_v; o_v.x = t - u.x; o_v.y = t - u.y; o_v.z = t - u.z; return o_v;}
 		friend Vec3 operator * (float t, Vec3 const& u) {Vec3 o_v; o_v.x = t * u.x; o_v.y = t * u.y; o_v.z = t * u.z; return o_v;}
-		Vec3 operator / (float const t)  const	{Vec3 o_v; o_v.x = x / t; o_v.y = y / t; o_v.z = z / t; return o_v;	}
+		Vec3 operator / (float const& t)  const	{Vec3 o_v; o_v.x = x / t; o_v.y = y / t; o_v.z = z / t; return o_v;	}
 
 		//!@ Binary operators
 		Vec3<float> operator + (Vec3<float> const& i_v) const;
@@ -213,7 +213,7 @@ namespace Math {
 		friend Vec4 operator + (T t, Vec4 const& u) { Vec4 o_v; o_v.x = t + u.x; o_v.y = t + u.y; o_v.z = t + u.z; o_v.w = t + u.w; return o_v; }
 		friend Vec4 operator - (T t, Vec4 const& u) { Vec4 o_v; o_v.x = t - u.x; o_v.y = t - u.y; o_v.z = t - u.z; o_v.w = t - u.w; return o_v; }
 		friend Vec4 operator * (T t, Vec4 const& u) { Vec4 o_v; o_v.x = t * u.x; o_v.y = t * u.y; o_v.z = t * u.z; o_v.w = t * u.w; return o_v; }
-		       Vec4 operator / (T const t)  const { Vec4 o_v; o_v.x = x / t; o_v.y = y / t; o_v.z = z / t; o_v.w = w / t; return o_v; }
+		       Vec4 operator / (T const& t)  const { Vec4 o_v; o_v.x = x / t; o_v.y = y / t; o_v.z = z / t; o_v.w = w / t; return o_v; }
 
 		//!@ Binary operators
 		Vec4 operator + (Vec4 const& i_v) const { Vec4 o_v; o_v.x = x + i_v.x; o_v.y = y + i_v.y; o_v.z = z + i_v.z; o_v.w = w + i_v.w; return o_v; }
@@ -264,7 +264,7 @@ namespace Math {
 		friend Vec4 operator + (float t, Vec4 const& u) { Vec4 o_v; o_v.x = t + u.x; o_v.y = t + u.y; o_v.z = t + u.z; o_v.w = t + u.w; return o_v; }
 		friend Vec4 operator - (float t, Vec4 const& u) { Vec4 o_v; o_v.x = t - u.x; o_v.y = t - u.y; o_v.z = t - u.z; o_v.w = t - u.w; return o_v; }
 		friend Vec4 operator * (float t, Vec4 const& u) { Vec4 o_v; o_v.x = t * u.x; o_v.y = t * u.y; o_v.z = t * u.z; o_v.w = t * u.w; return o_v; }
-		       Vec4 operator / (float const t)  const { Vec4 o_v; o_v.x = x / t; o_v.y = y / t; o_v.z = z / t; o_v.w = w / t; return o_v; }
+		       Vec4 operator / (float const& t)  const { Vec4 o_v; o_v.x = x / t; o_v.y = y / t; o_v.z = z / t; o_v.w = w / t; return o_v; }
 
 		template <typename U>
 		explicit Vec4(Vec4<U> const& u) : x(static_cast<float>(u.x)), y(static_cast<float>(u.y)), z(static_cast<float>(u.z)), z(static_cast<float>(u.w)) {}

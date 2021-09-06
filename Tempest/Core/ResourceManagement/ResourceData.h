@@ -56,6 +56,18 @@ namespace Resource
 
 	struct Joint
 	{
+		Joint() = default;
+		~Joint() {};
+		Joint& operator= (const Joint& i_joint)
+		{
+			inversed = i_joint.inversed;
+			coord = i_joint.coord;
+			name = String();
+			name = i_joint.name;
+			parent_index = i_joint.parent_index;
+
+			return *this;
+		}
 		Mat4f       inversed; // inversed bind pose translation matrix
 		Vec3f       coord;
 		String      name;

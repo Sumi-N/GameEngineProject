@@ -26,6 +26,7 @@ namespace Math
 		};
 
 		Matrix4();
+		~Matrix4() = default;
 		Matrix4(T*);
 		Matrix4(T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T);
 

@@ -42,7 +42,7 @@ namespace Tempest
 			Element(Type i_type, const String& i_name, bool i_normalized = false)
 				: type(i_type), name(i_name), size(GetDataSize(type)), offset(0), normalized(i_normalized) {}
 
-			Element& operator= (Element i_element)
+			Element& operator= (const Element& i_element)
 			{
 				name = String();
 				name = i_element.name;

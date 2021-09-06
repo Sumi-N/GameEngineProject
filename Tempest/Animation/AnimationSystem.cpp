@@ -74,7 +74,7 @@ namespace Tempest
 		{
 			(*it)->Update(i_dt);
 
-			animation_current_time = 5;
+			animation_current_time += i_dt;
 			InterpolateMatrixBetweenFrames(*(*it)->clip, i_dt, animation_current_time, bones, true);
 			
 			for (int i = 0; i < (*it)->skeleton->joints.Size(); i++)
@@ -92,26 +92,21 @@ namespace Tempest
 		}
 	}
 
-	Result AnimationSystem::InterpolateMatrixBetweenFrames(const AnimationClip i_clip, const float i_dt, float& i_total_passed_time, Mat4f* io_mat, const bool& i_isloop)
+	Result AnimationSystem::InterpolateMatrixBetweenFrames(const AnimationClip& i_clip, const float i_dt, float& i_total_passed_time, Mat4f* io_mat, const bool& i_isloop)
 	{
 		//int   num_frame_count = i_clip.frame_count;
 		int   num_frame_count = 14;
-		float frame_per_count = 8.57142830;
-		//float frame_per_count = i_clip.frame_per_second;
+		//float frame_per_count = 16.66666;
+		float frame_per_count = 100;
 
-		int current_frame = static_cast<int>((i_total_passed_time - frame_per_count) / frame_per_count);
-		if (current_frame < 0)
+		if (i_total_passed_time >= num_frame_count * frame_per_count)
 		{
-			current_frame = 0;
+			i_total_passed_time -= num_frame_count * frame_per_count;
 		}
-		current_frame = 0;
 
-		if (current_frame >= num_frame_count)
-		{
-			i_total_passed_time = 0;
-			return ResultValue::Failure;
-		}
-		else if (current_frame == num_frame_count - 1)
+		int current_frame = static_cast<int>(i_total_passed_time / frame_per_count);		
+		
+		if (current_frame == num_frame_count - 1)
 		{
 			if (!i_isloop)
 			{
@@ -120,8 +115,9 @@ namespace Tempest
 			else
 			{
 				// t is the ratio of passed time from the last frame in an animation
-				float t = i_total_passed_time - (current_frame * frame_per_count);
+				float t = i_total_passed_time - current_frame * frame_per_count;
 				t /= frame_per_count;
+				t = 1 - t;
 
 				for (int i = 0; i < i_clip.samples[0].jointposes.Size(); i++)
 				{
@@ -144,8 +140,9 @@ namespace Tempest
 		else
 		{
 			// t is the ratio of passed time from the last frame in an animation
-			float t = (current_frame + 1) * frame_per_count - i_total_passed_time;
-			t /= frame_per_count;			
+			float t = i_total_passed_time - current_frame * frame_per_count;
+			t /= frame_per_count;
+			t = 1 - t;						
 
 			for (int i = 0; i < i_clip.samples[0].jointposes.Size(); i++)
 			{
