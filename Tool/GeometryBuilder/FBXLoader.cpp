@@ -200,7 +200,7 @@ namespace FBXLoader
 		return true;
 	}
 
-	bool LoadSkeletonMesh(Array<Resource::SkeletonMeshPoint>& mesh, Array<int>& index, const Skeleton& skeleton)
+	bool LoadSkeletonMesh(Array<Resource::SkeletonMeshPoint>& mesh, Array<int>& index, const std::map<String, int>& i_joint_map)
 	{
 		// Get mesh in the scene
 		int meshCount = lScene->GetSrcObjectCount<FbxMesh>();
@@ -261,7 +261,7 @@ namespace FBXLoader
 				{
 					FbxCluster* currCluster = currSkin->GetCluster(clusterIndex);
 					std::string currJointName = currCluster->GetLink()->GetName();
-					int currJointIndex = FindJointIndexUsingName(currJointName, skeleton);
+					int currJointIndex = FindJointIndexUsingName(currJointName, i_joint_map);
 
 					//Associate each joint with the control points it affects
 					unsigned int numOfIndices = currCluster->GetControlPointIndicesCount();
@@ -431,12 +431,12 @@ namespace FBXLoader
 		return true;
 	}
 
-	bool LoadSkeleton(Resource::Skeleton& o_skeleton)
+	bool LoadSkeleton(Resource::Skeleton& o_skeleton, std::map<String, int>& o_joint_map)
 	{
 		for (int childIndex = 0; childIndex < lRootNode->GetChildCount(); ++childIndex)
 		{
 			FbxNode* currNode = lRootNode->GetChild(childIndex);
-			ProcessSkeletonHierarchyRecursively(currNode, 0, 0, NUM_MAX_BONES - 1, o_skeleton);
+			ProcessSkeletonHierarchyRecursively(currNode, 0, 0, NUM_MAX_BONES - 1, o_skeleton, o_joint_map);
 		}
 
 		return true;
@@ -583,13 +583,13 @@ namespace FBXLoader
 		return FbxAMatrix(lT, lR, lS);
 	}
 
-	void ProcessSkeletonHierarchyRecursively(FbxNode* inNode, int inDepth, int myIndex, int inParentIndex, Resource::Skeleton& o_skeleton)
+	void ProcessSkeletonHierarchyRecursively(FbxNode* inNode, int inDepth, int myIndex, int inParentIndex, Resource::Skeleton& o_skeleton, std::map<String, int>& o_joint_map)
 	{
 		if (inNode->GetNodeAttribute() && inNode->GetNodeAttribute()->GetAttributeType() && inNode->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eSkeleton)
 		{
 			Resource::Joint currJoint;
 			currJoint.parent_index = inParentIndex;
-			currJoint.name = inNode->GetName();
+			//currJoint.name = inNode->GetName();
 
 			FbxAMatrix global_mat = inNode->EvaluateGlobalTransform().Inverse();
 
@@ -611,22 +611,26 @@ namespace FBXLoader
 			currJoint.coord = translation;
 
 			o_skeleton.joints.PushBack(currJoint);
+
+			std::string tmp = inNode->GetName();
+			o_joint_map.insert({ tmp,(int)o_skeleton.joints.Size() - 1});
 		}
 		for (int i = 0; i < inNode->GetChildCount(); i++)
 		{
-			ProcessSkeletonHierarchyRecursively(inNode->GetChild(i), inDepth + 1, (int)o_skeleton.joints.Size(), myIndex, o_skeleton);
+			ProcessSkeletonHierarchyRecursively(inNode->GetChild(i), inDepth + 1, (int)o_skeleton.joints.Size(), myIndex, o_skeleton, o_joint_map);
 		}
 	}
 
-	int FindJointIndexUsingName(std::string name, Skeleton skeleton)
+	int FindJointIndexUsingName(std::string name, const std::map<String, int>& i_joint_map)
 	{
-		for (int i = 0; i < skeleton.joints.Size(); i++)
+		for (auto it = i_joint_map.begin(); it != i_joint_map.end(); ++it)
 		{
-			if (skeleton.joints[i].name.compare(name) == 0)
+			if (it->first.compare(name) == 0)
 			{
-				return i;
+				return it->second;
 			}
 		}
+
 		return NUM_MAX_BONES - 1;
 	}
 

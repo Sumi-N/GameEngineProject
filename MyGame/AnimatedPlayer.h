@@ -35,14 +35,6 @@ namespace Tempest
 		OwningPointer<TextureAttribute> roughness = OwningPointer<TextureAttribute>::Create(roughness);
 		OwningPointer<TextureAttribute> metalic = OwningPointer<TextureAttribute>::Create(metalic);
 
-		//const char* shaderpaths[] =
-		//{
-		//	PATH_SUFFIX SHADER_PATH DISNEY_PBR_VERT,
-		//	nullptr,
-		//	nullptr,
-		//	nullptr,
-		//	PATH_SUFFIX SHADER_PATH DISNEY_PBR_FRAG,
-		//};
 		const char* shaderpaths[] =
 		{
 			PATH_SUFFIX SHADER_PATH "disney_pbr_model\\disney_pbr_animation.vert.glsl",

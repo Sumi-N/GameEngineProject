@@ -56,21 +56,8 @@ namespace Resource
 
 	struct Joint
 	{
-		Joint() = default;
-		~Joint() {};
-		Joint& operator= (const Joint& i_joint)
-		{
-			inversed = i_joint.inversed;
-			coord = i_joint.coord;
-			name = String();
-			name = i_joint.name;
-			parent_index = i_joint.parent_index;
-
-			return *this;
-		}
 		Mat4f       inversed; // inversed bind pose translation matrix
-		Vec3f       coord;
-		String      name;
+		Vec3f       coord;		
 		int         parent_index;
 	};
 
@@ -162,8 +149,8 @@ namespace Resource
 			o_mesh.data.Resize(data_size);
 			o_mesh.index.Resize(index_size);
 
-			RETURN_IFNOT_SUCCESS(in.Read(o_mesh.data.Data(), data_size * sizeof(MeshPoint)))
-			RETURN_IFNOT_SUCCESS(in.Read(o_mesh.index.Data(), index_size * sizeof(MeshPoint)))
+			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_mesh.data.Data()), data_size * sizeof(MeshPoint)))
+			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_mesh.index.Data()), index_size * sizeof(MeshPoint)))
 
 			in.Close();
 
@@ -191,8 +178,8 @@ namespace Resource
 			o_smesh.data.Resize(data_size);
 			o_smesh.index.Resize(index_size);
 
-			RETURN_IFNOT_SUCCESS(in.Read(o_smesh.data.Data(), data_size * sizeof(SkeletonMeshPoint)))
-			RETURN_IFNOT_SUCCESS(in.Read(o_smesh.index.Data(), index_size * sizeof(MeshPoint)))
+			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_smesh.data.Data()), data_size * sizeof(SkeletonMeshPoint)))
+			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_smesh.index.Data()), index_size * sizeof(MeshPoint)))
 
 			in.Close();
 
@@ -225,12 +212,12 @@ namespace Resource
 			{
 				size_t fixed_size = sizeof(float) * 3 / sizeof(Vec3u8t);
 				o_texture.pixels.Resize(o_texture.width * o_texture.height * fixed_size);
-				RETURN_IFNOT_SUCCESS(in.Read(o_texture.pixels.Data(), sizeof(float) * o_texture.width * o_texture.height * static_cast<size_t>(3)));
+				RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_texture.pixels.Data()), sizeof(float) * o_texture.width * o_texture.height * static_cast<size_t>(3)));
 			}
 			else if(type < TextureType::End)
 			{
 				o_texture.pixels.Resize(o_texture.width * o_texture.height);
-				RETURN_IFNOT_SUCCESS(in.Read(o_texture.pixels.Data(), o_texture.width * o_texture.height * sizeof(Vec3u8t)));				
+				RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_texture.pixels.Data()), o_texture.width * o_texture.height * sizeof(Vec3u8t)));
 			}
 			else
 			{

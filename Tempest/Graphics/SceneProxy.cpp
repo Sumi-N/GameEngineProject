@@ -27,17 +27,21 @@ void SceneProxy::InitBuffer(const int num)
 	if(num == 0)
 	{
 		vbuffer.InitData(VertexBufferType::Mesh, static_cast<uint32_t>(mesh->data.Size()) * sizeof(mesh->data[0]), mesh->data.Data());
+
+		ibuffer.InitData(static_cast<uint32_t>(mesh->index.Size()) * sizeof(mesh->index[0]), mesh->index.Data());
+
+		// Memorize index size for Draw() fucntion
+		indexsize = static_cast<unsigned int>(mesh->index.Size()) * sizeof(mesh->index[0]);
 	}
 	else if(num == 1)
-	{			
-		Resource::SkeletonMesh* skmesh = reinterpret_cast<Resource::SkeletonMesh*>(&*mesh);
-		vbuffer.InitData(VertexBufferType::SkeletonMesh, static_cast<uint32_t>(skmesh->data.Size()) * sizeof(skmesh->data[0]), skmesh->data.Data());
+	{					
+		vbuffer.InitData(VertexBufferType::SkeletonMesh, static_cast<uint32_t>(skeleton_mesh->data.Size()) * sizeof(skeleton_mesh->data[0]), skeleton_mesh->data.Data());
+
+		ibuffer.InitData(static_cast<uint32_t>(skeleton_mesh->index.Size()) * sizeof(skeleton_mesh->index[0]), skeleton_mesh->index.Data());
+
+		// Memorize index size for Draw() fucntion
+		indexsize = static_cast<unsigned int>(skeleton_mesh->index.Size()) * sizeof(skeleton_mesh->index[0]);
 	}
-
-	ibuffer.InitData(static_cast<uint32_t>(mesh->index.Size()) * sizeof(mesh->index[0]), mesh->index.Data());
-
-	// Memorize index size for Draw() fucntion
-	indexsize = static_cast<unsigned int>(mesh->index.Size()) * sizeof(mesh->index[0]);
 }
 
 void SceneProxy::CheckDrawType(const Shader i_shader)

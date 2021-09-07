@@ -309,17 +309,19 @@ Tempest::Result GeometryConverter::ReadSkeletonMesh(ExtensionType i_extension, c
 {
 	if (i_extension == ExtensionType::FBX)
 	{
+		std::map<String, int> joint_map;
+
 		if (!FBXLoader::Init(i_filename))
 		{
 			return Tempest::ResultValue::Failure;
 		}
 
-		if (!FBXLoader::LoadSkeleton(o_skeleton))
+		if (!FBXLoader::LoadSkeleton(o_skeleton, joint_map))
 		{
 			return Tempest::ResultValue::Failure;
 		}
 
-		if (!FBXLoader::LoadSkeletonMesh(o_data, o_index, o_skeleton))
+		if (!FBXLoader::LoadSkeletonMesh(o_data, o_index, joint_map))
 		{
 			return Tempest::ResultValue::Failure;
 		}

@@ -64,7 +64,7 @@ namespace Tempest
 		else if (File::GetExtensionName(i_filename) == ".tsm")
 		{
 			type = MeshType::SkeletonMesh;
-			mesh = OwningPointer<Resource::Mesh>(reinterpret_cast<Resource::Mesh*>(&*AssetManager<Resource::SkeletonMesh>::Load(i_filename)));
+			skeleton_mesh = AssetManager<Resource::SkeletonMesh>::Load(i_filename);
 		}
 
 		if (mesh == nullptr)

@@ -9,20 +9,26 @@ namespace Tempest
 	class Array
 	{
 	public:
-		
-		typename std::vector<T>::iterator Begin()   {return vector.begin(); }
-		typename std::vector<T>::iterator End  ()   {return vector.end(); }
+		Array() = default;
+		~Array() = default;
 
-		T*     Data    ()              {return vector.data(); }
-		bool   Empty   ()              {return vector.empty();}
+		typename std::vector<T>::iterator Begin ()   {return vector.begin(); }
+		typename std::vector<T>::iterator End   ()   {return vector.end(); }
+		typename std::vector<T>::iterator Insert(typename std::vector<T>::iterator i_itr, T& i_t){return vector.insert(i_itr, i_t); }
+
+		const T& operator[] (const size_t i_size) const {return vector.at(i_size); };
+		      T& operator[] (size_t i_size)             {return vector.at(i_size); };
+
+		T*     Data  ()       {return vector.data(); }
+		bool   Empty () const {return vector.empty(); }		
+		size_t Size  () const {return vector.size(); }
+
 		void   Resize  (size_t i_size) {vector.resize(i_size); }
 		void   PushBack(const T& i_t)  {vector.push_back(i_t); }
 		void   Clear   ()              {vector.clear(); }
-		size_t Size    ()              {return vector.size(); }
+
 		void   Convert(std::initializer_list<T> i_list) {vector = i_list; }
 
-		T& operator[](size_t i_size){ return vector[i_size];};
-						
 	public:
 		std::vector<T> vector;
 	};

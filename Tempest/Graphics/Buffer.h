@@ -61,7 +61,7 @@ namespace Tempest
 			Layout() { }
 			Layout(std::initializer_list<Element> i_elements)			
 			{
-				elements.Convert(i_elements);			
+				elements.Convert(i_elements);							
 				CalculateOffsetsAndStride();
 			}
 

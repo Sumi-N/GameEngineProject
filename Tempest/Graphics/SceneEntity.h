@@ -37,8 +37,15 @@ inline void SceneEntity::Init()
 	// Create scene format from entity
 	for (auto it = Entity::MeshComponentList.Begin(); it != Entity::MeshComponentList.End(); ++it)
 	{
-		SceneProxy * proxy = new SceneProxy();		
-		proxy->mesh = (*it)->mesh;
+		SceneProxy * proxy = new SceneProxy();
+		if ((*it)->type == MeshComponent::MeshType::Mesh)
+		{
+			proxy->mesh = (*it)->mesh;
+		}
+		else
+		{
+			proxy->skeleton_mesh = (*it)->skeleton_mesh;
+		}
 		proxy->Init(static_cast<int>((*it)->type));
 
 		OwningPointer<SceneProxy> proxyhandler;

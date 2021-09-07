@@ -30,6 +30,7 @@ public:
 	void CleanUp();	
 
 	ObservingPointer<Resource::Mesh>  mesh;
+	ObservingPointer<Resource::SkeletonMesh> skeleton_mesh;
 	Array<OwningPointer<RenderState>> states;
 	
 protected:
