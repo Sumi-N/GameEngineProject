@@ -137,63 +137,42 @@ namespace FBXLoader
 				index.PushBack(n + 3 * j + 1);
 				index.PushBack(n + 3 * j + 2);
 
-				Resource::MeshPoint p1, p2, p3;
+				Resource::MeshPoint p[3];
 
-				p1.vertex.x = (float)vertex_array[index_array[3 * j + 0]].mData[0];
-				p1.vertex.y = (float)vertex_array[index_array[3 * j + 0]].mData[1];
-				p1.vertex.z = (float)vertex_array[index_array[3 * j + 0]].mData[2];
+				for (int k = 0; k < 3; k++)
+				{
+					p[k].vertex.x = (float)vertex_array[index_array[3 * j + k]].mData[0];
+					p[k].vertex.y = (float)vertex_array[index_array[3 * j + k]].mData[1];
+					p[k].vertex.z = (float)vertex_array[index_array[3 * j + k]].mData[2];					
 
-				p2.vertex.x = (float)vertex_array[index_array[3 * j + 1]].mData[0];
-				p2.vertex.y = (float)vertex_array[index_array[3 * j + 1]].mData[1];
-				p2.vertex.z = (float)vertex_array[index_array[3 * j + 1]].mData[2];
+					p[k].normal.x = (float)normal_array[3 * j + k].mData[0];
+					p[k].normal.y = (float)normal_array[3 * j + k].mData[1];
+					p[k].normal.z = (float)normal_array[3 * j + k].mData[2];					
 
-				p3.vertex.x = (float)vertex_array[index_array[3 * j + 2]].mData[0];
-				p3.vertex.y = (float)vertex_array[index_array[3 * j + 2]].mData[1];
-				p3.vertex.z = (float)vertex_array[index_array[3 * j + 2]].mData[2];
-
-				p1.normal.x = (float)normal_array[3 * j + 0].mData[0];
-				p1.normal.y = (float)normal_array[3 * j + 0].mData[1];
-				p1.normal.z = (float)normal_array[3 * j + 0].mData[2];
-
-				p2.normal.x = (float)normal_array[3 * j + 1].mData[0];
-				p2.normal.y = (float)normal_array[3 * j + 1].mData[1];
-				p2.normal.z = (float)normal_array[3 * j + 1].mData[2];
-
-				p3.normal.x = (float)normal_array[3 * j + 2].mData[0];
-				p3.normal.y = (float)normal_array[3 * j + 2].mData[1];
-				p3.normal.z = (float)normal_array[3 * j + 2].mData[2];
-
-				p1.vertex = Vec3f(model_matrix * Vec4f(p1.vertex.x, p1.vertex.y, p1.vertex.z, 1.0));
-				p2.vertex = Vec3f(model_matrix * Vec4f(p2.vertex.x, p2.vertex.y, p2.vertex.z, 1.0));
-				p3.vertex = Vec3f(model_matrix * Vec4f(p3.vertex.x, p3.vertex.y, p3.vertex.z, 1.0));
-
-				p1.normal = Vec3f(model_inverse_transpose_matrix * Vec4f(p1.normal.x, p1.normal.y, p1.normal.z, 1.0));
-				p2.normal = Vec3f(model_inverse_transpose_matrix * Vec4f(p2.normal.x, p2.normal.y, p2.normal.z, 1.0));
-				p3.normal = Vec3f(model_inverse_transpose_matrix * Vec4f(p3.normal.x, p3.normal.y, p3.normal.z, 1.0));
+					p[k].vertex = Vec3f(model_matrix * Vec4f(p[k].vertex.x, p[k].vertex.y, p[k].vertex.z, 1.0));
+					p[k].normal = Vec3f(model_inverse_transpose_matrix * Vec4f(p[k].normal.x, p[k].normal.y, p[k].normal.z, 1.0));					
+				}
 
 				// Get the first UV sets
 				if (uvsetName.GetCount() > 0)
 				{
-					FbxVector2 uv1, uv2, uv3;
-					bool flag1, flag2, flag3;
+					FbxVector2 uv[3];
+					bool flag[3];
 
-					pMesh->GetPolygonVertexUV(j, 0, uvsetName.GetStringAt(0), uv1, flag1);
-					pMesh->GetPolygonVertexUV(j, 1, uvsetName.GetStringAt(0), uv2, flag2);
-					pMesh->GetPolygonVertexUV(j, 2, uvsetName.GetStringAt(0), uv3, flag3);
+					pMesh->GetPolygonVertexUV(j, 0, uvsetName.GetStringAt(0), uv[0], flag[0]);
+					pMesh->GetPolygonVertexUV(j, 1, uvsetName.GetStringAt(0), uv[1], flag[1]);
+					pMesh->GetPolygonVertexUV(j, 2, uvsetName.GetStringAt(0), uv[2], flag[2]);
 
-					p1.uv.x = (float)uv1.mData[0];
-					p1.uv.y = (float)uv1.mData[1];
-
-					p2.uv.x = (float)uv2.mData[0];
-					p2.uv.y = (float)uv2.mData[1];
-
-					p3.uv.x = (float)uv3.mData[0];
-					p3.uv.y = (float)uv3.mData[1];
+					for (int k = 0; k < 3; k++)
+					{
+						p[k].uv.x = (float)uv[k].mData[0];
+						p[k].uv.y = (float)uv[k].mData[1];
+					}
 				}
 
-				mesh.PushBack(p1);
-				mesh.PushBack(p2);
-				mesh.PushBack(p3);
+				mesh.PushBack(p[0]);
+				mesh.PushBack(p[1]);
+				mesh.PushBack(p[2]);
 			}
 		}
 
@@ -269,7 +248,7 @@ namespace FBXLoader
 					{
 						BlendingWeight currBlending;
 						currBlending.index = currJointIndex;
-						currBlending.weight = currCluster->GetControlPointWeights()[j];
+						currBlending.weight = (float)currCluster->GetControlPointWeights()[j];
 
 						int controlpointindex = currCluster->GetControlPointIndices()[j];
 
@@ -289,140 +268,73 @@ namespace FBXLoader
 				index.PushBack(n + 3 * j + 1);
 				index.PushBack(n + 3 * j + 2);
 
-				Resource::SkeletonMeshPoint p1, p2, p3;
+				Resource::SkeletonMeshPoint p[3];
 
-				p1.vertex.x = (float)vertex_array[index_array[3 * j + 0]].mData[0];
-				p1.vertex.y = (float)vertex_array[index_array[3 * j + 0]].mData[1];
-				p1.vertex.z = (float)vertex_array[index_array[3 * j + 0]].mData[2];
+				for (int k = 0; k < 3; k++)
+				{
+					p[k].vertex.x = (float)vertex_array[index_array[3 * j + k]].mData[0];
+					p[k].vertex.y = (float)vertex_array[index_array[3 * j + k]].mData[1];
+					p[k].vertex.z = (float)vertex_array[index_array[3 * j + k]].mData[2];
 
-				p2.vertex.x = (float)vertex_array[index_array[3 * j + 1]].mData[0];
-				p2.vertex.y = (float)vertex_array[index_array[3 * j + 1]].mData[1];
-				p2.vertex.z = (float)vertex_array[index_array[3 * j + 1]].mData[2];
+					p[k].normal.x = (float)normal_array[3 * j + k].mData[0];
+					p[k].normal.y = (float)normal_array[3 * j + k].mData[1];
+					p[k].normal.z = (float)normal_array[3 * j + k].mData[2];
 
-				p3.vertex.x = (float)vertex_array[index_array[3 * j + 2]].mData[0];
-				p3.vertex.y = (float)vertex_array[index_array[3 * j + 2]].mData[1];
-				p3.vertex.z = (float)vertex_array[index_array[3 * j + 2]].mData[2];
-
-				p1.normal.x = (float)normal_array[3 * j + 0].mData[0];
-				p1.normal.y = (float)normal_array[3 * j + 0].mData[1];
-				p1.normal.z = (float)normal_array[3 * j + 0].mData[2];
-
-				p2.normal.x = (float)normal_array[3 * j + 1].mData[0];
-				p2.normal.y = (float)normal_array[3 * j + 1].mData[1];
-				p2.normal.z = (float)normal_array[3 * j + 1].mData[2];
-
-				p3.normal.x = (float)normal_array[3 * j + 2].mData[0];
-				p3.normal.y = (float)normal_array[3 * j + 2].mData[1];
-				p3.normal.z = (float)normal_array[3 * j + 2].mData[2];
-
-				p1.vertex = Vec3f(model_matrix * Vec4f(p1.vertex.x, p1.vertex.y, p1.vertex.z, 1.0));
-				p2.vertex = Vec3f(model_matrix * Vec4f(p2.vertex.x, p2.vertex.y, p2.vertex.z, 1.0));
-				p3.vertex = Vec3f(model_matrix * Vec4f(p3.vertex.x, p3.vertex.y, p3.vertex.z, 1.0));
-
-				p1.normal = Vec3f(model_inverse_transpose_matrix * Vec4f(p1.normal.x, p1.normal.y, p1.normal.z, 1.0));
-				p2.normal = Vec3f(model_inverse_transpose_matrix * Vec4f(p2.normal.x, p2.normal.y, p2.normal.z, 1.0));
-				p3.normal = Vec3f(model_inverse_transpose_matrix * Vec4f(p3.normal.x, p3.normal.y, p3.normal.z, 1.0));
+					p[k].vertex = Vec3f(model_matrix * Vec4f(p[k].vertex.x, p[k].vertex.y, p[k].vertex.z, 1.0));
+					p[k].normal = Vec3f(model_inverse_transpose_matrix * Vec4f(p[k].normal.x, p[k].normal.y, p[k].normal.z, 1.0));
+				}
 
 				// Get the first UV sets
 				if (uvsetName.GetCount() > 0)
 				{
-					FbxVector2 uv1, uv2, uv3;
-					bool flag1, flag2, flag3;
+					FbxVector2 uv[3];
+					bool flag[3];
 
-					pMesh->GetPolygonVertexUV(j, 0, uvsetName.GetStringAt(0), uv1, flag1);
-					pMesh->GetPolygonVertexUV(j, 1, uvsetName.GetStringAt(0), uv2, flag2);
-					pMesh->GetPolygonVertexUV(j, 2, uvsetName.GetStringAt(0), uv3, flag3);
+					pMesh->GetPolygonVertexUV(j, 0, uvsetName.GetStringAt(0), uv[0], flag[0]);
+					pMesh->GetPolygonVertexUV(j, 1, uvsetName.GetStringAt(0), uv[1], flag[1]);
+					pMesh->GetPolygonVertexUV(j, 2, uvsetName.GetStringAt(0), uv[2], flag[2]);
 
-					p1.uv.x = (float)uv1.mData[0];
-					p1.uv.y = (float)uv1.mData[1];
-
-					p2.uv.x = (float)uv2.mData[0];
-					p2.uv.y = (float)uv2.mData[1];
-
-					p3.uv.x = (float)uv3.mData[0];
-					p3.uv.y = (float)uv3.mData[1];
+					for (int k = 0; k < 3; k++)
+					{
+						p[k].uv.x = (float)uv[k].mData[0];
+						p[k].uv.y = (float)uv[k].mData[1];
+					}
 				}
 
 				// Get skin info from WidhtMap
 				typedef std::multimap<int, BlendingWeight>::iterator iter;
-				int this_index = index_array[3 * j + 0];
-				for (std::pair<iter, iter> range(WeightMap.equal_range(this_index)); range.first != range.second; ++range.first)
+
+				for (int k = 0; k < 3; k++)
 				{
-					if (p1.index.x == NUM_MAX_BONES - 1)
+					int current_index = index_array[3 * j + k];
+					for (std::pair<iter, iter> range(WeightMap.equal_range(current_index)); range.first != range.second; ++range.first)
 					{
-						p1.index.x = range.first->second.index;
-						p1.weight.x = range.first->second.weight;
-					}
-					else if (p1.index.y == NUM_MAX_BONES - 1)
-					{
-						p1.index.y = range.first->second.index;
-						p1.weight.y = range.first->second.weight;
-					}
-					else if (p1.index.z == NUM_MAX_BONES - 1)
-					{
-						p1.index.z = range.first->second.index;
-						p1.weight.z = range.first->second.weight;
-					}
-					else
-					{
-						p1.index.w = range.first->second.index;
-						p1.weight.w = range.first->second.weight;
+						if (p[k].index.x == NUM_MAX_BONES - 1)
+						{
+							p[k].index.x = range.first->second.index;
+							p[k].weight.x = range.first->second.weight;
+						}
+						else if (p[k].index.y == NUM_MAX_BONES - 1)
+						{
+							p[k].index.y = range.first->second.index;
+							p[k].weight.y = range.first->second.weight;
+						}
+						else if (p[k].index.z == NUM_MAX_BONES - 1)
+						{
+							p[k].index.z = range.first->second.index;
+							p[k].weight.z = range.first->second.weight;
+						}
+						else
+						{
+							p[k].index.w = range.first->second.index;
+							p[k].weight.w = range.first->second.weight;
+						}
 					}
 				}
 
-				this_index = index_array[3 * j + 1];
-				for (std::pair<iter, iter> range(WeightMap.equal_range(this_index)); range.first != range.second; ++range.first)
-				{
-					if (p2.index.x == NUM_MAX_BONES - 1)
-					{
-						p2.index.x = range.first->second.index;
-						p2.weight.x = range.first->second.weight;
-					}
-					else if (p2.index.y == NUM_MAX_BONES - 1)
-					{
-						p2.index.y = range.first->second.index;
-						p2.weight.y = range.first->second.weight;
-					}
-					else if (p2.index.z == NUM_MAX_BONES - 1)
-					{
-						p2.index.z = range.first->second.index;
-						p2.weight.z = range.first->second.weight;
-					}
-					else
-					{
-						p2.index.w = range.first->second.index;
-						p2.weight.w = range.first->second.weight;
-					}
-				}
-
-				this_index = index_array[3 * j + 2];
-				for (std::pair<iter, iter> range(WeightMap.equal_range(this_index)); range.first != range.second; ++range.first)
-				{
-					if (p3.index.x == NUM_MAX_BONES - 1)
-					{
-						p3.index.x = range.first->second.index;
-						p3.weight.x = range.first->second.weight;
-					}
-					else if (p3.index.y == NUM_MAX_BONES - 1)
-					{
-						p3.index.y = range.first->second.index;
-						p3.weight.y = range.first->second.weight;
-					}
-					else if (p3.index.z == NUM_MAX_BONES - 1)
-					{
-						p3.index.z = range.first->second.index;
-						p3.weight.z = range.first->second.weight;
-					}
-					else
-					{
-						p3.index.w = range.first->second.index;
-						p3.weight.w = range.first->second.weight;
-					}
-				}
-
-				mesh.PushBack(p1);
-				mesh.PushBack(p2);
-				mesh.PushBack(p3);
+				mesh.PushBack(p[0]);
+				mesh.PushBack(p[1]);
+				mesh.PushBack(p[2]);
 			}
 
 			WeightMap.clear();
@@ -679,7 +591,7 @@ namespace FBXLoader
 
 		for (int i = 0; i < inNode->GetChildCount(); i++)
 		{
-			ProcessAnimationSampleRecursively(inNode->GetChild(i), inDepth + 1, o_sample.jointposes.Size(), myIndex, o_sample, time);
+			ProcessAnimationSampleRecursively(inNode->GetChild(i), inDepth + 1, (int)o_sample.jointposes.Size(), myIndex, o_sample, time);
 		}
 	}
 
