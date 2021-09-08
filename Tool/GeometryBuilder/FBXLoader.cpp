@@ -139,6 +139,17 @@ namespace FBXLoader
 
 				Resource::MeshPoint p[3];
 
+				FbxVector2 uv[3];
+				bool flag[3];
+
+				// Get the first UV sets
+				if (uvsetName.GetCount() > 0)
+				{
+					pMesh->GetPolygonVertexUV(j, 0, uvsetName.GetStringAt(0), uv[0], flag[0]);
+					pMesh->GetPolygonVertexUV(j, 1, uvsetName.GetStringAt(0), uv[1], flag[1]);
+					pMesh->GetPolygonVertexUV(j, 2, uvsetName.GetStringAt(0), uv[2], flag[2]);
+				}
+
 				for (int k = 0; k < 3; k++)
 				{
 					p[k].vertex.x = (float)vertex_array[index_array[3 * j + k]].mData[0];
@@ -150,24 +161,43 @@ namespace FBXLoader
 					p[k].normal.z = (float)normal_array[3 * j + k].mData[2];					
 
 					p[k].vertex = Vec3f(model_matrix * Vec4f(p[k].vertex.x, p[k].vertex.y, p[k].vertex.z, 1.0));
-					p[k].normal = Vec3f(model_inverse_transpose_matrix * Vec4f(p[k].normal.x, p[k].normal.y, p[k].normal.z, 1.0));					
+					p[k].normal = Vec3f(model_inverse_transpose_matrix * Vec4f(p[k].normal.x, p[k].normal.y, p[k].normal.z, 1.0));
+
+					p[k].uv.x = (float)uv[k].mData[0];
+					p[k].uv.y = (float)uv[k].mData[1];
 				}
 
-				// Get the first UV sets
-				if (uvsetName.GetCount() > 0)
 				{
-					FbxVector2 uv[3];
-					bool flag[3];
+					Vec3f edge[2];
+					edge[0] = p[1].vertex - p[0].vertex;
+					edge[1] = p[2].vertex - p[0].vertex;
 
-					pMesh->GetPolygonVertexUV(j, 0, uvsetName.GetStringAt(0), uv[0], flag[0]);
-					pMesh->GetPolygonVertexUV(j, 1, uvsetName.GetStringAt(0), uv[1], flag[1]);
-					pMesh->GetPolygonVertexUV(j, 2, uvsetName.GetStringAt(0), uv[2], flag[2]);
+					Vec2f deltauv[2];
+					deltauv[0] = p[1].uv - p[0].uv;
+					deltauv[1] = p[2].uv - p[0].uv;
 
-					for (int k = 0; k < 3; k++)
-					{
-						p[k].uv.x = (float)uv[k].mData[0];
-						p[k].uv.y = (float)uv[k].mData[1];
-					}
+					float f = 1.0f / (deltauv[0].x * deltauv[1].y - deltauv[1].x * deltauv[0].y);
+
+					Vec3f tangent;
+					tangent.x = f * (deltauv[1].y * edge[0].x - deltauv[0].y * edge[1].x);
+					tangent.y = f * (deltauv[1].y * edge[0].y - deltauv[0].y * edge[1].y);
+					tangent.z = f * (deltauv[1].y * edge[0].z - deltauv[0].y * edge[1].z);
+					tangent.Normalize();
+
+					Vec3f bitangent;
+					bitangent.x = f * (-deltauv[1].x * edge[0].x + deltauv[0].x * edge[1].x);
+					bitangent.y = f * (-deltauv[1].x * edge[0].y + deltauv[0].x * edge[1].y);
+					bitangent.z = f * (-deltauv[1].x * edge[0].z + deltauv[0].x * edge[1].z);
+					bitangent.Normalize();
+
+					p[0].tangent = tangent;
+					p[0].bitangent = bitangent;
+
+					p[1].tangent = tangent;
+					p[1].bitangent = bitangent;
+
+					p[2].tangent = tangent;
+					p[2].bitangent = bitangent;
 				}
 
 				mesh.PushBack(p[0]);
@@ -270,6 +300,17 @@ namespace FBXLoader
 
 				Resource::SkeletonMeshPoint p[3];
 
+				FbxVector2 uv[3];
+				bool flag[3];
+
+				// Get the first UV sets
+				if (uvsetName.GetCount() > 0)
+				{
+					pMesh->GetPolygonVertexUV(j, 0, uvsetName.GetStringAt(0), uv[0], flag[0]);
+					pMesh->GetPolygonVertexUV(j, 1, uvsetName.GetStringAt(0), uv[1], flag[1]);
+					pMesh->GetPolygonVertexUV(j, 2, uvsetName.GetStringAt(0), uv[2], flag[2]);
+				}
+
 				for (int k = 0; k < 3; k++)
 				{
 					p[k].vertex.x = (float)vertex_array[index_array[3 * j + k]].mData[0];
@@ -282,23 +323,9 @@ namespace FBXLoader
 
 					p[k].vertex = Vec3f(model_matrix * Vec4f(p[k].vertex.x, p[k].vertex.y, p[k].vertex.z, 1.0));
 					p[k].normal = Vec3f(model_inverse_transpose_matrix * Vec4f(p[k].normal.x, p[k].normal.y, p[k].normal.z, 1.0));
-				}
 
-				// Get the first UV sets
-				if (uvsetName.GetCount() > 0)
-				{
-					FbxVector2 uv[3];
-					bool flag[3];
-
-					pMesh->GetPolygonVertexUV(j, 0, uvsetName.GetStringAt(0), uv[0], flag[0]);
-					pMesh->GetPolygonVertexUV(j, 1, uvsetName.GetStringAt(0), uv[1], flag[1]);
-					pMesh->GetPolygonVertexUV(j, 2, uvsetName.GetStringAt(0), uv[2], flag[2]);
-
-					for (int k = 0; k < 3; k++)
-					{
-						p[k].uv.x = (float)uv[k].mData[0];
-						p[k].uv.y = (float)uv[k].mData[1];
-					}
+					p[k].uv.x = (float)uv[k].mData[0];
+					p[k].uv.y = (float)uv[k].mData[1];					
 				}
 
 				// Get skin info from WidhtMap
@@ -330,6 +357,39 @@ namespace FBXLoader
 							p[k].weight.w = range.first->second.weight;
 						}
 					}
+				}
+				
+				{
+					Vec3f edge[2];
+					edge[0] = p[1].vertex - p[0].vertex;
+					edge[1] = p[2].vertex - p[0].vertex;
+
+					Vec2f deltauv[2];
+					deltauv[0] = p[1].uv - p[0].uv;
+					deltauv[1] = p[2].uv - p[0].uv;
+
+					float f = 1.0f / (deltauv[0].x * deltauv[1].y - deltauv[1].x * deltauv[0].y);
+
+					Vec3f tangent;
+					tangent.x = f * (deltauv[1].y * edge[0].x - deltauv[0].y * edge[1].x);
+					tangent.y = f * (deltauv[1].y * edge[0].y - deltauv[0].y * edge[1].y);
+					tangent.z = f * (deltauv[1].y * edge[0].z - deltauv[0].y * edge[1].z);
+					tangent.Normalize();
+
+					Vec3f bitangent;
+					bitangent.x = f * (-deltauv[1].x * edge[0].x + deltauv[0].x * edge[1].x);
+					bitangent.y = f * (-deltauv[1].x * edge[0].y + deltauv[0].x * edge[1].y);
+					bitangent.z = f * (-deltauv[1].x * edge[0].z + deltauv[0].x * edge[1].z);
+					bitangent.Normalize();
+
+					p[0].tangent = tangent;
+					p[0].bitangent = bitangent;
+
+					p[1].tangent = tangent;
+					p[1].bitangent = bitangent;
+
+					p[2].tangent = tangent;
+					p[2].bitangent = bitangent;
 				}
 
 				mesh.PushBack(p[0]);
@@ -369,7 +429,6 @@ namespace FBXLoader
 			FbxLongLong mAnimationLength = end.GetFrameCount(FbxTime::eFrames24) - start.GetFrameCount(FbxTime::eFrames24) + 1;
 
 			o_clip.frame_count = (int)mAnimationLength;
-
 
 			for (FbxLongLong i = start.GetFrameCount(FbxTime::eFrames24); i <= end.GetFrameCount(FbxTime::eFrames24); ++i)
 			{
@@ -500,8 +559,7 @@ namespace FBXLoader
 		if (inNode->GetNodeAttribute() && inNode->GetNodeAttribute()->GetAttributeType() && inNode->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eSkeleton)
 		{
 			Resource::Joint currJoint;
-			currJoint.parent_index = inParentIndex;
-			//currJoint.name = inNode->GetName();
+			currJoint.parent_index = inParentIndex;			
 
 			FbxAMatrix global_mat = inNode->EvaluateGlobalTransform().Inverse();
 
@@ -524,8 +582,8 @@ namespace FBXLoader
 
 			o_skeleton.joints.PushBack(currJoint);
 
-			std::string tmp = inNode->GetName();
-			o_joint_map.insert({ tmp,(int)o_skeleton.joints.Size() - 1});
+			std::string name = inNode->GetName();
+			o_joint_map.insert({ name,(int)o_skeleton.joints.Size() - 1});
 		}
 		for (int i = 0; i < inNode->GetChildCount(); i++)
 		{
@@ -594,5 +652,4 @@ namespace FBXLoader
 			ProcessAnimationSampleRecursively(inNode->GetChild(i), inDepth + 1, (int)o_sample.jointposes.Size(), myIndex, o_sample, time);
 		}
 	}
-
 }

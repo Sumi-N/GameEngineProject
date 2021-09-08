@@ -47,7 +47,7 @@ namespace Tempest
 		albedo->Load   (PATH_SUFFIX BIN_TEXTURE_PATH "albedo/CharacterBody_BaseColor.tt",    TextureType::Albedo);
 		normal->Load   (PATH_SUFFIX BIN_TEXTURE_PATH "normal/CharacterBody_Normal.tt",       TextureType::Normal);
 		roughness->Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/brushed-metal_roughness.tt", TextureType::Roughness);
-		metalic->Load  (PATH_SUFFIX BIN_TEXTURE_PATH "metallic/bathroomtile1_metalness.tt",  TextureType::Metalic);
+		metalic->Load  (PATH_SUFFIX BIN_TEXTURE_PATH "metallic/brushed-metal_metallic.tt",  TextureType::Metalic);
 
 		effect_component->RegisterShaderPath(shaderpaths);	
 		effect_component->SetTexture(albedo);

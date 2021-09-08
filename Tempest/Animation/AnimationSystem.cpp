@@ -99,7 +99,7 @@ namespace Tempest
 		//float frame_per_count = 16.66666;
 		float frame_per_count = 100;
 
-		if (i_total_passed_time >= num_frame_count * frame_per_count)
+		while (i_total_passed_time >= num_frame_count * frame_per_count)
 		{
 			i_total_passed_time -= num_frame_count * frame_per_count;
 		}
