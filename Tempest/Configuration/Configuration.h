@@ -3,7 +3,7 @@
 //////////////////////////////
 //  Custom heap allocator
 //////////////////////////////
-#define ENABLE_CUSTOM_ALLOCATOR
+//#define ENABLE_CUSTOM_ALLOCATOR
 
 #ifndef ENABLE_CUSTOM_ALLOCATOR
 	#define USE_STANDARD_ARRAY

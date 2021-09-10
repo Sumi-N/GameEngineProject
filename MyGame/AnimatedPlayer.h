@@ -61,7 +61,7 @@ namespace Tempest
 		animation_component->owner = Entity::Query(this);
 		animation_component->mesh = mesh_component;
 		animation_component->LoadSkeleton(PATH_SUFFIX BIN_MESH_PATH "SK_PlayerCharacter.ts");
-		animation_component->LoadClip(PATH_SUFFIX BIN_MESH_PATH "Anim_PlayerCharacter_run.tac");		
+		animation_component->LoadClip(PATH_SUFFIX BIN_MESH_PATH "Anim_PlayerCharacter_swim.tac");		
 		Entity::RegisterAnimationComponent(animation_component);
 	}
 

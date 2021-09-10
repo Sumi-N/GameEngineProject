@@ -95,7 +95,7 @@ namespace Tempest
 	Result AnimationSystem::InterpolateMatrixBetweenFrames(const AnimationClip& i_clip, const float i_dt, float& i_total_passed_time, Mat4f* io_mat, const bool& i_isloop)
 	{
 		//int   num_frame_count = i_clip.frame_count;
-		int   num_frame_count = 14;
+		int   num_frame_count = 16;
 		//float frame_per_count = 16.66666;
 		float frame_per_count = 100;
 

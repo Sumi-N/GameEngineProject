@@ -418,25 +418,32 @@ namespace FBXLoader
 	{
 		// Get animation information
 		// Now only supports one take
-		FbxAnimStack* currAnimStack = lScene->GetSrcObject<FbxAnimStack>(0);
-		if (currAnimStack)
+		//int num_stacks = lScene->GetSrcObjectCount(FBX_TYPE(FbxAnimStack));
+		FbxAnimStack* current_anim_stack = lScene->GetSrcObject<FbxAnimStack>(0);		
+		if (current_anim_stack)
 		{
-			FbxString animStackName = currAnimStack->GetName();
+			FbxString animStackName = current_anim_stack->GetName();
 			auto mAnimationName = animStackName.Buffer();
 			FbxTakeInfo* takeInfo = lScene->GetTakeInfo(animStackName);
 			FbxTime start = takeInfo->mLocalTimeSpan.GetStart();
 			FbxTime end = takeInfo->mLocalTimeSpan.GetStop();
-			FbxLongLong mAnimationLength = end.GetFrameCount(FbxTime::eFrames24) - start.GetFrameCount(FbxTime::eFrames24) + 1;
+			FbxTime duration = takeInfo->mLocalTimeSpan.GetDuration();
+			FbxLongLong long_duration = duration.Get();
+			FbxLongLong mAnimationLength = duration.GetFrameCount(FbxTime::eFrames30);
 
 			o_clip.frame_count = (int)mAnimationLength;
 
-			for (FbxLongLong i = start.GetFrameCount(FbxTime::eFrames24); i <= end.GetFrameCount(FbxTime::eFrames24); ++i)
+			for (FbxLongLong i = start.GetFrameCount(FbxTime::eFrames30); i <= end.GetFrameCount(FbxTime::eFrames30); ++i)
 			{
 				AnimationSample sample;
 
 				FbxTime currTime;
-				currTime.SetFrame(i, FbxTime::eFrames24);
-				LoadAnimationSample(sample, currTime);
+				currTime.SetFrame(i, FbxTime::eFrames30);				
+				for (int childIndex = 0; childIndex < lRootNode->GetChildCount(); ++childIndex)
+				{
+					FbxNode* currNode = lRootNode->GetChild(childIndex);
+					ProcessAnimationSampleRecursively(currNode, 0, 0, NUM_MAX_BONES - 1, sample, currTime);
+				}
 				o_clip.samples.PushBack(sample);
 			}
 		}
@@ -558,18 +565,15 @@ namespace FBXLoader
 	{
 		if (inNode->GetNodeAttribute() && inNode->GetNodeAttribute()->GetAttributeType() && inNode->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eSkeleton)
 		{
-			Resource::Joint currJoint;
+			Joint currJoint;
 			currJoint.parent_index = inParentIndex;			
 
-			FbxAMatrix global_mat = inNode->EvaluateGlobalTransform().Inverse();
+			double* elements_double = inNode->EvaluateGlobalTransform().Inverse();
+			float elements_float[16];
+			for (int i = 0; i < 16; i++)
+				elements_float[i] = elements_double[i];
 
-			float elemetns[16] = {
-				(float)global_mat.Get(0, 0), (float)global_mat.Get(0, 1), (float)global_mat.Get(0, 2), (float)global_mat.Get(0, 3),
-				(float)global_mat.Get(1, 0), (float)global_mat.Get(1, 1), (float)global_mat.Get(1, 2), (float)global_mat.Get(1, 3),
-				(float)global_mat.Get(2, 0), (float)global_mat.Get(2, 1), (float)global_mat.Get(2, 2), (float)global_mat.Get(2, 3),
-				(float)global_mat.Get(3, 0), (float)global_mat.Get(3, 1), (float)global_mat.Get(3, 2), (float)global_mat.Get(3, 3),
-			};
-			currJoint.inversed = Mat4f(elemetns);
+			currJoint.inversed = Mat4f(elements_float);
 
 			Mat4f transformation = Mat4f::Inverse(currJoint.inversed);
 			Vec3f scale;
@@ -585,34 +589,13 @@ namespace FBXLoader
 			std::string name = inNode->GetName();
 			o_joint_map.insert({ name,(int)o_skeleton.joints.Size() - 1});
 		}
+
+
+
 		for (int i = 0; i < inNode->GetChildCount(); i++)
 		{
 			ProcessSkeletonHierarchyRecursively(inNode->GetChild(i), inDepth + 1, (int)o_skeleton.joints.Size(), myIndex, o_skeleton, o_joint_map);
 		}
-	}
-
-	int FindJointIndexUsingName(std::string name, const std::map<String, int>& i_joint_map)
-	{
-		for (auto it = i_joint_map.begin(); it != i_joint_map.end(); ++it)
-		{
-			if (it->first.compare(name) == 0)
-			{
-				return it->second;
-			}
-		}
-
-		return NUM_MAX_BONES - 1;
-	}
-
-	bool LoadAnimationSample(AnimationSample& o_sample, FbxTime time)
-	{
-		for (int childIndex = 0; childIndex < lRootNode->GetChildCount(); ++childIndex)
-		{
-			FbxNode* currNode = lRootNode->GetChild(childIndex);
-			ProcessAnimationSampleRecursively(currNode, 0, 0, NUM_MAX_BONES - 1, o_sample, time);
-		}
-
-		return true;
 	}
 
 	void ProcessAnimationSampleRecursively(FbxNode* inNode, int inDepth, int myIndex, int inParentIndex, AnimationSample& o_sample, FbxTime time)
@@ -622,15 +605,13 @@ namespace FBXLoader
 			JointPose currPose;
 			currPose.parent_index = inParentIndex;
 
-			FbxAMatrix global_mat = inNode->EvaluateGlobalTransform(time);
+			String name = inNode->GetName();
+			double* elements_double = inNode->EvaluateGlobalTransform(time);
+			float elements_float[16];
+			for (int i = 0; i < 16; i++)
+				elements_float[i] = elements_double[i];
 
-			float elemetns[16] = {
-				(float)global_mat.Get(0, 0), (float)global_mat.Get(0, 1), (float)global_mat.Get(0, 2), (float)global_mat.Get(0, 3),
-				(float)global_mat.Get(1, 0), (float)global_mat.Get(1, 1), (float)global_mat.Get(1, 2), (float)global_mat.Get(1, 3),
-				(float)global_mat.Get(2, 0), (float)global_mat.Get(2, 1), (float)global_mat.Get(2, 2), (float)global_mat.Get(2, 3),
-				(float)global_mat.Get(3, 0), (float)global_mat.Get(3, 1), (float)global_mat.Get(3, 2), (float)global_mat.Get(3, 3),
-			};
-			currPose.global_inversed_matrix = Mat4f(elemetns);
+			currPose.global_inversed_matrix = Mat4f(elements_float);
 
 			Mat4f transformation = currPose.global_inversed_matrix;
 			Vec3f scale;
@@ -651,5 +632,18 @@ namespace FBXLoader
 		{
 			ProcessAnimationSampleRecursively(inNode->GetChild(i), inDepth + 1, (int)o_sample.jointposes.Size(), myIndex, o_sample, time);
 		}
+	}
+
+	int FindJointIndexUsingName(std::string name, const std::map<String, int>& i_joint_map)
+	{
+		for (auto it = i_joint_map.begin(); it != i_joint_map.end(); ++it)
+		{
+			if (it->first.compare(name) == 0)
+			{
+				return it->second;
+			}
+		}
+
+		return NUM_MAX_BONES - 1;
 	}
 }
