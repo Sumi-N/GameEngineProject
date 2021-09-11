@@ -3,49 +3,6 @@
 
 namespace Tempest
 {
-
-	void ConvertJointPoseBySkeleton(AnimationClip& clip, const Skeleton& skeleton)
-	{
-		int diff;
-		bool finished = false;
-
-		for (int i = 0; i < clip.samples.Size(); i++)
-		{
-			diff = 0;
-			for (int j = 0; j < skeleton.joints.Size(); j++)
-			{
-				// For now, it's hard coded. 
-				if (j > 20)
-				{
-					clip.samples[i].jointposes[j].global_inversed_matrix = clip.samples[i].jointposes[j].global_inversed_matrix * skeleton.joints[j].inversed;
-					continue;
-				}
-				if (finished)
-				{
-					clip.samples[i].jointposes[j].parent_index += diff;
-				}
-
-				if (skeleton.joints[j].parent_index != clip.samples[i].jointposes[j].parent_index)
-				{
-					JointPose empty;
-					//empty.global_inverse_matrix = skeleton.joints[j].inversed;
-					empty.global_inversed_matrix = Mat4f{};
-					empty.parent_index = skeleton.joints[j].parent_index;
-
-
-					clip.samples[i].jointposes.Insert(clip.samples[i].jointposes.Begin() + j, empty);
-					diff++;
-					finished = false;
-				}
-				else
-				{
-					clip.samples[i].jointposes[j].global_inversed_matrix = clip.samples[i].jointposes[j].global_inversed_matrix * skeleton.joints[j].inversed;
-					finished = true;
-				}
-			}
-		}
-	}
-
 	void AnimationSystem::Register(const OwningPointer<AnimationComponent>& i_animation)
 	{
 		list.PushBack(i_animation);
@@ -63,8 +20,7 @@ namespace Tempest
 	{
 		for (auto it = list.Begin(); it != list.End(); ++it)
 		{
-			(*it)->Init();
-			ConvertJointPoseBySkeleton(*(*it)->clip, *(*it)->skeleton);
+			(*it)->Init();			
 		}
 	}
 
@@ -93,11 +49,9 @@ namespace Tempest
 	}
 
 	Result AnimationSystem::InterpolateMatrixBetweenFrames(const AnimationClip& i_clip, const float i_dt, float& i_total_passed_time, Mat4f* io_mat, const bool& i_isloop)
-	{
-		//int   num_frame_count = i_clip.frame_count;
-		int   num_frame_count = 16;
-		//float frame_per_count = 16.66666;
-		float frame_per_count = 100;
+	{		
+		int   num_frame_count = i_clip.samples.Size();
+		float frame_per_count = 50;
 
 		while (i_total_passed_time >= num_frame_count * frame_per_count)
 		{

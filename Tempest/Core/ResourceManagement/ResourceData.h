@@ -100,7 +100,6 @@ namespace Resource
 
 	struct AnimationClip
 	{
-		Skeleton*                    skeleton;
 		int                          frame_count;
 		Array<AnimationSample>       samples;		
 
@@ -124,6 +123,8 @@ namespace Resource
 			}
 
 			in.Close();
+
+			o_clip.frame_count = num_sample;
 
 			return ResultValue::Success;
 		}

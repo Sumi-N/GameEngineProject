@@ -63,7 +63,7 @@ namespace FBXLoader
 		lRootNode = lScene->GetRootNode();
 
 		FbxGeometryConverter geometryConverter(lSdkManager);
-		geometryConverter.Triangulate(lScene, true);
+		//geometryConverter.Triangulate(lScene, true);
 		//geometryConverter.SplitMeshesPerMaterial(Importer::lScene, true);
 
 		return true;
@@ -405,6 +405,7 @@ namespace FBXLoader
 
 	bool LoadSkeleton(Resource::Skeleton& o_skeleton, std::map<String, int>& o_joint_map)
 	{
+		int num_skeleton = lScene->GetSrcObjectCount<FbxSkeleton>();
 		for (int childIndex = 0; childIndex < lRootNode->GetChildCount(); ++childIndex)
 		{
 			FbxNode* currNode = lRootNode->GetChild(childIndex);
@@ -418,27 +419,21 @@ namespace FBXLoader
 	{
 		// Get animation information
 		// Now only supports one take
-		//int num_stacks = lScene->GetSrcObjectCount(FBX_TYPE(FbxAnimStack));
-		FbxAnimStack* current_anim_stack = lScene->GetSrcObject<FbxAnimStack>(0);		
+		int num_stacks = lScene->GetSrcObjectCount<FbxAnimStack>();
+		FbxAnimStack* current_anim_stack = lScene->GetSrcObject<FbxAnimStack>(num_stacks - 1);
 		if (current_anim_stack)
 		{
 			FbxString animStackName = current_anim_stack->GetName();
-			auto mAnimationName = animStackName.Buffer();
-			FbxTakeInfo* takeInfo = lScene->GetTakeInfo(animStackName);
-			FbxTime start = takeInfo->mLocalTimeSpan.GetStart();
-			FbxTime end = takeInfo->mLocalTimeSpan.GetStop();
-			FbxTime duration = takeInfo->mLocalTimeSpan.GetDuration();
-			FbxLongLong long_duration = duration.Get();
-			FbxLongLong mAnimationLength = duration.GetFrameCount(FbxTime::eFrames30);
+			FbxTakeInfo* take_info = lScene->GetTakeInfo(animStackName);
+			FbxLongLong start_count = take_info->mLocalTimeSpan.GetStart().GetFrameCount(FbxTime::eFrames30);
+			FbxLongLong end_count = take_info->mLocalTimeSpan.GetStop().GetFrameCount(FbxTime::eFrames30);
 
-			o_clip.frame_count = (int)mAnimationLength;
-
-			for (FbxLongLong i = start.GetFrameCount(FbxTime::eFrames30); i <= end.GetFrameCount(FbxTime::eFrames30); ++i)
+			for (FbxLongLong i = start_count; i <= end_count; ++i)
 			{
 				AnimationSample sample;
 
 				FbxTime currTime;
-				currTime.SetFrame(i, FbxTime::eFrames30);				
+				currTime.SetFrame(i, FbxTime::eFrames30);
 				for (int childIndex = 0; childIndex < lRootNode->GetChildCount(); ++childIndex)
 				{
 					FbxNode* currNode = lRootNode->GetChild(childIndex);
@@ -605,7 +600,7 @@ namespace FBXLoader
 			JointPose currPose;
 			currPose.parent_index = inParentIndex;
 
-			String name = inNode->GetName();
+			FbxString name = inNode->GetName();
 			double* elements_double = inNode->EvaluateGlobalTransform(time);
 			float elements_float[16];
 			for (int i = 0; i < 16; i++)

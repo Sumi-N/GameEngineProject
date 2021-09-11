@@ -174,7 +174,7 @@ namespace Tempest
 		}
 
 		{
-			for (int i = 0; i < 50; i++)
+			for (int i = 0; i < NUM_MAX_BONES; i++)
 			{
 				data_game_own->animation_bone_data.global_inversed_matrix[i] = Entity::Animation.bones[i];
 			}

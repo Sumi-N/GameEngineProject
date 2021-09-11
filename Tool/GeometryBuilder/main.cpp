@@ -32,7 +32,7 @@ int main()
 	////-------- Skeleton Animation ----------------
 
 	//{
-	//	String copy_from_path = "..\\..\\" + path_in + "SK_PlayerCharacter.fbx";
+	//	String copy_from_path = "..\\..\\" + path_in + "xbot.fbx";
 	//	String filename  = File::GetFileName(copy_from_path);
 	//	String o_mesh     = File::ReplaceExtension(filename, "tsm");
 	//	String o_skeleton = File::ReplaceExtension(filename, "ts");
@@ -50,7 +50,7 @@ int main()
 	//-------- Animation Clip ----------------
 
 	{
-		String copy_from_path = "..\\..\\" + path_in + "Anim_PlayerCharacter_swim.fbx";
+		String copy_from_path = "..\\..\\" + path_in + "RumbaDancing.fbx";
 		String filename = File::GetFileName(copy_from_path);
 		String o_entry = File::ReplaceExtension(filename, "tac");
 		String copy_to_path = "..\\..\\" + path_out + o_entry;		
