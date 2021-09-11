@@ -100,8 +100,8 @@ namespace Resource
 
 	struct AnimationClip
 	{
-		int                          frame_count;
-		Array<AnimationSample>       samples;		
+		int frame_count;
+		Array<AnimationSample> samples;
 
 		static Result Load(const char* i_filepath, AnimationClip& o_clip)
 		{
@@ -124,7 +124,7 @@ namespace Resource
 
 			in.Close();
 
-			o_clip.frame_count = num_sample;
+			o_clip.frame_count = static_cast<int>(num_sample);
 
 			return ResultValue::Success;
 		}

@@ -7,28 +7,19 @@ namespace Math {
 	template<typename T>
 	inline Matrix4<T>::Matrix4()
 	{
-		this->ele[0] = static_cast<T>(1); this->ele[1] = 0; this->ele[2] = 0; this->ele[3] = 0;
-		this->ele[4] = 0; this->ele[5] = static_cast<T>(1); this->ele[6] = 0; this->ele[7] = 0;
-		this->ele[8] = 0; this->ele[9] = 0; this->ele[10] = static_cast<T>(1); this->ele[11] = 0;
+		this->ele[0]  = static_cast<T>(1); this->ele[1] = 0; this->ele[2] = 0; this->ele[3] = 0;
+		this->ele[4]  = 0; this->ele[5] = static_cast<T>(1); this->ele[6] = 0; this->ele[7] = 0;
+		this->ele[8]  = 0; this->ele[9] = 0; this->ele[10] = static_cast<T>(1); this->ele[11] = 0;
 		this->ele[12] = 0; this->ele[13] = 0; this->ele[14] = 0; this->ele[15] = static_cast<T>(1);
 	}
 
 	template<typename T>
 	inline Matrix4<T>::Matrix4(T* i_m)
 	{
-		this->ele[0] = i_m[0]; this->ele[1] = i_m[1]; this->ele[2] = i_m[2]; this->ele[3] = i_m[3];
-		this->ele[4] = i_m[4]; this->ele[5] = i_m[5]; this->ele[6] = i_m[6]; this->ele[7] = i_m[7];
-		this->ele[8] = i_m[8]; this->ele[9] = i_m[9]; this->ele[10] = i_m[10]; this->ele[11] = i_m[11];
+		this->ele[0]  = i_m[0]; this->ele[1] = i_m[1]; this->ele[2] = i_m[2]; this->ele[3] = i_m[3];
+		this->ele[4]  = i_m[4]; this->ele[5] = i_m[5]; this->ele[6] = i_m[6]; this->ele[7] = i_m[7];
+		this->ele[8]  = i_m[8]; this->ele[9] = i_m[9]; this->ele[10] = i_m[10]; this->ele[11] = i_m[11];
 		this->ele[12] = i_m[12]; this->ele[13] = i_m[13]; this->ele[14] = i_m[14]; this->ele[15] = i_m[15];
-	}
-
-	template<typename T>
-	inline Matrix4<T>::Matrix4(T i11, T i12, T i13, T i14, T i21, T i22, T i23, T i24, T i31, T i32, T i33, T i34, T i41, T i42, T i43, T i44)
-	{
-		ele[0] = i11; ele[1] = i12; ele[2] = i13; ele[3] = i14;
-		ele[4] = i21; ele[5] = i22; ele[6] = i23; ele[7] = i24;
-		ele[8] = i31; ele[9] = i32; ele[10] = i33; ele[11] = i34;
-		ele[12] = i41; ele[13] = i42; ele[14] = i43; ele[15] = i44;
 	}
 
 	template<typename T>
@@ -173,6 +164,19 @@ namespace Math {
 
 		tmp.Transpose();
 		*this = tmp / absvalue;
+	}
+
+	template<typename T>
+	inline Matrix4<T> Matrix4<T>::Zero()
+	{
+		Matrix4 o_m;
+
+		o_m.ele[0] = o_m.ele[1] = o_m.ele[2] = o_m.ele[3] = static_cast<T>(0);
+		o_m.ele[4] = o_m.ele[5] = o_m.ele[6] = o_m.ele[7] = static_cast<T>(0);
+		o_m.ele[8] = o_m.ele[9] = o_m.ele[10] = o_m.ele[11] = static_cast<T>(0);
+		o_m.ele[12] = o_m.ele[13] = o_m.ele[14] = o_m.ele[15] = static_cast<T>(0);
+
+		return o_m;
 	}
 
 	template<typename T>
@@ -478,10 +482,8 @@ namespace Math {
 			k = next[j];
 
 			root = sqrt(row[i][i] - row[j][j] - row[k][k] + static_cast<T>(1.0));			
-
 			o_orientation[i] = static_cast<T>(0.5) * root;
 			root = static_cast<T>(0.5) / root;
-
 			o_orientation[j] = root * (row[i][j] + row[j][i]);
 			o_orientation[k] = root * (row[i][k] + row[k][i]);
 			o_orientation.w = root * (row[j][k] - row[k][j]);			

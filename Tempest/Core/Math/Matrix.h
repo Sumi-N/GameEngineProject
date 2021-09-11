@@ -27,8 +27,7 @@ namespace Math
 
 		Matrix4();
 		~Matrix4() = default;
-		Matrix4(T*);
-		Matrix4(T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T);
+		Matrix4(T*);		
 
 		Matrix4<T>  operator +(Matrix4<T> const & i_m) const;
 		Matrix4<T>  operator -(Matrix4<T> const & i_m) const;
@@ -43,6 +42,7 @@ namespace Math
 		void Transpose();
 		void Inverse();
 
+		static Matrix4<T> Zero ();
 		static Matrix4<T> Roll (T const i_a);
 		static Matrix4<T> Pitch(T const i_a);
 		static Matrix4<T> Yaw  (T const i_a);

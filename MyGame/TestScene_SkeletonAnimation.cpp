@@ -21,8 +21,7 @@ namespace Tempest
 		// Setting up teapot
 		OwningPointer<AnimatedPlayer> player = OwningPointer<AnimatedPlayer>::Create(player);
 		Entity::Register(player);
-		player->pos = Vec3f(0, -10, -25);
-		player->rot = Vec3f(0, 180, 0);
+		player->pos = Vec3f(0, -10, -25);		
 		player->scale = Vec3f(0.1f, 0.1f, 0.1f);
 
 		OwningPointer<MyPointLight> pointlight = OwningPointer<MyPointLight>::Create(pointlight);

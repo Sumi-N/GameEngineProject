@@ -159,18 +159,27 @@ namespace Math
 	template<typename T>
 	inline Matrix4<T> Quaternion<T>::QuaternionToRotationMatix(Quaternion<T> i_q)
 	{
-		T m00 = static_cast<T>(1) - static_cast<T>(2) * (i_q.y * i_q.y + i_q.z * i_q.z);
-		T m01 = static_cast<T>(2) * (i_q.x * i_q.y + i_q.z * i_q.w);
-		T m02 = static_cast<T>(2) * (i_q.x * i_q.z - i_q.y * i_q.w);
+		T m[16] = {};
+		m[0] = static_cast<T>(1) - static_cast<T>(2) * (i_q.y * i_q.y + i_q.z * i_q.z);
+		m[1] = static_cast<T>(2) * (i_q.x * i_q.y + i_q.z * i_q.w);
+		m[2] = static_cast<T>(2) * (i_q.x * i_q.z - i_q.y * i_q.w);
+		m[3] = static_cast<T>(0);
 
-		T m10 = static_cast<T>(2) * (i_q.x * i_q.y - i_q.z * i_q.w);
-		T m11 = static_cast<T>(1) - static_cast<T>(2) * (i_q.x * i_q.x + i_q.z * i_q.z);
-		T m12 = static_cast<T>(2) * (i_q.y * i_q.z + i_q.x * i_q.w);
+		m[4] = static_cast<T>(2) * (i_q.x * i_q.y - i_q.z * i_q.w);
+		m[5] = static_cast<T>(1) - static_cast<T>(2) * (i_q.x * i_q.x + i_q.z * i_q.z);
+		m[6] = static_cast<T>(2) * (i_q.y * i_q.z + i_q.x * i_q.w);
+		m[7] = static_cast<T>(0);
 
-		T m20 = static_cast<T>(2) * (i_q.x * i_q.z + i_q.w * i_q.y);
-		T m21 = static_cast<T>(2) * (i_q.y * i_q.z - i_q.x * i_q.w);
-		T m22 = static_cast<T>(1) - static_cast<T>(2) * (i_q.x * i_q.x + i_q.y * i_q.y);
+		m[8] = static_cast<T>(2) * (i_q.x * i_q.z + i_q.w * i_q.y);
+		m[9] = static_cast<T>(2) * (i_q.y * i_q.z - i_q.x * i_q.w);
+		m[10] = static_cast<T>(1) - static_cast<T>(2) * (i_q.x * i_q.x + i_q.y * i_q.y);
+		m[11] = static_cast<T>(0);
 
-		return Matrix4<T>(m00, m01, m02, 0, m10, m11, m12, 0, m20, m21, m22, 0, 0, 0, 0, 1);
+		m[12] = static_cast<T>(0);
+		m[13] = static_cast<T>(0);
+		m[14] = static_cast<T>(0);
+		m[15] = static_cast<T>(1);
+
+		return Matrix4<T>(m);
 	}
 }
