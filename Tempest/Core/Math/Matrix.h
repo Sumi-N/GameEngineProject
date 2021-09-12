@@ -59,6 +59,7 @@ namespace Math
 
 		static Matrix4<T> TruncateToMat3(Matrix4<T> i_m);		
 		//static T          Determinant(Matrix4<T> i_m);
+		//static bool       Decompose(Matrix4<T> i_matrix, Vec3<T>& o_scale, Quaternion<T>& o_orientation, Vec3<T>& o_translation);
 		static bool       Decompose(Matrix4<T> i_matrix, Vec3<T>& o_scale, Quaternion<T>& o_orientation, Vec3<T>& o_translation, Vec3<T>& o_skew, Vec4<T>& o_perspective);
 	};
 

@@ -369,6 +369,17 @@ namespace Math {
 
 	//}
 
+	//template<typename T>
+	//inline bool Matrix4<T>::Decompose(Matrix4<T> i_matrix, Vec3<T>& o_scale, Quaternion<T>& o_orientation, Vec3<T>& o_translation)
+	//{
+	//	Matrix4<T> local = i_matrix;
+	//	o_translation = static_cast<Vec3<T>>(i_matrix.column[3]);
+
+	//	local.column[3][0] = 0;
+	//	local.column[3][1] = 0;
+	//	local.column[3][2] = 0;
+	//}
+
 	template<typename T>
 	inline bool Matrix4<T>::Decompose(Matrix4<T> i_matrix, Vec3<T>& o_scale, Quaternion<T>& o_orientation, Vec3<T>& o_translation, Vec3<T>& o_skew, Vec4<T>& o_perspective)
 	{
@@ -462,7 +473,8 @@ namespace Math {
 		}
 
 		int i, j, k = 0;
-		T root, trace = row[0].x + row[1].y + row[2].z;
+		T root; 
+		T trace = row[0].x + row[1].y + row[2].z;
 		if (trace > static_cast<T>(0))
 		{
 			root = sqrt(trace + static_cast<T>(1.0));

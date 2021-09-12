@@ -64,24 +64,24 @@ namespace Math
 	}
 
 	template<typename T>
-	inline float Quaternion<T>::Dot(Quaternion<T> i_q)
+	inline T Quaternion<T>::Dot(Quaternion<T> const& i_q) const
 	{
 		return x * i_q.x + y * i_q.y + z * i_q.z +w * i_q.w;
 	}
 
 	template<typename T>
-	inline Quaternion<T> Quaternion<T>::AngleAxis(float const& angle, Vec3<T> const& axis)
+	inline Quaternion<T> Quaternion<T>::AngleAxis(T const& angle, Vec3<T> const& axis)
 	{
 		return Quaternion<T>(angle, axis);
 	}
 
 	template<typename T>
-	inline Quaternion<T> Quaternion<T>::EulerToQuaternion(float const& i_x, float const& i_y, float const& i_z)
+	inline Quaternion<T> Quaternion<T>::EulerToQuaternion(T const& i_x, T const& i_y, T const& i_z)
 	{
 		//https://www.kazetest.com/vcmemo/quaternion/quaternion.html
-		T x = 2 * i_x *  static_cast<float>(M_PI) / 360;
-		T y = 2 * i_y *static_cast<float>(M_PI) / 360;
-		T z = 2 * i_z * static_cast<float>(M_PI) / 360;
+		T x = 2 * i_x *  static_cast<T>(M_PI) / 360;
+		T y = 2 * i_y *static_cast<T>(M_PI) / 360;
+		T z = 2 * i_z * static_cast<T>(M_PI) / 360;
 
 		T roll   = x * 0.5f;
 		T pitch = y * 0.5f;
@@ -148,11 +148,31 @@ namespace Math
 	}
 
 	template<typename T>
-	inline Quaternion<T> Quaternion<T>::Lerp(Quaternion<T> i_a, Quaternion<T> i_b, float i_t)
+	inline Quaternion<T> Quaternion<T>::Lerp(Quaternion<T> const& i_a, Quaternion<T> const& i_b, T i_t)
 	{
-		float omega = acos(i_a.Dot(i_b));
-		Quaternion result = sinf((1 - i_t) * omega) * i_a / sinf(omega) + sinf(i_t * omega) * i_b / sinf(omega);
+		if (i_t > static_cast<T>(1) || i_t < static_cast<T>(0))
+		{
+			DEBUG_ASSERT(false);
+		}
+
+		Quaternion result = i_a * (static_cast<T>(1) - i_t) + i_b * i_t;
 		return result;
+	}
+
+	template<typename T>
+	Math::Quaternion<T> Quaternion<T>::Slerp(Quaternion<T> const& i_a, Quaternion<T> const& i_b, T i_t)
+	{
+		Quaternion<T> c = i_b;
+		T cos_theta = i_a.Dot(i_b);
+
+		if (cos_theta < static_cast<T>(0))
+		{
+			c = -1 * i_b;
+			cos_theta = -1 * cos_theta;
+		}
+
+		T angle = acos(cos_theta);
+		return (sin((static_cast<T>(1) - i_t) * angle) * i_a + sin(i_t * angle) * c) / sin(angle);
 	}
 
 
