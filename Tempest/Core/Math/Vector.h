@@ -25,6 +25,7 @@ namespace Math {
 
 		//!@ Constructor
 		Vec2() = default;
+		Vec2(T i_t) : x(i_t), y(i_t) {}
 		Vec2(T i_x, T i_y) : x(i_x), y(i_y) {}
 		~Vec2() = default;
 
@@ -82,6 +83,7 @@ namespace Math {
 
 		//!@ Constructor
 		Vec3() = default;
+		Vec3(T i_t) : x(i_t), y(i_t), z(i_t) {}
 		Vec3(T i_x, T i_y, T i_z) : x(i_x), y(i_y), z(i_z) {}
 		~Vec3() = default;
 
@@ -141,6 +143,7 @@ namespace Math {
 
 		//!@ Constructor
 		Vec3() = default;
+		Vec3(float i_t) : x(i_t), y(i_t), z(i_t) {}
 		Vec3(float i_x, float i_y, float i_z) : x(i_x), y(i_y), z(i_z) {}
 		~Vec3() = default;
 
@@ -201,6 +204,7 @@ namespace Math {
 
 		//!@ Constructor
 		Vec4() = default;
+		Vec4(T i_t) : x(i_t), y(i_t), z(i_t), w(i_t) {}
 		Vec4(Vec3<T> i_v, T i_w) : x(i_v.x), y(i_v.y), z(i_v.z), w(i_w) {}
 		Vec4(T i_x, T i_y, T i_z, T i_w) : x(i_x), y(i_y), z(i_z), w(i_w) {}
 		~Vec4() = default;
@@ -256,6 +260,7 @@ namespace Math {
 
 		//!@ Constructor
 		Vec4() = default;
+		Vec4(float i_t) : x(i_t), y(i_t), z(i_t), w(i_t) {}
 		Vec4(Vec3<float> i_v, float i_w) : x(i_v.x), y(i_v.y), z(i_v.z), w(i_w) {}
 		Vec4(float i_x, float i_y, float i_z, float i_w) : x(i_x), y(i_y), z(i_z), w(i_w) {}
 		~Vec4() = default;
