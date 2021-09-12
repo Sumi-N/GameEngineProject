@@ -155,13 +155,25 @@ namespace Math
 			DEBUG_ASSERT(false);
 		}
 
-		Quaternion result = i_a * (static_cast<T>(1) - i_t) + i_b * i_t;
-		return result;
+		Quaternion<T> c = i_b;
+		T cos_theta = i_a.Dot(i_b);
+
+		if (cos_theta < static_cast<T>(0))
+		{
+			c = -1 * i_b;			
+		}
+
+		return (static_cast<T>(1) - i_t) * i_a + i_t * c;
 	}
 
 	template<typename T>
-	Math::Quaternion<T> Quaternion<T>::Slerp(Quaternion<T> const& i_a, Quaternion<T> const& i_b, T i_t)
+	inline Quaternion<T> Quaternion<T>::Slerp(Quaternion<T> const& i_a, Quaternion<T> const& i_b, T i_t)
 	{
+		if (i_t > static_cast<T>(1) || i_t < static_cast<T>(0))
+		{
+			DEBUG_ASSERT(false);
+		}
+
 		Quaternion<T> c = i_b;
 		T cos_theta = i_a.Dot(i_b);
 
@@ -171,8 +183,21 @@ namespace Math
 			cos_theta = -1 * cos_theta;
 		}
 
-		T angle = acos(cos_theta);
-		return (sin((static_cast<T>(1) - i_t) * angle) * i_a + sin(i_t * angle) * c) / sin(angle);
+		//From quaternion_common.inl in glm
+		//if (cos_theta > static_cast<T>(1) - epsilon<T>())
+		//{
+		//	// Linear interpolation
+		//	return qua<T, Q>(
+		//		mix(x.w, z.w, a),
+		//		mix(x.x, z.x, a),
+		//		mix(x.y, z.y, a),
+		//		mix(x.z, z.z, a));
+		//}
+		//else
+		{
+			T angle = acos(cos_theta);
+			return (sin((static_cast<T>(1) - i_t) * angle) * i_a + sin(i_t * angle) * c) / sin(angle);
+		}
 	}
 
 

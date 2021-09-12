@@ -80,7 +80,8 @@ namespace Tempest
 
 					Vec4f translation = t * pointA + (1 - t) * pointB;
 
-					Quaternionf rotation = t * i_clip.samples[current_frame].jointposes[i].rot + (1 - t) * i_clip.samples[0].jointposes[i].rot;
+					//Quaternionf rotation = t * i_clip.samples[current_frame].jointposes[i].rot + (1 - t) * i_clip.samples[0].jointposes[i].rot;
+					Quaternionf rotation = Quaternionf::Lerp(i_clip.samples[current_frame].jointposes[i].rot, i_clip.samples[0].jointposes[i].rot, 1 - t);
 					rotation.Normalize();
 
 					Mat4f rotation_matrix = Quaternionf::QuaternionToRotationMatix(rotation);
@@ -105,7 +106,8 @@ namespace Tempest
 
 				Vec4f translation = t * pointA + (1 - t) * pointB;
 
-				Quaternionf rotation = t * i_clip.samples[current_frame].jointposes[i].rot + (1 - t) * i_clip.samples[current_frame + 1].jointposes[i].rot;
+				//Quaternionf rotation = t * i_clip.samples[current_frame].jointposes[i].rot + (1 - t) * i_clip.samples[current_frame + 1].jointposes[i].rot;
+				Quaternionf rotation = Quaternionf::Lerp(i_clip.samples[current_frame].jointposes[i].rot, i_clip.samples[current_frame + 1].jointposes[i].rot, 1 - t);
 				rotation.Normalize();
 
 				Mat4f rotation_matrix = Quaternionf::QuaternionToRotationMatix(rotation);
