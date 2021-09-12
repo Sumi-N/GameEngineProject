@@ -15,14 +15,14 @@ layout (location = 6) in ivec4 skin_index;
 layout (location = 7) in vec4  skin_weight;
 
 // Structure define
-//////////////////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------------------
 struct PointLight{
 	vec4 intensity;
 	vec4 position;
 	vec3 attenuation;
 	float padding;
 };
-//////////////////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------------------
 
 layout (std140, binding = 0) uniform const_camera
 {
@@ -75,7 +75,7 @@ void main()
 	vec4 animated_model_position    = skin_weight.x * global_inversed_matrix[skin_index.x] * vec4(model_position, 1.0)
 									+ skin_weight.y * global_inversed_matrix[skin_index.y] * vec4(model_position, 1.0)
 									+ skin_weight.z * global_inversed_matrix[skin_index.z] * vec4(model_position, 1.0)
-									+ skin_weight.w * global_inversed_matrix[skin_index.w] * vec4(model_position, 1.0);	
+									+ skin_weight.w * global_inversed_matrix[skin_index.w] * vec4(model_position, 1.0);
 
 	vec3 animated_model_normal      = model_normal;
 

@@ -3,7 +3,7 @@
 //////////////////////////////
 //  Custom heap allocator
 //////////////////////////////
-#define ENABLE_CUSTOM_ALLOCATOR
+//#define ENABLE_CUSTOM_ALLOCATOR
 
 #ifndef ENABLE_CUSTOM_ALLOCATOR
 	#define USE_STANDARD_ARRAY
@@ -118,6 +118,9 @@
 
 #define DISNEY_PBR_VERT  "disney_pbr_model\\disney_pbr.vert.glsl"
 #define DISNEY_PBR_FRAG  "disney_pbr_model\\disney_pbr.frag.glsl"
+
+#define PBR_ANIMATION_VERT "disney_pbr_model\\disney_pbr_animation.vert.glsl"
+#define PBR_ANIMATION_FRAG "disney_pbr_model\\disney_pbr_animation.frag.glsl"
 
 #define NORMAL_MAP_VERT  "test_purpose\\normal_mapping.vert.glsl"
 #define NORMAL_MAP_FRAG  "test_purpose\\normal_mapping.frag.glsl"

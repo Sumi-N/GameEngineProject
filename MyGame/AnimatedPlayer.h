@@ -37,35 +37,34 @@ namespace Tempest
 
 		const char* shaderpaths[] =
 		{
-			PATH_SUFFIX SHADER_PATH "disney_pbr_model\\disney_pbr_animation.vert.glsl",
+			//PATH_SUFFIX SHADER_PATH PBR_ANIMATION_VERT,
+			PATH_SUFFIX SHADER_PATH DEBUG_PBR_ANIMATION_VERT,
 			nullptr,
 			nullptr,
 			nullptr,
-			PATH_SUFFIX SHADER_PATH "disney_pbr_model\\disney_pbr_animation.frag.glsl",
+			//PATH_SUFFIX SHADER_PATH PBR_ANIMATION_FRAG,
+			PATH_SUFFIX SHADER_PATH DEBUG_PBR_ANIMATION_FRAG,
 		};
+		effect_component->RegisterShaderPath(shaderpaths);
 
-		albedo->Load   (PATH_SUFFIX BIN_TEXTURE_PATH "albedo/CharacterBody_BaseColor.tt",    TextureType::Albedo);
-		normal->Load   (PATH_SUFFIX BIN_TEXTURE_PATH "normal/CharacterBody_Normal.tt",       TextureType::Normal);
-		roughness->Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/brushed-metal_roughness.tt", TextureType::Roughness);
-		metalic->Load  (PATH_SUFFIX BIN_TEXTURE_PATH "metallic/brushed-metal_metallic.tt",  TextureType::Metalic);
-
-		effect_component->RegisterShaderPath(shaderpaths);	
-		effect_component->SetTexture(albedo);
-		effect_component->SetTexture(normal);
-		effect_component->SetTexture(roughness);
-		effect_component->SetTexture(metalic);
-
-		//mesh_component->Load(PATH_SUFFIX BIN_MESH_PATH "SK_PlayerCharacter.tsm");
+		//albedo->Load   (PATH_SUFFIX BIN_TEXTURE_PATH "albedo/gold-scuffed_basecolor.tt",    TextureType::Albedo);
+		//normal->Load   (PATH_SUFFIX BIN_TEXTURE_PATH "normal/gold-scuffed_normal.tt",       TextureType::Normal);
+		//roughness->Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/gold-scuffed_roughness.tt", TextureType::Roughness);
+		//metalic->Load  (PATH_SUFFIX BIN_TEXTURE_PATH "metallic/gold-scuffed_metal_metallic.tt",  TextureType::Metalic);
+		
+		//effect_component->SetTexture(albedo);
+		//effect_component->SetTexture(normal);
+		//effect_component->SetTexture(roughness);
+		//effect_component->SetTexture(metalic);
+		
 		mesh_component->Load(PATH_SUFFIX BIN_MESH_PATH "xbot.tsm");
 
 		OwningPointer<AnimationComponent> animation_component = OwningPointer<AnimationComponent>::Create(animation_component);
 		animation_component->owner = Entity::Query(this);
-		animation_component->mesh = mesh_component;
-		/*animation_component->LoadSkeleton(PATH_SUFFIX BIN_MESH_PATH "SK_PlayerCharacter.ts");
-		animation_component->LoadClip(PATH_SUFFIX BIN_MESH_PATH "Anim_PlayerCharacter_swim.tac");*/
+		animation_component->mesh = mesh_component;		
 		animation_component->LoadSkeleton(PATH_SUFFIX BIN_MESH_PATH "xbot.ts");
 		animation_component->LoadClip(PATH_SUFFIX BIN_MESH_PATH "RumbaDancing.tac");
-		Entity::RegisterAnimationComponent(animation_component);
+		//Entity::RegisterAnimationComponent(animation_component);
 	}
 
 	inline void AnimatedPlayer::Init()

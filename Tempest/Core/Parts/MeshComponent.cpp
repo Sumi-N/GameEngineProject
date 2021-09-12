@@ -67,7 +67,7 @@ namespace Tempest
 			skeleton_mesh = AssetManager<Resource::SkeletonMesh>::Load(i_filename);
 		}
 
-		if (mesh == nullptr)
+		if (mesh == nullptr && skeleton_mesh == nullptr)
 		{
 			DEBUG_PRINT("Failed to load the mesh data %s, replaced it with dummy mesh", i_filename);
 			ReplaceWithDummyMesh(mesh);
