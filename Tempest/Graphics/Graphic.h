@@ -13,10 +13,11 @@ public:
 	GraphicRequiredData() = default;
 
 	ConstantData::Camera camera;
+	ConstantData::Light  light;
+	ConstantData::AnimationBone animation_bone_data;
 	Array<ConstantData::Model> model_data;
 	Array<ConstantData::Material> material_data;
-	ConstantData::Light  light;
-	ConstantData::CubeMap shadow[MAX_POINT_LIGHT_NUM];
+	ConstantData::CubeMap shadow[NUM_MAX_POINT_LIGHT];
 
 	// The data requires for draw arbitrary line
 	Vec3f points[2];
@@ -41,8 +42,9 @@ public:
 	static ConstantBuffer constant_light;
 	static ConstantBuffer constant_skybox;
 	static ConstantBuffer constant_cubemap;
+	static ConstantBuffer constant_animationbone;
 
-	static FrameBuffer    frame_shadowcubemaps[MAX_POINT_LIGHT_NUM];
+	static FrameBuffer    frame_shadowcubemaps[NUM_MAX_POINT_LIGHT];
 	static FrameBuffer    frame_cubemap;
 	static FrameBuffer    frame_irradiance;
 	static FrameBuffer    frame_specular;
@@ -67,9 +69,10 @@ inline void Graphic::Init(unsigned int i_width, unsigned int i_height)
 	constant_light.Init(ConstantData::Index::Light);
 	constant_skybox.Init(ConstantData::Index::SkyBox);
 	constant_cubemap.Init(ConstantData::Index::CubeMap);
+	constant_animationbone.Init(ConstantData::Index::AnimationBone);
 
 	// Init frame buffers
-	for (int i = 0; i < MAX_POINT_LIGHT_NUM; i++)
+	for (int i = 0; i < NUM_MAX_POINT_LIGHT; i++)
 	{
 		frame_shadowcubemaps[i].Init(FrameType::ShadowCubeMap, SHADOWMAP_BINDING_UNIT1 + i, BASIC_TEXTURE_SIZE, BASIC_TEXTURE_SIZE);
 	}

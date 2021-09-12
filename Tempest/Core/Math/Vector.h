@@ -25,7 +25,9 @@ namespace Math {
 
 		//!@ Constructor
 		Vec2() = default;
+		Vec2(T i_t) : x(i_t), y(i_t) {}
 		Vec2(T i_x, T i_y) : x(i_x), y(i_y) {}
+		~Vec2() = default;
 
 		template <typename U> 
 		explicit Vec2(Vec2<U> const& u) : x(static_cast<T>(u.x)), y(static_cast<T>(u.y)) {}
@@ -35,13 +37,13 @@ namespace Math {
 		friend Vec2 operator + (T t, Vec2 const& u) { Vec2 o_v; o_v.x = t + u.x; o_v.y = t + u.y; return o_v; }
 		friend Vec2 operator - (T t, Vec2 const& u) { Vec2 o_v; o_v.x = t - u.x; o_v.y = t - u.y; return o_v; }
 		friend Vec2 operator * (T t, Vec2 const& u) { Vec2 o_v; o_v.x = t * u.x; o_v.y = t * u.y; return o_v; }
-		       Vec2 operator / (T const t)  const { Vec2 o_v; o_v.x = x / t; o_v.y = y / t; return o_v; }
+		       Vec2 operator / (T const& t)  const { Vec2 o_v; o_v.x = x / t; o_v.y = y / t; return o_v; }
 
 		//!@ Binary operators
 		Vec2 operator + (Vec2 const& i_v) const { Vec2 o_v; o_v.x = x + i_v.x; o_v.y = y + i_v.y; return o_v; }
 		Vec2 operator - (Vec2 const& i_v) const { Vec2 o_v; o_v.x = x - i_v.x; o_v.y = y - i_v.y; return o_v; }
 		Vec2 operator * (Vec2 const& i_v) const { Vec2 o_v; o_v.x = x * i_v.x; o_v.y = y * i_v.y; return o_v; }
-		Vec2 operator / (Vec2 const& i_v) const { Vec2 o_v; o_v.x = x / i_v.x; o_v.y = y / i_v.y; return o_v; }
+		Vec2 operator / (Vec2 const& i_v) const { Vec2 o_v; o_v.x = x / i_v.x; o_v.y = y / i_v.y; return o_v; }		
 
 		//!@ Assignment operators
 		Vec2 const& operator += (Vec2 const& i_v) { x += i_v.x; y += i_v.y; return *this; }
@@ -53,6 +55,7 @@ namespace Math {
 		Vec2 const& operator *= (T    const  t) { x *= t; y *= t; return *this; }
 		Vec2 const& operator /= (T    const  t) { x /= t; y /= t; return *this; }
 
+		T&   operator [] (size_t const& i)       { return this->ele[i]; }
 		bool operator == (Vec2 const& i_v) const { return x == i_v.x && y == i_v.y; }
 		bool operator != (Vec2 const& i_v) const { return x != i_v.x && y != i_v.y; }
 
@@ -80,7 +83,9 @@ namespace Math {
 
 		//!@ Constructor
 		Vec3() = default;
+		Vec3(T i_t) : x(i_t), y(i_t), z(i_t) {}
 		Vec3(T i_x, T i_y, T i_z) : x(i_x), y(i_y), z(i_z) {}
+		~Vec3() = default;
 
 		template <typename U> 
 		explicit Vec3(Vec3<U> const& u) : x(static_cast<T>(u.x)), y(static_cast<T>(u.y)), z(static_cast<T>(u.z)) {}
@@ -90,7 +95,7 @@ namespace Math {
 		friend Vec3 operator + (T t, Vec3 const& u) { Vec3 o_v; o_v.x = t + u.x; o_v.y = t + u.y; o_v.z = t + u.z; return o_v; }
 		friend Vec3 operator - (T t, Vec3 const& u) { Vec3 o_v; o_v.x = t - u.x; o_v.y = t - u.y; o_v.z = t - u.z; return o_v; }
 		friend Vec3 operator * (T t, Vec3 const& u) { Vec3 o_v; o_v.x = t * u.x; o_v.y = t * u.y; o_v.z = t * u.z; return o_v; }
-		       Vec3 operator / (T const t)  const { Vec3 o_v; o_v.x = x / t; o_v.y = y / t; o_v.z = z / t; return o_v; }
+		       Vec3 operator / (T const& t)  const { Vec3 o_v; o_v.x = x / t; o_v.y = y / t; o_v.z = z / t; return o_v; }
 
 		//!@ Binary operators
 		Vec3 operator + (Vec3 const& i_v) const { Vec3 o_v; o_v.x = x + i_v.x; o_v.y = y + i_v.y; o_v.z = z + i_v.z; return o_v; }
@@ -107,7 +112,8 @@ namespace Math {
 		Vec3 const& operator -= (T    const  t) { x -= t; y -= t; z -= t; return *this; }
 		Vec3 const& operator *= (T    const  t) { x *= t; y *= t; z *= t; return *this; }
 		Vec3 const& operator /= (T    const  t) { x /= t; y /= t; z /= t; return *this; }
-
+				
+		T&   operator [] (size_t const& i)       { return this->ele[i]; }
 		bool operator == (Vec3 const& i_v) const { return x == i_v.x && y == i_v.y && z == i_v.z; }
 		bool operator != (Vec3 const& i_v) const { return x != i_v.x && y != i_v.y && z != i_v.z; }
 
@@ -132,11 +138,14 @@ namespace Math {
 		{
 			struct { float x, y, z; };
 			struct { float r, g, b; };
+			float ele[3];
 		};
 
 		//!@ Constructor
 		Vec3() = default;
+		Vec3(float i_t) : x(i_t), y(i_t), z(i_t) {}
 		Vec3(float i_x, float i_y, float i_z) : x(i_x), y(i_y), z(i_z) {}
+		~Vec3() = default;
 
 		template <typename U>
 		explicit Vec3(Vec3<U> const& u) : x(static_cast<float>(u.x)), y(static_cast<float>(u.y)), z(static_cast<float>(u.z)){}
@@ -147,7 +156,7 @@ namespace Math {
 		friend Vec3 operator + (float t, Vec3 const& u)	{Vec3 o_v; o_v.x = t + u.x; o_v.y = t + u.y; o_v.z = t + u.z; return o_v;}
 		friend Vec3 operator - (float t, Vec3 const& u) {Vec3 o_v; o_v.x = t - u.x; o_v.y = t - u.y; o_v.z = t - u.z; return o_v;}
 		friend Vec3 operator * (float t, Vec3 const& u) {Vec3 o_v; o_v.x = t * u.x; o_v.y = t * u.y; o_v.z = t * u.z; return o_v;}
-		Vec3 operator / (float const t)  const	{Vec3 o_v; o_v.x = x / t; o_v.y = y / t; o_v.z = z / t; return o_v;	}
+		Vec3 operator / (float const& t)  const	{Vec3 o_v; o_v.x = x / t; o_v.y = y / t; o_v.z = z / t; return o_v;	}
 
 		//!@ Binary operators
 		Vec3<float> operator + (Vec3<float> const& i_v) const;
@@ -165,8 +174,9 @@ namespace Math {
 		Vec3 const& operator *= (float    const  t) { x *= t; y *= t; z *= t; return *this; }
 		Vec3 const& operator /= (float    const  t) { x /= t; y /= t; z /= t; return *this; }
 
-		bool operator == (Vec3 const& i_v) const { return x == i_v.x && y == i_v.y && z == i_v.z; }
-		bool operator != (Vec3 const& i_v) const { return x != i_v.x && y != i_v.y && z != i_v.z; }
+		float& operator [] (size_t const& i) { return this->ele[i]; }		
+		bool  operator == (Vec3 const& i_v) const { return x == i_v.x && y == i_v.y && z == i_v.z; }
+		bool  operator != (Vec3 const& i_v) const { return x != i_v.x && y != i_v.y && z != i_v.z; }
 
 		void  Set(float i_x, float i_y, float i_z){x = i_x, y = i_y, z = i_z;}
 		void  Zero      ()       { x = 0; y = 0; z = 0; }
@@ -194,8 +204,10 @@ namespace Math {
 
 		//!@ Constructor
 		Vec4() = default;
+		Vec4(T i_t) : x(i_t), y(i_t), z(i_t), w(i_t) {}
 		Vec4(Vec3<T> i_v, T i_w) : x(i_v.x), y(i_v.y), z(i_v.z), w(i_w) {}
 		Vec4(T i_x, T i_y, T i_z, T i_w) : x(i_x), y(i_y), z(i_z), w(i_w) {}
+		~Vec4() = default;
 
 		explicit Vec4(Vec3<T> const& t) : x(t.x), y(t.y), z(t.z), w(1) {}
 		template <typename U>
@@ -205,7 +217,7 @@ namespace Math {
 		friend Vec4 operator + (T t, Vec4 const& u) { Vec4 o_v; o_v.x = t + u.x; o_v.y = t + u.y; o_v.z = t + u.z; o_v.w = t + u.w; return o_v; }
 		friend Vec4 operator - (T t, Vec4 const& u) { Vec4 o_v; o_v.x = t - u.x; o_v.y = t - u.y; o_v.z = t - u.z; o_v.w = t - u.w; return o_v; }
 		friend Vec4 operator * (T t, Vec4 const& u) { Vec4 o_v; o_v.x = t * u.x; o_v.y = t * u.y; o_v.z = t * u.z; o_v.w = t * u.w; return o_v; }
-		Vec4 operator / (T const t)  const { Vec4 o_v; o_v.x = x / t; o_v.y = y / t; o_v.z = z / t; o_v.w = w / t; return o_v; }
+		       Vec4 operator / (T const& t)  const { Vec4 o_v; o_v.x = x / t; o_v.y = y / t; o_v.z = z / t; o_v.w = w / t; return o_v; }
 
 		//!@ Binary operators
 		Vec4 operator + (Vec4 const& i_v) const { Vec4 o_v; o_v.x = x + i_v.x; o_v.y = y + i_v.y; o_v.z = z + i_v.z; o_v.w = w + i_v.w; return o_v; }
@@ -223,7 +235,8 @@ namespace Math {
 		Vec4 const& operator -= (T    const  t) { x -= t; y -= t; z -= t; w -= t; return *this; }
 		Vec4 const& operator *= (T    const  t) { x *= t; y *= t; z *= t; w *= t; return *this; }
 		Vec4 const& operator /= (T    const  t) { x /= t; y /= t; z /= t; w /= t; return *this; }
-
+		
+		T&   operator [] (size_t const& i)       { return this->ele[i]; }
 		bool operator == (Vec4 const& i_v) const { return x == i_v.x && y == i_v.y && z == i_v.z && w == i_v.w; }
 		bool operator != (Vec4 const& i_v) const { return x != i_v.x && y != i_v.y && z != i_v.z && w != i_v.w; }
 
@@ -242,29 +255,47 @@ namespace Math {
 			__m128 m_vec;
 			struct { float x, y, z, w; };
 			struct { float r, g, b, a; };
+			float ele[4];
 		};
 
 		//!@ Constructor
 		Vec4() = default;
+		Vec4(float i_t) : x(i_t), y(i_t), z(i_t), w(i_t) {}
 		Vec4(Vec3<float> i_v, float i_w) : x(i_v.x), y(i_v.y), z(i_v.z), w(i_w) {}
 		Vec4(float i_x, float i_y, float i_z, float i_w) : x(i_x), y(i_y), z(i_z), w(i_w) {}
+		~Vec4() = default;
 
 		//!@ Operator with constant value
 		friend Vec4 operator + (float t, Vec4 const& u) { Vec4 o_v; o_v.x = t + u.x; o_v.y = t + u.y; o_v.z = t + u.z; o_v.w = t + u.w; return o_v; }
 		friend Vec4 operator - (float t, Vec4 const& u) { Vec4 o_v; o_v.x = t - u.x; o_v.y = t - u.y; o_v.z = t - u.z; o_v.w = t - u.w; return o_v; }
 		friend Vec4 operator * (float t, Vec4 const& u) { Vec4 o_v; o_v.x = t * u.x; o_v.y = t * u.y; o_v.z = t * u.z; o_v.w = t * u.w; return o_v; }
-		Vec4 operator / (float const t)  const { Vec4 o_v; o_v.x = x / t; o_v.y = y / t; o_v.z = z / t; o_v.w = w / t; return o_v; }
+		       Vec4 operator / (float const& t)  const { Vec4 o_v; o_v.x = x / t; o_v.y = y / t; o_v.z = z / t; o_v.w = w / t; return o_v; }
 
 		template <typename U>
 		explicit Vec4(Vec4<U> const& u) : x(static_cast<float>(u.x)), y(static_cast<float>(u.y)), z(static_cast<float>(u.z)), z(static_cast<float>(u.w)) {}
 		template <typename U>
 		explicit Vec4(Vec3<U> const& t) : x(t.x), y(t.y), z(t.z), w(1.0f) {}
 
+		//!@ Binary operators
 		Vec4<float> operator + (Vec4<float> const& i_v) const;
 		Vec4<float> operator - (Vec4<float> const& i_v) const;
 		Vec4<float> operator * (Vec4<float> const& i_v) const;
 		Vec4<float> operator / (Vec4<float> const& i_v) const;
 		Vec4<float>& operator = (Vec4<float> const& i_v);
+
+				//!@ Assignment operators
+		Vec4 const& operator += (Vec4 const& i_v) { x += i_v.x; y += i_v.y; z += i_v.z; w += i_v.w; return *this; }
+		Vec4 const& operator -= (Vec4 const& i_v) { x -= i_v.x; y -= i_v.y; z -= i_v.z; w -= i_v.w; return *this; }
+		Vec4 const& operator *= (Vec4 const& i_v) { x *= i_v.x; y *= i_v.y; z *= i_v.z; w *= i_v.w; return *this; }
+		Vec4 const& operator /= (Vec4 const& i_v) { x /= i_v.x; y /= i_v.y; z /= i_v.z; w /= i_v.w; return *this; }
+		Vec4 const& operator += (float const  t) { x += t; y += t; z += t; w += t; return *this; }
+		Vec4 const& operator -= (float const  t) { x -= t; y -= t; z -= t; w -= t; return *this; }
+		Vec4 const& operator *= (float const  t) { x *= t; y *= t; z *= t; w *= t; return *this; }
+		Vec4 const& operator /= (float const  t) { x /= t; y /= t; z /= t; w /= t; return *this; }
+
+		float&   operator [] (size_t const& i) { return this->ele[i]; }
+		bool operator == (Vec4 const& i_v) const { return x == i_v.x && y == i_v.y && z == i_v.z && w == i_v.w; }
+		bool operator != (Vec4 const& i_v) const { return x != i_v.x && y != i_v.y && z != i_v.z && w != i_v.w; }
 	};
 
 } // <- namespace Math
@@ -281,6 +312,7 @@ typedef Math::Vec3<float>            Vec3f;
 typedef Math::Vec3<double>           Vec3d;
 
 typedef Math::Vec4<uint8_t>			 Vec4u8t;
+typedef Math::Vec4<int>              Vec4i;
 typedef Math::Vec4<float>            Vec4f;
 typedef Math::Vec4<double>           Vec4d;
 

@@ -113,6 +113,9 @@
     <ProjectReference Include="..\..\Tempest\Core\Math\Math.vcxproj">
       <Project>{c8572e70-1b3f-469b-bb92-96dd46c72504}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\Tempest\Core\MemoryManagement\MemoryManagement.vcxproj">
+      <Project>{4de6446c-e0a9-4b48-9d06-821a246ef395}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Tempest\Core\ResourceManagement\ResourceManagement.vcxproj">
       <Project>{4590a9a9-0184-4a56-b1cc-3b585d51fc0d}</Project>
     </ProjectReference>

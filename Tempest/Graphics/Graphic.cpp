@@ -11,8 +11,9 @@ ConstantBuffer Graphic::constant_material;
 ConstantBuffer Graphic::constant_light;
 ConstantBuffer Graphic::constant_skybox;
 ConstantBuffer Graphic::constant_cubemap;
+ConstantBuffer Graphic::constant_animationbone;
 
-FrameBuffer    Graphic::frame_shadowcubemaps[MAX_POINT_LIGHT_NUM];
+FrameBuffer    Graphic::frame_shadowcubemaps[NUM_MAX_POINT_LIGHT];
 FrameBuffer    Graphic::frame_mirror;
 FrameBuffer    Graphic::frame_cubemap;
 FrameBuffer    Graphic::frame_irradiance;

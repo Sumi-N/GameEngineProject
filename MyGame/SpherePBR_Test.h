@@ -35,21 +35,16 @@ namespace Tempest
 			nullptr,
 			PATH_SUFFIX SHADER_PATH DEBUG_PBR_BASIC_FRAG,
 		};
-
-		OwningPointer<EffectComponent> effect = OwningPointer<EffectComponent>::Create(effect);
-		effect->owner = Entity::Query(this).p;
-		effect->RegisterShaderPath(shaderpaths);
-		Entity::RegisterEffectComponent(effect);
+		effect_component->RegisterShaderPath(shaderpaths);
 	}
 
 	inline void SpherePBR_Test::Init()
 	{
 		Sphere::Init();
 
-		mesh_component->material_attribute->material->albedo = Vec4f(1.0, 0, 0, 1.0);
-
-		mesh_component->material_attribute->material->metalic = metalic;
-		mesh_component->material_attribute->material->roughness = roughness;
+		effect_component->material_attribute->material->albedo = Vec4f(1.0, 0, 0, 1.0);
+		effect_component->material_attribute->material->metalic = metalic;
+		effect_component->material_attribute->material->roughness = roughness;
 	}
 
 	inline void SpherePBR_Test::ChangePos(const Vec3f& i_pos)

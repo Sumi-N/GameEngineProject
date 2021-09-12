@@ -28,10 +28,7 @@ namespace Tempest
 			PATH_SUFFIX SHADER_PATH DEBUG_BP_BASIC_FRAG,
 		};
 
-		//EffectComponent* effect = new EffectComponent();
-		//effect->owner = Entity::Query(this).p;
-		//effect->RegisterShaderPath(shaderpaths);
-		//Entity::RegisterEffectComponent(effect);
+		effect_component->RegisterShaderPath(shaderpaths);
 	}
 
 	inline void Quad::Init()

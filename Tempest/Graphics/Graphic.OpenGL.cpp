@@ -95,7 +95,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 
 
 	// Render shadow to frame buffers
-	for (int i = 0; i < MAX_POINT_LIGHT_NUM; i++)
+	for (int i = 0; i < NUM_MAX_POINT_LIGHT; i++)
 	{
 		// Submit shadow uniform data
 		auto& data_shadow = i_data->shadow[i];
@@ -135,8 +135,11 @@ void Graphic::Update(GraphicRequiredData * i_data)
 				auto& data_material = i_data->material_data[i];
 				constant_material.Update(&data_material);
 
+				auto& data_animation = i_data->animation_bone_data;
+				constant_animationbone.Update(&data_animation);
+
 				// Bind shadow map texture 
-				for (int j = 0; j < MAX_POINT_LIGHT_NUM; j++)
+				for (int j = 0; j < NUM_MAX_POINT_LIGHT; j++)
 				{
 					frame_shadowcubemaps[j].BindTextureUnit();
 				}
@@ -144,7 +147,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 				frame_irradiance.BindTextureUnit();
 				// Bind specular map texture
 				frame_specular.BindTextureUnit();
-				// Bind brdf look up texture
+				// Bind BRDF look up texture
 				frame_brdf.BindTextureUnit();
 				SceneEntity::List[i]->Draw();
 
@@ -174,7 +177,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 void Graphic::PostUpdate(GraphicRequiredData* i_data)
 {
 	i_data->model_data.Clear();
-	i_data->material_data.Clear();
+	i_data->material_data.Clear();	
 }
 
 void Graphic::CleanUp()

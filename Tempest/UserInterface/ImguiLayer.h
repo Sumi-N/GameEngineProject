@@ -1,6 +1,10 @@
 #pragma once
 #include "Define.h"
 
+#define IMGUI_IMPL_API
+#include "backends/imgui_impl_glfw.h"
+#include "backends/imgui_impl_opengl3.h"
+
 namespace Tempest
 {
 

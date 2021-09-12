@@ -2,8 +2,6 @@
 
 #include "Define.h"
 #include "Component.h"
-#include "MaterialAttribute.h"
-#include "TextureAttribute.h"
 
 namespace Tempest
 {
@@ -11,23 +9,29 @@ namespace Tempest
 	class MeshComponent : public Component
 	{
 	public:
-		OwningPointer<Resource::Mesh> mesh;
+		MeshComponent() = default;
+		~MeshComponent() = default;
+		
+		enum class MeshType : uint8_t
+		{
+			Mesh,
+			SkeletonMesh,
+		};
 
-		ObservingPointer<Object> owner;
-		OwningPointer<MaterialAttribute> material_attribute;		
+		MeshType type;
+		OwningPointer<Resource::Mesh> mesh;
+		OwningPointer<Resource::SkeletonMesh> skeleton_mesh;
 
 		Mat4f model_mat;
 		Mat4f model_inverse_transpose_mat;
 
-		static void ReplaceWithDummyMesh(OwningPointer<Resource::Mesh>&);
+		static  void ReplaceWithDummyMesh(OwningPointer<Resource::Mesh>&);
 		virtual void Boot() override;
 		virtual void Init() override;
 		virtual void Update(float i_dt) override;
 		virtual void CleanUp() override;
 
-		bool Load(const char* filename);
-		void SetMaterial(MaterialAttribute*);
-		void SetMaterial(OwningPointer<MaterialAttribute>);
+		Result Load(const char* i_filename);
 
 	private:
 		bool IsLoaded();

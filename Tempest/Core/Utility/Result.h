@@ -32,7 +32,7 @@ namespace Tempest
 
 		Application,
 		GameThread,
-		RenderThread,
+		RenderThread,		
 
 		Count          // This must be the last
 	};
@@ -126,6 +126,8 @@ namespace Tempest
 		// (e.g. the task might have succeeded if more time had been spent,
 		// the task might succeed if tried again at a later time, etc.)
 		constexpr Result TimeOut(eResult::IsFailure, eSystem::General, eSeverity::Warning, __LINE__);
+
+		constexpr Result NoEnumType(eResult::IsFailure, eSystem::General, eSeverity::Error, __LINE__);
 
 		// This can be compared against if the caller wants to know if no value was assigned
 		//constexpr Result Undefined();

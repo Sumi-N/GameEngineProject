@@ -25,9 +25,9 @@ namespace Tempest
 		OwningPointer<TextureAttribute> teapottexture2 = OwningPointer<TextureAttribute>::Create(teapottexture2);
 		OwningPointer<TextureAttribute> teapottexture3 = OwningPointer<TextureAttribute>::Create(teapottexture3);
 
-		teapottexture->Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo\\brickwall.ttd", TextureType::PB_Diffuse);
-		teapottexture2->Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo\\brickwall.ttd", TextureType::PB_Specular);
-		teapottexture3->Load(PATH_SUFFIX BIN_TEXTURE_PATH "normal\\brickwall_normal.ttd", TextureType::PB_Normal);
+		teapottexture->Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo\\brickwall.tt", TextureType::PB_Diffuse);
+		teapottexture2->Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo\\brickwall.tt", TextureType::PB_Specular);
+		teapottexture3->Load(PATH_SUFFIX BIN_TEXTURE_PATH "normal\\brickwall_normal.tt", TextureType::PB_Normal);
 
 		const char* shaderpaths[] =
 		{
@@ -38,13 +38,10 @@ namespace Tempest
 			PATH_SUFFIX SHADER_PATH BLINN_PHONG_FRAG,
 		};
 
-		OwningPointer<EffectComponent> effect = OwningPointer<EffectComponent>::Create(effect);
-		effect->owner = Entity::Query(this).p;
-		effect->RegisterShaderPath(shaderpaths);
-		effect->SetTexture(teapottexture);
-		effect->SetTexture(teapottexture2);
-		effect->SetTexture(teapottexture3);
-		Entity::RegisterEffectComponent(effect);
+		effect_component->RegisterShaderPath(shaderpaths);
+		effect_component->SetTexture(teapottexture);
+		effect_component->SetTexture(teapottexture2);
+		effect_component->SetTexture(teapottexture3);
 	}
 
 	inline void Teapot::Init()

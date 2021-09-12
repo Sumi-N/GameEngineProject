@@ -2,7 +2,7 @@
 
 #include "TestScenes.h"
 
-#include "MyCamera.h"
+#include "MyCameraObject.h"
 #include "MyPointLight.h"
 #include "MySkyBox.h"
 
@@ -13,7 +13,7 @@ namespace Tempest
 	void TestScene::PBR_Red_Balls()
 	{
 		// Setting up camera
-		OwningPointer<MyCamera> mycamera = OwningPointer<MyCamera>::Create(mycamera);
+		OwningPointer<MyCameraObject> mycamera = OwningPointer<MyCameraObject>::Create(mycamera);
 		Entity::RegisterCamera(mycamera);
 
 		// Setting up skybox

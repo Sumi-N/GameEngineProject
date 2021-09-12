@@ -38,6 +38,10 @@ void RenderState::InitTexture(ObservingPointer<TextureAttribute> i_textureattrib
 	{
 		if (TextureUnitList[i].first == i_textureattribute->type)
 		{
+			int width = i_textureattribute->texture->width;
+			int height = i_textureattribute->texture->height;
+			void* data = i_textureattribute->texture->pixels.Data();
+
 			if (i_textureattribute->type == TextureType::SkyBox)
 			{
 				textureunits.PushBack(TextureUnitList[i].second);
@@ -45,7 +49,7 @@ void RenderState::InitTexture(ObservingPointer<TextureAttribute> i_textureattrib
 				glGenTextures(1, &textureids[textureids.Size() - 1]);
 				glActiveTexture(GL_TEXTURE0 + TextureUnitList[i].second);
 				glBindTexture(GL_TEXTURE_2D, textureids[textureids.Size() - 1]);
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, static_cast<GLsizei>(i_textureattribute->width), static_cast<GLsizei>(i_textureattribute->height), 0, GL_RGB, GL_FLOAT, i_textureattribute->pixels.Data());
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, static_cast<GLsizei>(width), static_cast<GLsizei>(height), 0, GL_RGB, GL_FLOAT, data);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -58,7 +62,7 @@ void RenderState::InitTexture(ObservingPointer<TextureAttribute> i_textureattrib
 				glGenTextures(1, &textureids[textureids.Size() - 1]);
 				glActiveTexture(GL_TEXTURE0 + TextureUnitList[i].second);
 				glBindTexture(GL_TEXTURE_2D, textureids[textureids.Size() - 1]);
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, static_cast<GLsizei>(i_textureattribute->width), static_cast<GLsizei>(i_textureattribute->height), 0, GL_RGB, GL_UNSIGNED_BYTE, i_textureattribute->pixels.Data());
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, static_cast<GLsizei>(width), static_cast<GLsizei>(height), 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

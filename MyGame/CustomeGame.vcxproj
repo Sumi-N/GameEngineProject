@@ -86,21 +86,37 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="MyApplication.cpp" />
-    <ClCompile Include="TestScene_Importer.cpp" />
-    <ClCompile Include="TestScene_Normal_Debug_Plane.cpp" />
+    <ClCompile Include="TestScene_SkeletonAnimation.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="TestScene_Normal_Debug_Plane.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="TestScene_PBR_9Balls.cpp" />
     <ClCompile Include="TestScene_PBR_Red_Balls.cpp" />
-    <ClCompile Include="TestScene_PhoneBlinn_Lights.cpp" />
-    <ClCompile Include="TestScene_PhoneBlinn_Teapots.cpp" />
-    <ClCompile Include="TestScene_Two_Cameras.cpp" />
+    <ClCompile Include="TestScene_PhoneBlinn_Lights.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="TestScene_PhoneBlinn_Teapots.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="TestScene_Two_Cameras.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimatedPlayer.h" />
     <ClInclude Include="BathRoomTileSphere.h" />
     <ClInclude Include="BrushedMetalSphere.h" />
     <ClInclude Include="DirtyWickerWeaveSphere.h" />
     <ClInclude Include="GrayBrickSphere.h" />
     <ClInclude Include="MetalGridSphere.h" />
-    <ClInclude Include="MyCamera.h" />
+    <ClInclude Include="MyCameraObject.h" />
     <ClInclude Include="MyPointLight.h" />
     <ClInclude Include="MySkyBox.h" />
     <ClInclude Include="NormalMapDebugPlane.h" />
@@ -113,6 +129,9 @@
     <ClInclude Include="WarnPaintedCement.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Tempest\Animation\Animation.vcxproj">
+      <Project>{cc303b10-d7fa-4acd-b85d-44b6b282193b}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Tempest\Application\Application.vcxproj">
       <Project>{a4a992b0-4300-4d9f-bd91-9ba6afe44d21}</Project>
     </ProjectReference>

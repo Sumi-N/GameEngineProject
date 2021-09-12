@@ -680,6 +680,9 @@ public:
 			return *data;
 		}
 		else
+		{
 			DEBUG_ASSERT(false);
-	};
+			return *data;
+		}
+	};	
 };

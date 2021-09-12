@@ -12,10 +12,13 @@ namespace Tempest
 
 		virtual void Boot() override;
 		virtual void Init() override;
+		virtual void Update(float i_dt) override;
+
 		OwningPointer<MeshComponent> GetMeshComponent();
 
 	protected:
 		OwningPointer<MeshComponent> mesh_component;
+		OwningPointer<EffectComponent> effect_component;
 	};
 
 	inline void PremadeObjebct::Boot()
@@ -23,12 +26,15 @@ namespace Tempest
 		Object::Boot();
 
 		mesh_component = OwningPointer<MeshComponent>::Create(mesh_component);
-		OwningPointer<MaterialAttribute> material;
-		material = OwningPointer<MaterialAttribute>::Create(material);
-		mesh_component->SetMaterial(material);
-		mesh_component->owner = Entity::Query(this).p;
+		mesh_component->owner = Entity::Query(this);
 		Entity::RegisterMeshComponent(mesh_component);
 
+		effect_component = OwningPointer<EffectComponent>::Create(effect_component);
+		OwningPointer<MaterialAttribute> material;
+		material = OwningPointer<MaterialAttribute>::Create(material);
+		effect_component->SetMaterial(material);
+		effect_component->owner = Entity::Query(this);
+		Entity::RegisterEffectComponent(effect_component);
 
 #if defined(_DEBUG) && !defined(NDEBUG)
 		//SHOW_DEBUG_POLYGON
@@ -45,6 +51,11 @@ namespace Tempest
 	inline void PremadeObjebct::Init()
 	{
 		Object::Init();
+	}
+
+	inline void PremadeObjebct::Update(float i_dt)
+	{
+		Object::Update(i_dt);
 	}
 
 	inline OwningPointer<MeshComponent> PremadeObjebct::GetMeshComponent()

@@ -13,7 +13,11 @@ namespace Math
 	public:
 		// x is a real number part, and y, z ,w are imaginary number part
 		// Quaternion q = x + y * i + z * j + w * k;
-		T x, y, z, w;
+		union
+		{
+			struct{ T x, y, z, w;};
+			T ele[4];
+		};
 		
 		Quaternion();
 		Quaternion(T const&, Vec3<T> const&);
@@ -30,23 +34,26 @@ namespace Math
 		Vec3<T>       operator *(Vec3<T> const& i_v);
 
 		//!@ Assignment operators
-		Quaternion const& operator += (T    const  t) { x += t; y += t; z += t; w += t; return *this; }
-		Quaternion const& operator -= (T    const  t) { x -= t; y -= t; z -= t; w -= t; return *this; }
-		Quaternion const& operator *= (T    const  t) { x *= t; y *= t; z *= t; w *= t; return *this; }
-		Quaternion const& operator /= (T    const  t) { x /= t; y /= t; z /= t; w /= t; return *this; }
+		Quaternion const& operator += (T const& t) { x += t; y += t; z += t; w += t; return *this; }
+		Quaternion const& operator -= (T const& t) { x -= t; y -= t; z -= t; w -= t; return *this; }
+		Quaternion const& operator *= (T const& t) { x *= t; y *= t; z *= t; w *= t; return *this; }
+		Quaternion const& operator /= (T const& t) { x /= t; y /= t; z /= t; w /= t; return *this; }
 
-		void Normalize ()       { *this /= Length(); }
-		T    Length() const { return sqrt(static_cast<T>(x)* static_cast<T>(x) + static_cast<T>(y)* static_cast<T>(y) + static_cast<T>(z)* static_cast<T>(z) + static_cast<T>(w)* static_cast<T>(w)); }
-		Quaternion<T> Conjugate() const;
-		Quaternion<T> Inverse() const;
-		float Dot(Quaternion<T> i_q);
+		T&   operator [] (size_t const& i){ return this->ele[i]; }
 
-		static Quaternion<T> AngleAxis(float const&, Vec3<T> const&);
-		static Quaternion<T> EulerToQuaternion(float const&, float const&, float const&);
-		static Vec3<T> QuaternionToEuler(Quaternion<T>);
-		static Quaternion<T> Lerp(Quaternion<T>, Quaternion<T>, float);
+		void          Normalize ()       { *this /= Length(); }
+		T             Length    () const { return sqrt(static_cast<T>(x)* static_cast<T>(x) + static_cast<T>(y)* static_cast<T>(y) + static_cast<T>(z)* static_cast<T>(z) + static_cast<T>(w)* static_cast<T>(w)); }
+		Quaternion<T> Conjugate () const;
+		Quaternion<T> Inverse   () const;
+		T             Dot(Quaternion<T> const& i_q) const;
 
-		static Matrix4<T> QuaternionToRotationMatix(Quaternion<T>);
+		static Quaternion<T> AngleAxis(T const&, Vec3<T> const&);
+		static Quaternion<T> EulerToQuaternion(T const&, T const&, T const&);
+		static Vec3<T>       QuaternionToEuler(Quaternion<T>);
+		static Quaternion<T> Lerp(Quaternion<T> const&, Quaternion<T>const&, T);
+		static Quaternion<T> Slerp(Quaternion<T> const&, Quaternion<T> const&, T);
+
+		static Matrix4<T>    QuaternionToRotationMatix(Quaternion<T>);
 	};
 }
 

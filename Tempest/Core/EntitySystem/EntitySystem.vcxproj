@@ -104,6 +104,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Animation\Animation.vcxproj">
+      <Project>{cc303b10-d7fa-4acd-b85d-44b6b282193b}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\MemoryManagement\MemoryManagement.vcxproj">
       <Project>{4de6446c-e0a9-4b48-9d06-821a246ef395}</Project>
     </ProjectReference>

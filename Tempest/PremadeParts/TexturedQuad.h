@@ -32,7 +32,7 @@ namespace Tempest
 		texture2->Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo\\brickwall.ttd", TextureType::PB_Specular);
 
 		OwningPointer<EffectComponent> effect = OwningPointer<EffectComponent>::Create(effect);
-		effect->owner = Entity::Query(this).p;
+		effect->owner = Entity::Query(this);
 		effect->RegisterShaderPath(shaderpaths);
 		effect->SetTexture(texture);
 		effect->SetTexture(texture2);

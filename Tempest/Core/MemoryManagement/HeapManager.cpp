@@ -67,7 +67,11 @@ void* HeapManager::Alloc(size_t i_size)
 
 	//Check if there is a space to insert block
 	while (!(current_block->exist == false && current_block->size >= i_size + sizeof(Block)))
-	{		
+	{
+
+#ifdef _DEBUG
+		AccessViolationCheck(current_block);
+#endif
 		_current = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + current_block->size + sizeof(Block));
 		current_block = static_cast<Block*>(_current);
 		if (reinterpret_cast<size_t>(_current) + sizeof(Block) >= reinterpret_cast<size_t>(_end))
@@ -87,6 +91,11 @@ void* HeapManager::Alloc(size_t i_size)
 
 		while (current_block->exist == true || current_block->size < i_size + sizeof(Block))
 		{
+
+#ifdef _DEBUG
+			AccessViolationCheck(current_block);
+#endif
+
 			_current = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + current_block->size + sizeof(Block));
 			current_block = static_cast<Block*>(_current);
 			if(reinterpret_cast<size_t>(_current) + sizeof(Block) >= reinterpret_cast<size_t>(_end))
@@ -97,6 +106,10 @@ void* HeapManager::Alloc(size_t i_size)
 			}
 		}
 	}
+
+#ifdef _DEBUG
+	AccessViolationCheck(current_block);
+#endif
 
 	//Now split the descriptor to two descriptors
 
@@ -133,6 +146,11 @@ void* HeapManager::Realloc(void* i_ptr, size_t i_size)
 	//Check if there is a space to insert block
 	while (!(current_block->exist == false && current_block->size >= i_size + sizeof(Block)))
 	{
+
+#ifdef _DEBUG
+		AccessViolationCheck(current_block);
+#endif
+
 		_current = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + current_block->size + sizeof(Block));
 		current_block = static_cast<Block*>(_current);
 		if (reinterpret_cast<size_t>(_current) + sizeof(Block) >= reinterpret_cast<size_t>(_end))
@@ -162,6 +180,10 @@ void* HeapManager::Realloc(void* i_ptr, size_t i_size)
 			}
 		}
 	}
+
+#ifdef _DEBUG
+	AccessViolationCheck(current_block);
+#endif
 
 	//Now split the descriptor to two descriptors
 
@@ -206,12 +228,20 @@ bool HeapManager::Free(void* i_ptr)
 
 void HeapManager::Collect()
 {
+
 	void*  current_collecting       = _head;
 	Block* current_collecting_block = static_cast<Block*>(current_collecting);
 	void*  next_collecting          = reinterpret_cast<void*>(reinterpret_cast<size_t>(current_collecting) + current_collecting_block->size + sizeof(Block));
 	Block* next_collecting_block    = static_cast<Block*>(next_collecting);
 	
-	do{
+	do
+	{
+
+#ifdef _DEBUG
+		AccessViolationCheck(current_collecting_block);
+		AccessViolationCheck(next_collecting_block);
+#endif
+
 		if (current_collecting_block->exist == false && next_collecting_block->exist == false)
 		{
 			current_collecting_block->size += (next_collecting_block->size + sizeof(Block));
@@ -243,3 +273,16 @@ bool HeapManager::IsHeapAlive()
 {
 	return is_heap_alive;
 }
+
+#ifdef _DEBUG
+void HeapManager::AccessViolationCheck(const Block* i_block)
+{
+
+	if (i_block->headguardbanding != '\0' || i_block->tailguardbanding != '\0')
+	{
+		DEBUG_ASSERT(false);
+	}
+
+	return;	
+}
+#endif

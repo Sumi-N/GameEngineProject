@@ -10,7 +10,6 @@ class HeapManager
 {
 public:
 #ifdef _DEBUG
-
 	typedef struct Block
 	{
 		//Guard banding
@@ -43,5 +42,9 @@ public:
 
 private:
 	bool is_heap_alive = false;
+
+#ifdef _DEBUG
+	void AccessViolationCheck(const Block*);
+#endif
 };
 

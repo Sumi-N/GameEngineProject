@@ -3,31 +3,7 @@
 namespace Tempest
 {
 #ifdef ENGINE_GRAPHIC_OPENGL
-
-	VertexBuffer::VertexBuffer()
-	{
-		// Set Layout
-/*		BufferData::Element vertex(BufferData::Type::Float3, "vertex");
-		BufferData::Element normal(BufferData::Type::Float3, "normal");
-		BufferData::Element uvcoord(BufferData::Type::Float2, "uvcoord");
-		BufferData::Element tangent(BufferData::Type::Float3, "tangent");
-		BufferData::Element bitangent(BufferData::Type::Float3, "bitangent");*/		
-
-		BufferData::Element vertex(BufferData::Type::Float3);
-		BufferData::Element normal(BufferData::Type::Float3);
-		BufferData::Element uvcoord(BufferData::Type::Float2);
-		BufferData::Element tangent(BufferData::Type::Float3);
-		BufferData::Element bitangent(BufferData::Type::Float3);
-
-		BufferData::Layout vbufflayout({vertex, normal, uvcoord, tangent, bitangent});
-		
-		SetLayout(vbufflayout);
-	}
-
-	VertexBuffer::~VertexBuffer()
-	{
-	}
-
+	
 	void VertexBuffer::Bind() const
 	{
 		glBindVertexArray(arrayid);
@@ -48,25 +24,93 @@ namespace Tempest
 		return false;
 	}
 
-	void VertexBuffer::InitData(uint32_t i_size, const void* i_data)
+	void VertexBuffer::InitData(VertexBufferType i_type, uint32_t i_size, const void* i_data)
 	{
-		// Create vertex array 
-		glGenVertexArrays(1, &arrayid);
-		glBindVertexArray(arrayid);
-
-		// Create vertex buffer 
-		glGenBuffers(1, &bufferid);
-		glBindBuffer(GL_ARRAY_BUFFER, bufferid);
-
-		// Fill in the data to the vertex buffer
-		glBufferData(GL_ARRAY_BUFFER, i_size, i_data, GL_STATIC_DRAW);
-		for (int i = 0; i < layout.elements.Size(); i++)
+		if(i_type == VertexBufferType::Mesh)
 		{
-			glEnableVertexAttribArray(i);
-			glVertexAttribPointer(i, layout.elements[i].size / sizeof(float), GL_FLOAT, GL_FALSE, layout.stride, (void*)(layout.elements[i].offset));
+			// Set Layout
+			BufferData::Element vertex(BufferData::Type::Float3, "vertex");
+			BufferData::Element normal(BufferData::Type::Float3, "normal");
+			BufferData::Element uvcoord(BufferData::Type::Float2, "uvcoord");
+			BufferData::Element tangent(BufferData::Type::Float3, "tangent");
+			BufferData::Element bitangent(BufferData::Type::Float3, "bitangent");			
+
+			BufferData::Layout vbufflayout({ vertex, normal, uvcoord, tangent, bitangent,});
+
+			layout = vbufflayout;
+
+			// Create vertex array 
+			glGenVertexArrays(1, &arrayid);
+			glBindVertexArray(arrayid);
+
+			// Create vertex buffer 
+			glGenBuffers(1, &bufferid);
+			glBindBuffer(GL_ARRAY_BUFFER, bufferid);
+
+			// Fill in the data to the vertex buffer
+			glBufferData(GL_ARRAY_BUFFER, i_size, i_data, GL_STATIC_DRAW);
+			for (int i = 0; i < layout.elements.Size(); i++)
+			{
+				glEnableVertexAttribArray(i);
+				glVertexAttribPointer(i, layout.elements[i].size / sizeof(float), GL_FLOAT, GL_FALSE, layout.stride, (void*)(layout.elements[i].offset));
+			}
+		}
+		else if(i_type == VertexBufferType::SkeletonMesh)
+		{
+			// Set Layout
+			BufferData::Element vertex(BufferData::Type::Float3, "vertex");
+			BufferData::Element normal(BufferData::Type::Float3, "normal");
+			BufferData::Element uvcoord(BufferData::Type::Float2, "uvcoord");
+			BufferData::Element tangent(BufferData::Type::Float3, "tangent");
+			BufferData::Element bitangent(BufferData::Type::Float3, "bitangent");
+			BufferData::Element padding(BufferData::Type::Float2, "padding");
+			BufferData::Element index(BufferData::Type::Int4, "index");
+			BufferData::Element weight(BufferData::Type::Float4, "weight");
+
+			BufferData::Layout vbufflayout({ vertex, normal, uvcoord, tangent, bitangent, padding, index, weight });
+
+			layout = vbufflayout;
+
+			// Create vertex array 
+			glGenVertexArrays(1, &arrayid);
+			glBindVertexArray(arrayid);
+
+			// Create vertex buffer 
+			glGenBuffers(1, &bufferid);
+			glBindBuffer(GL_ARRAY_BUFFER, bufferid);
+
+			// Fill in the data to the vertex buffer
+			glBufferData(GL_ARRAY_BUFFER, i_size, i_data, GL_STATIC_DRAW);
+			for (int i = 0; i < 6; i++)
+			{
+				glEnableVertexAttribArray(i);
+				glVertexAttribPointer(i, layout.elements[i].size / sizeof(float), GL_FLOAT, GL_FALSE, layout.stride, (void*)(layout.elements[i].offset));
+			}
+
+			glEnableVertexAttribArray(6);
+			glVertexAttribIPointer(6, layout.elements[6].size / sizeof(int), GL_INT, layout.stride, (void*)(layout.elements[6].offset));
+
+			glEnableVertexAttribArray(7);
+			glVertexAttribPointer(7, layout.elements[7].size / sizeof(float), GL_FLOAT, GL_FALSE, layout.stride, (void*)(layout.elements[7].offset));
 		}
 
-		
+		//{
+		//	// Create vertex array 
+		//	glGenVertexArrays(1, &arrayid);
+		//	glBindVertexArray(arrayid);
+
+		//	// Create vertex buffer 
+		//	glGenBuffers(1, &bufferid);
+		//	glBindBuffer(GL_ARRAY_BUFFER, bufferid);
+
+		//	// Fill in the data to the vertex buffer
+		//	glBufferData(GL_ARRAY_BUFFER, i_size, i_data, GL_STATIC_DRAW);
+		//	for (int i = 0; i < layout.elements.Size(); i++)
+		//	{
+		//		glEnableVertexAttribArray(i);
+		//		glVertexAttribPointer(i, layout.elements[i].size / sizeof(float), GL_FLOAT, GL_FALSE, layout.stride, (void*)(layout.elements[i].offset));
+		//	}
+		//}		
 	}
 
 	void VertexBuffer::CleanUp() const

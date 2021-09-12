@@ -102,20 +102,20 @@ namespace Tempest
 		// Submit point data 
 		{
 			Debug::Ray ray;
-			ray.startpoint = Entity::Cameras[0]->pos;
-			ray.direction = 2 * (UserInput.X() / SCREEN_WIDTH - 0.5f) * Entity::Cameras[0]->GetRightVec()
-				- 2 * (UserInput.Y() / SCREEN_HEIGHT - 0.5f) * Entity::Cameras[0]->GetUpVec()
-				+ Entity::Cameras[0]->GetForwardVec();
+			ray.startpoint = Entity::CamerasObjects[0]->pos;
+			ray.direction = 2 * (UserInput.X() / SCREEN_WIDTH - 0.5f) * Entity::CamerasObjects[0]->GetRightVec()
+				- 2 * (UserInput.Y() / SCREEN_HEIGHT - 0.5f) * Entity::CamerasObjects[0]->GetUpVec()
+				+ Entity::CamerasObjects[0]->GetForwardVec();
 			ray.GetEndPoint();
-			data_game_own->points[0] = ray.startpoint + 0.1f * Entity::Cameras[0]->GetForwardVec();
+			data_game_own->points[0] = ray.startpoint + 0.1f * Entity::CamerasObjects[0]->GetForwardVec();
 			data_game_own->points[1] = ray.endpoint;
 		}
 
 		// Submit camera data
 		{
-			data_game_own->camera.camera_position_vector = Entity::Cameras[0]->pos;
-			data_game_own->camera.perspective_matrix = Entity::Cameras[0]->perspective;
-			data_game_own->camera.view_matrix = Entity::Cameras[0]->view;
+			data_game_own->camera.camera_position_vector = Entity::CamerasObjects[0]->pos;
+			data_game_own->camera.perspective_matrix = Entity::CamerasObjects[0]->perspective;
+			data_game_own->camera.view_matrix = Entity::CamerasObjects[0]->view;
 		}
 
 		// Submit lights data
@@ -150,22 +150,33 @@ namespace Tempest
 		}
 
 		{
-			for (auto it = SceneEntity::List.Begin(); it != SceneEntity::List.End(); ++it)
+			//for (auto it = SceneEntity::List.Begin(); it != SceneEntity::List.End(); ++it)
+			for (auto it = Entity::MeshComponentList.Begin(); it != Entity::MeshComponentList.End(); ++it)
+			{
+				// Submit mesh data
+				ConstantData::Model model;
+				model.model_inverse_transpose_matrix = (*it)->model_inverse_transpose_mat;
+				model.model_position_matrix = (*it)->model_mat;
+				data_game_own->model_data.PushBack(model);		
+			}
+
+			for (auto it = Entity::EffectComponentList.Begin(); it != Entity::EffectComponentList.End(); ++it)
 			{
 				// Submit material data
 				ConstantData::Material material;
 				material.diffuse = Vec4f(0.5f, 0.0f, 0.0f, 1.0f);
 				material.specular = Vec4f(0.8f, 0.8f, 0.8f, 10.0f);
-				material.albedo = (*it)->material->albedo;
-				material.metalic = (*it)->material->metalic;
-				material.roughness = (*it)->material->roughness;				
+				material.albedo = (*it)->material_attribute->material->albedo;
+				material.metalic = (*it)->material_attribute->material->metalic;
+				material.roughness = (*it)->material_attribute->material->roughness;
 				data_game_own->material_data.PushBack(material);
+			}
+		}
 
-				// Submit mesh data
-				ConstantData::Model model;
-				model.model_inverse_transpose_matrix = (*it)->mesh_component->model_inverse_transpose_mat;
-				model.model_position_matrix = (*it)->mesh_component->model_mat;
-				data_game_own->model_data.PushBack(model);		
+		{
+			for (int i = 0; i < NUM_MAX_BONES; i++)
+			{
+				data_game_own->animation_bone_data.global_inversed_matrix[i] = Entity::Animation.bones[i];
 			}
 		}
 	}

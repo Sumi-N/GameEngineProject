@@ -5,14 +5,16 @@ namespace Tempest
 {
 
 	Array<ObjectHandler>                       Entity::ObjectList{};
-	Array<OwningPointer<Camera>>               Entity::Cameras{};
+	Array<OwningPointer<CameraObject>>         Entity::CamerasObjects{};
 	Array<OwningPointer<PointLight>>           Entity::PointLightList{};
 	Array<OwningPointer<MeshComponent>>        Entity::MeshComponentList{};
-	Array<OwningPointer<EffectComponent>>      Entity::EffectComponentList{};
+	Array<OwningPointer<EffectComponent>>      Entity::EffectComponentList{};	
 
 	OwningPointer<CubeMap>                     Entity::Skybox{};
 	OwningPointer<AmbientLight>                Entity::Ambient{};
 	OwningPointer<DirectionalLight>            Entity::Directional{};
+
+	AnimationSystem                            Entity::Animation{};
 
 	void Entity::Register(const OwningPointer<Object>& i_obj)
 	{
@@ -20,25 +22,25 @@ namespace Tempest
 		ObjectList.PushBack(objhandler);
 	}
 
-	ObjectHandler Entity::Query(Object* i_obj)
+	OwningPointer<Object> Entity::Query(Object* i_obj)
 	{
 		for (auto it = ObjectList.Begin(); it != ObjectList.End(); ++it)
 		{
 			if (it->p == i_obj)
 			{
-				return *it;
+				return it->p;
 			}
 		}
 
 		// Couldn't find the query object pointer
 		DEBUG_ASSERT(false);
 		DEBUG_PRINT("Couldn't find the query object pointer");
-		return ObjectHandler(nullptr);
+		return OwningPointer<Object>();
 	}
 
-	void Entity::RegisterCamera(const OwningPointer<Camera>& i_camera)
+	void Entity::RegisterCamera(const OwningPointer<CameraObject>& i_camera)
 	{
-		Cameras.PushBack(i_camera);
+		CamerasObjects.PushBack(i_camera);
 	}
 
 	void Entity::RegisterSkyBox(const OwningPointer<CubeMap>& i_cubemap)
@@ -71,14 +73,19 @@ namespace Tempest
 		EffectComponentList.PushBack(i_component);
 	}
 
+	void Entity::RegisterAnimationComponent(const OwningPointer<AnimationComponent>& i_component)
+	{
+		Entity::Animation.Register(i_component);
+	}
+
 	void Entity::Boot()
 	{
 		// Check if camera exist, if not create one
-		if (Entity::Cameras.Empty())
+		if (Entity::CamerasObjects.Empty())
 		{
-			OwningPointer<Camera> camera;
-			OwningPointer<Camera>::Create(camera);
-			Cameras.PushBack(camera);
+			OwningPointer<CameraObject> camera;
+			OwningPointer<CameraObject>::Create(camera);
+			CamerasObjects.PushBack(camera);
 		}
 
 		// Check if ambient light exist in a scene, if not create one
@@ -134,6 +141,8 @@ namespace Tempest
 		{
 			(*it)->Boot();
 		}
+
+		Animation.Boot();
 	}
 
 	void Entity::Init()
@@ -159,10 +168,12 @@ namespace Tempest
 		}
 
 		// Init Cameras
-		for (auto it = Cameras.Begin(); it != Cameras.End(); ++it)
+		for (auto it = CamerasObjects.Begin(); it != CamerasObjects.End(); ++it)
 		{
 			(*it)->Init();
 		}
+
+		Animation.Init();
 	}
 
 	void Entity::Update(float i_dt)
@@ -194,10 +205,12 @@ namespace Tempest
 		}
 
 		// Update the main camera;
-		if (Cameras[0])
+		if (CamerasObjects[0])
 		{
-			Cameras[0]->Update(i_dt);
+			CamerasObjects[0]->Update(i_dt);
 		}
+
+		Animation.Update(i_dt);
 	}
 
 	void Entity::CleanUp()
@@ -206,11 +219,13 @@ namespace Tempest
 		{
 			(*it).p->CleanUp();
 		}
+
+		Animation.CLeanUp();
 	}
 
 	void Entity::SwapCamera(size_t index1, size_t index2)
 	{
-		std::swap(Cameras[index1], Cameras[index2]);
+		std::swap(CamerasObjects[index1], CamerasObjects[index2]);
 	}
 
 }

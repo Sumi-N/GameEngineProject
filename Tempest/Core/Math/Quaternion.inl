@@ -64,24 +64,24 @@ namespace Math
 	}
 
 	template<typename T>
-	inline float Quaternion<T>::Dot(Quaternion<T> i_q)
+	inline T Quaternion<T>::Dot(Quaternion<T> const& i_q) const
 	{
 		return x * i_q.x + y * i_q.y + z * i_q.z +w * i_q.w;
 	}
 
 	template<typename T>
-	inline Quaternion<T> Quaternion<T>::AngleAxis(float const& angle, Vec3<T> const& axis)
+	inline Quaternion<T> Quaternion<T>::AngleAxis(T const& angle, Vec3<T> const& axis)
 	{
 		return Quaternion<T>(angle, axis);
 	}
 
 	template<typename T>
-	inline Quaternion<T> Quaternion<T>::EulerToQuaternion(float const& i_x, float const& i_y, float const& i_z)
+	inline Quaternion<T> Quaternion<T>::EulerToQuaternion(T const& i_x, T const& i_y, T const& i_z)
 	{
 		//https://www.kazetest.com/vcmemo/quaternion/quaternion.html
-		T x = 2 * i_x *  static_cast<float>(M_PI) / 360;
-		T y = 2 * i_y *static_cast<float>(M_PI) / 360;
-		T z = 2 * i_z * static_cast<float>(M_PI) / 360;
+		T x = 2 * i_x *  static_cast<T>(M_PI) / 360;
+		T y = 2 * i_y *static_cast<T>(M_PI) / 360;
+		T z = 2 * i_z * static_cast<T>(M_PI) / 360;
 
 		T roll   = x * 0.5f;
 		T pitch = y * 0.5f;
@@ -148,30 +148,83 @@ namespace Math
 	}
 
 	template<typename T>
-	inline Quaternion<T> Quaternion<T>::Lerp(Quaternion<T> i_a, Quaternion<T> i_b, float i_t)
+	inline Quaternion<T> Quaternion<T>::Lerp(Quaternion<T> const& i_a, Quaternion<T> const& i_b, T i_t)
 	{
-		float omega = acos(i_a.Dot(i_b));
-		Quaternion result = sinf((1 - i_t) * omega) * i_a / sinf(omega) + sinf(i_t * omega) * i_b / sinf(omega);
-		return result;
+		if (i_t > static_cast<T>(1) || i_t < static_cast<T>(0))
+		{
+			DEBUG_ASSERT(false);
+		}
+
+		Quaternion<T> c = i_b;
+		T cos_theta = i_a.Dot(i_b);
+
+		if (cos_theta < static_cast<T>(0))
+		{
+			c = -1 * i_b;			
+		}
+
+		return (static_cast<T>(1) - i_t) * i_a + i_t * c;
+	}
+
+	template<typename T>
+	inline Quaternion<T> Quaternion<T>::Slerp(Quaternion<T> const& i_a, Quaternion<T> const& i_b, T i_t)
+	{
+		if (i_t > static_cast<T>(1) || i_t < static_cast<T>(0))
+		{
+			DEBUG_ASSERT(false);
+		}
+
+		Quaternion<T> c = i_b;
+		T cos_theta = i_a.Dot(i_b);
+
+		if (cos_theta < static_cast<T>(0))
+		{
+			c = -1 * i_b;
+			cos_theta = -1 * cos_theta;
+		}
+
+		//From quaternion_common.inl in glm
+		//if (cos_theta > static_cast<T>(1) - epsilon<T>())
+		//{
+		//	// Linear interpolation
+		//	return qua<T, Q>(
+		//		mix(x.w, z.w, a),
+		//		mix(x.x, z.x, a),
+		//		mix(x.y, z.y, a),
+		//		mix(x.z, z.z, a));
+		//}
+		//else
+		{
+			T angle = acos(cos_theta);
+			return (sin((static_cast<T>(1) - i_t) * angle) * i_a + sin(i_t * angle) * c) / sin(angle);
+		}
 	}
 
 
 	template<typename T>
 	inline Matrix4<T> Quaternion<T>::QuaternionToRotationMatix(Quaternion<T> i_q)
 	{
-		DEBUG_ASSERT(false);
-		return Matrix4<T>();
+		T m[16] = {};
+		m[0] = static_cast<T>(1) - static_cast<T>(2) * (i_q.y * i_q.y + i_q.z * i_q.z);
+		m[1] = static_cast<T>(2) * (i_q.x * i_q.y + i_q.z * i_q.w);
+		m[2] = static_cast<T>(2) * (i_q.x * i_q.z - i_q.y * i_q.w);
+		m[3] = static_cast<T>(0);
 
-		//T m11 = i_q.x * i_q.x + i_q.y * i_q.y - i_q.z * i_q.z - i_q.w * i_q.w;
-		//T m12 = 2 * (i_q.y * i_q.z + i_q.w * i_q.x);
-		//T m13 = 2 * (i_q.y * i_q.w - i_q.z * i_q.x);
-		//T m21 = 2 * (i_q.y * i_q.z - i_q.w * i_q.x);
-		//T m22 = i_q.x * i_q.x - i_q.y * i_q.y + i_q.z * i_q.z - i_q.w * i_q.w;
-		//T m23 = 2 * (i_q.z * i_q.w + i_q.x * i_q.y);
-		//T m31 = 2 * (i_q.y * i_q.w + i_q.z * i_q.x);
-		//T m32 = 2 * (i_q.z * i_q.w - i_q.x * i_q.y);
-		//T m33 = i_q.x * i_q.x - i_q.y * i_q.y - i_q.z * i_q.z + i_q.w * i_q.w;
+		m[4] = static_cast<T>(2) * (i_q.x * i_q.y - i_q.z * i_q.w);
+		m[5] = static_cast<T>(1) - static_cast<T>(2) * (i_q.x * i_q.x + i_q.z * i_q.z);
+		m[6] = static_cast<T>(2) * (i_q.y * i_q.z + i_q.x * i_q.w);
+		m[7] = static_cast<T>(0);
 
-		//return Matrix4<T>(m11, m12, m13, 0, m21, m22, m23, 0, m31, m32, m33, 0, 0, 0, 0, 1);
+		m[8] = static_cast<T>(2) * (i_q.x * i_q.z + i_q.w * i_q.y);
+		m[9] = static_cast<T>(2) * (i_q.y * i_q.z - i_q.x * i_q.w);
+		m[10] = static_cast<T>(1) - static_cast<T>(2) * (i_q.x * i_q.x + i_q.y * i_q.y);
+		m[11] = static_cast<T>(0);
+
+		m[12] = static_cast<T>(0);
+		m[13] = static_cast<T>(0);
+		m[14] = static_cast<T>(0);
+		m[15] = static_cast<T>(1);
+
+		return Matrix4<T>(m);
 	}
 }

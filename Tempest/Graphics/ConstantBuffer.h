@@ -43,7 +43,7 @@ namespace ConstantData
 		Vec4f ambient_intensity;
 		Vec4f directional_intensity;
 		Vec4f directional_direction;
-		PointLight pointlights[MAX_POINT_LIGHT_NUM];
+		PointLight pointlights[NUM_MAX_POINT_LIGHT];
 		int   point_num;
 		int   nth_point;
 	};
@@ -56,9 +56,14 @@ namespace ConstantData
 	struct CubeMap
 	{
 		CubeMap(): position(Vec4f()){}
-		Mat4f view_perspective_matrix[6];
+		Mat4f view_perspective_matrix[NUM_DICE_FACES];
 		Vec4f position;
 		//Mat4f directional_view_perspective_matrix;
+	};
+	
+	struct AnimationBone
+	{
+		Mat4f global_inversed_matrix[NUM_MAX_BONES];
 	};
 
 	//---------------------------------------------------------------------------------------------------//
@@ -67,24 +72,26 @@ namespace ConstantData
 
 	enum class Index : uint8_t
 	{
-		Camera   = 0,
-		Model    = 1,
-		Material = 2,
-		Light    = 3,
-		SkyBox   = 4,
-		CubeMap  = 5,
+		Camera        = 0,
+		Model         = 1,
+		Material      = 2,
+		Light         = 3,
+		SkyBox        = 4,
+		CubeMap       = 5,
+		AnimationBone = 6,
 	};
 
 	static uint32_t GetDataSize(Index index)
 	{
 		switch (index)
 		{
-		case Index::Camera:     return sizeof(ConstantData::Camera);
-		case Index::Model:      return sizeof(ConstantData::Model);
-		case Index::Material:   return sizeof(ConstantData::Material);
-		case Index::Light:      return sizeof(ConstantData::Light);
-		case Index::SkyBox:     return sizeof(ConstantData::SkyBox);
-		case Index::CubeMap:    return sizeof(ConstantData::CubeMap);
+		case Index::Camera:           return sizeof(ConstantData::Camera);
+		case Index::Model:            return sizeof(ConstantData::Model);
+		case Index::Material:         return sizeof(ConstantData::Material);
+		case Index::Light:            return sizeof(ConstantData::Light);
+		case Index::SkyBox:           return sizeof(ConstantData::SkyBox);
+		case Index::CubeMap:          return sizeof(ConstantData::CubeMap);
+		case Index::AnimationBone:    return sizeof(ConstantData::AnimationBone);
 		}
 
 		DEBUG_ASSERT(false);

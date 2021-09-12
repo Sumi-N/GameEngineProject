@@ -22,10 +22,10 @@ namespace Tempest
 		OwningPointer<TextureAttribute> roughness = OwningPointer<TextureAttribute>::Create(roughness);
 		OwningPointer<TextureAttribute> metalic = OwningPointer<TextureAttribute>::Create(metalic);
 
-		albedo->Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo/metalgrid1_basecolor.ttd", TextureType::Albedo);
-		normal->Load(PATH_SUFFIX BIN_TEXTURE_PATH "normal/metalgrid1_normal-ogl.ttd", TextureType::Normal);
-		roughness->Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/metalgrid1_roughness.ttd", TextureType::Roughness);
-		metalic->Load(PATH_SUFFIX BIN_TEXTURE_PATH "metallic/metalgrid1_metallic.ttd", TextureType::Metalic);
+		albedo->Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo/metalgrid1_basecolor.tt", TextureType::Albedo);
+		normal->Load(PATH_SUFFIX BIN_TEXTURE_PATH "normal/metalgrid1_normal-ogl.tt", TextureType::Normal);
+		roughness->Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/metalgrid1_roughness.tt", TextureType::Roughness);
+		metalic->Load(PATH_SUFFIX BIN_TEXTURE_PATH "metallic/metalgrid1_metallic.tt", TextureType::Metalic);
 
 		const char* shaderpaths[] =
 		{
@@ -36,14 +36,11 @@ namespace Tempest
 			PATH_SUFFIX SHADER_PATH DISNEY_PBR_FRAG,
 		};
 
-		OwningPointer<EffectComponent> effect = OwningPointer<EffectComponent>::Create(effect);
-		effect->owner = Entity::Query(this).p;
-		effect->RegisterShaderPath(shaderpaths);
-		effect->SetTexture(albedo);
-		effect->SetTexture(normal);
-		effect->SetTexture(roughness);
-		effect->SetTexture(metalic);
-		Entity::RegisterEffectComponent(effect);
+		effect_component->RegisterShaderPath(shaderpaths);
+		effect_component->SetTexture(albedo);
+		effect_component->SetTexture(normal);
+		effect_component->SetTexture(roughness);
+		effect_component->SetTexture(metalic);
 	}
 
 	inline void MetalGridSphere::Init()
