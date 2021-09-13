@@ -63,7 +63,7 @@ namespace FBXLoader
 		lRootNode = lScene->GetRootNode();
 
 		FbxGeometryConverter geometryConverter(lSdkManager);
-		//geometryConverter.Triangulate(lScene, true);
+		geometryConverter.Triangulate(lScene, true);
 		//geometryConverter.SplitMeshesPerMaterial(Importer::lScene, true);
 
 		return true;

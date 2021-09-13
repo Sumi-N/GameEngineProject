@@ -64,8 +64,6 @@ out VS_OUT{
 	vec3 world_view_direction;
 	// Point light direction vector at world coordinate
 	vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
-	// tangent bitangent normal matrix
-	mat3 tangent_bitangent_matrix;
 } vs_out;
 
 //------------------------------------------------------------------------------
@@ -76,7 +74,10 @@ void main()
 									+ skin_weight.z * global_inversed_matrix[skin_index.z] * vec4(model_position, 1.0)
 									+ skin_weight.w * global_inversed_matrix[skin_index.w] * vec4(model_position, 1.0);
 	
-	vec3 animated_model_normal      = model_normal;
+	vec3 animated_model_normal      = skin_weight.x * mat3(global_inversed_matrix[skin_index.x]) * model_normal;
+									+ skin_weight.y * mat3(global_inversed_matrix[skin_index.y]) * model_normal;
+									+ skin_weight.z * mat3(global_inversed_matrix[skin_index.z]) * model_normal;
+									+ skin_weight.w * mat3(global_inversed_matrix[skin_index.w]) * model_normal;
 
 	vs_out.world_position    = model_position_matrix * animated_model_position;
 	// Send position data at perspective coordinate
@@ -92,9 +93,4 @@ void main()
 	vs_out.world_view_direction     = normalize(camera_position_vector -  vec3(model_position_matrix * animated_model_position));
 
 	vs_out.texcoord                 = model_texcoord;
-
-	vec3 t = normalize(vec3(model_position_matrix * vec4(model_tangent_vec, 0.0)));
-	vec3 b = normalize(vec3(model_position_matrix * vec4(model_bitangent_vec, 0.0)));
-	vec3 n = normalize(vec3(model_position_matrix * vec4(animated_model_normal, 0.0)));
-	vs_out.tangent_bitangent_matrix = mat3(t, b, n);
 }

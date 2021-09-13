@@ -11,14 +11,14 @@ layout (location = 3) in vec3 model_tangent_vec;
 layout (location = 4) in vec3 model_bitangent_vec;
 
 // Structure define
-//////////////////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------------------
 struct PointLight{
 	vec4 intensity;
 	vec4 position;
 	vec3 attenuation;
 	float padding;
 };
-//////////////////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------------------
 
 layout (std140, binding = 0) uniform const_camera
 {
@@ -59,7 +59,7 @@ out VS_OUT{
 	mat3 tangent_bitangent_matrix;
 } vs_out;
 
-/////////////////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------------------
 void main()
 {
 	vs_out.world_position    = model_position_matrix * vec4(model_position, 1.0);

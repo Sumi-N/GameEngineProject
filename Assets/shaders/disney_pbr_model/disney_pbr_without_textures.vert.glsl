@@ -11,14 +11,14 @@ layout (location = 3) in vec3 model_tangent_vec;
 layout (location = 4) in vec3 model_bitangent_vec;
 
 // Structure define
-//////////////////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------------------
 struct PointLight{
 	vec4 intensity;
 	vec4 position;
 	vec3 attenuation;
 	float padding;
 };
-//////////////////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------------------
 
 layout (std140, binding = 0) uniform const_camera
 {
@@ -57,12 +57,13 @@ out VS_OUT{
 	vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
 } vs_out;
 
-/////////////////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------------------
 void main()
 {
 	vs_out.world_position    = model_position_matrix * vec4(model_position, 1.0);
 	// Send position data at perspective coordinate
 	gl_Position                     = model_view_perspective_matrix * vec4(model_position, 1.0);
+	
 	// Get normal vector at world coordinate
 	vs_out.model_normal             = model_normal;
 

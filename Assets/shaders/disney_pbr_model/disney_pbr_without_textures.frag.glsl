@@ -9,7 +9,7 @@ const float MAX_REFLECTION_LOD = 4.0;
 // Output
 out vec4 color;
 
-/////////////////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------------------
 
 in VS_OUT{
 	// Object world position
@@ -24,7 +24,7 @@ in VS_OUT{
 	vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
 } fs_in;
 
-//////////////////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------------------
 // Structure define
 struct PointLight{
 	vec4 intensity;
@@ -32,7 +32,7 @@ struct PointLight{
 	vec3 attenuation;
 	float padding;
 };
-//////////////////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------------------
 
 layout (std140, binding = 1) uniform const_model
 {
@@ -71,7 +71,7 @@ layout(binding = 11) uniform sampler2D texturenormal;
 layout(binding = 12) uniform sampler2D textureroughness;
 layout(binding = 13) uniform sampler2D texturemetallic;
 
-//////////////////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------------------
 
 vec3 FresnelSchlick(float cos, vec3 f0){
 	return f0 + (1.0 - f0) * pow(1.0 - cos, 5.0);
@@ -82,7 +82,7 @@ vec3 FresnelSchlickRoughness(float cos, vec3 f0, float roughness)
     return f0 + (max(vec3(1.0 - roughness), f0) - f0) * pow(1.0 - cos, 5.0);
 } 
 
-/////////////////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------------------
 
 float DistributionGGX(vec3 normal, vec3 half_vector){
 	float a_2 = roughness * roughness + ROUGHTNESS_BIAS;
@@ -96,7 +96,7 @@ float DistributionGGX(vec3 normal, vec3 half_vector){
 	return num /denom;
 }
 
-/////////////////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------------------
 
 float GeometrySchlickGGX(float n_dot_v)
 {
@@ -118,7 +118,7 @@ float GeometrySmith(vec3 N, vec3 V, vec3 L)
     return ggx1 * ggx2;
 }
 
-/////////////////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------------------
 
 vec4 CalcPointLightShading(PointLight pointlight, vec3 world_normal, vec3 pointlight_direction){
 
@@ -160,7 +160,7 @@ vec4 CalcPointLightShading(PointLight pointlight, vec3 world_normal, vec3 pointl
 }
 
 
-/////////////////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------------------
 void main()
 {
 	// Calculate world normal
