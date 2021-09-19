@@ -77,7 +77,10 @@ void main()
 									+ skin_weight.z * global_inversed_matrix[skin_index.z] * vec4(model_position, 1.0)
 									+ skin_weight.w * global_inversed_matrix[skin_index.w] * vec4(model_position, 1.0);
 
-	vec3 animated_model_normal      = model_normal;
+	vec3 animated_model_normal      = skin_weight.x * mat3(global_inversed_matrix[skin_index.x]) * model_normal
+									+ skin_weight.y * mat3(global_inversed_matrix[skin_index.y]) * model_normal
+									+ skin_weight.z * mat3(global_inversed_matrix[skin_index.z]) * model_normal
+									+ skin_weight.w * mat3(global_inversed_matrix[skin_index.w]) * model_normal;
 
 	vs_out.world_position           = model_position_matrix * animated_model_position;
 	// Send position data at perspective coordinate

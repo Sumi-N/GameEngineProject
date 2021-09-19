@@ -16,15 +16,29 @@ namespace Tempest
 		OwningPointer<Resource::Texture> texture;
 		TextureType type;
 
-		bool Load(char const* i_filename, TextureType i_type);
+		Result Load(char const* i_filename, TextureType i_type);
+
+	private:
 		bool IsLoaded();
 	};
 
-	inline bool TextureAttribute::Load(char const* i_filename, TextureType i_type)
+	inline Result TextureAttribute::Load(char const* i_filename, TextureType i_type)
 	{
 		type = i_type;
 		texture = OwningPointer<Resource::Texture>::Create(texture);
-		return Resource::Texture::Load(i_filename, *texture);
+
+		Result result = Resource::Texture::Load(i_filename, *texture);
+
+		if (result)
+		{
+			DEBUG_PRINT("Succeed loading texture %s", i_filename);			
+		}
+		else
+		{
+			DEBUG_PRINT("Failed loading texture %s", i_filename);			
+		}
+
+		return result;
 	}
 
 	inline bool TextureAttribute::IsLoaded()

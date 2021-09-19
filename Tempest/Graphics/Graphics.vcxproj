@@ -107,7 +107,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="DrawPrimitives.OpenGL.cpp" />
-    <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="FrameBuffer.OpenGL.cpp" />
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="Graphic.OpenGL.cpp" />

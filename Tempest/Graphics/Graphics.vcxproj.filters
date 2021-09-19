@@ -72,9 +72,6 @@
     <ClCompile Include="RenderState.OpenGL.cpp">
       <Filter>OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="FrameBuffer.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="DrawPrimitives.OpenGL.cpp">
       <Filter>OpenGL</Filter>
     </ClCompile>

@@ -1,12 +1,15 @@
 #include "DrawPrimitives.h"
 
-unsigned int DrawPrimitive::vao_cube = 0;
-unsigned int DrawPrimitive::vao_quad = 0;
-unsigned int DrawPrimitive::vao_line = 0;
+namespace
+{
+	unsigned int vao_cube = 0;
+	unsigned int vao_quad = 0;
+	unsigned int vao_line = 0;
 
-unsigned int DrawPrimitive::vbo_cube = 0;
-unsigned int DrawPrimitive::vbo_quad = 0;
-unsigned int DrawPrimitive::vbo_line = 0;
+	unsigned int vbo_cube = 0;
+	unsigned int vbo_quad = 0;
+	unsigned int vbo_line = 0;
+}
 
 Shader DrawPrimitive::shader_basic_green_line;
 

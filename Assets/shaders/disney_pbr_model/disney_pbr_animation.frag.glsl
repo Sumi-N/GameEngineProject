@@ -11,8 +11,25 @@ const float MAX_REFLECTION_LOD = 4.0;
 // Output
 out vec4 color;
 
-// Structure define
 //------------------------------------------------------------------------------
+
+in VS_OUT{
+	// Object world position
+	vec4 world_position;
+	// Normal vector of the object at model coordinate
+	vec3 model_normal;
+	// Texture coordinate
+	vec2 texcoord;
+	// view direction vector at world coordinate
+	vec3 world_view_direction;
+	// Point light direction vector at world coordinate
+	vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
+	// tangent bitangent normal matrix
+	mat3 tangent_bitangent_matrix;
+} fs_in;
+
+//------------------------------------------------------------------------------
+// Structure define
 struct PointLight{
 	vec4 intensity;
 	vec4 position;
@@ -45,28 +62,11 @@ layout(binding = 4) uniform samplerCube shadowmap2;
 layout(binding = 5) uniform samplerCube shadowmap3;
 layout(binding = 6) uniform samplerCube shadowmap4;
 layout(binding = 7) uniform samplerCube specularmap;
-layout(binding = 8)  uniform sampler2D texturebrdf; 
+layout(binding = 8) uniform sampler2D texturebrdf; 
 layout(binding = 10) uniform sampler2D texturealbedo;
 layout(binding = 11) uniform sampler2D texturenormal;
 layout(binding = 12) uniform sampler2D textureroughness;
 layout(binding = 13) uniform sampler2D texturemetallic;
-
-//------------------------------------------------------------------------------
-
-in VS_OUT{
-	// Object world position
-	vec4 world_position;
-	// Normal vector of the object at model coordinate
-	vec3 model_normal;
-	// Texture coordinate
-	vec2 texcoord;
-	// view direction vector at world coordinate
-	vec3 world_view_direction;
-	// Point light direction vector at world coordinate
-	vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
-	// tangent bitangent normal matrix
-	mat3 tangent_bitangent_matrix;
-} fs_in;
 
 //------------------------------------------------------------------------------
 

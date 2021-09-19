@@ -226,7 +226,6 @@ namespace Resource
 			}
 
 			in.Close();
-			DEBUG_PRINT("Succeed loading texture %s", i_filepath);
 
 			return ResultValue::Success;
 		}

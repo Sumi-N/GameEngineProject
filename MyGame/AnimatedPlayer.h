@@ -10,9 +10,7 @@ namespace Tempest
 	class AnimatedPlayer : public PremadeObjebct
 	{
 	public:
-		AnimatedPlayer() : albedo(), metalic(), roughness()
-		{
-		}
+		AnimatedPlayer() : albedo(), metalic(), roughness() {}
 
 		void Boot() override;
 		void Init() override;
@@ -47,15 +45,17 @@ namespace Tempest
 		};
 		effect_component->RegisterShaderPath(shaderpaths);
 
-		//albedo->Load   (PATH_SUFFIX BIN_TEXTURE_PATH "albedo/gold-scuffed_basecolor.tt",    TextureType::Albedo);
-		//normal->Load   (PATH_SUFFIX BIN_TEXTURE_PATH "normal/gold-scuffed_normal.tt",       TextureType::Normal);
-		//roughness->Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/gold-scuffed_roughness.tt", TextureType::Roughness);
-		//metalic->Load  (PATH_SUFFIX BIN_TEXTURE_PATH "metallic/gold-scuffed_metal_metallic.tt",  TextureType::Metalic);
+		albedo->Load   (PATH_SUFFIX BIN_TEXTURE_PATH "albedo/gold-scuffed_basecolor.tt",    TextureType::Albedo);
+		normal->Load   (PATH_SUFFIX BIN_TEXTURE_PATH "normal/gold-scuffed_normal.tt",       TextureType::Normal);
+		roughness->Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/gold-scuffed_roughness.tt", TextureType::Roughness);
+		metalic->Load  (PATH_SUFFIX BIN_TEXTURE_PATH "metallic/gold-scuffed_metalic.tt",  TextureType::Metalic);
 		
-		//effect_component->SetTexture(albedo);
-		//effect_component->SetTexture(normal);
-		//effect_component->SetTexture(roughness);
-		//effect_component->SetTexture(metalic);
+		effect_component->SetTexture(albedo);
+
+
+		effect_component->SetTexture(normal);
+		effect_component->SetTexture(roughness);
+		effect_component->SetTexture(metalic);
 		
 		mesh_component->Load(PATH_SUFFIX BIN_MESH_PATH "xbot.tsm");
 
@@ -64,7 +64,7 @@ namespace Tempest
 		animation_component->mesh = mesh_component;		
 		animation_component->LoadSkeleton(PATH_SUFFIX BIN_MESH_PATH "xbot.ts");
 		animation_component->LoadClip(PATH_SUFFIX BIN_MESH_PATH "RumbaDancing.tac");
-		//Entity::RegisterAnimationComponent(animation_component);
+		Entity::RegisterAnimationComponent(animation_component);
 	}
 
 	inline void AnimatedPlayer::Init()
@@ -80,28 +80,6 @@ namespace Tempest
 	inline void AnimatedPlayer::Update(float i_dt)
 	{
 		PremadeObjebct::Update(i_dt);
-
-		static bool isUp = true;
-
-		if (effect_component->material_attribute->material->metalic >= 1.0f)
-		{
-			isUp = false;
-		}
-		else if (effect_component->material_attribute->material->metalic <= 0.0f)
-		{
-			isUp = true;
-		}
-
-		if (isUp)
-		{
-			effect_component->material_attribute->material->metalic += 0.005f;
-			effect_component->material_attribute->material->albedo += Vec4f(0.0f, 0.005f, 0.0f, 0.0f);
-		} 
-		else
-		{
-			effect_component->material_attribute->material->metalic -= 0.005f;
-			effect_component->material_attribute->material->albedo -= Vec4f(0.0f, 0.005f, 0.0f, 0.0f);
-		}
 	}
 
 	inline void AnimatedPlayer::ChangePos(const Vec3f& i_pos)

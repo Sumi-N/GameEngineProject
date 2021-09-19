@@ -7,9 +7,11 @@ void Graphic::Boot()
 {
 	// Set background color
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	
+	glEnable(GL_DEPTH_TEST);
 
 	// Set up culling
-	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 
 	// Prevent having an artifice from low resolution cube map
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
@@ -49,12 +51,14 @@ void Graphic::PreCompute()
 
 	if (SceneEntity::SkyBoxProxy)
 	{
+		glCullFace(GL_FRONT);
+
 		// Render HDR
 		{
 			frame_cubemap.BindFrame();
 			SceneEntity::SkyBoxProxy->states[0]->BindTextureUnit();
 			frame_cubemap.RenderOnce();
-		}
+		}		
 
 		// Create irradiance map
 		{
@@ -70,11 +74,13 @@ void Graphic::PreCompute()
 			frame_specular.RenderOnce();
 		}
 
+		glCullFace(GL_BACK);
+
 		// Create BRDF look up texture
 		{
 			frame_brdf.BindFrame();
 			frame_brdf.RenderOnce();
-		}
+		}				
 	}
 }
 
