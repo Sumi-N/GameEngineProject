@@ -154,26 +154,27 @@ void FrameBuffer::Init(FrameType i_type, int i_unitnum, int i_width, int i_heigh
 	else if (i_type == FrameType::Image)
 	{
 		// Create frame buffer
-		glGenFramebuffers(1, &bufferid);
+		glCreateFramebuffers(1, &bufferid);
 		glBindFramebuffer(GL_FRAMEBUFFER, bufferid);
 
 		// Create color buffer
-		glGenTextures(1, &textureid_color);
+		glCreateTextures(GL_TEXTURE_2D, 1, &textureid_color);
 		glBindTexture(GL_TEXTURE_2D, textureid_color);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, i_width, i_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		// Create depth buffer
-		glGenTextures(1, &textureid_depth);
+		glCreateTextures(GL_TEXTURE_2D, 1, &textureid_depth);
 		glBindTexture(GL_TEXTURE_2D, textureid_depth);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, i_width, i_height, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, nullptr);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH24_STENCIL8, i_width, i_height);
 
 		// bind textures to frame buffer
-		glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, textureid_color, 0);
-		glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, textureid_depth, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureid_color, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, textureid_depth, 0);
+
+		
+		DEBUG_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
 
 		glDrawBuffer(GL_COLOR_ATTACHMENT0);
 	}

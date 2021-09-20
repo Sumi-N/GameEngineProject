@@ -33,8 +33,7 @@ public:
 	void BindTextureUnit();
 	void RenderOnce();
 
-	GLuint  bufferid = 0;
-	GLuint  renderbufferid = 0;
+	GLuint  bufferid = 0;	
 
 	GLuint  textureid_color = 0;
 	GLuint  textureid_depth = 0;

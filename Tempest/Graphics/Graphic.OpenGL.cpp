@@ -228,6 +228,9 @@ void Graphic::Update(GraphicRequiredData * i_data)
 			glDepthFunc(GL_LESS);
 		}
 	}
+
+	glViewport(0, 0, viewport_width, viewport_height);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void Graphic::PostUpdate(GraphicRequiredData* i_data)
