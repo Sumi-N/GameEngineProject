@@ -60,7 +60,7 @@ namespace Tempest
 
 		// Layer's update
 		// The reason this layer is placed here is because we have imgui layer
-		// that requires to be updated before swap buffer on OpenGL 
+		// which requires to be updated before swap buffer on OpenGL 
 		for (Layer* layer : layerstack.Layers())
 		{
 			layer->OnUpdate();

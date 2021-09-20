@@ -69,6 +69,7 @@
 #define BIN_MESH_PATH    "Assets\\bin\\mesh\\"
 #define INT_TEXTURE_PATH "Assets\\int\\texture\\"
 #define BIN_TEXTURE_PATH "Assets\\bin\\texture\\"
+#define FONT_PATH        "Assets\\fonts\\"
 
 //////////////////////////////
 // Mesh Data

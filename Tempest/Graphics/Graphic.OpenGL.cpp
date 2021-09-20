@@ -178,6 +178,56 @@ void Graphic::Update(GraphicRequiredData * i_data)
 			glDepthFunc(GL_LESS);
 		}
 	}
+
+	frame_image.BindFrame();
+	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		// Rendering objects
+		for (int i = 0; i < SceneEntity::List.Size(); i++)
+		{
+			if (i_data->model_data.Size() != 0)
+			{
+				auto& data_model = i_data->model_data[i];
+				data_model.model_view_perspective_matrix = data_camera.perspective_matrix * data_camera.view_matrix * data_model.model_position_matrix;
+				constant_model.Update(&data_model);
+
+				auto& data_material = i_data->material_data[i];
+				constant_material.Update(&data_material);
+
+				auto& data_animation = i_data->animation_bone_data;
+				constant_animationbone.Update(&data_animation);
+
+				// Bind shadow map texture 
+				for (int j = 0; j < NUM_MAX_POINT_LIGHT; j++)
+				{
+					frame_shadowcubemaps[j].BindTextureUnit();
+				}
+				// Bind irradiance map texture
+				frame_irradiance.BindTextureUnit();
+				// Bind specular map texture
+				frame_specular.BindTextureUnit();
+				// Bind BRDF look up texture
+				frame_brdf.BindTextureUnit();
+				SceneEntity::List[i]->Draw();
+
+				DrawPrimitive::DebugDraw();
+			}
+		}
+
+		//Rendering sky box
+		if (SceneEntity::SkyBoxProxy)
+		{
+			glDepthFunc(GL_LEQUAL);
+			ConstantData::SkyBox data_skybox;
+			data_skybox.skybox_view_perspective_matrix = i_data->camera.perspective_matrix * Mat4f::TruncateToMat3(i_data->camera.view_matrix);
+			constant_skybox.Update(&data_skybox);
+
+			frame_cubemap.BindTextureUnit();
+			SceneEntity::SkyBoxProxy->Draw();
+			glDepthFunc(GL_LESS);
+		}
+	}
 }
 
 void Graphic::PostUpdate(GraphicRequiredData* i_data)

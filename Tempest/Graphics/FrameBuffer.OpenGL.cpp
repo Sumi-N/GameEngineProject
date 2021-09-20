@@ -153,10 +153,6 @@ void FrameBuffer::Init(FrameType i_type, int i_unitnum, int i_width, int i_heigh
 	}
 	else if (i_type == FrameType::Image)
 	{
-		// Load shader
-		shader.SetShader(PATH_SUFFIX SHADER_PATH MIRROR_VERT, PATH_SUFFIX SHADER_PATH MIRROR_FRAG);
-		shader.LoadShader();
-
 		// Create frame buffer
 		glGenFramebuffers(1, &bufferid);
 		glBindFramebuffer(GL_FRAMEBUFFER, bufferid);
@@ -209,7 +205,7 @@ void FrameBuffer::Init(FrameType i_type, int i_unitnum, int i_width, int i_heigh
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{  
-		//Specular framebuffer is the exception
+		//Specular frame buffer is the exception
 		if (frametype != FrameType::Specular)
 		{
 			DEBUG_PRINT("Error! FrameBuffer is not complete");

@@ -49,7 +49,7 @@ public:
 	static FrameBuffer    frame_irradiance;
 	static FrameBuffer    frame_specular;
 	static FrameBuffer    frame_brdf;
-	static FrameBuffer    frame_mirror;
+	static FrameBuffer    frame_image;
 
 private:
 	static unsigned int viewport_width;
@@ -80,7 +80,7 @@ inline void Graphic::Init(unsigned int i_width, unsigned int i_height)
 	frame_irradiance.Init(FrameType::IrradianceMap, IRRADIANCEMAP_BINDING_UNIT, MINI_TEXTURE_SIZE, MINI_TEXTURE_SIZE);
 	frame_specular.Init(FrameType::Specular, SPECULAR_BINDING_UNIT, 128, 128);
 	frame_brdf.Init(FrameType::BRDF, BRDF_BINDING_UNIT, 512, 512);
-	//frame_mirror.Init(FrameType::Image, SCREEN_WIDTH, SCREEN_HEIGHT, -1);
+	frame_image.Init(FrameType::Image, IMAGE_BINDING_UNIT, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	// This class holds some of the basic geometry shapes (like cube line and quad) that will be used during the rendering 
 	DrawPrimitive::Init();
