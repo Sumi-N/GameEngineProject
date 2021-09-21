@@ -91,7 +91,6 @@
   <ItemGroup>
     <ClInclude Include="Define.h" />
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="EntityTemplate.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Define.cpp">

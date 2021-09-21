@@ -11,15 +11,18 @@ namespace Tempest
 		LayerStack() = default;
 		~LayerStack();
 
-		void PushLayer(Layer*);
-		void PushOverlay(Layer*);
-		void PopLayer(Layer*);
-		void CleanUp();
+		static void PushLayer(Layer*);
+		static void PushOverlay(Layer*);
+		static void PopLayer(Layer*);
+		static void Boot();
+		static void Update();
+		static void OnEvent(Event&);
+		static void CleanUp();		
 
-		std::vector<Layer*> Layers();
+		//static Array<Layer*> Layers();
 	private:
-		std::vector<Layer*> layers;
-		unsigned int insert_index = 0;
+		static std::vector<Layer*> Layers;
+		static unsigned int insert_index;
 	};
 
 }

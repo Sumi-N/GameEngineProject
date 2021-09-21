@@ -7,10 +7,6 @@ namespace Tempest
 	RenderThread Thread_Render;
 	Window* window;
 
-	Application::Application()
-	{
-	}
-
 	void Application::Boot()
 	{
 		Thread_Game.Create();

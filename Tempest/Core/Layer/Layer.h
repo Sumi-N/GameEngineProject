@@ -10,19 +10,12 @@ namespace Tempest
 		Layer() = default;
 		virtual ~Layer() = default;
 
-		virtual void OnAttach()
-		{
-		};
-		virtual void OnDetach()
-		{
-		};
-		virtual void OnUpdate()
-		{
-		};
+		virtual void OnAttach() {};
+		virtual void OnDetach() {};
+		virtual void OnUpdate() {};
+		virtual void OnBoot() {};
 
-		virtual void OnEvent(Event& event)
-		{
-		};
+		virtual void OnEvent(Event& event) {};
 	};
 
 }

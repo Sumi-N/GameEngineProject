@@ -11,10 +11,8 @@ namespace Tempest
 	class Application
 	{
 	public:
-		Application();
-		virtual ~Application()
-		{
-		};
+		Application() = default;
+		virtual ~Application() = default;
 
 	protected:
 		void Execute();

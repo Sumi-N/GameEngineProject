@@ -22,14 +22,10 @@ namespace Tempest
 		void FollowupSection() override;
 		void CleanUp() override;
 
-		// For key call backs setting
 	private:
 		void BindEvent();
-		void OnEvent(Event& e);
-		bool OnWindowClose(WindowCloseEvent e);
-		bool OnWindowResize(WindowResizeEvent e);
-
-	private:
-		LayerStack layerstack;
+		void OnEvent(Event& i_event);
+		bool OnWindowClose(WindowCloseEvent i_event);
+		bool OnWindowResize(WindowResizeEvent i_event);
 	};
 }

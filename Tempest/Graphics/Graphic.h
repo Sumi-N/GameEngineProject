@@ -36,20 +36,20 @@ public:
 	static void ChangeViewPortSize(unsigned int, unsigned int);
 
 	// Constant buffer variable
-	static ConstantBuffer constant_camera;
-	static ConstantBuffer constant_model;
-	static ConstantBuffer constant_material;
-	static ConstantBuffer constant_light;
-	static ConstantBuffer constant_skybox;
-	static ConstantBuffer constant_cubemap;
-	static ConstantBuffer constant_animationbone;
+	static ConstantBuffer ConstBufferCamera;
+	static ConstantBuffer ConstBufferModel;
+	static ConstantBuffer ConstBufferMaterial;
+	static ConstantBuffer ConstBufferLight;
+	static ConstantBuffer ConstBufferSkybox;
+	static ConstantBuffer ConstBufferCubeMap;
+	static ConstantBuffer ConstBufferAnimationBone;
 
-	static FrameBuffer    frame_shadowcubemaps[NUM_MAX_POINT_LIGHT];
-	static FrameBuffer    frame_cubemap;
-	static FrameBuffer    frame_irradiance;
-	static FrameBuffer    frame_specular;
-	static FrameBuffer    frame_brdf;
-	static FrameBuffer    frame_image;
+	static FrameBuffer    FrameBufferShadowMaps[NUM_MAX_POINT_LIGHT];
+	static FrameBuffer    FrameBufferCubeMap;
+	static FrameBuffer    FrameBufferIrradiance;
+	static FrameBuffer    FrameBufferSpecular;
+	static FrameBuffer    FrameBufferBrdf;
+	static FrameBuffer    FrameBufferImage;
 
 private:
 	static unsigned int viewport_width;
@@ -63,24 +63,24 @@ inline void Graphic::Init(unsigned int i_width, unsigned int i_height)
 	viewport_height = i_height;
 
 	// Init uniform buffers
-	constant_camera.Init(ConstantData::Index::Camera);
-	constant_model.Init(ConstantData::Index::Model);
-	constant_material.Init(ConstantData::Index::Material);
-	constant_light.Init(ConstantData::Index::Light);
-	constant_skybox.Init(ConstantData::Index::SkyBox);
-	constant_cubemap.Init(ConstantData::Index::CubeMap);
-	constant_animationbone.Init(ConstantData::Index::AnimationBone);
+	ConstBufferCamera.Init(ConstantData::Index::Camera);
+	ConstBufferModel.Init(ConstantData::Index::Model);
+	ConstBufferMaterial.Init(ConstantData::Index::Material);
+	ConstBufferLight.Init(ConstantData::Index::Light);
+	ConstBufferSkybox.Init(ConstantData::Index::SkyBox);
+	ConstBufferCubeMap.Init(ConstantData::Index::CubeMap);
+	ConstBufferAnimationBone.Init(ConstantData::Index::AnimationBone);
 
 	// Init frame buffers
 	for (int i = 0; i < NUM_MAX_POINT_LIGHT; i++)
 	{
-		frame_shadowcubemaps[i].Init(FrameType::ShadowCubeMap, SHADOWMAP_BINDING_UNIT1 + i, BASIC_TEXTURE_SIZE, BASIC_TEXTURE_SIZE);
+		FrameBufferShadowMaps[i].Init(FrameType::ShadowCubeMap, SHADOWMAP_BINDING_UNIT1 + i, BASIC_TEXTURE_SIZE, BASIC_TEXTURE_SIZE);
 	}
-	frame_cubemap.Init(FrameType::EquirectangularMap, SKYBOX_BINDING_UNIT, HALF_TEXTURE_SIZE, HALF_TEXTURE_SIZE);
-	frame_irradiance.Init(FrameType::IrradianceMap, IRRADIANCEMAP_BINDING_UNIT, MINI_TEXTURE_SIZE, MINI_TEXTURE_SIZE);
-	frame_specular.Init(FrameType::Specular, SPECULAR_BINDING_UNIT, 128, 128);
-	frame_brdf.Init(FrameType::BRDF, BRDF_BINDING_UNIT, 512, 512);
-	frame_image.Init(FrameType::Image, IMAGE_BINDING_UNIT, SCREEN_WIDTH, SCREEN_HEIGHT);
+	FrameBufferCubeMap.Init(FrameType::EquirectangularMap, SKYBOX_BINDING_UNIT, HALF_TEXTURE_SIZE, HALF_TEXTURE_SIZE);
+	FrameBufferIrradiance.Init(FrameType::IrradianceMap, IRRADIANCEMAP_BINDING_UNIT, MINI_TEXTURE_SIZE, MINI_TEXTURE_SIZE);
+	FrameBufferSpecular.Init(FrameType::Specular, SPECULAR_BINDING_UNIT, 128, 128);
+	FrameBufferBrdf.Init(FrameType::BRDF, BRDF_BINDING_UNIT, 512, 512);
+	FrameBufferImage.Init(FrameType::Image, IMAGE_BINDING_UNIT, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	// This class holds some of the basic geometry shapes (like cube line and quad) that will be used during the rendering 
 	DrawPrimitive::Init();

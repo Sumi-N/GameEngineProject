@@ -55,10 +55,8 @@ namespace ConstantData
 
 	struct CubeMap
 	{
-		CubeMap(): position(Vec4f()){}
 		Mat4f view_perspective_matrix[NUM_DICE_FACES];
 		Vec4f position;
-		//Mat4f directional_view_perspective_matrix;
 	};
 	
 	struct AnimationBone

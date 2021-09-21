@@ -46,7 +46,7 @@ void Graphic::PreCompute()
 			cubemap.view_perspective_matrix[i] = pv_mats[i];
 		}
 		auto& data_cubemap = cubemap;
-		constant_cubemap.Update(&data_cubemap);
+		ConstBufferCubeMap.Update(&data_cubemap);
 	}
 
 	if (SceneEntity::SkyBoxProxy)
@@ -55,31 +55,31 @@ void Graphic::PreCompute()
 
 		// Render HDR
 		{
-			frame_cubemap.BindFrame();
+			FrameBufferCubeMap.BindFrame();
 			SceneEntity::SkyBoxProxy->states[0]->BindTextureUnit();
-			frame_cubemap.RenderOnce();
+			FrameBufferCubeMap.RenderOnce();
 		}		
 
 		// Create irradiance map
 		{
-			frame_irradiance.BindFrame();
-			frame_cubemap.BindTextureUnit();
-			frame_irradiance.RenderOnce();
+			FrameBufferIrradiance.BindFrame();
+			FrameBufferCubeMap.BindTextureUnit();
+			FrameBufferIrradiance.RenderOnce();
 		}
 
 		// Create specular map
 		{
-			frame_specular.BindFrame();
-			frame_cubemap.BindTextureUnit();
-			frame_specular.RenderOnce();
+			FrameBufferSpecular.BindFrame();
+			FrameBufferCubeMap.BindTextureUnit();
+			FrameBufferSpecular.RenderOnce();
 		}
 
 		glCullFace(GL_BACK);
 
 		// Create BRDF look up texture
 		{
-			frame_brdf.BindFrame();
-			frame_brdf.RenderOnce();
+			FrameBufferBrdf.BindFrame();
+			FrameBufferBrdf.RenderOnce();
 		}				
 	}
 }
@@ -93,11 +93,11 @@ void Graphic::Update(GraphicRequiredData * i_data)
 	// Update uniform data common for frame
 	// Submit Camera Information
 	auto& data_camera = i_data->camera;
-	constant_camera.Update(&data_camera);
+	ConstBufferCamera.Update(&data_camera);
 
 	// Submit light uniform data
 	auto& data_light = i_data->light;
-	constant_light.Update(&data_light);
+	ConstBufferLight.Update(&data_light);
 
 
 	// Render shadow to frame buffers
@@ -105,9 +105,9 @@ void Graphic::Update(GraphicRequiredData * i_data)
 	{
 		// Submit shadow uniform data
 		auto& data_shadow = i_data->shadow[i];
-		constant_cubemap.Update(&data_shadow);
+		ConstBufferCubeMap.Update(&data_shadow);
 
-		frame_shadowcubemaps[i].BindFrame();
+		FrameBufferShadowMaps[i].BindFrame();
 		{
 			glClear(GL_DEPTH_BUFFER_BIT);
 
@@ -116,7 +116,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 				if (i_data->model_data.Size() != 0)
 				{
 					auto& data_model = i_data->model_data[j];
-					constant_model.Update(&data_model);
+					ConstBufferModel.Update(&data_model);
 
 					SceneEntity::List[j]->DrawMeshOnly();
 				}
@@ -136,25 +136,25 @@ void Graphic::Update(GraphicRequiredData * i_data)
 			{
 				auto& data_model = i_data->model_data[i];
 				data_model.model_view_perspective_matrix = data_camera.perspective_matrix * data_camera.view_matrix * data_model.model_position_matrix;
-				constant_model.Update(&data_model);
+				ConstBufferModel.Update(&data_model);
 
 				auto& data_material = i_data->material_data[i];
-				constant_material.Update(&data_material);
+				ConstBufferMaterial.Update(&data_material);
 
 				auto& data_animation = i_data->animation_bone_data;
-				constant_animationbone.Update(&data_animation);
+				ConstBufferAnimationBone.Update(&data_animation);
 
 				// Bind shadow map texture 
 				for (int j = 0; j < NUM_MAX_POINT_LIGHT; j++)
 				{
-					frame_shadowcubemaps[j].BindTextureUnit();
+					FrameBufferShadowMaps[j].BindTextureUnit();
 				}
 				// Bind irradiance map texture
-				frame_irradiance.BindTextureUnit();
+				FrameBufferIrradiance.BindTextureUnit();
 				// Bind specular map texture
-				frame_specular.BindTextureUnit();
+				FrameBufferSpecular.BindTextureUnit();
 				// Bind BRDF look up texture
-				frame_brdf.BindTextureUnit();
+				FrameBufferBrdf.BindTextureUnit();
 				SceneEntity::List[i]->Draw();
 
 				DrawPrimitive::DebugDraw();
@@ -171,15 +171,15 @@ void Graphic::Update(GraphicRequiredData * i_data)
 			glDepthFunc(GL_LEQUAL);
 			ConstantData::SkyBox data_skybox;
 			data_skybox.skybox_view_perspective_matrix = i_data->camera.perspective_matrix * Mat4f::TruncateToMat3(i_data->camera.view_matrix);
-			constant_skybox.Update(&data_skybox);
+			ConstBufferSkybox.Update(&data_skybox);
 
-			frame_cubemap.BindTextureUnit();
+			FrameBufferCubeMap.BindTextureUnit();
 			SceneEntity::SkyBoxProxy->Draw();
 			glDepthFunc(GL_LESS);
 		}
 	}
 
-	frame_image.BindFrame();
+	FrameBufferImage.BindFrame();
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -190,25 +190,25 @@ void Graphic::Update(GraphicRequiredData * i_data)
 			{
 				auto& data_model = i_data->model_data[i];
 				data_model.model_view_perspective_matrix = data_camera.perspective_matrix * data_camera.view_matrix * data_model.model_position_matrix;
-				constant_model.Update(&data_model);
+				ConstBufferModel.Update(&data_model);
 
 				auto& data_material = i_data->material_data[i];
-				constant_material.Update(&data_material);
+				ConstBufferMaterial.Update(&data_material);
 
 				auto& data_animation = i_data->animation_bone_data;
-				constant_animationbone.Update(&data_animation);
+				ConstBufferAnimationBone.Update(&data_animation);
 
 				// Bind shadow map texture 
 				for (int j = 0; j < NUM_MAX_POINT_LIGHT; j++)
 				{
-					frame_shadowcubemaps[j].BindTextureUnit();
+					FrameBufferShadowMaps[j].BindTextureUnit();
 				}
 				// Bind irradiance map texture
-				frame_irradiance.BindTextureUnit();
+				FrameBufferIrradiance.BindTextureUnit();
 				// Bind specular map texture
-				frame_specular.BindTextureUnit();
+				FrameBufferSpecular.BindTextureUnit();
 				// Bind BRDF look up texture
-				frame_brdf.BindTextureUnit();
+				FrameBufferBrdf.BindTextureUnit();
 				SceneEntity::List[i]->Draw();
 
 				DrawPrimitive::DebugDraw();
@@ -221,9 +221,9 @@ void Graphic::Update(GraphicRequiredData * i_data)
 			glDepthFunc(GL_LEQUAL);
 			ConstantData::SkyBox data_skybox;
 			data_skybox.skybox_view_perspective_matrix = i_data->camera.perspective_matrix * Mat4f::TruncateToMat3(i_data->camera.view_matrix);
-			constant_skybox.Update(&data_skybox);
+			ConstBufferSkybox.Update(&data_skybox);
 
-			frame_cubemap.BindTextureUnit();
+			FrameBufferCubeMap.BindTextureUnit();
 			SceneEntity::SkyBoxProxy->Draw();
 			glDepthFunc(GL_LESS);
 		}

@@ -4,9 +4,9 @@ namespace Tempest
 {
 
 	//Data required for render thread
-	GraphicRequiredData  container_render[2];
-	GraphicRequiredData* data_game_own = &container_render[0];
-	GraphicRequiredData* data_render_own = &container_render[1];
+	GraphicRequiredData  ContainerRenderData[2];
+	GraphicRequiredData* ContainerGameOwn = &ContainerRenderData[0];
+	GraphicRequiredData* ContainerRenderOwn = &ContainerRenderData[1];
 
 	extern HWND WindowsHanlder;
 
@@ -18,11 +18,8 @@ namespace Tempest
 		window->Init(property);
 
 		WindowsHanlder = window->GetNaitiveWindowsHandler();
-
-		// Push imgui layer to layer stack
-		ImguiLayer* imgui_layer = new ImguiLayer();
-		imgui_layer->window = window->GetGLFWWindow();
-		layerstack.PushLayer(imgui_layer);
+		
+		LayerStack::Boot();
 
 		// Bind event callbacks including the callbacks that are in imgui layer and other layers 
 		BindEvent();
@@ -41,7 +38,7 @@ namespace Tempest
 
 	void RenderThread::CriticalSection()
 	{
-		std::swap(data_game_own, data_render_own);
+		std::swap(ContainerGameOwn, ContainerRenderOwn);
 		bready = true;
 	}
 
@@ -54,17 +51,11 @@ namespace Tempest
 
 		Graphic::PreUpdate();
 
-		Graphic::Update(data_render_own);
+		Graphic::Update(ContainerRenderOwn);
 
-		Graphic::PostUpdate(data_render_own);
+		LayerStack::Update();
 
-		// Layer's update
-		// The reason this layer is placed here is because we have imgui layer
-		// which requires to be updated before swap buffer on OpenGL 
-		for (Layer* layer : layerstack.Layers())
-		{
-			layer->OnUpdate();
-		}
+		Graphic::PostUpdate(ContainerRenderOwn);				
 
 		window->SwapBuffer();
 	}
@@ -131,7 +122,7 @@ namespace Tempest
 
 	void RenderThread::CleanUp()
 	{
-		layerstack.CleanUp();
+		LayerStack::CleanUp();
 		Graphic::CleanUp();
 		window->Shutdown();
 		delete window;
@@ -142,28 +133,25 @@ namespace Tempest
 		window->data.eventcallback = std::bind(&RenderThread::OnEvent, this, std::placeholders::_1);
 	}
 
-	void RenderThread::OnEvent(Event& e)
+	void RenderThread::OnEvent(Event& i_event)
 	{
-		EventDispatcher dispatcher(e);
+		EventDispatcher dispatcher(i_event);
 		dispatcher.Dispatch<WindowCloseEvent>(std::bind(&RenderThread::OnWindowClose, this, std::placeholders::_1));
 		dispatcher.Dispatch<WindowResizeEvent>(std::bind(&RenderThread::OnWindowResize, this, std::placeholders::_1));
 
-		for (auto layer : layerstack.Layers())
-		{
-			layer->OnEvent(e);
-		}
+		LayerStack::OnEvent(i_event);
 	}
 
-	bool RenderThread::OnWindowClose(WindowCloseEvent e)
+	bool RenderThread::OnWindowClose(WindowCloseEvent i_event)
 	{
-		window->OnWindowClose(e);
+		window->OnWindowClose(i_event);
 		return true;
 	}
 
-	bool RenderThread::OnWindowResize(WindowResizeEvent e)
+	bool RenderThread::OnWindowResize(WindowResizeEvent i_event)
 	{
 		Graphic::ChangeViewPortSize(window->data.width, window->data.height);
-		window->OnWindowResize(e);
+		window->OnWindowResize(i_event);
 		return true;
 	}
 
