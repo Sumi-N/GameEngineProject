@@ -12,20 +12,20 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{2CA513AF-6A8A-47EA-8153-9944FFDB83AA}</ProjectGuid>
-    <RootNamespace>UserInterface</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{ee5abf63-6325-4d45-9905-eb7a84d1fbe2}</ProjectGuid>
+    <RootNamespace>Editor</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>UserInterface</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -38,36 +38,27 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\EngineDefaults.props" />
-    <Import Project="..\OpenGL_Debug.props" />
+    <Import Project="..\Tempest\EngineDefaults.props" />
+    <Import Project="..\Tempest\OpenGL_Debug.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\EngineDefaults.props" />
-    <Import Project="..\OpenGL.props" />
+    <Import Project="..\Tempest\EngineDefaults.props" />
+    <Import Project="..\Tempest\OpenGL.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>false</SDLCheck>
+      <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>Define.h</PrecompiledHeaderFile>
-      <ForcedIncludeFiles>Define.h</ForcedIncludeFiles>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -79,14 +70,9 @@
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>false</SDLCheck>
+      <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>Define.h</PrecompiledHeaderFile>
-      <ForcedIncludeFiles>Define.h</ForcedIncludeFiles>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -96,28 +82,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Define.h" />
-    <ClInclude Include="ImguiLayer.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Define.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="..\MyGame\TestScene_SkeletonAnimation.cpp" />
+    <ClCompile Include="Define.cpp" />
+    <ClCompile Include="Editor.cpp" />
     <ClCompile Include="ImguiBuild.cpp" />
     <ClCompile Include="ImguiLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Input\Input.vcxproj">
+    <ClInclude Include="..\MyGame\AnimatedPlayer.h" />
+    <ClInclude Include="..\MyGame\MyCameraObject.h" />
+    <ClInclude Include="..\MyGame\MyPointLight.h" />
+    <ClInclude Include="..\MyGame\MySkyBox.h" />
+    <ClInclude Include="..\MyGame\TestScenes.h" />
+    <ClInclude Include="Define.h" />
+    <ClInclude Include="ImguiLayer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tempest\Application\Application.vcxproj">
+      <Project>{a4a992b0-4300-4d9f-bd91-9ba6afe44d21}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Tempest\Core\Input\Input.vcxproj">
       <Project>{725cccc9-d908-4257-b0e5-54bebf75b3ef}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Core\Logging\Logging.vcxproj">
+    <ProjectReference Include="..\Tempest\Core\Layer\Layer.vcxproj">
+      <Project>{2b52b2e4-d107-4ec2-ac23-3c3dcdb1ddfb}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Tempest\Core\Logging\Logging.vcxproj">
       <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\External\imgui\imgui.vcxproj">
+    <ProjectReference Include="..\Tempest\External\imgui\imgui.vcxproj">
       <Project>{1ffca871-4d34-497d-bf09-db6a91f02bf2}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Graphics\Graphics.vcxproj">
+    <ProjectReference Include="..\Tempest\Graphics\Graphics.vcxproj">
       <Project>{6809ac33-2d2c-4a2f-9a7f-c187a9307703}</Project>
     </ProjectReference>
   </ItemGroup>

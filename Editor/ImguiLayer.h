@@ -5,8 +5,11 @@
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 
+#include <Application/Window.h>
+
 namespace Tempest
 {
+	extern Window* window;
 
 	class ImguiLayer : public Layer
 	{
@@ -23,7 +26,7 @@ namespace Tempest
 		void End();
 
 	public:
-		GLFWwindow* window = nullptr;
+		GLFWwindow* glfw_window = nullptr;
 	};
 
 }

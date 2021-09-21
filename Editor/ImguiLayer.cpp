@@ -16,6 +16,8 @@ namespace Tempest
 
 	void ImguiLayer::OnAttach()
 	{
+		glfw_window = window->GetGLFWWindow();
+
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -37,13 +39,13 @@ namespace Tempest
 		}
 
 
-		if (!window)
+		if (!glfw_window)
 		{
 			DEBUG_ASSERT(false);
 		}
 
 		// Setup Platform/Renderer backends
-		ImGui_ImplGlfw_InitForOpenGL(window, true);
+		ImGui_ImplGlfw_InitForOpenGL(glfw_window, true);
 		ImGui_ImplOpenGL3_Init("#version 420");
 
 		// Loading font
@@ -172,7 +174,7 @@ namespace Tempest
 			ImGui::Begin("Settings");
 			//ImGui::Text("This is test");
 						
-			ImGui::Image((void*)Graphic::frame_image.textureid_color, ImVec2{ 1920.0f, 1080.0f }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+			ImGui::Image((void*)Graphic::FrameBufferImage.textureid_color, ImVec2{ 1920.0f, 1080.0f }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 			ImGui::End();
 		}
 

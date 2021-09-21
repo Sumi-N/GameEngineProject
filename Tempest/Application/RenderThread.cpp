@@ -24,6 +24,10 @@ namespace Tempest
 		// Bind event callbacks including the callbacks that are in imgui layer and other layers 
 		BindEvent();
 
+		//ImguiLayer* imgui_layer = new ImguiLayer();
+		//imgui_layer->window = window->GetGLFWWindow();
+		//LayerStack::PushLayer(imgui_layer);
+
 		// Initialize OpenGL
 		Graphic::Boot();
 	}
