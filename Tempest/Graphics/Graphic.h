@@ -29,7 +29,7 @@ public:
 	static void Boot();
 	static void Init(unsigned int, unsigned int);
 	static void PreCompute();
-	static void PreUpdate();
+	static void PreUpdate(GraphicRequiredData*);
 	static void Update(GraphicRequiredData*);
 	static void PostUpdate(GraphicRequiredData*);
 	static void CleanUp();
@@ -44,6 +44,8 @@ public:
 	static ConstantBuffer ConstBufferCubeMap;
 	static ConstantBuffer ConstBufferAnimationBone;
 
+	static ConstantData::Camera ConstDataCamera;
+
 	static FrameBuffer    FrameBufferShadowMaps[NUM_MAX_POINT_LIGHT];
 	static FrameBuffer    FrameBufferCubeMap;
 	static FrameBuffer    FrameBufferIrradiance;
@@ -52,15 +54,15 @@ public:
 	static FrameBuffer    FrameBufferImage;
 
 private:
-	static unsigned int viewport_width;
-	static unsigned int viewport_height;
+	static unsigned int ViewportWidth;
+	static unsigned int ViewportHeight;
 };
 
 inline void Graphic::Init(unsigned int i_width, unsigned int i_height)
 {
 	// Init viewport size for OpenGL
-	viewport_width = i_width;
-	viewport_height = i_height;
+	ViewportWidth = i_width;
+	ViewportHeight = i_height;
 
 	// Init uniform buffers
 	ConstBufferCamera.Init(ConstantData::Index::Camera);
@@ -80,7 +82,7 @@ inline void Graphic::Init(unsigned int i_width, unsigned int i_height)
 	FrameBufferIrradiance.Init(FrameType::IrradianceMap, IRRADIANCEMAP_BINDING_UNIT, MINI_TEXTURE_SIZE, MINI_TEXTURE_SIZE);
 	FrameBufferSpecular.Init(FrameType::Specular, SPECULAR_BINDING_UNIT, 128, 128);
 	FrameBufferBrdf.Init(FrameType::BRDF, BRDF_BINDING_UNIT, 512, 512);
-	FrameBufferImage.Init(FrameType::Image, IMAGE_BINDING_UNIT, viewport_width, viewport_height);
+	FrameBufferImage.Init(FrameType::Image, IMAGE_BINDING_UNIT, ViewportWidth, ViewportHeight);
 
 	// This class holds some of the basic geometry shapes (like cube line and quad) that will be used during the rendering 
 	DrawPrimitive::Init();
@@ -89,6 +91,6 @@ inline void Graphic::Init(unsigned int i_width, unsigned int i_height)
 
 inline void Graphic::ChangeViewPortSize(unsigned int i_width, unsigned int i_height)
 {
-	viewport_width = i_width;
-	viewport_height = i_height;
+	ViewportWidth = i_width;
+	ViewportHeight = i_height;
 }

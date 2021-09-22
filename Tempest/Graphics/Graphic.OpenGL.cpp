@@ -84,16 +84,27 @@ void Graphic::PreCompute()
 	}
 }
 
-void Graphic::PreUpdate()
+void Graphic::PreUpdate(GraphicRequiredData* i_data)
 {
+	ConstDataCamera = i_data->camera;
 }
 
-void Graphic::Update(GraphicRequiredData * i_data)
+void Graphic::Update(GraphicRequiredData* i_data)
 {
+
+#ifdef ENGINE_USE_EDITOR
+
 	// Update uniform data common for frame
-	// Submit Camera Information
-	auto& data_camera = i_data->camera;
-	ConstBufferCamera.Update(&data_camera);
+	// Submit Camera Information	
+	ConstBufferCamera.Update(&ConstDataCamera);
+
+#else
+
+	// Update uniform data common for frame
+	// Submit Camera Information	
+	ConstBufferCamera.Update(&ConstDataCamera);
+
+#endif // ENGINE_USE_EDITOR	
 
 	// Submit light uniform data
 	auto& data_light = i_data->light;
@@ -125,11 +136,16 @@ void Graphic::Update(GraphicRequiredData * i_data)
 	}
 
 #ifdef ENGINE_USE_EDITOR
+
 	FrameBufferImage.BindFrame();
+
 #else
-	glViewport(0, 0, viewport_width, viewport_height);
+
+	glViewport(0, 0, ViewportWidth, ViewportHeight);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 #endif // ENGINE_USE_EDITOR	
+
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -139,7 +155,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 			if (i_data->model_data.Size() != 0)
 			{
 				auto& data_model = i_data->model_data[i];
-				data_model.model_view_perspective_matrix = data_camera.perspective_matrix * data_camera.view_matrix * data_model.model_position_matrix;
+				data_model.model_view_perspective_matrix = ConstDataCamera.perspective_matrix * ConstDataCamera.view_matrix * data_model.model_position_matrix;
 				ConstBufferModel.Update(&data_model);
 
 				auto& data_material = i_data->material_data[i];
@@ -164,10 +180,6 @@ void Graphic::Update(GraphicRequiredData * i_data)
 				DrawPrimitive::DebugDraw();
 			}
 		}
-
-		//DrawPrimitive::DebugDraw();
-		//Draw a line mainly for the purpose for debug
-		//DrawPrimitive::DrawLineWithShader(i_data->points[0], i_data->points[1]);
 
 		//Rendering sky box
 		if (SceneEntity::SkyBoxProxy)

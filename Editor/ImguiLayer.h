@@ -16,18 +16,23 @@ namespace Tempest
 	class ImguiLayer : public Layer
 	{
 	public:
-		ImguiLayer();
-		~ImguiLayer();
+		ImguiLayer() = default;
+		~ImguiLayer() = default;
 
 		virtual void OnAttach() override;
 		virtual void OnDetach() override;
-
 		virtual void OnUpdate() override;
+		virtual void OnEvent(Event& event) override;
 
 		void Begin();
 		void End();
 
-	public:
+	private:
+		void Docking();
+		void Setting();
+		void ViewportWindow();
+
+	private:
 		GLFWwindow* glfw_window = nullptr;
 	};
 

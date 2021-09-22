@@ -32,7 +32,6 @@ namespace Tempest
 	{
 		// Init scene entity
 		SceneEntity::Init();
-
 		Graphic::Init(window->data.width, window->data.height);
 		
 		Graphic::PreCompute();

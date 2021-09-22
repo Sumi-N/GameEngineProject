@@ -34,9 +34,6 @@
     <ClInclude Include="..\MyGame\AnimatedPlayer.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\MyGame\MyCameraObject.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\MyGame\MyPointLight.h">
       <Filter>Scene</Filter>
     </ClInclude>
@@ -44,6 +41,9 @@
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\MyGame\TestScenes.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MyGame\MyCameraObject.h">
       <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
