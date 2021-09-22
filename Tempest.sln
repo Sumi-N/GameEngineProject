@@ -63,6 +63,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test_MemoryManagement", "Te
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Editor\Editor.vcxproj", "{EE5ABF63-6325-4D45-9905-EB7A84D1FBE2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Renderer", "Tempest\Core\Renderer\Renderer.vcxproj", "{5A027349-2A8F-45BE-8D0C-BCB45C2EE12C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -165,6 +167,10 @@ Global
 		{EE5ABF63-6325-4D45-9905-EB7A84D1FBE2}.Debug|x64.Build.0 = Debug|x64
 		{EE5ABF63-6325-4D45-9905-EB7A84D1FBE2}.Release|x64.ActiveCfg = Release|x64
 		{EE5ABF63-6325-4D45-9905-EB7A84D1FBE2}.Release|x64.Build.0 = Release|x64
+		{5A027349-2A8F-45BE-8D0C-BCB45C2EE12C}.Debug|x64.ActiveCfg = Debug|x64
+		{5A027349-2A8F-45BE-8D0C-BCB45C2EE12C}.Debug|x64.Build.0 = Debug|x64
+		{5A027349-2A8F-45BE-8D0C-BCB45C2EE12C}.Release|x64.ActiveCfg = Release|x64
+		{5A027349-2A8F-45BE-8D0C-BCB45C2EE12C}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -195,6 +201,7 @@ Global
 		{2F2F9E50-AEB8-45B0-9D77-51E21FBC6056} = {86B342BF-936F-44CD-B8EA-C768A8CE0EA2}
 		{883F681D-4804-427D-9FFF-D4C138B37281} = {3145ED23-F694-44A7-B911-78A02D66BD0D}
 		{74D65ABE-FED1-459B-89C1-D3CFA3D19585} = {CE2AE061-D19B-455F-8642-6DF02FA6C8AD}
+		{5A027349-2A8F-45BE-8D0C-BCB45C2EE12C} = {7F897E50-4B61-4E37-B6BC-B6BE2EBE3F77}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1B7CED8D-4054-4DBF-B591-A795C68F161F}
