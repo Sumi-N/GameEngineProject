@@ -24,8 +24,8 @@ namespace Tempest
 			// target is equal to forwardvector + position;
 			view = Mat4f::LookAt(pos, pos + forwardvec, upvec);
 
-			perspective = Mat4f::Perspective(FOV, (float)SCREEN_WIDTH / SCREEN_HEIGHT, NEARCLIP, FARCLIP);
-			orthographics = Mat4f::Orthographic(-10.0f, 10.0f, -10.0f, 10.0f, NEARCLIP, FARCLIP);
+			perspective = Mat4f::Perspective(FieldOfView, (float)ScreenWidth / ScreenHeight, NearClip, FarClip);
+			orthographics = Mat4f::Orthographic(-10.0f, 10.0f, -10.0f, 10.0f, NearClip, FarClip);
 		}
 
 		Vec3f GetForwardVec()

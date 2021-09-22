@@ -20,7 +20,7 @@ namespace Tempest
 		UserInput.Init();
 
 #ifdef ENGINE_PLATFORM_WINDOWS
-		UserInput.InitForWindows(WindowsHanlder);
+		UserInput.GetWindowsHandler(WindowsHanlder);
 #endif // ENGINE_PLATFORM_WINDOWS
 
 	}
@@ -103,8 +103,8 @@ namespace Tempest
 		{
 			Debug::Ray ray;
 			ray.startpoint = Entity::CamerasObjects[0]->pos;
-			ray.direction = 2 * (UserInput.X() / SCREEN_WIDTH - 0.5f) * Entity::CamerasObjects[0]->GetRightVec()
-				- 2 * (UserInput.Y() / SCREEN_HEIGHT - 0.5f) * Entity::CamerasObjects[0]->GetUpVec()
+			ray.direction = 2 * (UserInput.X() / ScreenWidth - 0.5f) * Entity::CamerasObjects[0]->GetRightVec()
+				- 2 * (UserInput.Y() / ScreenHeight - 0.5f) * Entity::CamerasObjects[0]->GetUpVec()
 				+ Entity::CamerasObjects[0]->GetForwardVec();
 			ray.GetEndPoint();
 			ContainerGameOwn->points[0] = ray.startpoint + 0.1f * Entity::CamerasObjects[0]->GetForwardVec();

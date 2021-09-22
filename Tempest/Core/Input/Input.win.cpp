@@ -6,7 +6,7 @@
 namespace Tempest
 {
 
-	void Input::InitForWindows(HWND i_handler)
+	void Input::GetWindowsHandler(HWND i_handler)
 	{
 		window_hanlder = i_handler;
 	}

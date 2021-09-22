@@ -171,10 +171,7 @@ void FrameBuffer::Init(FrameType i_type, int i_unitnum, int i_width, int i_heigh
 
 		// bind textures to frame buffer
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureid_color, 0);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, textureid_depth, 0);
-
-		
-		DEBUG_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, textureid_depth, 0);		
 
 		glDrawBuffer(GL_COLOR_ATTACHMENT0);
 	}
@@ -206,15 +203,30 @@ void FrameBuffer::Init(FrameType i_type, int i_unitnum, int i_width, int i_heigh
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{  
-		//Specular frame buffer is the exception
-		if (frametype != FrameType::Specular)
-		{
-			DEBUG_PRINT("Error! FrameBuffer is not complete");
-		}
+		DEBUG_PRINT("Error! FrameBuffer is not completed!");
+		//DEBUG_ASSERT(false);
 	}
 
 	// Set back to original back buffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void FrameBuffer::Recreate(int i_width, int i_height)
+{
+	if (bufferid)
+	{
+		glDeleteFramebuffers(1, &bufferid);
+	}
+	if (textureid_color)
+	{
+		glDeleteTextures(1, &textureid_color);
+	}
+	if (textureid_depth)
+	{
+		glDeleteTextures(1, &textureid_depth);
+	}
+
+	Init(frametype, unit_number, i_width, i_height);
 }
 
 void FrameBuffer::BindFrame()
@@ -302,4 +314,20 @@ void FrameBuffer::RenderOnce()
 	}
 
 }
+
+uint32_t FrameBuffer::GetBufferID() const
+{
+	return bufferid;
+}
+
+uint32_t FrameBuffer::GetColorID() const
+{
+	return textureid_color;
+}
+
+uint32_t FrameBuffer::GetDepthID() const
+{
+	return textureid_depth;
+}
+
 #endif // ENGINE_GRAPHIC_OPENGL

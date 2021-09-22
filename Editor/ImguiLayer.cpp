@@ -172,9 +172,15 @@ namespace Tempest
 
 		{
 			ImGui::Begin("Settings");
-			//ImGui::Text("This is test");
-						
-			ImGui::Image((void*)Graphic::FrameBufferImage.textureid_color, ImVec2{ 1920.0f, 1080.0f }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+			ImGui::Text("This is setting panel");
+			ImGui::End();
+		}
+
+		{
+			ImGui::Begin("Viewport");
+			ImVec2 imgui_viewport_panel_size = ImGui::GetContentRegionAvail();
+			Vec2f viewrport_panel_size = Vec2f(imgui_viewport_panel_size.x, imgui_viewport_panel_size.y);
+			ImGui::Image((void*)Graphic::FrameBufferImage.GetColorID(), imgui_viewport_panel_size, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 			ImGui::End();
 		}
 
@@ -191,7 +197,7 @@ namespace Tempest
 	void ImguiLayer::End()
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.DisplaySize = ImVec2(1920, 1080);
+		//io.DisplaySize = ImVec2(1920, 1080);
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

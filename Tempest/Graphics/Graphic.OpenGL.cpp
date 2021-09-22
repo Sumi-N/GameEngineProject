@@ -26,7 +26,7 @@ void Graphic::PreCompute()
 	{
 		Mat4f pv_mats[6];
 		Mat4f view[6];
-		Mat4f projection = Mat4f::Perspective(90, 1, NEARCLIP, FARCLIP);
+		Mat4f projection = Mat4f::Perspective(90, 1, NearClip, FarClip);
 
 		view[0] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f(1, 0, 0), Vec3f(0, -1, 0));
 		view[1] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f(-1, 0, 0), Vec3f(0, -1, 0));
@@ -124,8 +124,12 @@ void Graphic::Update(GraphicRequiredData * i_data)
 		}
 	}
 
+#ifdef ENGINE_USE_EDITOR
+	FrameBufferImage.BindFrame();
+#else
 	glViewport(0, 0, viewport_width, viewport_height);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+#endif // ENGINE_USE_EDITOR	
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -178,58 +182,7 @@ void Graphic::Update(GraphicRequiredData * i_data)
 			glDepthFunc(GL_LESS);
 		}
 	}
-
-	FrameBufferImage.BindFrame();
-	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		// Rendering objects
-		for (int i = 0; i < SceneEntity::List.Size(); i++)
-		{
-			if (i_data->model_data.Size() != 0)
-			{
-				auto& data_model = i_data->model_data[i];
-				data_model.model_view_perspective_matrix = data_camera.perspective_matrix * data_camera.view_matrix * data_model.model_position_matrix;
-				ConstBufferModel.Update(&data_model);
-
-				auto& data_material = i_data->material_data[i];
-				ConstBufferMaterial.Update(&data_material);
-
-				auto& data_animation = i_data->animation_bone_data;
-				ConstBufferAnimationBone.Update(&data_animation);
-
-				// Bind shadow map texture 
-				for (int j = 0; j < NUM_MAX_POINT_LIGHT; j++)
-				{
-					FrameBufferShadowMaps[j].BindTextureUnit();
-				}
-				// Bind irradiance map texture
-				FrameBufferIrradiance.BindTextureUnit();
-				// Bind specular map texture
-				FrameBufferSpecular.BindTextureUnit();
-				// Bind BRDF look up texture
-				FrameBufferBrdf.BindTextureUnit();
-				SceneEntity::List[i]->Draw();
-
-				DrawPrimitive::DebugDraw();
-			}
-		}
-
-		//Rendering sky box
-		if (SceneEntity::SkyBoxProxy)
-		{
-			glDepthFunc(GL_LEQUAL);
-			ConstantData::SkyBox data_skybox;
-			data_skybox.skybox_view_perspective_matrix = i_data->camera.perspective_matrix * Mat4f::TruncateToMat3(i_data->camera.view_matrix);
-			ConstBufferSkybox.Update(&data_skybox);
-
-			FrameBufferCubeMap.BindTextureUnit();
-			SceneEntity::SkyBoxProxy->Draw();
-			glDepthFunc(GL_LESS);
-		}
-	}
-
-	glViewport(0, 0, viewport_width, viewport_height);
+	
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 

@@ -83,7 +83,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\MyGame\TestScene_SkeletonAnimation.cpp" />
-    <ClCompile Include="Define.cpp" />
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="ImguiBuild.cpp" />
     <ClCompile Include="ImguiLayer.cpp" />
@@ -94,7 +93,6 @@
     <ClInclude Include="..\MyGame\MyPointLight.h" />
     <ClInclude Include="..\MyGame\MySkyBox.h" />
     <ClInclude Include="..\MyGame\TestScenes.h" />
-    <ClInclude Include="Define.h" />
     <ClInclude Include="ImguiLayer.h" />
   </ItemGroup>
   <ItemGroup>

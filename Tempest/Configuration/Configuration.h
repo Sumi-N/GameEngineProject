@@ -1,8 +1,9 @@
 #pragma once
+#include <stdint.h>
 
-//////////////////////////////
+//----------------------------
 //  Custom heap allocator
-//////////////////////////////
+//----------------------------
 #define ENABLE_CUSTOM_ALLOCATOR
 
 #ifndef ENABLE_CUSTOM_ALLOCATOR
@@ -13,9 +14,9 @@
 	
 #endif // ENABLE_CUSTOM_ALLOCATOR
 
-//////////////////////////////
+//----------------------------
 //  Graphic API configuration
-//////////////////////////////
+//----------------------------
 
 #define ENGINE_GRAPHIC_OPENGL
 // #define ENGINE_GRAPHIC_VULKAN
@@ -25,32 +26,36 @@
 // This line should be put before #include <GL/glew.h>
 #define GLEW_STATIC
 
-//////////////////////////////
+//----------------------------
 //   Math configuration
-//////////////////////////////
+//----------------------------
 // #define _USEINTRINSIC_
 
 
-//////////////////////////////
+//----------------------------
 //  Platform configuration
-//////////////////////////////
+//----------------------------
 #define ENGINE_PLATFORM_WINDOWS
 
+//----------------------------
+//  Editor configuration
+//----------------------------
+#define ENGINE_USE_EDITOR
 
-//////////////////////////////
+
+//----------------------------
 //  Screen Setting
-//////////////////////////////
-#define SCREEN_WIDTH  1920
-#define SCREEN_HEIGHT 1080
-#define NEARCLIP      0.1f
-#define FARCLIP       100.0f
-#define FOV           45.0f
-#define FRAME_RATE    60.0f
+//----------------------------
+constexpr uint32_t ScreenWidth = 1920;
+constexpr uint32_t ScreenHeight = 1080;
+constexpr float NearClip = 0.1f;
+constexpr float FarClip = 100.0f;
+constexpr float FieldOfView = 45.0f;
+constexpr float FramePerSecond = 60.0f;
 
-
-//////////////////////////////
+//----------------------------
 //  Graphics Setting
-//////////////////////////////
+//----------------------------
 
 //  Make sure to change the shader codes if the number here have been changed
 #define NUM_MAX_POINT_LIGHT 5
@@ -60,9 +65,9 @@
 #define NUM_DICE_FACES 6
 #define NUM_MAX_BONES 256
 
-//////////////////////////////
+//----------------------------
 //  General Asset Path
-//////////////////////////////
+//----------------------------
 #define PATH_SUFFIX      "..\\"
 #define SHADER_PATH      "Assets\\shaders\\"
 #define INT_MESH_PATH    "Assets\\int\\mesh\\"
@@ -71,18 +76,18 @@
 #define BIN_TEXTURE_PATH "Assets\\bin\\texture\\"
 #define FONT_PATH        "Assets\\fonts\\"
 
-//////////////////////////////
+//----------------------------
 // Mesh Data
-//////////////////////////////
+//----------------------------
 
 #define FILENAME_CUBEMAP "cubemap.tm"
 #define FILENAME_QUAD    "quad.tm"
 #define FILENAME_SPHERE  "sphere.tm"
 #define FILENAME_CAMERA  "camera.tm"
 
-//////////////////////////////
+//----------------------------
 //  Texture Data
-//////////////////////////////
+//----------------------------
 
 #define SKYBOX_POSX      "skybox\\cubemap_posx.png"
 #define SKYBOX_NEGX      "skybox\\cubemap_negx.png"
@@ -95,9 +100,9 @@
 #define SKYBOX_HDR_PINTREE          "hdr\\Arches_E_PineTree_3k.tt"
 #define SKYBOX_HDR_FROZEN_WATERFALL "hdr\\Frozen_Waterfall_Ref.tt"
 
-//////////////////////////////
+//----------------------------
 //  Shader Data
-//////////////////////////////
+//----------------------------
 #define EMPTY_VERT     "empty_shader\\empty.vert.glsl"
 #define EMPTY_FRAG     "empty_shader\\empty.frag.glsl"
 
@@ -134,9 +139,9 @@
 #define IBL_BRDF_VERT "image_base_rendering\\brdf_integration_map.vert.glsl"
 #define IBL_BRDF_FRAG "image_base_rendering\\brdf_integration_map.frag.glsl"
 
-//////////////////////////////
+//----------------------------
 // Debug Shader Data
-//////////////////////////////
+//----------------------------
 
 #define DEBUG_SHADOW_MAP_VERT "debug_purpose\\debugshadowmap.vert.glsl"
 #define DEBUG_SHADOW_MAP_FRAG "debug_purpose\\debugshadowmap.frag.glsl"

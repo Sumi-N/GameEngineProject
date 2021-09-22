@@ -46,7 +46,7 @@ namespace Tempest
 #ifdef ENGINE_PLATFORM_WINDOWS
 
 	public:
-		void InitForWindows(HWND);
+		void GetWindowsHandler(HWND);
 		bool IsKeyPressed(VirtualKey);
 		bool IsKeyReleased(VirtualKey);
 		void Populate();

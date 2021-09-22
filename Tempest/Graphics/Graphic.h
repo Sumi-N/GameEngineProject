@@ -80,7 +80,7 @@ inline void Graphic::Init(unsigned int i_width, unsigned int i_height)
 	FrameBufferIrradiance.Init(FrameType::IrradianceMap, IRRADIANCEMAP_BINDING_UNIT, MINI_TEXTURE_SIZE, MINI_TEXTURE_SIZE);
 	FrameBufferSpecular.Init(FrameType::Specular, SPECULAR_BINDING_UNIT, 128, 128);
 	FrameBufferBrdf.Init(FrameType::BRDF, BRDF_BINDING_UNIT, 512, 512);
-	FrameBufferImage.Init(FrameType::Image, IMAGE_BINDING_UNIT, SCREEN_WIDTH, SCREEN_HEIGHT);
+	FrameBufferImage.Init(FrameType::Image, IMAGE_BINDING_UNIT, viewport_width, viewport_height);
 
 	// This class holds some of the basic geometry shapes (like cube line and quad) that will be used during the rendering 
 	DrawPrimitive::Init();

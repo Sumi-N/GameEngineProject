@@ -29,9 +29,14 @@ public:
 #ifdef ENGINE_GRAPHIC_OPENGL
 
 	void Init(FrameType i_type, int i_unitnum, int i_width, int i_height);
+	void Recreate(int i_width, int i_height);
 	void BindFrame();
 	void BindTextureUnit();
 	void RenderOnce();
+
+	uint32_t GetBufferID() const;
+	uint32_t GetColorID() const;
+	uint32_t GetDepthID() const;
 
 	GLuint  bufferid = 0;	
 

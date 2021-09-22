@@ -33,7 +33,7 @@ namespace Tempest
 
 		void Update(float i_dt) override
 		{
-			Mat4f light_projection = Mat4f::Perspective(90, 1, NEARCLIP, FARCLIP);
+			Mat4f light_projection = Mat4f::Perspective(90, 1, NearClip, FarClip);
 
 			Mat4f light_view;
 
@@ -80,7 +80,7 @@ namespace Tempest
 
 		void Update(float i_dt) override
 		{
-			Mat4f light_projection = Mat4f::Orthographic(-30.0f, 30.0f, -30.0f, 30.0f, NEARCLIP, FARCLIP);
+			Mat4f light_projection = Mat4f::Orthographic(-30.0f, 30.0f, -30.0f, 30.0f, NearClip, FarClip);
 			// Temporary solution
 			Mat4f light_view = Mat4f::LookAt(pos, pos + Vec3f(0, 0, -50), Vec3f(20, -20, 0));
 			//light_space_mat = light_projection * light_view;
