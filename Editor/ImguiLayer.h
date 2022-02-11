@@ -28,9 +28,11 @@ namespace Tempest
 		void End();
 
 	private:
-		void Docking();
-		void Setting();
+		void Docking();		
 		void ViewportWindow();
+		void AssetPanelWindow();
+		void ControlPanelWindow();
+		void LevelEditorPanelWindow();
 
 	private:
 		GLFWwindow* glfw_window = nullptr;

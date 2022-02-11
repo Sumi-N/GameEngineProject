@@ -9,11 +9,11 @@ namespace Tempest
 	public:
 
 		Object();
-		virtual ~Object();
+		virtual ~Object();		
 
 		Vec3f pos, scale, rot;
 		Vec3f vel, acc;
-		Vec3f angvel, angacc;
+		Vec3f angvel, angacc;		
 
 		void Translate(Vec3f i_pos) {this->pos = i_pos; }
 

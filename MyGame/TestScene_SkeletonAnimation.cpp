@@ -18,9 +18,9 @@ namespace Tempest
 		OwningPointer<MySkyBox> myskybox = OwningPointer<MySkyBox>::Create(myskybox);
 		Entity::RegisterSkyBox(myskybox);
 
-		// Setting up teapot
+		// Setting up animated player
 		OwningPointer<AnimatedPlayer> player = OwningPointer<AnimatedPlayer>::Create(player);
-		Entity::Register(player);
+		Entity::Register(player, "Animated Player");
 		player->pos = Vec3f(0, -10, -25);		
 		player->scale = Vec3f(0.1f, 0.1f, 0.1f);
 

@@ -56,8 +56,10 @@ namespace Tempest
 		ImGui::ShowDemoWindow(&show);
 
 		Docking();
-		ViewportWindow();
-		Setting();
+		ViewportWindow();		
+		AssetPanelWindow();
+		LevelEditorPanelWindow();
+		ControlPanelWindow();
 
 		End();
 	}
@@ -189,24 +191,57 @@ namespace Tempest
 		ImGui::End();
 	}
 
-	void ImguiLayer::Setting()
-	{
-		ImGui::Begin("Settings");
-		ImGui::Text("This is setting panel");
-		ImGui::End();
-	}
-
 	void ImguiLayer::ViewportWindow()
 	{
-		ImGui::Begin("Viewport");
+		ImGui::Begin("Viewport");				
+		ImVec2 imgui_viewport_panel_size = ImGui::GetContentRegionAvail();		
+		ImGui::Image((void*)Graphic::FrameBufferImage.GetColorID(), imgui_viewport_panel_size, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
 		if (ImGui::IsWindowFocused())
 		{
 			//DEBUG_PRINT("Hello");
 		}
 
-		ImVec2 imgui_viewport_panel_size = ImGui::GetContentRegionAvail();
-		ImGui::Image((void*)Graphic::FrameBufferImage.GetColorID(), imgui_viewport_panel_size, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+		ImGui::End();
+	}
+
+	void ImguiLayer::AssetPanelWindow()
+	{
+		ImGui::Begin("AssetPanel");
+		ImGui::Text("This is setting panel");
+		ImGui::End();
+	}
+
+	void ImguiLayer::ControlPanelWindow()
+	{
+		ImGui::Begin("ControlPanel");
+		ImGui::Text("This is setting panel");
+		ImGui::End();
+	}
+
+	void ImguiLayer::LevelEditorPanelWindow()
+	{
+		ImGui::Begin("LevelEditorPanel");
+		if (ImGui::TreeNode("Scene Hierarchy"))
+		{
+			int list_size = Entity::ObjectList.Size();
+
+			for (int i = 0; i < list_size; i++)
+			{
+				// Use SetNextItemOpen() so set the default state of a node to be open. We could
+				// also use TreeNodeEx() with the ImGuiTreeNodeFlags_DefaultOpen flag to achieve the same thing!
+				if (i == 0)
+					ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+
+				String object_name = Entity::ObjectList[i].name;
+				if (ImGui::TreeNode((void*)(intptr_t)i, object_name.c_str(), i))
+				{					
+					ImGui::Text("This is object");
+					ImGui::TreePop();
+				}
+			}
+			ImGui::TreePop();
+		}		
 		ImGui::End();
 	}
 

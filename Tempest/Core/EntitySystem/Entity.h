@@ -12,11 +12,13 @@ namespace Tempest
 
 	public:
 		ObjectHandler() = default;
-		ObjectHandler(Object* i_objpointer)		   : p(i_objpointer) {}
-		ObjectHandler(OwningPointer<Object> i_obj) : p(i_obj)        {}
+		ObjectHandler(Object* i_objpointer)		                  : p(i_objpointer), name("Empty") {}
+		ObjectHandler(OwningPointer<Object> i_obj)                : p(i_obj),        name("Empty") {}
+		ObjectHandler(OwningPointer<Object> i_obj, String i_name) : p(i_obj),        name(i_name)  {}
 
+		String name;
 	private:
-		OwningPointer<Object> p;	
+		OwningPointer<Object> p;		
 	};
 
 	class Entity
@@ -38,6 +40,7 @@ namespace Tempest
 		static OwningPointer<Object> Query(Object*);
 
 		static void Register                  (const OwningPointer<Object>&);
+		static void Register                  (const OwningPointer<Object>&, String);
 		static void RegisterCamera            (const OwningPointer<CameraObject>&);
 		static void RegisterSkyBox            (const OwningPointer<CubeMap>&);
 		static void RegisterAmbientLight      (const OwningPointer<AmbientLight>&);

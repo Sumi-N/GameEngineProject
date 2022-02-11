@@ -64,7 +64,7 @@ namespace Tempest
 		animation_component->mesh = mesh_component;		
 		animation_component->LoadSkeleton(PATH_SUFFIX BIN_MESH_PATH "xbot.ts");
 		animation_component->LoadClip(PATH_SUFFIX BIN_MESH_PATH "RumbaDancing.tac");
-		Entity::RegisterAnimationComponent(animation_component);
+		Entity::RegisterAnimationComponent(animation_component);		
 	}
 
 	inline void AnimatedPlayer::Init()

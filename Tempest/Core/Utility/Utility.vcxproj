@@ -88,6 +88,7 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="File.h" />
     <ClInclude Include="Result.h" />
+    <ClInclude Include="TreeNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Define.cpp">

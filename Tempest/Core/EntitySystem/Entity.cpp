@@ -22,6 +22,12 @@ namespace Tempest
 		ObjectList.PushBack(objhandler);
 	}
 
+	void Entity::Register(const OwningPointer<Object>& i_obj, String i_name)
+	{
+		ObjectHandler objhandler(i_obj, i_name);
+		ObjectList.PushBack(objhandler);
+	}
+
 	OwningPointer<Object> Entity::Query(Object* i_obj)
 	{
 		for (auto it = ObjectList.Begin(); it != ObjectList.End(); ++it)

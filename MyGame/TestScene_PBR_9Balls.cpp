@@ -65,15 +65,15 @@ namespace Tempest
 		oldsoiledcloth->Translate(Vec3f(0, -15, -60));
 		oldsoiledcloth->scale = Vec3f(0.3f, 0.3f, 0.3f);
 
-		Entity::Register(rastered);
-		Entity::Register(gold);
-		Entity::Register(cement);
-		Entity::Register(metalgrid);
-		Entity::Register(bathroomtile);
-		Entity::Register(dirtyweave);
-		Entity::Register(graybrick);
-		Entity::Register(brushedmetal);
-		Entity::Register(oldsoiledcloth);
+		Entity::Register(rastered, "Rasterd Ball");
+		Entity::Register(gold, "Gold Ball");
+		Entity::Register(cement, "Cement Ball");
+		Entity::Register(metalgrid, "Metal Grid Ball");
+		Entity::Register(bathroomtile, "Bathroom Tile Ball");
+		Entity::Register(dirtyweave, "Dirty Weave Ball");
+		Entity::Register(graybrick, "Gray Brick Ball");
+		Entity::Register(brushedmetal, "Brush Metal Ball");
+		Entity::Register(oldsoiledcloth, "Old Soiled Cloth Ball");
 
 		OwningPointer<MyPointLight> pointlight = OwningPointer<MyPointLight>::Create(pointlight);
 		pointlight->intensity = Vec3f(25.0f, 25.0f, 25.0f);
