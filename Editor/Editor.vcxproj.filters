@@ -29,6 +29,9 @@
     <ClCompile Include="..\MyGame\TestScene_PBR_9Balls.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="EntityInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImguiLayer.h">
@@ -72,6 +75,9 @@
     </ClInclude>
     <ClInclude Include="..\MyGame\WarnPaintedCement.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityInfo.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

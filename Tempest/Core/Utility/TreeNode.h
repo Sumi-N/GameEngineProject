@@ -2,7 +2,7 @@
 
 #include "Define.h"
 
-namespace Tempeest 
+namespace Tempest 
 {
 	template <typename T>
 	class TreeNode 

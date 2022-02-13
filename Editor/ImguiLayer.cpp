@@ -1,7 +1,17 @@
 #include "ImguiLayer.h"
+#include "EntityInfo.h"
+#include "Core/Math/Vector.h"
 
 namespace Tempest
 {
+	namespace 
+	{
+		int IndexOfFocusedObject = -1;
+
+		Vec3f SelectedObjectPosition;
+		Vec3f SelectedObjectRotation;
+		Vec3f SelectedObjectScale;
+	}
 
 	void ImguiLayer::OnAttach()
 	{
@@ -215,33 +225,77 @@ namespace Tempest
 	void ImguiLayer::ControlPanelWindow()
 	{
 		ImGui::Begin("ControlPanel");
-		ImGui::Text("This is setting panel");
+		
+		if (ImGui::CollapsingHeader("Basic Information"))
+		{				
+			float* position_data =reinterpret_cast<float*>(&SelectedObjectPosition);
+			ImGui::Text("Position");
+			ImGui::SameLine(100);
+			ImGui::InputFloat3("", position_data);
+			
+			float* rotation_data = reinterpret_cast<float*>(&SelectedObjectRotation);
+			ImGui::Text("Rotation");
+			ImGui::SameLine(100);
+			ImGui::InputFloat3("", rotation_data);
+			
+			float* scale_data = reinterpret_cast<float*>(&SelectedObjectScale);
+			ImGui::Text("Scale");
+			ImGui::SameLine(100);
+			ImGui::InputFloat3("", scale_data);
+		}
+
 		ImGui::End();
 	}
 
 	void ImguiLayer::LevelEditorPanelWindow()
 	{
 		ImGui::Begin("LevelEditorPanel");
+
 		if (ImGui::TreeNode("Scene Hierarchy"))
 		{
-			int list_size = Entity::ObjectList.Size();
+			static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;			
+			static bool test_drag_and_drop = true;
 
+			static int selection_mask = (1 << 0);
+
+			int list_size = EntityInfo::GetTotalObjectSize();
 			for (int i = 0; i < list_size; i++)
-			{
-				// Use SetNextItemOpen() so set the default state of a node to be open. We could
-				// also use TreeNodeEx() with the ImGuiTreeNodeFlags_DefaultOpen flag to achieve the same thing!
-				if (i == 0)
-					ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-
-				String object_name = Entity::ObjectList[i].name;
-				if (ImGui::TreeNode((void*)(intptr_t)i, object_name.c_str(), i))
-				{					
-					ImGui::Text("This is object");
-					ImGui::TreePop();
+			{				
+				ImGuiTreeNodeFlags node_flags = base_flags;
+				const bool is_selected = (selection_mask & (1 << i)) != 0;
+				if (is_selected)
+					node_flags |= ImGuiTreeNodeFlags_Selected;
+				
+				String object_name = EntityInfo::GetObjectNameByIndex(i);
+				bool node_open = ImGui::TreeNodeEx((void*)(intptr_t)i, node_flags, object_name.c_str(), i);
+				if (ImGui::IsItemClicked()) 
+				{
+					IndexOfFocusedObject = i;
+					SelectedObjectPosition = EntityInfo::GetObjectPositionByIndex(i);
+					SelectedObjectRotation = EntityInfo::GetObjectRotationByIndex(i);
+					SelectedObjectScale    = EntityInfo::GetObjectScaleByIndex(i);
 				}
+				if (test_drag_and_drop && ImGui::BeginDragDropSource())
+				{
+					ImGui::SetDragDropPayload("_TREENODE", NULL, 0);
+					ImGui::Text("This is a drag and drop source");
+					ImGui::EndDragDropSource();
+				}
+				if (node_open)
+				{					
+					ImGui::TreePop();
+				}				
+			}
+			if (IndexOfFocusedObject != -1)
+			{
+				if (ImGui::GetIO().KeyCtrl)
+					selection_mask ^= (1 << IndexOfFocusedObject);          // CTRL+click to toggle
+				else 
+					selection_mask = (1 << IndexOfFocusedObject);           // Click to single-select
 			}
 			ImGui::TreePop();
 		}		
+
 		ImGui::End();
 	}
 

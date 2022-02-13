@@ -226,7 +226,7 @@ namespace Tempest
 			(*it).p->CleanUp();
 		}
 
-		Animation.CLeanUp();
+		Animation.CleanUp();
 	}
 
 	void Entity::SwapCamera(size_t index1, size_t index2)

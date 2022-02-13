@@ -84,6 +84,7 @@
   <ItemGroup>
     <ClCompile Include="..\MyGame\TestScene_PBR_9Balls.cpp" />
     <ClCompile Include="..\MyGame\TestScene_SkeletonAnimation.cpp" />
+    <ClCompile Include="EntityInfo.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ImguiBuild.cpp" />
     <ClCompile Include="ImguiLayer.cpp" />
@@ -102,6 +103,7 @@
     <ClInclude Include="..\MyGame\RastedSphere.h" />
     <ClInclude Include="..\MyGame\TestScenes.h" />
     <ClInclude Include="..\MyGame\WarnPaintedCement.h" />
+    <ClInclude Include="EntityInfo.h" />
     <ClInclude Include="ImguiLayer.h" />
   </ItemGroup>
   <ItemGroup>

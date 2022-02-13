@@ -16,7 +16,7 @@ namespace Tempest
 		void Boot();
 		void Init();		
 		void Update(float i_dt);
-		void CLeanUp();
+		void CleanUp();
 
 		Mat4f bones[NUM_MAX_BONES];
 

@@ -40,7 +40,7 @@ namespace Tempest
 		}
 	}
 
-	void AnimationSystem::CLeanUp()
+	void AnimationSystem::CleanUp()
 	{
 		for (auto it = list.Begin(); it != list.End(); ++it)
 		{

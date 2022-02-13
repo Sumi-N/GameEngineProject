@@ -16,6 +16,7 @@ namespace Tempest
 		ObjectHandler(OwningPointer<Object> i_obj)                : p(i_obj),        name("Empty") {}
 		ObjectHandler(OwningPointer<Object> i_obj, String i_name) : p(i_obj),        name(i_name)  {}
 
+		OwningPointer<Object> Get() { return p; };
 		String name;
 	private:
 		OwningPointer<Object> p;		
