@@ -19,10 +19,8 @@ namespace Tempest
 		};
 	};
 
-	class AmbientLight : public Light
-	{
-
-	};
+	class AmbientLight : public Light 
+	{};
 
 	class PointLight : public Light
 	{

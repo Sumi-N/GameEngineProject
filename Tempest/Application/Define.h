@@ -8,6 +8,7 @@
 #include <Core/MemoryManagement/MemorySystem.h>
 // Entity System
 #include <Core/EntitySystem/Entity.h>
+#include <Core/EntitySystem/EntityCopy.h>
 // Thread
 #include <Core/Thread/Thread.h>
 // Input

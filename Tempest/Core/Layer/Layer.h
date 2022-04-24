@@ -12,8 +12,9 @@ namespace Tempest
 
 		virtual void OnAttach() {};
 		virtual void OnDetach() {};
-		virtual void OnUpdate() {};
+		virtual void OnUpdate() {};		
 		virtual void OnBoot() {};
+		virtual void OnCriticalSection() {};
 
 		virtual void OnEvent(Event& event) {};
 	};

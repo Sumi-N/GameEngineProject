@@ -23,6 +23,7 @@ namespace Tempest
 		virtual void OnDetach() override;
 		virtual void OnUpdate() override;
 		virtual void OnEvent(Event& event) override;
+		virtual void OnCriticalSection() override;
 
 		void Begin();
 		void End();

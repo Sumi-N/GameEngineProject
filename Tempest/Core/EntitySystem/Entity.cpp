@@ -3,32 +3,31 @@
 
 namespace Tempest
 {
+	Array<ObjectHandler>               Entity::ObjectList{};
+	Array<Owner<CameraObject>>         Entity::CamerasObjects{};
+	Array<Owner<PointLight>>           Entity::PointLightList{};
+	Array<Owner<MeshComponent>>        Entity::MeshComponentList{};
+	Array<Owner<EffectComponent>>      Entity::EffectComponentList{};	
 
-	Array<ObjectHandler>                       Entity::ObjectList{};
-	Array<OwningPointer<CameraObject>>         Entity::CamerasObjects{};
-	Array<OwningPointer<PointLight>>           Entity::PointLightList{};
-	Array<OwningPointer<MeshComponent>>        Entity::MeshComponentList{};
-	Array<OwningPointer<EffectComponent>>      Entity::EffectComponentList{};	
+	Owner<CubeMap>                     Entity::Skybox{};
+	Owner<AmbientLight>                Entity::Ambient{};
+	Owner<DirectionalLight>            Entity::Directional{};
 
-	OwningPointer<CubeMap>                     Entity::Skybox{};
-	OwningPointer<AmbientLight>                Entity::Ambient{};
-	OwningPointer<DirectionalLight>            Entity::Directional{};
+	AnimationSystem                    Entity::Animation{};
 
-	AnimationSystem                            Entity::Animation{};
-
-	void Entity::Register(const OwningPointer<Object>& i_obj)
+	void Entity::Register(const Owner<Object>& i_obj)
 	{
 		ObjectHandler objhandler(i_obj);
 		ObjectList.PushBack(objhandler);
 	}
 
-	void Entity::Register(const OwningPointer<Object>& i_obj, String i_name)
+	void Entity::Register(const Owner<Object>& i_obj, String i_name)
 	{
 		ObjectHandler objhandler(i_obj, i_name);
 		ObjectList.PushBack(objhandler);
 	}
 
-	OwningPointer<Object> Entity::Query(Object* i_obj)
+	Owner<Object> Entity::Query(Object* i_obj)
 	{
 		for (auto it = ObjectList.Begin(); it != ObjectList.End(); ++it)
 		{
@@ -41,45 +40,45 @@ namespace Tempest
 		// Couldn't find the query object pointer
 		DEBUG_ASSERT(false);
 		DEBUG_PRINT("Couldn't find the query object pointer");
-		return OwningPointer<Object>();
+		return Owner<Object>();
 	}
 
-	void Entity::RegisterCamera(const OwningPointer<CameraObject>& i_camera)
+	void Entity::RegisterCamera(const Owner<CameraObject>& i_camera)
 	{
 		CamerasObjects.PushBack(i_camera);
 	}
 
-	void Entity::RegisterSkyBox(const OwningPointer<CubeMap>& i_cubemap)
+	void Entity::RegisterSkyBox(const Owner<CubeMap>& i_cubemap)
 	{
 		Skybox = i_cubemap;
 	}
 
-	void Entity::RegisterAmbientLight(const OwningPointer<AmbientLight>& i_ambient)
+	void Entity::RegisterAmbientLight(const Owner<AmbientLight>& i_ambient)
 	{
 		Ambient = i_ambient;
 	}
 
-	void Entity::RegisterDirectionalLight(const OwningPointer<DirectionalLight>& i_directional)
+	void Entity::RegisterDirectionalLight(const Owner<DirectionalLight>& i_directional)
 	{
 		Directional = i_directional;
 	}
 
-	void Entity::RegisterPointLight(const OwningPointer<PointLight>& i_point)
+	void Entity::RegisterPointLight(const Owner<PointLight>& i_point)
 	{
 		PointLightList.PushBack(i_point);
 	}
 
-	void Entity::RegisterMeshComponent(const OwningPointer<MeshComponent>& i_component)
+	void Entity::RegisterMeshComponent(const Owner<MeshComponent>& i_component)
 	{
 		MeshComponentList.PushBack(i_component);
 	}
 
-	void Entity::RegisterEffectComponent(const OwningPointer<EffectComponent>& i_component)
+	void Entity::RegisterEffectComponent(const Owner<EffectComponent>& i_component)
 	{
 		EffectComponentList.PushBack(i_component);
 	}
 
-	void Entity::RegisterAnimationComponent(const OwningPointer<AnimationComponent>& i_component)
+	void Entity::RegisterAnimationComponent(const Owner<AnimationComponent>& i_component)
 	{
 		Entity::Animation.Register(i_component);
 	}
@@ -89,22 +88,22 @@ namespace Tempest
 		// Check if camera exist, if not create one
 		if (Entity::CamerasObjects.Empty())
 		{
-			OwningPointer<CameraObject> camera;
-			OwningPointer<CameraObject>::Create(camera);
+			Owner<CameraObject> camera;
+			Owner<CameraObject>::Create(camera);
 			CamerasObjects.PushBack(camera);
 		}
 
 		// Check if ambient light exist in a scene, if not create one
 		if (!Entity::Ambient)
 		{
-			Entity::Ambient = OwningPointer<AmbientLight>::Create(Ambient);
+			Entity::Ambient = Owner<AmbientLight>::Create(Ambient);
 			Entity::Ambient->intensity = Vec3f(0, 0, 0);
 		}
 
 		// Check if directional light exist in a scene, if not create one
 		if (!Entity::Directional)
 		{
-			Entity::Directional = OwningPointer<DirectionalLight>::Create(Directional);
+			Entity::Directional = Owner<DirectionalLight>::Create(Directional);
 			Entity::Directional->intensity = Vec3f(0, 0, 0);
 			Entity::Directional->direction = Vec3f(0,-1, 0);
 		}
@@ -112,7 +111,7 @@ namespace Tempest
 		// Check if point light exist in a scene, if not create one
 		if (Entity::PointLightList.Size() == 0)
 		{
-			OwningPointer<PointLight> light_handler = OwningPointer<PointLight>::Create(light_handler);
+			Owner<PointLight> light_handler = Owner<PointLight>::Create(light_handler);
 			PointLightList.PushBack(light_handler);
 		}
 

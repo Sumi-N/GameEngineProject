@@ -18,9 +18,6 @@ public:
 	Array<ConstantData::Model> model_data;
 	Array<ConstantData::Material> material_data;
 	ConstantData::CubeMap shadow[NUM_MAX_POINT_LIGHT];
-
-	// The data requires for draw arbitrary line
-	Vec3f points[2];
 };
 
 class Graphic

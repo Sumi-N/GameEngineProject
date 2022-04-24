@@ -19,12 +19,18 @@
     <ClInclude Include="Define.h">
       <Filter>Precompiled Header</Filter>
     </ClInclude>
+    <ClInclude Include="EntityCopy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Define.cpp">
       <Filter>Precompiled Header</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
+      <Filter>Souce Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityCopy.cpp">
       <Filter>Souce Files</Filter>
     </ClCompile>
   </ItemGroup>

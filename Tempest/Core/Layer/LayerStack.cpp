@@ -52,6 +52,14 @@ namespace Tempest
 		}
 	}
 
+	void LayerStack::Update2()
+	{
+		for (Layer* layer : Layers)
+		{
+			layer->OnCriticalSection();
+		}
+	}
+
 	void LayerStack::OnEvent(Event& i_event)
 	{
 		for (auto layer : Layers)

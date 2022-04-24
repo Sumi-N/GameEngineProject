@@ -20,9 +20,11 @@ namespace Tempest
 		void NonCriticalSection() override;
 		void SecondCriticalSection() override;
 		void FollowupSection() override;
-		void CleanUp() override;
+		void CleanUp() override;		
 
 	private:
+		void ParseGraphicsData(GraphicRequiredData* i_data);
+
 		void BindEvent();
 		void OnEvent(Event& i_event);
 		bool OnWindowClose(WindowCloseEvent i_event);

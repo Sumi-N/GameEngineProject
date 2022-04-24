@@ -3,13 +3,12 @@
 
 namespace Tempest
 {
-
 	class Object
 	{
 	public:
 
 		Object();
-		virtual ~Object();		
+		virtual ~Object() {};
 
 		Vec3f pos, scale, rot;
 		Vec3f vel, acc;
@@ -17,10 +16,10 @@ namespace Tempest
 
 		void Translate(Vec3f i_pos) {this->pos = i_pos; }
 
-		virtual void Boot();
-		virtual void Init();
+		virtual void Boot() {};
+		virtual void Init() {};
 		virtual void Update(float i_dt);
-		virtual void CleanUp();
+		virtual void CleanUp() {};
 	};
 
 	inline Object::Object()
@@ -33,30 +32,12 @@ namespace Tempest
 		acc =    Vec3f{};
 		angvel = Vec3f{};
 		angacc = Vec3f{};
-	}
-
-	inline Object::~Object()
-	{
-
-	}
-
-	inline void Object::Boot()
-	{
-	}
-
-	inline void Object::Init()
-	{
-	}
+	}	
 
 	inline void Object::Update(float i_dt)
 	{
 		pos += i_dt * vel;
-	}
-
-	inline void Object::CleanUp()
-	{
-	}
-
+	}	
 }
 
 

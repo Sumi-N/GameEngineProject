@@ -10,9 +10,7 @@ namespace Tempest
 		uint8_t		ObserverReferences;
 
 		ReferenceCounters(uint8_t i_InitialOwners, uint8_t i_InitialObservers)
-			:OwnerReferences(i_InitialOwners), ObserverReferences(i_InitialObservers)
-		{
-		}
+			:OwnerReferences(i_InitialOwners), ObserverReferences(i_InitialObservers) {}
 	};
 
 	// forward declare Observing pointer as we'll refer to it in OwningPointer definition
@@ -43,9 +41,7 @@ namespace Tempest
 		}
 
 		// Default Constructor
-		OwningPointer() : ref(nullptr), data(nullptr)
-		{
-		};
+		OwningPointer() : ref(nullptr), data(nullptr) {};
 
 		// Standard Constructor
 		explicit OwningPointer(T* i_ptr)
@@ -61,20 +57,29 @@ namespace Tempest
 		};
 
 		// Copy Constructor
-		OwningPointer(const OwningPointer& i_other) : data(i_other.data), ref(i_other.ref)
+		OwningPointer(const OwningPointer& i_other)
 		{
 			// If the owning pointer didn't reference itself then increment reference
-			if (&i_other != this)
+			if (i_other != *this) 
+			{
+				data = i_other.data;
+				ref = i_other.ref;
 				i_other.ref->OwnerReferences++;
+			}
 		};
 
 		// Copy Constructor between polymorphic types
 		// OwningPointer<Base> BasePtr( new Base() );
 		// OwningPointer<Default> DefaultPtr = BasePtr; <-- Used here
 		template<class U>
-		OwningPointer(const OwningPointer<U>& i_other) : data(i_other.data), ref(i_other.ref)
+		OwningPointer(const OwningPointer<U>& i_other)
 		{
-			i_other.ref->OwnerReferences++;
+			if (i_other != *this)
+			{
+				data = i_other.data;
+				ref = i_other.ref;
+				i_other.ref->OwnerReferences++;
+			}
 		};
 
 		// Copy Constructor - For creating an Owning Pointer from an Observing Pointer
@@ -101,10 +106,24 @@ namespace Tempest
 			}
 		};
 
+		// Move Constructor
+		template<class T>
+		OwningPointer(OwningPointer<T>&& i_other) 
+		{
+			if (i_other != *this) 
+			{
+				ref = i_other.ref;
+				data = i_other.data;
+				i_other.ref = nullptr;
+				i_other.data = nullptr;
+			}
+			return;
+		}
+
 		// Assignment Operator
 		OwningPointer& operator=(const OwningPointer& i_other)
 		{
-			if (this == &i_other)
+			if (*this == i_other)
 			{
 				return *this;
 			}
@@ -146,7 +165,7 @@ namespace Tempest
 		template<class U>
 		OwningPointer& operator=(const OwningPointer<U>& i_other)
 		{
-			if (this == &i_other)
+			if (*this == i_other)
 				return *this;
 			else
 			{
@@ -262,121 +281,97 @@ namespace Tempest
 		// Equality comparison operator
 		inline bool operator==(const OwningPointer<T>& i_other) const
 		{
-			if (data == i_other.data)
-				return true;
-			else
-				return false;
+			return data == i_other.data;
 		};
 
 		// Equality comparison operator between pointers to polymorphic types
 		template<class U>
 		inline bool operator==(const OwningPointer<U>& i_other) const
 		{
-			if (data == i_other.data)
-				return true;
-			else
-				return false;
+			return data == i_other.data;
 		};
 
 		// Equality comparison operator for comparing to an Observing Pointer
 		inline bool operator==(const ObservingPointer<T>& i_other) const
 		{
-			if (data == i_other.data)
-				return true;
-			else
-				return false;
+			return data == i_other.data;
 		};
 
 		// Equality comparison operator for comparing to an Observing Pointer of a polymorphic type
 		template<class U>
 		inline bool operator==(const ObservingPointer<U>& i_other) const
 		{
-			if (data == i_other.data)
-				return true;
-			else
-				return false;
+			return data == i_other.data;
 		};
 
 		// Inequality comparison operator
 		inline bool operator!=(const OwningPointer<T>& i_other) const
 		{
-			return !(operator==(i_other));
+			return !(data == i_other.data);
 		};
 
 		// Inequality comparison operator between pointers to polymorphic types
 		template<class U>
 		inline bool operator!=(const OwningPointer<U>& i_other) const
 		{
-			return !(operator==(i_other));
+			return !(data == i_other.data);
 		};
 
 		// Inequality comparison operator for comparing to an Observing Pointer
 		inline bool operator!=(const ObservingPointer<T>& i_other) const
 		{
-			return !(operator==(i_other));
+			return !(data == i_other.data);
 		};
 
 		// Inequality comparison operator for comparing to an Observing Pointer of a polymorphic type
 		template<class U>
 		inline bool operator!=(const ObservingPointer<U>& i_other) const
 		{
-			return !(operator==(i_other));
+			return !(data == i_other.data);
 		};
 
 		// Equality comparison operator directly to pointer 
 		inline bool operator==(T* i_ptr) const
 		{
-			if (data == i_ptr)
-				return true;
-			else
-				return false;
+			return data == i_ptr;				
 		};
 
 		// Equality comparison operator directly to pointer (of polymorphic type)
 		template<class U>
 		inline bool operator==(U* i_ptr) const
 		{
-			if (data == i_ptr)
-				return true;
-			else
-				return false;
+			return data == i_ptr;				
 		};
 
 		// Equality comparison operator for nullptr
 		inline bool operator==(std::nullptr_t nullp) const
 		{
-			if (data == nullptr)
-				return true;
-			else
-				return false;
+			return data ? false : true;				
 		};
 
 		// Inequality comparison operator directly to pointer 
 		inline bool operator!=(T* i_ptr) const
 		{
-			return !(operator==(T * i_ptr));
+			return !(data == i_ptr);
 		};
 
 		// Inequality comparison operator directly to pointer (of polymorphic type)
 		template<class U>
 		inline bool operator!=(U* i_ptr) const
 		{
-			return !(operator==(U * i_ptr));
+			return !(data == i_ptr);
 		};
 
 		// Inequality comparison operator for nullptr
 		inline bool operator!=(std::nullptr_t nullp) const
 		{
-			return !(operator==(nullp));
+			return data ? true : false;
 		};
 
 		// bool operator - shorthand for != nullptr;
 		inline operator bool() const
 		{
-			if (data == nullptr)
-				return false;
-			else
-				return true;
+			return data ? true : false;
 		};
 
 		// member access operator
@@ -429,7 +424,6 @@ namespace Tempest
 		template<class U>
 		ObservingPointer(const OwningPointer<U>& i_owner) : ref(i_owner.ref), data(i_owner.data)
 		{
-
 			ref->ObserverReferences++;
 		};
 
@@ -458,7 +452,7 @@ namespace Tempest
 		// Assignment operators
 		ObservingPointer& operator=(const ObservingPointer<T>& i_other)
 		{
-			if (this == &i_other)
+			if (*this == i_other)
 			{
 				return *this;
 			}
@@ -483,7 +477,7 @@ namespace Tempest
 		template<class U>
 		ObservingPointer& operator=(const ObservingPointer<U>& i_other)
 		{
-			if (this == &i_other)
+			if (*this == i_other)
 			{
 				return *this;
 			}
@@ -555,46 +549,31 @@ namespace Tempest
 		// Equality comparison operators
 		inline bool operator==(const OwningPointer<T>& i_other) const
 		{
-			if (ref == i_other.ref)
-				return true;
-			else
-				return false;
+			return ref == i_other.ref;				
 		};
 
 		template<class U>
 		inline bool operator==(const OwningPointer<U>& i_other) const
 		{
-			if (ref == i_other.ref)
-				return true;
-			else
-				return false;
+			return ref == i_other.ref;				
 		};
 
 		inline bool operator==(const ObservingPointer<T>& i_other) const
 		{
-			if (ref == i_other.ref)
-				return true;
-			else
-				return false;
+			return ref == i_other.ref;				
 		};
 
 		template<class U>
 		inline bool operator==(const ObservingPointer<U>& i_other) const
 		{
-			if (ref == i_other.ref)
-				return true;
-			else
-				return false;
+			return ref == i_other.ref;				
 		};
 
 		inline bool operator==(T* i_ptr) const
 		{
 			if (ref->OwnerReferences != 0)
 			{
-				if (data == i_ptr)
-					return true;
-				else
-					return false;
+				return data == i_ptr;
 			}
 			else
 				return false;
@@ -605,10 +584,7 @@ namespace Tempest
 		{
 			if (ref->OwnerReferences != 0)
 			{
-				if (data == i_ptr)
-					return true;
-				else
-					return false;
+				return data == i_ptr;
 			}
 			else
 				return false;
@@ -617,24 +593,24 @@ namespace Tempest
 		// Inequality comparison operators
 		inline bool operator!=(const OwningPointer<T>& i_other) const
 		{
-			return !(operator==(i_other));
+			return !(ref == i_other.ref);
 		};
 
 		template<class U>
 		inline bool operator!=(const OwningPointer<U>& i_other) const
 		{
-			return !(operator==(i_other));
+			return !(ref == i_other.ref);
 		};
 
 		inline bool operator!=(const ObservingPointer<T>& i_other) const
 		{
-			return !(operator==(i_other));
+			return !(ref == i_other.ref);
 		};
 
 		template<class U>
 		inline bool operator!=(const ObservingPointer<U>& i_other) const
 		{
-			return !(operator==(i_other));
+			return !(ref == i_other.ref);
 		};
 
 		inline bool operator!=(T* i_ptr) const
@@ -651,10 +627,7 @@ namespace Tempest
 		// bool operator
 		inline operator bool() const
 		{
-			if (data == nullptr)
-				return false;
-			else
-				return true;
+			return data ? true : false;				
 		};
 
 		// member access operator
@@ -686,6 +659,14 @@ namespace Tempest
 			}
 		};
 	};
+
+	template<typename T, typename... U>
+	static OwningPointer<T> Create(U&&... args)
+	{					
+		T* obj = new T(std::forward<U>(args)...);
+		OwningPointer<T> o_pointer{obj};
+		return o_pointer;
+	}	
 }
 
 template<typename T>

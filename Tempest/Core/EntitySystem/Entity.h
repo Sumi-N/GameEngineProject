@@ -9,17 +9,18 @@ namespace Tempest
 	{
 
 		friend class Entity;
+		friend class EntityCopy;
 
 	public:
 		ObjectHandler() = default;
-		ObjectHandler(Object* i_objpointer)		                  : p(i_objpointer), name("Empty") {}
-		ObjectHandler(OwningPointer<Object> i_obj)                : p(i_obj),        name("Empty") {}
-		ObjectHandler(OwningPointer<Object> i_obj, String i_name) : p(i_obj),        name(i_name)  {}
+		ObjectHandler(Object* i_objpointer)		          : p(i_objpointer), name("Empty") {}
+		ObjectHandler(Owner<Object> i_obj)                : p(i_obj),        name("Empty") {}
+		ObjectHandler(Owner<Object> i_obj, String i_name) : p(i_obj),        name(i_name)  {}
 
-		OwningPointer<Object> Get() { return p; };
+		Owner<Object> Get() { return p; };
 		String name;
 	private:
-		OwningPointer<Object> p;		
+		Owner<Object> p;		
 	};
 
 	class Entity
@@ -27,29 +28,29 @@ namespace Tempest
 
 	public:		
 		static Array<ObjectHandler>                     ObjectList;
-		static Array<OwningPointer<CameraObject>>       CamerasObjects;
-		static Array<OwningPointer<PointLight>>         PointLightList;
-		static Array<OwningPointer<MeshComponent>>      MeshComponentList;
-		static Array<OwningPointer<EffectComponent>>    EffectComponentList;		
+		static Array<Owner<CameraObject>>       CamerasObjects;
+		static Array<Owner<PointLight>>         PointLightList;
+		static Array<Owner<MeshComponent>>      MeshComponentList;
+		static Array<Owner<EffectComponent>>    EffectComponentList;		
 
-		static OwningPointer<CubeMap>                   Skybox;
-		static OwningPointer<AmbientLight>              Ambient;
-		static OwningPointer<DirectionalLight>          Directional;
+		static Owner<CubeMap>                   Skybox;
+		static Owner<AmbientLight>              Ambient;
+		static Owner<DirectionalLight>          Directional;
 
 		static AnimationSystem                          Animation;
 		
-		static OwningPointer<Object> Query(Object*);
+		static Owner<Object> Query(Object*);
 
-		static void Register                  (const OwningPointer<Object>&);
-		static void Register                  (const OwningPointer<Object>&, String);
-		static void RegisterCamera            (const OwningPointer<CameraObject>&);
-		static void RegisterSkyBox            (const OwningPointer<CubeMap>&);
-		static void RegisterAmbientLight      (const OwningPointer<AmbientLight>&);
-		static void RegisterDirectionalLight  (const OwningPointer<DirectionalLight>&);
-		static void RegisterPointLight        (const OwningPointer<PointLight>&);
-		static void RegisterMeshComponent     (const OwningPointer<MeshComponent>&);
-		static void RegisterEffectComponent   (const OwningPointer<EffectComponent>&);		
-		static void RegisterAnimationComponent(const OwningPointer<AnimationComponent>&);
+		static void Register                  (const Owner<Object>&);
+		static void Register                  (const Owner<Object>&, String);
+		static void RegisterCamera            (const Owner<CameraObject>&);
+		static void RegisterSkyBox            (const Owner<CubeMap>&);
+		static void RegisterAmbientLight      (const Owner<AmbientLight>&);
+		static void RegisterDirectionalLight  (const Owner<DirectionalLight>&);
+		static void RegisterPointLight        (const Owner<PointLight>&);
+		static void RegisterMeshComponent     (const Owner<MeshComponent>&);
+		static void RegisterEffectComponent   (const Owner<EffectComponent>&);		
+		static void RegisterAnimationComponent(const Owner<AnimationComponent>&);
 
 		static void Boot();
 		static void Init();

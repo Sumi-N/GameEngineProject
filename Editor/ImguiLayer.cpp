@@ -226,22 +226,23 @@ namespace Tempest
 	{
 		ImGui::Begin("ControlPanel");
 		
-		if (ImGui::CollapsingHeader("Basic Information"))
+		ImGuiTreeNodeFlags_ asset_panel_flags = ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen;
+		if (ImGui::CollapsingHeader("Basic Information", asset_panel_flags))
 		{				
 			float* position_data =reinterpret_cast<float*>(&SelectedObjectPosition);
 			ImGui::Text("Position");
 			ImGui::SameLine(100);
 			ImGui::InputFloat3("", position_data);
 			
-			float* rotation_data = reinterpret_cast<float*>(&SelectedObjectRotation);
-			ImGui::Text("Rotation");
-			ImGui::SameLine(100);
-			ImGui::InputFloat3("", rotation_data);
-			
-			float* scale_data = reinterpret_cast<float*>(&SelectedObjectScale);
-			ImGui::Text("Scale");
-			ImGui::SameLine(100);
-			ImGui::InputFloat3("", scale_data);
+			//float* rotation_data = reinterpret_cast<float*>(&SelectedObjectRotation);
+			//ImGui::Text("Rotation");
+			//ImGui::SameLine(100);
+			//ImGui::InputFloat3("", rotation_data);
+			//
+			//float* scale_data = reinterpret_cast<float*>(&SelectedObjectScale);
+			//ImGui::Text("Scale");
+			//ImGui::SameLine(100);
+			//ImGui::InputFloat3("", scale_data);
 		}
 
 		ImGui::End();
@@ -299,4 +300,8 @@ namespace Tempest
 		ImGui::End();
 	}
 
+	void ImguiLayer::OnCriticalSection() 
+	{
+
+	}
 }

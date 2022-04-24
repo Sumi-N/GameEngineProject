@@ -16,6 +16,7 @@ namespace Tempest
 		static void PopLayer(Layer*);
 		static void Boot();
 		static void Update();
+		static void Update2();
 		static void OnEvent(Event&);
 		static void CleanUp();		
 
