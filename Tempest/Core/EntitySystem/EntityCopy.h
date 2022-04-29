@@ -7,7 +7,7 @@ namespace Tempest {
 	class EntityCopy
 	{
 	public:
-		static Array<ObjectHandler>                     ObjectListCopy;
+		static Array<ObjectHandler>             ObjectListCopy;
 		static Array<Owner<CameraObject>>       CamerasObjectsCopy;
 		static Array<Owner<PointLight>>         PointLightListCopy;
 		static Array<Owner<MeshComponent>>      MeshComponentListCopy;

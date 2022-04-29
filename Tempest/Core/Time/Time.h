@@ -7,38 +7,40 @@ namespace Tempest
 	class Time
 	{
 	public:
-		static double dt;
-
-		static void Init();
-		static void Update();
+		Time() = default;	
+		double dt;		
 
 	private:
 #ifdef  ENGINE_PLATFORM_WINDOWS
-		static double frequencypermillisecond;
-		static LARGE_INTEGER lpFrequency;
-		static LARGE_INTEGER lpPerformanceCount_begin;
-		static LARGE_INTEGER lpPerformanceCount_end;
+		double frequencypermillisecond;
+		LARGE_INTEGER lpFrequency;
+		LARGE_INTEGER lpPerformanceCount_begin;
+		LARGE_INTEGER lpPerformanceCount_end;
 #endif
+
+	public:
+		static void Init(Time& io_time);
+		static void Update(Time& io_time);
 	};
 
-	inline void Time::Init()
+	inline void Time::Init(Time& io_time)
 	{
 #ifdef  ENGINE_PLATFORM_WINDOWS
-		QueryPerformanceFrequency(&Time::lpFrequency);
-		Time::frequencypermillisecond = double(Time::lpFrequency.QuadPart) / 1000;
-		Time::lpPerformanceCount_begin.QuadPart = 0;
+		QueryPerformanceFrequency(&io_time.lpFrequency);
+		io_time.frequencypermillisecond = double(io_time.lpFrequency.QuadPart) / 1000;
+		io_time.lpPerformanceCount_begin.QuadPart = 0;
 #endif
 	}
 
-	inline void Time::Update()
+	inline void Time::Update(Time& io_time)
 	{
 #ifdef  ENGINE_PLATFORM_WINDOWS
-		QueryPerformanceCounter(&Time::lpPerformanceCount_end);
-		if (Time::lpPerformanceCount_begin.QuadPart == 0)
-			Time::dt = 0;
+		QueryPerformanceCounter(&io_time.lpPerformanceCount_end);
+		if (io_time.lpPerformanceCount_begin.QuadPart == 0)
+			io_time.dt = 0;
 		else
-			Time::dt = double(Time::lpPerformanceCount_end.QuadPart - Time::lpPerformanceCount_begin.QuadPart) / Time::frequencypermillisecond;
-		Time::lpPerformanceCount_begin.QuadPart = Time::lpPerformanceCount_end.QuadPart;
+			io_time.dt = double(io_time.lpPerformanceCount_end.QuadPart - io_time.lpPerformanceCount_begin.QuadPart) / io_time.frequencypermillisecond;
+		io_time.lpPerformanceCount_begin.QuadPart = io_time.lpPerformanceCount_end.QuadPart;
 #endif
 	}
 }

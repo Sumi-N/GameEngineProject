@@ -27,7 +27,7 @@ namespace Tempest
 	{		
 
 	public:		
-		static Array<ObjectHandler>                     ObjectList;
+		static Array<ObjectHandler>             ObjectList;
 		static Array<Owner<CameraObject>>       CamerasObjects;
 		static Array<Owner<PointLight>>         PointLightList;
 		static Array<Owner<MeshComponent>>      MeshComponentList;
