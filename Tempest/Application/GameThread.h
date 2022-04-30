@@ -11,9 +11,7 @@ namespace Tempest
 		void Boot() override;
 		void Init() override;
 		void CriticalSection() override;
-		void NonCriticalSection() override;
-		void SecondCriticalSection() override;
-		void FollowupSection() override;
+		void NonCriticalSection() override;		
 		void CleanUp() override;
 
 		void WriteDataToOwningThread();

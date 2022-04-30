@@ -105,6 +105,9 @@
     <ProjectReference Include="..\Layer\Layer.vcxproj">
       <Project>{2b52b2e4-d107-4ec2-ac23-3c3dcdb1ddfb}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Time\Time.vcxproj">
+      <Project>{e613ebe4-86fb-4cb5-8e04-e4558231d013}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

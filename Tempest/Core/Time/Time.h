@@ -11,24 +11,27 @@ namespace Tempest
 		double dt;		
 
 	private:
-#ifdef  ENGINE_PLATFORM_WINDOWS
-		double frequencypermillisecond;
-		LARGE_INTEGER lpFrequency;
+#ifdef  ENGINE_PLATFORM_WINDOWS		
 		LARGE_INTEGER lpPerformanceCount_begin;
 		LARGE_INTEGER lpPerformanceCount_end;
+
+		static LARGE_INTEGER LPFrequency;
+		static double FrequencyPerMilliSecond;
 #endif
 
 	public:
-		static void Init(Time& io_time);
+		static void Init();
 		static void Update(Time& io_time);
+
+		static void Begin(Time& io_time);
+		static void End(Time& io_time);
 	};
 
-	inline void Time::Init(Time& io_time)
+	inline void Time::Init()
 	{
 #ifdef  ENGINE_PLATFORM_WINDOWS
-		QueryPerformanceFrequency(&io_time.lpFrequency);
-		io_time.frequencypermillisecond = double(io_time.lpFrequency.QuadPart) / 1000;
-		io_time.lpPerformanceCount_begin.QuadPart = 0;
+		QueryPerformanceFrequency(&LPFrequency);
+		FrequencyPerMilliSecond = double(LPFrequency.QuadPart) / 1000;
 #endif
 	}
 
@@ -39,8 +42,23 @@ namespace Tempest
 		if (io_time.lpPerformanceCount_begin.QuadPart == 0)
 			io_time.dt = 0;
 		else
-			io_time.dt = double(io_time.lpPerformanceCount_end.QuadPart - io_time.lpPerformanceCount_begin.QuadPart) / io_time.frequencypermillisecond;
+			io_time.dt = double(io_time.lpPerformanceCount_end.QuadPart - io_time.lpPerformanceCount_begin.QuadPart) / FrequencyPerMilliSecond;
 		io_time.lpPerformanceCount_begin.QuadPart = io_time.lpPerformanceCount_end.QuadPart;
 #endif
+	}
+
+	inline void Time::Begin(Time& io_time) 
+	{
+#ifdef ENGINE_PLATFORM_WINDOWS
+		QueryPerformanceCounter(&io_time.lpPerformanceCount_begin);
+#endif // ENGINE_PLATFORM_WINDOWS
+	}
+
+	inline void Time::End(Time& io_time)
+	{
+#ifdef ENGINE_PLATFORM_WINDOWS
+		QueryPerformanceCounter(&io_time.lpPerformanceCount_end);
+		io_time.dt = double(io_time.lpPerformanceCount_end.QuadPart - io_time.lpPerformanceCount_begin.QuadPart) / FrequencyPerMilliSecond;
+#endif // ENGINE_PLATFORM_WINDOWS
 	}
 }

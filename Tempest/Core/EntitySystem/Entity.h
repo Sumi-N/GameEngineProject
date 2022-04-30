@@ -13,12 +13,12 @@ namespace Tempest
 
 	public:
 		ObjectHandler() = default;
-		ObjectHandler(Object* i_objpointer)		          : p(i_objpointer), name("Empty") {}
-		ObjectHandler(Owner<Object> i_obj)                : p(i_obj),        name("Empty") {}
-		ObjectHandler(Owner<Object> i_obj, String i_name) : p(i_obj),        name(i_name)  {}
+		ObjectHandler(Object* i_objpointer) : p(i_objpointer), name("Empty") {}		
+		ObjectHandler(Owner<Object> i_obj) : p(i_obj), name("Empty") {}
+		ObjectHandler(Owner<Object> i_obj, String i_name) : p(i_obj), name(i_name) {}		
 
 		Owner<Object> Get() { return p; };
-		String name;
+		String name{"Empty"};
 	private:
 		Owner<Object> p;		
 	};

@@ -20,48 +20,48 @@ namespace Tempest
 {
 	void TestScene::PBR_9Balls()
 	{
-		// Setting up camera
-		OwningPointer<MyCameraObject> mycamera = OwningPointer<MyCameraObject>::Create(mycamera);
+		// Setting up camera		
+		OwningPointer<MyCameraObject> mycamera = Create<MyCameraObject>();
 		Entity::RegisterCamera(mycamera);
 
 		// Setting up skybox
-		OwningPointer<MySkyBox> myskybox = OwningPointer<MySkyBox>::Create(myskybox);
+		OwningPointer<MySkyBox> myskybox = Create<MySkyBox>();
 		Entity::RegisterSkyBox(myskybox);
 
 
-		OwningPointer<RastedSphere> rastered = OwningPointer<RastedSphere>::Create(rastered);
+		OwningPointer<RastedSphere> rastered = Create<RastedSphere>();
 		rastered->Translate(Vec3f(0, 0, -60));
 		rastered->scale = Vec3f(0.3f, 0.3f, 0.3f);
 
-		OwningPointer<ScuffedGoldSphere> gold = OwningPointer<ScuffedGoldSphere>::Create(gold);
+		OwningPointer<ScuffedGoldSphere> gold = Create<ScuffedGoldSphere>();
 		gold->Translate(Vec3f(15, 0, -60));
 		gold->scale = Vec3f(0.3f, 0.3f, 0.3f);
 
-		OwningPointer<WornPaintedCement> cement = OwningPointer<WornPaintedCement>::Create(cement);
+		OwningPointer<WornPaintedCement> cement = Create<WornPaintedCement>();
 		cement->Translate(Vec3f(-15, 0, -60));
 		cement->scale = Vec3f(0.3f, 0.3f, 0.3f);
 
-		OwningPointer<MetalGridSphere> metalgrid = OwningPointer<MetalGridSphere>::Create(metalgrid);
+		OwningPointer<MetalGridSphere> metalgrid = Create<MetalGridSphere>();
 		metalgrid->Translate(Vec3f(-15, 15, -60));
 		metalgrid->scale = Vec3f(0.3f, 0.3f, 0.3f);
 
-		OwningPointer<BathRoomTileSphere> bathroomtile = OwningPointer<BathRoomTileSphere>::Create(bathroomtile);
+		OwningPointer<BathRoomTileSphere> bathroomtile = Create<BathRoomTileSphere>();
 		bathroomtile->Translate(Vec3f(-15, -15, -60));
 		bathroomtile->scale = Vec3f(0.3f, 0.3f, 0.3f);
 
-		OwningPointer<DirtyWickerWeaveSphere> dirtyweave = OwningPointer<DirtyWickerWeaveSphere>::Create(dirtyweave);
+		OwningPointer<DirtyWickerWeaveSphere> dirtyweave = Create<DirtyWickerWeaveSphere>();
 		dirtyweave->Translate(Vec3f(15, -15, -60));
 		dirtyweave->scale = Vec3f(0.3f, 0.3f, 0.3f);
 
-		OwningPointer<GrayBrickSphere> graybrick = OwningPointer<GrayBrickSphere>::Create(graybrick);
+		OwningPointer<GrayBrickSphere> graybrick = Create<GrayBrickSphere>();
 		graybrick->Translate(Vec3f(15, 15, -60));
 		graybrick->scale = Vec3f(0.3f, 0.3f, 0.3f);
 
-		OwningPointer<BrushedMetalSphere> brushedmetal = OwningPointer<BrushedMetalSphere>::Create(brushedmetal);
+		OwningPointer<BrushedMetalSphere> brushedmetal = Create<BrushedMetalSphere>();
 		brushedmetal->Translate(Vec3f(0, 15, -60));
 		brushedmetal->scale = Vec3f(0.3f, 0.3f, 0.3f);
 
-		OwningPointer<OldSoiledClothSphere> oldsoiledcloth = OwningPointer<OldSoiledClothSphere>::Create(oldsoiledcloth);
+		OwningPointer<OldSoiledClothSphere> oldsoiledcloth = Create<OldSoiledClothSphere>();
 		oldsoiledcloth->Translate(Vec3f(0, -15, -60));
 		oldsoiledcloth->scale = Vec3f(0.3f, 0.3f, 0.3f);
 
@@ -75,19 +75,19 @@ namespace Tempest
 		Entity::Register(brushedmetal, "Brush Metal Ball");
 		Entity::Register(oldsoiledcloth, "Old Soiled Cloth Ball");
 
-		OwningPointer<MyPointLight> pointlight = OwningPointer<MyPointLight>::Create(pointlight);
+		OwningPointer<MyPointLight> pointlight = Create<MyPointLight>();
 		pointlight->intensity = Vec3f(25.0f, 25.0f, 25.0f);
 		pointlight->pos = Vec3f(0.f, 0.f, -40.f);
 
-		OwningPointer<MyPointLight> pointlight2 = OwningPointer<MyPointLight>::Create(pointlight2);
+		OwningPointer<MyPointLight> pointlight2 = Create<MyPointLight>();
 		pointlight2->intensity = Vec3f(10.0f, 10.0f, 10.0f);
 		pointlight2->pos = Vec3f(30.f, -30.f, -40.f);
 
-		OwningPointer<MyPointLight> pointlight3 = OwningPointer<MyPointLight>::Create(pointlight3);
+		OwningPointer<MyPointLight> pointlight3 = Create<MyPointLight>();
 		pointlight3->intensity = Vec3f(10.0f, 10.0f, 10.0f);
 		pointlight3->pos = Vec3f(-30.f, 30.f, -40.f);
 
-		OwningPointer<MyPointLight> pointlight4 = OwningPointer<MyPointLight>::Create(pointlight4);
+		OwningPointer<MyPointLight> pointlight4 = Create<MyPointLight>();
 		pointlight4->intensity = Vec3f(10.0f, 10.0f, 10.0f);
 		pointlight4->pos = Vec3f(-30.f, -30.f, -40.f);
 

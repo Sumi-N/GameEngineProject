@@ -8,7 +8,7 @@ namespace Tempest
 	class Thread
 	{
 	public:
-		Thread() :brunning(true), bready(false), thread_id(255) {}
+		Thread() :brunning(true), thread_id(255) {}
 		~Thread() = default;
 
 		void Create();
@@ -16,20 +16,12 @@ namespace Tempest
 		virtual void Init();
 		virtual void Run();
 		virtual void CleanUp();
-		virtual void Eject();
-
-		bool bready;
-		std::mutex mutex;
-		std::condition_variable condition;
-
-	protected:
 
 		bool brunning;
 		uint8_t thread_id;
 
+	protected:
 		virtual void CriticalSection();
 		virtual void NonCriticalSection();
-		virtual void SecondCriticalSection();
-		virtual void FollowupSection();
 	};
 }

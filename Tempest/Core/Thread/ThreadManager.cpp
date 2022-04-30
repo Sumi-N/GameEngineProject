@@ -2,24 +2,63 @@
 #include "ThreadManager.h"
 
 namespace Tempest
-{
-	Array<std::mutex*>              ThreadManager::Mutexs;
-	Array<std::condition_variable*> ThreadManager::Conditions;
-	Array<bool*>                    ThreadManager::b_thread_ready;
-	uint8_t                         ThreadManager::ThreadCounter = 0;
+{	
+	uint8_t ThreadCount{ 0 };
 
-
-	uint8_t ThreadManager::RegisterThread(std::mutex& i_mutex, std::condition_variable& i_condition, bool& i_bool)
+	uint8_t ThreadManager::RegisterThread()
 	{
-		Mutexs.PushBack(&i_mutex);
-		Conditions.PushBack(&i_condition);
-		b_thread_ready.PushBack(&i_bool);
+		return ThreadCount++;
+	}	
 
-		return ThreadCounter++;
-	}
+	void ThreadManager::SyncPoint1(uint8_t thread_id)
+	{	
+		static std::mutex mtx;
+		static std::condition_variable condition;
+		static Array<bool> thread_ready(ThreadCount);
+		static bool ready{ false };
 
-	uint8_t ThreadManager::GetOtherThreadID(const uint8_t& i_thread_id)
-	{
-		return i_thread_id == 0 ? 1 : 0;
-	}
+		{
+			std::lock_guard lock_guard(mtx);
+			ready = false;
+			thread_ready[thread_id] = true;
+			
+			if (thread_ready[0] && thread_ready[1])
+			{				
+				ready = true;
+				condition.notify_all();
+			}
+		}
+
+		{			
+			std::unique_lock unique_lock(mtx);
+			condition.wait(unique_lock, [&] { return ready; });
+			thread_ready[thread_id] = false;
+		}
+	}	
+
+	void ThreadManager::SyncPoint2(uint8_t thread_id)
+	{	
+		static std::mutex mtx;
+		static std::condition_variable condition;
+		static Array<bool> thread_ready(ThreadCount);
+		static bool ready{ false };
+
+		{
+			std::lock_guard lock_guard(mtx);
+			ready = false;
+			thread_ready[thread_id] = true;
+
+			if (thread_ready[0] && thread_ready[1])
+			{
+				ready = true;
+				condition.notify_all();
+			}
+		}
+
+		{
+			std::unique_lock unique_lock(mtx);
+			condition.wait(unique_lock, [&] { return ready; });
+			thread_ready[thread_id] = false;
+		}
+	}		
 }

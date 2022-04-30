@@ -2,13 +2,12 @@
 
 namespace Tempest
 {
-
 	//Data required for render thread
 	GraphicRequiredData  ContainerRenderData[2];
 	GraphicRequiredData* ContainerGameOwn = &ContainerRenderData[0];
 	GraphicRequiredData* ContainerRenderOwn = &ContainerRenderData[1];
 
-	extern HWND WindowsHanlder;
+	extern HWND WindowsHanlder;	
 
 	void RenderThread::Boot()
 	{
@@ -29,29 +28,21 @@ namespace Tempest
 	}
 
 	void RenderThread::Init()
-	{
+	{		
 		// Init scene Entity
 		SceneEntity::Init();
 
 		Graphic::Init(window->data.width, window->data.height);
 		
-		Graphic::PreCompute();
-
-		EntityCopy::Init();
-	}
-
-	void RenderThread::CriticalSection()
-	{
-		std::swap(ContainerGameOwn, ContainerRenderOwn);
-		bready = true;
-	}
+		Graphic::PreCompute();		
+	}	
 
 	void RenderThread::NonCriticalSection()
-	{
+	{		
 		if (!window->CheckShutdown())
 		{
 			brunning = false;
-		}
+		}		
 
 		ParseGraphicsData(ContainerRenderOwn);
 
@@ -63,69 +54,13 @@ namespace Tempest
 
 		Graphic::PostUpdate(ContainerRenderOwn);				
 
-		window->SwapBuffer();
+		window->SwapBuffer();		
 	}
 
-	void RenderThread::SecondCriticalSection()
-	{
-		LayerStack::Update2();
+	void RenderThread::CriticalSection()
+	{		
+		std::swap(ContainerGameOwn, ContainerRenderOwn);
 	}
-
-	void RenderThread::FollowupSection()
-	{
-		bready = false;
-	}
-
-	//inline void RenderThread::Run()
-	//{
-	//	bool brunning = true;
-	//
-	//	while (brunning)
-	//	{
-	//
-	//		// Reading this comment section along with GameThread.h is recommended
-	//		// The purpose for this section is to swap data between game thread and render thread while the game thread is waiting
-	//		{
-	//			// 1. The purpose for lock_guard_render is to not let the game thread to touch both the swapping data and b_render_ready variable
-	//			// Especially the game thread is constantly referencing b_render_ready variable so it is important to lock the variable when this thread make a change to it
-	//			std::lock_guard<std::mutex> lock_guard_render(Mutex_Render);
-	//
-	//			{
-	//				std::swap(data_game_own, data_render_own);
-	//			}
-	//
-	//			// 3. Make b_render_ready true so that it goes through while loop in the game thread 
-	//			b_render_ready = true;
-	//			// 4. Notify unique_lock_guard_render mutex to release the lock
-	//			Condition_Render.notify_one();
-	//		}
-	//
-	//		{
-	//			if (!Graphic::PreUpdate())
-	//			{
-	//				brunning = false;
-	//			}
-	//
-	//			Graphic::Update(data_render_own);
-	//
-	//			Graphic::PostUpdate(data_render_own);
-	//		}
-	//
-	//		// Almost the same logic as the section below. see the comments below.
-	//		{
-	//			std::unique_lock<std::mutex> unique_lock_guard_game(Mutex_Game);
-	//
-	//			while (!b_game_ready)
-	//			{
-	//				Condition_Game.wait(unique_lock_guard_game);
-	//			}
-	//		}
-	//
-	//		b_render_ready = false;
-	//	}
-	//
-	//	CleanUp();
-	//}
 
 	void RenderThread::CleanUp()
 	{

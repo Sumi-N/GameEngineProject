@@ -18,7 +18,7 @@ namespace Tempest
 		EntityCopy::CamerasObjectsCopy = Entity::CamerasObjects;		
 		
 		for (auto it = Entity::ObjectList.Begin(); it != Entity::ObjectList.End(); ++it)
-		{			
+		{
 			Owner<Object> copy_object_pointer = Create<Object>();
 			ObjectHandler handler(copy_object_pointer);
 			Object& original_object = *(*it).p;

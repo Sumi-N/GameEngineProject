@@ -1,50 +1,36 @@
 #include "Thread.h"
+#include <Time/Time.h>
 
 namespace Tempest
 {
 	void Thread::Create()
 	{
-		thread_id = ThreadManager::RegisterThread(mutex, condition, bready);
+		thread_id = ThreadManager::RegisterThread();
 	}
 
 	void Thread::Boot()
 	{
-
 	}
 
 	void Thread::Init()
 	{
-
-	}
+	}		
 
 	void Thread::Run()
 	{
 		while (brunning)
-		{
+		{						
 			{
-				std::lock_guard<std::mutex> lock_guard(mutex);
-
-				CriticalSection();
-
-				condition.notify_one();
+				NonCriticalSection();				
 			}
 
+			ThreadManager::SyncPoint1(thread_id);
+										
 			{
-				NonCriticalSection();
+				CriticalSection();				
 			}
 
-			{
-				std::unique_lock<std::mutex> unique_lock_guard(*ThreadManager::Mutexs[ThreadManager::GetOtherThreadID(thread_id)]);
-
-				while (!(*ThreadManager::b_thread_ready[ThreadManager::GetOtherThreadID(thread_id)]))
-				{
-					ThreadManager::Conditions[ThreadManager::GetOtherThreadID(thread_id)]->wait(unique_lock_guard);
-				}
-
-				SecondCriticalSection();
-			}
-
-			FollowupSection();
+			ThreadManager::SyncPoint2(thread_id);
 		}
 
 		CleanUp();
@@ -52,30 +38,13 @@ namespace Tempest
 
 	void Thread::CleanUp()
 	{
-
-	}
-
-	void Thread::Eject()
-	{
-	}
+	}	
 
 	void Thread::CriticalSection()
 	{
-
 	}
 
 	void Thread::NonCriticalSection()
 	{
-
-	}
-
-	void Thread::SecondCriticalSection()
-	{
-
-	}
-
-	void Thread::FollowupSection()
-	{
-
 	}
 }

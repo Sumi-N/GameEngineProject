@@ -38,6 +38,7 @@ namespace Tempest
 		friend class Iterator;
 
 		Array();
+		explicit Array(const int i_size);
 		Array(const Array& i_array);
 		~Array();		
 		
