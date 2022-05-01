@@ -1,6 +1,11 @@
 #pragma once
 
 #include "Define.h"
+#include "CameraObject.h"
+#include "Light.h"
+#include "MeshComponent.h"
+#include "EffectComponent.h"
+#include "CubeMap.h"
 
 namespace Tempest
 {

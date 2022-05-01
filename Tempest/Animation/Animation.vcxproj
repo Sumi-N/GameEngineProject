@@ -100,9 +100,6 @@
     <ClInclude Include="Define.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Parts\Parts.vcxproj">
-      <Project>{f0dcb746-4531-4351-9a6e-140c336a3c35}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Core\ResourceManagement\ResourceManagement.vcxproj">
       <Project>{4590a9a9-0184-4a56-b1cc-3b585d51fc0d}</Project>
     </ProjectReference>

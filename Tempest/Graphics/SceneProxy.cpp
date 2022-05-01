@@ -19,7 +19,6 @@ void SceneProxy::ReplaceRenderState(OwningPointer<RenderState> i_state, int i_th
 
 void SceneProxy::CleanUp()
 {
-
 }
 
 void SceneProxy::InitBuffer(const int num)

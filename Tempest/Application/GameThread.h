@@ -12,9 +12,7 @@ namespace Tempest
 		void Init() override;
 		void CriticalSection() override;
 		void NonCriticalSection() override;		
-		void CleanUp() override;
-
-		void WriteDataToOwningThread();
+		void CleanUp() override;		
 	};
 }
 

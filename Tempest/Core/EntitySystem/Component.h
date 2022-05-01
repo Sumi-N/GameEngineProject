@@ -1,10 +1,10 @@
 #pragma once
-
 #include "Define.h"
 #include "Object.h"
 
 namespace Tempest
 {
+	class Object;
 
 	class Component
 	{

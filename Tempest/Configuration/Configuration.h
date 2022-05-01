@@ -40,7 +40,7 @@
 //----------------------------
 //  Editor configuration
 //----------------------------
-//#define ENGINE_USE_EDITOR
+#define ENGINE_USE_EDITOR
 
 //----------------------------
 //  Screen Setting

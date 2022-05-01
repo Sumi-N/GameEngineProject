@@ -3,10 +3,10 @@
 
 #include <Logging/DebugLog.h>
 #include <Math/Matrix.h>
-#include <Parts/Object.h>
-#include <Parts/MeshComponent.h>
-#include <Parts/TextureAttribute.h>
 #include <MemoryManagement/SmartPointer.h>
+#include <EntitySystem/Object.h>
+#include <EntitySystem/MeshComponent.h>
+#include <EntitySystem/TextureAttribute.h>
 #include <EntitySystem/Entity.h>
 #include <Utility/Array.h>
 

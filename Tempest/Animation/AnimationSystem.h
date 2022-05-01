@@ -5,6 +5,8 @@ using namespace Resource;
 
 namespace Tempest
 {
+	class AnimationComponent;
+
 	class AnimationSystem
 	{
 	public:

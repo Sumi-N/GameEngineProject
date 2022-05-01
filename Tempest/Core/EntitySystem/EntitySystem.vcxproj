@@ -89,9 +89,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationComponent.h" />
+    <ClInclude Include="Attribute.h" />
+    <ClInclude Include="CameraObject.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="CubeMap.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="EffectComponent.h" />
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="EntityCopy.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="MaterialAttribute.h" />
+    <ClInclude Include="MeshComponent.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="TextureAttribute.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Define.cpp">
@@ -102,17 +112,23 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="EntityCopy.cpp" />
+    <ClCompile Include="MeshComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Animation\Animation.vcxproj">
       <Project>{cc303b10-d7fa-4acd-b85d-44b6b282193b}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Logging\Logging.vcxproj">
+      <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Math\Math.vcxproj">
+      <Project>{c8572e70-1b3f-469b-bb92-96dd46c72504}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\MemoryManagement\MemoryManagement.vcxproj">
       <Project>{4de6446c-e0a9-4b48-9d06-821a246ef395}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Parts\Parts.vcxproj">
-      <Project>{f0dcb746-4531-4351-9a6e-140c336a3c35}</Project>
+    <ProjectReference Include="..\ResourceManagement\ResourceManagement.vcxproj">
+      <Project>{4590a9a9-0184-4a56-b1cc-3b585d51fc0d}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

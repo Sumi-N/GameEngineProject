@@ -4,12 +4,12 @@
 
 #include <Math/Quaternion.h>
 
-#include <Parts/MeshComponent.h>
-#include <Parts/EffectComponent.h>
-#include <Parts/Object.h>
-#include <Parts/CubeMap.h>
-#include <Parts/TextureAttribute.h>
-#include <Parts/MaterialAttribute.h>
+#include <EntitySystem/MeshComponent.h>
+#include <EntitySystem/EffectComponent.h>
+#include <EntitySystem/Object.h>
+#include <EntitySystem/CubeMap.h>
+#include <EntitySystem/TextureAttribute.h>
+#include <EntitySystem/MaterialAttribute.h>
 
 #include <EntitySystem/Entity.h>
 
