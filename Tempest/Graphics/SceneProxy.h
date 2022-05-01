@@ -19,37 +19,35 @@ class SceneProxy
 {
 
 public:
-	SceneProxy()  = default;
+	SceneProxy() = default;
 	~SceneProxy() = default;
 
-	void Init(const int);
-	void AddRenderState(OwningPointer<RenderState>);
-	void ReplaceRenderState(OwningPointer<RenderState>, int);
+	void Init(const int);	
+	void ReplaceRenderState(Owner<RenderState>);
 	void Draw();
 	void DrawMeshOnly();
-	void CleanUp();	
+	void CleanUp();
 
-	ObservingPointer<Resource::Mesh>  mesh;
-	ObservingPointer<Resource::SkeletonMesh> skeleton_mesh;
-	Array<OwningPointer<RenderState>> states;
-	
+	Owner<RenderState> state;
+	Array<Observer<Resource::Mesh>> meshes;	
+
 protected:
 
-	const DrawType defaulttype = DrawType::TRIANGLE;
-	DrawType drawtype          = DrawType::TRIANGLE;
+	constexpr static DrawType defaulttype = DrawType::TRIANGLE;
+	DrawType drawtype = DrawType::TRIANGLE;
 
 	void InitBuffer(const int);
 	void CheckDrawType(const Shader i_shader);
-	void SetDrawType(DrawType i_drawtype){drawtype = i_drawtype;};
+	void SetDrawType(DrawType i_drawtype) { drawtype = i_drawtype; };
 	void CleanUpBuffer() const;
 
-	VertexBuffer vbuffer;
-	IndexBuffer  ibuffer;
+	Array<VertexBuffer> vbuffers;
+	Array<IndexBuffer>  ibuffers;
 
 #ifdef ENGINE_GRAPHIC_OPENGL
 
 	//// Buffer data
-	unsigned int indexsize = 0;
+	Array<unsigned int> indexsizes;
 
 #endif // ENGINE_GRAPHIC_OPENGL
 };

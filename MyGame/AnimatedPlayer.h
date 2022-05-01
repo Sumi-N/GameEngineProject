@@ -2,7 +2,6 @@
 
 #include <core/Math//Vector.h>
 #include <PremadeParts/Sphere.h>
-#include <Parts/AnimationComponent.h>
 
 namespace Tempest
 {

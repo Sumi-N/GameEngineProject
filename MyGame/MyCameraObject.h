@@ -1,5 +1,4 @@
 #pragma once
-#include <Parts/CameraObject.h>
 #include <Thread/Define.h>
 #include <Application/Define.h>
 

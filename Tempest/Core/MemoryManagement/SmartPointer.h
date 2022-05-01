@@ -52,8 +52,8 @@ namespace Tempest
 				data = nullptr;
 				return;
 			}
-			data = i_ptr;
 			ref = new ReferenceCounters(1, 0);
+			data = i_ptr;			
 		};
 
 		// Copy Constructor
@@ -62,8 +62,8 @@ namespace Tempest
 			// If the owning pointer didn't reference itself then increment reference
 			if (i_other != *this) 
 			{
-				data = i_other.data;
 				ref = i_other.ref;
+				data = i_other.data;				
 				i_other.ref->OwnerReferences++;
 			}
 		};
@@ -76,8 +76,8 @@ namespace Tempest
 		{
 			if (i_other != *this)
 			{
-				data = i_other.data;
 				ref = i_other.ref;
+				data = reinterpret_cast<T*>(i_other.data);
 				i_other.ref->OwnerReferences++;
 			}
 		};
@@ -101,7 +101,7 @@ namespace Tempest
 			if (i_other.ref->OwnerReferences != 0)
 			{
 				ref = i_other.ref;
-				data = i_other.data;
+				data = reinterpret_cast<T*>(i_other.data);
 				ref->OwnerReferences++;
 			}
 		};
@@ -154,8 +154,8 @@ namespace Tempest
 					}
 				}
 
-				this->ref = i_other.ref;
-				this->data = i_other.data;
+				ref = i_other.ref;
+				data = i_other.data;
 				ref->OwnerReferences++;
 				return *this;
 			}
@@ -178,8 +178,8 @@ namespace Tempest
 						delete data;
 					}
 				}
-				this->ref = i_other.ref;
-				this->data = i_other.data;
+				ref = i_other.ref;
+				data = reinterpret_cast<T*>(i_other.data);
 				ref->OwnerReferences++;
 				return *this;
 			}
@@ -217,7 +217,7 @@ namespace Tempest
 				}
 			}
 			ref = i_other.ref;
-			data = i_other.data;
+			data = reinterpret_cast<T*>(i_other.data);
 			ref->OwnerReferences++;
 			return *this;
 		};
@@ -422,18 +422,20 @@ namespace Tempest
 		};
 
 		template<class U>
-		ObservingPointer(const OwningPointer<U>& i_owner) : ref(i_owner.ref), data(i_owner.data)
+		ObservingPointer(const OwningPointer<U>& i_owner)
 		{
+			ref = i_owner.ref;
+			data = reinterpret_cast<T*>(i_owner.data);
 			ref->ObserverReferences++;
 		};
 
 		template<class U>
 		ObservingPointer(const ObservingPointer<U>& i_owner)
-		{
+		{			
 			if (i_owner.ref->OwnerReferences != 0)
 			{
 				ref = i_owner.ref;
-				data = i_owner.data;
+				data = reinterpret_cast<T*>(i_owner.data);
 				ref->ObserverReferences++;
 			}
 			else
@@ -493,7 +495,7 @@ namespace Tempest
 					}
 				}
 				ref = i_other.ref;
-				data = i_other.data;
+				data = reinterpret_cast<T*>(i_other.data);
 				ref->ObserverReferences++;
 				return *this;
 			}
@@ -512,7 +514,7 @@ namespace Tempest
 				}
 			}
 			ref = i_other.ref;
-			data = i_other.data;
+			data = reinterpret_cast<T*>(i_other.data);
 			ref->ObserverReferences++;
 			return *this;
 		};

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Parts/Light.h>
 #include <Thread/Define.h>
 
 namespace Tempest

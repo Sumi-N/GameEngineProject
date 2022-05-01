@@ -50,7 +50,7 @@ namespace Tempest
 
 	Result AnimationSystem::InterpolateMatrixBetweenFrames(const AnimationClip& i_clip, const float i_dt, float& i_total_passed_time, Mat4f* io_mat, const bool& i_isloop)
 	{		
-		int   num_frame_count = i_clip.samples.Size();
+		int   num_frame_count = static_cast<int>(i_clip.samples.Size());
 		float frame_per_count = 50;
 
 		while (i_total_passed_time >= num_frame_count * frame_per_count)

@@ -6,6 +6,7 @@ namespace Tempest
 	class ContainerInfo
 	{
 		ptrdiff_t src;
+		size_t index_size;
 		size_t size;
 		size_t offset;
 	};

@@ -205,7 +205,7 @@ namespace Tempest
 	{
 		ImGui::Begin("Viewport");				
 		ImVec2 imgui_viewport_panel_size = ImGui::GetContentRegionAvail();		
-		ImGui::Image((void*)Graphic::FrameBufferImage.GetColorID(), imgui_viewport_panel_size, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+		ImGui::Image(reinterpret_cast<void*>(Graphic::FrameBufferImage.GetColorID()), imgui_viewport_panel_size, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
 		if (ImGui::IsWindowFocused())
 		{
@@ -259,7 +259,7 @@ namespace Tempest
 
 			static int selection_mask = (1 << 0);
 
-			int list_size = EntityInfo::GetTotalObjectSize();
+			int list_size = static_cast<int>(EntityInfo::GetTotalObjectSize());
 			for (int i = 0; i < list_size; i++)
 			{				
 				ImGuiTreeNodeFlags node_flags = base_flags;

@@ -19,7 +19,10 @@ constexpr std::pair<TextureType, int> TextureUnitList[] =
 class RenderState
 {
 public: 
-	RenderState();
+	RenderState()
+	{
+		unitlistsize = sizeof(TextureUnitList) / sizeof(TextureUnitList[0]);
+	}
 	~RenderState() = default;
 
 	Shader shader;
@@ -41,8 +44,3 @@ private:
 	Array<GLuint> textureunits;
 #endif //  ENGINE_GRAPHIC_OPENGL
 };
-
-inline RenderState::RenderState()
-{
-	unitlistsize = sizeof(TextureUnitList) / sizeof(TextureUnitList[0]);
-}

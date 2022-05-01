@@ -1,6 +1,5 @@
 #pragma once
 #include "Define.h"
-#include "SceneProxy.h"
 #include "SceneEntity.h"
 #include "ConstantBuffer.h"
 #include "FrameBuffer.h"

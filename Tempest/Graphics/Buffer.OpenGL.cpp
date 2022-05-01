@@ -11,7 +11,6 @@ namespace Tempest
 
 	void VertexBuffer::Unbind() const
 	{
-
 	}
 
 	bool VertexBuffer::CheckStructDataSize(uint32_t i_size) const
@@ -124,12 +123,10 @@ namespace Tempest
 
 	IndexBuffer::IndexBuffer()
 	{
-
 	}
 
 	IndexBuffer::~IndexBuffer()
 	{
-
 	}
 
 	void IndexBuffer::InitData(uint32_t i_size, const void* i_data)

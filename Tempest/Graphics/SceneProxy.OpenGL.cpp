@@ -5,24 +5,28 @@
 
 void SceneProxy::Draw()
 {
-	for(int i = 0; i < states.Size(); i++)
-	{ 
-		states[i]->BindShaderState();
+	state->BindShaderState();
+	CheckDrawType(state->shader);
 
-		CheckDrawType(states[i]->shader);		
-		vbuffer.Bind();
-		glDrawElements(static_cast<unsigned int>(drawtype), indexsize, GL_UNSIGNED_INT, (void*)0);
-
-		states[i]->UnBindShaderState();
+	for(int i = 0; i < meshes.Size(); i++)
+	{ 				
+		vbuffers[i].Bind();
+		glDrawElements(static_cast<unsigned int>(drawtype), indexsizes[i], GL_UNSIGNED_INT, (void*)0);
+		
 	}
+
+	state->UnBindShaderState();
 }
 
 // This function calls draw function without binding any shader.
 // Calling this function is recommended if shader is already binded.
 void SceneProxy::DrawMeshOnly()
 {
-	vbuffer.Bind();
-	glDrawElements(static_cast<unsigned int>(drawtype), indexsize, GL_UNSIGNED_INT, (void*)0);
+	for (int i = 0; i < meshes.Size(); i++)
+	{
+		vbuffers[i].Bind();
+		glDrawElements(static_cast<unsigned int>(drawtype), indexsizes[i], GL_UNSIGNED_INT, (void*)0);
+	}
 }
 
 

@@ -56,7 +56,7 @@ void Graphic::PreCompute()
 		// Render HDR
 		{
 			FrameBufferCubeMap.BindFrame();
-			SceneEntity::SkyBoxProxy->states[0]->BindTextureUnit();
+			SceneEntity::SkyBoxProxy->state->BindTextureUnit();
 			FrameBufferCubeMap.RenderOnce();
 		}		
 
@@ -85,12 +85,12 @@ void Graphic::PreCompute()
 }
 
 void Graphic::PreUpdate(GraphicRequiredData* i_data)
-{
-	ConstDataCamera = i_data->camera;
+{	
 }
 
 void Graphic::Update(GraphicRequiredData* i_data)
 {
+	ConstDataCamera = i_data->camera;
 
 #ifdef ENGINE_USE_EDITOR
 
