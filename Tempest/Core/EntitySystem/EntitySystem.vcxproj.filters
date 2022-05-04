@@ -22,15 +22,6 @@
     <ClInclude Include="Define.h">
       <Filter>Precompiled Header</Filter>
     </ClInclude>
-    <ClInclude Include="CameraObject.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="CubeMap.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>Object</Filter>
-    </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>Object</Filter>
     </ClInclude>
@@ -64,6 +55,18 @@
     <ClInclude Include="SceneEntity.h">
       <Filter>Entity</Filter>
     </ClInclude>
+    <ClInclude Include="LightComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityNode.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="BackgroundComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Define.cpp">
@@ -75,5 +78,6 @@
     <ClCompile Include="MeshComponent.cpp">
       <Filter>Component</Filter>
     </ClCompile>
+    <ClCompile Include="EntityNode.cpp" />
   </ItemGroup>
 </Project>

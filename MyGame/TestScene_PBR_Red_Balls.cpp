@@ -14,11 +14,11 @@ namespace Tempest
 	{
 		// Setting up camera
 		OwningPointer<MyCameraObject> mycamera = OwningPointer<MyCameraObject>::Create(mycamera);
-		Entity::RegisterCamera(mycamera);
+		Entity::Register(mycamera);
 
 		// Setting up skybox
 		OwningPointer<MySkyBox> myskybox = OwningPointer<MySkyBox>::Create(myskybox);
-		Entity::RegisterSkyBox(myskybox);
+		Entity::Register(myskybox);
 
 
 		OwningPointer<SpherePBR_Test> sphere[64];
@@ -36,24 +36,20 @@ namespace Tempest
 		}
 
 		OwningPointer<MyPointLight> pointlight = OwningPointer<MyPointLight>::Create(pointlight);
-		pointlight->intensity = Vec3f(25.0f, 25.0f, 25.0f);
 		pointlight->pos = Vec3f(0.f, 0.f, -40.f);
 
 		OwningPointer<MyPointLight> pointlight2 = OwningPointer<MyPointLight>::Create(pointlight2);
-		pointlight2->intensity = Vec3f(10.0f, 10.0f, 10.0f);
 		pointlight2->pos = Vec3f(30.f, -30.f, -40.f);
 
 		OwningPointer<MyPointLight> pointlight3 = OwningPointer<MyPointLight>::Create(pointlight3);
-		pointlight3->intensity = Vec3f(10.0f, 10.0f, 10.0f);
 		pointlight3->pos = Vec3f(-30.f, 30.f, -40.f);
 
 		OwningPointer<MyPointLight> pointlight4 = OwningPointer<MyPointLight>::Create(pointlight4);
-		pointlight4->intensity = Vec3f(10.0f, 10.0f, 10.0f);
 		pointlight4->pos = Vec3f(-30.f, -30.f, -40.f);
 
-		Entity::RegisterPointLight(pointlight);
-		Entity::RegisterPointLight(pointlight2);
-		Entity::RegisterPointLight(pointlight3);
-		Entity::RegisterPointLight(pointlight4);
+		Entity::Register(pointlight);
+		Entity::Register(pointlight2);
+		Entity::Register(pointlight3);
+		Entity::Register(pointlight4);
 	}
 }

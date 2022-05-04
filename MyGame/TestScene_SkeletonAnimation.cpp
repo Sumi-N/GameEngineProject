@@ -12,21 +12,19 @@ namespace Tempest
 	{
 		// Setting up camera
 		OwningPointer<MyCameraObject> mycamera = OwningPointer<MyCameraObject>::Create(mycamera);
-		Entity::RegisterCamera(mycamera);
+		Entity::Register(mycamera);
 
 		// Setting up skybox
 		OwningPointer<MySkyBox> myskybox = OwningPointer<MySkyBox>::Create(myskybox);
-		Entity::RegisterSkyBox(myskybox);
+		Entity::Register(myskybox);
 
 		// Setting up animated player
 		OwningPointer<AnimatedPlayer> player = OwningPointer<AnimatedPlayer>::Create(player);
-		Entity::Register(player, "Animated Player");
+		Entity::Register(player);
 		player->pos = Vec3f(0, -10, -25);		
 		player->scale = Vec3f(0.1f, 0.1f, 0.1f);
 
-		OwningPointer<MyPointLight> pointlight = OwningPointer<MyPointLight>::Create(pointlight);
-		pointlight->intensity = Vec3f(25.0f, 25.0f, 25.0f);
-		pointlight->pos = Vec3f(0.f, 0.f, 0.f);
-		Entity::RegisterPointLight(pointlight);
+		OwningPointer<MyPointLight> pointlight = OwningPointer<MyPointLight>::Create(pointlight);		
+		Entity::Register(pointlight);
 	}
 }

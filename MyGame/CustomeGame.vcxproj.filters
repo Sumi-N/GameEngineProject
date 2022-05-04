@@ -18,19 +18,10 @@
     <ClCompile Include="MyApplication.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestScene_Normal_Debug_Plane.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
     <ClCompile Include="TestScene_PBR_9Balls.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="TestScene_PBR_Red_Balls.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TestScene_PhoneBlinn_Lights.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TestScene_PhoneBlinn_Teapots.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="TestScene_Two_Cameras.cpp">

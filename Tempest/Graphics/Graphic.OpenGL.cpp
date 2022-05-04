@@ -92,19 +92,9 @@ void Graphic::Update(GraphicRequiredData* i_data)
 {
 	ConstDataCamera = i_data->camera;
 
-#ifdef ENGINE_USE_EDITOR
-
 	// Update uniform data common for frame
-	// Submit Camera Information	
+	// Submit Camera Information
 	ConstBufferCamera.Update(&ConstDataCamera);
-
-#else
-
-	// Update uniform data common for frame
-	// Submit Camera Information	
-	ConstBufferCamera.Update(&ConstDataCamera);
-
-#endif // ENGINE_USE_EDITOR	
 
 	// Submit light uniform data
 	auto& data_light = i_data->light;

@@ -19,13 +19,12 @@ namespace Tempest
 		};
 
 		MeshType type;
-		OwningPointer<Resource::Mesh> mesh;
-		OwningPointer<Resource::SkeletonMesh> skeleton_mesh;
+		Owner<Resource::Mesh> mesh;
 
 		Mat4f model_mat;
 		Mat4f model_inverse_transpose_mat;
 
-		static  void ReplaceWithDummyMesh(OwningPointer<Resource::Mesh>&);
+		static  void ReplaceWithDummyMesh(Owner<Resource::Mesh>&);
 		virtual void Boot() override;
 		virtual void Init() override;
 		virtual void Update(float i_dt) override;

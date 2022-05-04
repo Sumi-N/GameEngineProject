@@ -46,56 +46,67 @@ namespace Tempest
 	{
 		//Submit point data 
 		{
-			Debug::Ray ray;
-			ray.startpoint = Entity::CamerasObjects[0]->pos;
-			ray.direction = 2 * (UserInput.X() / ScreenWidth - 0.5f) * Entity::CamerasObjects[0]->GetRightVec()
-				- 2 * (UserInput.Y() / ScreenHeight - 0.5f) * Entity::CamerasObjects[0]->GetUpVec()
-				+ Entity::CamerasObjects[0]->GetForwardVec();
-			ray.GetEndPoint();
+			//Debug::Ray ray;
+			//ray.startpoint = Entity::CamerasObjects[0]->pos;
+			//ray.direction = 2 * (UserInput.X() / ScreenWidth - 0.5f) * Entity::CamerasObjects[0]->GetRightVec()
+			//	- 2 * (UserInput.Y() / ScreenHeight - 0.5f) * Entity::CamerasObjects[0]->GetUpVec()
+			//	+ Entity::CamerasObjects[0]->GetForwardVec();
+			//ray.GetEndPoint();
 			//i_data->points[0] = ray.startpoint + 0.1f * Entity::CamerasObjects[0]->GetForwardVec();
 			//i_data->points[1] = ray.endpoint;
 		}
 
 		// Submit camera data
 		{
-			i_data->camera.camera_position_vector = Entity::CamerasObjects[0]->pos;
-			i_data->camera.perspective_matrix = Entity::CamerasObjects[0]->perspective;
-			i_data->camera.view_matrix = Entity::CamerasObjects[0]->view;
+			i_data->camera.camera_position_vector = Entity::CameraComponentList[0]->owner->pos;
+			i_data->camera.perspective_matrix = Entity::CameraComponentList[0]->perspective;
+			i_data->camera.view_matrix = Entity::CameraComponentList[0]->view;
 		}
 
 		// Submit lights data
 		{
-			// Submit ambient light data
-			i_data->light.ambient_intensity = Vec4f(Entity::Ambient->intensity);
+			i_data->light.point_num = 0;
 
-			// Submit directional light data
-			i_data->light.directional_intensity = Vec4f(Entity::Directional->intensity);
-			i_data->light.directional_direction = Vec4f(Entity::Directional->direction);
-			//data_game_own->shadow.directional_view_perspective_matrix = EntityCopy::Directional->light_space_mat;
-
-			// Submit point lights data
-			if (Entity::PointLightList.Size() != 0)
+			for (auto it = Entity::LightComponentList.Begin(); it != Entity::LightComponentList.End(); ++it)
 			{
-				i_data->light.point_num = static_cast<int>(Entity::PointLightList.Size());
-
-				for (auto it = Entity::PointLightList.Begin(); it != Entity::PointLightList.End(); ++it)
+				switch ((*it)->light_type)
 				{
+				case LightComponent::LightType::AmbientLight:
+				{
+					i_data->light.ambient_intensity = Vec4f((*it)->intensity);
+				}
+					break;
+				case LightComponent::LightType::DirectionalLight:
+				{
+					// Submit directional light data
+					i_data->light.directional_intensity = Vec4f((*it)->intensity);
+					i_data->light.directional_direction = Vec4f((*it)->direction);
+				}
+					break;
+				case LightComponent::LightType::PointLight:
+				{					
 					// Submit point light data					
-					i_data->light.pointlights[Utility::Distance<OwningPointer<PointLight>>(Entity::PointLightList.Begin(), it)].intensity = Vec4f((*it)->intensity);
-					i_data->light.pointlights[Utility::Distance<OwningPointer<PointLight>>(Entity::PointLightList.Begin(), it)].position = Vec4f((*it)->pos);
-					i_data->light.pointlights[Utility::Distance<OwningPointer<PointLight>>(Entity::PointLightList.Begin(), it)].attenuation = (*it)->attenuation;
+					i_data->light.pointlights[i_data->light.point_num].intensity = Vec4f((*it)->intensity);
+					i_data->light.pointlights[i_data->light.point_num].position = Vec4f((*it)->owner->pos);
+					i_data->light.pointlights[i_data->light.point_num].attenuation = (*it)->attenuation;
 
 					for (int i = 0; i < 6; i++)
 					{
-						i_data->shadow[Utility::Distance<OwningPointer<PointLight>>(Entity::PointLightList.Begin(), it)].view_perspective_matrix[i] = (*it)->light_space_mats[i];
-						i_data->shadow[Utility::Distance<OwningPointer<PointLight>>(Entity::PointLightList.Begin(), it)].position = Vec4f((*it)->pos);
+						i_data->shadow[i_data->light.point_num].view_perspective_matrix[i] = (*it)->light_space_mats[i];
+						i_data->shadow[i_data->light.point_num].position = Vec4f((*it)->owner->pos);
 					}
+
+					i_data->light.point_num++;
 				}
-			}
+					break;
+				default:				
+					DEBUG_ASSERT(false);				
+					break;
+				}
+			}			
 		}
 
-		{
-			//for (auto it = SceneEntityCopy::List.Begin(); it != SceneEntityCopy::List.End(); ++it)
+		{			
 			for (auto it = Entity::MeshComponentList.Begin(); it != Entity::MeshComponentList.End(); ++it)
 			{
 				// Submit mesh data

@@ -13,7 +13,7 @@ namespace Tempest
 		~TextureAttribute() {};
 		
 
-		OwningPointer<Resource::Texture> texture;
+		Owner<Resource::Texture> texture;
 		TextureType type;
 
 		Result Load(char const* i_filename, TextureType i_type);
@@ -25,7 +25,7 @@ namespace Tempest
 	inline Result TextureAttribute::Load(char const* i_filename, TextureType i_type)
 	{
 		type = i_type;
-		texture = OwningPointer<Resource::Texture>::Create(texture);
+		texture = Owner<Resource::Texture>::Create(texture);
 
 		Result result = Resource::Texture::Load(i_filename, *texture);
 

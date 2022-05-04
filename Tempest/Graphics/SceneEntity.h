@@ -17,17 +17,16 @@ public:
 inline void SceneEntity::Init()
 {
 	// Init sky-box cube map
-	if (Entity::Skybox)
 	{		
 		SceneEntity::SkyBoxProxy = Create<SceneProxy>();
 		Owner<RenderState> renderhandler = Create<RenderState>();
 		SkyBoxProxy->state = renderhandler;
 		
-		SkyBoxProxy->meshes.PushBack(Entity::Skybox->mesh_component->mesh);
-		SkyBoxProxy->Init(static_cast<int>(Entity::Skybox->mesh_component->type));
+		SkyBoxProxy->meshes.PushBack(Entity::BackgroundComponentList[0]->mesh_component->mesh);
+		SkyBoxProxy->Init(static_cast<int>(Entity::BackgroundComponentList[0]->mesh_component->type));
 		
-		renderhandler->InitShader(Entity::Skybox->effect_component->shaderpaths);
-		renderhandler->InitTexture(Entity::Skybox->effect_component->texture_attributes[0]);
+		renderhandler->InitShader(Entity::BackgroundComponentList[0]->effect_component->shaderpaths);
+		renderhandler->InitTexture(Entity::BackgroundComponentList[0]->effect_component->texture_attributes[0]);
 	}
 
 	for (auto it = Entity::EffectComponentList.Begin(); it != Entity::EffectComponentList.End(); ++it)
@@ -55,7 +54,7 @@ inline void SceneEntity::Init()
 				}
 				else
 				{
-					auto mesh = static_cast<Observer<Resource::Mesh>>((*it2)->skeleton_mesh);
+					auto mesh = static_cast<Observer<Resource::Mesh>>((*it2)->mesh);
 					proxyhandler->meshes.PushBack(mesh);
 				}
 				proxyhandler->Init(static_cast<int>((*it2)->type));

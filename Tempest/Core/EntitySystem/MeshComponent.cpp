@@ -64,10 +64,10 @@ namespace Tempest
 		else if (File::GetExtensionName(i_filename) == ".tsm")
 		{
 			type = MeshType::SkeletonMesh;
-			skeleton_mesh = AssetManager<Resource::SkeletonMesh>::Load(i_filename);
+			mesh = static_cast<Owner<Resource::Mesh>>(AssetManager<Resource::SkeletonMesh>::Load(i_filename));
 		}
 
-		if (mesh == nullptr && skeleton_mesh == nullptr)
+		if (!mesh)
 		{
 			DEBUG_PRINT("Failed to load the mesh data %s, replaced it with dummy mesh", i_filename);
 			ReplaceWithDummyMesh(mesh);

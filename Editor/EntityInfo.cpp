@@ -9,30 +9,29 @@ namespace Tempest {
 
 		String GetObjectNameByIndex(int index)
 		{
-			return Entity::ObjectList[index].name;
+			return Entity::ObjectList[index]->name;
 		}
 
 		Vec3f GetObjectPositionByIndex(int index)
 		{
-			return Entity::ObjectList[index].Get()->pos;
+			return Entity::ObjectList[index]->pos;
 		}
 
 		Vec3f GetObjectRotationByIndex(int index)
 		{
-			return Entity::ObjectList[index].Get()->rot;
+			return Entity::ObjectList[index]->rot;
 		}
 
 		Vec3f GetObjectScaleByIndex(int index)
 		{
-			return Entity::ObjectList[index].Get()->scale;
+			return Entity::ObjectList[index]->scale;
 		}
 
 		ComponentFlags GetAttachedComponentsByIndex(int index)
 		{
 			ComponentFlags result = ComponentFlags::None;
-
-			ObjectHandler handler = Entity::ObjectList[index];
-			ObservingPointer<Object> object = handler.Get();
+			
+			ObservingPointer<Object> object = Entity::ObjectList[index];
 
 			for (int i = 0; i < Entity::EffectComponentList.Size(); i++)
 			{

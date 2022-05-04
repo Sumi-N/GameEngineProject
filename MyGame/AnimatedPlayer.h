@@ -27,10 +27,10 @@ namespace Tempest
 	{
 		PremadeObjebct::Boot();
 
-		OwningPointer<TextureAttribute> albedo = OwningPointer<TextureAttribute>::Create(albedo);
-		OwningPointer<TextureAttribute> normal = OwningPointer<TextureAttribute>::Create(normal);
-		OwningPointer<TextureAttribute> roughness = OwningPointer<TextureAttribute>::Create(roughness);
-		OwningPointer<TextureAttribute> metalic = OwningPointer<TextureAttribute>::Create(metalic);
+		Owner<TextureAttribute> albedo = Owner<TextureAttribute>::Create(albedo);
+		Owner<TextureAttribute> normal = Owner<TextureAttribute>::Create(normal);
+		Owner<TextureAttribute> roughness = Owner<TextureAttribute>::Create(roughness);
+		Owner<TextureAttribute> metalic = Owner<TextureAttribute>::Create(metalic);
 
 		const char* shaderpaths[] =
 		{
@@ -58,7 +58,7 @@ namespace Tempest
 		
 		mesh_component->Load(PATH_SUFFIX BIN_MESH_PATH "xbot.tsm");
 
-		OwningPointer<AnimationComponent> animation_component = OwningPointer<AnimationComponent>::Create(animation_component);
+		Owner<AnimationComponent> animation_component = Owner<AnimationComponent>::Create(animation_component);
 		animation_component->owner = Entity::Query(this);
 		animation_component->mesh = mesh_component;		
 		animation_component->LoadSkeleton(PATH_SUFFIX BIN_MESH_PATH "xbot.ts");

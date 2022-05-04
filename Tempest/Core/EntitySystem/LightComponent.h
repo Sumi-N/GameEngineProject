@@ -1,39 +1,46 @@
 #pragma once
 #include "Define.h"
-#include "Object.h"
+#include "Component.h"
 
 namespace Tempest
-{
-
-	class Light : public Object
+{		
+	class LightComponent : public Component
 	{
 	public:
-		Vec3f intensity;
-		//Mat4f light_space_mat;
+		LightComponent() = default;
+		~LightComponent() = default;
 
-		Light() : intensity(Vec3f())
+		enum class LightType : uint8_t
 		{
-		}
-		void Update(float i_dt) override
-		{
+			Uninitialized,
+			AmbientLight,
+			PointLight,
+			DirectionalLight,
 		};
+		
+		virtual void Update(float i_dt) override;		
+		
+		LightType light_type {LightType::Uninitialized};
+		Mat4f light_space_mats[6];
+		Vec3f intensity;
+		Vec3f attenuation;
+		Vec3f direction;
 	};
 
-	class AmbientLight : public Light 
-	{};
-
-	class PointLight : public Light
+	inline void LightComponent::Update(float i_dt)
 	{
-	public:
-		//Vec3f pos; <- inherit from Object
-		Vec3f attenuation = Vec3f(1.0f, 0.07f, 0.017f);
-		Mat4f light_space_mats[6];
-
-		void Update(float i_dt) override
+		switch (light_type)
+		{
+		case LightComponent::LightType::Uninitialized:
+			DEBUG_ASSERT(false);
+			break;
+		case LightComponent::LightType::AmbientLight:
+			break;
+		case LightComponent::LightType::PointLight:
 		{
 			Mat4f light_projection = Mat4f::Perspective(90, 1, NearClip, FarClip);
-
 			Mat4f light_view;
+			Vec3f pos = owner->pos;
 
 			{
 				light_view = Mat4f::LookAt(pos, pos + Vec3f(1, 0, 0), Vec3f(0, -1, 0));
@@ -65,24 +72,19 @@ namespace Tempest
 				light_space_mats[5] = light_projection * light_view;
 			}
 		}
-	};
-
-	class DirectionalLight : public Light
-	{
-	public:
-		Vec3f direction;
-
-		DirectionalLight() : direction(Vec3f())
+			break;
+		case LightComponent::LightType::DirectionalLight:
 		{
-		}
-
-		void Update(float i_dt) override
-		{
-			Mat4f light_projection = Mat4f::Orthographic(-30.0f, 30.0f, -30.0f, 30.0f, NearClip, FarClip);
+			//Mat4f light_projection = Mat4f::Orthographic(-30.0f, 30.0f, -30.0f, 30.0f, NearClip, FarClip);
 			// Temporary solution
-			Mat4f light_view = Mat4f::LookAt(pos, pos + Vec3f(0, 0, -50), Vec3f(20, -20, 0));
+			//Mat4f light_view = Mat4f::LookAt(pos, pos + Vec3f(0, 0, -50), Vec3f(20, -20, 0));
 			//light_space_mat = light_projection * light_view;
 		}
-	};
-
+			break;
+		default:
+			DEBUG_ASSERT(false);
+			break;
+		}		
+	}
 }
+

@@ -106,14 +106,27 @@ namespace Tempest
 			}
 		};
 
-		// Move Constructor
-		template<class T>
+		// Move Constructor		
 		OwningPointer(OwningPointer<T>&& i_other) 
 		{
 			if (i_other != *this) 
 			{
 				ref = i_other.ref;
 				data = i_other.data;
+				i_other.ref = nullptr;
+				i_other.data = nullptr;
+			}
+			return;
+		}
+
+		// Move Constructor
+		template<class U>
+		OwningPointer(OwningPointer<U>&& i_other)
+		{
+			if (i_other != *this)
+			{
+				ref = i_other.ref;
+				data = reinterpret_cast<T*>(i_other.data);
 				i_other.ref = nullptr;
 				i_other.data = nullptr;
 			}
@@ -288,7 +301,7 @@ namespace Tempest
 		template<class U>
 		inline bool operator==(const OwningPointer<U>& i_other) const
 		{
-			return data == i_other.data;
+			return data == reinterpret_cast<T*>(i_other.data);
 		};
 
 		// Equality comparison operator for comparing to an Observing Pointer
@@ -301,7 +314,7 @@ namespace Tempest
 		template<class U>
 		inline bool operator==(const ObservingPointer<U>& i_other) const
 		{
-			return data == i_other.data;
+			return data == reinterpret_cast<T*>(i_other.data);
 		};
 
 		// Inequality comparison operator
@@ -314,7 +327,7 @@ namespace Tempest
 		template<class U>
 		inline bool operator!=(const OwningPointer<U>& i_other) const
 		{
-			return !(data == i_other.data);
+			return !(data == reinterpret_cast<T*>(i_other.data));
 		};
 
 		// Inequality comparison operator for comparing to an Observing Pointer
@@ -327,7 +340,7 @@ namespace Tempest
 		template<class U>
 		inline bool operator!=(const ObservingPointer<U>& i_other) const
 		{
-			return !(data == i_other.data);
+			return !(data == reinterpret_cast<T*>(i_other.data));
 		};
 
 		// Equality comparison operator directly to pointer 
