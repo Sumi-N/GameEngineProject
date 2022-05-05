@@ -27,10 +27,12 @@ namespace Tempest
 	{
 		PremadeObjebct::Boot();
 
-		Owner<TextureAttribute> albedo = Owner<TextureAttribute>::Create(albedo);
-		Owner<TextureAttribute> normal = Owner<TextureAttribute>::Create(normal);
-		Owner<TextureAttribute> roughness = Owner<TextureAttribute>::Create(roughness);
-		Owner<TextureAttribute> metalic = Owner<TextureAttribute>::Create(metalic);
+		name = "Animated Player";
+
+		TextureAttribute albedo;
+		TextureAttribute normal;
+		TextureAttribute roughness;
+		TextureAttribute metalic;
 
 		const char* shaderpaths[] =
 		{
@@ -44,14 +46,12 @@ namespace Tempest
 		};
 		effect_component->RegisterShaderPath(shaderpaths);
 
-		albedo->Load   (PATH_SUFFIX BIN_TEXTURE_PATH "albedo/gold-scuffed_basecolor.tt",    TextureType::Albedo);
-		normal->Load   (PATH_SUFFIX BIN_TEXTURE_PATH "normal/gold-scuffed_normal.tt",       TextureType::Normal);
-		roughness->Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/gold-scuffed_roughness.tt", TextureType::Roughness);
-		metalic->Load  (PATH_SUFFIX BIN_TEXTURE_PATH "metallic/gold-scuffed_metalic.tt",  TextureType::Metalic);
+		albedo.Load   (PATH_SUFFIX BIN_TEXTURE_PATH "albedo/gold-scuffed_basecolor.tt",    TextureType::Albedo);
+		normal.Load   (PATH_SUFFIX BIN_TEXTURE_PATH "normal/gold-scuffed_normal.tt",       TextureType::Normal);
+		roughness.Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/gold-scuffed_roughness.tt", TextureType::Roughness);
+		metalic.Load  (PATH_SUFFIX BIN_TEXTURE_PATH "metallic/gold-scuffed_metalic.tt",  TextureType::Metalic);
 		
 		effect_component->SetTexture(albedo);
-
-
 		effect_component->SetTexture(normal);
 		effect_component->SetTexture(roughness);
 		effect_component->SetTexture(metalic);
@@ -69,11 +69,10 @@ namespace Tempest
 	inline void AnimatedPlayer::Init()
 	{
 		PremadeObjebct::Init();
-
-		effect_component->material_attribute->material->albedo = Vec4f(1.0, 0, 0, 1.0);
-
-		effect_component->material_attribute->material->metalic = metalic;
-		effect_component->material_attribute->material->roughness = roughness;
+		
+		effect_component->material_attribute.material.albedo = Vec4f(1.0, 0, 0, 1.0);
+		effect_component->material_attribute.material.metalic = metalic;
+		effect_component->material_attribute.material.roughness = roughness;
 	}
 
 	inline void AnimatedPlayer::Update(float i_dt)

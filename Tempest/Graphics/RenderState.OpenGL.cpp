@@ -32,17 +32,17 @@ void RenderState::InitShader(const char** i_paths)
 	shader.LoadShader();
 }
 
-void RenderState::InitTexture(ObservingPointer<TextureAttribute> i_textureattribute)
+void RenderState::InitTexture(TextureAttribute i_textureattribute)
 {
 	for (int i = 0; i < unitlistsize; i++)
 	{
-		if (TextureUnitList[i].first == i_textureattribute->type)
+		if (TextureUnitList[i].first == i_textureattribute.type)
 		{
-			int width = i_textureattribute->texture->width;
-			int height = i_textureattribute->texture->height;
-			void* data = i_textureattribute->texture->pixels.Data();
+			int width = i_textureattribute.texture->width;
+			int height = i_textureattribute.texture->height;
+			void* data = i_textureattribute.texture->pixels.Data();
 
-			if (i_textureattribute->type == TextureType::SkyBox)
+			if (i_textureattribute.type == TextureType::SkyBox)
 			{
 				textureunits.PushBack(TextureUnitList[i].second);
 				textureids.Resize(textureunits.Size());

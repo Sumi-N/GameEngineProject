@@ -26,10 +26,9 @@ public:
 	~RenderState() = default;
 
 	Shader shader;
-	ObservingPointer<Resource::Material> material;
 
 	void InitShader(const char**);
-	void InitTexture(ObservingPointer<TextureAttribute>);
+	void InitTexture(TextureAttribute);
 	void BindTextureUnit();
 	void BindShaderState();
 	void UnBindShaderState();

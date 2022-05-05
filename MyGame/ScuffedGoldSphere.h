@@ -18,15 +18,15 @@ namespace Tempest
 	{
 		Sphere::Boot();
 
-		OwningPointer<TextureAttribute> albedo = OwningPointer<TextureAttribute>::Create(albedo);
-		OwningPointer<TextureAttribute> normal = OwningPointer<TextureAttribute>::Create(normal);
-		OwningPointer<TextureAttribute> roughness = OwningPointer<TextureAttribute>::Create(roughness);
-		OwningPointer<TextureAttribute> metalic = OwningPointer<TextureAttribute>::Create(metalic);
+		TextureAttribute albedo;
+		TextureAttribute normal;
+		TextureAttribute roughness;
+		TextureAttribute metalic;
 
-		albedo->Load(PATH_SUFFIX BIN_TEXTURE_PATH  "albedo/gold-scuffed_basecolor.tt", TextureType::Albedo);
-		normal->Load(PATH_SUFFIX BIN_TEXTURE_PATH "normal/gold-scuffed_normal.tt", TextureType::Normal);
-		roughness->Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/gold-scuffed_roughness.tt", TextureType::Roughness);
-		metalic->Load(PATH_SUFFIX BIN_TEXTURE_PATH "metallic/gold-scuffed_metalic.tt", TextureType::Metalic);
+		albedo.Load(PATH_SUFFIX BIN_TEXTURE_PATH  "albedo/gold-scuffed_basecolor.tt", TextureType::Albedo);
+		normal.Load(PATH_SUFFIX BIN_TEXTURE_PATH "normal/gold-scuffed_normal.tt", TextureType::Normal);
+		roughness.Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/gold-scuffed_roughness.tt", TextureType::Roughness);
+		metalic.Load(PATH_SUFFIX BIN_TEXTURE_PATH "metallic/gold-scuffed_metalic.tt", TextureType::Metalic);
 		
 		const char* shaderpaths[] =
 		{

@@ -12,18 +12,16 @@ namespace Tempest
 	{
 	public:
 		EffectComponent();
-		~EffectComponent() override;
+		~EffectComponent() override;		
 
 		void RegisterShaderPath(const char**);
-		void SetMaterial(MaterialAttribute*);
-		void SetMaterial(OwningPointer<MaterialAttribute>);
-		void SetTexture(TextureAttribute*);
-		void SetTexture(OwningPointer<TextureAttribute>);
-		void ReplaceTexture(TextureAttribute*, int);
+		void SetMaterial(MaterialAttribute);		
+		void SetTexture(TextureAttribute);
+		void ReplaceTexture(TextureAttribute, int);
 		
 		const char* shaderpaths[5];
-		Array<OwningPointer<TextureAttribute>> texture_attributes;
-		OwningPointer<MaterialAttribute> material_attribute;
+		MaterialAttribute material_attribute;
+		Array<TextureAttribute> texture_attributes;		
 	};
 
 	inline EffectComponent::EffectComponent() : shaderpaths()
@@ -32,8 +30,7 @@ namespace Tempest
 
 	inline EffectComponent::~EffectComponent()
 	{
-
-	}
+	}	
 
 	inline void EffectComponent::RegisterShaderPath(const char** shaderpaths)
 	{
@@ -44,33 +41,19 @@ namespace Tempest
 		this->shaderpaths[4] = shaderpaths[4];
 	}
 
-	inline void EffectComponent::SetMaterial(MaterialAttribute* i_material)
+	inline void EffectComponent::SetMaterial(MaterialAttribute i_material)
 	{
 		material_attribute = i_material;
-	}
+	}	
 
-	inline void EffectComponent::SetMaterial(OwningPointer<MaterialAttribute> i_material)
-	{
-		material_attribute = i_material;
-	}
-
-	inline void EffectComponent::SetTexture(TextureAttribute* i_texture)
-	{
-		OwningPointer<TextureAttribute> texturehandler;
-		texturehandler = i_texture;
-		texture_attributes.PushBack(texturehandler);
-	}
-
-	inline void EffectComponent::SetTexture(OwningPointer<TextureAttribute> i_texture)
-	{
+	inline void EffectComponent::SetTexture(TextureAttribute i_texture)
+	{		
 		texture_attributes.PushBack(i_texture);
-	}
+	}	
 
-	inline void EffectComponent::ReplaceTexture(TextureAttribute* i_texture, int ith_item = 0)
-	{
-		OwningPointer<TextureAttribute> texturehandler;
-		texturehandler = i_texture;
-		texture_attributes[ith_item] = texturehandler;
+	inline void EffectComponent::ReplaceTexture(TextureAttribute i_texture, int ith_item = 0)
+	{		
+		texture_attributes[ith_item] = i_texture;
 	}
 
 }

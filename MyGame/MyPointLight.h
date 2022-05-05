@@ -15,6 +15,7 @@ namespace Tempest
 
 	inline void MyPointLight::Boot()
 	{
+		name = "PointLight";
 		light_component = Create<LightComponent>();		
 		light_component->light_type = LightComponent::LightType::PointLight;
 		light_component->intensity = Vec3f(25.0f, 25.0f, 25.0f);		

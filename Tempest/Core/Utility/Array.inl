@@ -69,8 +69,9 @@ namespace Tempest
 	inline Array<T>::~Array()
 	{
 		for (auto it = this->Begin(); it != this->End(); ++it)
-		{
-			(*it).~T();
+		{			
+			auto p = (*it);
+			p.~T();
 		}
 		if (data)
 			FreeMemory(data);
@@ -265,7 +266,8 @@ namespace Tempest
 
 		for (auto it = this->Begin(); it != this->End(); ++it)
 		{
-			(*it).~T();
+			auto p = (*it);
+			p.~T();
 		}
 
 		FreeMemory(data);

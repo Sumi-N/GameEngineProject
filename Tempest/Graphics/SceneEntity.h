@@ -36,13 +36,12 @@ inline void SceneEntity::Init()
 		proxyhandler->state = renderhandler;
 		List.PushBack(proxyhandler);
 
-		renderhandler->InitShader((*it)->shaderpaths);
-		renderhandler->material = (*it)->material_attribute->material;		
+		renderhandler->InitShader((*it)->shaderpaths);		
 		// Create buffer for textures
 		for (auto it2 = (*it)->texture_attributes.Begin(); it2 != (*it)->texture_attributes.End(); ++it2)
 		{
 			renderhandler->InitTexture(*it2);
-		}		
+		}
 
 		for (auto it2 = Entity::MeshComponentList.Begin(); it2 != Entity::MeshComponentList.End(); ++it2)
 		{

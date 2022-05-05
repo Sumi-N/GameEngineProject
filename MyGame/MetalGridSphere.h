@@ -17,15 +17,15 @@ namespace Tempest
 	{
 		Sphere::Boot();
 
-		OwningPointer<TextureAttribute> albedo = OwningPointer<TextureAttribute>::Create(albedo);
-		OwningPointer<TextureAttribute> normal = OwningPointer<TextureAttribute>::Create(normal);
-		OwningPointer<TextureAttribute> roughness = OwningPointer<TextureAttribute>::Create(roughness);
-		OwningPointer<TextureAttribute> metalic = OwningPointer<TextureAttribute>::Create(metalic);
+		TextureAttribute albedo;
+		TextureAttribute normal;
+		TextureAttribute roughness;
+		TextureAttribute metalic;
 
-		albedo->Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo/metalgrid1_basecolor.tt", TextureType::Albedo);
-		normal->Load(PATH_SUFFIX BIN_TEXTURE_PATH "normal/metalgrid1_normal-ogl.tt", TextureType::Normal);
-		roughness->Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/metalgrid1_roughness.tt", TextureType::Roughness);
-		metalic->Load(PATH_SUFFIX BIN_TEXTURE_PATH "metallic/metalgrid1_metallic.tt", TextureType::Metalic);
+		albedo.Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo/metalgrid1_basecolor.tt", TextureType::Albedo);
+		normal.Load(PATH_SUFFIX BIN_TEXTURE_PATH "normal/metalgrid1_normal-ogl.tt", TextureType::Normal);
+		roughness.Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/metalgrid1_roughness.tt", TextureType::Roughness);
+		metalic.Load(PATH_SUFFIX BIN_TEXTURE_PATH "metallic/metalgrid1_metallic.tt", TextureType::Metalic);
 
 		const char* shaderpaths[] =
 		{

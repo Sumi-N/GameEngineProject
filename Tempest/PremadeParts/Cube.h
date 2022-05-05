@@ -31,7 +31,7 @@ namespace Tempest
 		};
 
 		OwningPointer<EffectComponent> effect = OwningPointer<EffectComponent>::Create(effect);
-		effect->owner = Entity::Query(this).p;
+		effect->owner = Entity::Query(this);
 
 		//effect->SetTexture(diffuse);
 		//effect->SetTexture(speclar);
@@ -49,10 +49,7 @@ namespace Tempest
 
 	inline void Cube::Init()
 	{
-		PremadeObjebct::Init();
-
-		mesh_component->material_attribute->material->metalic = 0.99f;
-		mesh_component->material_attribute->material->roughness = 0.1f;
+		PremadeObjebct::Init();		
 	}
 
 }

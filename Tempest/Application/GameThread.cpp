@@ -108,9 +108,9 @@ namespace Tempest
 				ConstantData::Material material;
 				material.diffuse = Vec4f(0.5f, 0.0f, 0.0f, 1.0f);
 				material.specular = Vec4f(0.8f, 0.8f, 0.8f, 10.0f);
-				material.albedo = (*it)->material_attribute->material->albedo;
-				material.metalic = (*it)->material_attribute->material->metalic;
-				material.roughness = (*it)->material_attribute->material->roughness;
+				material.albedo = (*it)->material_attribute.material.albedo;
+				material.metalic = (*it)->material_attribute.material.metalic;
+				material.roughness = (*it)->material_attribute.material.roughness;
 				i_data->material_data.PushBack(material);
 			}
 		}

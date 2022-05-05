@@ -17,15 +17,15 @@ namespace Tempest
 	{
 		Sphere::Boot();
 
-		OwningPointer<TextureAttribute> albedo = OwningPointer<TextureAttribute>::Create(albedo);
-		OwningPointer<TextureAttribute> normal = OwningPointer<TextureAttribute>::Create(normal);
-		OwningPointer<TextureAttribute> roughness = OwningPointer<TextureAttribute>::Create(roughness);
-		OwningPointer<TextureAttribute> metalic = OwningPointer<TextureAttribute>::Create(metalic);
+		TextureAttribute albedo;
+		TextureAttribute normal;
+		TextureAttribute roughness;
+		TextureAttribute metalic;
 
-		albedo->Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo/dirty-wicker-weave1-albedo.tt", TextureType::Albedo);
-		normal->Load(PATH_SUFFIX BIN_TEXTURE_PATH "normal/dirty-wicker-weave1-normal-dx.tt", TextureType::Normal);
-		roughness->Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/dirty-wicker-weave1-roughness.tt", TextureType::Roughness);
-		metalic->Load(PATH_SUFFIX BIN_TEXTURE_PATH "metallic/dirty-wicker-weave1-metallic.tt", TextureType::Metalic);
+		albedo.Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo/dirty-wicker-weave1-albedo.tt", TextureType::Albedo);
+		normal.Load(PATH_SUFFIX BIN_TEXTURE_PATH "normal/dirty-wicker-weave1-normal-dx.tt", TextureType::Normal);
+		roughness.Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/dirty-wicker-weave1-roughness.tt", TextureType::Roughness);
+		metalic.Load(PATH_SUFFIX BIN_TEXTURE_PATH "metallic/dirty-wicker-weave1-metallic.tt", TextureType::Metalic);
 
 		const char* shaderpaths[] =
 		{

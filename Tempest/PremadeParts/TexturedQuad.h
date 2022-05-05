@@ -26,10 +26,10 @@ namespace Tempest
 			PATH_SUFFIX SHADER_PATH BLINN_PHONG_FRAG,
 		};
 
-		TextureAttribute* texture = new TextureAttribute();
-		texture->Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo\\brickwall.ttd", TextureType::PB_Diffuse);
-		TextureAttribute* texture2 = new TextureAttribute();
-		texture2->Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo\\brickwall.ttd", TextureType::PB_Specular);
+		TextureAttribute texture;
+		texture.Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo\\brickwall.ttd", TextureType::PB_Diffuse);
+		TextureAttribute texture2;
+		texture2.Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo\\brickwall.ttd", TextureType::PB_Specular);
 
 		OwningPointer<EffectComponent> effect = OwningPointer<EffectComponent>::Create(effect);
 		effect->owner = Entity::Query(this);

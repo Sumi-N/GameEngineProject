@@ -26,6 +26,7 @@ namespace Tempest
 
 			size_t       GetIndex() const {return index; }
 			const Array* GetArray() const {return array; }
+			T*           Get()      const {return &(array->At(index)); }
 
 			bool operator==(const Iterator& i_iterator);
 			bool operator!=(const Iterator& i_iterator);

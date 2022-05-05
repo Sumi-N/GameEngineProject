@@ -3,34 +3,16 @@
 #include "Core/Math/Vector.h"
 
 namespace Tempest
-{
-	namespace 
-	{
-		int SelectedIndex = -1;				
-		Object SelectedObject;
-		CameraComponent SelectedCamera;
-		LightComponent SelectedLight;
-		MeshComponent SelectedMesh;
-		EffectComponent SelecctedEffect;
-
-		enum ComponentFlags
-		{
-			ObjectFlag,
-			CameraFlag,
-			LightFlag,
-			MeshFlag,
-			EffectFlag,
-		};
-
-		int UpdatedIndex = -1;
-		ComponentFlags UpdatedFlags = ComponentFlags::ObjectFlag;
-		Object UpdatedObject;
-		CameraComponent UpdatedCamera;
-		LightComponent UpdatedLight;
-		MeshComponent UpdatedMesh;
-		EffectComponent UpdatedEffect;
-
-	}
+{	
+	bool Modified = false;
+	int SelectedIndex = -1;
+	EntityInfo::ComponentFlags SelectedFlag = EntityInfo::ComponentFlags::None;
+	EntityInfo::ComponentFlags SelectedObjectFlags = EntityInfo::ComponentFlags::None;
+	Object SelectedObject{};
+	CameraComponent SelectedCamera{};
+	LightComponent SelectedLight{};
+	MeshComponent SelectedMesh{};
+	EffectComponent SelecctedEffect{};
 
 	void ImguiLayer::OnAttach()
 	{		
@@ -245,17 +227,16 @@ namespace Tempest
 	{
 		ImGui::Begin("ControlPanel");
 		
-		ImGuiTreeNodeFlags_ asset_panel_flags = ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen;
-		if (ImGui::CollapsingHeader("Basic Information", asset_panel_flags))
+		ImGuiTreeNodeFlags_ collapse_panel_flags = ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen;
+		if (ImGui::CollapsingHeader("Basic Information", collapse_panel_flags))
 		{				
 			static float* position_data =reinterpret_cast<float*>(&SelectedObject.pos);
 			ImGui::Text("Position");
 			ImGui::SameLine(100);
 			if (ImGui::InputFloat3("position", position_data))
 			{
-				UpdatedFlags = ObjectFlag;
-				UpdatedIndex = SelectedIndex;
-				UpdatedObject = SelectedObject;
+				SelectedFlag = EntityInfo::ObjectFlag;
+				Modified = true;				
 			}			
 			
 			static float* rotation_data = reinterpret_cast<float*>(&SelectedObject.rot);
@@ -263,9 +244,8 @@ namespace Tempest
 			ImGui::SameLine(100);
 			if (ImGui::InputFloat3("rotation", rotation_data))
 			{
-				UpdatedFlags = ObjectFlag;
-				UpdatedIndex = SelectedIndex;
-				UpdatedObject = SelectedObject;
+				SelectedFlag = EntityInfo::ObjectFlag;
+				Modified = true;				
 			}
 			
 			
@@ -274,22 +254,45 @@ namespace Tempest
 			ImGui::SameLine(100);
 			if (ImGui::InputFloat3("scale", scale_data))
 			{
-				UpdatedFlags = ObjectFlag;
-				UpdatedIndex = SelectedIndex;
-				UpdatedObject = SelectedObject;
+				SelectedFlag = EntityInfo::ObjectFlag;
+				Modified = true;				
 			}			
 		}
-
-		ImGui::Separator();
-
-		if (ImGui::CollapsingHeader("Effect Component", asset_panel_flags))
+		
+		if (SelectedObjectFlags & EntityInfo::CameraFlag)
 		{
+			if (ImGui::CollapsingHeader("Camera Component", collapse_panel_flags))
+			{
+			}
 		}
-
-		ImGui::Separator();
-
-		if (ImGui::CollapsingHeader("Mesh Component", asset_panel_flags))
+		
+		if (SelectedObjectFlags & EntityInfo::LightFlag)
 		{
+			if (ImGui::CollapsingHeader("Light Component", collapse_panel_flags))
+			{
+			}
+		}
+		
+
+		if (SelectedObjectFlags & EntityInfo::EffectFlag)
+		{
+			if (ImGui::CollapsingHeader("Effect Component", collapse_panel_flags))
+			{				
+				static float* scale_data = reinterpret_cast<float*>(&SelecctedEffect.material_attribute.material.albedo);
+				if (ImGui::ColorEdit3("MyColor##1", scale_data))
+				{
+					SelectedFlag = EntityInfo::EffectFlag;
+					Modified = true;
+				}
+			}
+		}
+		
+
+		if (SelectedObjectFlags & EntityInfo::MeshFlag)
+		{
+			if (ImGui::CollapsingHeader("Mesh Component", collapse_panel_flags))
+			{
+			}
 		}
 
 		ImGui::End();
@@ -320,6 +323,7 @@ namespace Tempest
 				{
 					SelectedIndex = i;
 					SelectedObject = EntityInfo::GetObjectByIndex(i);
+					SelectedObjectFlags = EntityInfo::GetAttachedComponentsByIndex(i);
 				}
 				if (test_drag_and_drop && ImGui::BeginDragDropSource())
 				{
@@ -347,32 +351,32 @@ namespace Tempest
 
 	void ImguiLayer::OnCriticalSection() 
 	{
-		if (UpdatedIndex == -1)
+		if (!Modified)
 		{
 			return;
 		}
 
-		switch (UpdatedFlags)
+		switch (SelectedFlag)
 		{
-		case Tempest::ComponentFlags::ObjectFlag:
-			*Entity::ObjectList[UpdatedIndex] = UpdatedObject;
+		case EntityInfo::ComponentFlags::ObjectFlag:
+			*Entity::ObjectList[SelectedIndex] = SelectedObject;
 			break;
-		case Tempest::ComponentFlags::CameraFlag:
-			*Entity::CameraComponentList[UpdatedIndex] = UpdatedCamera;
+		case EntityInfo::ComponentFlags::CameraFlag:
+			*Entity::CameraComponentList[SelectedIndex] = SelectedCamera;
 			break;
-		case Tempest::ComponentFlags::LightFlag:
-			*Entity::LightComponentList[UpdatedIndex] = UpdatedLight;
+		case EntityInfo::ComponentFlags::LightFlag:
+			*Entity::LightComponentList[SelectedIndex] = SelectedLight;
 			break;
-		case Tempest::ComponentFlags::MeshFlag:
-			*Entity::MeshComponentList[UpdatedIndex] = UpdatedMesh;
+		case EntityInfo::ComponentFlags::MeshFlag:
+			*Entity::MeshComponentList[SelectedIndex] = SelectedMesh;
 			break;
-		case Tempest::ComponentFlags::EffectFlag:
-			*Entity::EffectComponentList[UpdatedIndex] = UpdatedEffect;
+		case EntityInfo::ComponentFlags::EffectFlag:
+			*Entity::EffectComponentList[0] = SelecctedEffect;
 			break;
 		default:
 			break;
 		}
 
-		UpdatedIndex = -1;
+		Modified = false;
 	}
 }

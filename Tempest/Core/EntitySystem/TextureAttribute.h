@@ -8,9 +8,7 @@ namespace Tempest
 	class TextureAttribute : public Attribute
 	{
 	public:
-		TextureAttribute() : type(TextureType::Default) {}
-		~TextureAttribute() {};
-		
+		TextureAttribute() : type(TextureType::Default) {}		
 
 		Owner<Resource::Texture> texture;
 		TextureType type;
@@ -19,7 +17,7 @@ namespace Tempest
 
 	private:
 		bool IsLoaded();
-	};
+	};	
 
 	inline Result TextureAttribute::Load(char const* i_filename, TextureType i_type)
 	{

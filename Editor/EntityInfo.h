@@ -6,13 +6,15 @@ namespace Tempest
 {
 	namespace EntityInfo
 	{
-
 		enum ComponentFlags
 		{
 			None = 0,
-			Mesh = 1 << 1,
-			Effect = 1 << 2,
-			Animation = 1 << 3,
+			ObjectFlag = 1 << 1,
+			CameraFlag = 1 << 2,
+			LightFlag = 1 << 3,
+			MeshFlag = 1 << 4,
+			EffectFlag = 1 << 5,
+			AnimationFlag = 1 << 6,
 		};
 
 		size_t GetTotalObjectSize();

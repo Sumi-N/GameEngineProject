@@ -16,6 +16,7 @@ namespace Tempest
 
 	inline void MyCameraObject::Boot()
 	{
+		name = "Camera";
 		camera_component = Create<CameraComponent>();
 		camera_component->owner = Entity::Query(this);
 		Entity::RegisterCameraComponent(camera_component);		

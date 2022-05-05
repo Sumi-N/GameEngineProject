@@ -17,6 +17,8 @@ namespace Tempest
 	{
 		Object::Boot();
 
+		name = "Sky Box";
+
 		{
 			mesh_component = Create<MeshComponent>();
 			mesh_component->Load(PATH_SUFFIX BIN_MESH_PATH FILENAME_CUBEMAP);
@@ -32,9 +34,9 @@ namespace Tempest
 				nullptr,
 				PATH_SUFFIX SHADER_PATH SKYBOX_FRAG,
 			};
-
-			Owner<TextureAttribute> texture = Create<TextureAttribute>();
-			texture->Load(PATH_SUFFIX BIN_TEXTURE_PATH SKYBOX_HDR_PINTREE, TextureType::SkyBox);
+			
+			TextureAttribute texture;
+			texture.Load(PATH_SUFFIX BIN_TEXTURE_PATH SKYBOX_HDR_PINTREE, TextureType::SkyBox);
 
 			effect_component = Create<EffectComponent>();
 			effect_component->RegisterShaderPath(shaderpaths);
