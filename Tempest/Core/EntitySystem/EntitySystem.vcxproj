@@ -101,7 +101,6 @@
     <ClInclude Include="MaterialAttribute.h" />
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="SceneEntity.h" />
     <ClInclude Include="TextureAttribute.h" />
   </ItemGroup>
   <ItemGroup>

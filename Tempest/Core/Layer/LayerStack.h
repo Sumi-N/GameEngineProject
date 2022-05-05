@@ -14,10 +14,11 @@ namespace Tempest
 		static void PushLayer(Layer*);
 		static void PushOverlay(Layer*);
 		static void PopLayer(Layer*);
-		static void Boot();
-		static void Update();		
+		static void Init();
+		static void Update();
+		static void OnCriticalSection();
 		static void OnEvent(Event&);
-		static void CleanUp();		
+		static void CleanUp();
 
 		//static Array<Layer*> Layers();
 	private:

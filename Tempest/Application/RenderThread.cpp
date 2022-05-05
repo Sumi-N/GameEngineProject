@@ -18,9 +18,7 @@ namespace Tempest
 		BindEvent();
 
 		// Initialize OpenGL
-		Graphic::Boot();
-
-		LayerStack::Boot();
+		Graphic::Boot();		
 	}
 
 	void RenderThread::Init()
@@ -29,8 +27,10 @@ namespace Tempest
 		SceneEntity::Init();
 
 		Graphic::Init(window->data.width, window->data.height);
+
+		LayerStack::Init();
 		
-		Graphic::PreCompute();		
+		Graphic::PreCompute();
 	}	
 
 	void RenderThread::NonCriticalSection()
@@ -52,12 +52,13 @@ namespace Tempest
 	}
 
 	void RenderThread::CriticalSection()
-	{				
+	{
+		LayerStack::OnCriticalSection();
 	}
 
 	void RenderThread::CleanUp()
 	{
-		LayerStack::CleanUp();
+		LayerStack::CleanUp();		
 		Graphic::CleanUp();
 		window->Shutdown();
 		delete window;

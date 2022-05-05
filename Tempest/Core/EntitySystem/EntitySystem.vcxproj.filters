@@ -49,9 +49,6 @@
     <ClInclude Include="Entity.h">
       <Filter>Entity</Filter>
     </ClInclude>
-    <ClInclude Include="SceneEntity.h">
-      <Filter>Entity</Filter>
-    </ClInclude>
     <ClInclude Include="LightComponent.h">
       <Filter>Component</Filter>
     </ClInclude>

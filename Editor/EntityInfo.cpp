@@ -2,29 +2,20 @@
 
 namespace Tempest {
 	namespace EntityInfo {
+		
 		size_t GetTotalObjectSize()
 		{
 			return Entity::ObjectList.Size();
 		}
 
+		Object GetObjectByIndex(int index)
+		{
+			return *Entity::ObjectList[index];
+		}
+
 		String GetObjectNameByIndex(int index)
 		{
 			return Entity::ObjectList[index]->name;
-		}
-
-		Vec3f GetObjectPositionByIndex(int index)
-		{
-			return Entity::ObjectList[index]->pos;
-		}
-
-		Vec3f GetObjectRotationByIndex(int index)
-		{
-			return Entity::ObjectList[index]->rot;
-		}
-
-		Vec3f GetObjectScaleByIndex(int index)
-		{
-			return Entity::ObjectList[index]->scale;
 		}
 
 		ComponentFlags GetAttachedComponentsByIndex(int index)

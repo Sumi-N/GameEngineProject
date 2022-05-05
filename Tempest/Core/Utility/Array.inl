@@ -6,16 +6,9 @@ namespace Tempest
 	template <typename T>
 	inline bool Array<T>::Iterator::operator==(const Array<T>::Iterator& i_iterator)
 	{
-		if (i_iterator.GetArray() == nullptr)
+		if (!i_iterator.GetArray())
 		{
-			if (array == nullptr)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			return !array ? true : false;			
 		}
 
 		if (index == i_iterator.GetIndex() && array == i_iterator.GetArray())
@@ -29,16 +22,9 @@ namespace Tempest
 	template <typename T>
 	inline bool Array<T>::Iterator::operator!=(const Array<T>::Iterator& i_iterator)
 	{
-		if (i_iterator.GetArray() == nullptr)
+		if (!i_iterator.GetArray())
 		{
-			if (index >= array->Size())
-			{
-				return false;
-			}
-			else
-			{
-				return true;
-			}
+			return index >= array->Size() ? false : true;			
 		}
 
 		if (index != i_iterator.GetIndex() && array != i_iterator.GetArray())
@@ -52,8 +38,7 @@ namespace Tempest
 	template <typename T>
 	inline Array<T>::Array()
 		: max_size(0), capacity(0), size(0), granularity(10), data(nullptr)
-	{
-	}
+	{}
 
 	template <typename T>
 	inline Array<T>::Array(const int i_size)

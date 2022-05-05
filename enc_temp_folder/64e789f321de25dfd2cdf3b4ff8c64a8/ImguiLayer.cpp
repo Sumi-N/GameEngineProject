@@ -238,6 +238,13 @@ namespace Tempest
 	{
 		ImGui::Begin("AssetPanel");
 		ImGui::Text("This is setting panel");
+
+		static float vec4a[4] = { 0.10f, 0.20f, 0.30f, 0.44f };
+		static float vec4b[4] = { 0.10f, 0.20f, 0.30f, 0.44f };
+		static float vec4c[4] = { 0.10f, 0.20f, 0.30f, 0.44f };
+		ImGui::InputFloat3("", vec4a);
+		ImGui::InputFloat3("", vec4b);
+		ImGui::InputFloat3("", vec4c);
 		ImGui::End();
 	}
 
@@ -279,18 +286,7 @@ namespace Tempest
 				UpdatedObject = SelectedObject;
 			}			
 		}
-
 		ImGui::Separator();
-
-		if (ImGui::CollapsingHeader("Effect Component", asset_panel_flags))
-		{
-		}
-
-		ImGui::Separator();
-
-		if (ImGui::CollapsingHeader("Mesh Component", asset_panel_flags))
-		{
-		}
 
 		ImGui::End();
 	}

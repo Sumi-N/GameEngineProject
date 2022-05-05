@@ -5,7 +5,6 @@
 
 namespace Tempest
 {
-
 	class TextureAttribute : public Attribute
 	{
 	public:
@@ -53,5 +52,4 @@ namespace Tempest
 
 		return false;
 	}
-
 }

@@ -9,7 +9,6 @@ namespace Tempest
 	Entry<Owner<MeshComponent>>        Entity::MeshComponentList{};
 	Entry<Owner<EffectComponent>>      Entity::EffectComponentList{};
 	Entry<Owner<BackgroundComponent>>  Entity::BackgroundComponentList{};
-
 	AnimationSystem                    Entity::Animation{};
 
 	void Entity::Register(const Owner<Object>& i_obj)

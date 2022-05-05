@@ -45,9 +45,9 @@ namespace Tempest
 		Array& operator=(Array);
 		Array& Convert(std::initializer_list<T>);
 
-		Iterator Begin () {return Iterator(this, 0); }
 		// This function is for ranged loop
 		// Lowercase begin and end is required for ranged loop
+		Iterator Begin () {return Iterator(this, 0); }		
 		Iterator begin () {return Iterator(this, 0); }
 		Iterator End   () {return Iterator(); }
 		Iterator end   () {return Iterator(); }

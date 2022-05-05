@@ -36,7 +36,7 @@ namespace Tempest
 		}
 	}
 
-	void LayerStack::Boot()
+	void LayerStack::Init()
 	{
 		for (Layer* layer : Layers)
 		{
@@ -49,6 +49,14 @@ namespace Tempest
 		for (Layer* layer : Layers)
 		{
 			layer->OnUpdate();
+		}
+	}
+
+	void LayerStack::OnCriticalSection()
+	{
+		for (Layer* layer : Layers)
+		{
+			layer->OnCriticalSection();
 		}
 	}
 
