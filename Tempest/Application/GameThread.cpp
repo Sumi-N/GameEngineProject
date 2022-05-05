@@ -44,18 +44,6 @@ namespace Tempest
 
 	void WriteDataToOwningThread(GraphicRequiredData* i_data)
 	{
-		//Submit point data 
-		{
-			//Debug::Ray ray;
-			//ray.startpoint = Entity::CamerasObjects[0]->pos;
-			//ray.direction = 2 * (UserInput.X() / ScreenWidth - 0.5f) * Entity::CamerasObjects[0]->GetRightVec()
-			//	- 2 * (UserInput.Y() / ScreenHeight - 0.5f) * Entity::CamerasObjects[0]->GetUpVec()
-			//	+ Entity::CamerasObjects[0]->GetForwardVec();
-			//ray.GetEndPoint();
-			//i_data->points[0] = ray.startpoint + 0.1f * Entity::CamerasObjects[0]->GetForwardVec();
-			//i_data->points[1] = ray.endpoint;
-		}
-
 		// Submit camera data
 		{
 			i_data->camera.camera_position_vector = Entity::CameraComponentList[0]->owner->pos;
@@ -77,15 +65,13 @@ namespace Tempest
 				}
 					break;
 				case LightComponent::LightType::DirectionalLight:
-				{
-					// Submit directional light data
+				{					
 					i_data->light.directional_intensity = Vec4f((*it)->intensity);
 					i_data->light.directional_direction = Vec4f((*it)->direction);
 				}
 					break;
 				case LightComponent::LightType::PointLight:
-				{					
-					// Submit point light data					
+				{										
 					i_data->light.pointlights[i_data->light.point_num].intensity = Vec4f((*it)->intensity);
 					i_data->light.pointlights[i_data->light.point_num].position = Vec4f((*it)->owner->pos);
 					i_data->light.pointlights[i_data->light.point_num].attenuation = (*it)->attenuation;

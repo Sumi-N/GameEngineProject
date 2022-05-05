@@ -3,18 +3,48 @@
 
 namespace Tempest
 {
-	Array<Owner<Object>>               Entity::ObjectList{};
-	Array<Owner<CameraComponent>>      Entity::CameraComponentList{};
-	Array<Owner<LightComponent>>       Entity::LightComponentList{};
-	Array<Owner<MeshComponent>>        Entity::MeshComponentList{};
-	Array<Owner<EffectComponent>>      Entity::EffectComponentList{};
-	Array<Owner<BackgroundComponent>>  Entity::BackgroundComponentList{};
+	Entry<Owner<Object>>               Entity::ObjectList{};
+	Entry<Owner<CameraComponent>>      Entity::CameraComponentList{};
+	Entry<Owner<LightComponent>>       Entity::LightComponentList{};
+	Entry<Owner<MeshComponent>>        Entity::MeshComponentList{};
+	Entry<Owner<EffectComponent>>      Entity::EffectComponentList{};
+	Entry<Owner<BackgroundComponent>>  Entity::BackgroundComponentList{};
 
 	AnimationSystem                    Entity::Animation{};
 
 	void Entity::Register(const Owner<Object>& i_obj)
 	{		
 		ObjectList.PushBack(i_obj);
+	}
+
+	void Entity::RegisterCameraComponent(const Owner<CameraComponent>& i_camera)
+	{
+		CameraComponentList.PushBack(i_camera);
+	}
+
+	void Entity::RegisterMeshComponent(const Owner<MeshComponent>& i_component)
+	{
+		MeshComponentList.PushBack(i_component);
+	}
+
+	void Entity::RegisterEffectComponent(const Owner<EffectComponent>& i_component)
+	{
+		EffectComponentList.PushBack(i_component);
+	}
+
+	void Entity::RegisterLightComponent(const Owner<LightComponent>& i_point)
+	{
+		LightComponentList.PushBack(i_point);
+	}
+
+	void Entity::RegisterBackgroundComponent(const Owner<BackgroundComponent>& i_component)
+	{
+		BackgroundComponentList.PushBack(i_component);
+	}
+
+	void Entity::RegisterAnimationComponent(const Owner<AnimationComponent>& i_component)
+	{
+		Entity::Animation.Register(i_component);
 	}
 
 	Owner<Object> Entity::Query(Object* i_obj)
@@ -32,36 +62,6 @@ namespace Tempest
 		DEBUG_PRINT("Couldn't find the query object pointer");
 		return Owner<Object>();
 	}
-
-	void Entity::RegisterCameraComponent(const Owner<CameraComponent>& i_camera)
-	{
-		CameraComponentList.PushBack(i_camera);
-	}
-
-	void Entity::RegisterLightComponent(const Owner<LightComponent>& i_point)
-	{
-		LightComponentList.PushBack(i_point);
-	}
-
-	void Entity::RegisterMeshComponent(const Owner<MeshComponent>& i_component)
-	{
-		MeshComponentList.PushBack(i_component);
-	}
-
-	void Entity::RegisterEffectComponent(const Owner<EffectComponent>& i_component)
-	{
-		EffectComponentList.PushBack(i_component);
-	}
-
-	void Entity::RegisterBackgroundComponent(const Owner<BackgroundComponent>& i_component)
-	{
-		BackgroundComponentList.PushBack(i_component);
-	}
-
-	void Entity::RegisterAnimationComponent(const Owner<AnimationComponent>& i_component)
-	{
-		Entity::Animation.Register(i_component);
-	}	
 
 	void Entity::Boot()
 	{
@@ -95,114 +95,48 @@ namespace Tempest
 		//	PointLightList.PushBack(light_handler);
 		//}
 
-
-		for (auto it = LightComponentList.Begin(); it != LightComponentList.End(); ++it)
-		{
-			(*it)->Boot();
-		}
-
-		for (auto it = CameraComponentList.Begin(); it != CameraComponentList.End(); ++it)
-		{
-			(*it)->Boot();
-		}
-
-		// Boot Object
-		for (auto it = ObjectList.Begin(); it != ObjectList.End(); ++it)
-		{
-			(*it)->Boot();
-		}
-
-		// Boot Mesh
-		for (auto it = MeshComponentList.Begin(); it != MeshComponentList.End(); ++it)
-		{
-			(*it)->Boot();
-		}
-
-		// Boot Effect
-		for (auto it = EffectComponentList.Begin(); it != EffectComponentList.End(); ++it)
-		{
-			(*it)->Boot();
-		}
+		ObjectList.Boot();
+		CameraComponentList.Boot();
+		LightComponentList.Boot();
+		MeshComponentList.Boot();
+		EffectComponentList.Boot();
+		BackgroundComponentList.Boot();
 
 		Animation.Boot();
 	}
 
 	void Entity::Init()
-	{
-		// Init Object
-		for (auto it = ObjectList.Begin(); it != ObjectList.End(); ++it)
-		{
-			(*it)->Init();
-		}
-
-		// Init Mesh
-		for (auto it = MeshComponentList.Begin(); it != MeshComponentList.End(); ++it)
-		{
-			(*it)->Init();
-		}
-
-		// Init Light
-		for (auto it = LightComponentList.Begin(); it != LightComponentList.End(); ++it)
-		{
-			(*it)->Init();
-		}
-		
-		// Init Effect
-		for (auto it = EffectComponentList.Begin(); it != EffectComponentList.End(); ++it)
-		{
-			(*it)->Init();
-		}
-
-		// Init Cameras
-		for (auto it = CameraComponentList.Begin(); it != CameraComponentList.End(); ++it)
-		{
-			(*it)->Init();
-		}
+	{		
+		ObjectList.Init();
+		CameraComponentList.Init();
+		LightComponentList.Init();
+		MeshComponentList.Init();
+		EffectComponentList.Init();
+		BackgroundComponentList.Init();
 
 		Animation.Init();
 	}
 
 	void Entity::Update(float i_dt)
 	{		
-		// Update Object
-		for (auto it = ObjectList.Begin(); it != ObjectList.End(); ++it)
-		{
-			(*it)->Update(i_dt);
-		}
-
-		// Update Mesh
-		for (auto it = MeshComponentList.Begin(); it != MeshComponentList.End(); ++it)
-		{
-			(*it)->Update(i_dt);
-		}
-
-		// Update Light
-		for (auto it = MeshComponentList.Begin(); it != MeshComponentList.End(); ++it)
-		{
-			(*it)->Update(i_dt);
-		}
-
-		// Update Effect
-		for (auto it = EffectComponentList.Begin(); it != EffectComponentList.End(); ++it)
-		{
-			(*it)->Update(i_dt);
-		}
-
-		// Update Cameras
-		for (auto it = CameraComponentList.Begin(); it != CameraComponentList.End(); ++it)
-		{
-			(*it)->Update(i_dt);
-		}
+		ObjectList.Update(i_dt);
+		CameraComponentList.Update(i_dt);
+		LightComponentList.Update(i_dt);
+		MeshComponentList.Update(i_dt);
+		EffectComponentList.Update(i_dt);
+		BackgroundComponentList.Update(i_dt);
 
 		Animation.Update(i_dt);
 	}
 
 	void Entity::CleanUp()
 	{
-		for (auto it = ObjectList.Begin(); it != ObjectList.End(); ++it)
-		{
-			(*it)->CleanUp();
-		}
+		ObjectList.CleanUp();
+		CameraComponentList.CleanUp();
+		LightComponentList.CleanUp();
+		MeshComponentList.CleanUp();
+		EffectComponentList.CleanUp();
+		BackgroundComponentList.CleanUp();
 
 		Animation.CleanUp();
 	}

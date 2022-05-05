@@ -94,11 +94,9 @@
     <ClInclude Include="BackgroundComponent.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="Component.h" />
-    <ClInclude Include="Container.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="EffectComponent.h" />
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="EntityNode.h" />
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="MaterialAttribute.h" />
     <ClInclude Include="MeshComponent.h" />
@@ -115,7 +113,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="EntityNode.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
   </ItemGroup>
   <ItemGroup>

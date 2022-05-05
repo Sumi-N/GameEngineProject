@@ -49,17 +49,11 @@
     <ClInclude Include="Entity.h">
       <Filter>Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Container.h">
-      <Filter>Entity</Filter>
-    </ClInclude>
     <ClInclude Include="SceneEntity.h">
       <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="LightComponent.h">
       <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityNode.h">
-      <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="CameraComponent.h">
       <Filter>Component</Filter>
@@ -78,6 +72,5 @@
     <ClCompile Include="MeshComponent.cpp">
       <Filter>Component</Filter>
     </ClCompile>
-    <ClCompile Include="EntityNode.cpp" />
   </ItemGroup>
 </Project>

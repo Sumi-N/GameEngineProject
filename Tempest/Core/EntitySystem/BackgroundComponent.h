@@ -11,6 +11,9 @@ namespace Tempest
 	{
 	public:
 		BackgroundComponent() = default;
+		~BackgroundComponent() = default;
+
+		virtual void CleanUp() override {};
 
 		Owner<MeshComponent> mesh_component;
 		Owner<EffectComponent> effect_component;

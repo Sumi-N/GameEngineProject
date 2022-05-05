@@ -13,9 +13,6 @@
     <ClInclude Include="Define.h">
       <Filter>Precompiled Header</Filter>
     </ClInclude>
-    <ClInclude Include="Line.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PremadeObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>

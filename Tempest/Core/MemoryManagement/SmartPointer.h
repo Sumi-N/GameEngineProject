@@ -416,9 +416,7 @@ namespace Tempest
 
 	public:
 		// Default Constructor
-		ObservingPointer() : ref(nullptr), data(nullptr)
-		{
-		};
+		ObservingPointer() : ref(nullptr), data(nullptr) {};
 
 		// Copy Constructors
 		ObservingPointer(const ObservingPointer& i_owner)

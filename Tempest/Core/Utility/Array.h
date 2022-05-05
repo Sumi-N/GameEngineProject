@@ -46,7 +46,11 @@ namespace Tempest
 		Array& Convert(std::initializer_list<T>);
 
 		Iterator Begin () {return Iterator(this, 0); }
+		// This function is for ranged loop
+		// Lowercase begin and end is required for ranged loop
+		Iterator begin () {return Iterator(this, 0); }
 		Iterator End   () {return Iterator(); }
+		Iterator end   () {return Iterator(); }
 
 		size_t		Size       () const {return this->size; }
 		size_t		MaxSize    () const {return this->max_size; }

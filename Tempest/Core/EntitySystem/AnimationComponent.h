@@ -6,6 +6,7 @@
 
 namespace Tempest
 {
+	class MeshComponent;
 
 	class AnimationComponent : public Component
 	{
@@ -13,9 +14,9 @@ namespace Tempest
 		AnimationComponent() : is_looping(false), frame_per_second(0), frame_count(0) {};
 		~AnimationComponent() = default;
 
-		OwningPointer<Resource::Skeleton> skeleton;
-		OwningPointer<Resource::AnimationClip> clip;		
-		ObservingPointer<MeshComponent> mesh;
+		Owner<Resource::Skeleton> skeleton;
+		Owner<Resource::AnimationClip> clip;
+		Observer<MeshComponent> mesh;
 		
 		virtual void Boot() override;
 		virtual void Init() override;
@@ -62,7 +63,7 @@ namespace Tempest
 			DEBUG_ASSERT(false);
 		}
 
-		skeleton = OwningPointer<Resource::Skeleton>::Create(skeleton);
+		skeleton = Owner<Resource::Skeleton>::Create(skeleton);
 		return Resource::Skeleton::Load(i_filename, *skeleton);
 	}
 
@@ -74,7 +75,7 @@ namespace Tempest
 			DEBUG_ASSERT(false);
 		}
 
-		clip = OwningPointer<Resource::AnimationClip>::Create(clip);
+		clip = Owner<Resource::AnimationClip>::Create(clip);
 		return Resource::AnimationClip::Load(i_filename, *clip);
 	}
 
