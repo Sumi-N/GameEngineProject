@@ -28,7 +28,7 @@ public:
 	Shader shader;
 
 	void InitShader(const char**);
-	void InitTexture(TextureAttribute);
+	void InitTexture(const TextureType&, Owner<Resource::Texture>&);
 	void BindTextureUnit();
 	void BindShaderState();
 	void UnBindShaderState();

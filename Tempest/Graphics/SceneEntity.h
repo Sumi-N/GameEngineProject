@@ -26,7 +26,9 @@ inline void SceneEntity::Init()
 		SkyBoxProxy->Init(static_cast<int>(Entity::BackgroundComponentList[0]->mesh_component->type));
 		
 		renderhandler->InitShader(Entity::BackgroundComponentList[0]->effect_component->shaderpaths);
-		renderhandler->InitTexture(Entity::BackgroundComponentList[0]->effect_component->texture_attributes[0]);
+		renderhandler->InitTexture(
+			Entity::BackgroundComponentList[0]->effect_component->texture_types[0],
+			Entity::BackgroundComponentList[0]->effect_component->textures[0]);
 	}
 
 	for (auto it = Entity::EffectComponentList.Begin(); it != Entity::EffectComponentList.End(); ++it)
@@ -38,9 +40,11 @@ inline void SceneEntity::Init()
 
 		renderhandler->InitShader((*it)->shaderpaths);		
 		// Create buffer for textures
-		for (auto it2 = (*it)->texture_attributes.Begin(); it2 != (*it)->texture_attributes.End(); ++it2)
+		auto it_type = (*it)->texture_types.begin();
+		for (auto it_tex = (*it)->textures.begin(); it_tex != (*it)->textures.end(); ++it_tex, ++ it_type)
 		{
-			renderhandler->InitTexture(*it2);
+			if(*it_tex)
+				renderhandler->InitTexture(*it_type, *it_tex);
 		}
 
 		for (auto it2 = Entity::MeshComponentList.Begin(); it2 != Entity::MeshComponentList.End(); ++it2)

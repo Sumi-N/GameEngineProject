@@ -1,4 +1,6 @@
 #pragma once
+#include <array>
+
 #include <Configuration/Configuration.h>
 
 #include <Utility/Array.h>

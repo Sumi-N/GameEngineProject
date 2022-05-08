@@ -11,9 +11,6 @@
     <Filter Include="Component">
       <UniqueIdentifier>{a3c366bc-7ccd-4037-833f-a151646bf1c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Attribute">
-      <UniqueIdentifier>{5be0caa2-7323-42b2-8238-a9ede6eb8ea4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Entity">
       <UniqueIdentifier>{51b938cb-c249-4c09-ae37-25115a0ca98e}</UniqueIdentifier>
     </Filter>
@@ -28,23 +25,14 @@
     <ClInclude Include="AnimationComponent.h">
       <Filter>Component</Filter>
     </ClInclude>
-    <ClInclude Include="Attribute.h">
-      <Filter>Attribute</Filter>
-    </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="EffectComponent.h">
       <Filter>Component</Filter>
     </ClInclude>
-    <ClInclude Include="MaterialAttribute.h">
-      <Filter>Attribute</Filter>
-    </ClInclude>
     <ClInclude Include="MeshComponent.h">
       <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureAttribute.h">
-      <Filter>Attribute</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Entity</Filter>

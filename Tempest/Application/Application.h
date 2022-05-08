@@ -18,18 +18,18 @@ namespace Tempest
 		void Execute();
 
 	private:
-		static void Boot();
-		static void Start();
-		static void BootRenderThread();
-		static void BootGameThread();
+		static void Invoke();
+		static void Run();
+		static void InvokeRenderThread();
+		static void InvokeGameThread();
 		static void RunGameThread();
 		static void RunRenderThread();
 	};
 
 	inline void Application::Execute()
 	{
-		Application::Boot();
-		Application::Start();
+		Application::Invoke();
+		Application::Run();
 	}
 
 	static Application* Create();

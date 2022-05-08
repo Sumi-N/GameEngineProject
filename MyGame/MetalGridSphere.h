@@ -15,17 +15,7 @@ namespace Tempest
 
 	inline void MetalGridSphere::Boot()
 	{
-		Sphere::Boot();
-
-		TextureAttribute albedo;
-		TextureAttribute normal;
-		TextureAttribute roughness;
-		TextureAttribute metalic;
-
-		albedo.Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo/metalgrid1_basecolor.tt", TextureType::Albedo);
-		normal.Load(PATH_SUFFIX BIN_TEXTURE_PATH "normal/metalgrid1_normal-ogl.tt", TextureType::Normal);
-		roughness.Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/metalgrid1_roughness.tt", TextureType::Roughness);
-		metalic.Load(PATH_SUFFIX BIN_TEXTURE_PATH "metallic/metalgrid1_metallic.tt", TextureType::Metalic);
+		Sphere::Boot();		
 
 		const char* shaderpaths[] =
 		{
@@ -37,10 +27,10 @@ namespace Tempest
 		};
 
 		effect_component->RegisterShaderPath(shaderpaths);
-		effect_component->SetTexture(albedo);
-		effect_component->SetTexture(normal);
-		effect_component->SetTexture(roughness);
-		effect_component->SetTexture(metalic);
+		effect_component->RegisterTexture(TextureType::Albedo, PATH_SUFFIX BIN_TEXTURE_PATH "albedo/metalgrid1_basecolor.tt");
+		effect_component->RegisterTexture(TextureType::Normal, PATH_SUFFIX BIN_TEXTURE_PATH "normal/metalgrid1_normal-ogl.tt");
+		effect_component->RegisterTexture(TextureType::Roughness, PATH_SUFFIX BIN_TEXTURE_PATH "roughness/metalgrid1_roughness.tt");
+		effect_component->RegisterTexture(TextureType::Metalic, PATH_SUFFIX BIN_TEXTURE_PATH "metallic/metalgrid1_metallic.tt");
 	}
 
 	inline void MetalGridSphere::Init()

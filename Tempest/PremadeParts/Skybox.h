@@ -23,6 +23,7 @@ namespace Tempest
 			mesh_component = Create<MeshComponent>();
 			mesh_component->Load(PATH_SUFFIX BIN_MESH_PATH FILENAME_CUBEMAP);
 			mesh_component->owner = Entity::Query(this);
+			Entity::RegisterMeshComponent(mesh_component);
 		}		
 
 		{
@@ -33,15 +34,13 @@ namespace Tempest
 				nullptr,
 				nullptr,
 				PATH_SUFFIX SHADER_PATH SKYBOX_FRAG,
-			};
-			
-			TextureAttribute texture;
-			texture.Load(PATH_SUFFIX BIN_TEXTURE_PATH SKYBOX_HDR_PINTREE, TextureType::SkyBox);
+			};						
 
 			effect_component = Create<EffectComponent>();
 			effect_component->RegisterShaderPath(shaderpaths);
-			effect_component->SetTexture(texture);
+			effect_component->RegisterTexture(TextureType::SkyBox, PATH_SUFFIX BIN_TEXTURE_PATH SKYBOX_HDR_PINTREE);
 			effect_component->owner = Entity::Query(this);
+			Entity::RegisterEffectComponent(effect_component);
 		}
 
 		{

@@ -13,12 +13,6 @@ enum class TextureType : int8_t
 	Roughness        = 4,
 	Metalic          = 5,
 	AmbientOcclusion = 6,
-	//-------------------------
-	PB_Diffuse       = Albedo,
-	PB_Specular      = Normal,
-	PB_Normal        = Roughness,
-	PB_Displacement  = Metalic,
-	//--------------------------
 	End,
 };
 
@@ -49,9 +43,9 @@ namespace Resource
 
 	struct Material
 	{
-		Vec4f albedo;
-		float roughness;
-		float metalic;		
+		Vec4f albedo{ 1.0f, 0.0f, 1.0, 1.0f };
+		float roughness{ 1.0f };
+		float metalic{ 0.0f };
 	};
 
 	struct Joint

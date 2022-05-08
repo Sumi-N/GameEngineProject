@@ -15,17 +15,7 @@ namespace Tempest
 
 	inline void DirtyWickerWeaveSphere::Boot()
 	{
-		Sphere::Boot();
-
-		TextureAttribute albedo;
-		TextureAttribute normal;
-		TextureAttribute roughness;
-		TextureAttribute metalic;
-
-		albedo.Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo/dirty-wicker-weave1-albedo.tt", TextureType::Albedo);
-		normal.Load(PATH_SUFFIX BIN_TEXTURE_PATH "normal/dirty-wicker-weave1-normal-dx.tt", TextureType::Normal);
-		roughness.Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/dirty-wicker-weave1-roughness.tt", TextureType::Roughness);
-		metalic.Load(PATH_SUFFIX BIN_TEXTURE_PATH "metallic/dirty-wicker-weave1-metallic.tt", TextureType::Metalic);
+		Sphere::Boot();		
 
 		const char* shaderpaths[] =
 		{
@@ -37,10 +27,10 @@ namespace Tempest
 		};
 
 		effect_component->RegisterShaderPath(shaderpaths);
-		effect_component->SetTexture(albedo);
-		effect_component->SetTexture(normal);
-		effect_component->SetTexture(roughness);
-		effect_component->SetTexture(metalic);
+		effect_component->RegisterTexture(TextureType::Albedo, PATH_SUFFIX BIN_TEXTURE_PATH "albedo/dirty-wicker-weave1-albedo.tt");
+		effect_component->RegisterTexture(TextureType::Normal, PATH_SUFFIX BIN_TEXTURE_PATH "normal/dirty-wicker-weave1-normal-dx.tt");
+		effect_component->RegisterTexture(TextureType::Roughness, PATH_SUFFIX BIN_TEXTURE_PATH "roughness/dirty-wicker-weave1-roughness.tt");
+		effect_component->RegisterTexture(TextureType::Metalic, PATH_SUFFIX BIN_TEXTURE_PATH "metallic/dirty-wicker-weave1-metallic.tt");
 	}
 
 	inline void DirtyWickerWeaveSphere::Init()

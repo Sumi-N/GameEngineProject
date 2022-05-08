@@ -6,7 +6,6 @@
 #include <MemoryManagement/SmartPointer.h>
 #include <EntitySystem/Object.h>
 #include <EntitySystem/MeshComponent.h>
-#include <EntitySystem/TextureAttribute.h>
 #include <EntitySystem/Entity.h>
 #include <Utility/Array.h>
 

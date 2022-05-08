@@ -7,8 +7,6 @@
 #include <EntitySystem/MeshComponent.h>
 #include <EntitySystem/EffectComponent.h>
 #include <EntitySystem/Object.h>
-#include <EntitySystem/TextureAttribute.h>
-#include <EntitySystem/MaterialAttribute.h>
 
 #include <EntitySystem/Entity.h>
 

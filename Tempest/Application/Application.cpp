@@ -7,26 +7,26 @@ namespace Tempest
 	RenderThread Thread_Render;
 	Window* window;
 
-	void Application::Boot()
+	void Application::Invoke()
 	{
 		Thread_Game.Create();
 		Thread_Render.Create();
 
-		std::thread gamethread(BootGameThread);
+		std::thread gamethread(InvokeGameThread);
 		gamethread.detach();
 
-		BootRenderThread();
+		InvokeRenderThread();
 
 		return;
 	}
 
-	void Application::Start()
+	void Application::Run()
 	{
 		// Run render thread
 		RunRenderThread();
 	}
 
-	void Application::BootRenderThread()
+	void Application::InvokeRenderThread()
 	{
 		// Start boot process for render thread
 		{			
@@ -42,7 +42,7 @@ namespace Tempest
 		// Wait until both game and render thread finish init process
 	}
 
-	void Application::BootGameThread()
+	void Application::InvokeGameThread()
 	{
 		// Start boot process for game thread
 		{			

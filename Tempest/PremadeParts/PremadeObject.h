@@ -29,9 +29,7 @@ namespace Tempest
 		mesh_component->owner = Entity::Query(this);
 		Entity::RegisterMeshComponent(mesh_component);
 
-		effect_component = OwningPointer<EffectComponent>::Create(effect_component);
-		MaterialAttribute material;		
-		effect_component->SetMaterial(material);
+		effect_component = OwningPointer<EffectComponent>::Create(effect_component);				
 		effect_component->owner = Entity::Query(this);
 		Entity::RegisterEffectComponent(effect_component);
 

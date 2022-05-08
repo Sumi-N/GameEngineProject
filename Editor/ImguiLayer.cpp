@@ -1,5 +1,6 @@
 #include "ImguiLayer.h"
 #include "EntityInfo.h"
+#include "Serializer.h"
 #include "Core/Math/Vector.h"
 
 namespace Tempest
@@ -13,6 +14,8 @@ namespace Tempest
 	LightComponent SelectedLight{};
 	MeshComponent SelectedMesh{};
 	EffectComponent SelecctedEffect{};
+
+	Serializer SceneSerializer;
 
 	void ImguiLayer::OnAttach()
 	{		
@@ -225,38 +228,41 @@ namespace Tempest
 
 	void ImguiLayer::ControlPanelWindow()
 	{
-		ImGui::Begin("ControlPanel");
-		
+		ImGui::Begin("ControlPanel");		
 		ImGuiTreeNodeFlags_ collapse_panel_flags = ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen;
-		if (ImGui::CollapsingHeader("Basic Information", collapse_panel_flags))
-		{				
-			static float* position_data =reinterpret_cast<float*>(&SelectedObject.pos);
-			ImGui::Text("Position");
-			ImGui::SameLine(100);
-			if (ImGui::InputFloat3("position", position_data))
+
+		if (SelectedFlag >= 0)
+		{
+			if (ImGui::CollapsingHeader("Basic Information", collapse_panel_flags))
 			{
-				SelectedFlag = EntityInfo::ObjectFlag;
-				Modified = true;				
-			}			
-			
-			static float* rotation_data = reinterpret_cast<float*>(&SelectedObject.rot);
-			ImGui::Text("Rotation");
-			ImGui::SameLine(100);
-			if (ImGui::InputFloat3("rotation", rotation_data))
-			{
-				SelectedFlag = EntityInfo::ObjectFlag;
-				Modified = true;				
+				static float* position_data = reinterpret_cast<float*>(&SelectedObject.pos);
+				ImGui::Text("Position");
+				ImGui::SameLine(100);
+				if (ImGui::InputFloat3("position", position_data))
+				{
+					SelectedFlag = EntityInfo::ObjectFlag;
+					Modified = true;
+				}
+
+				static float* rotation_data = reinterpret_cast<float*>(&SelectedObject.rot);
+				ImGui::Text("Rotation");
+				ImGui::SameLine(100);
+				if (ImGui::InputFloat3("rotation", rotation_data))
+				{
+					SelectedFlag = EntityInfo::ObjectFlag;
+					Modified = true;
+				}
+
+
+				static float* scale_data = reinterpret_cast<float*>(&SelectedObject.scale);
+				ImGui::Text("Scale");
+				ImGui::SameLine(100);
+				if (ImGui::InputFloat3("scale", scale_data))
+				{
+					SelectedFlag = EntityInfo::ObjectFlag;
+					Modified = true;
+				}
 			}
-			
-			
-			static float* scale_data = reinterpret_cast<float*>(&SelectedObject.scale);
-			ImGui::Text("Scale");
-			ImGui::SameLine(100);
-			if (ImGui::InputFloat3("scale", scale_data))
-			{
-				SelectedFlag = EntityInfo::ObjectFlag;
-				Modified = true;				
-			}			
 		}
 		
 		if (SelectedObjectFlags & EntityInfo::CameraFlag)
@@ -278,8 +284,22 @@ namespace Tempest
 		{
 			if (ImGui::CollapsingHeader("Effect Component", collapse_panel_flags))
 			{				
-				static float* scale_data = reinterpret_cast<float*>(&SelecctedEffect.material_attribute.material.albedo);
-				if (ImGui::ColorEdit3("MyColor##1", scale_data))
+				static float* albedo_data = reinterpret_cast<float*>(&SelecctedEffect.material.albedo);
+				if (ImGui::ColorEdit3("Albedo", albedo_data))
+				{
+					SelectedFlag = EntityInfo::EffectFlag;
+					Modified = true;
+				}
+
+				static float* roughness_data = reinterpret_cast<float*>(&SelecctedEffect.material.roughness);
+				if (ImGui::SliderFloat("Roughness", roughness_data, 0.0f, 1.0f))
+				{
+					SelectedFlag = EntityInfo::EffectFlag;
+					Modified = true;
+				}
+
+				static float* metalicness_data = reinterpret_cast<float*>(&SelecctedEffect.material.metalic);
+				if (ImGui::SliderFloat("Metalic", metalicness_data, 0.0f, 1.0f))
 				{
 					SelectedFlag = EntityInfo::EffectFlag;
 					Modified = true;
@@ -371,7 +391,8 @@ namespace Tempest
 			*Entity::MeshComponentList[SelectedIndex] = SelectedMesh;
 			break;
 		case EntityInfo::ComponentFlags::EffectFlag:
-			*Entity::EffectComponentList[0] = SelecctedEffect;
+			//SceneSerializer.Serialize("../Assets/Scene/test.tyml");
+			*Entity::EffectComponentList[1] = SelecctedEffect;
 			break;
 		default:
 			break;

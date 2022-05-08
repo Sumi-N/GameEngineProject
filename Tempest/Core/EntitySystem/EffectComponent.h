@@ -2,35 +2,34 @@
 
 #include "Define.h"
 #include "Component.h"
-#include "TextureAttribute.h"
-#include "MaterialAttribute.h"
 
 namespace Tempest
-{
-
+{	
 	class EffectComponent : public Component
-	{
+	{		
 	public:
-		EffectComponent();
-		~EffectComponent() override;		
+		EffectComponent() = default;
+		~EffectComponent() = default;		
 
+		virtual void Boot() override;
 		void RegisterShaderPath(const char**);
-		void SetMaterial(MaterialAttribute);		
-		void SetTexture(TextureAttribute);
-		void ReplaceTexture(TextureAttribute, int);
+		void RegisterTexture(TextureType i_type, const char* i_path);
+		void LoadTexture();
+
+	public:				
+		const char* shaderpaths[5]{nullptr};		
+
+		Resource::Material material;
 		
-		const char* shaderpaths[5];
-		MaterialAttribute material_attribute;
-		Array<TextureAttribute> texture_attributes;		
-	};
+		std::array<const char*, 5>              texture_paths{ nullptr };		
+		std::array<TextureType, 5>              texture_types;
+		std::array<Owner<Resource::Texture>, 5> textures;
+	};	
 
-	inline EffectComponent::EffectComponent() : shaderpaths()
+	inline void EffectComponent::Boot()
 	{
+		LoadTexture();
 	}
-
-	inline EffectComponent::~EffectComponent()
-	{
-	}	
 
 	inline void EffectComponent::RegisterShaderPath(const char** shaderpaths)
 	{
@@ -41,19 +40,42 @@ namespace Tempest
 		this->shaderpaths[4] = shaderpaths[4];
 	}
 
-	inline void EffectComponent::SetMaterial(MaterialAttribute i_material)
+	inline void EffectComponent::RegisterTexture(TextureType i_type, const char* i_path)
 	{
-		material_attribute = i_material;
-	}	
+		for (int i = 0; i < 5; i++)
+		{			
+			if (!texture_paths[i])
+			{
+				texture_paths[i] = i_path;
+				texture_types[i] = i_type;
+				return;
+			}
+		}
 
-	inline void EffectComponent::SetTexture(TextureAttribute i_texture)
-	{		
-		texture_attributes.PushBack(i_texture);
-	}	
-
-	inline void EffectComponent::ReplaceTexture(TextureAttribute i_texture, int ith_item = 0)
-	{		
-		texture_attributes[ith_item] = i_texture;
+		DEBUG_ASSERT(false);
 	}
 
+	inline void EffectComponent::LoadTexture()
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			if (!texture_paths[i])
+			{
+				continue;
+			}
+
+			textures[i] = Create<Resource::Texture>();			
+
+			Result result = Resource::Texture::Load(texture_paths[i], *textures[i]);
+
+			if (result)
+			{
+				DEBUG_PRINT("Succeed loading texture %s", texture_paths[i]);
+			}
+			else
+			{
+				DEBUG_PRINT("Failed loading texture %s", texture_paths[i]);
+			}
+		}		
+	}
 }

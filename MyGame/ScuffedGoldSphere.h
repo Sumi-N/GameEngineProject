@@ -16,17 +16,7 @@ namespace Tempest
 
 	inline void ScuffedGoldSphere::Boot()
 	{
-		Sphere::Boot();
-
-		TextureAttribute albedo;
-		TextureAttribute normal;
-		TextureAttribute roughness;
-		TextureAttribute metalic;
-
-		albedo.Load(PATH_SUFFIX BIN_TEXTURE_PATH  "albedo/gold-scuffed_basecolor.tt", TextureType::Albedo);
-		normal.Load(PATH_SUFFIX BIN_TEXTURE_PATH "normal/gold-scuffed_normal.tt", TextureType::Normal);
-		roughness.Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/gold-scuffed_roughness.tt", TextureType::Roughness);
-		metalic.Load(PATH_SUFFIX BIN_TEXTURE_PATH "metallic/gold-scuffed_metalic.tt", TextureType::Metalic);
+		Sphere::Boot();		
 		
 		const char* shaderpaths[] =
 		{
@@ -38,10 +28,10 @@ namespace Tempest
 		};
 
 		effect_component->RegisterShaderPath(shaderpaths);
-		effect_component->SetTexture(albedo);
-		effect_component->SetTexture(normal);
-		effect_component->SetTexture(roughness);
-		effect_component->SetTexture(metalic);
+		effect_component->RegisterTexture(TextureType::Albedo, PATH_SUFFIX BIN_TEXTURE_PATH "albedo/gold-scuffed_basecolor.tt");
+		effect_component->RegisterTexture(TextureType::Normal, PATH_SUFFIX BIN_TEXTURE_PATH "normal/gold-scuffed_normal.tt");
+		effect_component->RegisterTexture(TextureType::Roughness, PATH_SUFFIX BIN_TEXTURE_PATH "roughness/gold-scuffed_roughness.tt");
+		effect_component->RegisterTexture(TextureType::Metalic, PATH_SUFFIX BIN_TEXTURE_PATH "metallic//gold-scuffed_metalic.tt");
 	}
 
 	inline void ScuffedGoldSphere::Init()

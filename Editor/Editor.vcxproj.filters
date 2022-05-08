@@ -32,6 +32,9 @@
     <ClCompile Include="EntityInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Serializer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImguiLayer.h">
@@ -77,6 +80,9 @@
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="EntityInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Serializer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
