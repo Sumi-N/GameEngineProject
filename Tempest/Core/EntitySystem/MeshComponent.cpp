@@ -3,7 +3,7 @@
 
 namespace Tempest
 {
-	void MeshComponent::ReplaceWithDummyMesh(OwningPointer<Resource::Mesh>& o_mesh)
+	void ReplaceWithDummyMesh(OwningPointer<Resource::Mesh>& o_mesh)
 	{
 		o_mesh = OwningPointer<Resource::Mesh>::Create(o_mesh);
 		o_mesh->data.Resize(6);
@@ -25,6 +25,7 @@ namespace Tempest
 
 	void MeshComponent::Boot()
 	{
+		Load();
 	}
 
 	void MeshComponent::Init()
@@ -48,7 +49,13 @@ namespace Tempest
 
 	}
 
-	Result MeshComponent::Load(const char* i_filename)
+	void MeshComponent::RegisterMesh(const char* i_path)
+	{
+		DEBUG_ASSERT(i_path);
+		mesh_path = i_path;
+	}
+
+	Result MeshComponent::Load()
 	{
 		if (IsLoaded())
 		{
@@ -56,26 +63,26 @@ namespace Tempest
 			CleanMesh();
 		}
 				
-		if (File::GetExtensionName(i_filename) == ".tm")
+		if (File::GetExtensionName(mesh_path) == ".tm")
 		{
 			type = MeshType::Mesh;
-			mesh = AssetManager<Resource::Mesh>::Load(i_filename);
+			mesh = AssetManager<Resource::Mesh>::Load(mesh_path);
 		}
-		else if (File::GetExtensionName(i_filename) == ".tsm")
+		else if (File::GetExtensionName(mesh_path) == ".tsm")
 		{
 			type = MeshType::SkeletonMesh;
-			mesh = static_cast<Owner<Resource::Mesh>>(AssetManager<Resource::SkeletonMesh>::Load(i_filename));
+			mesh = static_cast<Owner<Resource::Mesh>>(AssetManager<Resource::SkeletonMesh>::Load(mesh_path));
 		}
 
 		if (!mesh)
 		{
-			DEBUG_PRINT("Failed to load the mesh data %s, replaced it with dummy mesh", i_filename);
+			DEBUG_PRINT("Failed to load the mesh data %s, replaced it with dummy mesh", mesh_path);
 			ReplaceWithDummyMesh(mesh);
 
 			return ResultValue::FileDoesntExist;
 		}
 
-		DEBUG_PRINT("Succeed loading the mesh data %s", i_filename);
+		DEBUG_PRINT("Succeed loading the mesh data %s", mesh_path);
 		return ResultValue::Success;
 	}
 

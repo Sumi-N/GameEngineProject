@@ -21,7 +21,7 @@ namespace Tempest
 
 		{
 			mesh_component = Create<MeshComponent>();
-			mesh_component->Load(PATH_SUFFIX BIN_MESH_PATH FILENAME_CUBEMAP);
+			mesh_component->RegisterMesh(PATH_SUFFIX BIN_MESH_PATH FILENAME_CUBEMAP);
 			mesh_component->owner = Entity::Query(this);
 			Entity::RegisterMeshComponent(mesh_component);
 		}		

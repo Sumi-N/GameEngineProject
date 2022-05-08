@@ -39,7 +39,7 @@ namespace Tempest
 		effect_component->RegisterTexture(TextureType::Roughness, PATH_SUFFIX BIN_TEXTURE_PATH "roughness/gold-scuffed_roughness.tt");
 		effect_component->RegisterTexture(TextureType::Metalic, PATH_SUFFIX BIN_TEXTURE_PATH "metallic/gold-scuffed_metalic.tt");
 		
-		mesh_component->Load(PATH_SUFFIX BIN_MESH_PATH "xbot.tsm");
+		mesh_component->RegisterMesh(PATH_SUFFIX BIN_MESH_PATH "xbot.tsm");
 
 		Owner<AnimationComponent> animation_component = Owner<AnimationComponent>::Create(animation_component);
 		animation_component->owner = Entity::Query(this);

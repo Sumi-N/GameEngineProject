@@ -19,18 +19,19 @@ namespace Tempest
 		};
 
 		MeshType type;
+		const char* mesh_path;
 		Owner<Resource::Mesh> mesh;
 
 		Mat4f model_mat;
 		Mat4f model_inverse_transpose_mat;
-
-		static  void ReplaceWithDummyMesh(Owner<Resource::Mesh>&);
+		
 		virtual void Boot() override;
 		virtual void Init() override;
 		virtual void Update(float i_dt) override;
 		virtual void CleanUp() override;
 
-		Result Load(const char* i_filename);
+		void RegisterMesh(const char* i_path);
+		Result Load();
 
 	private:
 		bool IsLoaded();
