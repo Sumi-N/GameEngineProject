@@ -27,10 +27,10 @@ namespace Tempest
 		};
 
 		effect_component->RegisterShaderPath(shaderpaths);
-		effect_component->RegisterTexture(TextureType::Albedo, PATH_SUFFIX BIN_TEXTURE_PATH "albedo/brushed-metal_albedo.tt");
-		effect_component->RegisterTexture(TextureType::Normal, PATH_SUFFIX BIN_TEXTURE_PATH "normal/brushed-metal_normal-dx.tt");
-		effect_component->RegisterTexture(TextureType::Roughness, PATH_SUFFIX BIN_TEXTURE_PATH "roughness/brushed-metal_roughness.tt");
-		effect_component->RegisterTexture(TextureType::Metalic, PATH_SUFFIX BIN_TEXTURE_PATH "metallic/brushed-metal_metallic.tt");
+		effect_component->RegisterTexture(Resource::TextureType::Albedo, PATH_SUFFIX BIN_TEXTURE_PATH "albedo/brushed-metal_albedo.tt");
+		effect_component->RegisterTexture(Resource::TextureType::Normal, PATH_SUFFIX BIN_TEXTURE_PATH "normal/brushed-metal_normal-dx.tt");
+		effect_component->RegisterTexture(Resource::TextureType::Roughness, PATH_SUFFIX BIN_TEXTURE_PATH "roughness/brushed-metal_roughness.tt");
+		effect_component->RegisterTexture(Resource::TextureType::Metalic, PATH_SUFFIX BIN_TEXTURE_PATH "metallic/brushed-metal_metallic.tt");
 	}
 
 	inline void BrushedMetalSphere::Init()

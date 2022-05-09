@@ -17,7 +17,7 @@ namespace Tempest
 	{
 		name = "PointLight";
 		light_component = Create<LightComponent>();		
-		light_component->light_type = LightComponent::LightType::PointLight;
+		light_component->light_type = LightType::PointLight;
 		light_component->intensity = Vec3f(25.0f, 25.0f, 25.0f);		
 		light_component->attenuation = Vec3f(1.0f, 0.07f, 0.017f);
 		light_component->owner = Entity::Query(this);

@@ -110,18 +110,18 @@ namespace Tempest
 			{
 				switch ((*it)->light_type)
 				{
-				case LightComponent::LightType::AmbientLight:
+				case LightType::AmbientLight:
 				{
 					i_data->light.ambient_intensity = Vec4f((*it)->intensity);
 				}
 				break;
-				case LightComponent::LightType::DirectionalLight:
+				case LightType::DirectionalLight:
 				{
 					i_data->light.directional_intensity = Vec4f((*it)->intensity);
 					i_data->light.directional_direction = Vec4f((*it)->direction);
 				}
 				break;
-				case LightComponent::LightType::PointLight:
+				case LightType::PointLight:
 				{
 					i_data->light.pointlights[i_data->light.point_num].intensity = Vec4f((*it)->intensity);
 					i_data->light.pointlights[i_data->light.point_num].position = Vec4f((*it)->owner->pos);

@@ -37,12 +37,12 @@ namespace Tempest
 
 	template <typename T>
 	inline Array<T>::Array()
-		: max_size(0), capacity(0), size(0), granularity(10), data(nullptr)
+		: capacity(0), size(0), granularity(10), data(nullptr)
 	{}
 
 	template <typename T>
 	inline Array<T>::Array(const int i_size)
-		: max_size(0), capacity(0), size(0), granularity(10), data(nullptr)
+		: capacity(0), size(0), granularity(10), data(nullptr)
 	{
 		this->Resize(i_size);
 	}
@@ -53,12 +53,11 @@ namespace Tempest
 		if (!this->Empty())
 		{
 			this->Clear();
-		}
-		this->max_size = i_array.MaxSize();
+		}		
 		this->capacity = i_array.Capacity();
 		this->granularity = i_array.Granularity();
 		this->size = i_array.Size();
-		this->data = reinterpret_cast<T*>(AllocMemory(max_size * sizeof(T)));
+		this->data = reinterpret_cast<T*>(AllocMemory(capacity * sizeof(T)));
 		for (size_t i = 0; i < size; i++)
 		{
 			this->At(i) = i_array.At(i);
@@ -69,9 +68,8 @@ namespace Tempest
 	inline Array<T>::~Array()
 	{
 		for (auto it = this->Begin(); it != this->End(); ++it)
-		{			
-			auto p = (*it);
-			p.~T();
+		{
+			(*it).~T();
 		}
 		if (data)
 			FreeMemory(data);
@@ -83,12 +81,11 @@ namespace Tempest
 		if (!this->Empty())
 		{
 			this->Clear();
-		}
-		this->max_size = i_array.MaxSize();
+		}		
 		this->capacity = i_array.Capacity();
 		this->granularity = i_array.Granularity();
 		this->size = i_array.Size();
-		this->data = reinterpret_cast<T*>(AllocMemory(max_size * sizeof(T)));
+		this->data = reinterpret_cast<T*>(AllocMemory(capacity * sizeof(T)));
 		for (size_t i = 0; i < size; i++)
 		{
 			this->At(i) = i_array.At(i);
@@ -111,10 +108,10 @@ namespace Tempest
 	template <typename T>
 	inline void Array<T>::Resize(size_t i_resize)
 	{
-		if (max_size == 0 || !data)
+		if (capacity == 0 || !data)
 		{
 			data = reinterpret_cast<T*>(AllocMemory(i_resize * sizeof(T)));
-			max_size = i_resize;
+			capacity = i_resize;
 			memset(static_cast<void*>(&data[size]), 0, (i_resize - size) * sizeof(T));
 
 			for (size_t i = 0; i < i_resize; i++)
@@ -126,10 +123,10 @@ namespace Tempest
 			return;
 		}
 
-		if (i_resize > max_size)
+		if (i_resize > capacity)
 		{
 			data = reinterpret_cast<T*>(ReallocMemory(reinterpret_cast<void*>(data), i_resize * sizeof(T)));
-			max_size = i_resize;
+			capacity = i_resize;
 			memset(static_cast<void*>(&data[size]), 0, (i_resize - size) * sizeof(T));
 		}
 
@@ -143,7 +140,7 @@ namespace Tempest
 	template <typename T>
 	inline bool Array<T>::Empty()
 	{
-		if (max_size == 0 || size == 0)
+		if (capacity == 0 || size == 0)
 			return true;
 		return false;
 	}
@@ -167,7 +164,7 @@ namespace Tempest
 	template <typename T>
 	inline T& Array<T>::UnsafeAt(size_t i_size)
 	{
-		if (i_size >= max_size || !data)
+		if (i_size >= capacity || !data)
 			DEBUG_ASSERT(false);
 		return data[i_size];
 	}
@@ -175,11 +172,11 @@ namespace Tempest
 	template <typename T>
 	inline void Array<T>::PushBack(const T& i_data)
 	{
-		if (max_size == 0 || !data)
+		if (capacity == 0 || !data)
 		{
 			data = reinterpret_cast<T*>(AllocMemory(granularity * sizeof(T)));
-			max_size += granularity;
-			memset(static_cast<void*>(&data[size]), 0, (max_size) * sizeof(T));
+			capacity += granularity;
+			memset(static_cast<void*>(&data[size]), 0, (capacity) * sizeof(T));
 			data[size] = std::move(T());
 			data[size] = i_data;
 			size++;
@@ -187,11 +184,11 @@ namespace Tempest
 			return;
 		}
 
-		if (size >= max_size)
+		if (size >= capacity)
 		{			
-			data = reinterpret_cast<T*>(ReallocMemory(reinterpret_cast<void*>(data), (max_size + granularity) * sizeof(T)));
-			max_size += granularity;
-			memset(static_cast<void*>(&data[size]), 0, (max_size - size) * sizeof(T));
+			data = reinterpret_cast<T*>(ReallocMemory(reinterpret_cast<void*>(data), (capacity + granularity) * sizeof(T)));
+			capacity += granularity;
+			memset(static_cast<void*>(&data[size]), 0, (capacity - size) * sizeof(T));
 			data[size] = std::move(T());
 			data[size] = i_data;
 			size++;
@@ -207,20 +204,20 @@ namespace Tempest
 	template <typename T>
 	inline void Array<T>::PushBack(T&& i_data)
 	{
-		if (max_size == 0 || !data)
+		if (capacity == 0 || !data)
 		{
 			data = reinterpret_cast<T*>(AllocMemory(granularity * sizeof(T)));
-			max_size += granularity;
+			capacity += granularity;
 			data[size] = std::move(i_data);
 			size++;
 
 			return;
 		}
 
-		if (size >= max_size)
+		if (size >= capacity)
 		{
-			data = reinterpret_cast<T*>(ReallocMemory(reinterpret_cast<void*>(data), (max_size + granularity) * sizeof(T)));
-			max_size += granularity;
+			data = reinterpret_cast<T*>(ReallocMemory(reinterpret_cast<void*>(data), (capacity + granularity) * sizeof(T)));
+			capacity += granularity;
 			data[size] = std::move(i_data);
 			size++;
 
@@ -232,6 +229,16 @@ namespace Tempest
 	}
 
 	template <typename T>
+	inline void Array<T>::PopBack()
+	{
+		if (size <= 0)
+		{
+			DEBUG_ASSERT(false);
+		}				
+		size--;
+	}
+
+	template <typename T>
 	inline typename Array<T>::Iterator Array<T>::Insert(typename const Array<T>::Iterator i_iterator, const T& i_data)
 	{
 		if (i_iterator.GetArray() != this)
@@ -239,7 +246,7 @@ namespace Tempest
 			DEBUG_ASSERT(false);
 		}
 
-		if (this->max_size == this->size)
+		if (this->capacity == this->size)
 		{
 			this->PushBack(T{});
 			memmove(static_cast<void*>(&data[i_iterator.GetIndex() + 1]), static_cast<void*>(&data[i_iterator.GetIndex()]), sizeof(T) * (this->size - i_iterator.GetIndex()));
@@ -266,12 +273,11 @@ namespace Tempest
 
 		for (auto it = this->Begin(); it != this->End(); ++it)
 		{
-			auto p = (*it);
-			p.~T();
+			(*it).~T();
 		}
 
 		FreeMemory(data);
-		max_size = 0;
+		capacity = 0;
 		size = 0;
 		data = nullptr;
 	}

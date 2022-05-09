@@ -7,8 +7,8 @@ namespace Tempest
 	class Serializer
 	{
 	public:
-		void Serialize(Tempest::String);
-		void Deserialize();
+		void Serialize(const Tempest::String&);
+		void Deserialize(const Tempest::String&);
 	};
 }
 

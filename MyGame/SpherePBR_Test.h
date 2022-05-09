@@ -42,9 +42,9 @@ namespace Tempest
 	{
 		Sphere::Init();
 
-		effect_component->material_attribute->material->albedo = Vec4f(1.0, 0, 0, 1.0);
-		effect_component->material_attribute->material->metalic = metalic;
-		effect_component->material_attribute->material->roughness = roughness;
+		//effect_component->material.albedo = Vec4f(1.0, 0, 0, 1.0);
+		//effect_component->material->metalic = 0.0f;
+		//effect_component->material->roughness = 0.0f;
 	}
 
 	inline void SpherePBR_Test::ChangePos(const Vec3f& i_pos)

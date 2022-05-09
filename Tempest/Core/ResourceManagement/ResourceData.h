@@ -2,22 +2,38 @@
 
 #include "Define.h"
 
-using namespace Tempest;
-
-enum class TextureType : int8_t
+namespace Tempest
 {
-	Default          = 0,
-	SkyBox           = 1,
-	Albedo           = 2,
-	Normal           = 3,
-	Roughness        = 4,
-	Metalic          = 5,
-	AmbientOcclusion = 6,
-	End,
-};
+	enum class LightType : uint8_t
+	{
+		Uninitialized = 0,
+		AmbientLight = 1,
+		PointLight = 2,
+		DirectionalLight = 3,
+	};
 
-namespace Resource
+	enum class TextureType : int8_t
+	{
+		Default = 0,
+		SkyBox = 1,
+		Albedo = 2,
+		Normal = 3,
+		Roughness = 4,
+		Metalic = 5,
+		AmbientOcclusion = 6,
+		End,
+	};
+
+	enum class MeshType : uint8_t
+	{
+		Mesh = 0,
+		SkeletonMesh = 1,
+	};
+}
+
+namespace Tempest { namespace Resource
 {
+	using namespace Tempest;
 
 	struct MeshPoint
 	{
@@ -50,14 +66,14 @@ namespace Resource
 
 	struct Joint
 	{
-		Mat4f       inversed; // inversed bind pose translation matrix
-		Vec3f       coord;		
+		Mat4f       inversed{}; // inversed bind pose translation matrix
+		Vec3f       coord{};
 		int         parent_index;
 	};
 
 	struct Skeleton
 	{
-		Array<Joint>   joints;
+		Array<Joint>   joints{};
 
 		static Result Load(const char* i_filepath, Skeleton& o_skeleton)
 		{
@@ -89,13 +105,13 @@ namespace Resource
 
 	struct AnimationSample
 	{
-		Array<JointPose> jointposes;
+		Array<JointPose> jointposes{};
 	};	
 
 	struct AnimationClip
 	{
 		int frame_count;
-		Array<AnimationSample> samples;
+		Array<AnimationSample> samples{};
 
 		static Result Load(const char* i_filepath, AnimationClip& o_clip)
 		{
@@ -126,8 +142,8 @@ namespace Resource
 
 	struct Mesh
 	{
-		Array<MeshPoint> data;
-		Array<uint32_t> index;
+		Array<MeshPoint> data{};
+		Array<uint32_t> index{};
 
 		static Result Load(const char* i_filepath, Mesh& o_mesh)
 		{				
@@ -155,8 +171,8 @@ namespace Resource
 
 	struct SkeletonMesh
 	{
-		Array<SkeletonMeshPoint> data;
-		Array<uint32_t> index;
+		Array<SkeletonMeshPoint> data{};
+		Array<uint32_t> index{};
 
 		static Result Load(const char* i_filepath, SkeletonMesh& o_smesh)
 		{
@@ -224,4 +240,4 @@ namespace Resource
 			return ResultValue::Success;
 		}
 	};
-}
+}}

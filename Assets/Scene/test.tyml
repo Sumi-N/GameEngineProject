@@ -1,21 +1,53 @@
 Scene:
-  - Object
-  - Name: Camera
+  - Object: Camera
+    Position: [-3.30935669, 0.0523905009, -8.64196873]
+    Rotation: [0, 0, 0]
+    Scale: [1, 1, 1]
+    Camera Component:
+      Test: Test
+  - Object: Sky Box
     Position: [0, 0, 0]
     Rotation: [0, 0, 0]
     Scale: [1, 1, 1]
-  - Object
-  - Name: Sky Box
-    Position: [0, 0, 0]
-    Rotation: [0, 0, 0]
-    Scale: [1, 1, 1]
-  - Object
-  - Name: Animated Player
+    Effect Component:
+      Shader:
+        Vertex Shader: ..\Assets\shaders\skybox\skybox.vert.glsl
+        Fragment Shader: ..\Assets\shaders\skybox\skybox.frag.glsl
+      Material:
+        Albedo: [1, 0, 1, 1]
+        Roughness: 1
+        Metalic: 0
+      Texture:
+        Albedo: ..\Assets\bin\texture\hdr\Arches_E_PineTree_3k.tt
+    Mesh Component:
+      Mesh Type: Mesh
+      Mesh Path: ..\Assets\bin\mesh\cubemap.tm
+  - Object: Animated Player
     Position: [0, -10, -25]
     Rotation: [0, 0, 0]
     Scale: [0.100000001, 0.100000001, 0.100000001]
-  - Object
-  - Name: PointLight
+    Effect Component:
+      Shader:
+        Vertex Shader: ..\Assets\shaders\disney_pbr_model\disney_pbr_animation_without_textures.vert.glsl
+        Fragment Shader: ..\Assets\shaders\disney_pbr_model\disney_pbr_animation_without_textures.frag.glsl
+      Material:
+        Albedo: [1, 0, 1, 1]
+        Roughness: 0
+        Metalic: 0
+      Texture:
+        Albedo: ..\Assets\bin\texture\albedo/gold-scuffed_basecolor.tt
+        Normal: ..\Assets\bin\texture\normal/gold-scuffed_normal.tt
+        Roughness: ..\Assets\bin\texture\roughness/gold-scuffed_roughness.tt
+        Metalic: ..\Assets\bin\texture\metallic/gold-scuffed_metalic.tt
+    Mesh Component:
+      Mesh Type: Skeleton Mesh
+      Mesh Path: ..\Assets\bin\mesh\xbot.tsm
+  - Object: PointLight
     Position: [0, 0, 0]
     Rotation: [0, 0, 0]
     Scale: [1, 1, 1]
+    Light Component:
+      Light Type: Point Light
+      Light Intensity: [25, 25, 25]
+      Light Attenuation: [1, 0.0700000003, 0.0170000009]
+      Light Direction: [0, 0, 0]

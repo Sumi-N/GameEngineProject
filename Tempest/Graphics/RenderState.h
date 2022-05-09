@@ -4,16 +4,16 @@
 
 using namespace Tempest;
 
-constexpr std::pair<TextureType, int> TextureUnitList[] =
+constexpr std::pair<Resource::TextureType, int> TextureUnitList[] =
 {
-	{TextureType::SkyBox, 2},
+	{Resource::TextureType::SkyBox, 2},
 
 	// For PBR 
-	{TextureType::Albedo, 10},
-	{TextureType::Normal, 11},
-	{TextureType::Roughness, 12},
-	{TextureType::Metalic, 13},
-	{TextureType::AmbientOcclusion, 14},
+	{Resource::TextureType::Albedo, 10},
+	{Resource::TextureType::Normal, 11},
+	{Resource::TextureType::Roughness, 12},
+	{Resource::TextureType::Metalic, 13},
+	{Resource::TextureType::AmbientOcclusion, 14},
 };
 
 class RenderState
@@ -28,7 +28,7 @@ public:
 	Shader shader;
 
 	void InitShader(const char**);
-	void InitTexture(const TextureType&, Owner<Resource::Texture>&);
+	void InitTexture(const Resource::TextureType&, Owner<Resource::Texture>&);
 	void BindTextureUnit();
 	void BindShaderState();
 	void UnBindShaderState();

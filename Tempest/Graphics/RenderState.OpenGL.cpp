@@ -32,7 +32,7 @@ void RenderState::InitShader(const char** i_paths)
 	shader.LoadShader();
 }
 
-void RenderState::InitTexture(const TextureType& i_type, Owner<Resource::Texture>& i_resource)
+void RenderState::InitTexture(const Resource::TextureType& i_type, Owner<Resource::Texture>& i_resource)
 {
 	for (int i = 0; i < unitlistsize; i++)
 	{

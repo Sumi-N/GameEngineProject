@@ -53,8 +53,7 @@ namespace Tempest
 		Iterator End   () {return Iterator(); }
 		Iterator end   () {return Iterator(); }
 
-		size_t		Size       () const {return this->size; }
-		size_t		MaxSize    () const {return this->max_size; }
+		size_t		Size       () const {return this->size; }		
 		size_t		Capacity   () const {return this->capacity; }
 		size_t      Granularity() const {return this->granularity; }
 		T*          Data       () const {return this->data; };
@@ -73,7 +72,7 @@ namespace Tempest
 		//void		Assign();
 		void		PushBack(const T&);
 		void        PushBack(T&&);
-		//void      PopBack();
+		void        PopBack();
 		Iterator	Insert(const Iterator, const T&);
 		//Iterator	Erase(const Iterator);
 		//void		Swap(Array&);
@@ -81,8 +80,7 @@ namespace Tempest
 		//Iterator	Emplace();
 		//Iterator	EmplaceBack();
 
-	private:		
-		size_t max_size    = 0;
+	private:				
 		size_t capacity    = 0;
 		size_t size        = 0;
 		size_t granularity = 10;

@@ -13,7 +13,7 @@ namespace Tempest
 
 		virtual void Boot() override;
 		void RegisterShaderPath(const char**);
-		void RegisterTexture(TextureType i_type, const char* i_path);
+		void RegisterTexture(Resource::TextureType i_type, const char* i_path);
 		void LoadTexture();
 
 	public:				
@@ -22,7 +22,7 @@ namespace Tempest
 		Resource::Material material;
 		
 		std::array<const char*, 5>              texture_paths{ nullptr };		
-		std::array<TextureType, 5>              texture_types;
+		std::array<Resource::TextureType, 5>    texture_types;
 		std::array<Owner<Resource::Texture>, 5> textures;
 	};	
 
@@ -40,7 +40,7 @@ namespace Tempest
 		this->shaderpaths[4] = shaderpaths[4];
 	}
 
-	inline void EffectComponent::RegisterTexture(TextureType i_type, const char* i_path)
+	inline void EffectComponent::RegisterTexture(Resource::TextureType i_type, const char* i_path)
 	{
 		for (int i = 0; i < 5; i++)
 		{			

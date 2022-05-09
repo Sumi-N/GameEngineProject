@@ -27,10 +27,10 @@ namespace Tempest
 		};
 
 		effect_component->RegisterShaderPath(shaderpaths);
-		effect_component->RegisterTexture(TextureType::Albedo, PATH_SUFFIX BIN_TEXTURE_PATH "albedo/dirty-wicker-weave1-albedo.tt");
-		effect_component->RegisterTexture(TextureType::Normal, PATH_SUFFIX BIN_TEXTURE_PATH "normal/dirty-wicker-weave1-normal-dx.tt");
-		effect_component->RegisterTexture(TextureType::Roughness, PATH_SUFFIX BIN_TEXTURE_PATH "roughness/dirty-wicker-weave1-roughness.tt");
-		effect_component->RegisterTexture(TextureType::Metalic, PATH_SUFFIX BIN_TEXTURE_PATH "metallic/dirty-wicker-weave1-metallic.tt");
+		effect_component->RegisterTexture(Resource::TextureType::Albedo, PATH_SUFFIX BIN_TEXTURE_PATH "albedo/dirty-wicker-weave1-albedo.tt");
+		effect_component->RegisterTexture(Resource::TextureType::Normal, PATH_SUFFIX BIN_TEXTURE_PATH "normal/dirty-wicker-weave1-normal-dx.tt");
+		effect_component->RegisterTexture(Resource::TextureType::Roughness, PATH_SUFFIX BIN_TEXTURE_PATH "roughness/dirty-wicker-weave1-roughness.tt");
+		effect_component->RegisterTexture(Resource::TextureType::Metalic, PATH_SUFFIX BIN_TEXTURE_PATH "metallic/dirty-wicker-weave1-metallic.tt");
 	}
 
 	inline void DirtyWickerWeaveSphere::Init()

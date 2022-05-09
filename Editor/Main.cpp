@@ -18,8 +18,8 @@ namespace Tempest
 
 	Editor::Editor()
 	{
-		TestScene::SkeletonAnimation();
-		//TestScene::PBR_9Balls();
+		//TestScene::SkeletonAnimation();
+		TestScene::PBR_9Balls();
 		Application::Execute();
 	}
 

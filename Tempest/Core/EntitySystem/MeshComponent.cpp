@@ -65,12 +65,12 @@ namespace Tempest
 				
 		if (File::GetExtensionName(mesh_path) == ".tm")
 		{
-			type = MeshType::Mesh;
+			mesh_type = MeshType::Mesh;
 			mesh = AssetManager<Resource::Mesh>::Load(mesh_path);
 		}
 		else if (File::GetExtensionName(mesh_path) == ".tsm")
 		{
-			type = MeshType::SkeletonMesh;
+			mesh_type = MeshType::SkeletonMesh;
 			mesh = static_cast<Owner<Resource::Mesh>>(AssetManager<Resource::SkeletonMesh>::Load(mesh_path));
 		}
 

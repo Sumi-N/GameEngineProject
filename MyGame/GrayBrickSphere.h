@@ -27,10 +27,10 @@ namespace Tempest
 		};
 
 		effect_component->RegisterShaderPath(shaderpaths);
-		effect_component->RegisterTexture(TextureType::Albedo, PATH_SUFFIX BIN_TEXTURE_PATH "albedo/gray-bricks1-albedo.tt");
-		effect_component->RegisterTexture(TextureType::Normal, PATH_SUFFIX BIN_TEXTURE_PATH "normal/gray-bricks1-Normal-dx.tt");
-		effect_component->RegisterTexture(TextureType::Roughness, PATH_SUFFIX BIN_TEXTURE_PATH "roughness/gray-bricks1-Roughness.tt");
-		effect_component->RegisterTexture(TextureType::Metalic, PATH_SUFFIX BIN_TEXTURE_PATH "metallic/gray-bricks1-Metallic.tt");
+		effect_component->RegisterTexture(Resource::TextureType::Albedo, PATH_SUFFIX BIN_TEXTURE_PATH "albedo/gray-bricks1-albedo.tt");
+		effect_component->RegisterTexture(Resource::TextureType::Normal, PATH_SUFFIX BIN_TEXTURE_PATH "normal/gray-bricks1-Normal-dx.tt");
+		effect_component->RegisterTexture(Resource::TextureType::Roughness, PATH_SUFFIX BIN_TEXTURE_PATH "roughness/gray-bricks1-Roughness.tt");
+		effect_component->RegisterTexture(Resource::TextureType::Metalic, PATH_SUFFIX BIN_TEXTURE_PATH "metallic/gray-bricks1-Metallic.tt");
 	}
 
 	inline void GrayBrickSphere::Init()

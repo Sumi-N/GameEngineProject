@@ -166,6 +166,16 @@ namespace Tempest
 
 		if (ImGui::BeginMenuBar())
 		{
+			if (ImGui::BeginMenu("Edit"))
+			{
+				if (ImGui::MenuItem("Save Scene", NULL))
+				{
+					SceneSerializer.Serialize("../Assets/Scene/test.tyml");
+				}
+
+				ImGui::EndMenu();
+			}
+
 			if (ImGui::BeginMenu("Options"))
 			{
 				// Disabling fullscreen would allow the window to be moved to the front of other windows,
@@ -390,9 +400,8 @@ namespace Tempest
 		case EntityInfo::ComponentFlags::MeshFlag:
 			*Entity::MeshComponentList[SelectedIndex] = SelectedMesh;
 			break;
-		case EntityInfo::ComponentFlags::EffectFlag:
-			//SceneSerializer.Serialize("../Assets/Scene/test.tyml");
-			*Entity::EffectComponentList[1] = SelecctedEffect;
+		case EntityInfo::ComponentFlags::EffectFlag:			
+			*Entity::EffectComponentList[0] = SelecctedEffect;
 			break;
 		default:
 			break;

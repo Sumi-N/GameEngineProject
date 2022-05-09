@@ -9,14 +9,6 @@ namespace Tempest
 	public:
 		LightComponent() = default;
 		~LightComponent() = default;
-
-		enum class LightType : uint8_t
-		{
-			Uninitialized,
-			AmbientLight,
-			PointLight,
-			DirectionalLight,
-		};
 		
 		virtual void Update(float i_dt) override;		
 		
@@ -31,12 +23,12 @@ namespace Tempest
 	{
 		switch (light_type)
 		{
-		case LightComponent::LightType::Uninitialized:
+		case LightType::Uninitialized:
 			DEBUG_ASSERT(false);
 			break;
-		case LightComponent::LightType::AmbientLight:
+		case LightType::AmbientLight:
 			break;
-		case LightComponent::LightType::PointLight:
+		case LightType::PointLight:
 		{
 			Mat4f light_projection = Mat4f::Perspective(90, 1, NearClip, FarClip);
 			Mat4f light_view;
@@ -73,16 +65,13 @@ namespace Tempest
 			}
 		}
 			break;
-		case LightComponent::LightType::DirectionalLight:
+		case LightType::DirectionalLight:
 		{
 			//Mat4f light_projection = Mat4f::Orthographic(-30.0f, 30.0f, -30.0f, 30.0f, NearClip, FarClip);
 			// Temporary solution
 			//Mat4f light_view = Mat4f::LookAt(pos, pos + Vec3f(0, 0, -50), Vec3f(20, -20, 0));
 			//light_space_mat = light_projection * light_view;
 		}
-			break;
-		default:
-			DEBUG_ASSERT(false);
 			break;
 		}		
 	}

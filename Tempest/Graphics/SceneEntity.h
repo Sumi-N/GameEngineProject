@@ -22,13 +22,13 @@ inline void SceneEntity::Init()
 		Owner<RenderState> renderhandler = Create<RenderState>();
 		SkyBoxProxy->state = renderhandler;
 		
-		SkyBoxProxy->meshes.PushBack(Entity::BackgroundComponentList[0]->mesh_component->mesh);
-		SkyBoxProxy->Init(static_cast<int>(Entity::BackgroundComponentList[0]->mesh_component->type));
+		SkyBoxProxy->meshes.PushBack(Entity::BackgroundComponentList[0]->mesh);
+		SkyBoxProxy->Init(static_cast<int>(Entity::BackgroundComponentList[0]->mesh_type));
 		
-		renderhandler->InitShader(Entity::BackgroundComponentList[0]->effect_component->shaderpaths);
+		renderhandler->InitShader(Entity::BackgroundComponentList[0]->shader_paths);
 		renderhandler->InitTexture(
-			Entity::BackgroundComponentList[0]->effect_component->texture_types[0],
-			Entity::BackgroundComponentList[0]->effect_component->textures[0]);
+			Entity::BackgroundComponentList[0]->texture_type,
+			Entity::BackgroundComponentList[0]->texture);
 	}
 
 	for (auto it = Entity::EffectComponentList.Begin(); it != Entity::EffectComponentList.End(); ++it)
@@ -51,7 +51,7 @@ inline void SceneEntity::Init()
 		{
 			if ((*it)->owner == (*it2)->owner)
 			{
-				if ((*it2)->type == MeshComponent::MeshType::Mesh)
+				if ((*it2)->mesh_type == Resource::MeshType::Mesh)
 				{					
 					proxyhandler->meshes.PushBack((*it2)->mesh);
 				}
@@ -60,7 +60,7 @@ inline void SceneEntity::Init()
 					auto mesh = static_cast<Observer<Resource::Mesh>>((*it2)->mesh);
 					proxyhandler->meshes.PushBack(mesh);
 				}
-				proxyhandler->Init(static_cast<int>((*it2)->type));
+				proxyhandler->Init(static_cast<int>((*it2)->mesh_type));
 			}
 		}		
 	}

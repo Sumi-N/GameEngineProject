@@ -2,6 +2,7 @@
 
 #include "Define.h"
 #include "Component.h"
+#include <ResourceManagement/ResourceData.h>
 
 namespace Tempest
 {
@@ -10,16 +11,10 @@ namespace Tempest
 	{
 	public:
 		MeshComponent() = default;
-		~MeshComponent() = default;
+		~MeshComponent() = default;		
 		
-		enum class MeshType : uint8_t
-		{
-			Mesh,
-			SkeletonMesh,
-		};
-
-		MeshType type;
 		const char* mesh_path;
+		Resource::MeshType mesh_type;
 		Owner<Resource::Mesh> mesh;
 
 		Mat4f model_mat;
