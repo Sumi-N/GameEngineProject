@@ -139,4 +139,16 @@ namespace Tempest
 
 		Animation.CleanUp();
 	}
+
+	void Entity::Reset()
+	{
+		ObjectList.Clear();
+		CameraComponentList.Clear();
+		LightComponentList.Clear();
+		MeshComponentList.Clear();
+		EffectComponentList.Clear();
+		BackgroundComponentList.Clear();
+
+		Animation.CleanUp();
+	}
 }

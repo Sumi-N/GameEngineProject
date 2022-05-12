@@ -5,7 +5,8 @@
 
 namespace Tempest
 {	
-	bool Modified = false;
+	bool isEntityModifies{false};
+	bool Modified{false};
 	int SelectedIndex = -1;
 	EntityInfo::ComponentFlags SelectedFlag = EntityInfo::ComponentFlags::None;
 	EntityInfo::ComponentFlags SelectedObjectFlags = EntityInfo::ComponentFlags::None;
@@ -171,6 +172,11 @@ namespace Tempest
 				if (ImGui::MenuItem("Save Scene", NULL))
 				{
 					SceneSerializer.Serialize("../Assets/Scene/test.tyml");
+				}
+
+				if (ImGui::MenuItem("Load Scene", NULL))
+				{
+					isEntityModifies = true;					
 				}
 
 				ImGui::EndMenu();
@@ -380,10 +386,16 @@ namespace Tempest
 	}
 
 	void ImguiLayer::OnCriticalSection() 
-	{
-		if (!Modified)
+	{		
+		if (!Modified || !isEntityModifies)
 		{
 			return;
+		}
+
+		if (isEntityModifies)
+		{
+			Entity::Reset();
+			SceneSerializer.Deserialize("../Assets/Scene/test.tyml");
 		}
 
 		switch (SelectedFlag)

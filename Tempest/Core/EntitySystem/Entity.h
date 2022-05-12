@@ -77,6 +77,7 @@ namespace Tempest
 		static void Init();
 		static void Update(float i_dt);
 		static void CleanUp();
+		static void Reset();
 	};
 
 }

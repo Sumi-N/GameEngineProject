@@ -1,0 +1,205 @@
+Scene:
+  - Object: Camera
+    Position: [0, 0, 0]
+    Rotation: [0, 0, 0]
+    Scale: [1, 1, 1]
+    CameraComponent:
+      Test: Test
+  - Object: Sky Box
+    Position: [0, 0, 0]
+    Rotation: [0, 0, 0]
+    Scale: [1, 1, 1]
+    BackgroundComponent:
+      MeshPath: ..\Assets\bin\mesh\cubemap.tm
+      VertexShader: ..\Assets\shaders\skybox\skybox.vert.glsl
+      FragmentShader: ..\Assets\shaders\skybox\skybox.frag.glsl
+      TexturePath: ..\Assets\bin\texture\hdr\Arches_E_PineTree_3k.tt
+  - Object: Empty
+    Position: [0, 0, -60]
+    Rotation: [0, 0, 0]
+    Scale: [0.300000012, 0.300000012, 0.300000012]
+    EffectComponent:
+      Shader:
+        VertexShader: ..\Assets\shaders\disney_pbr_model\disney_pbr.vert.glsl
+        FragmentShader: ..\Assets\shaders\disney_pbr_model\disney_pbr.frag.glsl
+      Material:
+        Albedo: [1, 0, 1, 1]
+        Roughness: 1
+        Metalic: 0
+      Texture:
+        Albedo: ..\Assets\bin\texture\albedo/rustediron.tt
+        Normal: ..\Assets\bin\texture\normal/rustediron.tt
+        Roughness: ..\Assets\bin\texture\roughness/rustediron.tt
+        Metalic: ..\Assets\bin\texture\metallic/rustediron.tt
+    MeshComponent:
+      MeshType: Mesh
+      MeshPath: ..\Assets\bin\mesh\sphere.tm
+  - Object: Empty
+    Position: [15, 0, -60]
+    Rotation: [0, 0, 0]
+    Scale: [0.300000012, 0.300000012, 0.300000012]
+    EffectComponent:
+      Shader:
+        VertexShader: ..\Assets\shaders\disney_pbr_model\disney_pbr.vert.glsl
+        FragmentShader: ..\Assets\shaders\disney_pbr_model\disney_pbr.frag.glsl
+      Material:
+        Albedo: [1, 0, 1, 1]
+        Roughness: 1
+        Metalic: 0
+      Texture:
+        Albedo: ..\Assets\bin\texture\albedo/gold-scuffed_basecolor.tt
+        Normal: ..\Assets\bin\texture\normal/gold-scuffed_normal.tt
+        Roughness: ..\Assets\bin\texture\roughness/gold-scuffed_roughness.tt
+        Metalic: ..\Assets\bin\texture\metallic//gold-scuffed_metalic.tt
+    MeshComponent:
+      MeshType: Mesh
+      MeshPath: ..\Assets\bin\mesh\sphere.tm
+  - Object: Empty
+    Position: [-15, 0, -60]
+    Rotation: [0, 0, 0]
+    Scale: [0.300000012, 0.300000012, 0.300000012]
+    EffectComponent:
+      Shader:
+        VertexShader: ..\Assets\shaders\disney_pbr_model\disney_pbr.vert.glsl
+        FragmentShader: ..\Assets\shaders\disney_pbr_model\disney_pbr.frag.glsl
+      Material:
+        Albedo: [1, 0, 1, 1]
+        Roughness: 1
+        Metalic: 0
+      Texture:
+        Albedo: ..\Assets\bin\texture\albedo/wornpaintedcement-albedo.tt
+        Normal: ..\Assets\bin\texture\normal/wornpaintedcement-normal.tt
+        Roughness: ..\Assets\bin\texture\roughness/wornpaintedcement-roughness.tt
+        Metalic: ..\Assets\bin\texture\metallic//wornpaintedcement-metalness.tt
+    MeshComponent:
+      MeshType: Mesh
+      MeshPath: ..\Assets\bin\mesh\sphere.tm
+  - Object: Empty
+    Position: [-15, 15, -60]
+    Rotation: [0, 0, 0]
+    Scale: [0.300000012, 0.300000012, 0.300000012]
+    EffectComponent:
+      Shader:
+        VertexShader: ..\Assets\shaders\disney_pbr_model\disney_pbr.vert.glsl
+        FragmentShader: ..\Assets\shaders\disney_pbr_model\disney_pbr.frag.glsl
+      Material:
+        Albedo: [1, 0, 1, 1]
+        Roughness: 1
+        Metalic: 0
+      Texture:
+        Albedo: ..\Assets\bin\texture\albedo/metalgrid1_basecolor.tt
+        Normal: ..\Assets\bin\texture\normal/metalgrid1_normal-ogl.tt
+        Roughness: ..\Assets\bin\texture\roughness/metalgrid1_roughness.tt
+        Metalic: ..\Assets\bin\texture\metallic/metalgrid1_metallic.tt
+    MeshComponent:
+      MeshType: Mesh
+      MeshPath: ..\Assets\bin\mesh\sphere.tm
+  - Object: Empty
+    Position: [-15, -15, -60]
+    Rotation: [0, 0, 0]
+    Scale: [0.300000012, 0.300000012, 0.300000012]
+    EffectComponent:
+      Shader:
+        VertexShader: ..\Assets\shaders\disney_pbr_model\disney_pbr.vert.glsl
+        FragmentShader: ..\Assets\shaders\disney_pbr_model\disney_pbr.frag.glsl
+      Material:
+        Albedo: [1, 0, 1, 1]
+        Roughness: 1
+        Metalic: 0
+      Texture:
+        Albedo: ..\Assets\bin\texture\albedo/bathroomtile1_basecolor.tt
+        Normal: ..\Assets\bin\texture\normal/bathroomtile1_normal-dx.tt
+        Roughness: ..\Assets\bin\texture\roughness/bathroomtile1_roughness.tt
+        Metalic: ..\Assets\bin\texture\metallic/bathroomtile1_metalness.tt
+    MeshComponent:
+      MeshType: Mesh
+      MeshPath: ..\Assets\bin\mesh\sphere.tm
+  - Object: Empty
+    Position: [15, -15, -60]
+    Rotation: [0, 0, 0]
+    Scale: [0.300000012, 0.300000012, 0.300000012]
+    EffectComponent:
+      Shader:
+        VertexShader: ..\Assets\shaders\disney_pbr_model\disney_pbr.vert.glsl
+        FragmentShader: ..\Assets\shaders\disney_pbr_model\disney_pbr.frag.glsl
+      Material:
+        Albedo: [1, 0, 1, 1]
+        Roughness: 1
+        Metalic: 0
+      Texture:
+        Albedo: ..\Assets\bin\texture\albedo/dirty-wicker-weave1-albedo.tt
+        Normal: ..\Assets\bin\texture\normal/dirty-wicker-weave1-normal-dx.tt
+        Roughness: ..\Assets\bin\texture\roughness/dirty-wicker-weave1-roughness.tt
+        Metalic: ..\Assets\bin\texture\metallic/dirty-wicker-weave1-metallic.tt
+    MeshComponent:
+      MeshType: Mesh
+      MeshPath: ..\Assets\bin\mesh\sphere.tm
+  - Object: Empty
+    Position: [15, 15, -60]
+    Rotation: [0, 0, 0]
+    Scale: [0.300000012, 0.300000012, 0.300000012]
+    EffectComponent:
+      Shader:
+        VertexShader: ..\Assets\shaders\disney_pbr_model\disney_pbr.vert.glsl
+        FragmentShader: ..\Assets\shaders\disney_pbr_model\disney_pbr.frag.glsl
+      Material:
+        Albedo: [1, 0, 1, 1]
+        Roughness: 1
+        Metalic: 0
+      Texture:
+        Albedo: ..\Assets\bin\texture\albedo/gray-bricks1-albedo.tt
+        Normal: ..\Assets\bin\texture\normal/gray-bricks1-Normal-dx.tt
+        Roughness: ..\Assets\bin\texture\roughness/gray-bricks1-Roughness.tt
+        Metalic: ..\Assets\bin\texture\metallic/gray-bricks1-Metallic.tt
+    MeshComponent:
+      MeshType: Mesh
+      MeshPath: ..\Assets\bin\mesh\sphere.tm
+  - Object: Empty
+    Position: [0, 15, -60]
+    Rotation: [0, 0, 0]
+    Scale: [0.300000012, 0.300000012, 0.300000012]
+    EffectComponent:
+      Shader:
+        VertexShader: ..\Assets\shaders\disney_pbr_model\disney_pbr.vert.glsl
+        FragmentShader: ..\Assets\shaders\disney_pbr_model\disney_pbr.frag.glsl
+      Material:
+        Albedo: [1, 0, 1, 1]
+        Roughness: 1
+        Metalic: 0
+      Texture:
+        Albedo: ..\Assets\bin\texture\albedo/brushed-metal_albedo.tt
+        Normal: ..\Assets\bin\texture\normal/brushed-metal_normal-dx.tt
+        Roughness: ..\Assets\bin\texture\roughness/brushed-metal_roughness.tt
+        Metalic: ..\Assets\bin\texture\metallic/brushed-metal_metallic.tt
+    MeshComponent:
+      MeshType: Mesh
+      MeshPath: ..\Assets\bin\mesh\sphere.tm
+  - Object: Empty
+    Position: [0, -15, -60]
+    Rotation: [0, 0, 0]
+    Scale: [0.300000012, 0.300000012, 0.300000012]
+    EffectComponent:
+      Shader:
+        VertexShader: ..\Assets\shaders\disney_pbr_model\disney_pbr.vert.glsl
+        FragmentShader: ..\Assets\shaders\disney_pbr_model\disney_pbr.frag.glsl
+      Material:
+        Albedo: [1, 0, 1, 1]
+        Roughness: 1
+        Metalic: 0
+      Texture:
+        Albedo: ..\Assets\bin\texture\albedo/old-soiled-cloth1-albedo.tt
+        Normal: ..\Assets\bin\texture\normal/old-soiled-cloth1-Normal-dx.tt
+        Roughness: ..\Assets\bin\texture\roughness/old-soiled-cloth1-Roughness.tt
+        Metalic: ..\Assets\bin\texture\metallic/old-soiled-cloth1-Metallic.tt
+    MeshComponent:
+      MeshType: Mesh
+      MeshPath: ..\Assets\bin\mesh\sphere.tm
+  - Object: PointLight
+    Position: [0, 0, -40]
+    Rotation: [0, 0, 0]
+    Scale: [1, 1, 1]
+    LightComponent:
+      LightType: PointLight
+      LightIntensity: [25, 25, 25]
+      LightAttenuation: [1, 0.0700000003, 0.0170000009]
+      LightDirection: [0, 0, 0]

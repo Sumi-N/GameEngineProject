@@ -2,6 +2,115 @@
 
 #include <EntitySystem/Entity.h>
 
+namespace YAML
+{
+	template<>
+	struct convert<Vec3f>
+	{
+		static Node encode(const Vec3f& i_vec)
+		{
+			Node node;
+			node.push_back(i_vec.x);
+			node.push_back(i_vec.y);
+			node.push_back(i_vec.z);
+			return node;
+		}
+
+		static bool decode(const Node& node, Vec3f& io_vec)
+		{
+			if (!node.IsSequence() || node.size() != 3)
+				return false;
+
+			io_vec.x = node[0].as<float>();
+			io_vec.y = node[1].as<float>();
+			io_vec.z = node[2].as<float>();
+			return true;
+		}
+	};
+
+	template<>
+	struct convert<Vec4f>
+	{
+		static Node encode(const Vec4f& i_vec)
+		{
+			Node node;
+			node.push_back(i_vec.x);
+			node.push_back(i_vec.y);
+			node.push_back(i_vec.z);
+			node.push_back(i_vec.w);
+			return node;
+		}
+
+		static bool decode(const Node& node, Vec4f& io_vec)
+		{
+			if (!node.IsSequence() || node.size() != 4)
+				return false;
+
+			io_vec.x = node[0].as<float>();
+			io_vec.y = node[1].as<float>();
+			io_vec.z = node[2].as<float>();
+			io_vec.w = node[3].as<float>();
+			return true;
+		}
+	};
+
+	template<>
+	struct convert<Tempest::Resource::LightType>
+	{
+		static Node encode(const Tempest::Resource::LightType& i_res)
+		{
+			Node node;
+			node.push_back(i_res);
+			return node;
+		}
+
+		static bool decode(const Node& node, Tempest::Resource::LightType& io_res)
+		{			
+			auto data = node.as<Tempest::String>();
+			if (data == "AmbientLight")
+			{
+				io_res = Tempest::Resource::LightType::AmbientLight;
+			}
+			else if (data == "PointLight")
+			{
+				io_res = Tempest::Resource::LightType::PointLight;
+			}
+			else if (data == "DirectionalLight")
+			{
+				io_res = Tempest::Resource::LightType::DirectionalLight;
+			}
+
+			return true;
+		}
+	};
+
+	template<>
+	struct convert<Tempest::Resource::MeshType>
+	{
+		static Node encode(const Tempest::Resource::MeshType& i_res)
+		{
+			Node node;
+			node.push_back(i_res);
+			return node;
+		}
+
+		static bool decode(const Node& node, Tempest::Resource::MeshType& io_res)
+		{			
+			auto data = node.as<Tempest::String>();
+			if (data == "Mesh")
+			{
+				io_res = Tempest::Resource::MeshType::Mesh;
+			}
+			else if (data == "SkeletonMesh")
+			{
+				io_res = Tempest::Resource::MeshType::SkeletonMesh;
+			}			
+
+			return true;
+		}		
+	};
+}
+
 namespace Tempest
 {
 	YAML::Emitter& operator<<(YAML::Emitter& io_emitter, const Vec3f& vec3f)
@@ -73,9 +182,23 @@ namespace Tempest
 			{
 				if ((*it)->owner == obj)
 				{
-					io_emitter << YAML::Key << "CameraComponent";
+					io_emitter << YAML::Key << "CameraComponent";	
 					io_emitter << YAML::BeginMap;
 					io_emitter << YAML::Key << "Test" << YAML::Value << "Test";
+					io_emitter << YAML::EndMap;
+				}
+			}
+
+			for (auto it = Entity::BackgroundComponentList.Begin(); it != Entity::BackgroundComponentList.End(); it++)
+			{
+				if ((*it)->owner == obj)
+				{
+					io_emitter << YAML::Key << "BackgroundComponent";
+					io_emitter << YAML::BeginMap;
+					io_emitter << YAML::Key << "MeshPath" << YAML::Value << (*it)->mesh_path;
+					io_emitter << YAML::Key << "VertexShader" << YAML::Value << (*it)->shader_paths[0];
+					io_emitter << YAML::Key << "FragmentShader" << YAML::Value << (*it)->shader_paths[4];
+					io_emitter << YAML::Key << "TexturePath" << YAML::Value << (*it)->texture_path;					
 					io_emitter << YAML::EndMap;
 				}
 			}
@@ -105,15 +228,15 @@ namespace Tempest
 						io_emitter << YAML::Key << "Shader";
 						io_emitter << YAML::BeginMap;
 						if ((*it)->shaderpaths[0])
-							io_emitter << YAML::Key << "Vertex Shader" << YAML::Value << (*it)->shaderpaths[0];
+							io_emitter << YAML::Key << "VertexShader" << YAML::Value << (*it)->shaderpaths[0];
 						if ((*it)->shaderpaths[1])
-							io_emitter << YAML::Key << "Control Shader" << YAML::Value << (*it)->shaderpaths[1];
+							io_emitter << YAML::Key << "ControlShader" << YAML::Value << (*it)->shaderpaths[1];
 						if ((*it)->shaderpaths[2])
-							io_emitter << YAML::Key << "Evaluation Shader" << YAML::Value << (*it)->shaderpaths[2];
+							io_emitter << YAML::Key << "EvaluationShader" << YAML::Value << (*it)->shaderpaths[2];
 						if ((*it)->shaderpaths[3])
-							io_emitter << YAML::Key << "Geometry Shader" << YAML::Value << (*it)->shaderpaths[3];
+							io_emitter << YAML::Key << "GeometryShader" << YAML::Value << (*it)->shaderpaths[3];
 						if ((*it)->shaderpaths[4])
-							io_emitter << YAML::Key << "Fragment Shader" << YAML::Value << (*it)->shaderpaths[4];
+							io_emitter << YAML::Key << "FragmentShader" << YAML::Value << (*it)->shaderpaths[4];
 						io_emitter << YAML::EndMap;
 					}
 
@@ -177,31 +300,118 @@ namespace Tempest
 	}
 
 	void Serializer::Deserialize(const Tempest::String& i_path)
-	{
-		//std::ifstream fin(i_path);
-		//std::stringstream string_stream;
-		//string_stream << fin.rdbuf();
+	{		
+		std::ifstream fin(i_path);
+		std::stringstream string_stream;
+		string_stream << fin.rdbuf();
 
-		//YAML::Node data = YAML::Load(string_stream.str());
+		YAML::Node data = YAML::Load(string_stream.str());
 
-		//auto objects_data = data["Object"];
-		//if (objects_data)
-		//{
-		//	for (auto object_data : objects_data)
-		//	{
-		//		Owner<Object> object = Create<Owner<Object>>();
-		//		object->pos = object_data["Position"].as<Vec3f>();
-		//		object->scale = object_data["Scale"].as<Vec3f>();
-		//		object->rot = object_data["Rotation"].as<Vec3f>();
+		auto objects_data = data["Scene"];
+		if (objects_data)
+		{
+			for (auto object_data : objects_data)
+			{
+				Owner<Object> object = Create<Object>();
+				Entity::Register(object);
+				object->name = object_data["Object"].as<String>();
+				object->pos = object_data["Position"].as<Vec3f>();
+				object->scale = object_data["Scale"].as<Vec3f>();
+				object->rot = object_data["Rotation"].as<Vec3f>();
 
-		//		auto mesh_data = object_data["MeshComponent"];
+				auto camera_data = object_data["CameraComponent"];
 
-		//		if (mesh_data)
-		//		{
-		//			Owner<MeshComponent> mesh_component = Create<Owner<MeshComponent>>();
-		//			
-		//		}
-		//	}
-		//}
+				if (camera_data)
+				{
+					Owner<CameraComponent> camera_component = Create<CameraComponent>();
+					camera_component->owner = object;
+					Entity::RegisterCameraComponent(camera_component);
+				}
+
+				auto background_data = object_data["BackgroundComponent"];
+
+				if (background_data)
+				{
+					Owner<BackgroundComponent> background_component = Create<BackgroundComponent>();
+					background_component->owner = object;
+					Entity::RegisterBackgroundComponent(background_component);
+					background_component->mesh_path = background_data["MeshPath"].as<String>().c_str();
+					background_component->shader_paths[0] = background_data["VertexShader"].as<String>().c_str();
+					background_component->shader_paths[4] = background_data["FragmentShader"].as<String>().c_str();
+					background_component->texture_path = background_data["TexturePath"].as<String>().c_str();
+				}
+
+				auto light_data = object_data["LightComponent"];
+
+				if (light_data)
+				{
+					Owner<LightComponent> light_component = Create<LightComponent>();
+					light_component->owner = object;
+					Entity::RegisterLightComponent(light_component);
+					light_component->light_type = light_data["LightType"].as<LightType>();
+					light_component->intensity = light_data["LightIntensity"].as<Vec3f>();
+					light_component->attenuation = light_data["LightAttenuation"].as<Vec3f>();
+					light_component->direction = light_data["LightDirection"].as<Vec3f>();
+				}
+
+				auto effect_data = object_data["EffectComponent"];
+
+				if (effect_data)
+				{
+					Owner<EffectComponent> effect_component = Create<EffectComponent>();
+					effect_component->owner = object;
+					Entity::RegisterEffectComponent(effect_component);
+
+					if (effect_data["VertexShader"])
+						effect_component->shaderpaths[0] = effect_data["VertexShader"].as<String>().c_str();
+
+					if (effect_data["ControlShader"])
+						effect_component->shaderpaths[1] = effect_data["ControlShader"].as<String>().c_str();
+
+					if (effect_data["EvaluationShader"])
+						effect_component->shaderpaths[2] = effect_data["EvaluationShader"].as<String>().c_str();
+
+					if (effect_data["GeometryShader"])
+						effect_component->shaderpaths[3] = effect_data["GeometryShader"].as<String>().c_str();
+
+					if (effect_data["FragmentShader"])
+						effect_component->shaderpaths[4] = effect_data["FragmentShader"].as<String>().c_str();
+
+					auto material_data = effect_data["Material"];
+
+					if (material_data)
+					{
+						effect_component->material.albedo = material_data["Albedo"].as<Vec4f>();
+						effect_component->material.roughness = material_data["Roughness"].as<float>();
+						effect_component->material.metalic = material_data["Metalic"].as<float>();
+					}
+
+					auto texture_data = effect_data["Texture"];
+
+					if (texture_data)
+					{
+						if (texture_data["Albedo"])
+							effect_component->texture_paths[0] = texture_data["Albedo"].as<String>().c_str();
+						if (texture_data["Normal"])
+							effect_component->texture_paths[1] = texture_data["Normal"].as<String>().c_str();
+						if (texture_data["Roughness"])
+							effect_component->texture_paths[2] = texture_data["Roughness"].as<String>().c_str();
+						if (texture_data["Metalic"])
+							effect_component->texture_paths[3] = texture_data["Metalic"].as<String>().c_str();
+					}
+				}
+
+				auto mesh_data = object_data["MeshComponent"];
+
+				if (mesh_data)
+				{
+					Owner<MeshComponent> mesh_component = Create<MeshComponent>();
+					mesh_component->owner = object;
+					Entity::RegisterMeshComponent(mesh_component);
+					mesh_component->mesh_type = mesh_data["MeshType"].as<MeshType>();
+					mesh_component->mesh_path = mesh_data["MeshPath"].as<String>().c_str();
+				}
+			}
+		}
 	}
 }

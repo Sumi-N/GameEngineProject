@@ -23,7 +23,12 @@ namespace Tempest
 #ifdef ENGINE_PLATFORM_WINDOWS
 		UserInput.GetWindowsHandler(WindowsHanlder);
 #endif // ENGINE_PLATFORM_WINDOWS
+	}
 
+	void GameThread::Reset()
+	{
+		Entity::Boot();
+		Entity::Init();
 	}
 
 	void GameThread::NonCriticalSection()

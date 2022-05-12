@@ -32,7 +32,13 @@ namespace Tempest
 		LayerStack::Init();
 		
 		Graphic::PreCompute();
-	}	
+	}
+
+	void RenderThread::Reset()
+	{
+		SceneEntity::Init();
+		Graphic::PreCompute();
+	}
 
 	void RenderThread::NonCriticalSection()
 	{		
@@ -54,8 +60,8 @@ namespace Tempest
 
 	void RenderThread::CriticalSection()
 	{
-		LayerStack::OnCriticalSection();
 		WriteDataToOwningThread(&GraphicsData);
+		LayerStack::OnCriticalSection();
 	}
 
 	void RenderThread::CleanUp()

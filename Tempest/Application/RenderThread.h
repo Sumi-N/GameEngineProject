@@ -14,11 +14,12 @@ namespace Tempest
 		RenderThread()  = default;
 		~RenderThread() = default;
 
-		void Boot() override;
-		void Init() override;
-		void CriticalSection() override;
-		void NonCriticalSection() override;		
-		void CleanUp() override;		
+		virtual void Boot() override;
+		virtual void Init() override;
+		void Reset();
+		virtual void CriticalSection() override;
+		virtual void NonCriticalSection() override;
+		virtual void CleanUp() override;
 
 	private:
 		void BindEvent();

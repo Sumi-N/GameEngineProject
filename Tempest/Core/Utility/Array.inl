@@ -37,12 +37,12 @@ namespace Tempest
 
 	template <typename T>
 	inline Array<T>::Array()
-		: capacity(0), size(0), granularity(10), data(nullptr)
+		: capacity(0), size(0), granularity(InitialGranularity), data(nullptr)
 	{}
 
 	template <typename T>
 	inline Array<T>::Array(const int i_size)
-		: capacity(0), size(0), granularity(10), data(nullptr)
+		: capacity(0), size(0), granularity(InitialGranularity), data(nullptr)
 	{
 		this->Resize(i_size);
 	}

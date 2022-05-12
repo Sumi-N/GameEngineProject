@@ -80,11 +80,14 @@ namespace Tempest
 		//Iterator	Emplace();
 		//Iterator	EmplaceBack();
 
-	private:				
-		size_t capacity    = 0;
-		size_t size        = 0;
-		size_t granularity = 10;
-		T*     data        = nullptr;
+	private:
+
+		static constexpr size_t InitialGranularity = 4;
+
+		size_t capacity   { 0 };
+		size_t size       { 0 };
+		size_t granularity{ InitialGranularity };
+		T*     data       {nullptr};
 	};
 #else
 	template <typename T>

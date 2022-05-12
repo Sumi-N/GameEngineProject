@@ -8,11 +8,12 @@ namespace Tempest
 	class GameThread : public Thread
 	{
 	public:
-		void Boot() override;
-		void Init() override;
+		virtual void Boot() override;
+		virtual void Init() override;
+		virtual void Reset();
 		void CriticalSection() override;
-		void NonCriticalSection() override;		
-		void CleanUp() override;		
+		virtual void NonCriticalSection() override;		
+		virtual void CleanUp() override;		
 	};
 }
 
