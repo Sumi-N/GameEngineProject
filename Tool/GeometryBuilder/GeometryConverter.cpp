@@ -1,7 +1,7 @@
 #include "GeometryConverter.h"
 #include "FBXLoader.h"
 
-using namespace Resource;
+using namespace Tempest::Resource;
 
 Tempest::Result GeometryConverter::ConvertMesh(const char* i_filename, const char* o_filename)
 {

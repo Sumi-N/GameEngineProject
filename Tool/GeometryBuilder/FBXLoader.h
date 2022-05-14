@@ -3,7 +3,7 @@
 
 #include <ResourceManagement/ResourceData.h>
 
-using namespace Resource;
+using namespace Tempest::Resource;
 
 namespace FBXLoader
 {

@@ -4,6 +4,7 @@
 #include <ResourceManagement/ResourceData.h>
 
 #include <External/cyCodeBase/cyTriMesh.h>
+#include <External/cyCodeBase/cyPoint.h>
 
 enum class ExtensionType : uint8_t
 {
@@ -11,7 +12,7 @@ enum class ExtensionType : uint8_t
 	FBX,
 };
 
-using namespace Resource;
+using namespace Tempest::Resource;
 
 class GeometryConverter
 {
