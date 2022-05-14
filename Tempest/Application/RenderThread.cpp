@@ -4,6 +4,8 @@ namespace Tempest
 {		
 	extern HWND WindowsHanlder;	
 	GraphicRequiredData  GraphicsData;
+	Delegate<> RenderThreadOnReset;
+
 	void WriteDataToOwningThread(GraphicRequiredData* i_data);
 
 	void RenderThread::Boot()
@@ -36,8 +38,10 @@ namespace Tempest
 
 	void RenderThread::Reset()
 	{
+		SceneEntity::List.Clear();
 		SceneEntity::Init();
 		Graphic::PreCompute();
+		WriteDataToOwningThread(&GraphicsData);
 	}
 
 	void RenderThread::NonCriticalSection()
@@ -75,6 +79,8 @@ namespace Tempest
 	void RenderThread::BindEvent()
 	{
 		window->data.eventcallback = std::bind(&RenderThread::OnEvent, this, std::placeholders::_1);
+		
+		RenderThreadOnReset = Delegate<>::Create<RenderThread, &RenderThread::Reset>(this);
 	}
 
 	void RenderThread::OnEvent(Event& i_event)

@@ -16,8 +16,7 @@ namespace Tempest
 		void MoveCamera(const float, const Vec3f&);
 		void RotateAround(const float, const Vec3f&);
 
-		Mat4f view, perspective, orthographics;
-		Mat4f view_perspective_mat;	
+		Mat4f view, perspective, orthographics;		
 		Vec3f forwardvec, upvec, rightvec;
 	};
 
@@ -40,8 +39,7 @@ namespace Tempest
 		owner->pos += (float)i_dt * owner->vel;
 		owner->vel = Vec3f(0, 0, 0);
 
-		view = Mat4f::LookAt(owner->pos, owner->pos + forwardvec, upvec);
-		view_perspective_mat = perspective * view;
+		view = Mat4f::LookAt(owner->pos, owner->pos + forwardvec, upvec);		
 	}
 
 	inline void CameraComponent::MoveCamera(const float amount, const Vec3f& dir)

@@ -8,15 +8,14 @@
 // The data container data requires for render thread 
 struct GraphicRequiredData
 {
-public:
-	GraphicRequiredData() = default;
-
+public:	
 	ConstantData::Camera camera;
 	ConstantData::Light  light;
 	ConstantData::AnimationBone animation_bone_data;
 	Array<ConstantData::Model> model_data;
 	Array<ConstantData::Material> material_data;
 	ConstantData::CubeMap shadow[NUM_MAX_POINT_LIGHT];
+	ConstantData::Camera editor_camera;
 };
 
 class Graphic

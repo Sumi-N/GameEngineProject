@@ -9,9 +9,24 @@
 #include <Graphics/Define.h>
 #include <Graphics/Graphic.h>
 
+#include "EntityInfo.h"
+
 namespace Tempest
 {
 	extern Window* window;
+	extern Delegate<> GameThreadOnReset;
+	extern Delegate<> RenderThreadOnReset;
+
+	extern bool isEntityModifies;
+	extern bool Modified;
+	extern int SelectedIndex;
+	extern EntityInfo::ComponentFlags SelectedFlag;
+	extern EntityInfo::ComponentFlags SelectedObjectFlags;
+	extern Object SelectedObject;
+	extern CameraComponent SelectedCamera;
+	extern LightComponent SelectedLight;
+	extern MeshComponent SelectedMesh;
+	extern EffectComponent SelecctedEffect;
 
 	class ImguiLayer : public Layer
 	{
@@ -29,11 +44,21 @@ namespace Tempest
 		void End();
 
 	private:
+		void OnAttach_ViewportPanel();
+		void OnAttach_AssetPanel();
+		void OnAttach_ControlPanel();
+		void OnAttach_SceneEditorPanel();
+
 		void Docking();		
-		void ViewportWindow();
-		void AssetPanelWindow();
-		void ControlPanelWindow();
-		void LevelEditorPanelWindow();
+		void ViewportPanel();
+		void AssetPanel();
+		void ControlPanel();
+		void SceneEditorPanel();
+
+		void OnCriticalSection_ViewportPanel();
+		void OnCriticalSection_AssetPanel();
+		void OnCriticalSection_ControlPanel();
+		void OnCriticalSection_SceneEditorPanel();
 
 	private:
 		GLFWwindow* glfw_window = nullptr;

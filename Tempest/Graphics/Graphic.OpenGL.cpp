@@ -90,11 +90,18 @@ void Graphic::PreUpdate(GraphicRequiredData* i_data)
 
 void Graphic::Update(GraphicRequiredData* i_data)
 {
-	ConstDataCamera = i_data->camera;
+#ifdef ENGINE_USE_EDITOR
 
-	// Update uniform data common for frame
-	// Submit Camera Information
+	ConstDataCamera = i_data->editor_camera;
 	ConstBufferCamera.Update(&ConstDataCamera);
+
+#else
+
+	// Submit Camera Information
+	ConstDataCamera = i_data->camera;
+	ConstBufferCamera.Update(&ConstDataCamera);
+
+#endif
 
 	// Submit light uniform data
 	auto& data_light = i_data->light;
@@ -125,11 +132,11 @@ void Graphic::Update(GraphicRequiredData* i_data)
 		}
 	}
 
-#ifdef ENGINE_USE_EDITOR
+#ifdef ENGINE_USE_EDITOR	
 
 	FrameBufferImage.BindFrame();
 
-#else
+#else	
 
 	glViewport(0, 0, ViewportWidth, ViewportHeight);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -176,7 +183,7 @@ void Graphic::Update(GraphicRequiredData* i_data)
 		{
 			glDepthFunc(GL_LEQUAL);
 			ConstantData::SkyBox data_skybox;
-			data_skybox.skybox_view_perspective_matrix = i_data->camera.perspective_matrix * Mat4f::TruncateToMat3(i_data->camera.view_matrix);
+			data_skybox.skybox_view_perspective_matrix = ConstDataCamera.perspective_matrix * Mat4f::TruncateToMat3(ConstDataCamera.view_matrix);
 			ConstBufferSkybox.Update(&data_skybox);
 
 			FrameBufferCubeMap.BindTextureUnit();

@@ -88,13 +88,6 @@ constexpr float FramePerSecond = 60.0f;
 //  Texture Data
 //----------------------------
 
-#define SKYBOX_POSX      "skybox\\cubemap_posx.png"
-#define SKYBOX_NEGX      "skybox\\cubemap_negx.png"
-#define SKYBOX_POSY      "skybox\\cubemap_posy.png"
-#define SKYBOX_NEGY      "skybox\\cubemap_negy.png"
-#define SKYBOX_POSZ      "skybox\\cubemap_posz.png"
-#define SKYBOX_NEGZ      "skybox\\cubemap_negz.png"
-
 #define SKYBOX_HDR_BLACK            "hdr\\black.tt"
 #define SKYBOX_HDR_PINTREE          "hdr\\Arches_E_PineTree_3k.tt"
 #define SKYBOX_HDR_FROZEN_WATERFALL "hdr\\Frozen_Waterfall_Ref.tt"

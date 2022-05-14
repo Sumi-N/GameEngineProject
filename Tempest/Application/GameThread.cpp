@@ -2,16 +2,19 @@
 
 
 namespace Tempest
-{	
-	extern GraphicRequiredData GraphicsData;
+{		
 	HWND WindowsHanlder;
 	Time GameThreadTime;
+
+	Delegate<> GameThreadOnReset;
 
 	void WriteDataToOwningThread(GraphicRequiredData*);
 
 	void GameThread::Boot()
 	{
 		Entity::Boot();
+
+		GameThreadOnReset = Delegate<>::Create<GameThread, &GameThread::Reset>(this);
 	}
 
 	void GameThread::Init()
@@ -39,8 +42,7 @@ namespace Tempest
 	}
 
 	void GameThread::CriticalSection()
-	{
-		//WriteDataToOwningThread(&GraphicsData);
+	{		
 	}
 
 	void GameThread::CleanUp()

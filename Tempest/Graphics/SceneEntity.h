@@ -17,7 +17,7 @@ public:
 inline void SceneEntity::Init()
 {
 	// Init sky-box cube map
-	{		
+	{
 		SceneEntity::SkyBoxProxy = Create<SceneProxy>();
 		Owner<RenderState> renderhandler = Create<RenderState>();
 		SkyBoxProxy->state = renderhandler;

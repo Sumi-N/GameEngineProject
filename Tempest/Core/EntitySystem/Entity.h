@@ -63,7 +63,7 @@ namespace Tempest
 		static Entry<Owner<EffectComponent>>     EffectComponentList;
 		static Entry<Owner<BackgroundComponent>> BackgroundComponentList;
 		static AnimationSystem                   Animation;
-			
+				
 		static void Register (const Owner<Object>&);
 		static void RegisterCameraComponent (const Owner<CameraComponent>&);
 		static void RegisterMeshComponent (const Owner<MeshComponent>&);

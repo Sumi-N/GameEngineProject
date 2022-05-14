@@ -13,7 +13,7 @@ Scene:
       MeshPath: ..\Assets\bin\mesh\cubemap.tm
       VertexShader: ..\Assets\shaders\skybox\skybox.vert.glsl
       FragmentShader: ..\Assets\shaders\skybox\skybox.frag.glsl
-      TexturePath: ..\Assets\bin\texture\hdr\Arches_E_PineTree_3k.tt
+      TexturePath: ..\Assets\bin\texture\hdr\Frozen_Waterfall_Ref.tt
   - Object: Empty
     Position: [0, 0, -60]
     Rotation: [0, 0, 0]

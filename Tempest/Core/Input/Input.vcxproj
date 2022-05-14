@@ -95,6 +95,7 @@
   <ItemGroup>
     <ClInclude Include="ApplicationEvent.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="Delegate.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="KeyEvent.h" />

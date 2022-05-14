@@ -4,7 +4,7 @@
 #include "RenderThread.h"
 
 namespace Tempest
-{
+{	
 	class GameThread : public Thread
 	{
 	public:

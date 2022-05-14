@@ -1,6 +1,7 @@
 #include "Serializer.h"
 
 #include <EntitySystem/Entity.h>
+#include "../MyGame/MyCameraObject.h"
 
 namespace YAML
 {
@@ -227,15 +228,15 @@ namespace Tempest
 					{
 						io_emitter << YAML::Key << "Shader";
 						io_emitter << YAML::BeginMap;
-						if ((*it)->shaderpaths[0])
+						if ((*it)->shaderpaths[0].c_str())
 							io_emitter << YAML::Key << "VertexShader" << YAML::Value << (*it)->shaderpaths[0];
-						if ((*it)->shaderpaths[1])
+						if ((*it)->shaderpaths[1].c_str())
 							io_emitter << YAML::Key << "ControlShader" << YAML::Value << (*it)->shaderpaths[1];
-						if ((*it)->shaderpaths[2])
+						if ((*it)->shaderpaths[2].c_str())
 							io_emitter << YAML::Key << "EvaluationShader" << YAML::Value << (*it)->shaderpaths[2];
-						if ((*it)->shaderpaths[3])
+						if ((*it)->shaderpaths[3].c_str())
 							io_emitter << YAML::Key << "GeometryShader" << YAML::Value << (*it)->shaderpaths[3];
-						if ((*it)->shaderpaths[4])
+						if ((*it)->shaderpaths[4].c_str())
 							io_emitter << YAML::Key << "FragmentShader" << YAML::Value << (*it)->shaderpaths[4];
 						io_emitter << YAML::EndMap;
 					}
@@ -252,13 +253,13 @@ namespace Tempest
 					{
 						io_emitter << YAML::Key << "Texture";
 						io_emitter << YAML::BeginMap;
-						if ((*it)->texture_paths[0])
+						if ((*it)->texture_paths[0].c_str())
 							io_emitter << YAML::Key << "Albedo" << YAML::Value << (*it)->texture_paths[0];
-						if ((*it)->texture_paths[1])
+						if ((*it)->texture_paths[1].c_str())
 							io_emitter << YAML::Key << "Normal" << YAML::Value << (*it)->texture_paths[1];
-						if ((*it)->texture_paths[2])
+						if ((*it)->texture_paths[2].c_str())
 							io_emitter << YAML::Key << "Roughness" << YAML::Value << (*it)->texture_paths[2];
-						if ((*it)->texture_paths[3])
+						if ((*it)->texture_paths[3].c_str())
 							io_emitter << YAML::Key << "Metalic" << YAML::Value << (*it)->texture_paths[3];
 						io_emitter << YAML::EndMap;
 					}
@@ -311,8 +312,16 @@ namespace Tempest
 		if (objects_data)
 		{
 			for (auto object_data : objects_data)
-			{
-				Owner<Object> object = Create<Object>();
+			{				
+				Owner<Object> object;				
+				if (object_data["CameraComponent"])
+				{
+					object = Create<MyCameraObject>();
+				}
+				else
+				{
+					object = Create<Object>();
+				}
 				Entity::Register(object);
 				object->name = object_data["Object"].as<String>();
 				object->pos = object_data["Position"].as<Vec3f>();
@@ -321,12 +330,12 @@ namespace Tempest
 
 				auto camera_data = object_data["CameraComponent"];
 
-				if (camera_data)
-				{
-					Owner<CameraComponent> camera_component = Create<CameraComponent>();
-					camera_component->owner = object;
-					Entity::RegisterCameraComponent(camera_component);
-				}
+				//if (camera_data)
+				//{
+				//	Owner<CameraComponent> camera_component = Create<CameraComponent>();
+				//	camera_component->owner = object;
+				//	Entity::RegisterCameraComponent(camera_component);
+				//}
 
 				auto background_data = object_data["BackgroundComponent"];
 
@@ -335,10 +344,11 @@ namespace Tempest
 					Owner<BackgroundComponent> background_component = Create<BackgroundComponent>();
 					background_component->owner = object;
 					Entity::RegisterBackgroundComponent(background_component);
-					background_component->mesh_path = background_data["MeshPath"].as<String>().c_str();
-					background_component->shader_paths[0] = background_data["VertexShader"].as<String>().c_str();
-					background_component->shader_paths[4] = background_data["FragmentShader"].as<String>().c_str();
-					background_component->texture_path = background_data["TexturePath"].as<String>().c_str();
+					background_component->mesh_path = background_data["MeshPath"].as<String>();
+					background_component->shader_paths[0] = background_data["VertexShader"].as<String>();
+					background_component->shader_paths[4] = background_data["FragmentShader"].as<String>();
+					background_component->texture_path = background_data["TexturePath"].as<String>();
+					background_component->texture_type = Resource::TextureType::SkyBox;
 				}
 
 				auto light_data = object_data["LightComponent"];
@@ -354,7 +364,7 @@ namespace Tempest
 					light_component->direction = light_data["LightDirection"].as<Vec3f>();
 				}
 
-				auto effect_data = object_data["EffectComponent"];
+				auto effect_data = object_data["EffectComponent"];								
 
 				if (effect_data)
 				{
@@ -362,20 +372,22 @@ namespace Tempest
 					effect_component->owner = object;
 					Entity::RegisterEffectComponent(effect_component);
 
-					if (effect_data["VertexShader"])
-						effect_component->shaderpaths[0] = effect_data["VertexShader"].as<String>().c_str();
+					auto shader_data = effect_data["Shader"];
 
-					if (effect_data["ControlShader"])
-						effect_component->shaderpaths[1] = effect_data["ControlShader"].as<String>().c_str();
+					if (shader_data["VertexShader"])
+						effect_component->shaderpaths[0] = shader_data["VertexShader"].as<String>();
 
-					if (effect_data["EvaluationShader"])
-						effect_component->shaderpaths[2] = effect_data["EvaluationShader"].as<String>().c_str();
+					if (shader_data["ControlShader"])
+						effect_component->shaderpaths[1] = shader_data["ControlShader"].as<String>();
 
-					if (effect_data["GeometryShader"])
-						effect_component->shaderpaths[3] = effect_data["GeometryShader"].as<String>().c_str();
+					if (shader_data["EvaluationShader"])
+						effect_component->shaderpaths[2] = shader_data["EvaluationShader"].as<String>();
 
-					if (effect_data["FragmentShader"])
-						effect_component->shaderpaths[4] = effect_data["FragmentShader"].as<String>().c_str();
+					if (shader_data["GeometryShader"])
+						effect_component->shaderpaths[3] = shader_data["GeometryShader"].as<String>();
+
+					if (shader_data["FragmentShader"])
+						effect_component->shaderpaths[4] = shader_data["FragmentShader"].as<String>();
 
 					auto material_data = effect_data["Material"];
 
@@ -391,13 +403,28 @@ namespace Tempest
 					if (texture_data)
 					{
 						if (texture_data["Albedo"])
-							effect_component->texture_paths[0] = texture_data["Albedo"].as<String>().c_str();
+						{
+							effect_component->texture_paths[0] = texture_data["Albedo"].as<String>();
+							effect_component->texture_types[0] = Resource::TextureType::Albedo;
+						}
+
 						if (texture_data["Normal"])
-							effect_component->texture_paths[1] = texture_data["Normal"].as<String>().c_str();
+						{
+							effect_component->texture_paths[1] = texture_data["Normal"].as<String>();
+							effect_component->texture_types[1] = Resource::TextureType::Normal;
+						}
+
 						if (texture_data["Roughness"])
-							effect_component->texture_paths[2] = texture_data["Roughness"].as<String>().c_str();
+						{
+							effect_component->texture_paths[2] = texture_data["Roughness"].as<String>();
+							effect_component->texture_types[2] = Resource::TextureType::Roughness;
+						}
+						
 						if (texture_data["Metalic"])
-							effect_component->texture_paths[3] = texture_data["Metalic"].as<String>().c_str();
+						{
+							effect_component->texture_paths[3] = texture_data["Metalic"].as<String>();
+							effect_component->texture_types[3] = Resource::TextureType::Metalic;
+						}
 					}
 				}
 
@@ -409,7 +436,7 @@ namespace Tempest
 					mesh_component->owner = object;
 					Entity::RegisterMeshComponent(mesh_component);
 					mesh_component->mesh_type = mesh_data["MeshType"].as<MeshType>();
-					mesh_component->mesh_path = mesh_data["MeshPath"].as<String>().c_str();
+					mesh_component->mesh_path = mesh_data["MeshPath"].as<String>();
 				}
 			}
 		}

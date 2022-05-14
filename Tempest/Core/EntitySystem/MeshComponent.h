@@ -13,7 +13,7 @@ namespace Tempest
 		MeshComponent() = default;
 		~MeshComponent() = default;		
 		
-		const char* mesh_path;
+		String mesh_path;
 		Resource::MeshType mesh_type;
 		Owner<Resource::Mesh> mesh;
 

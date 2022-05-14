@@ -23,6 +23,8 @@
 #include <Graphics/Graphic.h>
 #include <Graphics/ConstantBuffer.h>
 
+#include <Input/Delegate.h>
+
 extern Input UserInput;
 
 // Logging

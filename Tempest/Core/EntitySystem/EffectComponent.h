@@ -17,11 +17,11 @@ namespace Tempest
 		void LoadTexture();
 
 	public:				
-		const char* shaderpaths[5]{nullptr};		
+		String shaderpaths[5];		
 
 		Resource::Material material;
 		
-		std::array<const char*, 5>              texture_paths{ nullptr };		
+		std::array<String, 5>                   texture_paths;		
 		std::array<Resource::TextureType, 5>    texture_types;
 		std::array<Owner<Resource::Texture>, 5> textures;
 	};	
@@ -44,7 +44,7 @@ namespace Tempest
 	{
 		for (int i = 0; i < 5; i++)
 		{			
-			if (!texture_paths[i])
+			if (texture_paths[i].empty())
 			{
 				texture_paths[i] = i_path;
 				texture_types[i] = i_type;
@@ -59,14 +59,14 @@ namespace Tempest
 	{
 		for (int i = 0; i < 5; i++)
 		{
-			if (!texture_paths[i])
+			if (texture_paths[i].empty())
 			{
 				continue;
 			}
 
 			textures[i] = Create<Resource::Texture>();			
 
-			Result result = Resource::Texture::Load(texture_paths[i], *textures[i]);
+			Result result = Resource::Texture::Load(texture_paths[i].c_str(), *textures[i]);
 
 			if (result)
 			{

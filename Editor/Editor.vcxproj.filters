@@ -26,13 +26,19 @@
     <ClCompile Include="..\MyGame\TestScene_SkeletonAnimation.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\MyGame\TestScene_PBR_9Balls.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="EntityInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Serializer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImguiLayer_ViewporPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImguiLayer_SceneEditorPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImguilLayer_ControlPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,30 +59,6 @@
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\MyGame\MyCameraObject.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\MyGame\BathRoomTileSphere.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\MyGame\BrushedMetalSphere.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\MyGame\DirtyWickerWeaveSphere.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\MyGame\GrayBrickSphere.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\MyGame\MetalGridSphere.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\MyGame\OldSoiledClothSphere.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\MyGame\RastedSphere.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\MyGame\WarnPaintedCement.h">
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="EntityInfo.h">

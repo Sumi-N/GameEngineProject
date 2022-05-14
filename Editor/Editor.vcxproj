@@ -88,9 +88,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\MyGame\TestScene_PBR_9Balls.cpp" />
     <ClCompile Include="..\MyGame\TestScene_SkeletonAnimation.cpp" />
     <ClCompile Include="EntityInfo.cpp" />
+    <ClCompile Include="ImguiLayer_SceneEditorPanel.cpp" />
+    <ClCompile Include="ImguiLayer_ViewporPanel.cpp" />
+    <ClCompile Include="ImguilLayer_ControlPanel.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ImguiBuild.cpp" />
     <ClCompile Include="ImguiLayer.cpp" />
@@ -98,18 +100,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\MyGame\AnimatedPlayer.h" />
-    <ClInclude Include="..\MyGame\BathRoomTileSphere.h" />
-    <ClInclude Include="..\MyGame\BrushedMetalSphere.h" />
-    <ClInclude Include="..\MyGame\DirtyWickerWeaveSphere.h" />
-    <ClInclude Include="..\MyGame\GrayBrickSphere.h" />
-    <ClInclude Include="..\MyGame\MetalGridSphere.h" />
     <ClInclude Include="..\MyGame\MyCameraObject.h" />
     <ClInclude Include="..\MyGame\MyPointLight.h" />
     <ClInclude Include="..\MyGame\MySkyBox.h" />
-    <ClInclude Include="..\MyGame\OldSoiledClothSphere.h" />
-    <ClInclude Include="..\MyGame\RastedSphere.h" />
     <ClInclude Include="..\MyGame\TestScenes.h" />
-    <ClInclude Include="..\MyGame\WarnPaintedCement.h" />
     <ClInclude Include="EntityInfo.h" />
     <ClInclude Include="ImguiLayer.h" />
     <ClInclude Include="Serializer.h" />

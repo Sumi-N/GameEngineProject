@@ -20,12 +20,12 @@ namespace Tempest
 		void LoadMesh();
 		void LoadTexture();		
 
-		const char* mesh_path;		
+		String mesh_path;		
 		Owner<Resource::Mesh> mesh;
 		Resource::MeshType mesh_type;
 
-		const char* shader_paths[5];
-		const char* texture_path;
+		String shader_paths[5];
+		String texture_path;
 		Resource::TextureType    texture_type;
 		Owner<Resource::Texture> texture;
 	};
@@ -44,11 +44,8 @@ namespace Tempest
 
 	inline void BackgroundComponent::RegisterShaderPath(const char** i_shader_paths)
 	{
-		this->shader_paths[0] = i_shader_paths[0];
-		this->shader_paths[1] = i_shader_paths[1];
-		this->shader_paths[2] = i_shader_paths[2];
-		this->shader_paths[3] = i_shader_paths[3];
-		this->shader_paths[4] = i_shader_paths[4];
+		shader_paths[0] = i_shader_paths[0];		
+		shader_paths[4] = i_shader_paths[4];
 	}
 
 	inline void BackgroundComponent::RegisterTexture(const Resource::TextureType& i_type, const char* i_path)
@@ -64,7 +61,7 @@ namespace Tempest
 		{	
 			mesh_type = MeshType::Mesh;
 			mesh = Create<Resource::Mesh>();
-			auto result = Resource::Mesh::Load(mesh_path, *mesh);
+			auto result = Resource::Mesh::Load(mesh_path.c_str(), *mesh);
 		}
 		else
 		{
@@ -85,7 +82,7 @@ namespace Tempest
 	{				
 		texture = Create<Resource::Texture>();
 
-		Result result = Resource::Texture::Load(texture_path, *texture);
+		Result result = Resource::Texture::Load(texture_path.c_str(), *texture);
 
 		if (result)
 		{

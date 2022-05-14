@@ -32,6 +32,48 @@ void RenderState::InitShader(const char** i_paths)
 	shader.LoadShader();
 }
 
+void RenderState::InitShader(String* i_string_paths)
+{
+	const char* i_paths[5];
+	for (int i = 0; i < 5; i++)
+	{
+		if (!i_string_paths[i].empty())
+		{
+			i_paths[i] = i_string_paths[i].c_str();
+		}
+		else
+		{
+			i_paths[i] = nullptr;
+		}
+	}
+	// vertex and fragment shader
+	if (i_paths[0] && !i_paths[1] && !i_paths[2] && !i_paths[3] && i_paths[4])
+	{
+		shader.SetShader(i_paths[0], i_paths[4]);
+	}
+	// vertex, geometry and fragment shader 
+	else if (i_paths[0] && !i_paths[1] && !i_paths[2] && i_paths[3] && i_paths[4])
+	{
+		shader.SetShader(i_paths[0], i_paths[3], i_paths[4]);
+	}
+	// vertex, tessellation and fragment shader
+	else if (i_paths[0] && i_paths[1] && i_paths[2] && !i_paths[3] && i_paths[4])
+	{
+		shader.SetShader(i_paths[0], i_paths[1], i_paths[2], i_paths[4]);
+	}
+	// vertex, tessellation, geometry and fragment shader
+	else if (i_paths[0] && i_paths[1] && i_paths[2] && i_paths[3] && i_paths[4])
+	{
+		shader.SetShader(i_paths[0], i_paths[1], i_paths[2], i_paths[3], i_paths[4]);
+	}
+	else
+	{
+		DEBUG_ASSERT(false);
+	}
+
+	shader.LoadShader();
+}
+
 void RenderState::InitTexture(const Resource::TextureType& i_type, Owner<Resource::Texture>& i_resource)
 {
 	for (int i = 0; i < unitlistsize; i++)

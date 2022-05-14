@@ -1,10 +1,8 @@
 #include "ImguiLayer.h"
-#include "EntityInfo.h"
 #include "Serializer.h"
-#include "Core/Math/Vector.h"
 
 namespace Tempest
-{	
+{		
 	bool isEntityModifies{false};
 	bool Modified{false};
 	int SelectedIndex = -1;
@@ -54,6 +52,8 @@ namespace Tempest
 
 		// Loading font
 		io.Fonts->AddFontFromFileTTF(PATH_SUFFIX FONT_PATH "Karla-Regular.ttf", 25);
+
+		OnAttach_ViewportPanel();
 	}
 
 	void ImguiLayer::OnDetach()
@@ -71,10 +71,10 @@ namespace Tempest
 		ImGui::ShowDemoWindow(&show);
 
 		Docking();
-		ViewportWindow();		
-		AssetPanelWindow();
-		LevelEditorPanelWindow();
-		ControlPanelWindow();
+		ViewportPanel();		
+		AssetPanel();
+		SceneEditorPanel();
+		ControlPanel();
 
 		End();
 	}
@@ -221,173 +221,11 @@ namespace Tempest
 		ImGui::End();
 	}
 
-	void ImguiLayer::ViewportWindow()
-	{
-		ImGui::Begin("Viewport");				
-		ImVec2 imgui_viewport_panel_size = ImGui::GetContentRegionAvail();		
-		ImGui::Image(reinterpret_cast<void*>(Graphic::FrameBufferImage.GetColorID()), imgui_viewport_panel_size, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
-
-		if (ImGui::IsWindowFocused())
-		{
-			//DEBUG_PRINT("Hello");
-		}
-
-		ImGui::End();
-	}
-
-	void ImguiLayer::AssetPanelWindow()
-	{
-		ImGui::Begin("AssetPanel");
-		ImGui::Text("This is setting panel");
-		ImGui::End();
-	}
-
-	void ImguiLayer::ControlPanelWindow()
-	{
-		ImGui::Begin("ControlPanel");		
-		ImGuiTreeNodeFlags_ collapse_panel_flags = ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen;
-
-		if (SelectedFlag >= 0)
-		{
-			if (ImGui::CollapsingHeader("Basic Information", collapse_panel_flags))
-			{
-				static float* position_data = reinterpret_cast<float*>(&SelectedObject.pos);
-				ImGui::Text("Position");
-				ImGui::SameLine(100);
-				if (ImGui::InputFloat3("position", position_data))
-				{
-					SelectedFlag = EntityInfo::ObjectFlag;
-					Modified = true;
-				}
-
-				static float* rotation_data = reinterpret_cast<float*>(&SelectedObject.rot);
-				ImGui::Text("Rotation");
-				ImGui::SameLine(100);
-				if (ImGui::InputFloat3("rotation", rotation_data))
-				{
-					SelectedFlag = EntityInfo::ObjectFlag;
-					Modified = true;
-				}
-
-
-				static float* scale_data = reinterpret_cast<float*>(&SelectedObject.scale);
-				ImGui::Text("Scale");
-				ImGui::SameLine(100);
-				if (ImGui::InputFloat3("scale", scale_data))
-				{
-					SelectedFlag = EntityInfo::ObjectFlag;
-					Modified = true;
-				}
-			}
-		}
-		
-		if (SelectedObjectFlags & EntityInfo::CameraFlag)
-		{
-			if (ImGui::CollapsingHeader("Camera Component", collapse_panel_flags))
-			{
-			}
-		}
-		
-		if (SelectedObjectFlags & EntityInfo::LightFlag)
-		{
-			if (ImGui::CollapsingHeader("Light Component", collapse_panel_flags))
-			{
-			}
-		}
-		
-
-		if (SelectedObjectFlags & EntityInfo::EffectFlag)
-		{
-			if (ImGui::CollapsingHeader("Effect Component", collapse_panel_flags))
-			{				
-				static float* albedo_data = reinterpret_cast<float*>(&SelecctedEffect.material.albedo);
-				if (ImGui::ColorEdit3("Albedo", albedo_data))
-				{
-					SelectedFlag = EntityInfo::EffectFlag;
-					Modified = true;
-				}
-
-				static float* roughness_data = reinterpret_cast<float*>(&SelecctedEffect.material.roughness);
-				if (ImGui::SliderFloat("Roughness", roughness_data, 0.0f, 1.0f))
-				{
-					SelectedFlag = EntityInfo::EffectFlag;
-					Modified = true;
-				}
-
-				static float* metalicness_data = reinterpret_cast<float*>(&SelecctedEffect.material.metalic);
-				if (ImGui::SliderFloat("Metalic", metalicness_data, 0.0f, 1.0f))
-				{
-					SelectedFlag = EntityInfo::EffectFlag;
-					Modified = true;
-				}
-			}
-		}
-		
-
-		if (SelectedObjectFlags & EntityInfo::MeshFlag)
-		{
-			if (ImGui::CollapsingHeader("Mesh Component", collapse_panel_flags))
-			{
-			}
-		}
-
-		ImGui::End();
-	}
-
-	void ImguiLayer::LevelEditorPanelWindow()
-	{
-		ImGui::Begin("LevelEditorPanel");
-
-		if (ImGui::TreeNode("Scene Hierarchy"))
-		{
-			static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;			
-			static bool test_drag_and_drop = true;
-
-			static int selection_mask = (1 << 0);
-
-			int list_size = static_cast<int>(EntityInfo::GetTotalObjectSize());
-			for (int i = 0; i < list_size; i++)
-			{				
-				ImGuiTreeNodeFlags node_flags = base_flags;
-				const bool is_selected = (selection_mask & (1 << i)) != 0;
-				if (is_selected)
-					node_flags |= ImGuiTreeNodeFlags_Selected;
-				
-				String object_name = EntityInfo::GetObjectNameByIndex(i);
-				bool node_open = ImGui::TreeNodeEx((void*)(intptr_t)i, node_flags, object_name.c_str(), i);
-				if (ImGui::IsItemClicked()) 
-				{
-					SelectedIndex = i;
-					SelectedObject = EntityInfo::GetObjectByIndex(i);
-					SelectedObjectFlags = EntityInfo::GetAttachedComponentsByIndex(i);
-				}
-				if (test_drag_and_drop && ImGui::BeginDragDropSource())
-				{
-					ImGui::SetDragDropPayload("_TREENODE", NULL, 0);
-					ImGui::Text("This is a drag and drop source");
-					ImGui::EndDragDropSource();
-				}
-				if (node_open)
-				{					
-					ImGui::TreePop();
-				}				
-			}
-			if (SelectedIndex != -1)
-			{
-				if (ImGui::GetIO().KeyCtrl)
-					selection_mask ^= (1 << SelectedIndex);          // CTRL+click to toggle
-				else 
-					selection_mask = (1 << SelectedIndex);           // Click to single-select
-			}
-			ImGui::TreePop();
-		}		
-
-		ImGui::End();
-	}
-
 	void ImguiLayer::OnCriticalSection() 
 	{		
-		if (!Modified || !isEntityModifies)
+		OnCriticalSection_ViewportPanel();
+
+		if (!Modified && !isEntityModifies)
 		{
 			return;
 		}
@@ -395,7 +233,10 @@ namespace Tempest
 		if (isEntityModifies)
 		{
 			Entity::Reset();
-			SceneSerializer.Deserialize("../Assets/Scene/test.tyml");
+			SceneSerializer.Deserialize("../Assets/Scene/PBR_9Balls.tyml");
+			GameThreadOnReset.ExecuteIfBound();
+			RenderThreadOnReset.ExecuteIfBound();
+			isEntityModifies = false;
 		}
 
 		switch (SelectedFlag)
@@ -417,7 +258,7 @@ namespace Tempest
 			break;
 		default:
 			break;
-		}
+		}		
 
 		Modified = false;
 	}
