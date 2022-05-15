@@ -111,7 +111,7 @@ namespace Math {
 	}
 
 	template<typename T>
-	inline void Math::Matrix4<T>::Transpose() 
+	inline void Math::Matrix4<T>::Transpose()
 	{
 		T tmp = ele[4];		ele[4] = ele[1];		ele[1] = tmp;
 		tmp = ele[2];		ele[2] = ele[8];		ele[8] = tmp;
@@ -122,13 +122,13 @@ namespace Math {
 	}
 
 	template<typename T>
-	inline void Math::Matrix4<T>::Inverse() 
+	inline void Math::Matrix4<T>::Inverse()
 	{
 		T absvalue = ele[0] * (ele[5] * ele[10] * ele[15] + ele[6] * ele[11] * ele[13] + ele[7] * ele[9] * ele[14] - ele[7] * ele[10] * ele[13] - ele[6] * ele[9] * ele[15] - ele[5] * ele[11] * ele[14])
 			           - ele[4] * (ele[1] * ele[10] * ele[15] + ele[2] * ele[11] * ele[13] + ele[3] * ele[9] * ele[14] - ele[3] * ele[10] * ele[13] - ele[2] * ele[9] * ele[15] - ele[1] * ele[11] * ele[14])
-			           + ele[8] * (ele[1] * ele[6]  * ele[15] + ele[2] * ele[7]  * ele[13] + ele[3] * ele[5] * ele[14] - ele[3] * ele[6]  * ele[13] - ele[2] * ele[5] * ele[15] - ele[1] * ele[7]  * ele[14]) 
+			           + ele[8] * (ele[1] * ele[6]  * ele[15] + ele[2] * ele[7]  * ele[13] + ele[3] * ele[5] * ele[14] - ele[3] * ele[6]  * ele[13] - ele[2] * ele[5] * ele[15] - ele[1] * ele[7]  * ele[14])
 			           -ele[12] * (ele[1] * ele[6]  * ele[11] + ele[2] * ele[7]  * ele[9]  + ele[3] * ele[5] * ele[10] - ele[3] * ele[6]  * ele[9]  - ele[2] * ele[5] * ele[11] - ele[1] * ele[7]  * ele[10]);
-		
+
 		if (absvalue == 0)
 		{
 			return;
@@ -228,7 +228,7 @@ namespace Math {
 	}
 
 	template<typename T>
-	inline Matrix4<T> Matrix4<T>::LookAt(Vec3<T> i_pos, Vec3<T> i_target, Vec3<T> i_upvec) 
+	inline Matrix4<T> Matrix4<T>::LookAt(Vec3<T> i_pos, Vec3<T> i_target, Vec3<T> i_upvec)
 	{
 		Vec4<T> forwardvec = Vec4<T>(Vec3<T>::Normalize(i_target - i_pos), 0);
 		Vec4<T> rightvec = Vec4<T>(Vec3<T>::Normalize(Vec3<T>(forwardvec).Cross(i_upvec)), 0);
@@ -432,10 +432,10 @@ namespace Math {
 		Vec3<T> row[3], pdum3;
 
 		// Now get scale and shear.
-		for (int i = 0; i < 3; ++i){ 
+		for (int i = 0; i < 3; ++i){
 			for (int j = 0; j < 3; ++j)
 			{
-				row[i][j] = local_matrix[i][j];				
+				row[i][j] = local_matrix[i][j];
 			}
 		}
 
@@ -464,8 +464,8 @@ namespace Math {
 		row[2].Normalize();
 		o_skew.y /= o_scale.z;
 		o_skew.x /= o_scale.z;
-		
-		pdum3 = row[1].Cross(row[2]); 
+
+		pdum3 = row[1].Cross(row[2]);
 		if (row[0].Dot(pdum3) < 0)
 		{
 			for (int i = 0; i < 3; i++)
@@ -476,7 +476,7 @@ namespace Math {
 		}
 
 		int i, j, k = 0;
-		T root; 
+		T root;
 		T trace = row[0].x + row[1].y + row[2].z;
 		if (trace > static_cast<T>(0))
 		{
@@ -496,12 +496,12 @@ namespace Math {
 			j = next[i];
 			k = next[j];
 
-			root = sqrt(row[i][i] - row[j][j] - row[k][k] + static_cast<T>(1.0));			
+			root = sqrt(row[i][i] - row[j][j] - row[k][k] + static_cast<T>(1.0));
 			o_orientation[i] = static_cast<T>(0.5) * root;
 			root = static_cast<T>(0.5) / root;
 			o_orientation[j] = root * (row[i][j] + row[j][i]);
 			o_orientation[k] = root * (row[i][k] + row[k][i]);
-			o_orientation.w = root * (row[j][k] - row[k][j]);			
+			o_orientation.w = root * (row[j][k] - row[k][j]);
 		} // End if <= 0
 
 		return true;

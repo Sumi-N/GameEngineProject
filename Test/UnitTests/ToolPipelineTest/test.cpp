@@ -82,7 +82,7 @@
 //	{
 //		std::filesystem::path input_fullpath = fas.input_dir.string() + fas.input_files[i].string();
 //		EXPECT_TRUE(obj.ReadGeometry(input_fullpath));
-//	
+//
 //		EXPECT_TRUE(obj.WriteBinary(fas.output_path[i]));
 //	}
 //}

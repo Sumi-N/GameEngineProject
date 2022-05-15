@@ -7,11 +7,11 @@ namespace Tempest
 	class Time
 	{
 	public:
-		Time() = default;	
-		double dt;		
+		Time() = default;
+		double dt;
 
 	private:
-#ifdef  ENGINE_PLATFORM_WINDOWS		
+#ifdef  ENGINE_PLATFORM_WINDOWS
 		LARGE_INTEGER lpPerformanceCount_begin;
 		LARGE_INTEGER lpPerformanceCount_end;
 
@@ -47,7 +47,7 @@ namespace Tempest
 #endif
 	}
 
-	inline void Time::Begin(Time& io_time) 
+	inline void Time::Begin(Time& io_time)
 	{
 #ifdef ENGINE_PLATFORM_WINDOWS
 		QueryPerformanceCounter(&io_time.lpPerformanceCount_begin);

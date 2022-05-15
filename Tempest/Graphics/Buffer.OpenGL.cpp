@@ -3,7 +3,7 @@
 namespace Tempest
 {
 #ifdef ENGINE_GRAPHIC_OPENGL
-	
+
 	void VertexBuffer::Bind() const
 	{
 		glBindVertexArray(arrayid);
@@ -32,17 +32,17 @@ namespace Tempest
 			BufferData::Element normal(BufferData::Type::Float3, "normal");
 			BufferData::Element uvcoord(BufferData::Type::Float2, "uvcoord");
 			BufferData::Element tangent(BufferData::Type::Float3, "tangent");
-			BufferData::Element bitangent(BufferData::Type::Float3, "bitangent");			
+			BufferData::Element bitangent(BufferData::Type::Float3, "bitangent");
 
 			BufferData::Layout vbufflayout({ vertex, normal, uvcoord, tangent, bitangent,});
 
 			layout = vbufflayout;
 
-			// Create vertex array 
+			// Create vertex array
 			glGenVertexArrays(1, &arrayid);
 			glBindVertexArray(arrayid);
 
-			// Create vertex buffer 
+			// Create vertex buffer
 			glGenBuffers(1, &bufferid);
 			glBindBuffer(GL_ARRAY_BUFFER, bufferid);
 
@@ -70,11 +70,11 @@ namespace Tempest
 
 			layout = vbufflayout;
 
-			// Create vertex array 
+			// Create vertex array
 			glGenVertexArrays(1, &arrayid);
 			glBindVertexArray(arrayid);
 
-			// Create vertex buffer 
+			// Create vertex buffer
 			glGenBuffers(1, &bufferid);
 			glBindBuffer(GL_ARRAY_BUFFER, bufferid);
 
@@ -94,11 +94,11 @@ namespace Tempest
 		}
 
 		//{
-		//	// Create vertex array 
+		//	// Create vertex array
 		//	glGenVertexArrays(1, &arrayid);
 		//	glBindVertexArray(arrayid);
 
-		//	// Create vertex buffer 
+		//	// Create vertex buffer
 		//	glGenBuffers(1, &bufferid);
 		//	glBindBuffer(GL_ARRAY_BUFFER, bufferid);
 
@@ -109,7 +109,7 @@ namespace Tempest
 		//		glEnableVertexAttribArray(i);
 		//		glVertexAttribPointer(i, layout.elements[i].size / sizeof(float), GL_FLOAT, GL_FALSE, layout.stride, (void*)(layout.elements[i].offset));
 		//	}
-		//}		
+		//}
 	}
 
 	void VertexBuffer::CleanUp() const

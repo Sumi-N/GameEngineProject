@@ -18,7 +18,7 @@ namespace Math
 			struct{ T x, y, z, w;};
 			T ele[4];
 		};
-		
+
 		Quaternion();
 		Quaternion(T const&, Vec3<T> const&);
 		Quaternion(T const&, T const&, T const&, T const&);

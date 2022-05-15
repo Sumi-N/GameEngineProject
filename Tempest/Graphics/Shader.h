@@ -1,7 +1,7 @@
 #pragma once
 #include "Define.h"
 
-class Shader 
+class Shader
 {
 public:
 	Shader() :

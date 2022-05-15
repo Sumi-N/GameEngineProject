@@ -3,7 +3,7 @@
 namespace Math {
 
 	//---------------------------------------------
-	// Vector3<float>	
+	// Vector3<float>
 	//---------------------------------------------
 	inline Vec3<float> Vec3<float>::operator+ (Vec3<float> const& i_v) const
 	{

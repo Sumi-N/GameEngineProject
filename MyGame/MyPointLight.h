@@ -9,19 +9,19 @@ namespace Tempest
 	public:
 		void Boot() override;
 		void Update(float i_dt) override;
-		
+
 		Owner<LightComponent> light_component;
 	};
 
 	inline void MyPointLight::Boot()
 	{
 		name = "PointLight";
-		light_component = Create<LightComponent>();		
+		light_component = Create<LightComponent>();
 		light_component->light_type = LightType::PointLight;
-		light_component->intensity = Vec3f(25.0f, 25.0f, 25.0f);		
+		light_component->intensity = Vec3f(25.0f, 25.0f, 25.0f);
 		light_component->attenuation = Vec3f(1.0f, 0.07f, 0.017f);
 		light_component->owner = Entity::Query(this);
-		Entity::RegisterLightComponent(light_component);		
+		Entity::RegisterLightComponent(light_component);
 	}
 
 	inline void MyPointLight::Update(float i_dt)
@@ -44,6 +44,6 @@ namespace Tempest
 		if (UserInput.QueryKey(VirtualKey::KEY_L) == InputState::Pressing)
 		{
 			Translate(Vec3f(pos.x - 1.0f, pos.y, pos.z));
-		}		
+		}
 	}
 }

@@ -1,8 +1,8 @@
 #include "RenderThread.h"
 
 namespace Tempest
-{		
-	extern HWND WindowsHanlder;	
+{
+	extern HWND WindowsHanlder;
 	GraphicRequiredData  GraphicsData;
 	Delegate<> RenderThreadOnReset;
 
@@ -17,22 +17,22 @@ namespace Tempest
 
 		WindowsHanlder = window->GetNaitiveWindowsHandler();
 
-		// Bind event callbacks including the callbacks that are in imgui layer and other layers 
+		// Bind event callbacks including the callbacks that are in imgui layer and other layers
 		BindEvent();
 
 		// Initialize OpenGL
-		Graphic::Boot();		
+		Graphic::Boot();
 	}
 
 	void RenderThread::Init()
-	{		
+	{
 		// Init scene Entity
 		SceneEntity::Init();
 
 		Graphic::Init(window->data.width, window->data.height);
 
 		LayerStack::Init();
-		
+
 		Graphic::PreCompute();
 	}
 
@@ -45,12 +45,12 @@ namespace Tempest
 	}
 
 	void RenderThread::NonCriticalSection()
-	{		
+	{
 		if (!window->CheckShutdown())
 		{
 			brunning = false;
-		}		
-		
+		}
+
 		Graphic::PreUpdate(&GraphicsData);
 
 		Graphic::Update(&GraphicsData);
@@ -59,7 +59,7 @@ namespace Tempest
 
 		Graphic::PostUpdate(&GraphicsData);
 
-		window->SwapBuffer();		
+		window->SwapBuffer();
 	}
 
 	void RenderThread::CriticalSection()
@@ -70,7 +70,7 @@ namespace Tempest
 
 	void RenderThread::CleanUp()
 	{
-		LayerStack::CleanUp();		
+		LayerStack::CleanUp();
 		Graphic::CleanUp();
 		window->Shutdown();
 		delete window;
@@ -79,7 +79,7 @@ namespace Tempest
 	void RenderThread::BindEvent()
 	{
 		window->data.eventcallback = std::bind(&RenderThread::OnEvent, this, std::placeholders::_1);
-		
+
 		RenderThreadOnReset = Delegate<>::Create<RenderThread, &RenderThread::Reset>(this);
 	}
 

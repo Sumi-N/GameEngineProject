@@ -7,7 +7,7 @@ namespace Tempest
 	{
 	public:
 		void Boot() override;
-		
+
 		Owner<BackgroundComponent> background_component;
 	};
 

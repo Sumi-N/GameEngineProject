@@ -4,27 +4,27 @@
 #include "Component.h"
 
 namespace Tempest
-{	
+{
 	class EffectComponent : public Component
-	{		
+	{
 	public:
 		EffectComponent() = default;
-		~EffectComponent() = default;		
+		~EffectComponent() = default;
 
 		virtual void Boot() override;
 		void RegisterShaderPath(const char**);
 		void RegisterTexture(Resource::TextureType i_type, const char* i_path);
 		void LoadTexture();
 
-	public:				
-		String shaderpaths[5];		
+	public:
+		String shaderpaths[5];
 
 		Resource::Material material;
-		
-		std::array<String, 5>                   texture_paths;		
+
+		std::array<String, 5>                   texture_paths;
 		std::array<Resource::TextureType, 5>    texture_types;
 		std::array<Owner<Resource::Texture>, 5> textures;
-	};	
+	};
 
 	inline void EffectComponent::Boot()
 	{
@@ -43,7 +43,7 @@ namespace Tempest
 	inline void EffectComponent::RegisterTexture(Resource::TextureType i_type, const char* i_path)
 	{
 		for (int i = 0; i < 5; i++)
-		{			
+		{
 			if (texture_paths[i].empty())
 			{
 				texture_paths[i] = i_path;
@@ -64,7 +64,7 @@ namespace Tempest
 				continue;
 			}
 
-			textures[i] = Create<Resource::Texture>();			
+			textures[i] = Create<Resource::Texture>();
 
 			Result result = Resource::Texture::Load(texture_paths[i].c_str(), *textures[i]);
 
@@ -76,6 +76,6 @@ namespace Tempest
 			{
 				DEBUG_PRINT("Failed loading texture %s", texture_paths[i]);
 			}
-		}		
+		}
 	}
 }

@@ -5,10 +5,10 @@
 #include "FrameBuffer.h"
 #include "DrawPrimitives.h"
 
-// The data container data requires for render thread 
+// The data container data requires for render thread
 struct GraphicRequiredData
 {
-public:	
+public:
 	ConstantData::Camera camera;
 	ConstantData::Light  light;
 	ConstantData::AnimationBone animation_bone_data;
@@ -79,7 +79,7 @@ inline void Graphic::Init(unsigned int i_width, unsigned int i_height)
 	FrameBufferBrdf.Init(FrameType::BRDF, BRDF_BINDING_UNIT, 512, 512);
 	FrameBufferImage.Init(FrameType::Image, IMAGE_BINDING_UNIT, ViewportWidth, ViewportHeight);
 
-	// This class holds some of the basic geometry shapes (like cube line and quad) that will be used during the rendering 
+	// This class holds some of the basic geometry shapes (like cube line and quad) that will be used during the rendering
 	DrawPrimitive::Init();
 	DrawPrimitive::DebugInit();
 }

@@ -395,7 +395,7 @@ GLboolean Shader::PrintProgramInfoLog(GLuint i_program)
 	// Get a link result
 	GLint status;
 	glGetProgramiv(i_program, GL_LINK_STATUS, &status);
-	if (status == GL_FALSE) 
+	if (status == GL_FALSE)
 		DEBUG_PRINT("Link Error.");
 	// Get the log of the link result
 	GLsizei bufSize;

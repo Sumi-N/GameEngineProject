@@ -11,7 +11,7 @@ namespace Tempest {
 	extern EffectComponent SelecctedEffect;
 
 	namespace EntityInfo {
-		
+
 		size_t GetTotalObjectSize()
 		{
 			return Entity::ObjectList.Size();
@@ -30,7 +30,7 @@ namespace Tempest {
 		ComponentFlags GetAttachedComponentsByIndex(int index)
 		{
 			ComponentFlags result = ComponentFlags::None;
-			
+
 			ObservingPointer<Object> object = Entity::ObjectList[index];
 
 			for (int i = 0; i < Entity::CameraComponentList.Size(); i++)

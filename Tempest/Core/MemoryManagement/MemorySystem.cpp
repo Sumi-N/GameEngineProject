@@ -4,7 +4,7 @@
 HeapManager GeneralManager;
 
 void InitializeMemorySystem(void* i_pHeapMemory, size_t i_sizeHeapMemory, unsigned int i_OptionalNumDescriptors)
-{		
+{
 	_current = i_pHeapMemory;
 	/*_current = allocator[0].initialize(_current, 16);
 	_current = allocator[1].initialize(_current, 32);
@@ -20,8 +20,8 @@ bool IsHeapAlive()
 }
 
 void FinalizeMemorySystem()
-{	
-	
+{
+
 }
 
 void* AllocMemory(size_t i_size)

@@ -17,14 +17,14 @@ namespace Tempest
 		Owner<Resource::Skeleton> skeleton;
 		Owner<Resource::AnimationClip> clip;
 		Observer<MeshComponent> mesh;
-		
+
 		virtual void Boot() override;
 		virtual void Init() override;
 		virtual void Update(float i_dt) override;
 		virtual void CleanUp() override;
 
 		Result LoadSkeleton(const char* i_filename);
-		Result LoadClip(const char* i_filename);		
+		Result LoadClip(const char* i_filename);
 
 	private:
 		bool  is_looping;
@@ -100,7 +100,7 @@ namespace Tempest
 			{
 				if(!clip->samples[0].jointposes.Empty()){
 					return true;
-				}				
+				}
 			}
 		}
 

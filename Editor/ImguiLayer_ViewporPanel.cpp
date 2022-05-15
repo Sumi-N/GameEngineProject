@@ -1,6 +1,6 @@
 #include "ImguiLayer.h"
 
-namespace Tempest	
+namespace Tempest
 {
 	extern GraphicRequiredData GraphicsData;
 
@@ -76,7 +76,7 @@ namespace Tempest
 		SceneCamera.pos += 16.666f * SceneCamera.vel;
 		SceneCamera.vel = Vec3f(0, 0, 0);
 
-		SceneCamera.view = Mat4f::LookAt(SceneCamera.pos, SceneCamera.pos + SceneCamera.forward, SceneCamera.up);		
+		SceneCamera.view = Mat4f::LookAt(SceneCamera.pos, SceneCamera.pos + SceneCamera.forward, SceneCamera.up);
 	}
 
 	void ImguiLayer::OnAttach_ViewportPanel()
@@ -84,7 +84,7 @@ namespace Tempest
 		SceneCamera.forward = Vec3f(0, 0, -1);
 		SceneCamera.up = Vec3f(0, 1, 0);
 		SceneCamera.right = Vec3f::Normalize(SceneCamera.forward.Cross(SceneCamera.up));
-		
+
 		SceneCamera.view = Mat4f::LookAt(SceneCamera.pos, SceneCamera.pos + SceneCamera.forward, SceneCamera.up);
 
 		SceneCamera.perspective = Mat4f::Perspective(FieldOfView, (float)ScreenWidth / ScreenHeight, NearClip, FarClip);

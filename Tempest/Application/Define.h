@@ -29,5 +29,5 @@ extern Input UserInput;
 
 // Logging
 // Put MemoryLeakDetection in the last since there is a macro #define new DEBUG_NEW
-// which might overwrite new keywords exist in the other libraries 
+// which might overwrite new keywords exist in the other libraries
 #include <Logging/MemoryLeakDetection.h>

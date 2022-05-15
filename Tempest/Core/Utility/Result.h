@@ -32,7 +32,7 @@ namespace Tempest
 
 		Application,
 		GameThread,
-		RenderThread,		
+		RenderThread,
 
 		Count          // This must be the last
 	};
@@ -41,7 +41,7 @@ namespace Tempest
 	// Result class is 32 bit boolean class where it has the information about result, severity, system etc...
 	// The first bit is a boolean that tells you if the result is success or not. From 2 to 16 bit are the bits
 	// that tells you about what system it is related, From 17 to 24 bits are the information about severity of
-	// the error. The rest of bits, 17 to 32 bits are the bits that can assign to an arbitrary ID for various reason. 
+	// the error. The rest of bits, 17 to 32 bits are the bits that can assign to an arbitrary ID for various reason.
 
 	class Result
 	{
@@ -53,9 +53,9 @@ namespace Tempest
 #define TEMPEST_RESULTS_SEVERITY_MASK  0x00ff0000
 #define TEMPEST_RESULTS_SEVERITY_SHIFT 16
 
-		constexpr operator bool() const 
+		constexpr operator bool() const
 		{
-			return IsSuccess(); 
+			return IsSuccess();
 		}
 
 		constexpr bool IsSuccess() const

@@ -2,7 +2,7 @@
 #include <EntitySystem/Entity.h>
 #include <Core/Math/Vector.h>
 
-namespace Tempest 
+namespace Tempest
 {
 	namespace EntityInfo
 	{
@@ -19,8 +19,8 @@ namespace Tempest
 
 		size_t GetTotalObjectSize();
 		Object GetObjectByIndex(int);
-		String GetObjectNameByIndex(int);		
+		String GetObjectNameByIndex(int);
 
-		ComponentFlags GetAttachedComponentsByIndex(int);		
+		ComponentFlags GetAttachedComponentsByIndex(int);
 	}
 }

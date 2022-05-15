@@ -10,7 +10,7 @@ namespace Tempest
 	{
 	public:
 		Component() {};
-		virtual ~Component(){};		
+		virtual ~Component(){};
 
 		virtual void Boot(){};
 		virtual void Init(){};

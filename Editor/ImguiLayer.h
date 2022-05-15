@@ -49,7 +49,7 @@ namespace Tempest
 		void OnAttach_ControlPanel();
 		void OnAttach_SceneEditorPanel();
 
-		void Docking();		
+		void Docking();
 		void ViewportPanel();
 		void AssetPanel();
 		void ControlPanel();

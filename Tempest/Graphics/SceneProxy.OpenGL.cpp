@@ -9,10 +9,10 @@ void SceneProxy::Draw()
 	CheckDrawType(state->shader);
 
 	for(int i = 0; i < meshes.Size(); i++)
-	{ 				
+	{
 		vbuffers[i].Bind();
 		glDrawElements(static_cast<unsigned int>(drawtype), indexsizes[i], GL_UNSIGNED_INT, (void*)0);
-		
+
 	}
 
 	state->UnBindShaderState();

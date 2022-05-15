@@ -22,14 +22,14 @@ public:
 	SceneProxy() = default;
 	~SceneProxy() = default;
 
-	void Init(const int);	
+	void Init(const int);
 	void ReplaceRenderState(Owner<RenderState>);
 	void Draw();
 	void DrawMeshOnly();
 	void CleanUp();
 
 	Owner<RenderState> state;
-	Array<Observer<Resource::Mesh>> meshes;	
+	Array<Observer<Resource::Mesh>> meshes;
 
 protected:
 

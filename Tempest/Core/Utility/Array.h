@@ -8,7 +8,7 @@ namespace Tempest
 	template <typename T>
 	class Array
 	{
-	public:	
+	public:
 
 		class Iterator
 		{
@@ -41,19 +41,19 @@ namespace Tempest
 		Array();
 		explicit Array(const int i_size);
 		Array(const Array& i_array);
-		~Array();		
-		
+		~Array();
+
 		Array& operator=(Array);
 		Array& Convert(std::initializer_list<T>);
 
 		// This function is for ranged loop
 		// Lowercase begin and end is required for ranged loop
-		Iterator Begin () {return Iterator(this, 0); }		
+		Iterator Begin () {return Iterator(this, 0); }
 		Iterator begin () {return Iterator(this, 0); }
 		Iterator End   () {return Iterator(); }
 		Iterator end   () {return Iterator(); }
 
-		size_t		Size       () const {return this->size; }		
+		size_t		Size       () const {return this->size; }
 		size_t		Capacity   () const {return this->capacity; }
 		size_t      Granularity() const {return this->granularity; }
 		T*          Data       () const {return this->data; };
@@ -67,8 +67,8 @@ namespace Tempest
 		T&	At        (size_t) const;
 		T&  UnsafeAt  (size_t);
 		//T&     Front();
-		//T&     Back();		
-		
+		//T&     Back();
+
 		//void		Assign();
 		void		PushBack(const T&);
 		void        PushBack(T&&);
@@ -105,7 +105,7 @@ namespace Tempest
 		      T& operator[] (size_t i_size)             {return vector.at(i_size); };
 
 		T*     Data  ()       {return vector.data(); }
-		bool   Empty () const {return vector.empty(); }		
+		bool   Empty () const {return vector.empty(); }
 		size_t Size  () const {return vector.size(); }
 
 		void   Resize  (size_t i_size) {vector.resize(i_size); }

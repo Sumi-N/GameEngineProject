@@ -16,7 +16,7 @@ namespace Tempest
 
 	inline void WornPaintedCement::Boot()
 	{
-		Sphere::Boot();		
+		Sphere::Boot();
 
 		const char* shaderpaths[] =
 		{

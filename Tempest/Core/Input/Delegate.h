@@ -5,7 +5,7 @@
 
 namespace Tempest
 {
-	template<class ... Params> 
+	template<class ... Params>
 	class Delegate
 	{
 	public:

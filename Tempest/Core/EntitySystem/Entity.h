@@ -28,7 +28,7 @@ namespace Tempest
 		}
 
 		void Init()
-		{			
+		{
 			for (auto it = this->Begin(); it != this->End(); ++it)
 			{
 				(*it)->Init();
@@ -36,7 +36,7 @@ namespace Tempest
 		}
 
 		void Update(float i_dt)
-		{			
+		{
 			for (auto it = this->Begin(); it != this->End(); ++it)
 			{
 				(*it)->Update(i_dt);
@@ -44,7 +44,7 @@ namespace Tempest
 		}
 
 		void CleanUp()
-		{		
+		{
 			for (auto it = this->Begin(); it != this->End(); ++it)
 			{
 				(*it)->CleanUp();
@@ -63,7 +63,7 @@ namespace Tempest
 		static Entry<Owner<EffectComponent>>     EffectComponentList;
 		static Entry<Owner<BackgroundComponent>> BackgroundComponentList;
 		static AnimationSystem                   Animation;
-				
+
 		static void Register (const Owner<Object>&);
 		static void RegisterCameraComponent (const Owner<CameraComponent>&);
 		static void RegisterMeshComponent (const Owner<MeshComponent>&);

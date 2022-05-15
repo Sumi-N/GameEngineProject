@@ -7,7 +7,7 @@ void Graphic::Boot()
 {
 	// Set background color
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	
+
 	glEnable(GL_DEPTH_TEST);
 
 	// Set up culling
@@ -58,7 +58,7 @@ void Graphic::PreCompute()
 			FrameBufferCubeMap.BindFrame();
 			SceneEntity::SkyBoxProxy->state->BindTextureUnit();
 			FrameBufferCubeMap.RenderOnce();
-		}		
+		}
 
 		// Create irradiance map
 		{
@@ -80,12 +80,12 @@ void Graphic::PreCompute()
 		{
 			FrameBufferBrdf.BindFrame();
 			FrameBufferBrdf.RenderOnce();
-		}				
+		}
 	}
 }
 
 void Graphic::PreUpdate(GraphicRequiredData* i_data)
-{	
+{
 }
 
 void Graphic::Update(GraphicRequiredData* i_data)
@@ -132,16 +132,16 @@ void Graphic::Update(GraphicRequiredData* i_data)
 		}
 	}
 
-#ifdef ENGINE_USE_EDITOR	
+#ifdef ENGINE_USE_EDITOR
 
 	FrameBufferImage.BindFrame();
 
-#else	
+#else
 
 	glViewport(0, 0, ViewportWidth, ViewportHeight);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-#endif // ENGINE_USE_EDITOR	
+#endif // ENGINE_USE_EDITOR
 
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -161,7 +161,7 @@ void Graphic::Update(GraphicRequiredData* i_data)
 				auto& data_animation = i_data->animation_bone_data;
 				ConstBufferAnimationBone.Update(&data_animation);
 
-				// Bind shadow map texture 
+				// Bind shadow map texture
 				for (int j = 0; j < NUM_MAX_POINT_LIGHT; j++)
 				{
 					FrameBufferShadowMaps[j].BindTextureUnit();
@@ -191,14 +191,14 @@ void Graphic::Update(GraphicRequiredData* i_data)
 			glDepthFunc(GL_LESS);
 		}
 	}
-	
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void Graphic::PostUpdate(GraphicRequiredData* i_data)
 {
 	i_data->model_data.Clear();
-	i_data->material_data.Clear();	
+	i_data->material_data.Clear();
 }
 
 void Graphic::CleanUp()

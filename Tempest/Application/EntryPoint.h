@@ -8,7 +8,7 @@ int main()
 	MEMORY_LEAK_DETECTION
 
 	auto app = Tempest::Create();
-	delete app;	
+	delete app;
 
 	return 0;
 };

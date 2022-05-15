@@ -59,9 +59,9 @@ namespace Tempest
 		{
 		public:
 			Layout() { }
-			Layout(std::initializer_list<Element> i_elements)			
+			Layout(std::initializer_list<Element> i_elements)
 			{
-				elements.Convert(i_elements);							
+				elements.Convert(i_elements);
 				CalculateOffsetsAndStride();
 			}
 
@@ -85,11 +85,11 @@ namespace Tempest
 
 				for (auto element = elements.Begin(); element != elements.End(); ++element)
 				{
-					element->offset = offset;					
+					element->offset = offset;
 					offset += element->size;
 					stride += element->size;
 				}
-				
+
 			}
 		};
 
@@ -103,7 +103,7 @@ namespace Tempest
 
 	class VertexBuffer
 	{
-	public:				
+	public:
 		VertexBuffer() = default;
 		~VertexBuffer() = default;
 

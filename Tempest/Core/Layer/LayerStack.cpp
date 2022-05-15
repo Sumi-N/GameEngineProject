@@ -14,7 +14,7 @@ namespace Tempest
 	}
 
 	void LayerStack::PushLayer(Layer* i_layer)
-	{		
+	{
 		Layers.emplace(Layers.begin() + insert_index, i_layer);
 		insert_index++;
 	}

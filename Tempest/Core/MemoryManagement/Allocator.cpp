@@ -18,7 +18,7 @@
 //}
 //
 //void* operator new(size_t i_size)
-//{	
+//{
 //	if (!IsHeapInitialized)
 //	{
 //		IsHeapInitialized = true;
@@ -31,19 +31,19 @@
 //}
 //
 //void operator delete(void* i_ptr)
-//{	
+//{
 //	DEBUG_PRINT("delete 0x%" PRIXPTR, reinterpret_cast<uintptr_t>(i_ptr));
 //	return FreeMemory(i_ptr);
 //}
 //
 //void* operator new[](size_t i_size)
-//{	
+//{
 //	DEBUG_PRINT("new [] %zu", i_size);
 //	return AllocMemory(i_size);
 //}
 //
 //void operator delete [](void* i_ptr)
-//{	
+//{
 //	DEBUG_PRINT("delete [] 0x%" PRIXPTR, reinterpret_cast<uintptr_t>(i_ptr));
 //	return FreeMemory(i_ptr);
 //}

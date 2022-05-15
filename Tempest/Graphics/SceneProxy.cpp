@@ -17,11 +17,11 @@ void SceneProxy::CleanUp()
 }
 
 void SceneProxy::InitBuffer(const int num)
-{		
+{
 	if(num == 0)
 	{
 		auto mesh = static_cast<Observer<Resource::Mesh>>(meshes[meshes.Size() - 1]);
-		
+
 		VertexBuffer vbuffer;
 		vbuffer.InitData(VertexBufferType::Mesh, static_cast<uint32_t>(mesh->data.Size()) * sizeof(mesh->data[0]), mesh->data.Data());
 		vbuffers.PushBack(vbuffer);
@@ -34,7 +34,7 @@ void SceneProxy::InitBuffer(const int num)
 		indexsizes.PushBack(static_cast<unsigned int>(mesh->index.Size()) * sizeof(mesh->index[0]));
 	}
 	else if(num == 1)
-	{			
+	{
 		Observer<Resource::SkeletonMesh> skeleton_mesh = static_cast<Observer<Resource::SkeletonMesh>>(meshes[meshes.Size() - 1]);
 
 		VertexBuffer vbuffer;

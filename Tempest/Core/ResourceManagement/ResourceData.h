@@ -39,14 +39,14 @@ namespace Tempest { namespace Resource
 	{
 		Vec3f vertex;
 		Vec3f normal;
-		Vec2f uv;		
+		Vec2f uv;
 		Vec3f tangent;
-		Vec3f bitangent;		
+		Vec3f bitangent;
 	};
 
 	struct SkeletonMeshPoint : MeshPoint
 	{
-		SkeletonMeshPoint(): 
+		SkeletonMeshPoint():
 			padding(Vec2f(0, 0)),
 			index(Vec4i(NUM_MAX_BONES - 1, NUM_MAX_BONES - 1, NUM_MAX_BONES - 1, NUM_MAX_BONES - 1)),
 			weight(Vec4f(0, 0, 0, 0))
@@ -81,12 +81,12 @@ namespace Tempest { namespace Resource
 
 			RETURN_IFNOT_SUCCESS(in.Open())
 
-			size_t num_joint;			
+			size_t num_joint;
 			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(&num_joint), sizeof(size_t)));
 
 			o_skeleton.joints.Resize(num_joint);
-			
-			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_skeleton.joints.Data()), num_joint * sizeof(Joint)));			
+
+			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_skeleton.joints.Data()), num_joint * sizeof(Joint)));
 
 			in.Close();
 
@@ -106,7 +106,7 @@ namespace Tempest { namespace Resource
 	struct AnimationSample
 	{
 		Array<JointPose> jointposes{};
-	};	
+	};
 
 	struct AnimationClip
 	{
@@ -146,7 +146,7 @@ namespace Tempest { namespace Resource
 		Array<uint32_t> index{};
 
 		static Result Load(const char* i_filepath, Mesh& o_mesh)
-		{				
+		{
 			File in(i_filepath, File::Format::BinaryRead);
 
 			RETURN_IFNOT_SUCCESS(in.Open())

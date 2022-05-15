@@ -38,7 +38,7 @@ namespace Math
 	}
 
 	template<typename T>
-	inline Vec3<T>      Quaternion<T>::operator*(Vec3<T> const& i_v) 
+	inline Vec3<T>      Quaternion<T>::operator*(Vec3<T> const& i_v)
 	{
 		Quaternion<T> p(0, i_v.x, i_v.y, i_v.z);
 		Normalize();
@@ -111,13 +111,13 @@ namespace Math
 	{
 		//https://www.kazetest.com/vcmemo/quaternion/quaternion.htm
 		Vec3<T> euler;
-		
+
 		// if the input quaternion is normalized, this is exactly one. Otherwise, this acts as a correction factor for the quaternion's not-normalizedness
 		T unit = (q.x * q.x) + (q.y * q.y) + (q.z * q.z) + (q.w * q.w);
-		
+
 		// this will have a magnitude of 0.5 or greater if and only if this is a singularity case
 		T test = q.y * q.x - q.z * q.w;
-		
+
 		if (test > 0.4995f * unit) // singularity at north pole
 		{
 			DEBUG_ASSERT(false);
@@ -140,10 +140,10 @@ namespace Math
 			euler.y = asin(2 * (q.x * q.z - q.y * q.w));
 			euler.z = atan2(2 * q.x * q.w + 2 * q.y * q.z, 1 - 2 * (q.z * q.z + q.w * q.w));
 		}
-		
+
 		// all the math so far has been done in radians. Before returning, we convert to degrees...
 		euler *= 180 / static_cast<float>(M_PI);
-		
+
 		return euler;
 	}
 
@@ -160,7 +160,7 @@ namespace Math
 
 		if (cos_theta < static_cast<T>(0))
 		{
-			c = -1 * i_b;			
+			c = -1 * i_b;
 		}
 
 		return (static_cast<T>(1) - i_t) * i_a + i_t * c;

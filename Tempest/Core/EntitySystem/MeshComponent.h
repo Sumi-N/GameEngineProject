@@ -11,15 +11,15 @@ namespace Tempest
 	{
 	public:
 		MeshComponent() = default;
-		~MeshComponent() = default;		
-		
+		~MeshComponent() = default;
+
 		String mesh_path;
 		Resource::MeshType mesh_type;
 		Owner<Resource::Mesh> mesh;
 
 		Mat4f model_mat;
 		Mat4f model_inverse_transpose_mat;
-		
+
 		virtual void Boot() override;
 		virtual void Init() override;
 		virtual void Update(float i_dt) override;

@@ -10,7 +10,7 @@
 #include <Windows.h>
 #endif
 
-#define BIT(X) (1 << X) 
+#define BIT(X) (1 << X)
 
 enum class VirtualKey : uint8_t
 {

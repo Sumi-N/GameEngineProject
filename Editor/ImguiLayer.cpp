@@ -2,7 +2,7 @@
 #include "Serializer.h"
 
 namespace Tempest
-{		
+{
 	bool isEntityModifies{false};
 	bool Modified{false};
 	int SelectedIndex = -1;
@@ -17,7 +17,7 @@ namespace Tempest
 	Serializer SceneSerializer;
 
 	void ImguiLayer::OnAttach()
-	{		
+	{
 		glfw_window = window->GetGLFWWindow();
 
 		// Setup Dear ImGui context
@@ -71,7 +71,7 @@ namespace Tempest
 		ImGui::ShowDemoWindow(&show);
 
 		Docking();
-		ViewportPanel();		
+		ViewportPanel();
 		AssetPanel();
 		SceneEditorPanel();
 		ControlPanel();
@@ -94,7 +94,7 @@ namespace Tempest
 
 	void ImguiLayer::End()
 	{
-		ImGuiIO& io = ImGui::GetIO();		
+		ImGuiIO& io = ImGui::GetIO();
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -176,7 +176,7 @@ namespace Tempest
 
 				if (ImGui::MenuItem("Load Scene", NULL))
 				{
-					isEntityModifies = true;					
+					isEntityModifies = true;
 				}
 
 				ImGui::EndMenu();
@@ -221,8 +221,8 @@ namespace Tempest
 		ImGui::End();
 	}
 
-	void ImguiLayer::OnCriticalSection() 
-	{		
+	void ImguiLayer::OnCriticalSection()
+	{
 		OnCriticalSection_ViewportPanel();
 
 		if (!Modified && !isEntityModifies)
@@ -255,12 +255,12 @@ namespace Tempest
 		case EntityInfo::ComponentFlags::MeshFlag:
 			*Entity::MeshComponentList[SelectedIndex] = SelectedMesh;
 			break;
-		case EntityInfo::ComponentFlags::EffectFlag:			
+		case EntityInfo::ComponentFlags::EffectFlag:
 			*Entity::EffectComponentList[0] = SelecctedEffect;
 			break;
 		default:
 			break;
-		}		
+		}
 
 		Modified = false;
 	}

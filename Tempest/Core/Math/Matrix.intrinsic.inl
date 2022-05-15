@@ -1,6 +1,6 @@
 #ifdef _USEINTRINSIC_
 
-namespace Math 
+namespace Math
 {
 	template<typename T>
 	inline Matrix4<T> Matrix4<T>::operator+(Matrix4<T> const& i_m) const

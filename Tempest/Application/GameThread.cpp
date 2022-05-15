@@ -2,7 +2,7 @@
 
 
 namespace Tempest
-{		
+{
 	HWND WindowsHanlder;
 	Time GameThreadTime;
 
@@ -21,7 +21,7 @@ namespace Tempest
 	{
 		Time::Init();
 		UserInput.Init();
-		Entity::Init();				
+		Entity::Init();
 
 #ifdef ENGINE_PLATFORM_WINDOWS
 		UserInput.GetWindowsHandler(WindowsHanlder);
@@ -42,7 +42,7 @@ namespace Tempest
 	}
 
 	void GameThread::CriticalSection()
-	{		
+	{
 	}
 
 	void GameThread::CleanUp()

@@ -21,10 +21,10 @@ inline void SceneEntity::Init()
 		SceneEntity::SkyBoxProxy = Create<SceneProxy>();
 		Owner<RenderState> renderhandler = Create<RenderState>();
 		SkyBoxProxy->state = renderhandler;
-		
+
 		SkyBoxProxy->meshes.PushBack(Entity::BackgroundComponentList[0]->mesh);
 		SkyBoxProxy->Init(static_cast<int>(Entity::BackgroundComponentList[0]->mesh_type));
-		
+
 		renderhandler->InitShader(Entity::BackgroundComponentList[0]->shader_paths);
 		renderhandler->InitTexture(
 			Entity::BackgroundComponentList[0]->texture_type,
@@ -32,13 +32,13 @@ inline void SceneEntity::Init()
 	}
 
 	for (auto it = Entity::EffectComponentList.Begin(); it != Entity::EffectComponentList.End(); ++it)
-	{		
-		Owner<SceneProxy> proxyhandler = Create<SceneProxy>();						
+	{
+		Owner<SceneProxy> proxyhandler = Create<SceneProxy>();
 		Owner<RenderState> renderhandler = Create<RenderState>();
 		proxyhandler->state = renderhandler;
 		List.PushBack(proxyhandler);
 
-		renderhandler->InitShader((*it)->shaderpaths);		
+		renderhandler->InitShader((*it)->shaderpaths);
 		// Create buffer for textures
 		auto it_type = (*it)->texture_types.begin();
 		for (auto it_tex = (*it)->textures.begin(); it_tex != (*it)->textures.end(); ++it_tex, ++ it_type)
@@ -52,7 +52,7 @@ inline void SceneEntity::Init()
 			if ((*it)->owner == (*it2)->owner)
 			{
 				if ((*it2)->mesh_type == Resource::MeshType::Mesh)
-				{					
+				{
 					proxyhandler->meshes.PushBack((*it2)->mesh);
 				}
 				else
@@ -62,6 +62,6 @@ inline void SceneEntity::Init()
 				}
 				proxyhandler->Init(static_cast<int>((*it2)->mesh_type));
 			}
-		}		
+		}
 	}
 }

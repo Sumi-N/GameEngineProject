@@ -8,7 +8,7 @@ constexpr std::pair<Resource::TextureType, int> TextureUnitList[] =
 {
 	{Resource::TextureType::SkyBox, 2},
 
-	// For PBR 
+	// For PBR
 	{Resource::TextureType::Albedo, 10},
 	{Resource::TextureType::Normal, 11},
 	{Resource::TextureType::Roughness, 12},
@@ -18,7 +18,7 @@ constexpr std::pair<Resource::TextureType, int> TextureUnitList[] =
 
 class RenderState
 {
-public: 
+public:
 	RenderState()
 	{
 		unitlistsize = sizeof(TextureUnitList) / sizeof(TextureUnitList[0]);

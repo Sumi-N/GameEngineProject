@@ -13,7 +13,7 @@ public:
 	typedef struct Block
 	{
 		//Guard banding
-		unsigned char headguardbanding;		
+		unsigned char headguardbanding;
 		bool exist;
 		size_t size;
 		//Guard banding
@@ -25,7 +25,7 @@ public:
 		bool exist;
 		size_t size;
 	} Block;
-#endif 
+#endif
 
 public:
 	HeapManager();

@@ -10,12 +10,12 @@ namespace Tempest
 
 	class File
 	{
-	public:	
+	public:
 
 		enum class Format
 		{
 			BinaryWrite,
-			BinaryRead,		
+			BinaryRead,
 			Default,
 		};
 
@@ -24,7 +24,7 @@ namespace Tempest
 
 		String GetExtensionName() const {return filepath.extension().string(); }
 		String GetPathName()      const {return filepath.parent_path().string(); }
-		String GetFileName()      const {return filepath.filename().string(); }		
+		String GetFileName()      const {return filepath.filename().string(); }
 
 		Result Open();
 		void   Close();
@@ -37,7 +37,7 @@ namespace Tempest
 		static String GetPathName     (String);
 		static String GetFileName     (String);
 
-	private:		
+	private:
 		std::filesystem::path filepath;
 		Format format;
 
@@ -52,7 +52,7 @@ namespace Tempest
 			read_stream.open(filepath, std::ifstream::in | std::ifstream::binary);
 
 			if (!read_stream.is_open())
-			{				
+			{
 				return ResultValue::Failure;
 			}
 
@@ -69,7 +69,7 @@ namespace Tempest
 			write_stream.open(filepath, std::ifstream::out | std::ifstream::binary);
 
 			if (!write_stream.is_open())
-			{				
+			{
 				return ResultValue::Failure;
 			}
 
@@ -77,7 +77,7 @@ namespace Tempest
 		}
 		else
 		{
-			return ResultValue::Failure;		
+			return ResultValue::Failure;
 		}
 	}
 
@@ -94,9 +94,9 @@ namespace Tempest
 	}
 
 	inline Result File::Write(void* i_ptr, size_t i_size)
-	{		
+	{
 		if (format == Format::BinaryWrite)
-		{			
+		{
 			if (write_stream.is_open())
 			{
 				write_stream.write(reinterpret_cast<char*>(i_ptr), i_size);
@@ -130,7 +130,7 @@ namespace Tempest
 		{
 			if (std::filesystem::is_regular_file(entry))
 			{
-								
+
 				String processed_path = entry.path().string().erase(0, i_pathname.length());
 
 				filenames.PushBack(processed_path);

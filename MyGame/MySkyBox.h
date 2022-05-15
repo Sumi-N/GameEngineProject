@@ -6,6 +6,6 @@ namespace Tempest
 {
 
 	class MySkyBox : public SkyBox
-	{		
-	};	
+	{
+	};
 }

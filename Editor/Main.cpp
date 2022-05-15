@@ -18,14 +18,14 @@ namespace Tempest
 
 	Editor::Editor()
 	{
-		TestScene::SkeletonAnimation();		
+		TestScene::SkeletonAnimation();
 		Application::Execute();
 	}
 
 
 	Tempest::Application* Tempest::Create()
 	{
-		ImguiLayer* imgui_layer = new ImguiLayer();		
+		ImguiLayer* imgui_layer = new ImguiLayer();
 		LayerStack::PushLayer(imgui_layer);
 		return new Editor();
 	}

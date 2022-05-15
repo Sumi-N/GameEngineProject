@@ -3,15 +3,15 @@
 #include "Component.h"
 
 namespace Tempest
-{		
+{
 	class LightComponent : public Component
 	{
 	public:
 		LightComponent() = default;
 		~LightComponent() = default;
-		
-		virtual void Update(float i_dt) override;		
-		
+
+		virtual void Update(float i_dt) override;
+
 		LightType light_type {LightType::Uninitialized};
 		Mat4f light_space_mats[6];
 		Vec3f intensity;
@@ -73,7 +73,7 @@ namespace Tempest
 			//light_space_mat = light_projection * light_view;
 		}
 			break;
-		}		
+		}
 	}
 }
 

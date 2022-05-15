@@ -18,7 +18,7 @@ namespace Tempest
 	inline void Cube::Boot()
 	{
 		PremadeObjebct::Boot();
-		
+
 		mesh_component->Load(PATH_SUFFIX BIN_MESH_PATH FILENAME_CUBEMAP);
 
 		const char* shaderpaths[] =
@@ -49,7 +49,7 @@ namespace Tempest
 
 	inline void Cube::Init()
 	{
-		PremadeObjebct::Init();		
+		PremadeObjebct::Init();
 	}
 
 }

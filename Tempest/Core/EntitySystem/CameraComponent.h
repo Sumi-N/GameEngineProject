@@ -9,14 +9,14 @@ namespace Tempest
 	public:
 		CameraComponent() = default;
 		~CameraComponent() = default;
-		
+
 		virtual void Init() override;
-		virtual void Update(float i_dt) override;		
+		virtual void Update(float i_dt) override;
 
 		void MoveCamera(const float, const Vec3f&);
 		void RotateAround(const float, const Vec3f&);
 
-		Mat4f view, perspective, orthographics;		
+		Mat4f view, perspective, orthographics;
 		Vec3f forwardvec, upvec, rightvec;
 	};
 
@@ -39,7 +39,7 @@ namespace Tempest
 		owner->pos += (float)i_dt * owner->vel;
 		owner->vel = Vec3f(0, 0, 0);
 
-		view = Mat4f::LookAt(owner->pos, owner->pos + forwardvec, upvec);		
+		view = Mat4f::LookAt(owner->pos, owner->pos + forwardvec, upvec);
 	}
 
 	inline void CameraComponent::MoveCamera(const float amount, const Vec3f& dir)

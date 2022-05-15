@@ -29,7 +29,7 @@ namespace Math {
 		Vec2(T i_x, T i_y) : x(i_x), y(i_y) {}
 		~Vec2() = default;
 
-		template <typename U> 
+		template <typename U>
 		explicit Vec2(Vec2<U> const& u) : x(static_cast<T>(u.x)), y(static_cast<T>(u.y)) {}
 		explicit Vec2(Vec3<T> const& t) : x(t.x), y(t.y) {}
 
@@ -43,7 +43,7 @@ namespace Math {
 		Vec2 operator + (Vec2 const& i_v) const { Vec2 o_v; o_v.x = x + i_v.x; o_v.y = y + i_v.y; return o_v; }
 		Vec2 operator - (Vec2 const& i_v) const { Vec2 o_v; o_v.x = x - i_v.x; o_v.y = y - i_v.y; return o_v; }
 		Vec2 operator * (Vec2 const& i_v) const { Vec2 o_v; o_v.x = x * i_v.x; o_v.y = y * i_v.y; return o_v; }
-		Vec2 operator / (Vec2 const& i_v) const { Vec2 o_v; o_v.x = x / i_v.x; o_v.y = y / i_v.y; return o_v; }		
+		Vec2 operator / (Vec2 const& i_v) const { Vec2 o_v; o_v.x = x / i_v.x; o_v.y = y / i_v.y; return o_v; }
 
 		//!@ Assignment operators
 		Vec2 const& operator += (Vec2 const& i_v) { x += i_v.x; y += i_v.y; return *this; }
@@ -87,7 +87,7 @@ namespace Math {
 		Vec3(T i_x, T i_y, T i_z) : x(i_x), y(i_y), z(i_z) {}
 		~Vec3() = default;
 
-		template <typename U> 
+		template <typename U>
 		explicit Vec3(Vec3<U> const& u) : x(static_cast<T>(u.x)), y(static_cast<T>(u.y)), z(static_cast<T>(u.z)) {}
 		explicit Vec3(Vec4<T> const& t) : x(t.x), y(t.y), z(t.z) {}
 
@@ -112,7 +112,7 @@ namespace Math {
 		Vec3 const& operator -= (T    const  t) { x -= t; y -= t; z -= t; return *this; }
 		Vec3 const& operator *= (T    const  t) { x *= t; y *= t; z *= t; return *this; }
 		Vec3 const& operator /= (T    const  t) { x /= t; y /= t; z /= t; return *this; }
-				
+
 		T&   operator [] (size_t const& i)       { return this->ele[i]; }
 		bool operator == (Vec3 const& i_v) const { return x == i_v.x && y == i_v.y && z == i_v.z; }
 		bool operator != (Vec3 const& i_v) const { return x != i_v.x && y != i_v.y && z != i_v.z; }
@@ -134,7 +134,7 @@ namespace Math {
 	class Vec3<float>
 	{
 	public:
-		union 
+		union
 		{
 			struct { float x, y, z; };
 			struct { float r, g, b; };
@@ -174,7 +174,7 @@ namespace Math {
 		Vec3 const& operator *= (float    const  t) { x *= t; y *= t; z *= t; return *this; }
 		Vec3 const& operator /= (float    const  t) { x /= t; y /= t; z /= t; return *this; }
 
-		float& operator [] (size_t const& i) { return this->ele[i]; }		
+		float& operator [] (size_t const& i) { return this->ele[i]; }
 		bool  operator == (Vec3 const& i_v) const { return x == i_v.x && y == i_v.y && z == i_v.z; }
 		bool  operator != (Vec3 const& i_v) const { return x != i_v.x && y != i_v.y && z != i_v.z; }
 
@@ -235,7 +235,7 @@ namespace Math {
 		Vec4 const& operator -= (T    const  t) { x -= t; y -= t; z -= t; w -= t; return *this; }
 		Vec4 const& operator *= (T    const  t) { x *= t; y *= t; z *= t; w *= t; return *this; }
 		Vec4 const& operator /= (T    const  t) { x /= t; y /= t; z /= t; w /= t; return *this; }
-		
+
 		T&   operator [] (size_t const& i)       { return this->ele[i]; }
 		bool operator == (Vec4 const& i_v) const { return x == i_v.x && y == i_v.y && z == i_v.z && w == i_v.w; }
 		bool operator != (Vec4 const& i_v) const { return x != i_v.x && y != i_v.y && z != i_v.z && w != i_v.w; }

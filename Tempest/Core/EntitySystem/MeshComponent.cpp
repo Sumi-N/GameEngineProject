@@ -62,7 +62,7 @@ namespace Tempest
 			DEBUG_PRINT("The data in this mesh is cleaned");
 			CleanMesh();
 		}
-				
+
 		if (File::GetExtensionName(mesh_path) == ".tm")
 		{
 			mesh_type = MeshType::Mesh;
@@ -86,7 +86,7 @@ namespace Tempest
 		return ResultValue::Success;
 	}
 
-	bool MeshComponent::IsLoaded() 
+	bool MeshComponent::IsLoaded()
 	{
 		if (mesh)
 		{
@@ -100,7 +100,7 @@ namespace Tempest
 	}
 
 	void MeshComponent::CleanMesh()
-	{	
+	{
 		mesh->data.Clear();
 		mesh->index.Clear();
 	}

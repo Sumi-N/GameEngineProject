@@ -22,7 +22,7 @@ public:
 	static Tempest::Result ConvertAnimationClip(const char*, const char*);
 
 private:
-	static Tempest::Result ReadMesh(ExtensionType, const char*, Array<MeshPoint>&, Array<int>&);	
+	static Tempest::Result ReadMesh(ExtensionType, const char*, Array<MeshPoint>&, Array<int>&);
 	static Tempest::Result ReadSkeletonMesh(ExtensionType, const char*, Skeleton&, Array<SkeletonMeshPoint>&, Array<int>&);
 	static Tempest::Result ReadAnimationClip(ExtensionType, const char*, AnimationClip&);
 	static Tempest::Result MatchBoneStructure(const Skeleton&, AnimationClip&);

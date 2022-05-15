@@ -7,7 +7,7 @@ namespace Tempest
 
 	template<typename T, typename U = String>
 	class AssetManager
-	{				
+	{
 	public:
 		static OwningPointer<T> Get(U i_filename)
 		{
@@ -21,7 +21,7 @@ namespace Tempest
 
 		static OwningPointer<T> Load(U i_filename) {};
 	private:
-		static std::map<U, OwningPointer<T>> table;				
+		static std::map<U, OwningPointer<T>> table;
 	};
 
 	template <>
@@ -48,7 +48,7 @@ namespace Tempest
 				return it->second;
 			}
 			else
-			{				
+			{
 				OwningPointer<Resource::Mesh> mesh = OwningPointer<Resource::Mesh>::Create(mesh);
 				if (Resource::Mesh::Load(i_filename.c_str(), *mesh))
 				{
@@ -62,7 +62,7 @@ namespace Tempest
 				{
 					return OwningPointer<Resource::Mesh>();
 				}
-			}			
+			}
 		}
 	private:
 		static std::map<String, OwningPointer<Resource::Mesh>> table;
@@ -114,8 +114,8 @@ namespace Tempest
 
 	template <typename T, typename U>
 	std::map<U, OwningPointer<T>> AssetManager<T, U>::table;
-	
-	std::map<String, OwningPointer<Resource::Mesh>> AssetManager<Resource::Mesh, String>::table;	
+
+	std::map<String, OwningPointer<Resource::Mesh>> AssetManager<Resource::Mesh, String>::table;
 	std::map<String, OwningPointer<Resource::SkeletonMesh>> AssetManager<Resource::SkeletonMesh, String>::table;
 }
 

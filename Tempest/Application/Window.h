@@ -29,7 +29,7 @@ namespace Tempest
 		struct WindowData
 		{
 			std::string  title;
-			unsigned int width; 
+			unsigned int width;
 			unsigned int height;
 			bool         VSync;
 

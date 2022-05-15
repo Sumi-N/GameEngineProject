@@ -5,7 +5,7 @@ namespace Math {
 	//---------------------------------------------
 	// Vector3<float>
 	//---------------------------------------------
-	inline Vec3<float> Vec3<float>::operator+ (Vec3<float> const& i_v) const 
+	inline Vec3<float> Vec3<float>::operator+ (Vec3<float> const& i_v) const
 	{
 		Vec3<float> o_v;
 		o_v.m_vec = _mm_add_ps(m_vec, i_v.m_vec);

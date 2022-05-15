@@ -14,7 +14,7 @@ namespace Tempest
 		void Register(const OwningPointer<AnimationComponent>&);
 
 		void Boot();
-		void Init();		
+		void Init();
 		void Update(float i_dt);
 		void CleanUp();
 

@@ -11,7 +11,7 @@ HeapManager::HeapManager()
 
 #ifdef ENABLE_CUSTOM_ALLOCATOR
 	#ifdef ENGINE_PLATFORM_WINDOWS
-		_head = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, HEAP_SIZE);	
+		_head = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, HEAP_SIZE);
 		Initialize(_head, HEAP_SIZE);
 	#endif // ENGINE_PLATFORM_WINDOWS
 #endif // ENABLE_CUSTOM_ALLOCATOR
@@ -25,7 +25,7 @@ HeapManager::~HeapManager()
 
 #ifdef ENABLE_CUSTOM_ALLOCATOR
 	#ifdef ENGINE_PLATFORM_WINDOWS
-		Finalize();	
+		Finalize();
 		HeapFree(GetProcessHeap(), 0, _head);
 	#endif // ENGINE_PLATFORM_WINDOWS
 
@@ -62,7 +62,7 @@ void HeapManager::Finalize(){
 void* HeapManager::Alloc(size_t i_size)
 {
 	bool need_to_collect = false;
-	
+
 	Block* current_block = static_cast<Block*>(_current);
 
 	//Check if there is a space to insert block
@@ -99,7 +99,7 @@ void* HeapManager::Alloc(size_t i_size)
 			_current = reinterpret_cast<void*> (reinterpret_cast<size_t>(_current) + current_block->size + sizeof(Block));
 			current_block = static_cast<Block*>(_current);
 			if(reinterpret_cast<size_t>(_current) + sizeof(Block) >= reinterpret_cast<size_t>(_end))
-			{				
+			{
 				DEBUG_PRINT("There is not enough memory to allocate");
 				DEBUG_ASSERT(false);
 				return nullptr;
@@ -124,7 +124,7 @@ void* HeapManager::Alloc(size_t i_size)
 	Block* next_block = static_cast<Block*>(next);
 	next_block->exist = false;
 	next_block->size = available_space - (i_size + sizeof(Block));
-	_current = next;	
+	_current = next;
 
 	//DEBUG_PRINT("The _current address is now at %zx", reinterpret_cast<size_t>(_current));
 	//DEBUG_PRINT("The _current empty space now at %zu", reinterpret_cast<size_t>(_end) - reinterpret_cast<size_t>(_current));
@@ -140,7 +140,7 @@ void* HeapManager::Realloc(void* i_ptr, size_t i_size)
 	}
 
 	bool need_to_collect = false;
-	
+
 	Block* current_block = static_cast<Block*>(_current);
 
 	//Check if there is a space to insert block
@@ -233,7 +233,7 @@ void HeapManager::Collect()
 	Block* current_collecting_block = static_cast<Block*>(current_collecting);
 	void*  next_collecting          = reinterpret_cast<void*>(reinterpret_cast<size_t>(current_collecting) + current_collecting_block->size + sizeof(Block));
 	Block* next_collecting_block    = static_cast<Block*>(next_collecting);
-	
+
 	do
 	{
 
@@ -252,7 +252,7 @@ void HeapManager::Collect()
 		{
 			current_collecting = next_collecting;
 			current_collecting_block = static_cast<Block*>(current_collecting);
-			next_collecting = reinterpret_cast<void*>(reinterpret_cast<size_t>(next_collecting) + next_collecting_block->size + sizeof(Block));			
+			next_collecting = reinterpret_cast<void*>(reinterpret_cast<size_t>(next_collecting) + next_collecting_block->size + sizeof(Block));
 			next_collecting_block = static_cast<Block*>(next_collecting);
 		}
 		else
@@ -262,8 +262,8 @@ void HeapManager::Collect()
 			next_collecting = reinterpret_cast<void*>(reinterpret_cast<size_t>(current_collecting) + current_collecting_block->size + sizeof(Block));
 			next_collecting_block = static_cast<Block*>(next_collecting);
 		}
-	} 
-	while 
+	}
+	while
 	(reinterpret_cast<size_t>(next_collecting) + next_collecting_block->size + sizeof(Block) <= reinterpret_cast<size_t>(_end));
 
 	return;
@@ -283,6 +283,6 @@ void HeapManager::AccessViolationCheck(const Block* i_block)
 		DEBUG_ASSERT(false);
 	}
 
-	return;	
+	return;
 }
 #endif

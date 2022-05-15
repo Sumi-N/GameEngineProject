@@ -8,7 +8,7 @@ namespace Tempest
 	{
 		if (!i_iterator.GetArray())
 		{
-			return !array ? true : false;			
+			return !array ? true : false;
 		}
 
 		if (index == i_iterator.GetIndex() && array == i_iterator.GetArray())
@@ -24,7 +24,7 @@ namespace Tempest
 	{
 		if (!i_iterator.GetArray())
 		{
-			return index >= array->Size() ? false : true;			
+			return index >= array->Size() ? false : true;
 		}
 
 		if (index != i_iterator.GetIndex() && array != i_iterator.GetArray())
@@ -53,7 +53,7 @@ namespace Tempest
 		if (!this->Empty())
 		{
 			this->Clear();
-		}		
+		}
 		this->capacity = i_array.Capacity();
 		this->granularity = i_array.Granularity();
 		this->size = i_array.Size();
@@ -81,7 +81,7 @@ namespace Tempest
 		if (!this->Empty())
 		{
 			this->Clear();
-		}		
+		}
 		this->capacity = i_array.Capacity();
 		this->granularity = i_array.Granularity();
 		this->size = i_array.Size();
@@ -185,7 +185,7 @@ namespace Tempest
 		}
 
 		if (size >= capacity)
-		{			
+		{
 			data = reinterpret_cast<T*>(ReallocMemory(reinterpret_cast<void*>(data), (capacity + granularity) * sizeof(T)));
 			capacity += granularity;
 			memset(static_cast<void*>(&data[size]), 0, (capacity - size) * sizeof(T));
@@ -195,7 +195,7 @@ namespace Tempest
 
 			return;
 		}
-		
+
 		data[size] = std::move(T());
 		data[size] = i_data;
 		size++;
@@ -234,7 +234,7 @@ namespace Tempest
 		if (size <= 0)
 		{
 			DEBUG_ASSERT(false);
-		}				
+		}
 		size--;
 	}
 

@@ -3,7 +3,7 @@
 
 namespace ConstantData
 {
-	
+
 	struct PointLight
 	{
 		Vec4f intensity;
@@ -15,7 +15,7 @@ namespace ConstantData
 	{
 		Mat4f view_matrix;
 		Mat4f perspective_matrix;
-		Vec3f camera_position_vector; // Doesn't require padding 
+		Vec3f camera_position_vector; // Doesn't require padding
 	};
 
 	struct Model
@@ -58,7 +58,7 @@ namespace ConstantData
 		Mat4f view_perspective_matrix[NUM_DICE_FACES];
 		Vec4f position;
 	};
-	
+
 	struct AnimationBone
 	{
 		Mat4f global_inversed_matrix[NUM_MAX_BONES];

@@ -18,5 +18,5 @@ namespace Math
 
 #ifdef _USEINTRINSIC_
 	template <>           inline float Sqrt<float>(float const&i) { return _mm_cvtss_f32(_mm_sqrt_ss(_mm_set_ps1(i))); }
-#endif // _USEINTRINSIC_	
+#endif // _USEINTRINSIC_
 }

@@ -9,7 +9,7 @@ void RenderState::InitShader(const char** i_paths)
 	{
 		shader.SetShader(i_paths[0], i_paths[4]);
 	}
-	// vertex, geometry and fragment shader 
+	// vertex, geometry and fragment shader
 	else if (i_paths[0] && !i_paths[1] && !i_paths[2] && i_paths[3] && i_paths[4])
 	{
 		shader.SetShader(i_paths[0], i_paths[3], i_paths[4]);
@@ -51,7 +51,7 @@ void RenderState::InitShader(String* i_string_paths)
 	{
 		shader.SetShader(i_paths[0], i_paths[4]);
 	}
-	// vertex, geometry and fragment shader 
+	// vertex, geometry and fragment shader
 	else if (i_paths[0] && !i_paths[1] && !i_paths[2] && i_paths[3] && i_paths[4])
 	{
 		shader.SetShader(i_paths[0], i_paths[3], i_paths[4]);
@@ -79,7 +79,7 @@ void RenderState::InitTexture(const Resource::TextureType& i_type, Owner<Resourc
 	for (int i = 0; i < unitlistsize; i++)
 	{
 		if (TextureUnitList[i].first == i_type)
-		{			
+		{
 			int width = i_resource->width;
 			int height = i_resource->height;
 			void* data = i_resource->pixels.Data();

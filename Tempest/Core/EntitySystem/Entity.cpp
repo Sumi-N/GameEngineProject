@@ -12,7 +12,7 @@ namespace Tempest
 	AnimationSystem                    Entity::Animation{};
 
 	void Entity::Register(const Owner<Object>& i_obj)
-	{		
+	{
 		ObjectList.PushBack(i_obj);
 	}
 
@@ -105,7 +105,7 @@ namespace Tempest
 	}
 
 	void Entity::Init()
-	{		
+	{
 		ObjectList.Init();
 		CameraComponentList.Init();
 		LightComponentList.Init();
@@ -117,7 +117,7 @@ namespace Tempest
 	}
 
 	void Entity::Update(float i_dt)
-	{		
+	{
 		ObjectList.Update(i_dt);
 		CameraComponentList.Update(i_dt);
 		LightComponentList.Update(i_dt);

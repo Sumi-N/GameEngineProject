@@ -19,11 +19,11 @@ namespace Tempest
 		name = "Camera";
 		camera_component = Create<CameraComponent>();
 		camera_component->owner = Entity::Query(this);
-		Entity::RegisterCameraComponent(camera_component);		
+		Entity::RegisterCameraComponent(camera_component);
 	}
 
 	inline void MyCameraObject::Update(float i_dt)
-	{		
+	{
 
 		if (UserInput.QueryKey(VirtualKey::KEY_W) == InputState::Pressing)
 		{

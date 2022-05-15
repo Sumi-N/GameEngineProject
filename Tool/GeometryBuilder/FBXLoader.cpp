@@ -15,7 +15,7 @@ namespace FBXLoader
 	}
 
 	namespace
-	{		
+	{
 		int numTabs = 0;
 
 		struct BlendingWeight
@@ -154,11 +154,11 @@ namespace FBXLoader
 				{
 					p[k].vertex.x = (float)vertex_array[index_array[3 * j + k]].mData[0];
 					p[k].vertex.y = (float)vertex_array[index_array[3 * j + k]].mData[1];
-					p[k].vertex.z = (float)vertex_array[index_array[3 * j + k]].mData[2];					
+					p[k].vertex.z = (float)vertex_array[index_array[3 * j + k]].mData[2];
 
 					p[k].normal.x = (float)normal_array[3 * j + k].mData[0];
 					p[k].normal.y = (float)normal_array[3 * j + k].mData[1];
-					p[k].normal.z = (float)normal_array[3 * j + k].mData[2];					
+					p[k].normal.z = (float)normal_array[3 * j + k].mData[2];
 
 					p[k].vertex = Vec3f(model_matrix * Vec4f(p[k].vertex.x, p[k].vertex.y, p[k].vertex.z, 1.0));
 					p[k].normal = Vec3f(model_inverse_transpose_matrix * Vec4f(p[k].normal.x, p[k].normal.y, p[k].normal.z, 1.0));
@@ -325,7 +325,7 @@ namespace FBXLoader
 					p[k].normal = Vec3f(model_inverse_transpose_matrix * Vec4f(p[k].normal.x, p[k].normal.y, p[k].normal.z, 1.0));
 
 					p[k].uv.x = (float)uv[k].mData[0];
-					p[k].uv.y = (float)uv[k].mData[1];					
+					p[k].uv.y = (float)uv[k].mData[1];
 				}
 
 				// Get skin info from WidhtMap
@@ -358,7 +358,7 @@ namespace FBXLoader
 						}
 					}
 				}
-				
+
 				{
 					Vec3f edge[2];
 					edge[0] = p[1].vertex - p[0].vertex;
@@ -502,7 +502,7 @@ namespace FBXLoader
 		for (int i = 0; i < numTabs; i++)
 			printf("\t");
 	}
-	
+
 	void PrintAttribute(FbxNodeAttribute* pAttribute)
 	{
 		if (!pAttribute) return;
@@ -561,7 +561,7 @@ namespace FBXLoader
 		if (inNode->GetNodeAttribute() && inNode->GetNodeAttribute()->GetAttributeType() && inNode->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eSkeleton)
 		{
 			Joint currJoint;
-			currJoint.parent_index = inParentIndex;			
+			currJoint.parent_index = inParentIndex;
 
 			double* elements_double = inNode->EvaluateGlobalTransform().Inverse();
 			float elements_float[16];

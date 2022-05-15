@@ -171,7 +171,7 @@ void FrameBuffer::Init(FrameType i_type, int i_unitnum, int i_width, int i_heigh
 
 		// bind textures to frame buffer
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureid_color, 0);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, textureid_depth, 0);		
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, textureid_depth, 0);
 
 		glDrawBuffer(GL_COLOR_ATTACHMENT0);
 	}
@@ -202,7 +202,7 @@ void FrameBuffer::Init(FrameType i_type, int i_unitnum, int i_width, int i_heigh
 	}
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-	{  
+	{
 		DEBUG_PRINT("Error! FrameBuffer is not completed!");
 		//DEBUG_ASSERT(false);
 	}

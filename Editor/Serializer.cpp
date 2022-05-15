@@ -66,7 +66,7 @@ namespace YAML
 		}
 
 		static bool decode(const Node& node, Tempest::Resource::LightType& io_res)
-		{			
+		{
 			auto data = node.as<Tempest::String>();
 			if (data == "AmbientLight")
 			{
@@ -96,7 +96,7 @@ namespace YAML
 		}
 
 		static bool decode(const Node& node, Tempest::Resource::MeshType& io_res)
-		{			
+		{
 			auto data = node.as<Tempest::String>();
 			if (data == "Mesh")
 			{
@@ -105,10 +105,10 @@ namespace YAML
 			else if (data == "SkeletonMesh")
 			{
 				io_res = Tempest::Resource::MeshType::SkeletonMesh;
-			}			
+			}
 
 			return true;
-		}		
+		}
 	};
 }
 
@@ -162,7 +162,7 @@ namespace Tempest
 		case Resource::MeshType::SkeletonMesh:
 			io_emitter << "SkeletonMesh";
 			break;
-		}		
+		}
 		return io_emitter;
 	}
 
@@ -171,10 +171,10 @@ namespace Tempest
 		for (auto obj_itr = Entity::ObjectList.Begin(); obj_itr != Entity::ObjectList.End(); obj_itr++)
 		{
 			auto obj = (*obj_itr);
-			
+
 			//io_emitter << YAML::Key << "Object";
 			io_emitter << YAML::BeginMap;
-			io_emitter << YAML::Key << "Object" << YAML::Value << obj->name;			
+			io_emitter << YAML::Key << "Object" << YAML::Value << obj->name;
 			io_emitter << YAML::Key << "Position" << YAML::Value << obj->pos;
 			io_emitter << YAML::Key << "Rotation" << YAML::Value << obj->rot;
 			io_emitter << YAML::Key << "Scale" << YAML::Value << obj->scale;
@@ -183,7 +183,7 @@ namespace Tempest
 			{
 				if ((*it)->owner == obj)
 				{
-					io_emitter << YAML::Key << "CameraComponent";	
+					io_emitter << YAML::Key << "CameraComponent";
 					io_emitter << YAML::BeginMap;
 					io_emitter << YAML::Key << "Test" << YAML::Value << "Test";
 					io_emitter << YAML::EndMap;
@@ -199,7 +199,7 @@ namespace Tempest
 					io_emitter << YAML::Key << "MeshPath" << YAML::Value << (*it)->mesh_path;
 					io_emitter << YAML::Key << "VertexShader" << YAML::Value << (*it)->shader_paths[0];
 					io_emitter << YAML::Key << "FragmentShader" << YAML::Value << (*it)->shader_paths[4];
-					io_emitter << YAML::Key << "TexturePath" << YAML::Value << (*it)->texture_path;					
+					io_emitter << YAML::Key << "TexturePath" << YAML::Value << (*it)->texture_path;
 					io_emitter << YAML::EndMap;
 				}
 			}
@@ -276,7 +276,7 @@ namespace Tempest
 					io_emitter << YAML::BeginMap;
 					io_emitter << YAML::Key << "MeshType" << YAML::Value << (*it)->mesh_type;
 					if ((*it)->mesh_path[0])
-						io_emitter << YAML::Key << "MeshPath" << YAML::Value << (*it)->mesh_path;					
+						io_emitter << YAML::Key << "MeshPath" << YAML::Value << (*it)->mesh_path;
 					io_emitter << YAML::EndMap;
 				}
 			}
@@ -290,7 +290,7 @@ namespace Tempest
 		YAML::Emitter emitter;
 		emitter << YAML::BeginMap;
 		emitter << YAML::Key << "Scene" << YAML::Value << YAML::BeginSeq;
-		
+
 		SerializeScene(emitter);
 
 		emitter << YAML::EndSeq;
@@ -301,7 +301,7 @@ namespace Tempest
 	}
 
 	void Serializer::Deserialize(const Tempest::String& i_path)
-	{		
+	{
 		std::ifstream fin(i_path);
 		std::stringstream string_stream;
 		string_stream << fin.rdbuf();
@@ -312,8 +312,8 @@ namespace Tempest
 		if (objects_data)
 		{
 			for (auto object_data : objects_data)
-			{				
-				Owner<Object> object;				
+			{
+				Owner<Object> object;
 				if (object_data["CameraComponent"])
 				{
 					object = Create<MyCameraObject>();
@@ -364,7 +364,7 @@ namespace Tempest
 					light_component->direction = light_data["LightDirection"].as<Vec3f>();
 				}
 
-				auto effect_data = object_data["EffectComponent"];								
+				auto effect_data = object_data["EffectComponent"];
 
 				if (effect_data)
 				{
@@ -419,7 +419,7 @@ namespace Tempest
 							effect_component->texture_paths[2] = texture_data["Roughness"].as<String>();
 							effect_component->texture_types[2] = Resource::TextureType::Roughness;
 						}
-						
+
 						if (texture_data["Metalic"])
 						{
 							effect_component->texture_paths[3] = texture_data["Metalic"].as<String>();

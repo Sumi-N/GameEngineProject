@@ -38,7 +38,7 @@ public:
 	uint32_t GetColorID() const;
 	uint32_t GetDepthID() const;
 
-	GLuint  bufferid = 0;	
+	GLuint  bufferid = 0;
 
 	GLuint  textureid_color = 0;
 	GLuint  textureid_depth = 0;

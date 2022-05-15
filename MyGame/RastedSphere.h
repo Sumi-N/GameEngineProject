@@ -16,7 +16,7 @@ namespace Tempest
 	inline void RastedSphere::Boot()
 	{
 		Sphere::Boot();
-						
+
 		const char* shaderpaths[] =
 		{
 			PATH_SUFFIX SHADER_PATH DISNEY_PBR_VERT,

@@ -53,7 +53,7 @@ int main()
 		String copy_from_path = "..\\..\\" + path_in + "RumbaDancing.fbx";
 		String filename = File::GetFileName(copy_from_path);
 		String o_entry = File::ReplaceExtension(filename, "tac");
-		String copy_to_path = "..\\..\\" + path_out + o_entry;		
+		String copy_to_path = "..\\..\\" + path_out + o_entry;
 
 		Result result = GeometryConverter::ConvertAnimationClip(copy_from_path.c_str(), copy_to_path.c_str());
 
@@ -62,6 +62,6 @@ int main()
 			DEBUG_PRINT("Failed to convert animation clip %s", copy_from_path.c_str());
 		}
 	}
-	
+
 	return 0;
 }

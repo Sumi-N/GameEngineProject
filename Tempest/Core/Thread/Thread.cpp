@@ -14,20 +14,20 @@ namespace Tempest
 
 	void Thread::Init()
 	{
-	}		
+	}
 
 	void Thread::Run()
 	{
 		while (brunning)
-		{						
+		{
 			{
-				NonCriticalSection();				
+				NonCriticalSection();
 			}
 
 			ThreadManager::SyncPoint1(thread_id);
-										
+
 			{
-				CriticalSection();				
+				CriticalSection();
 			}
 
 			ThreadManager::SyncPoint2(thread_id);
@@ -38,7 +38,7 @@ namespace Tempest
 
 	void Thread::CleanUp()
 	{
-	}	
+	}
 
 	void Thread::CriticalSection()
 	{

@@ -55,7 +55,7 @@ namespace Tempest
 	inline void Object::Update(float i_dt)
 	{
 		pos += i_dt * vel;
-	}	
+	}
 }
 
 

@@ -20,7 +20,7 @@ namespace Tempest
 	{
 		for (auto it = list.Begin(); it != list.End(); ++it)
 		{
-			(*it)->Init();			
+			(*it)->Init();
 		}
 	}
 
@@ -32,7 +32,7 @@ namespace Tempest
 
 			animation_current_time += i_dt;
 			InterpolateMatrixBetweenFrames(*(*it)->clip, i_dt, animation_current_time, bones, true);
-			
+
 			for (int i = 0; i < (*it)->skeleton->joints.Size(); i++)
 			{
 				bones[i] = bones[i] * (*it)->skeleton->joints[i].inversed;
@@ -49,7 +49,7 @@ namespace Tempest
 	}
 
 	Result AnimationSystem::InterpolateMatrixBetweenFrames(const Resource::AnimationClip& i_clip, const float i_dt, float& i_total_passed_time, Mat4f* io_mat, const bool& i_isloop)
-	{		
+	{
 		int   num_frame_count = static_cast<int>(i_clip.samples.Size());
 		float frame_per_count = 50;
 
@@ -58,8 +58,8 @@ namespace Tempest
 			i_total_passed_time -= num_frame_count * frame_per_count;
 		}
 
-		int current_frame = static_cast<int>(i_total_passed_time / frame_per_count);		
-		
+		int current_frame = static_cast<int>(i_total_passed_time / frame_per_count);
+
 		if (current_frame == num_frame_count - 1)
 		{
 			if (!i_isloop)
@@ -96,7 +96,7 @@ namespace Tempest
 			// t is the ratio of passed time from the last frame in an animation
 			float t = i_total_passed_time - current_frame * frame_per_count;
 			t /= frame_per_count;
-			t = 1 - t;						
+			t = 1 - t;
 
 			for (int i = 0; i < i_clip.samples[0].jointposes.Size(); i++)
 			{
