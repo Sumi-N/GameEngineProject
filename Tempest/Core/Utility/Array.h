@@ -18,7 +18,7 @@ namespace Tempest
 
 			Iterator  operator+ (int t)               {Iterator iterator = *this; iterator.index += t; return iterator; }
 			Iterator  operator- (int t)               {Iterator iterator = *this; iterator.index -= t; return iterator; }
-			Iterator& operator= (Iterator i_iterator) {this->array = i_iterator->array; this->index = i_iterator->index; return this; }
+			Iterator& operator= (const Iterator& i_iterator) {this->array = i_iterator->array; this->index = i_iterator->index; return this; }
 			Iterator& operator++()                    {index++; return *this; }
 			Iterator  operator++(int t)               {Iterator iterator = *this; index++; return iterator; }
 			T*        operator->()                    {return &(array->At(index)); }
@@ -43,7 +43,7 @@ namespace Tempest
 		Array(const Array& i_array);
 		~Array();
 
-		Array& operator=(Array);
+		Array& operator=(const Array&);
 		Array& Convert(std::initializer_list<T>);
 
 		// This function is for ranged loop

@@ -44,30 +44,32 @@ namespace Tempest
 	inline Array<T>::Array(const int i_size)
 		: capacity(0), size(0), granularity(InitialGranularity), data(nullptr)
 	{
-		this->Resize(i_size);
+		Resize(i_size);
 	}
 
 	template <typename T>
 	inline Array<T>::Array(const Array<T>& i_array)
 	{
-		if (!this->Empty())
+		if (!Empty())
 		{
-			this->Clear();
+			Clear();
 		}
-		this->capacity = i_array.Capacity();
-		this->granularity = i_array.Granularity();
-		this->size = i_array.Size();
-		this->data = reinterpret_cast<T*>(AllocMemory(capacity * sizeof(T)));
+		capacity = i_array.Capacity();
+		granularity = i_array.Granularity();
+		size = i_array.Size();
+		data = reinterpret_cast<T*>(AllocMemory(capacity * sizeof(T)));
+		memset(static_cast<void*>(&data[0]), 0, (capacity) * sizeof(T));
 		for (size_t i = 0; i < size; i++)
 		{
-			this->At(i) = i_array.At(i);
+			At(i) = std::move(T());
+			At(i) = i_array.At(i);
 		}
 	}
 
 	template <typename T>
 	inline Array<T>::~Array()
 	{
-		for (auto it = this->Begin(); it != this->End(); ++it)
+		for (auto it = Begin(); it != End(); ++it)
 		{
 			(*it).~T();
 		}
@@ -76,19 +78,21 @@ namespace Tempest
 	}
 
 	template <typename T>
-	inline Array<T>& Array<T>::operator= (Array<T> i_array)
+	inline Array<T>& Array<T>::operator= (const Array<T>& i_array)
 	{
-		if (!this->Empty())
+		if (!Empty())
 		{
-			this->Clear();
+			Clear();
 		}
-		this->capacity = i_array.Capacity();
-		this->granularity = i_array.Granularity();
-		this->size = i_array.Size();
-		this->data = reinterpret_cast<T*>(AllocMemory(capacity * sizeof(T)));
+		capacity = i_array.Capacity();
+		granularity = i_array.Granularity();
+		size = i_array.Size();
+		data = reinterpret_cast<T*>(AllocMemory(capacity * sizeof(T)));
+		memset(static_cast<void*>(&data[0]), 0, (capacity) * sizeof(T));
 		for (size_t i = 0; i < size; i++)
 		{
-			this->At(i) = i_array.At(i);
+			At(i) = std::move(T());
+			At(i) = i_array.At(i);
 		}
 
 		return *this;
@@ -99,7 +103,7 @@ namespace Tempest
 	{
 		for (auto it = i_list.begin(); it != i_list.end(); ++it)
 		{
-			this->PushBack(*it);
+			PushBack(*it);
 		}
 
 		return *this;
@@ -246,18 +250,18 @@ namespace Tempest
 			DEBUG_ASSERT(false);
 		}
 
-		if (this->capacity == this->size)
+		if (capacity == size)
 		{
-			this->PushBack(T{});
+			PushBack(T{});
 			memmove(static_cast<void*>(&data[i_iterator.GetIndex() + 1]), static_cast<void*>(&data[i_iterator.GetIndex()]), sizeof(T) * (this->size - i_iterator.GetIndex()));
-			T& new_inserted = this->At(i_iterator.GetIndex());
+			T& new_inserted = At(i_iterator.GetIndex());
 			new_inserted = i_data;
 			size++;
 		}
 		else
 		{
 			memmove(static_cast<void*>(&data[i_iterator.GetIndex() + 1]), static_cast<void*>(&data[i_iterator.GetIndex()]), sizeof(T) * (this->size - i_iterator.GetIndex()));
-			T& new_inserted = this->At(i_iterator.GetIndex());
+			T& new_inserted = At(i_iterator.GetIndex());
 			new_inserted = i_data;
 			size++;
 		}
@@ -271,7 +275,7 @@ namespace Tempest
 		if (!data)
 			return;
 
-		for (auto it = this->Begin(); it != this->End(); ++it)
+		for (auto it = Begin(); it != End(); ++it)
 		{
 			(*it).~T();
 		}

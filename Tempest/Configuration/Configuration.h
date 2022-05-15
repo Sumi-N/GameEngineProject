@@ -9,7 +9,7 @@
 #ifndef ENABLE_CUSTOM_ALLOCATOR
 	#define USE_STANDARD_ARRAY
 #else
-	#define HEAP_SIZE      1024*1024*1024
+	#define HEAP_SIZE     2ll*1024ll*1024ll*1024ll
 	#define NUM_DESCRIPTOR 2048
 
 #endif // ENABLE_CUSTOM_ALLOCATOR
