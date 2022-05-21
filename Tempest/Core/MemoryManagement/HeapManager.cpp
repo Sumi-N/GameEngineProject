@@ -124,6 +124,10 @@ void* HeapManager::Alloc(size_t i_size)
 	Block* next_block = static_cast<Block*>(next);
 	next_block->exist = false;
 	next_block->size = available_space - (i_size + sizeof(Block));
+#ifdef _DEBUG
+	next_block->headguardbanding = '\0';
+	next_block->tailguardbanding = '\0';
+#endif
 	_current = next;
 
 	//DEBUG_PRINT("The _current address is now at %zx", reinterpret_cast<size_t>(_current));
@@ -197,6 +201,10 @@ void* HeapManager::Realloc(void* i_ptr, size_t i_size)
 	Block* next_block = static_cast<Block*>(next);
 	next_block->exist = false;
 	next_block->size = available_space - (i_size + sizeof(Block));
+#ifdef _DEBUG
+	next_block->headguardbanding = '\0';
+	next_block->tailguardbanding = '\0';
+#endif
 	_current = next;
 
 	memcpy(return_address, i_ptr, i_size);
@@ -248,7 +256,7 @@ void HeapManager::Collect()
 			next_collecting = reinterpret_cast<void*>(reinterpret_cast<size_t>(next_collecting) + next_collecting_block->size + sizeof(Block));
 			next_collecting_block = static_cast<Block*>(next_collecting);
 		}
-		else if(next_collecting_block->exist == false)
+		else if(current_collecting_block->exist == true && next_collecting_block->exist == false)
 		{
 			current_collecting = next_collecting;
 			current_collecting_block = static_cast<Block*>(current_collecting);
