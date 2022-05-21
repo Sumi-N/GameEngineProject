@@ -14,6 +14,9 @@ namespace Tempest
 		AnimationComponent() : is_looping(false), frame_per_second(0), frame_count(0) {};
 		~AnimationComponent() = default;
 
+		String skeleton_path;
+		String animation_clip_path;
+
 		Owner<Resource::Skeleton> skeleton;
 		Owner<Resource::AnimationClip> clip;
 		Observer<MeshComponent> mesh;
@@ -23,8 +26,8 @@ namespace Tempest
 		virtual void Update(float i_dt) override;
 		virtual void CleanUp() override;
 
-		Result LoadSkeleton(const char* i_filename);
-		Result LoadClip(const char* i_filename);
+		Result LoadSkeleton();
+		Result LoadClip();
 
 	private:
 		bool  is_looping;
@@ -38,6 +41,8 @@ namespace Tempest
 	inline void AnimationComponent::Boot()
 	{
 		Component::Boot();
+		LoadSkeleton();
+		LoadClip();
 	}
 
 	inline void AnimationComponent::Init()
@@ -55,7 +60,7 @@ namespace Tempest
 		Component::CleanUp();
 	}
 
-	inline Result AnimationComponent::LoadSkeleton(const char* i_filename)
+	inline Result AnimationComponent::LoadSkeleton()
 	{
 		if (IsSkeletonLoaded())
 		{
@@ -64,10 +69,10 @@ namespace Tempest
 		}
 
 		skeleton = Owner<Resource::Skeleton>::Create(skeleton);
-		return Resource::Skeleton::Load(i_filename, *skeleton);
+		return Resource::Skeleton::Load(skeleton_path.c_str(), *skeleton);
 	}
 
-	inline Result AnimationComponent::LoadClip(const char* i_filename)
+	inline Result AnimationComponent::LoadClip()
 	{
 		if (IsClipLoaded())
 		{
@@ -76,7 +81,7 @@ namespace Tempest
 		}
 
 		clip = Owner<Resource::AnimationClip>::Create(clip);
-		return Resource::AnimationClip::Load(i_filename, *clip);
+		return Resource::AnimationClip::Load(animation_clip_path.c_str(), *clip);
 	}
 
 	inline bool AnimationComponent::IsSkeletonLoaded()

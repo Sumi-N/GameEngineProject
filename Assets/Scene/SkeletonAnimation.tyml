@@ -21,6 +21,9 @@ Scene:
     EffectComponent:
       Shader:
         VertexShader: ..\Assets\shaders\disney_pbr_model\disney_pbr_animation_without_textures.vert.glsl
+        ControlShader: ""
+        EvaluationShader: ""
+        GeometryShader: ""
         FragmentShader: ..\Assets\shaders\disney_pbr_model\disney_pbr_animation_without_textures.frag.glsl
       Material:
         Albedo: [1, 0, 1, 1]
@@ -34,6 +37,9 @@ Scene:
     MeshComponent:
       MeshType: SkeletonMesh
       MeshPath: ..\Assets\bin\mesh\xbot.tsm
+    AnimationComponent:
+      Skeleton: ..\Assets\bin\mesh\xbot.ts
+      AnimationClip: ..\Assets\bin\mesh\RumbaDancing.tac
   - Object: PointLight
     Position: [0, 0, 0]
     Rotation: [0, 0, 0]

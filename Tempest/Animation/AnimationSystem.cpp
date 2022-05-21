@@ -10,7 +10,10 @@ namespace Tempest
 
 	void AnimationSystem::Boot()
 	{
-		list.Begin();
+		for (auto it = list.Begin(); it != list.End(); ++it)
+		{
+			(*it)->Boot();
+		}
 	}
 
 	void AnimationSystem::Init()

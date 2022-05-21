@@ -17,6 +17,7 @@ public:
 inline void SceneEntity::Init()
 {
 	// Init sky-box cube map
+	if (!Entity::BackgroundComponentList.Empty())
 	{
 		SceneEntity::SkyBoxProxy = Create<SceneProxy>();
 		Owner<RenderState> renderhandler = Create<RenderState>();
@@ -61,7 +62,7 @@ inline void SceneEntity::Init()
 					auto mesh = static_cast<Observer<Resource::Mesh>>((*it2)->mesh);
 					proxyhandler->meshes.PushBack(mesh);
 				}
-				proxyhandler->Init(static_cast<int>((*it2)->mesh_type), it2.GetIndex());
+				proxyhandler->Init(static_cast<int>((*it2)->mesh_type), static_cast<int>(it2.GetIndex()));
 			}
 		}
 	}

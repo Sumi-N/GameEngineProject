@@ -282,6 +282,18 @@ namespace Tempest
 				}
 			}
 
+			for (auto it = Entity::Animation.Begin(); it != Entity::Animation.End(); it++)
+			{
+				if ((*it)->owner == obj)
+				{
+					io_emitter << YAML::Key << "AnimationComponent";
+					io_emitter << YAML::BeginMap;
+					io_emitter << YAML::Key << "Skeleton" << YAML::Value << (*it)->skeleton_path;					
+					io_emitter << YAML::Key << "AnimationClip" << YAML::Value << (*it)->animation_clip_path;
+					io_emitter << YAML::EndMap;
+				}
+			}
+
 			io_emitter << YAML::EndMap;
 		}
 	}
@@ -328,15 +340,6 @@ namespace Tempest
 				object->pos = object_data["Position"].as<Vec3f>();
 				object->scale = object_data["Scale"].as<Vec3f>();
 				object->rot = object_data["Rotation"].as<Vec3f>();
-
-				auto camera_data = object_data["CameraComponent"];
-
-				//if (camera_data)
-				//{
-				//	Owner<CameraComponent> camera_component = Create<CameraComponent>();
-				//	camera_component->owner = object;
-				//	Entity::RegisterCameraComponent(camera_component);
-				//}
 
 				auto background_data = object_data["BackgroundComponent"];
 
@@ -438,6 +441,17 @@ namespace Tempest
 					Entity::RegisterMeshComponent(mesh_component);
 					mesh_component->mesh_type = mesh_data["MeshType"].as<MeshType>();
 					mesh_component->mesh_path = mesh_data["MeshPath"].as<String>();
+				}
+
+				auto animation_data = object_data["AnimationComponent"];
+
+				if (animation_data)
+				{
+					Owner<AnimationComponent> animation_component = Create<AnimationComponent>();
+					animation_component->owner = object;
+					Entity::RegisterAnimationComponent(animation_component);
+					animation_component->skeleton_path = animation_data["Skeleton"].as<String>();
+					animation_component->animation_clip_path = animation_data["AnimationClip"].as<String>();
 				}
 			}
 		}

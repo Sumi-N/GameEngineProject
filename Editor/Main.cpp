@@ -4,7 +4,6 @@
 
 #include <Application/Application.h>
 #include <Application/EntryPoint.h>
-#include <MyGame/TestScenes.h>
 
 namespace Tempest
 {
@@ -17,8 +16,7 @@ namespace Tempest
 	};
 
 	Editor::Editor()
-	{
-		TestScene::SkeletonAnimation();
+	{	
 		Application::Execute();
 	}
 

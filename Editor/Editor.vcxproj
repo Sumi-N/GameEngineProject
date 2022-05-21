@@ -88,7 +88,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\MyGame\TestScene_SkeletonAnimation.cpp" />
     <ClCompile Include="EntityInfo.cpp" />
     <ClCompile Include="ImguiLayer_SceneEditorPanel.cpp" />
     <ClCompile Include="ImguiLayer_ViewporPanel.cpp" />
@@ -99,11 +98,6 @@
     <ClCompile Include="Serializer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\MyGame\AnimatedPlayer.h" />
-    <ClInclude Include="..\MyGame\MyCameraObject.h" />
-    <ClInclude Include="..\MyGame\MyPointLight.h" />
-    <ClInclude Include="..\MyGame\MySkyBox.h" />
-    <ClInclude Include="..\MyGame\TestScenes.h" />
     <ClInclude Include="EntityInfo.h" />
     <ClInclude Include="ImguiLayer.h" />
     <ClInclude Include="Serializer.h" />

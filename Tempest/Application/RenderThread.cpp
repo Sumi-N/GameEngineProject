@@ -108,6 +108,7 @@ namespace Tempest
 	void WriteDataToOwningThread(GraphicRequiredData* i_data)
 	{
 		// Submit camera data
+		if(!Entity::CameraComponentList.Empty())
 		{
 			i_data->camera.camera_position_vector = Entity::CameraComponentList[0]->owner->pos;
 			i_data->camera.perspective_matrix = Entity::CameraComponentList[0]->perspective;
