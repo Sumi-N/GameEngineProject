@@ -3,18 +3,20 @@
 
 #ifdef ENGINE_GRAPHIC_OPENGL
 
-void SceneProxy::Draw()
+void SceneProxy::BindShader()
 {
 	state->BindShaderState();
 	CheckDrawType(state->shader);
+}
 
-	for(int i = 0; i < meshes.Size(); i++)
-	{
-		vbuffers[i].Bind();
-		glDrawElements(static_cast<unsigned int>(drawtype), indexsizes[i], GL_UNSIGNED_INT, (void*)0);
+void SceneProxy::Draw(int index)
+{
+	vbuffers[index].Bind();
+	glDrawElements(static_cast<unsigned int>(drawtype), indexsizes[index], GL_UNSIGNED_INT, (void*)0);
+}
 
-	}
-
+void SceneProxy::UnBindShader()
+{
 	state->UnBindShaderState();
 }
 

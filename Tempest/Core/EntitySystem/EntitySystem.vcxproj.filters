@@ -46,6 +46,12 @@
     <ClInclude Include="BackgroundComponent.h">
       <Filter>Component</Filter>
     </ClInclude>
+    <ClInclude Include="DebugMacro.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Define.cpp">

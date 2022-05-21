@@ -23,7 +23,7 @@ inline void SceneEntity::Init()
 		SkyBoxProxy->state = renderhandler;
 
 		SkyBoxProxy->meshes.PushBack(Entity::BackgroundComponentList[0]->mesh);
-		SkyBoxProxy->Init(static_cast<int>(Entity::BackgroundComponentList[0]->mesh_type));
+		SkyBoxProxy->Init(static_cast<int>(Entity::BackgroundComponentList[0]->mesh_type), 0);
 
 		renderhandler->InitShader(Entity::BackgroundComponentList[0]->shader_paths);
 		renderhandler->InitTexture(
@@ -38,10 +38,11 @@ inline void SceneEntity::Init()
 		proxyhandler->state = renderhandler;
 		List.PushBack(proxyhandler);
 
-		renderhandler->InitShader((*it)->shaderpaths);
+		renderhandler->InitShader((*it)->shaderpaths);		
+
 		// Create buffer for textures
 		auto it_type = (*it)->texture_types.begin();
-		for (auto it_tex = (*it)->textures.begin(); it_tex != (*it)->textures.end(); ++it_tex, ++ it_type)
+		for (auto it_tex = (*it)->textures.begin(); it_tex != (*it)->textures.end(); ++it_tex, ++it_type)
 		{
 			if(*it_tex)
 				renderhandler->InitTexture(*it_type, *it_tex);
@@ -60,7 +61,7 @@ inline void SceneEntity::Init()
 					auto mesh = static_cast<Observer<Resource::Mesh>>((*it2)->mesh);
 					proxyhandler->meshes.PushBack(mesh);
 				}
-				proxyhandler->Init(static_cast<int>((*it2)->mesh_type));
+				proxyhandler->Init(static_cast<int>((*it2)->mesh_type), it2.GetIndex());
 			}
 		}
 	}

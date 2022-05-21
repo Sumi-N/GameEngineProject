@@ -3,17 +3,14 @@
 
 namespace Tempest
 {
-	void AnimationSystem::Register(const OwningPointer<AnimationComponent>& i_animation)
+	void AnimationSystem::Register(const Owner<AnimationComponent>& i_animation)
 	{
 		list.PushBack(i_animation);
 	}
 
 	void AnimationSystem::Boot()
 	{
-		for (auto it = list.Begin(); it != list.End(); ++it)
-		{
-			(*it)->Boot();
-		}
+		list.Begin();
 	}
 
 	void AnimationSystem::Init()
@@ -48,6 +45,11 @@ namespace Tempest
 		}
 	}
 
+	void AnimationSystem::Clear()
+	{
+		list.Clear();
+	}
+	
 	Result AnimationSystem::InterpolateMatrixBetweenFrames(const Resource::AnimationClip& i_clip, const float i_dt, float& i_total_passed_time, Mat4f* io_mat, const bool& i_isloop)
 	{
 		int   num_frame_count = static_cast<int>(i_clip.samples.Size());

@@ -17,7 +17,7 @@ Tempest::Result TextureConverter::ConvertTexture(const char* i_filename, const c
 		unsigned int width, height;
 		unsigned int error = lodepng::decode(pixels.vector, width, height, i_filename, LCT_RGB);
 		// This needs to be changed based on the texture type
-		TextureType type = TextureType::Albedo;
+		Tempest::TextureType type = Tempest::TextureType::Albedo;
 
 		if(error != 0)
 		{
@@ -25,7 +25,7 @@ Tempest::Result TextureConverter::ConvertTexture(const char* i_filename, const c
 		}
 
 		RETURN_IFNOT_SUCCESS(out.Open());
-		RETURN_IFNOT_SUCCESS(out.Write((void*)&type, sizeof(TextureType)));
+		RETURN_IFNOT_SUCCESS(out.Write((void*)&type, sizeof(Tempest::TextureType)));
 		RETURN_IFNOT_SUCCESS(out.Write((void*)&width, sizeof(int)));
 		RETURN_IFNOT_SUCCESS(out.Write((void*)&height, sizeof(int)));
 		RETURN_IFNOT_SUCCESS(out.Write((void*)pixels.Data(), sizeof(unsigned char) * width * height * static_cast<size_t>(3)));
@@ -39,7 +39,7 @@ Tempest::Result TextureConverter::ConvertTexture(const char* i_filename, const c
 		float* pixels = nullptr;
 		int nrComponents;
 		int width, height;
-		TextureType type = TextureType::SkyBox;
+		Tempest::TextureType type = Tempest::TextureType::SkyBox;
 
 		stbi_set_flip_vertically_on_load(true);
 
@@ -51,7 +51,7 @@ Tempest::Result TextureConverter::ConvertTexture(const char* i_filename, const c
 		}
 
 		RETURN_IFNOT_SUCCESS(out.Open());
-		RETURN_IFNOT_SUCCESS(out.Write((void*)&type, sizeof(TextureType)));
+		RETURN_IFNOT_SUCCESS(out.Write((void*)&type, sizeof(Tempest::TextureType)));
 		RETURN_IFNOT_SUCCESS(out.Write((void*)&width, sizeof(int)));
 		RETURN_IFNOT_SUCCESS(out.Write((void*)&height, sizeof(int)));
 		RETURN_IFNOT_SUCCESS(out.Write((void*)pixels, sizeof(float) * width * height * static_cast<size_t>(3)));

@@ -22,19 +22,22 @@ public:
 	SceneProxy() = default;
 	~SceneProxy() = default;
 
-	void Init(const int);
+	void Init(const int, const int);
 	void ReplaceRenderState(Owner<RenderState>);
-	void Draw();
+	void BindShader();
+	void Draw(int);
+	void UnBindShader();	
 	void DrawMeshOnly();
 	void CleanUp();
 
 	Owner<RenderState> state;
 	Array<Observer<Resource::Mesh>> meshes;
+	Array<int> mesh_indexs;
 
 protected:
 
 	constexpr static DrawType defaulttype = DrawType::TRIANGLE;
-	DrawType drawtype = DrawType::TRIANGLE;
+	DrawType drawtype{ defaulttype };
 
 	void InitBuffer(const int);
 	void CheckDrawType(const Shader i_shader);

@@ -2,9 +2,10 @@
 
 #include "SceneProxy.h"
 
-void SceneProxy::Init(const int num)
+void SceneProxy::Init(const int i_type, const int i_index)
 {
-	InitBuffer(num);
+	mesh_indexs.PushBack(i_index);
+	InitBuffer(i_type);
 }
 
 void SceneProxy::ReplaceRenderState(Owner<RenderState> i_state)
@@ -16,9 +17,9 @@ void SceneProxy::CleanUp()
 {
 }
 
-void SceneProxy::InitBuffer(const int num)
+void SceneProxy::InitBuffer(const int i_type)
 {
-	if(num == 0)
+	if(i_type == 0)
 	{
 		auto mesh = static_cast<Observer<Resource::Mesh>>(meshes[meshes.Size() - 1]);
 
@@ -33,7 +34,7 @@ void SceneProxy::InitBuffer(const int num)
 		// Memorize index size for Draw() fucntion
 		indexsizes.PushBack(static_cast<unsigned int>(mesh->index.Size()) * sizeof(mesh->index[0]));
 	}
-	else if(num == 1)
+	else if(i_type == 1)
 	{
 		Observer<Resource::SkeletonMesh> skeleton_mesh = static_cast<Observer<Resource::SkeletonMesh>>(meshes[meshes.Size() - 1]);
 

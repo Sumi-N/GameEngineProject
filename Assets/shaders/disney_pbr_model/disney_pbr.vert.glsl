@@ -62,11 +62,11 @@ out VS_OUT{
 //------------------------------------------------------------------------------
 void main()
 {
-	vs_out.world_position    = model_position_matrix * vec4(model_position, 1.0);
+	vs_out.world_position = model_position_matrix * vec4(model_position, 1.0);
 	// Send position data at perspective coordinate
-	gl_Position                     = model_view_perspective_matrix * vec4(model_position, 1.0);
+	gl_Position           = model_view_perspective_matrix * vec4(model_position, 1.0);
 	// Get normal vector at world coordinate
-	vs_out.model_normal             = model_normal;
+	vs_out.model_normal   = model_normal;
 
 	for(int i = 0; i <= point_num; i++){
 		vs_out.world_pointlight_direction[i] = normalize(vec3(pointlights[i].position) - vec3(model_position_matrix * vec4(model_position, 1)));

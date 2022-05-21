@@ -3,8 +3,7 @@
 #include "Define.h"
 
 namespace Tempest
-{
-
+{	
 	class PremadeObjebct : public Object
 	{
 	public:
@@ -39,8 +38,7 @@ namespace Tempest
 		//SHOW_DEBUG_NORMAL_VECTOR
 		//SHOW_DEBUG_VIEWDIRECTION
 		//SHOW_DEBUG_LIGHTDIRECTION
-		//SHOW_DEBUG_BP_BASIC
-
+		//SHOW_DEBUG_BP_BASIC		
 #endif // DEBUG
 
 	}

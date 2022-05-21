@@ -234,8 +234,8 @@ namespace Tempest
 		{
 			Entity::Reset();
 			//SceneSerializer.Deserialize("../Assets/Scene/PBR_9Balls.tyml");
-			//SceneSerializer.Deserialize("../Assets/Scene/SkeletonAnimation.tyml");
-			SceneSerializer.Deserialize("../Assets/Scene/Hexagon.tyml");
+			SceneSerializer.Deserialize("../Assets/Scene/SkeletonAnimation.tyml");
+			//SceneSerializer.Deserialize("../Assets/Scene/Hexagon.tyml");
 			GameThreadOnReset.ExecuteIfBound();
 			RenderThreadOnReset.ExecuteIfBound();
 			isEntityModifies = false;

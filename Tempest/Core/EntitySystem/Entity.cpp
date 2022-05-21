@@ -64,42 +64,12 @@ namespace Tempest
 
 	void Entity::Boot()
 	{
-		// Check if camera exist, if not create one
-		if (Entity::CameraComponentList.Empty())
-		{
-			//Owner<CameraObject> camera;
-			//Owner<CameraObject>::Create(camera);
-			//CamerasObjects.PushBack(camera);
-		}
-
-		// Check if ambient light exist in a scene, if not create one
-		//if (!Entity::Ambient)
-		//{
-		//	Entity::Ambient = Owner<AmbientLight>::Create(Ambient);
-		//	Entity::Ambient->intensity = Vec3f(0, 0, 0);
-		//}
-
-		//// Check if directional light exist in a scene, if not create one
-		//if (!Entity::Directional)
-		//{
-		//	Entity::Directional = Owner<DirectionalLight>::Create(Directional);
-		//	Entity::Directional->intensity = Vec3f(0, 0, 0);
-		//	Entity::Directional->direction = Vec3f(0,-1, 0);
-		//}
-
-		//// Check if point light exist in a scene, if not create one
-		//if (Entity::PointLightList.Size() == 0)
-		//{
-		//	Owner<PointLight> light_handler = Owner<PointLight>::Create(light_handler);
-		//	PointLightList.PushBack(light_handler);
-		//}
-
 		ObjectList.Boot();
 		CameraComponentList.Boot();
 		LightComponentList.Boot();
 		MeshComponentList.Boot();
 		EffectComponentList.Boot();
-		BackgroundComponentList.Boot();
+		BackgroundComponentList.Boot();		
 
 		Animation.Boot();
 	}
@@ -111,7 +81,7 @@ namespace Tempest
 		LightComponentList.Init();
 		MeshComponentList.Init();
 		EffectComponentList.Init();
-		BackgroundComponentList.Init();
+		BackgroundComponentList.Init();		
 
 		Animation.Init();
 	}
@@ -149,6 +119,6 @@ namespace Tempest
 		EffectComponentList.Clear();
 		BackgroundComponentList.Clear();
 
-		Animation.CleanUp();
+		Animation.Clear();
 	}
 }

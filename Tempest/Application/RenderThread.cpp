@@ -179,9 +179,14 @@ namespace Tempest
 		}
 
 		{
-			for (int i = 0; i < NUM_MAX_BONES; i++)
+			for (auto it = Entity::Animation.Begin(); it != Entity::Animation.End(); ++it)
 			{
-				i_data->animation_bone_data.global_inversed_matrix[i] = Entity::Animation.bones[i];
+				ConstantData::AnimationBone bone;
+				for (int i = 0; i < NUM_MAX_BONES; i++)
+				{
+					bone.global_inversed_matrix[i] = Entity::Animation.bones[i];
+				}
+				i_data->animation_bone_data.PushBack(bone);
 			}
 		}
 	}

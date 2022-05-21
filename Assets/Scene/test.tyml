@@ -14,26 +14,29 @@ Scene:
       VertexShader: ..\Assets\shaders\skybox\skybox.vert.glsl
       FragmentShader: ..\Assets\shaders\skybox\skybox.frag.glsl
       TexturePath: ..\Assets\bin\texture\hdr\Arches_E_PineTree_3k.tt
-  - Object: Empty
-    Position: [0, 0, -20]
-    Rotation: [90, 0, 0]
-    Scale: [3.0, 3.0, 3.0]
+  - Object: Animated Player
+    Position: [0, -10, -25]
+    Rotation: [0, 0, 0]
+    Scale: [0.100000001, 0.100000001, 0.100000001]
     EffectComponent:
       Shader:
-        VertexShader: ..\Assets\shaders\disney_pbr_model\disney_pbr.vert.glsl
-        FragmentShader: ..\Assets\shaders\disney_pbr_model\disney_pbr.frag.glsl
+        VertexShader: ..\Assets\shaders\disney_pbr_model\disney_pbr_animation_without_textures.vert.glsl
+        ControlShader: ""
+        EvaluationShader: ""
+        GeometryShader: ""
+        FragmentShader: ..\Assets\shaders\disney_pbr_model\disney_pbr_animation_without_textures.frag.glsl
       Material:
         Albedo: [1, 0, 1, 1]
-        Roughness: 1
-        Metalic: 0
+        Roughness: 0.115000002
+        Metalic: 1
       Texture:
-        Albedo: ..\Assets\bin\texture\albedo/rustediron.tt
-        Normal: ..\Assets\bin\texture\normal/rustediron.tt
-        Roughness: ..\Assets\bin\texture\roughness/rustediron.tt
-        Metalic: ..\Assets\bin\texture\metallic/rustediron.tt
+        Albedo: ..\Assets\bin\texture\albedo/gold-scuffed_basecolor.tt
+        Normal: ..\Assets\bin\texture\normal/gold-scuffed_normal.tt
+        Roughness: ..\Assets\bin\texture\roughness/gold-scuffed_roughness.tt
+        Metalic: ..\Assets\bin\texture\metallic/gold-scuffed_metalic.tt
     MeshComponent:
-      MeshType: Mesh
-      MeshPath: ..\Assets\bin\mesh\hexagon.tm
+      MeshType: SkeletonMesh
+      MeshPath: ..\Assets\bin\mesh\xbot.tsm
   - Object: PointLight
     Position: [0, 0, 0]
     Rotation: [0, 0, 0]

@@ -7,6 +7,7 @@
 #include "EffectComponent.h"
 #include "CameraComponent.h"
 #include "BackgroundComponent.h"
+#include "AnimationComponent.h"
 
 namespace Tempest
 {
@@ -50,7 +51,7 @@ namespace Tempest
 				(*it)->CleanUp();
 			}
 		}
-	};
+	};	
 
 	class Entity
 	{
@@ -61,7 +62,7 @@ namespace Tempest
 		static Entry<Owner<LightComponent>>      LightComponentList;
 		static Entry<Owner<MeshComponent>>       MeshComponentList;
 		static Entry<Owner<EffectComponent>>     EffectComponentList;
-		static Entry<Owner<BackgroundComponent>> BackgroundComponentList;
+		static Entry<Owner<BackgroundComponent>> BackgroundComponentList;		
 		static AnimationSystem                   Animation;
 
 		static void Register (const Owner<Object>&);

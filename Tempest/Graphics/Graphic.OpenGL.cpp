@@ -111,6 +111,11 @@ void Graphic::Update(GraphicRequiredData* i_data)
 	// Render shadow to frame buffers
 	for (int i = 0; i < NUM_MAX_POINT_LIGHT; i++)
 	{
+		if (i_data->model_data.Empty())
+		{
+			break;
+		}
+
 		// Submit shadow uniform data
 		auto& data_shadow = i_data->shadow[i];
 		ConstBufferCubeMap.Update(&data_shadow);
@@ -120,10 +125,11 @@ void Graphic::Update(GraphicRequiredData* i_data)
 			glClear(GL_DEPTH_BUFFER_BIT);
 
 			for (int j = 0; j < SceneEntity::List.Size(); j++)
-			{
-				if (i_data->model_data.Size() != 0)
+			{				
+				for (int k = 0; k < SceneEntity::List[j]->mesh_indexs.Size(); k++)
 				{
-					auto& data_model = i_data->model_data[j];
+					int model_index = SceneEntity::List[j]->mesh_indexs[k];
+					auto& data_model = i_data->model_data[model_index];
 					ConstBufferModel.Update(&data_model);
 
 					SceneEntity::List[j]->DrawMeshOnly();
@@ -147,35 +153,49 @@ void Graphic::Update(GraphicRequiredData* i_data)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// Rendering objects
-		for (int i = 0; i < SceneEntity::List.Size(); i++)
-		{
-			if (i_data->model_data.Size() != 0)
+		for (int i = 0; i < SceneEntity::List.Size(); i++)		
+		{				
+			if (i_data->model_data.Empty())
 			{
-				auto& data_model = i_data->model_data[i];
+				break;
+			}
+
+			// Bind shadow map texture
+			for (int j = 0; j < NUM_MAX_POINT_LIGHT; j++)
+			{
+				FrameBufferShadowMaps[j].BindTextureUnit();
+			}
+			// Bind irradiance map texture
+			FrameBufferIrradiance.BindTextureUnit();
+			// Bind specular map texture
+			FrameBufferSpecular.BindTextureUnit();
+			// Bind BRDF look up texture
+			FrameBufferBrdf.BindTextureUnit();
+
+			auto scene_proxy = SceneEntity::List[i];
+
+			scene_proxy->BindShader();
+
+			for (int j = 0; j < scene_proxy->meshes.Size(); j++)
+			{
+				int model_index = scene_proxy->mesh_indexs[j];
+				auto& data_model = i_data->model_data[model_index];
 				data_model.model_view_perspective_matrix = ConstDataCamera.perspective_matrix * ConstDataCamera.view_matrix * data_model.model_position_matrix;
 				ConstBufferModel.Update(&data_model);
 
 				auto& data_material = i_data->material_data[i];
 				ConstBufferMaterial.Update(&data_material);
 
-				auto& data_animation = i_data->animation_bone_data;
-				ConstBufferAnimationBone.Update(&data_animation);
-
-				// Bind shadow map texture
-				for (int j = 0; j < NUM_MAX_POINT_LIGHT; j++)
+				if (!i_data->animation_bone_data.Empty())
 				{
-					FrameBufferShadowMaps[j].BindTextureUnit();
+					auto& data_animation = i_data->animation_bone_data[0];
+					ConstBufferAnimationBone.Update(&data_animation);
 				}
-				// Bind irradiance map texture
-				FrameBufferIrradiance.BindTextureUnit();
-				// Bind specular map texture
-				FrameBufferSpecular.BindTextureUnit();
-				// Bind BRDF look up texture
-				FrameBufferBrdf.BindTextureUnit();
-				SceneEntity::List[i]->Draw();
 
-				DrawPrimitive::DebugDraw();
+				scene_proxy->Draw(j);
 			}
+
+			scene_proxy->UnBindShader();			
 		}
 
 		//Rendering sky box
@@ -187,7 +207,9 @@ void Graphic::Update(GraphicRequiredData* i_data)
 			ConstBufferSkybox.Update(&data_skybox);
 
 			FrameBufferCubeMap.BindTextureUnit();
-			SceneEntity::SkyBoxProxy->Draw();
+			SceneEntity::SkyBoxProxy->BindShader();
+			SceneEntity::SkyBoxProxy->Draw(0);
+			SceneEntity::SkyBoxProxy->UnBindShader();
 			glDepthFunc(GL_LESS);
 		}
 	}
@@ -197,6 +219,7 @@ void Graphic::Update(GraphicRequiredData* i_data)
 
 void Graphic::PostUpdate(GraphicRequiredData* i_data)
 {
+	i_data->animation_bone_data.Clear();
 	i_data->model_data.Clear();
 	i_data->material_data.Clear();
 }

@@ -93,12 +93,14 @@
     <ClInclude Include="BackgroundComponent.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="DebugMacro.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="EffectComponent.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="DebugObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Define.cpp">
@@ -126,6 +128,9 @@
     </ProjectReference>
     <ProjectReference Include="..\ResourceManagement\ResourceManagement.vcxproj">
       <Project>{4590a9a9-0184-4a56-b1cc-3b585d51fc0d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.vcxproj">
+      <Project>{883f681d-4804-427d-9fff-d4c138b37281}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
