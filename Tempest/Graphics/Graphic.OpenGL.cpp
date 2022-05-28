@@ -155,10 +155,8 @@ void Graphic::Update(GraphicRequiredData* i_data)
 		// Rendering objects
 		for (int i = 0; i < SceneEntity::List.Size(); i++)		
 		{				
-			if (i_data->model_data.Empty())
-			{
-				break;
-			}
+			if (i_data->model_data.Empty())			
+				break;						
 
 			// Bind shadow map texture
 			for (int j = 0; j < NUM_MAX_POINT_LIGHT; j++)
@@ -178,6 +176,9 @@ void Graphic::Update(GraphicRequiredData* i_data)
 
 			for (int j = 0; j < scene_proxy->meshes.Size(); j++)
 			{
+				if (!i_data->is_shader_enable[i])
+					continue;
+
 				int model_index = scene_proxy->mesh_indexs[j];
 				auto& data_model = i_data->model_data[model_index];
 				data_model.model_view_perspective_matrix = ConstDataCamera.perspective_matrix * ConstDataCamera.view_matrix * data_model.model_position_matrix;
@@ -191,11 +192,11 @@ void Graphic::Update(GraphicRequiredData* i_data)
 					auto& data_animation = i_data->animation_bone_data[0];
 					ConstBufferAnimationBone.Update(&data_animation);
 				}
-
+				
 				scene_proxy->Draw(j);
 			}
 
-			scene_proxy->UnBindShader();			
+			scene_proxy->UnbindShader();			
 		}
 
 		//Rendering sky box
@@ -209,7 +210,7 @@ void Graphic::Update(GraphicRequiredData* i_data)
 			FrameBufferCubeMap.BindTextureUnit();
 			SceneEntity::SkyBoxProxy->BindShader();
 			SceneEntity::SkyBoxProxy->Draw(0);
-			SceneEntity::SkyBoxProxy->UnBindShader();
+			SceneEntity::SkyBoxProxy->UnbindShader();
 			glDepthFunc(GL_LESS);
 		}
 	}
@@ -222,6 +223,7 @@ void Graphic::PostUpdate(GraphicRequiredData* i_data)
 	i_data->animation_bone_data.Clear();
 	i_data->model_data.Clear();
 	i_data->material_data.Clear();
+	i_data->is_shader_enable.Clear();
 }
 
 void Graphic::CleanUp()

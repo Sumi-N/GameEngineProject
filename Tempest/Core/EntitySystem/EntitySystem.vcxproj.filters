@@ -49,9 +49,6 @@
     <ClInclude Include="DebugMacro.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="DebugObject.h">
-      <Filter>Object</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Define.cpp">
@@ -62,6 +59,9 @@
     </ClCompile>
     <ClCompile Include="MeshComponent.cpp">
       <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

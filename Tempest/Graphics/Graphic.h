@@ -16,6 +16,7 @@ public:
 	Array<ConstantData::Material> material_data;
 	ConstantData::CubeMap shadow[NUM_MAX_POINT_LIGHT];
 	ConstantData::Camera editor_camera;
+	Array<bool> is_shader_enable;
 };
 
 class Graphic

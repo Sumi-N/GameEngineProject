@@ -25,9 +25,9 @@ namespace Tempest
 				bool node_open = ImGui::TreeNodeEx((void*)(intptr_t)i, node_flags, object_name.c_str(), i);
 				if (ImGui::IsItemClicked())
 				{
-					SelectedIndex = i;
+					SelectedObjectIndex = i;
 					SelectedObject = EntityInfo::GetObjectByIndex(i);
-					SelectedObjectFlags = EntityInfo::GetAttachedComponentsByIndex(i);
+					SelectedObjectInfo = EntityInfo::GetAttachedComponentsInfoByIndex(i);
 				}
 				if (test_drag_and_drop && ImGui::BeginDragDropSource())
 				{
@@ -40,12 +40,12 @@ namespace Tempest
 					ImGui::TreePop();
 				}
 			}
-			if (SelectedIndex != -1)
+			if (SelectedObjectIndex != -1)
 			{
 				if (ImGui::GetIO().KeyCtrl)
-					selection_mask ^= (1 << SelectedIndex);          // CTRL+click to toggle
+					selection_mask ^= (1 << SelectedObjectIndex);          // CTRL+click to toggle
 				else
-					selection_mask = (1 << SelectedIndex);           // Click to single-select
+					selection_mask = (1 << SelectedObjectIndex);           // Click to single-select
 			}
 			ImGui::TreePop();
 		}

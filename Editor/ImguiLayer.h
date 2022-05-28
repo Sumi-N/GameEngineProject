@@ -18,10 +18,10 @@ namespace Tempest
 	extern Delegate<> RenderThreadOnReset;
 
 	extern bool isEntityModifies;
-	extern bool Modified;
-	extern int SelectedIndex;
-	extern EntityInfo::ComponentFlags SelectedFlag;
-	extern EntityInfo::ComponentFlags SelectedObjectFlags;
+	extern bool isObjectModified;
+	extern int SelectedObjectIndex;
+	extern EntityInfo::ComponentFlags SelectingComponent;
+	extern EntityInfo::ComponentFlags SelectedObjectInfo;
 	extern Object SelectedObject;
 	extern CameraComponent SelectedCamera;
 	extern LightComponent SelectedLight;

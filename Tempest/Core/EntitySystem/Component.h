@@ -18,5 +18,11 @@ namespace Tempest
 		virtual void CleanUp(){};
 
 		Observer<Object> owner;
+		bool is_enable{true};
+
+#ifdef ENGINE_USE_EDITOR
+		bool is_debug_function{false};
+#endif // ENGINE_USE_EDITOR
+
 	};
 }

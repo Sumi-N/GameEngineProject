@@ -4,15 +4,16 @@
 namespace Tempest
 {
 	bool isEntityModifies{false};
-	bool Modified{false};
-	int SelectedIndex = -1;
-	EntityInfo::ComponentFlags SelectedFlag = EntityInfo::ComponentFlags::None;
-	EntityInfo::ComponentFlags SelectedObjectFlags = EntityInfo::ComponentFlags::None;
+	bool isObjectModified{false};
+	int SelectedObjectIndex = -1;
+	EntityInfo::ComponentFlags SelectingComponent = EntityInfo::ComponentFlags::None;
+	EntityInfo::ComponentFlags SelectedObjectInfo = EntityInfo::ComponentFlags::None;
 	Object SelectedObject{};
 	CameraComponent SelectedCamera{};
 	LightComponent SelectedLight{};
 	MeshComponent SelectedMesh{};
 	EffectComponent SelecctedEffect{};
+	Observer<EffectComponent> SelectingDebugEffect{};
 
 	Serializer SceneSerializer;
 
@@ -225,7 +226,7 @@ namespace Tempest
 	{
 		OnCriticalSection_ViewportPanel();
 
-		if (!Modified && !isEntityModifies)
+		if (!isObjectModified && !isEntityModifies)
 		{
 			return;
 		}
@@ -241,19 +242,19 @@ namespace Tempest
 			isEntityModifies = false;
 		}
 
-		switch (SelectedFlag)
+		switch (SelectingComponent)
 		{
 		case EntityInfo::ComponentFlags::ObjectFlag:
-			*Entity::ObjectList[SelectedIndex] = SelectedObject;
+			*Entity::ObjectList[SelectedObjectIndex] = SelectedObject;
 			break;
 		case EntityInfo::ComponentFlags::CameraFlag:
-			*Entity::CameraComponentList[SelectedIndex] = SelectedCamera;
+			*Entity::CameraComponentList[SelectedObjectIndex] = SelectedCamera;
 			break;
 		case EntityInfo::ComponentFlags::LightFlag:
-			*Entity::LightComponentList[SelectedIndex] = SelectedLight;
+			*Entity::LightComponentList[SelectedObjectIndex] = SelectedLight;
 			break;
 		case EntityInfo::ComponentFlags::MeshFlag:
-			*Entity::MeshComponentList[SelectedIndex] = SelectedMesh;
+			*Entity::MeshComponentList[SelectedObjectIndex] = SelectedMesh;
 			break;
 		case EntityInfo::ComponentFlags::EffectFlag:
 			*Entity::EffectComponentList[0] = SelecctedEffect;
@@ -261,7 +262,12 @@ namespace Tempest
 		default:
 			break;
 		}
+		
+		if (SelectedObjectIndex != -1)
+		{
+			SelectingDebugEffect->is_enable = true;			
+		}
 
-		Modified = false;
+		isObjectModified = false;
 	}
 }

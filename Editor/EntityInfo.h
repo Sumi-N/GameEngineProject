@@ -21,6 +21,6 @@ namespace Tempest
 		Object GetObjectByIndex(int);
 		String GetObjectNameByIndex(int);
 
-		ComponentFlags GetAttachedComponentsByIndex(int);
+		ComponentFlags GetAttachedComponentsInfoByIndex(int);
 	}
 }

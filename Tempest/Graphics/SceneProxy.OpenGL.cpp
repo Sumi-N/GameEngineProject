@@ -15,7 +15,7 @@ void SceneProxy::Draw(int index)
 	glDrawElements(static_cast<unsigned int>(drawtype), indexsizes[index], GL_UNSIGNED_INT, (void*)0);
 }
 
-void SceneProxy::UnBindShader()
+void SceneProxy::UnbindShader()
 {
 	state->UnBindShaderState();
 }

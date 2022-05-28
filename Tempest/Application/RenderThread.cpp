@@ -176,6 +176,8 @@ namespace Tempest
 				material.metalic = (*it)->material.metalic;
 				material.roughness = (*it)->material.roughness;
 				i_data->material_data.PushBack(material);
+
+				i_data->is_shader_enable.PushBack((*it)->is_enable);
 			}
 		}
 

@@ -2,13 +2,14 @@
 
 namespace Tempest {
 
-	extern int SelectedIndex;
-	extern EntityInfo::ComponentFlags SelectedFlag;
+	extern int SelectedObjectIndex;
+	extern EntityInfo::ComponentFlags SelectingComponent;
 	extern Object SelectedObject;
 	extern CameraComponent SelectedCamera;
-	extern LightComponent SelectedLight;
+	extern LightComponent SelectedLight; 
 	extern MeshComponent SelectedMesh;
 	extern EffectComponent SelecctedEffect;
+	extern Observer<EffectComponent> SelectingDebugEffect;
 
 	namespace EntityInfo {
 
@@ -27,7 +28,7 @@ namespace Tempest {
 			return Entity::ObjectList[index]->name;
 		}
 
-		ComponentFlags GetAttachedComponentsByIndex(int index)
+		ComponentFlags GetAttachedComponentsInfoByIndex(int index)
 		{
 			ComponentFlags result = ComponentFlags::None;
 
@@ -56,6 +57,10 @@ namespace Tempest {
 				if (object == Entity::EffectComponentList[i]->owner) {
 					result = static_cast<ComponentFlags>(result | ComponentFlags::EffectFlag);
 					SelecctedEffect = *Entity::EffectComponentList[i];
+					if (Entity::EffectComponentList[i]->is_debug_function)
+					{
+						SelectingDebugEffect = Entity::EffectComponentList[i];
+					}
 				}
 			}
 

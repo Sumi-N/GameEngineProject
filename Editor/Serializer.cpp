@@ -1,7 +1,6 @@
 #include "Serializer.h"
 
 #include <EntitySystem/Entity.h>
-#include <EntitySystem/DebugObject.h>
 #include "../MyGame/MyCameraObject.h"
 
 namespace YAML
@@ -333,7 +332,7 @@ namespace Tempest
 				}
 				else
 				{
-					object = Create<DebugObject>();
+					object = Create<Object>();
 				}
 				Entity::Register(object);
 				object->name = object_data["Object"].as<String>();

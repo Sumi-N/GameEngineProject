@@ -26,7 +26,7 @@ public:
 	void ReplaceRenderState(Owner<RenderState>);
 	void BindShader();
 	void Draw(int);
-	void UnBindShader();	
+	void UnbindShader();	
 	void DrawMeshOnly();
 	void CleanUp();
 

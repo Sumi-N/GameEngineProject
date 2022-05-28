@@ -100,7 +100,6 @@
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="DebugObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Define.cpp">
@@ -112,6 +111,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="MeshComponent.cpp" />
+    <ClCompile Include="Object.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Animation\Animation.vcxproj">

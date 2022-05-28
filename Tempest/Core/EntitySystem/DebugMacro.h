@@ -2,11 +2,14 @@
 
 #include <Configuration/Configuration.h>
 
-#include <Math/Quaternion.h>
-
 //////////////////////////////
 // Shader Macro
 //////////////////////////////
+
+namespace Tmpest
+{
+	class EffectComponent;
+}
 
 #define SHOW_DEBUG_POLYGON \
 {\
@@ -124,5 +127,7 @@
 	Owner<EffectComponent> debugeffect = Create<EffectComponent>(); \
 	debugeffect->owner = Entity::Query(this); \
 	debugeffect->RegisterShaderPath(debugshader); \
+	debugeffect->is_enable = false;\
+	debugeffect->is_debug_function = true;\
 	Entity::RegisterEffectComponent(debugeffect); \
 }
