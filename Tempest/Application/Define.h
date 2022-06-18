@@ -7,7 +7,7 @@
 // Memory Management
 #include <Core/MemoryManagement/MemorySystem.h>
 // Entity System
-#include <Core/EntitySystem/Entity.h>
+#include <EntitySystem/Entity.h>
 // Thread
 #include <Core/Thread/Thread.h>
 // Input

@@ -28,7 +28,7 @@ namespace Tempest
 		String texture_path;
 		Resource::TextureType    texture_type;
 		Owner<Resource::Texture> texture;
-	};
+	}; 
 
 	inline void BackgroundComponent::Boot()
 	{

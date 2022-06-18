@@ -113,9 +113,6 @@
     <ClInclude Include="Window.win.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\EntitySystem\EntitySystem.vcxproj">
-      <Project>{8d7d6eb2-5151-4527-934b-d775d58f0994}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Core\Input\Input.vcxproj">
       <Project>{725cccc9-d908-4257-b0e5-54bebf75b3ef}</Project>
     </ProjectReference>
@@ -133,6 +130,9 @@
     </ProjectReference>
     <ProjectReference Include="..\Core\Time\Time.vcxproj">
       <Project>{e613ebe4-86fb-4cb5-8e04-e4558231d013}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\EntitySystem\EntitySystem.vcxproj">
+      <Project>{8d7d6eb2-5151-4527-934b-d775d58f0994}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Graphics\Graphics.vcxproj">
       <Project>{6809ac33-2d2c-4a2f-9a7f-c187a9307703}</Project>

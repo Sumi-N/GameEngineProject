@@ -37,11 +37,11 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\EngineDefaults.props" />
+    <Import Project="..\EngineDefaults.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\EngineDefaults.props" />
+    <Import Project="..\EngineDefaults.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -114,22 +114,22 @@
     <ClCompile Include="Object.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Animation\Animation.vcxproj">
+    <ProjectReference Include="..\Animation\Animation.vcxproj">
       <Project>{cc303b10-d7fa-4acd-b85d-44b6b282193b}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Logging\Logging.vcxproj">
+    <ProjectReference Include="..\Core\Logging\Logging.vcxproj">
       <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Math\Math.vcxproj">
+    <ProjectReference Include="..\Core\Math\Math.vcxproj">
       <Project>{c8572e70-1b3f-469b-bb92-96dd46c72504}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\MemoryManagement\MemoryManagement.vcxproj">
+    <ProjectReference Include="..\Core\MemoryManagement\MemoryManagement.vcxproj">
       <Project>{4de6446c-e0a9-4b48-9d06-821a246ef395}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\ResourceManagement\ResourceManagement.vcxproj">
+    <ProjectReference Include="..\Core\ResourceManagement\ResourceManagement.vcxproj">
       <Project>{4590a9a9-0184-4a56-b1cc-3b585d51fc0d}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Utility\Utility.vcxproj">
+    <ProjectReference Include="..\Core\Utility\Utility.vcxproj">
       <Project>{883f681d-4804-427d-9fff-d4c138b37281}</Project>
     </ProjectReference>
   </ItemGroup>
