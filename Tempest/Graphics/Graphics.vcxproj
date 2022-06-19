@@ -39,11 +39,13 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\EngineDefaults.props" />
     <Import Project="..\OpenGL_Debug.props" />
+    <Import Project="..\Vulkan.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\EngineDefaults.props" />
     <Import Project="..\OpenGL.props" />
+    <Import Project="..\Vulkan.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -106,6 +108,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Device.Vulkan.cpp" />
     <ClCompile Include="DrawPrimitives.OpenGL.cpp" />
     <ClCompile Include="FrameBuffer.OpenGL.cpp" />
     <ClCompile Include="Graphic.cpp" />
@@ -115,11 +118,14 @@
     <ClCompile Include="SceneProxy.cpp" />
     <ClCompile Include="SceneProxy.OpenGL.cpp" />
     <ClCompile Include="Shader.OpenGL.cpp" />
+    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="Window.win.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="Device.h" />
     <ClInclude Include="DrawPrimitives.h" />
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="Graphic.h" />
@@ -127,10 +133,15 @@
     <ClInclude Include="SceneEntity.h" />
     <ClInclude Include="SceneProxy.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Window.h" />
+    <ClInclude Include="Window.win.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Configuration\Configuration.vcxproj">
       <Project>{5a56dd68-b309-44ca-82eb-13614baeda69}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Input\Input.vcxproj">
+      <Project>{725cccc9-d908-4257-b0e5-54bebf75b3ef}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Core\Logging\Logging.vcxproj">
       <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>

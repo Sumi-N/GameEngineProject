@@ -19,7 +19,7 @@
 //----------------------------
 
 #define ENGINE_GRAPHIC_OPENGL
-// #define ENGINE_GRAPHIC_VULKAN
+ //#define ENGINE_GRAPHIC_VULKAN
 
 
 //  Asking GLEW to compile with static library

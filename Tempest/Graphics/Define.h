@@ -1,6 +1,9 @@
 #pragma once
 #include <Configuration/Configuration.h>
 
+#include <Input/ApplicationEvent.h>
+#include <Input/KeyEvent.h>
+#include <Input/MouseEvent.h>
 #include <Logging/DebugLog.h>
 #include <Math/Matrix.h>
 #include <MemoryManagement/SmartPointer.h>
@@ -12,6 +15,7 @@
 // For reading shader data in shader class
 #include <fstream>
 #include <iostream>
+#include <functional>
 
 #ifdef ENGINE_GRAPHIC_OPENGL
 
@@ -23,9 +27,12 @@
 	#include <GLFW/glfw3native.h>
 
 
-#elif ENGINE_GRAPHIC_VULKAN
+#else ENGINE_GRAPHIC_VULKAN
 
-	#pragma comment(lib, "vulkan-1.lib");
+	#pragma comment(lib, "vulkan-1.lib")
+
+	#include <vulkan/vulkan.h>
+	#include <GLFW/glfw3.h>
 
 #endif // ENGINE_GRAPHIC_OPENGL
 

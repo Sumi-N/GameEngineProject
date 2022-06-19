@@ -17,9 +17,9 @@
 #include <Core/Input/KeyEvent.h>
 #include <Core/Input/ApplicationEvent.h>
 
-#include <functional>
 #include <Layer/LayerStack.h>
 
+#include <Graphics/Window.h>
 #include <Graphics/Graphic.h>
 #include <Graphics/ConstantBuffer.h>
 
@@ -28,6 +28,6 @@
 extern Input UserInput;
 
 // Logging
-// Put MemoryLeakDetection in the last since there is a macro #define new DEBUG_NEW
-// which might overwrite new keywords exist in the other libraries
+// Place MemoryLeakDetection header at the last or the macro #define new DEBUG_NEW
+// might overwrite new keywords exist in the other libraries
 #include <Logging/MemoryLeakDetection.h>

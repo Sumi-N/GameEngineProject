@@ -100,8 +100,6 @@
     </ClCompile>
     <ClCompile Include="GameThread.cpp" />
     <ClCompile Include="RenderThread.cpp" />
-    <ClCompile Include="Window.cpp" />
-    <ClCompile Include="Window.win.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -109,8 +107,6 @@
     <ClInclude Include="EntryPoint.h" />
     <ClInclude Include="GameThread.h" />
     <ClInclude Include="RenderThread.h" />
-    <ClInclude Include="Window.h" />
-    <ClInclude Include="Window.win.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Input\Input.vcxproj">

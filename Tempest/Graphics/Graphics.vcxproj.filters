@@ -11,6 +11,9 @@
     <Filter Include="Precompiled Header">
       <UniqueIdentifier>{92ee4bca-e5b6-4a02-914e-7d33812fa6b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Vulkan">
+      <UniqueIdentifier>{87c221d0-7990-44bb-8988-bdbdf2c64f93}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphic.h">
@@ -41,6 +44,15 @@
       <Filter>Precompiled Header</Filter>
     </ClInclude>
     <ClInclude Include="Buffer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Device.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.win.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
@@ -80,6 +92,15 @@
     </ClCompile>
     <ClCompile Include="Buffer.OpenGL.cpp">
       <Filter>OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Device.Vulkan.cpp">
+      <Filter>Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.win.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

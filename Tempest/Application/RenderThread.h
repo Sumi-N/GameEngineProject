@@ -2,7 +2,6 @@
 
 #include "Define.h"
 #include "GameThread.h"
-#include "Window.h"
 
 namespace Tempest
 {
