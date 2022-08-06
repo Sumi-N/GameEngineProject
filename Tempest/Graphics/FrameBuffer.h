@@ -26,13 +26,13 @@ public:
 	int       unit_number = -1;
 	int       width = 0, height = 0;
 
-#ifdef ENGINE_GRAPHIC_OPENGL
-
 	void Init(FrameType i_type, int i_unitnum, int i_width, int i_height);
 	void Recreate(int i_width, int i_height);
 	void BindFrame();
 	void BindTextureUnit();
 	void RenderOnce();
+
+#ifdef ENGINE_GRAPHIC_OPENGL
 
 	uint32_t GetBufferID() const;
 	uint32_t GetColorID() const;

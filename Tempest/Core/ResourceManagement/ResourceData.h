@@ -12,7 +12,7 @@ namespace Tempest
 		DirectionalLight = 3,
 	};
 
-	enum class TextureType : int8_t
+	enum class TextureType : uint8_t
 	{
 		Default = 0,
 		SkyBox = 1,
@@ -21,13 +21,22 @@ namespace Tempest
 		Roughness = 4,
 		Metalic = 5,
 		AmbientOcclusion = 6,
-		End,
 	};
 
 	enum class MeshType : uint8_t
 	{
 		Mesh = 0,
 		SkeletonMesh = 1,
+	};
+
+	enum class ShaderType : uint8_t
+	{
+		Uninitialized = 0, 
+		Vertex     = 1,
+		Control    = 2,
+		Evaluation = 3,
+		Geometry   = 4,
+		Fragment   = 5,
 	};
 }
 
@@ -234,6 +243,33 @@ namespace Tempest { namespace Resource
 			{
 				DEBUG_ASSERT(false);
 			}
+
+			in.Close();
+
+			return ResultValue::Success;
+		}
+	};
+
+	struct Shader
+	{
+		Shader() = default;
+		~Shader() = default;
+
+		ShaderType type;
+		size_t shader_size;
+		void* shader_binary;
+
+		static Result Load(const char* i_filepath, Shader& o_shader)
+		{
+			TextureType type;
+
+			File in(i_filepath, File::Format::BinaryRead);
+
+			RETURN_IFNOT_SUCCESS(in.Open());
+
+			RETURN_IFNOT_SUCCESS(in.Read(&o_shader.type, sizeof(uint8_t)));
+			RETURN_IFNOT_SUCCESS(in.Read(&o_shader.shader_size, sizeof(int)));
+			RETURN_IFNOT_SUCCESS(in.Read(&o_shader.shader_binary, o_shader.shader_size));
 
 			in.Close();
 

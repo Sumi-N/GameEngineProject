@@ -75,5 +75,13 @@ private:
 	static GLboolean PrintProgramInfoLog(GLuint i_program);
 	static void AttachShaderProgram(Shader& io_shader, std::vector<GLchar> i_src, GLint i_shadertype);
 
+#else ENGINE_GRAPHIC_VULKAN
+
+	void* vertex_shader     {nullptr};
+	void* fragment_shader   {nullptr};
+	void* geometry_shader   {nullptr};
+	void* control_shader    {nullptr};
+	void* evaluation_shader {nullptr};
+
 #endif // ENGINE_GRAPHIC_OPENGL
 };

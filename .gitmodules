@@ -10,3 +10,6 @@
 [submodule "External/cyCodeBase"]
 	path = External/cyCodeBase
 	url = https://github.com/cemyuksel/cyCodeBase.git
+[submodule "External/SPIRV-Reflect"]
+	path = External/SPIRV-Reflect
+	url = https://github.com/KhronosGroup/SPIRV-Reflect.git

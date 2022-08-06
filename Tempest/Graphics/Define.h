@@ -16,6 +16,8 @@
 #include <fstream>
 #include <iostream>
 #include <functional>
+#include <optional>
+#include <set>
 
 #ifdef ENGINE_GRAPHIC_OPENGL
 
@@ -32,7 +34,11 @@
 	#pragma comment(lib, "vulkan-1.lib")
 
 	#include <vulkan/vulkan.h>
+	#include <vulkan/vulkan_win32.h>
+	#include <GL/glew.h>
 	#include <GLFW/glfw3.h>
+	#define GLFW_EXPOSE_NATIVE_WIN32
+	#include <GLFW/glfw3native.h>	
 
 #endif // ENGINE_GRAPHIC_OPENGL
 

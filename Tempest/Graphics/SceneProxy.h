@@ -12,7 +12,11 @@ enum class DrawType : unsigned int
 	LINE     = GL_LINE,
 	TRIANGLE = GL_TRIANGLES,
 	PATCHES  = GL_PATCHES,
-#endif // ENGINE_GRAPHIC_OPENGL
+#else
+	LINE     = 0,
+	TRIANGLE = 0,
+	PATCHES  = 0,
+#endif
 };
 
 class SceneProxy
@@ -47,10 +51,6 @@ protected:
 	Array<VertexBuffer> vbuffers;
 	Array<IndexBuffer>  ibuffers;
 
-#ifdef ENGINE_GRAPHIC_OPENGL
-
-	//// Buffer data
+	// Buffer data
 	Array<unsigned int> indexsizes;
-
-#endif // ENGINE_GRAPHIC_OPENGL
 };

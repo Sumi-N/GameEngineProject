@@ -18,9 +18,12 @@
 //  Graphic API configuration
 //----------------------------
 
-#define ENGINE_GRAPHIC_OPENGL
- //#define ENGINE_GRAPHIC_VULKAN
+//#define ENGINE_GRAPHIC_OPENGL
+#define ENGINE_GRAPHIC_VULKAN
 
+#ifdef ENGINE_GRAPHIC_VULKAN
+	#define ENABLE_VULKAN_VALIDATION_LAYERS
+#endif
 
 //  Asking GLEW to compile with static library
 // This line should be put before #include <GL/glew.h>
