@@ -7,7 +7,7 @@ namespace Tempest
 	class Device
 	{
 	public:
-		void Initialize(Window i_window, Array<const char*> i_extensions);
+		void Initialize(Window* i_window);
 		void Finalize();
 
 #ifdef ENGINE_GRAPHIC_VULKAN
@@ -15,7 +15,7 @@ namespace Tempest
 		{
 			std::optional<uint32_t> graphics_family;
 			std::optional<uint32_t> present_family;
-		} queue_family_indices;		
+		} queue_family_indices;
 
 		VkPhysicalDeviceProperties device_properties;
 		VkPhysicalDeviceFeatures device_features;

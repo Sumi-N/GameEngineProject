@@ -173,6 +173,23 @@ namespace Tempest
 		return glfwwindow;
 	}
 
+	Array<const char*> Window::GetRequiredExtensions()
+	{
+		uint32_t glfwExtensionCount = 0;
+		const char** glfwExtensions;
+		glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+
+		for (size_t i = 0; i < glfwExtensionCount; i++)
+		{
+			extensions.PushBack(glfwExtensions[i]);
+		}
+
+#ifdef ENABLE_VULKAN_VALIDATION_LAYERS
+		extensions.PushBack("VK_EXT_debug_utils");
+#endif
+
+		return extensions;
+	}
 }
 
 #endif // ENGINE_PLATFORM_WINDOWS

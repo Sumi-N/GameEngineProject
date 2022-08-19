@@ -6,6 +6,7 @@
 #include <Input/MouseEvent.h>
 #include <Logging/DebugLog.h>
 #include <Math/Matrix.h>
+#include <ResourceManagement/ResourceData.h>
 #include <MemoryManagement/SmartPointer.h>
 #include <EntitySystem/Object.h>
 #include <EntitySystem/MeshComponent.h>
@@ -38,7 +39,7 @@
 	#include <GL/glew.h>
 	#include <GLFW/glfw3.h>
 	#define GLFW_EXPOSE_NATIVE_WIN32
-	#include <GLFW/glfw3native.h>	
+	#include <GLFW/glfw3native.h>
 
 #endif // ENGINE_GRAPHIC_OPENGL
 

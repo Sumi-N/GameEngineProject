@@ -2,59 +2,54 @@
 
 namespace Tempest
 {
-	void Pipeline::Initialize()
+	void Pipeline::Initialize(const Device& i_device, const SwapChain& i_swapchain, const Array<Resource::Shader>& shaders)
 	{
-		VkPipelineShaderStageCreateInfo shader_stages[2];
+		Array<VkPipelineShaderStageCreateInfo> shader_stages;
+		shader_stages.Resize(shaders.Size());
 		{
+			for (int i = 0; i < shaders.Size(); i++)
 			{
-				void* vertex_shader_pointer = nullptr;
-				size_t vertex_shader_size;
-				ReadFile("E:/repos/GameEngineProject/Assets/bin/shader/vert.spv", vertex_shader_pointer, vertex_shader_size);
-
-				VkShaderModuleCreateInfo vertex_shader_create_info{};
-				vertex_shader_create_info.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-				vertex_shader_create_info.codeSize = vertex_shader_size;
-				vertex_shader_create_info.pCode = reinterpret_cast<const uint32_t*>(vertex_shader_pointer);
-				if (vkCreateShaderModule(logical_device, &vertex_shader_create_info, nullptr, &vertex_shader_module) != VK_SUCCESS)
+				VkShaderModuleCreateInfo shader_create_info{};
+				shader_create_info.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+				shader_create_info.codeSize = shaders[i].shader_size;
+				shader_create_info.pCode = reinterpret_cast<const uint32_t*>(shaders[i].shader_binary);
+				if (vkCreateShaderModule(i_device.logical_device, &shader_create_info, nullptr, &shader_module[i]) != VK_SUCCESS)
 				{
 					DEBUG_ASSERT(false);
 				}
-			}
 
-			{
-				void* fragment_shader_pointer = nullptr;
-				size_t fragment_shader_size;
-				ReadFile("E:/repos/GameEngineProject/Assets/bin/shader/frag.spv", fragment_shader_pointer, fragment_shader_size);
-
-				VkShaderModuleCreateInfo fragment_shader_create_info{};
-				fragment_shader_create_info.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-				fragment_shader_create_info.codeSize = fragment_shader_size;
-				fragment_shader_create_info.pCode = reinterpret_cast<const uint32_t*>(fragment_shader_pointer);
-				if (vkCreateShaderModule(logical_device, &fragment_shader_create_info, nullptr, &fragment_shader_module) != VK_SUCCESS)
+				VkPipelineShaderStageCreateInfo shader_stage_info{};
 				{
-					DEBUG_ASSERT(false);
+					shader_stage_info.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+					switch (shaders[i].type)
+					{
+					case ShaderType::Vertex:
+						shader_stage_info.stage = VK_SHADER_STAGE_VERTEX_BIT;
+						break;
+					case ShaderType::Control:
+						shader_stage_info.stage = VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT;
+						break;
+					case ShaderType::Evaluation:
+						shader_stage_info.stage = VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
+						break;
+					case ShaderType::Geometry:
+						shader_stage_info.stage = VK_SHADER_STAGE_GEOMETRY_BIT;
+						break;
+					case ShaderType::Fragment:
+						shader_stage_info.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+						break;
+					case ShaderType::Compute:
+						shader_stage_info.stage = VK_SHADER_STAGE_COMPUTE_BIT;
+						break;
+					default:
+						DEBUG_ASSERT(false);
+					}
+					shader_stage_info.module = shader_module[i];
+					shader_stage_info.pName = "main";
 				}
+
+				shader_stages[i] = shader_stage_info;
 			}
-
-			VkPipelineShaderStageCreateInfo vertex_shader_stage_info{};
-			{
-				vertex_shader_stage_info.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-				vertex_shader_stage_info.stage = VK_SHADER_STAGE_VERTEX_BIT;
-				vertex_shader_stage_info.module = vertex_shader_module;
-				vertex_shader_stage_info.pName = "main";
-			}
-
-			VkPipelineShaderStageCreateInfo fragment_shader_stage_info{};
-			{
-				fragment_shader_stage_info.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-				fragment_shader_stage_info.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-				fragment_shader_stage_info.module = fragment_shader_module;
-				fragment_shader_stage_info.pName = "main";
-			}
-
-
-			shader_stages[0] = vertex_shader_stage_info;
-			shader_stages[1] = fragment_shader_stage_info;
 		}
 
 		VkPipelineVertexInputStateCreateInfo vertex_input_create_info{};
@@ -72,14 +67,14 @@ namespace Tempest
 		VkViewport viewport;
 		viewport.x = 0.0f;
 		viewport.y = 0.0f;
-		viewport.width = static_cast<float>(support_details.extent.width);
-		viewport.height = static_cast<float>(support_details.extent.height);
+		viewport.width = static_cast<float>(i_swapchain.support_details.extent.width);
+		viewport.height = static_cast<float>(i_swapchain.support_details.extent.height);
 		viewport.minDepth = 0.0f;
 		viewport.maxDepth = 1.0f;
 
 		VkRect2D scissor;
 		scissor.offset = { 0, 0 };
-		scissor.extent = support_details.extent;
+		scissor.extent = i_swapchain.support_details.extent;
 
 		VkPipelineViewportStateCreateInfo viewport_create_info{};
 		viewport_create_info.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
@@ -139,14 +134,14 @@ namespace Tempest
 			pipeline_layout_create_info.pushConstantRangeCount = 0;
 			pipeline_layout_create_info.pPushConstantRanges = nullptr;
 
-			if (vkCreatePipelineLayout(logical_device, &pipeline_layout_create_info, nullptr, &pipeline_layout) != VK_SUCCESS)
+			if (vkCreatePipelineLayout(i_device.logical_device, &pipeline_layout_create_info, nullptr, &pipeline_layout) != VK_SUCCESS)
 			{
 				DEBUG_ASSERT(false);
 			}
 		}
 
 		VkAttachmentDescription color_attachment{};
-		color_attachment.format = support_details.formats[support_details.available_format_index].format;
+		color_attachment.format = i_swapchain.support_details.formats[i_swapchain.support_details.available_format_index].format;
 		color_attachment.samples = VK_SAMPLE_COUNT_1_BIT;
 		color_attachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
 		color_attachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
@@ -181,15 +176,15 @@ namespace Tempest
 		renderpass_info.dependencyCount = 1;
 		renderpass_info.pDependencies = &dependency;
 
-		if (vkCreateRenderPass(logical_device, &renderpass_info, nullptr, &render_pass) != VK_SUCCESS)
+		if (vkCreateRenderPass(i_device.logical_device, &renderpass_info, nullptr, &render_pass) != VK_SUCCESS)
 		{
 			DEBUG_ASSERT(false);
 		}
 
 		VkGraphicsPipelineCreateInfo pipeline_create_info{};
 		pipeline_create_info.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-		pipeline_create_info.stageCount = 2;
-		pipeline_create_info.pStages = shader_stages;
+		pipeline_create_info.stageCount = shader_stages.Size();
+		pipeline_create_info.pStages = shader_stages.Data();
 		pipeline_create_info.pVertexInputState = &vertex_input_create_info;
 		pipeline_create_info.pInputAssemblyState = &input_assembly_create_info;
 		pipeline_create_info.pViewportState = &viewport_create_info;
@@ -203,7 +198,7 @@ namespace Tempest
 		pipeline_create_info.basePipelineHandle = VK_NULL_HANDLE;
 		pipeline_create_info.basePipelineIndex = -1;
 
-		if (vkCreateGraphicsPipelines(logical_device, VK_NULL_HANDLE, 1, &pipeline_create_info, nullptr, &graphics_pipeline) != VK_SUCCESS)
+		if (vkCreateGraphicsPipelines(i_device.logical_device, VK_NULL_HANDLE, 1, &pipeline_create_info, nullptr, &graphics_pipeline) != VK_SUCCESS)
 		{
 			DEBUG_ASSERT(false);
 		}

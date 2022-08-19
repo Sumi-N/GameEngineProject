@@ -43,6 +43,10 @@ public:
 	GLuint  textureid_color = 0;
 	GLuint  textureid_depth = 0;
 
+#else ENGINE_GRAPHIC_VULKAN
+
+	Tempest::Array<VkFramebuffer> framebuffers;
+
 #endif // ENGINE_GRAPHIC_OPENGL
 
 };

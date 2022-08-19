@@ -2,7 +2,7 @@
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 namespace Tempest
-{	
+{
 	void CommandBuffer::Initialize(Device& i_device)
 	{
 		device = i_device;

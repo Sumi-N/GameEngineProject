@@ -12,4 +12,5 @@
 #include <Utility/File.h>
 #include <Utility/Array.h>
 
+#include <External/SPIRV-Reflect/spirv_reflect.h>
 #include <External/loadpng/lodepng.h>

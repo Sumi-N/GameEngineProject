@@ -114,6 +114,8 @@
     <ClCompile Include="FrameBuffer.OpenGL.cpp" />
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="Graphic.OpenGL.cpp" />
+    <ClCompile Include="Graphic.Vulkan.cpp" />
+    <ClCompile Include="Pipeline.Vulkan.cpp" />
     <ClCompile Include="Queue.Vulkan.cpp" />
     <ClCompile Include="RenderState.OpenGL.cpp" />
     <ClCompile Include="SceneEntity.cpp" />

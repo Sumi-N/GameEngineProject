@@ -13,6 +13,8 @@ public:
 
 	HWND GetNaitiveWindowsHandler();
 	GLFWwindow* GetGLFWWindow();
+	Array<const char*> GetRequiredExtensions();
 
 private:
 	GLFWwindow* glfwwindow;
+	Array<const char*> extensions;

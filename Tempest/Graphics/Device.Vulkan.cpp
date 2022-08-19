@@ -61,7 +61,7 @@ namespace Tempest
 		}
 	}
 
-	void Device::Initialize(Window i_window, Array<const char*> i_extensions)
+	void Device::Initialize(Window* i_window)
 	{
 		// Initialize instance
 		VkApplicationInfo app_info{};
@@ -72,13 +72,15 @@ namespace Tempest
 		app_info.engineVersion = VK_MAKE_VERSION(1, 0, 0);
 		app_info.apiVersion = VK_API_VERSION_1_2;
 
+		Array<const char*> extensions = i_window->GetRequiredExtensions();
+
 		VkInstanceCreateInfo instance_create_info{};
 		instance_create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 		instance_create_info.pApplicationInfo = &app_info;
-		instance_create_info.enabledExtensionCount = static_cast<uint32_t>(i_extensions.Size());
-		instance_create_info.ppEnabledExtensionNames = i_extensions.Data();
+		instance_create_info.enabledExtensionCount = static_cast<uint32_t>(extensions.Size());
+		instance_create_info.ppEnabledExtensionNames = extensions.Data();
 
-#ifdef ENABLE_VULKAN_VALIDATION_LAYERS		
+#ifdef ENABLE_VULKAN_VALIDATION_LAYERS
 		const char* layer_names = "VK_LAYER_KHRONOS_validation";
 		instance_create_info.enabledLayerCount = 1;
 		instance_create_info.ppEnabledLayerNames = &layer_names;
@@ -185,12 +187,12 @@ namespace Tempest
 		{
 			uint32_t extension_count;
 			vkEnumerateDeviceExtensionProperties(physical_device, nullptr, &extension_count, nullptr);
-			availableExtensions.Resize(extension_count);			
+			availableExtensions.Resize(extension_count);
 			vkEnumerateDeviceExtensionProperties(physical_device, nullptr, &extension_count, availableExtensions.Data());
 		}
 
 		// Create logical queue
-		{			
+		{
 			Array<VkDeviceQueueCreateInfo>  queue_create_infos;
 			std::set<uint32_t> unique_queue_families = { queue_family_indices.graphics_family.value(), queue_family_indices.present_family.value() };
 
@@ -217,13 +219,13 @@ namespace Tempest
 			if (vkCreateDevice(physical_device, &device_create_info, nullptr, &logical_device) != VK_SUCCESS)
 			{
 				DEBUG_ASSERT(false);
-			}			
+			}
 		}
 
 		// Create surface
 		VkWin32SurfaceCreateInfoKHR	sureface_create_info{};
 		sureface_create_info.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
-		sureface_create_info.hwnd = i_window.GetNaitiveWindowsHandler();
+		sureface_create_info.hwnd = i_window->GetNaitiveWindowsHandler();
 		sureface_create_info.hinstance = GetModuleHandle(nullptr);
 
 		if (vkCreateWin32SurfaceKHR(instance, &sureface_create_info, nullptr, &surface) != VK_SUCCESS)
@@ -238,7 +240,7 @@ namespace Tempest
 
 #ifdef ENABLE_VULKAN_VALIDATION_LAYERS
 		DestroyDebugUtilsMessengerEXT(instance, debug_messenger, nullptr);
-#endif	
+#endif
 		vkDestroyInstance(instance, nullptr);
 	}
 }

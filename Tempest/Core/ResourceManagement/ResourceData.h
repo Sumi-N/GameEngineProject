@@ -10,6 +10,7 @@ namespace Tempest
 		AmbientLight = 1,
 		PointLight = 2,
 		DirectionalLight = 3,
+		Size,
 	};
 
 	enum class TextureType : uint8_t
@@ -21,12 +22,14 @@ namespace Tempest
 		Roughness = 4,
 		Metalic = 5,
 		AmbientOcclusion = 6,
+		Size,
 	};
 
 	enum class MeshType : uint8_t
 	{
 		Mesh = 0,
 		SkeletonMesh = 1,
+		Size,
 	};
 
 	enum class ShaderType : uint8_t
@@ -37,6 +40,21 @@ namespace Tempest
 		Evaluation = 3,
 		Geometry   = 4,
 		Fragment   = 5,
+		Compute    = 6,
+		Size,
+	};
+
+	enum class ShaderDescriptorType : uint8_t
+	{
+		Sampler,
+		CombinedImageSampler,
+		SapmledImage,
+		StorageImage,
+		UniformTexelBuffer,
+		StorageTexelBuffer,
+		UniformBuffer,
+		StorageBuffer,
+		Size,
 	};
 }
 
@@ -234,7 +252,7 @@ namespace Tempest { namespace Resource
 				o_texture.pixels.Resize(o_texture.width * o_texture.height * fixed_size);
 				RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_texture.pixels.Data()), sizeof(float) * o_texture.width * o_texture.height * static_cast<size_t>(3)));
 			}
-			else if(type < TextureType::End)
+			else if(type < TextureType::Size)
 			{
 				o_texture.pixels.Resize(o_texture.width * o_texture.height);
 				RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_texture.pixels.Data()), o_texture.width * o_texture.height * sizeof(Vec3u8t)));
@@ -250,28 +268,95 @@ namespace Tempest { namespace Resource
 		}
 	};
 
-	struct Shader
+	struct  Descriptor
 	{
+		int binding;
+		size_t size;
+		String name;
+		ShaderDescriptorType type;
+	};
+
+	struct Shader
+	{		
 		Shader() = default;
 		~Shader() = default;
 
 		ShaderType type;
 		size_t shader_size;
 		void* shader_binary;
+		Array<Descriptor> descriptor_info;
 
 		static Result Load(const char* i_filepath, Shader& o_shader)
-		{
-			TextureType type;
-
+		{			
 			File in(i_filepath, File::Format::BinaryRead);
 
 			RETURN_IFNOT_SUCCESS(in.Open());
 
-			RETURN_IFNOT_SUCCESS(in.Read(&o_shader.type, sizeof(uint8_t)));
-			RETURN_IFNOT_SUCCESS(in.Read(&o_shader.shader_size, sizeof(int)));
+			o_shader.shader_size = in.GetFileSize();			
 			RETURN_IFNOT_SUCCESS(in.Read(&o_shader.shader_binary, o_shader.shader_size));
 
 			in.Close();
+
+			{
+				SpvReflectShaderModule module = {};
+				SpvReflectResult result = spvReflectCreateShaderModule(sizeof(o_shader.shader_size), o_shader.shader_binary, &module);
+
+				switch (module.shader_stage)
+				{
+				default: break;
+				case SPV_REFLECT_SHADER_STAGE_VERTEX_BIT: o_shader.type = ShaderType::Vertex; break;
+				case SPV_REFLECT_SHADER_STAGE_TESSELLATION_CONTROL_BIT: o_shader.type = ShaderType::Control; break;
+				case SPV_REFLECT_SHADER_STAGE_TESSELLATION_EVALUATION_BIT: o_shader.type = ShaderType::Evaluation; break;
+				case SPV_REFLECT_SHADER_STAGE_GEOMETRY_BIT: o_shader.type = ShaderType::Geometry; break;
+				case SPV_REFLECT_SHADER_STAGE_FRAGMENT_BIT: o_shader.type = ShaderType::Fragment; break;
+				case SPV_REFLECT_SHADER_STAGE_COMPUTE_BIT: o_shader.type = ShaderType::Compute; break;
+				}
+
+				uint32_t count = 0;
+				result = spvReflectEnumerateDescriptorSets(&module, &count, NULL);
+				DEBUG_ASSERT(result == SPV_REFLECT_RESULT_SUCCESS);
+
+				Array<SpvReflectDescriptorSet*> sets(count);
+				result = spvReflectEnumerateDescriptorSets(&module, &count, sets.Data());
+				DEBUG_ASSERT(result == SPV_REFLECT_RESULT_SUCCESS);
+				
+				for (size_t index = 0; index < sets.Size(); ++index)
+				{
+					auto p_set = sets[index];
+					
+					DEBUG_ASSERT(result == SPV_REFLECT_RESULT_SUCCESS);										
+					
+					o_shader.descriptor_info.Resize(p_set->binding_count);
+
+					for (uint32_t i = 0; i < p_set->binding_count; ++i)
+					{
+						const SpvReflectDescriptorBinding& binding_obj = *(p_set->bindings)[i];
+						const SpvReflectBlockVariable& binding_obj_block = binding_obj.block;
+						
+						o_shader.descriptor_info[i].binding = binding_obj.binding;
+						o_shader.descriptor_info[i].name = binding_obj.name;
+						o_shader.descriptor_info[i].type = static_cast<ShaderDescriptorType>(binding_obj.descriptor_type);
+						o_shader.descriptor_info[i].size = binding_obj_block.size;
+						
+						if (binding_obj.array.dims_count > 0)
+						{
+							DEBUG_ASSERT(true);
+						}
+						
+						if (binding_obj.uav_counter_binding != nullptr)
+						{
+							DEBUG_ASSERT(true);
+						}
+						
+						if ((binding_obj.type_description->type_name != nullptr) && (strlen(binding_obj.type_description->type_name) > 0))
+						{
+							DEBUG_ASSERT(true);							
+						}
+					}
+				}
+
+				spvReflectDestroyShaderModule(&module);
+			}			
 
 			return ResultValue::Success;
 		}

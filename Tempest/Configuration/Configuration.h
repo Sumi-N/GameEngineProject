@@ -72,11 +72,13 @@ constexpr float FramePerSecond = 60.0f;
 //----------------------------
 #define PATH_SUFFIX      "..\\"
 #define SHADER_PATH      "Assets\\shaders\\"
+#define INIT_SHADER_PATH "Assets\\init\\shader\\"
+#define BIN_SHADER_PATH  "Assets\\bin\\shader\\"
 #define INT_MESH_PATH    "Assets\\int\\mesh\\"
 #define BIN_MESH_PATH    "Assets\\bin\\mesh\\"
 #define INT_TEXTURE_PATH "Assets\\int\\texture\\"
 #define BIN_TEXTURE_PATH "Assets\\bin\\texture\\"
-#define FONT_PATH        "Assets\\fonts\\"
+#define FONT_PATH        "Assets\\bin\\font\\"
 
 //----------------------------
 // Mesh Data
