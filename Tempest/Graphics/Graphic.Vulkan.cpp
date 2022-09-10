@@ -3,6 +3,7 @@
 #include "Queue.h"
 #include "SwapChain.h"
 #include "Pipeline.h"
+#include "FrameBuffer.h"
 #include "CommandBuffer.h"
 
 #ifdef ENGINE_GRAPHIC_VULKAN
@@ -14,6 +15,8 @@ namespace Tempest
 	SwapChain swapchain;
 	Pipeline pipeline;
 	CommandBuffer commandbuffers[2];
+	Array<Tempest::Resource::Shader> shaders;
+	FrameBuffer framebuffer;
 	VkSemaphore imageAvailableSemaphores[2];
 	VkSemaphore renderFinishedSemaphores[2];
 	VkFence inFlightFences[2];
@@ -24,7 +27,8 @@ namespace Tempest
 		device.Initialize(i_window);
 		queue.Initialize(device);
 		swapchain.Initialize(device);
-
+		pipeline.Initialize(device, swapchain, shaders);
+		framebuffer.Initialize(device, swapchain, pipeline);
 	}
 
 	void Graphic::PreCompute()
@@ -42,8 +46,8 @@ namespace Tempest
 		vkWaitForFences(device.logical_device, 1, &inFlightFences[currentFrame], VK_TRUE, UINT64_MAX);
 		vkResetFences(device.logical_device, 1, &inFlightFences[currentFrame]);
 
-		uint32_t imageIndex;
-		vkAcquireNextImageKHR(device.logical_device, swapchain.swapchain, UINT64_MAX, imageAvailableSemaphores[currentFrame], VK_NULL_HANDLE, &imageIndex);
+		uint32_t image_index;
+		vkAcquireNextImageKHR(device.logical_device, swapchain.swapchain, UINT64_MAX, imageAvailableSemaphores[currentFrame], VK_NULL_HANDLE, &image_index);
 
 		vkResetCommandBuffer(commandbuffers->commandbuffers[currentFrame], /*VkCommandBufferResetFlagBits*/ 0);
 
@@ -61,7 +65,7 @@ namespace Tempest
 			VkRenderPassBeginInfo renderpass_info{};
 			renderpass_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 			renderpass_info.renderPass = pipeline.render_pass;
-			renderpass_info.framebuffer = swapchain_framebuffers[image_index];
+			renderpass_info.framebuffer = framebuffer.framebuffers[image_index];
 			renderpass_info.renderArea.offset = { 0, 0 };
 			renderpass_info.renderArea.extent = { 1920, 1080 };
 
@@ -70,7 +74,7 @@ namespace Tempest
 			renderpass_info.pClearValues = &clearcolor;
 
 			vkCmdBeginRenderPass(commandbuffers->commandbuffers[currentFrame], &renderpass_info, VK_SUBPASS_CONTENTS_INLINE);
-			vkCmdBindPipeline(commandbuffers->commandbuffers[currentFrame], VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline);
+			vkCmdBindPipeline(commandbuffers->commandbuffers[currentFrame], VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline.graphics_pipeline);
 			vkCmdDraw(commandbuffers->commandbuffers[currentFrame], 3, 1, 0, 0);
 			vkCmdEndRenderPass(commandbuffers->commandbuffers[currentFrame]);
 			if (vkEndCommandBuffer(commandbuffers->commandbuffers[currentFrame]) != VK_SUCCESS)
@@ -95,7 +99,7 @@ namespace Tempest
 		submitInfo.signalSemaphoreCount = 1;
 		submitInfo.pSignalSemaphores = signalSemaphores;
 
-		if (vkQueueSubmit(graphics_queue, 1, &submitInfo, inFlightFences[currentFrame]) != VK_SUCCESS)
+		if (vkQueueSubmit(queue.graphics_queue, 1, &submitInfo, inFlightFences[currentFrame]) != VK_SUCCESS)
 		{
 			throw std::runtime_error("failed to submit draw command buffer!");
 		}
@@ -110,9 +114,9 @@ namespace Tempest
 		presentInfo.swapchainCount = 1;
 		presentInfo.pSwapchains = swapChains;
 
-		presentInfo.pImageIndices = &imageIndex;
+		presentInfo.pImageIndices = &image_index;
 
-		vkQueuePresentKHR(present_queue, &presentInfo);
+		vkQueuePresentKHR(queue.present_queue, &presentInfo);
 
 		currentFrame = 1 - currentFrame;
 	}

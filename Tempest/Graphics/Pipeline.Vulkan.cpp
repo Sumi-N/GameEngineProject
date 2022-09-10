@@ -183,7 +183,7 @@ namespace Tempest
 
 		VkGraphicsPipelineCreateInfo pipeline_create_info{};
 		pipeline_create_info.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-		pipeline_create_info.stageCount = shader_stages.Size();
+		pipeline_create_info.stageCount = static_cast<uint32_t>(shader_stages.Size());
 		pipeline_create_info.pStages = shader_stages.Data();
 		pipeline_create_info.pVertexInputState = &vertex_input_create_info;
 		pipeline_create_info.pInputAssemblyState = &input_assembly_create_info;

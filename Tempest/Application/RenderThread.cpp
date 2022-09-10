@@ -21,13 +21,13 @@ namespace Tempest
 		BindEvent();
 
 		// Initialize OpenGL
-		Graphic::Boot();
+		Graphic::Boot(window);
 	}
 
 	void RenderThread::Init()
 	{
 		// Init scene Entity
-		SceneEntity::Init();
+		//SceneEntity::Init();
 
 		Graphic::Init(window->data.width, window->data.height);
 
@@ -38,8 +38,8 @@ namespace Tempest
 
 	void RenderThread::Reset()
 	{
-		SceneEntity::List.Clear();
-		SceneEntity::Init();
+		//SceneEntity::List.Clear();
+		//SceneEntity::Init();
 		Graphic::PreCompute();
 		WriteDataToOwningThread(&GraphicsData);
 	}

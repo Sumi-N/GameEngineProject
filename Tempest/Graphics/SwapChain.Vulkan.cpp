@@ -5,48 +5,45 @@ namespace Tempest
 {
 	void SwapChain::Initialize(Device& i_device)
 	{
-		device = i_device;
+		device = &i_device;
 
 		// Check if this graphics card is able to make a swapchain
 		 bool requirement = false;
-		 device.device_extensions.PushBack(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
-		for (auto itr = device.availableExtensions.Begin(); itr != device.availableExtensions.End(); ++itr)
+		 device->device_extensions.PushBack(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+		for (auto itr = device->availableExtensions.Begin(); itr != device->availableExtensions.End(); ++itr)
 		{
 			// Haven't finished yet
 			// Need to fix this part
-			if ((*itr).extensionName == device.device_extensions.At(0))
+			if ((*itr).extensionName == device->device_extensions.At(0))
 			{
 				requirement = true;
 			}
 		}
 		DEBUG_ASSERT(requirement);
 
-		// Get infos related to swapchain		
+		// Get infos related to swapchain
 		{
-			vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device.physical_device, device.surface, &support_details.capabilities);
+			vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device->physical_device, device->surface, &support_details.capabilities);
 
 			uint32_t format_count;
-			vkGetPhysicalDeviceSurfaceFormatsKHR(device.physical_device, device.surface, &format_count, nullptr);
+			vkGetPhysicalDeviceSurfaceFormatsKHR(device->physical_device, device->surface, &format_count, nullptr);
 			if (format_count != 0)
 			{
 				support_details.formats.Resize(format_count);
-				vkGetPhysicalDeviceSurfaceFormatsKHR(device.physical_device, device.surface, &format_count, support_details.formats.Data());
+				vkGetPhysicalDeviceSurfaceFormatsKHR(device->physical_device, device->surface, &format_count, support_details.formats.Data());
 			}
 
 			uint32_t presetn_mode_count;
-			vkGetPhysicalDeviceSurfacePresentModesKHR(device.physical_device, device.surface, &presetn_mode_count, nullptr);
+			vkGetPhysicalDeviceSurfacePresentModesKHR(device->physical_device, device->surface, &presetn_mode_count, nullptr);
 			if (presetn_mode_count != 0)
 			{
 				support_details.present_modes.Resize(presetn_mode_count);
-				vkGetPhysicalDeviceSurfacePresentModesKHR(device.physical_device, device.surface, &presetn_mode_count, support_details.present_modes.Data());
+				vkGetPhysicalDeviceSurfacePresentModesKHR(device->physical_device, device->surface, &presetn_mode_count, support_details.present_modes.Data());
 			}
 
 			bool swapchain_adequate = false;
 			swapchain_adequate = !support_details.formats.Empty() && !support_details.present_modes.Empty();
-			if (!swapchain_adequate)
-			{
-				DEBUG_ASSERT(false);
-			}
+			DEBUG_ASSERT(!swapchain_adequate);
 
 			bool has_avaiable_surface_format = false;
 			int available_format_index = 0;
@@ -60,10 +57,7 @@ namespace Tempest
 				}
 				available_format_index++;
 			}
-			if (!has_avaiable_surface_format)
-			{
-				DEBUG_ASSERT(false);
-			}
+			DEBUG_ASSERT(!has_avaiable_surface_format);
 
 			int available_present_mode_index = 0;
 			VkPresentModeKHR present_mode = VK_PRESENT_MODE_FIFO_KHR;
@@ -93,7 +87,7 @@ namespace Tempest
 		{
 			VkSwapchainCreateInfoKHR create_swapchain_info{};
 			create_swapchain_info.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-			create_swapchain_info.surface = device.surface;
+			create_swapchain_info.surface = device->surface;
 			create_swapchain_info.minImageCount = support_details.image_count;
 			create_swapchain_info.imageFormat = support_details.formats[support_details.available_format_index].format;
 			create_swapchain_info.imageColorSpace = support_details.formats[support_details.available_format_index].colorSpace;
@@ -101,9 +95,9 @@ namespace Tempest
 			create_swapchain_info.imageArrayLayers = 1;
 			create_swapchain_info.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
-			uint32_t queueFamilyIndices[] = { device.queue_family_indices.graphics_family.value(), device.queue_family_indices.present_family.value() };
+			uint32_t queueFamilyIndices[] = { device->queue_family_indices.graphics_family.value(), device->queue_family_indices.present_family.value() };
 
-			if (device.queue_family_indices.graphics_family != device.queue_family_indices.present_family)
+			if (device->queue_family_indices.graphics_family != device->queue_family_indices.present_family)
 			{
 				create_swapchain_info.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
 				create_swapchain_info.queueFamilyIndexCount = 2;
@@ -120,15 +114,15 @@ namespace Tempest
 			create_swapchain_info.clipped = VK_TRUE;
 			create_swapchain_info.oldSwapchain = VK_NULL_HANDLE;
 
-			if (vkCreateSwapchainKHR(device.logical_device, &create_swapchain_info, nullptr, &swapchain) != VK_SUCCESS)
+			if (vkCreateSwapchainKHR(device->logical_device, &create_swapchain_info, nullptr, &swapchain) != VK_SUCCESS)
 			{
 				DEBUG_ASSERT(false);
 			}
 
 			uint32_t image_count;
-			vkGetSwapchainImagesKHR(device.logical_device, swapchain, &image_count, nullptr);
+			vkGetSwapchainImagesKHR(device->logical_device, swapchain, &image_count, nullptr);
 			swapchain_images.Resize(image_count);
-			vkGetSwapchainImagesKHR(device.logical_device, swapchain, &image_count, swapchain_images.Data());
+			vkGetSwapchainImagesKHR(device->logical_device, swapchain, &image_count, swapchain_images.Data());
 		}
 
 		swapchain_image_views.Resize(swapchain_images.Size());
@@ -149,7 +143,7 @@ namespace Tempest
 			create_view_image_info.subresourceRange.baseArrayLayer = 0;
 			create_view_image_info.subresourceRange.layerCount = 1;
 
-			if (vkCreateImageView(device.logical_device, &create_view_image_info, nullptr, &swapchain_image_views[i]) != VK_SUCCESS)
+			if (vkCreateImageView(device->logical_device, &create_view_image_info, nullptr, &swapchain_image_views[i]) != VK_SUCCESS)
 			{
 				DEBUG_ASSERT(false);
 			}

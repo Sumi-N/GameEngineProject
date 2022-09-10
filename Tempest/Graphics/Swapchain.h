@@ -26,7 +26,7 @@ namespace Tempest{
 		} support_details;
 
 	private:
-		Device& device;
+		Device* device;
 #endif // ENGINE_GRAPHIC_VULKAN
 	};
 }

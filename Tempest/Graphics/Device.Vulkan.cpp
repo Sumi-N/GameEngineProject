@@ -122,6 +122,15 @@ namespace Tempest
 		}
 #endif
 
+		// Create surface
+		VkWin32SurfaceCreateInfoKHR	sureface_create_info{};
+		sureface_create_info.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
+		sureface_create_info.hwnd = i_window->GetNaitiveWindowsHandler();
+		sureface_create_info.hinstance = GetModuleHandle(nullptr);
+
+		VkResult result = vkCreateWin32SurfaceKHR(instance, &sureface_create_info, nullptr, &surface);
+		DEBUG_ASSERT(result != VK_SUCCESS);
+
 		// Get physical device info
 		uint32_t device_count = 0;
 		vkEnumeratePhysicalDevices(instance, &device_count, nullptr);

@@ -61,10 +61,12 @@
     <ClInclude Include="Queue.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Swapchain.h">
+    <ClInclude Include="SwapChain.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="CommandBuffer.h" />
+    <ClInclude Include="CommandBuffer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConstantBuffer.OpenGL.cpp">
@@ -122,6 +124,15 @@
       <Filter>Vulkan</Filter>
     </ClCompile>
     <ClCompile Include="Pipeline.Vulkan.cpp">
+      <Filter>Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic.Vulkan.cpp">
+      <Filter>Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameBuffer.Vulkan.cpp">
+      <Filter>Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstantBuffer.Vulkan.cpp">
       <Filter>Vulkan</Filter>
     </ClCompile>
   </ItemGroup>

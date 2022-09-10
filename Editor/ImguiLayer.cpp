@@ -262,10 +262,10 @@ namespace Tempest
 		default:
 			break;
 		}
-		
+
 		if (SelectedObjectIndex != -1)
 		{
-			SelectingDebugEffect->is_enable = true;			
+			SelectingDebugEffect->is_enable = true;
 		}
 
 		isObjectModified = false;

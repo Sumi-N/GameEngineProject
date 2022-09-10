@@ -39,7 +39,7 @@ inline void SceneEntity::Init()
 		proxyhandler->state = renderhandler;
 		List.PushBack(proxyhandler);
 
-		renderhandler->InitShader((*it)->shaderpaths);		
+		renderhandler->InitShader((*it)->shaderpaths);
 
 		// Create buffer for textures
 		auto it_type = (*it)->texture_types.begin();

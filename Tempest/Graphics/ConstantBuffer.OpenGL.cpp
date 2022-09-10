@@ -2,13 +2,6 @@
 #include "ConstantBuffer.h"
 
 #ifdef  ENGINE_GRAPHIC_OPENGL
-ConstantBuffer::ConstantBuffer()
-{
-}
-
-ConstantBuffer::~ConstantBuffer()
-{
-}
 
 void ConstantBuffer::Init(ConstantData::Index i_index)
 {

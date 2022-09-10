@@ -9,6 +9,7 @@ namespace DEBUG
 }
 
 #if defined(_DEBUG)
+// If this true then the program will be halt
 #define DEBUG_ASSERT(i_assertion)\
 	{\
 		static auto ignorethisinthefuture = false;\

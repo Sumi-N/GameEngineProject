@@ -17,7 +17,7 @@ namespace Tempest
 		VkCommandBuffer commandbuffers[MAX_FRAMES_IN_FLIGHT];
 
 	private:
-		Device& device;
+		Device* device;
 #endif // ENGINE_GRAPHIC_VULKAN
 
 	};

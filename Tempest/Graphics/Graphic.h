@@ -84,8 +84,8 @@ namespace Tempest
 		FrameBufferImage.Init(FrameType::Image, IMAGE_BINDING_UNIT, ViewportWidth, ViewportHeight);
 
 		// This class holds some of the basic geometry shapes (like cube line and quad) that will be used during the rendering
-		DrawPrimitive::Init();
-		DrawPrimitive::DebugInit();
+		//DrawPrimitive::Init();
+		//DrawPrimitive::DebugInit();
 	}
 
 	inline void Graphic::ChangeViewPortSize(unsigned int i_width, unsigned int i_height)

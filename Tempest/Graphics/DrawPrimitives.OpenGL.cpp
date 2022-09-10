@@ -1,5 +1,6 @@
 #include "DrawPrimitives.h"
 
+#ifdef  ENGINE_GRAPHIC_OPENGL
 namespace
 {
 	unsigned int vao_cube = 0;
@@ -169,3 +170,4 @@ void DrawPrimitive::DrawLineWithShader(Vec3f start_point, Vec3f end_point)
 	glDrawArrays(GL_LINES, 0, 2);
 	glBindVertexArray(0);
 }
+#endif //  ENGINE_GRAPHIC_OPENGL

@@ -134,12 +134,14 @@ namespace Tempest
 		});
 
 		// Initialize GLEW
+#ifdef ENGINE_GRAPHIC_OPENGL
 		glewExperimental = GL_TRUE;
 		if (glewInit() != GLEW_OK)
 		{
 			DEBUG_PRINT("Cannot initialize GLEW");
 			return;
 		}
+#endif // ENGINE_GRAPHIC_OPENGL
 	}
 
 	bool Window::CheckShutdown()
