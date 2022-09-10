@@ -27,11 +27,11 @@ namespace Tempest
 	public:
 		static void Boot(Window* i_window);
 		static void Init(unsigned int, unsigned int);
+		static void CleanUp();
 		static void PreCompute();
 		static void PreUpdate(GraphicRequiredData*);
 		static void Update(GraphicRequiredData*);
 		static void PostUpdate(GraphicRequiredData*);
-		static void CleanUp();
 		static void ChangeViewPortSize(unsigned int, unsigned int);
 
 		// Constant buffer variable

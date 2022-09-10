@@ -30,7 +30,7 @@ namespace Tempest
 		void   Close();
 		size_t GetFileSize();
 		Result Write(void*, size_t);
-		Result Read(void*, size_t);		
+		Result Read(void*, size_t);
 
 		static Array<String> GetAllFilePathsBelowTheDirectory(String);
 		static String ReplaceExtension(String, String);
@@ -97,7 +97,7 @@ namespace Tempest
 	inline size_t File::GetFileSize()
 	{
 		if (format == Format::BinaryRead)
-		{			
+		{
 			read_stream.seekg(0, std::ios::end);
 			size_t end_pos = read_stream.tellg();
 			read_stream.seekg(0, std::ios::beg);

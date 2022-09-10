@@ -7,20 +7,6 @@ namespace Tempest
 	{
 		device = &i_device;
 
-		// Check if this graphics card is able to make a swapchain
-		 bool requirement = false;
-		 device->device_extensions.PushBack(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
-		for (auto itr = device->availableExtensions.Begin(); itr != device->availableExtensions.End(); ++itr)
-		{
-			// Haven't finished yet
-			// Need to fix this part
-			if ((*itr).extensionName == device->device_extensions.At(0))
-			{
-				requirement = true;
-			}
-		}
-		DEBUG_ASSERT(requirement);
-
 		// Get infos related to swapchain
 		{
 			vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device->physical_device, device->surface, &support_details.capabilities);
@@ -43,7 +29,7 @@ namespace Tempest
 
 			bool swapchain_adequate = false;
 			swapchain_adequate = !support_details.formats.Empty() && !support_details.present_modes.Empty();
-			DEBUG_ASSERT(!swapchain_adequate);
+			DEBUG_ASSERT(swapchain_adequate);
 
 			bool has_avaiable_surface_format = false;
 			int available_format_index = 0;
@@ -57,7 +43,7 @@ namespace Tempest
 				}
 				available_format_index++;
 			}
-			DEBUG_ASSERT(!has_avaiable_surface_format);
+			DEBUG_ASSERT(has_avaiable_surface_format);
 
 			int available_present_mode_index = 0;
 			VkPresentModeKHR present_mode = VK_PRESENT_MODE_FIFO_KHR;
@@ -114,10 +100,8 @@ namespace Tempest
 			create_swapchain_info.clipped = VK_TRUE;
 			create_swapchain_info.oldSwapchain = VK_NULL_HANDLE;
 
-			if (vkCreateSwapchainKHR(device->logical_device, &create_swapchain_info, nullptr, &swapchain) != VK_SUCCESS)
-			{
-				DEBUG_ASSERT(false);
-			}
+			VkResult create_swapchain_result = vkCreateSwapchainKHR(device->logical_device, &create_swapchain_info, nullptr, &swapchain);
+			DEBUG_ASSERT(create_swapchain_result == VK_SUCCESS);
 
 			uint32_t image_count;
 			vkGetSwapchainImagesKHR(device->logical_device, swapchain, &image_count, nullptr);
@@ -143,10 +127,8 @@ namespace Tempest
 			create_view_image_info.subresourceRange.baseArrayLayer = 0;
 			create_view_image_info.subresourceRange.layerCount = 1;
 
-			if (vkCreateImageView(device->logical_device, &create_view_image_info, nullptr, &swapchain_image_views[i]) != VK_SUCCESS)
-			{
-				DEBUG_ASSERT(false);
-			}
+			VkResult create_image_result = vkCreateImageView(device->logical_device, &create_view_image_info, nullptr, &swapchain_image_views[i]);
+			DEBUG_ASSERT(create_image_result == VK_SUCCESS);
 		}
 	}
 }

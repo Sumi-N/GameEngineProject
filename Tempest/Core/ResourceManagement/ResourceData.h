@@ -34,7 +34,7 @@ namespace Tempest
 
 	enum class ShaderType : uint8_t
 	{
-		Uninitialized = 0, 
+		Uninitialized = 0,
 		Vertex     = 1,
 		Control    = 2,
 		Evaluation = 3,
@@ -277,29 +277,30 @@ namespace Tempest { namespace Resource
 	};
 
 	struct Shader
-	{		
+	{
 		Shader() = default;
 		~Shader() = default;
 
 		ShaderType type;
 		size_t shader_size;
-		void* shader_binary;
+		Array<char> shader_binary;
 		Array<Descriptor> descriptor_info;
 
 		static Result Load(const char* i_filepath, Shader& o_shader)
-		{			
+		{
 			File in(i_filepath, File::Format::BinaryRead);
 
 			RETURN_IFNOT_SUCCESS(in.Open());
 
-			o_shader.shader_size = in.GetFileSize();			
-			RETURN_IFNOT_SUCCESS(in.Read(&o_shader.shader_binary, o_shader.shader_size));
+			o_shader.shader_size = in.GetFileSize();
+			o_shader.shader_binary.Resize(o_shader.shader_size);
+			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_shader.shader_binary.Data()), o_shader.shader_size));
 
 			in.Close();
 
 			{
 				SpvReflectShaderModule module = {};
-				SpvReflectResult result = spvReflectCreateShaderModule(sizeof(o_shader.shader_size), o_shader.shader_binary, &module);
+				SpvReflectResult result = spvReflectCreateShaderModule(o_shader.shader_size, o_shader.shader_binary.Data(), &module);
 
 				switch (module.shader_stage)
 				{
@@ -319,44 +320,44 @@ namespace Tempest { namespace Resource
 				Array<SpvReflectDescriptorSet*> sets(count);
 				result = spvReflectEnumerateDescriptorSets(&module, &count, sets.Data());
 				DEBUG_ASSERT(result == SPV_REFLECT_RESULT_SUCCESS);
-				
+
 				for (size_t index = 0; index < sets.Size(); ++index)
 				{
 					auto p_set = sets[index];
-					
-					DEBUG_ASSERT(result == SPV_REFLECT_RESULT_SUCCESS);										
-					
+
+					DEBUG_ASSERT(result == SPV_REFLECT_RESULT_SUCCESS);
+
 					o_shader.descriptor_info.Resize(p_set->binding_count);
 
 					for (uint32_t i = 0; i < p_set->binding_count; ++i)
 					{
 						const SpvReflectDescriptorBinding& binding_obj = *(p_set->bindings)[i];
 						const SpvReflectBlockVariable& binding_obj_block = binding_obj.block;
-						
+
 						o_shader.descriptor_info[i].binding = binding_obj.binding;
 						o_shader.descriptor_info[i].name = binding_obj.name;
 						o_shader.descriptor_info[i].type = static_cast<ShaderDescriptorType>(binding_obj.descriptor_type);
 						o_shader.descriptor_info[i].size = binding_obj_block.size;
-						
+
 						if (binding_obj.array.dims_count > 0)
 						{
 							DEBUG_ASSERT(true);
 						}
-						
+
 						if (binding_obj.uav_counter_binding != nullptr)
 						{
 							DEBUG_ASSERT(true);
 						}
-						
+
 						if ((binding_obj.type_description->type_name != nullptr) && (strlen(binding_obj.type_description->type_name) > 0))
 						{
-							DEBUG_ASSERT(true);							
+							DEBUG_ASSERT(true);
 						}
 					}
 				}
 
 				spvReflectDestroyShaderModule(&module);
-			}			
+			}
 
 			return ResultValue::Success;
 		}

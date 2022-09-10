@@ -17,18 +17,51 @@ namespace Tempest
 	CommandBuffer commandbuffers[2];
 	Array<Tempest::Resource::Shader> shaders;
 	FrameBuffer framebuffer;
-	VkSemaphore imageAvailableSemaphores[2];
-	VkSemaphore renderFinishedSemaphores[2];
-	VkFence inFlightFences[2];
-	uint32_t currentFrame = 0;
+	VkSemaphore image_available_semaphores[2];
+	VkSemaphore render_finished_semaphores[2];
+	VkFence in_flight_fences[2];
+	uint32_t current_frame = 0;
 
 	void Graphic::Boot(Window* i_window)
 	{
+		shaders.Resize(2);
+		Tempest::Resource::Shader::Load("E:/repos/GameEngineProject/Assets/bin/shader/vert.spv", shaders[0]);
+		Tempest::Resource::Shader::Load("E:/repos/GameEngineProject/Assets/bin/shader/frag.spv", shaders[1]);
+
 		device.Initialize(i_window);
 		queue.Initialize(device);
 		swapchain.Initialize(device);
 		pipeline.Initialize(device, swapchain, shaders);
 		framebuffer.Initialize(device, swapchain, pipeline);
+		commandbuffers[0].Initialize(device);
+		commandbuffers[1].Initialize(device);
+
+		VkFenceCreateInfo fenceInfo{};
+		fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+		fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
+		VkSemaphoreCreateInfo semaphoreInfo{};
+		semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+
+		if (vkCreateSemaphore(device.logical_device, &semaphoreInfo, nullptr, &image_available_semaphores[0]) != VK_SUCCESS ||
+			vkCreateSemaphore(device.logical_device, &semaphoreInfo, nullptr, &render_finished_semaphores[0]) != VK_SUCCESS ||
+			vkCreateFence(device.logical_device, &fenceInfo, nullptr, &in_flight_fences[0]) != VK_SUCCESS)
+		{
+
+			throw std::runtime_error("failed to create semaphores!");
+		}
+
+		if (vkCreateSemaphore(device.logical_device, &semaphoreInfo, nullptr, &image_available_semaphores[1]) != VK_SUCCESS ||
+			vkCreateSemaphore(device.logical_device, &semaphoreInfo, nullptr, &render_finished_semaphores[1]) != VK_SUCCESS ||
+			vkCreateFence(device.logical_device, &fenceInfo, nullptr, &in_flight_fences[1]) != VK_SUCCESS)
+		{
+
+			throw std::runtime_error("failed to create semaphores!");
+		}
+	}
+
+	void Graphic::CleanUp()
+	{
+
 	}
 
 	void Graphic::PreCompute()
@@ -43,13 +76,13 @@ namespace Tempest
 
 	void Graphic::Update(GraphicRequiredData* i_data)
 	{
-		vkWaitForFences(device.logical_device, 1, &inFlightFences[currentFrame], VK_TRUE, UINT64_MAX);
-		vkResetFences(device.logical_device, 1, &inFlightFences[currentFrame]);
+		vkWaitForFences(device.logical_device, 1, &in_flight_fences[current_frame], VK_TRUE, UINT64_MAX);
+		vkResetFences(device.logical_device, 1, &in_flight_fences[current_frame]);
 
 		uint32_t image_index;
-		vkAcquireNextImageKHR(device.logical_device, swapchain.swapchain, UINT64_MAX, imageAvailableSemaphores[currentFrame], VK_NULL_HANDLE, &image_index);
+		vkAcquireNextImageKHR(device.logical_device, swapchain.swapchain, UINT64_MAX, image_available_semaphores[current_frame], VK_NULL_HANDLE, &image_index);
 
-		vkResetCommandBuffer(commandbuffers->commandbuffers[currentFrame], /*VkCommandBufferResetFlagBits*/ 0);
+		vkResetCommandBuffer(commandbuffers->commandbuffers[current_frame], /*VkCommandBufferResetFlagBits*/ 0);
 
 		{
 			VkCommandBufferBeginInfo begin_info{};
@@ -57,7 +90,7 @@ namespace Tempest
 			begin_info.flags = 0;
 			begin_info.pInheritanceInfo = nullptr;
 
-			if (vkBeginCommandBuffer(commandbuffers->commandbuffers[currentFrame], &begin_info) != VK_SUCCESS)
+			if (vkBeginCommandBuffer(commandbuffers->commandbuffers[current_frame], &begin_info) != VK_SUCCESS)
 			{
 				DEBUG_ASSERT(false);
 			}
@@ -73,11 +106,11 @@ namespace Tempest
 			renderpass_info.clearValueCount = 1;
 			renderpass_info.pClearValues = &clearcolor;
 
-			vkCmdBeginRenderPass(commandbuffers->commandbuffers[currentFrame], &renderpass_info, VK_SUBPASS_CONTENTS_INLINE);
-			vkCmdBindPipeline(commandbuffers->commandbuffers[currentFrame], VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline.graphics_pipeline);
-			vkCmdDraw(commandbuffers->commandbuffers[currentFrame], 3, 1, 0, 0);
-			vkCmdEndRenderPass(commandbuffers->commandbuffers[currentFrame]);
-			if (vkEndCommandBuffer(commandbuffers->commandbuffers[currentFrame]) != VK_SUCCESS)
+			vkCmdBeginRenderPass(commandbuffers->commandbuffers[current_frame], &renderpass_info, VK_SUBPASS_CONTENTS_INLINE);
+			vkCmdBindPipeline(commandbuffers->commandbuffers[current_frame], VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline.graphics_pipeline);
+			vkCmdDraw(commandbuffers->commandbuffers[current_frame], 3, 1, 0, 0);
+			vkCmdEndRenderPass(commandbuffers->commandbuffers[current_frame]);
+			if (vkEndCommandBuffer(commandbuffers->commandbuffers[current_frame]) != VK_SUCCESS)
 			{
 				DEBUG_ASSERT(false);
 			}
@@ -86,20 +119,20 @@ namespace Tempest
 		VkSubmitInfo submitInfo{};
 		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 
-		VkSemaphore waitSemaphores[] = { imageAvailableSemaphores[currentFrame] };
+		VkSemaphore waitSemaphores[] = { image_available_semaphores[current_frame] };
 		VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
 		submitInfo.waitSemaphoreCount = 1;
 		submitInfo.pWaitSemaphores = waitSemaphores;
 		submitInfo.pWaitDstStageMask = waitStages;
 
 		submitInfo.commandBufferCount = 1;
-		submitInfo.pCommandBuffers = &commandbuffers->commandbuffers[currentFrame];
+		submitInfo.pCommandBuffers = &commandbuffers->commandbuffers[current_frame];
 
-		VkSemaphore signalSemaphores[] = { renderFinishedSemaphores[currentFrame] };
+		VkSemaphore signalSemaphores[] = { render_finished_semaphores[current_frame] };
 		submitInfo.signalSemaphoreCount = 1;
 		submitInfo.pSignalSemaphores = signalSemaphores;
 
-		if (vkQueueSubmit(queue.graphics_queue, 1, &submitInfo, inFlightFences[currentFrame]) != VK_SUCCESS)
+		if (vkQueueSubmit(queue.graphics_queue, 1, &submitInfo, in_flight_fences[current_frame]) != VK_SUCCESS)
 		{
 			throw std::runtime_error("failed to submit draw command buffer!");
 		}
@@ -118,18 +151,13 @@ namespace Tempest
 
 		vkQueuePresentKHR(queue.present_queue, &presentInfo);
 
-		currentFrame = 1 - currentFrame;
+		current_frame = 1 - current_frame;
 	}
 
 	void Graphic::PostUpdate(GraphicRequiredData* i_data)
 	{
 		i_data->model_data.Clear();
 		i_data->material_data.Clear();
-	}
-
-	void Graphic::CleanUp()
-	{
-
 	}
 }
 

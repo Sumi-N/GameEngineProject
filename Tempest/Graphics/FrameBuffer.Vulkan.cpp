@@ -23,7 +23,7 @@ namespace Tempest
 			framebuffer_create_info.layers = 1;
 
 			const VkResult& result = vkCreateFramebuffer(i_device.logical_device, &framebuffer_create_info, nullptr, &framebuffers[i]);
-			DEBUG_ASSERT(!(result == VK_SUCCESS));
+			DEBUG_ASSERT(result == VK_SUCCESS);
 		}
 	}
 }
