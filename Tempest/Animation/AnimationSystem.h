@@ -3,7 +3,7 @@
 
 namespace Tempest
 {
-	class AnimationComponent;	
+	class AnimationComponent;
 
 	class AnimationSystem
 	{
@@ -21,12 +21,12 @@ namespace Tempest
 
 		auto Begin() { return list.Begin(); }
 		auto End()   { return list.End(); }
-		
+
 		Mat4f bones[NUM_MAX_BONES];
 
 	private:
 		Result InterpolateMatrixBetweenFrames(const Resource::AnimationClip&, const float, float&, Mat4f*, const bool&);
-				
+
 		Array<Owner<AnimationComponent>> list;
 		float animation_current_time = 0;
 	};

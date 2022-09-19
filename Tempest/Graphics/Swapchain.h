@@ -6,8 +6,8 @@ namespace Tempest{
 	class SwapChain
 	{
 	public:
-		void Initialize(Device& i_device);
-		void Finalize();
+		void Init(const Device& i_device);
+		void CleanUp();
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 		VkSwapchainKHR swapchain;
@@ -26,7 +26,7 @@ namespace Tempest{
 		} support_details;
 
 	private:
-		Device* device;
+		const Device* device;
 #endif // ENGINE_GRAPHIC_VULKAN
 	};
 }

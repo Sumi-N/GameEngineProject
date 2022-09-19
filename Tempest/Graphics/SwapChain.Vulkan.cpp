@@ -3,7 +3,7 @@
 #ifdef ENGINE_GRAPHIC_VULKAN
 namespace Tempest
 {
-	void SwapChain::Initialize(Device& i_device)
+	void SwapChain::Init(const Device& i_device)
 	{
 		device = &i_device;
 
@@ -130,6 +130,16 @@ namespace Tempest
 			VkResult create_image_result = vkCreateImageView(device->logical_device, &create_view_image_info, nullptr, &swapchain_image_views[i]);
 			DEBUG_ASSERT(create_image_result == VK_SUCCESS);
 		}
+	}
+
+	void SwapChain::CleanUp()
+	{
+		for (auto image_view : swapchain_image_views)
+		{
+			vkDestroyImageView(device->logical_device, image_view, nullptr);
+		}
+
+		vkDestroySwapchainKHR(device->logical_device, swapchain, nullptr);
 	}
 }
 #endif

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Define.h"
-#include "Buffer.h"
+#include "VertexBuffer.h"
 #include "RenderState.h"
 
 using namespace Tempest;
@@ -30,7 +30,7 @@ public:
 	void ReplaceRenderState(Owner<RenderState>);
 	void BindShader();
 	void Draw(int);
-	void UnbindShader();	
+	void UnbindShader();
 	void DrawMeshOnly();
 	void CleanUp();
 

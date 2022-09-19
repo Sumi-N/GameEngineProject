@@ -6,7 +6,6 @@
 
 namespace Tempest
 {
-
 	class Application
 	{
 	public:
@@ -32,5 +31,4 @@ namespace Tempest
 	}
 
 	static Application* Create();
-
 }

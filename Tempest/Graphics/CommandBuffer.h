@@ -7,8 +7,8 @@ namespace Tempest
 	class CommandBuffer
 	{
 	public:
-		void Initialize(Device& i_device);
-		void Finalize();
+		void Init(const Device& i_device);
+		void CleanUp();
 
 		static constexpr int MAX_FRAMES_IN_FLIGHT = 2;
 
@@ -17,7 +17,7 @@ namespace Tempest
 		VkCommandBuffer commandbuffers[MAX_FRAMES_IN_FLIGHT];
 
 	private:
-		Device* device;
+		const Device* device;
 #endif // ENGINE_GRAPHIC_VULKAN
 
 	};

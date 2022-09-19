@@ -8,8 +8,6 @@ namespace Tempest
 
 	Delegate<> GameThreadOnReset;
 
-	void WriteDataToOwningThread(GraphicRequiredData*);
-
 	void GameThread::Boot()
 	{
 		Entity::Boot();

@@ -1,4 +1,4 @@
-#include "Buffer.h"
+#include "VertexBuffer.h"
 
 namespace Tempest
 {

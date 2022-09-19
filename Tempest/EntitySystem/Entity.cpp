@@ -69,7 +69,7 @@ namespace Tempest
 		LightComponentList.Boot();
 		MeshComponentList.Boot();
 		EffectComponentList.Boot();
-		BackgroundComponentList.Boot();		
+		BackgroundComponentList.Boot();
 
 		Animation.Boot();
 	}
@@ -81,7 +81,7 @@ namespace Tempest
 		LightComponentList.Init();
 		MeshComponentList.Init();
 		EffectComponentList.Init();
-		BackgroundComponentList.Init();		
+		BackgroundComponentList.Init();
 
 		Animation.Init();
 	}

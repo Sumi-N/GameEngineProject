@@ -114,6 +114,7 @@ namespace Tempest
 		void InitData(VertexBufferType, uint32_t, const void*);
 		void CleanUp() const;
 
+
 		const BufferData::Layout& GetLayout() const {return layout; }
 		const void SetLayout(BufferData::Layout& i_layout) {layout = i_layout; }
 

@@ -6,8 +6,10 @@ namespace Tempest
 	{
 	}
 
-	void FrameBuffer::Initialize(const Device& i_device, const SwapChain& i_swapchain, const Pipeline& i_pipeline)
+	void FrameBuffer::Init(const Device& i_device, const SwapChain& i_swapchain, const Pipeline& i_pipeline)
 	{
+		device = &i_device;
+
 		framebuffers.Resize(i_swapchain.swapchain_image_views.Size());
 		for (size_t i = 0; i < i_swapchain.swapchain_image_views.Size(); i++)
 		{
@@ -22,8 +24,16 @@ namespace Tempest
 			framebuffer_create_info.height = i_swapchain.support_details.extent.height;
 			framebuffer_create_info.layers = 1;
 
-			const VkResult& result = vkCreateFramebuffer(i_device.logical_device, &framebuffer_create_info, nullptr, &framebuffers[i]);
+			const VkResult& result = vkCreateFramebuffer(device->logical_device, &framebuffer_create_info, nullptr, &framebuffers[i]);
 			DEBUG_ASSERT(result == VK_SUCCESS);
+		}
+	}
+
+	void FrameBuffer::CleanUp()
+	{
+		for (auto framebuffer : framebuffers)
+		{
+			vkDestroyFramebuffer(device->logical_device, framebuffer, nullptr);
 		}
 	}
 }

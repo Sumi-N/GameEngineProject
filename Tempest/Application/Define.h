@@ -20,12 +20,13 @@
 #include <Layer/LayerStack.h>
 
 #include <Graphics/Window.h>
-#include <Graphics/Graphic.h>
 #include <Graphics/ConstantBuffer.h>
+
+#include <Rendering/Framework.h>
 
 #include <Input/Delegate.h>
 
-extern Input UserInput;
+extern Tempest::Input UserInput;
 
 // Logging
 // Place MemoryLeakDetection header at the last or the macro #define new DEBUG_NEW

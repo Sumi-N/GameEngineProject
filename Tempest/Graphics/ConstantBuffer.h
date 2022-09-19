@@ -109,6 +109,8 @@ namespace Tempest
 		GLuint bufferid = 0;
 		GLuint index = 0;
 		GLsizeiptr size = 0;
+#else ENGINE_GRAPHIC_VULKAN
+
 #endif // ENGINE_GRAPHIC_OPENGL
 
 		void Init(ConstantData::Index);

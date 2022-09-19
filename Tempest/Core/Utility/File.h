@@ -107,6 +107,8 @@ namespace Tempest
 		{
 			return write_stream.tellp();
 		}
+
+		return 0;
 	}
 
 	inline Result File::Write(void* i_ptr, size_t i_size)

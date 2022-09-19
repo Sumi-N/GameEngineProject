@@ -57,11 +57,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test_MemoryManagement", "Te
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Editor\Editor.vcxproj", "{EE5ABF63-6325-4D45-9905-EB7A84D1FBE2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Renderer", "Tempest\Core\Renderer\Renderer.vcxproj", "{5A027349-2A8F-45BE-8D0C-BCB45C2EE12C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Rendering", "Tempest\Core\Rendering\Rendering.vcxproj", "{5A027349-2A8F-45BE-8D0C-BCB45C2EE12C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EntitySystem", "Tempest\EntitySystem\EntitySystem.vcxproj", "{8D7D6EB2-5151-4527-934B-D775D58F0994}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SPIRV-Reflect", "Tempest\External\SPIRV-Reflect\SPIRV-Reflect.vcxproj", "{689526F1-CD33-4FD6-9C5C-5FD707A61F12}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShaderInfoGenerator", "Tool\ShaderInfoGenerator\ShaderInfoGenerator.vcxproj", "{5F70009E-5C10-4A29-96E1-6ECFD7DFDFA4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -459,6 +461,18 @@ Global
 		{689526F1-CD33-4FD6-9C5C-5FD707A61F12}.RelWithDebInfo|x64.Build.0 = Release|x64
 		{689526F1-CD33-4FD6-9C5C-5FD707A61F12}.RelWithDebInfo|x86.ActiveCfg = Release|Win32
 		{689526F1-CD33-4FD6-9C5C-5FD707A61F12}.RelWithDebInfo|x86.Build.0 = Release|Win32
+		{5F70009E-5C10-4A29-96E1-6ECFD7DFDFA4}.Debug|x64.ActiveCfg = Debug|x64
+		{5F70009E-5C10-4A29-96E1-6ECFD7DFDFA4}.Debug|x64.Build.0 = Debug|x64
+		{5F70009E-5C10-4A29-96E1-6ECFD7DFDFA4}.Debug|x86.ActiveCfg = Debug|x64
+		{5F70009E-5C10-4A29-96E1-6ECFD7DFDFA4}.MinSizeRel|x64.ActiveCfg = Debug|x64
+		{5F70009E-5C10-4A29-96E1-6ECFD7DFDFA4}.MinSizeRel|x64.Build.0 = Debug|x64
+		{5F70009E-5C10-4A29-96E1-6ECFD7DFDFA4}.MinSizeRel|x86.ActiveCfg = Debug|x64
+		{5F70009E-5C10-4A29-96E1-6ECFD7DFDFA4}.Release|x64.ActiveCfg = Release|x64
+		{5F70009E-5C10-4A29-96E1-6ECFD7DFDFA4}.Release|x64.Build.0 = Release|x64
+		{5F70009E-5C10-4A29-96E1-6ECFD7DFDFA4}.Release|x86.ActiveCfg = Release|x64
+		{5F70009E-5C10-4A29-96E1-6ECFD7DFDFA4}.RelWithDebInfo|x64.ActiveCfg = Release|x64
+		{5F70009E-5C10-4A29-96E1-6ECFD7DFDFA4}.RelWithDebInfo|x64.Build.0 = Release|x64
+		{5F70009E-5C10-4A29-96E1-6ECFD7DFDFA4}.RelWithDebInfo|x86.ActiveCfg = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -488,6 +502,7 @@ Global
 		{5A027349-2A8F-45BE-8D0C-BCB45C2EE12C} = {7F897E50-4B61-4E37-B6BC-B6BE2EBE3F77}
 		{8D7D6EB2-5151-4527-934B-D775D58F0994} = {7F897E50-4B61-4E37-B6BC-B6BE2EBE3F77}
 		{689526F1-CD33-4FD6-9C5C-5FD707A61F12} = {BB2F8603-1BCD-48F9-A9B3-5D3E380096E9}
+		{5F70009E-5C10-4A29-96E1-6ECFD7DFDFA4} = {86B342BF-936F-44CD-B8EA-C768A8CE0EA2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1B7CED8D-4054-4DBF-B591-A795C68F161F}

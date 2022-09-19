@@ -102,7 +102,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Buffer.OpenGL.cpp" />
+    <ClCompile Include="VertexBuffer.OpenGL.cpp" />
     <ClCompile Include="CommandBuffer.Vulkan.cpp" />
     <ClCompile Include="ConstantBuffer.OpenGL.cpp" />
     <ClCompile Include="ConstantBuffer.Vulkan.cpp" />
@@ -114,9 +114,6 @@
     <ClCompile Include="DrawPrimitives.OpenGL.cpp" />
     <ClCompile Include="FrameBuffer.OpenGL.cpp" />
     <ClCompile Include="FrameBuffer.Vulkan.cpp" />
-    <ClCompile Include="Graphic.cpp" />
-    <ClCompile Include="Graphic.OpenGL.cpp" />
-    <ClCompile Include="Graphic.Vulkan.cpp" />
     <ClCompile Include="Pipeline.Vulkan.cpp" />
     <ClCompile Include="Queue.Vulkan.cpp" />
     <ClCompile Include="RenderState.OpenGL.cpp" />
@@ -125,18 +122,18 @@
     <ClCompile Include="SceneProxy.OpenGL.cpp" />
     <ClCompile Include="Shader.OpenGL.cpp" />
     <ClCompile Include="SwapChain.Vulkan.cpp" />
+    <ClCompile Include="VertexBuffer.Vulkan.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Window.win.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Buffer.h" />
+    <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="CommandBuffer.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="DrawPrimitives.h" />
     <ClInclude Include="FrameBuffer.h" />
-    <ClInclude Include="Graphic.h" />
     <ClInclude Include="Pipeline.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="RenderState.h" />

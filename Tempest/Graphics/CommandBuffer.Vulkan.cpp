@@ -3,7 +3,7 @@
 #ifdef ENGINE_GRAPHIC_VULKAN
 namespace Tempest
 {
-	void CommandBuffer::Initialize(Device& i_device)
+	void CommandBuffer::Init(const Device& i_device)
 	{
 		device = &i_device;
 
@@ -28,9 +28,9 @@ namespace Tempest
 		}
 	}
 
-	void CommandBuffer::Finalize()
+	void CommandBuffer::CleanUp()
 	{
-
+		vkDestroyCommandPool(device->logical_device, commandpool, nullptr);
 	}
 }
 #endif // ENGINE_GRAPHIC_VULKAN

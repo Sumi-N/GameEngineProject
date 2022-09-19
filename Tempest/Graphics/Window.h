@@ -3,7 +3,6 @@
 
 namespace Tempest
 {
-
 	struct WindowProperty
 	{
 		std::string  title;
@@ -42,5 +41,4 @@ namespace Tempest
 #include "Window.win.h"
 #endif //  ENGINE_PLATFORM_WINDOWS
 	};
-
 }

@@ -287,7 +287,7 @@ namespace Tempest
 				{
 					io_emitter << YAML::Key << "AnimationComponent";
 					io_emitter << YAML::BeginMap;
-					io_emitter << YAML::Key << "Skeleton" << YAML::Value << (*it)->skeleton_path;					
+					io_emitter << YAML::Key << "Skeleton" << YAML::Value << (*it)->skeleton_path;
 					io_emitter << YAML::Key << "AnimationClip" << YAML::Value << (*it)->animation_clip_path;
 					io_emitter << YAML::EndMap;
 				}

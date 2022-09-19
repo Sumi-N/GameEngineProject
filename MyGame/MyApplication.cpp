@@ -13,7 +13,7 @@ public:
 };
 
 MyApplication::MyApplication()
-{	
+{
 	Tempest::Application::Execute();
 }
 

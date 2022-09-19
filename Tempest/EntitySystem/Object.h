@@ -6,7 +6,7 @@ namespace Tempest
 	class Object
 	{
 	public:
-		
+
 		Object() = default;
 		Object(const char*);
 		virtual ~Object() {};

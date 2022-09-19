@@ -31,7 +31,8 @@ namespace Tempest
 		int       unit_number = -1;
 		int       width = 0, height = 0;
 
-		void Initialize(const Device& i_Device, const SwapChain& i_swapchain, const Pipeline& i_pipeline);;
+		void Init(const Device& i_Device, const SwapChain& i_swapchain, const Pipeline& i_pipeline);
+		void CleanUp();
 		void Init(FrameType i_type, int i_unitnum, int i_width, int i_height);
 		void Recreate(int i_width, int i_height);
 		void BindFrame();
@@ -53,6 +54,8 @@ namespace Tempest
 
 		Tempest::Array<VkFramebuffer> framebuffers;
 
+	private:
+		const Device* device;
 #endif // ENGINE_GRAPHIC_OPENGL
 
 	};

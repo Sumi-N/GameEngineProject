@@ -1,10 +1,13 @@
-#include "Graphic.h"
-#include "Device.h"
-#include "Queue.h"
-#include "SwapChain.h"
-#include "Pipeline.h"
-#include "FrameBuffer.h"
-#include "CommandBuffer.h"
+#include "Define.h"
+#include "Framework.h"
+
+#include <vulkan/vulkan.h>
+#include <Graphics/Device.h>
+#include <Graphics/Queue.h>
+#include <Graphics/SwapChain.h>
+#include <Graphics/Pipeline.h>
+#include <Graphics/FrameBuffer.h>
+#include <Graphics/CommandBuffer.h>
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 
@@ -22,19 +25,19 @@ namespace Tempest
 	VkFence in_flight_fences[2];
 	uint32_t current_frame = 0;
 
-	void Graphic::Boot(Window* i_window)
+	void Framework::Boot(Window* i_window)
 	{
 		shaders.Resize(2);
 		Tempest::Resource::Shader::Load("E:/repos/GameEngineProject/Assets/bin/shader/vert.spv", shaders[0]);
 		Tempest::Resource::Shader::Load("E:/repos/GameEngineProject/Assets/bin/shader/frag.spv", shaders[1]);
 
-		device.Initialize(i_window);
-		queue.Initialize(device);
-		swapchain.Initialize(device);
-		pipeline.Initialize(device, swapchain, shaders);
-		framebuffer.Initialize(device, swapchain, pipeline);
-		commandbuffers[0].Initialize(device);
-		commandbuffers[1].Initialize(device);
+		device.Init(i_window);
+		queue.Init(device);
+		swapchain.Init(device);
+		pipeline.Init(device, swapchain, shaders);
+		framebuffer.Init(device, swapchain, pipeline);
+		commandbuffers[0].Init(device);
+		commandbuffers[1].Init(device);
 
 		VkFenceCreateInfo fenceInfo{};
 		fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
@@ -59,22 +62,22 @@ namespace Tempest
 		}
 	}
 
-	void Graphic::CleanUp()
+	void Framework::CleanUp()
 	{
 
 	}
 
-	void Graphic::PreCompute()
+	void Framework::PreCompute()
 	{
 
 	}
 
-	void Graphic::PreUpdate(GraphicRequiredData* i_data)
+	void Framework::PreUpdate(GraphicRequiredData* i_data)
 	{
 
 	}
 
-	void Graphic::Update(GraphicRequiredData* i_data)
+	void Framework::Update(GraphicRequiredData* i_data)
 	{
 		vkWaitForFences(device.logical_device, 1, &in_flight_fences[current_frame], VK_TRUE, UINT64_MAX);
 		vkResetFences(device.logical_device, 1, &in_flight_fences[current_frame]);
@@ -119,18 +122,18 @@ namespace Tempest
 		VkSubmitInfo submitInfo{};
 		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 
-		VkSemaphore waitSemaphores[] = { image_available_semaphores[current_frame] };
-		VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+		VkSemaphore wait_semaphores[] = { image_available_semaphores[current_frame] };
+		VkPipelineStageFlags wait_stages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
 		submitInfo.waitSemaphoreCount = 1;
-		submitInfo.pWaitSemaphores = waitSemaphores;
-		submitInfo.pWaitDstStageMask = waitStages;
+		submitInfo.pWaitSemaphores = wait_semaphores;
+		submitInfo.pWaitDstStageMask = wait_stages;
 
 		submitInfo.commandBufferCount = 1;
 		submitInfo.pCommandBuffers = &commandbuffers->commandbuffers[current_frame];
 
-		VkSemaphore signalSemaphores[] = { render_finished_semaphores[current_frame] };
+		VkSemaphore signal_semaphores[] = { render_finished_semaphores[current_frame] };
 		submitInfo.signalSemaphoreCount = 1;
-		submitInfo.pSignalSemaphores = signalSemaphores;
+		submitInfo.pSignalSemaphores = signal_semaphores;
 
 		if (vkQueueSubmit(queue.graphics_queue, 1, &submitInfo, in_flight_fences[current_frame]) != VK_SUCCESS)
 		{
@@ -141,7 +144,7 @@ namespace Tempest
 		presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
 
 		presentInfo.waitSemaphoreCount = 1;
-		presentInfo.pWaitSemaphores = signalSemaphores;
+		presentInfo.pWaitSemaphores = signal_semaphores;
 
 		VkSwapchainKHR swapChains[] = { swapchain.swapchain };
 		presentInfo.swapchainCount = 1;
@@ -154,7 +157,7 @@ namespace Tempest
 		current_frame = 1 - current_frame;
 	}
 
-	void Graphic::PostUpdate(GraphicRequiredData* i_data)
+	void Framework::PostUpdate(GraphicRequiredData* i_data)
 	{
 		i_data->model_data.Clear();
 		i_data->material_data.Clear();

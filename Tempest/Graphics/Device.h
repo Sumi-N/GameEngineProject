@@ -7,8 +7,8 @@ namespace Tempest
 	class Device
 	{
 	public:
-		void Initialize(Window* i_window);
-		void Finalize();
+		void Init(Window* i_window);
+		void CleanUp();
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 		struct QueueFamilyIndices

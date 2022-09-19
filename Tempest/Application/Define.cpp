@@ -1,6 +1,6 @@
 #pragma once
 #include "Define.h"
 
-Input UserInput;
+Tempest::Input UserInput;
 
 

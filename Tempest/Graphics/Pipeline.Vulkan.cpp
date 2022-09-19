@@ -2,8 +2,10 @@
 
 namespace Tempest
 {
-	void Pipeline::Initialize(const Device& i_device, const SwapChain& i_swapchain, const Array<Resource::Shader>& shaders)
+	void Pipeline::Init(const Device& i_device, const SwapChain& i_swapchain, const Array<Resource::Shader>& shaders)
 	{
+		device = &i_device;
+
 		Array<VkPipelineShaderStageCreateInfo> shader_stages;
 		shader_stages.Resize(shaders.Size());
 		{
@@ -13,7 +15,7 @@ namespace Tempest
 				shader_create_info.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
 				shader_create_info.codeSize = shaders[i].shader_size;
 				shader_create_info.pCode = reinterpret_cast<const uint32_t*>(shaders[i].shader_binary.Data());
-				if (vkCreateShaderModule(i_device.logical_device, &shader_create_info, nullptr, &shader_module[i]) != VK_SUCCESS)
+				if (vkCreateShaderModule(device->logical_device, &shader_create_info, nullptr, &shader_module[i]) != VK_SUCCESS)
 				{
 					DEBUG_ASSERT(false);
 				}
@@ -134,7 +136,7 @@ namespace Tempest
 			pipeline_layout_create_info.pushConstantRangeCount = 0;
 			pipeline_layout_create_info.pPushConstantRanges = nullptr;
 
-			if (vkCreatePipelineLayout(i_device.logical_device, &pipeline_layout_create_info, nullptr, &pipeline_layout) != VK_SUCCESS)
+			if (vkCreatePipelineLayout(device->logical_device, &pipeline_layout_create_info, nullptr, &pipeline_layout) != VK_SUCCESS)
 			{
 				DEBUG_ASSERT(false);
 			}
@@ -176,7 +178,7 @@ namespace Tempest
 		renderpass_info.dependencyCount = 1;
 		renderpass_info.pDependencies = &dependency;
 
-		if (vkCreateRenderPass(i_device.logical_device, &renderpass_info, nullptr, &render_pass) != VK_SUCCESS)
+		if (vkCreateRenderPass(device->logical_device, &renderpass_info, nullptr, &render_pass) != VK_SUCCESS)
 		{
 			DEBUG_ASSERT(false);
 		}
@@ -198,9 +200,16 @@ namespace Tempest
 		pipeline_create_info.basePipelineHandle = VK_NULL_HANDLE;
 		pipeline_create_info.basePipelineIndex = -1;
 
-		if (vkCreateGraphicsPipelines(i_device.logical_device, VK_NULL_HANDLE, 1, &pipeline_create_info, nullptr, &graphics_pipeline) != VK_SUCCESS)
+		if (vkCreateGraphicsPipelines(device->logical_device, VK_NULL_HANDLE, 1, &pipeline_create_info, nullptr, &graphics_pipeline) != VK_SUCCESS)
 		{
 			DEBUG_ASSERT(false);
 		}
+	}
+
+	void Pipeline::CleanUp()
+	{
+		vkDestroyPipeline(device->logical_device, graphics_pipeline, nullptr);
+		vkDestroyRenderPass(device->logical_device, render_pass, nullptr);
+		vkDestroyPipelineLayout(device->logical_device, pipeline_layout, nullptr);
 	}
 }

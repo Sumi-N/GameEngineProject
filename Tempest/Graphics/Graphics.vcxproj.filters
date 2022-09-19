@@ -16,9 +16,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Graphic.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="ConstantBuffer.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -43,7 +40,7 @@
     <ClInclude Include="Define.h">
       <Filter>Precompiled Header</Filter>
     </ClInclude>
-    <ClInclude Include="Buffer.h">
+    <ClInclude Include="VertexBuffer.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Device.h">
@@ -78,13 +75,7 @@
     <ClCompile Include="SceneProxy.OpenGL.cpp">
       <Filter>OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="Graphic.OpenGL.cpp">
-      <Filter>OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="SceneProxy.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphic.cpp">
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="SceneEntity.cpp">
@@ -102,7 +93,7 @@
     <ClCompile Include="Define.cpp">
       <Filter>Precompiled Header</Filter>
     </ClCompile>
-    <ClCompile Include="Buffer.OpenGL.cpp">
+    <ClCompile Include="VertexBuffer.OpenGL.cpp">
       <Filter>OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="Device.Vulkan.cpp">
@@ -126,13 +117,13 @@
     <ClCompile Include="Pipeline.Vulkan.cpp">
       <Filter>Vulkan</Filter>
     </ClCompile>
-    <ClCompile Include="Graphic.Vulkan.cpp">
-      <Filter>Vulkan</Filter>
-    </ClCompile>
     <ClCompile Include="FrameBuffer.Vulkan.cpp">
       <Filter>Vulkan</Filter>
     </ClCompile>
     <ClCompile Include="ConstantBuffer.Vulkan.cpp">
+      <Filter>Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBuffer.Vulkan.cpp">
       <Filter>Vulkan</Filter>
     </ClCompile>
   </ItemGroup>

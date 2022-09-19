@@ -21,7 +21,7 @@ namespace Tempest
 		BindEvent();
 
 		// Initialize OpenGL
-		Graphic::Boot(window);
+		Framework::Boot(window);
 	}
 
 	void RenderThread::Init()
@@ -29,18 +29,18 @@ namespace Tempest
 		// Init scene Entity
 		//SceneEntity::Init();
 
-		Graphic::Init(window->data.width, window->data.height);
+		Framework::Init(window->data.width, window->data.height);
 
 		LayerStack::Init();
 
-		Graphic::PreCompute();
+		Framework::PreCompute();
 	}
 
 	void RenderThread::Reset()
 	{
 		//SceneEntity::List.Clear();
 		//SceneEntity::Init();
-		Graphic::PreCompute();
+		Framework::PreCompute();
 		WriteDataToOwningThread(&GraphicsData);
 	}
 
@@ -51,13 +51,13 @@ namespace Tempest
 			brunning = false;
 		}
 
-		Graphic::PreUpdate(&GraphicsData);
+		Framework::PreUpdate(&GraphicsData);
 
-		Graphic::Update(&GraphicsData);
+		Framework::Update(&GraphicsData);
 
 		LayerStack::Update();
 
-		Graphic::PostUpdate(&GraphicsData);
+		Framework::PostUpdate(&GraphicsData);
 
 		window->SwapBuffer();
 	}
@@ -71,7 +71,7 @@ namespace Tempest
 	void RenderThread::CleanUp()
 	{
 		LayerStack::CleanUp();
-		Graphic::CleanUp();
+		Framework::CleanUp();
 		window->Shutdown();
 		delete window;
 	}
@@ -100,7 +100,7 @@ namespace Tempest
 
 	bool RenderThread::OnWindowResize(WindowResizeEvent i_event)
 	{
-		Graphic::ChangeViewPortSize(window->data.width, window->data.height);
+		Framework::ChangeViewportSize(window->data.width, window->data.height);
 		window->OnWindowResize(i_event);
 		return true;
 	}

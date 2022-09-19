@@ -61,7 +61,7 @@ namespace Tempest
 		}
 	}
 
-	void Device::Initialize(Window* i_window)
+	void Device::Init(Window* i_window)
 	{
 		// Initialize instance
 		{
@@ -241,13 +241,15 @@ namespace Tempest
 		}
 	}
 
-	void Device::Finalize()
+	void Device::CleanUp()
 	{
 		vkDestroyDevice(logical_device, nullptr);
 
 #ifdef ENABLE_VULKAN_VALIDATION_LAYERS
 		DestroyDebugUtilsMessengerEXT(instance, debug_messenger, nullptr);
 #endif
+		vkDestroySurfaceKHR(instance, surface, nullptr);
+
 		vkDestroyInstance(instance, nullptr);
 	}
 }
