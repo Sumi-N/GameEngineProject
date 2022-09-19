@@ -90,13 +90,13 @@
     <ClCompile Include="MyApplication.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tempest\Animation\Animation.vcxproj">
+    <ProjectReference Include="..\Tempest\Modules\Animation\Animation.vcxproj">
       <Project>{cc303b10-d7fa-4acd-b85d-44b6b282193b}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Tempest\Application\Application.vcxproj">
+    <ProjectReference Include="..\Tempest\Modules\Application\Application.vcxproj">
       <Project>{a4a992b0-4300-4d9f-bd91-9ba6afe44d21}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Tempest\Core\Input\Input.vcxproj">
+    <ProjectReference Include="..\Tempest\Modules\Input\Input.vcxproj">
       <Project>{725cccc9-d908-4257-b0e5-54bebf75b3ef}</Project>
     </ProjectReference>
   </ItemGroup>
