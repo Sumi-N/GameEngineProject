@@ -151,6 +151,7 @@ Result ConvertShaders(String* i_file_names)
 
 	// Open the destination file
 	String output_name = File::RemoveExtension(File::RemoveExtension(File::GetFileName(i_file_names[0])));
+	String output_name_with_shadertyp = File::RemoveExtension(File::GetFileName(i_file_names[0]));
 	String output_path = "..\\..\\" BIN_SHADER_PATH + output_name + ".ts";
 	File out(output_path, File::Format::BinaryWrite);
 	RETURN_IFNOT_SUCCESS(out.Open());
@@ -195,10 +196,11 @@ Result ConvertShaders(String* i_file_names)
 
 		shaderc_compilation_result_t compile_result = shaderc_compile_into_spv(
 			compiler, shader_text.c_str(), shader_text.size(),
-			GetCompilerShaderType(idx_type), output_name.c_str(), "main", nullptr);
+			GetCompilerShaderType(idx_type), output_name_with_shadertyp.c_str(), "main", nullptr);
 
 		size_t num_errors = shaderc_result_get_num_errors(compile_result);
 		size_t num_warnings = shaderc_result_get_num_warnings(compile_result);
+		DEBUG_PRINT("\n%s", shaderc_result_get_error_message(compile_result));
 		DEBUG_ASSERT(num_errors == 0);
 		DEBUG_ASSERT(num_warnings == 0);
 
@@ -285,6 +287,7 @@ Result ConvertShaders(String* i_file_names)
 						uniform_infos[i].binding = binding_obj.binding;
 						uniform_infos[i].name = binding_obj.name;
 						uniform_infos[i].type = static_cast<ShaderDescriptorType>(binding_obj.descriptor_type);
+						uniform_infos[i].stage = static_cast<int>(module.shader_stage);
 						uniform_infos[i].size = binding_obj_block.size;
 
 						DEBUG_ASSERT(binding_obj.array.dims_count == 0);
@@ -336,18 +339,27 @@ const String path_in = INT_SHADER_PATH;
 
 int main()
 {
-    String directory = "..\\..\\" + path_in + "debug_purpose\\";
+    String directory = "..\\..\\" + path_in;
 
-	String paths[] = {
-		directory + "basic.vert.glsl",
+	String basic_paths[] = {
+		directory + "debug_purpose\\basic.vert.glsl",
 		"",
 		"",
 		"",
-		directory + "basic.frag.glsl",
+		directory + "debug_purpose\\basic.frag.glsl",
 		""
 	};
 
-	auto result = ConvertShaders(paths);
+	String outlinehighlight_paths[] = {
+		directory + "debug_purpose\\outlinehighlight.vert.glsl",
+		"",
+		"",
+		"",
+		directory + "debug_purpose\\outlinehighlight.frag.glsl",
+		""
+	};
+
+	auto result = ConvertShaders(outlinehighlight_paths);
 
 	DEBUG_ASSERT(result == ResultValue::Success);
 

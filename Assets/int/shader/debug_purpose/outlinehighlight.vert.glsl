@@ -2,8 +2,6 @@
 
 const float Z_BUFFER_BIAS = 0.05f;
 
-out vec4 color;
-
 layout (location = 0) in vec3 model_position;
 
 layout (std140, binding = 0) uniform const_camera
@@ -20,11 +18,6 @@ layout (std140, binding = 1) uniform const_model
 	mat4 model_view_perspective_matrix;
 	mat4 model_inverse_transpose_matrix;
 };
-
-out VS_OUT{
-	// Object world position
-	vec4 world_position;
-} vs_out;
 
 void main()
 {

@@ -281,6 +281,7 @@ namespace Tempest
 		size_t size;
 		String name;
 		ShaderDescriptorType type;
+		int stage;
 	};
 
 	struct ShaderInfo
@@ -324,7 +325,7 @@ namespace Tempest
 				if (shader_info.shader_sizes[i] != 0)
 				{
 					o_shader.shader_binaries[i].Resize(shader_info.shader_sizes[i]);
-					//in.SetPosition(shader_info.shader_offsets[i]);
+					in.SetPosition(shader_info.shader_offsets[i]);
 					RETURN_IFNOT_SUCCESS(in.Read(o_shader.shader_binaries[i].Data(), shader_info.shader_sizes[i]));
 				}
 

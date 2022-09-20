@@ -2,12 +2,13 @@
 
 namespace Tempest
 {
-	void Pipeline::Init(const Device& i_device, const SwapChain& i_swapchain, const Shader& i_shader)
+	void Pipeline::Init(const Device& i_device, const SwapChain& i_swapchain, const Shader& i_shader, const VertexBuffer& i_vertexbuffer, const UniformBuffer& i_uniforbuffer)
 	{
 		device = &i_device;
 
 		Array<VkPipelineShaderStageCreateInfo> shader_stages;
 
+		VkShaderModule shader_module[static_cast<int>(ShaderType::Size)];
 		for (int i = 0; i < static_cast<int>(ShaderType::Size); i++)
 		{
 			if (!i_shader.shader_exist[i])
@@ -57,10 +58,10 @@ namespace Tempest
 
 		VkPipelineVertexInputStateCreateInfo vertex_input_create_info{};
 		vertex_input_create_info.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-		vertex_input_create_info.vertexBindingDescriptionCount = 0;
-		vertex_input_create_info.pVertexBindingDescriptions = nullptr;
-		vertex_input_create_info.vertexAttributeDescriptionCount = 0;
-		vertex_input_create_info.pVertexAttributeDescriptions = nullptr;
+		vertex_input_create_info.vertexBindingDescriptionCount = 1;
+		vertex_input_create_info.pVertexBindingDescriptions = &i_vertexbuffer.binding_description;
+		vertex_input_create_info.vertexAttributeDescriptionCount = static_cast<uint32_t>(i_vertexbuffer.attribute_descriptions.Size());
+		vertex_input_create_info.pVertexAttributeDescriptions = i_vertexbuffer.attribute_descriptions.Data();
 
 		VkPipelineInputAssemblyStateCreateInfo input_assembly_create_info{};
 		input_assembly_create_info.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
@@ -132,15 +133,13 @@ namespace Tempest
 		{
 			VkPipelineLayoutCreateInfo pipeline_layout_create_info{};
 			pipeline_layout_create_info.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-			pipeline_layout_create_info.setLayoutCount = 0;
-			pipeline_layout_create_info.pSetLayouts = nullptr;
+			pipeline_layout_create_info.setLayoutCount = 1;
+			pipeline_layout_create_info.pSetLayouts = &i_uniforbuffer.descriptorset_layout;
 			pipeline_layout_create_info.pushConstantRangeCount = 0;
 			pipeline_layout_create_info.pPushConstantRanges = nullptr;
 
-			if (vkCreatePipelineLayout(device->logical_device, &pipeline_layout_create_info, nullptr, &pipeline_layout) != VK_SUCCESS)
-			{
-				DEBUG_ASSERT(false);
-			}
+			auto create_pipeline_layout_result = vkCreatePipelineLayout(device->logical_device, &pipeline_layout_create_info, nullptr, &pipeline_layout);
+			DEBUG_ASSERT(create_pipeline_layout_result == VK_SUCCESS);
 		}
 
 		VkAttachmentDescription color_attachment{};
@@ -179,10 +178,8 @@ namespace Tempest
 		renderpass_info.dependencyCount = 1;
 		renderpass_info.pDependencies = &dependency;
 
-		if (vkCreateRenderPass(device->logical_device, &renderpass_info, nullptr, &render_pass) != VK_SUCCESS)
-		{
-			DEBUG_ASSERT(false);
-		}
+		auto create_renderpass_result = vkCreateRenderPass(device->logical_device, &renderpass_info, nullptr, &render_pass);
+		DEBUG_ASSERT(create_renderpass_result == VK_SUCCESS);
 
 		VkGraphicsPipelineCreateInfo pipeline_create_info{};
 		pipeline_create_info.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
@@ -198,13 +195,12 @@ namespace Tempest
 		pipeline_create_info.pDynamicState = nullptr;
 		pipeline_create_info.layout = pipeline_layout;
 		pipeline_create_info.renderPass = render_pass;
+		pipeline_create_info.subpass = 0;
 		pipeline_create_info.basePipelineHandle = VK_NULL_HANDLE;
 		pipeline_create_info.basePipelineIndex = -1;
 
-		if (vkCreateGraphicsPipelines(device->logical_device, VK_NULL_HANDLE, 1, &pipeline_create_info, nullptr, &graphics_pipeline) != VK_SUCCESS)
-		{
-			DEBUG_ASSERT(false);
-		}
+		auto create_graphics_pipelines_result = vkCreateGraphicsPipelines(device->logical_device, VK_NULL_HANDLE, 1, &pipeline_create_info, nullptr, &graphics_pipeline);
+		DEBUG_ASSERT(create_graphics_pipelines_result == VK_SUCCESS);
 	}
 
 	void Pipeline::CleanUp()

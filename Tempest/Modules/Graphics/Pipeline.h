@@ -3,6 +3,8 @@
 #include "Define.h"
 #include "Device.h"
 #include "SwapChain.h"
+#include "VertexBuffer.h"
+#include "UniformBuffer.h"
 
 namespace Tempest
 {
@@ -10,12 +12,11 @@ namespace Tempest
 	{
 	public:
 
-		void Init(const Device& i_device, const SwapChain& i_swapchain, const Shader& i_shader);
+		void Init(const Device&, const SwapChain&, const Shader&, const VertexBuffer&, const UniformBuffer&);
 		void CleanUp();
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 		VkRenderPass render_pass;
-		VkShaderModule shader_module[5];
 		VkPipelineLayout pipeline_layout;
 		VkPipeline graphics_pipeline;
 

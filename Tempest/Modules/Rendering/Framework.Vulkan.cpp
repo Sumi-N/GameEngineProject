@@ -2,12 +2,6 @@
 #include "Framework.h"
 
 #include <vulkan/vulkan.h>
-#include <Graphics/Device.h>
-#include <Graphics/Queue.h>
-#include <Graphics/SwapChain.h>
-#include <Graphics/Pipeline.h>
-#include <Graphics/FrameBuffer.h>
-#include <Graphics/CommandBuffer.h>
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 
@@ -19,6 +13,8 @@ namespace Tempest
 	Pipeline pipeline;
 	CommandBuffer commandbuffers[2];
 	Shader shader;
+	VertexBuffer vertexbuffer;
+	UniformBuffer uniformbuffer;
 	FrameBuffer framebuffer;
 	VkSemaphore image_available_semaphores[2];
 	VkSemaphore render_finished_semaphores[2];
@@ -27,14 +23,21 @@ namespace Tempest
 
 	void Framework::Boot(Window* i_window)
 	{
-		Shader::Load("D:/GameEngineProject/Assets/bin/shader/basic.ts", shader);
+		Mesh mesh;
+		Mesh::Load("", mesh);
+
+		//Shader::Load("D:/GameEngineProject/Assets/bin/shader/basic.ts", shader);
+		Shader::Load("D:/GameEngineProject/Assets/bin/shader/outlinehighlight.ts", shader);
 		device.Init(i_window);
 		queue.Init(device);
 		swapchain.Init(device);
-		pipeline.Init(device, swapchain, shader);
-		framebuffer.Init(device, swapchain, pipeline);
+		vertexbuffer.Init(device, shader);
 		commandbuffers[0].Init(device);
 		commandbuffers[1].Init(device);
+		vertexbuffer.InitData(commandbuffers[0], mesh.data.Data(), mesh.data.Size(), mesh.index.Data(), mesh.index.Size());
+		uniformbuffer.Init(device, shader);
+		pipeline.Init(device, swapchain, shader, vertexbuffer, uniformbuffer);
+		framebuffer.Init(device, swapchain, pipeline);
 
 		VkFenceCreateInfo fenceInfo{};
 		fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;

@@ -49,7 +49,7 @@ protected:
 	void CleanUpBuffer() const;
 
 	Array<VertexBuffer> vbuffers;
-	Array<IndexBuffer>  ibuffers;
+	//Array<IndexBuffer>  ibuffers;
 
 	// Buffer data
 	Array<unsigned int> indexsizes;
