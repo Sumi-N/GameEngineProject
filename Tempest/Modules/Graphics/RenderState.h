@@ -1,19 +1,18 @@
 #pragma once
 #include "Define.h"
-#include "Shader.h"
 
 using namespace Tempest;
 
-constexpr std::pair<Resource::TextureType, int> TextureUnitList[] =
+constexpr std::pair<TextureType, int> TextureUnitList[] =
 {
-	{Resource::TextureType::SkyBox, 2},
+	{TextureType::SkyBox, 2},
 
 	// For PBR
-	{Resource::TextureType::Albedo, 10},
-	{Resource::TextureType::Normal, 11},
-	{Resource::TextureType::Roughness, 12},
-	{Resource::TextureType::Metalic, 13},
-	{Resource::TextureType::AmbientOcclusion, 14},
+	{TextureType::Albedo, 10},
+	{TextureType::Normal, 11},
+	{TextureType::Roughness, 12},
+	{TextureType::Metalic, 13},
+	{TextureType::AmbientOcclusion, 14},
 };
 
 class RenderState
@@ -25,11 +24,9 @@ public:
 	}
 	~RenderState() = default;
 
-	Shader shader;
-
 	void InitShader(const char**);
 	void InitShader(String*);
-	void InitTexture(const Resource::TextureType&, Owner<Resource::Texture>&);
+	void InitTexture(const TextureType&, Owner<Texture>&);
 	void BindTextureUnit();
 	void BindShaderState();
 	void UnBindShaderState();

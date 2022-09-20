@@ -34,13 +34,12 @@ namespace Tempest
 
 	enum class ShaderType : uint8_t
 	{
-		Uninitialized = 0,
-		Vertex     = 1,
-		Control    = 2,
-		Evaluation = 3,
-		Geometry   = 4,
-		Fragment   = 5,
-		Compute    = 6,
+		Vertex     = 0,
+		Control    = 1,
+		Evaluation = 2,
+		Geometry   = 3,
+		Fragment   = 4,
+		Compute    = 5,
 		Size,
 	};
 
@@ -58,7 +57,7 @@ namespace Tempest
 	};
 }
 
-namespace Tempest { namespace Resource
+namespace Tempest
 {
 	using namespace Tempest;
 
@@ -268,7 +267,15 @@ namespace Tempest { namespace Resource
 		}
 	};
 
-	struct  Descriptor
+	struct VertexInfo
+	{
+		int location;
+		int binding;
+		int format;
+		int offset;
+	};
+
+	struct  UniformInfo
 	{
 		int binding;
 		size_t size;
@@ -276,15 +283,26 @@ namespace Tempest { namespace Resource
 		ShaderDescriptorType type;
 	};
 
+	struct ShaderInfo
+	{
+		bool   shader_exist   [static_cast<int>(ShaderType::Size)];
+		size_t shader_sizes   [static_cast<int>(ShaderType::Size)];
+		size_t shader_offsets [static_cast<int>(ShaderType::Size)];
+		size_t vertex_count;
+		size_t vertex_info_offset;
+		size_t vertex_stride;
+		size_t uniform_sizes  [static_cast<int>(ShaderType::Size)];
+		size_t uniform_offsets[static_cast<int>(ShaderType::Size)];
+	};
+
 	struct Shader
 	{
-		Shader() = default;
-		~Shader() = default;
-
-		ShaderType type;
-		size_t shader_size;
-		Array<char> shader_binary;
-		Array<Descriptor> descriptor_info;
+		bool   shader_exist[static_cast<int>(ShaderType::Size)];
+		size_t shader_sizes[static_cast<int>(ShaderType::Size)];
+		Array<char> shader_binaries[static_cast<int>(ShaderType::Size)];
+		Array<VertexInfo> vertex_info;
+		size_t vertex_stride;
+		Array<UniformInfo> uniform_infos[static_cast<int>(ShaderType::Size)];
 
 		static Result Load(const char* i_filepath, Shader& o_shader)
 		{
@@ -292,76 +310,43 @@ namespace Tempest { namespace Resource
 
 			RETURN_IFNOT_SUCCESS(in.Open());
 
-			o_shader.shader_size = in.GetFileSize();
-			o_shader.shader_binary.Resize(o_shader.shader_size);
-			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_shader.shader_binary.Data()), o_shader.shader_size));
+			ShaderInfo shader_info;
+			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(&shader_info), sizeof(ShaderInfo)));
+
+			for (int i = 0; i < static_cast<int>(ShaderType::Size); i++)
+			{
+				o_shader.shader_exist[i] = shader_info.shader_exist[i];
+				o_shader.shader_sizes[i] = shader_info.shader_sizes[i];
+
+				if(shader_info.shader_exist[i] == false)
+					DEBUG_ASSERT(shader_info.shader_sizes[i] == 0);
+
+				if (shader_info.shader_sizes[i] != 0)
+				{
+					o_shader.shader_binaries[i].Resize(shader_info.shader_sizes[i]);
+					//in.SetPosition(shader_info.shader_offsets[i]);
+					RETURN_IFNOT_SUCCESS(in.Read(o_shader.shader_binaries[i].Data(), shader_info.shader_sizes[i]));
+				}
+
+				if (shader_info.uniform_sizes[i] != 0)
+				{
+					o_shader.uniform_infos[i].Resize(shader_info.uniform_sizes[i]);
+					in.SetPosition(shader_info.uniform_offsets[i]);
+					RETURN_IFNOT_SUCCESS(in.Read(o_shader.uniform_infos[i].Data(), shader_info.uniform_sizes[i] * sizeof(UniformInfo)));
+				}
+
+				if (i == static_cast<int>(ShaderType::Vertex) && shader_info.vertex_count != 0)
+				{
+					o_shader.vertex_stride = shader_info.vertex_stride;
+					o_shader.vertex_info.Resize(shader_info.vertex_count);
+					in.SetPosition(shader_info.vertex_info_offset);
+					RETURN_IFNOT_SUCCESS(in.Read(o_shader.vertex_info.Data(), shader_info.vertex_count * sizeof(VertexInfo)));
+				}
+			}
 
 			in.Close();
-
-			{
-				SpvReflectShaderModule module = {};
-				SpvReflectResult result = spvReflectCreateShaderModule(o_shader.shader_size, o_shader.shader_binary.Data(), &module);
-				DEBUG_ASSERT(result == SPV_REFLECT_RESULT_SUCCESS);
-
-				switch (module.shader_stage)
-				{
-				default: break;
-				case SPV_REFLECT_SHADER_STAGE_VERTEX_BIT: o_shader.type = ShaderType::Vertex; break;
-				case SPV_REFLECT_SHADER_STAGE_TESSELLATION_CONTROL_BIT: o_shader.type = ShaderType::Control; break;
-				case SPV_REFLECT_SHADER_STAGE_TESSELLATION_EVALUATION_BIT: o_shader.type = ShaderType::Evaluation; break;
-				case SPV_REFLECT_SHADER_STAGE_GEOMETRY_BIT: o_shader.type = ShaderType::Geometry; break;
-				case SPV_REFLECT_SHADER_STAGE_FRAGMENT_BIT: o_shader.type = ShaderType::Fragment; break;
-				case SPV_REFLECT_SHADER_STAGE_COMPUTE_BIT: o_shader.type = ShaderType::Compute; break;
-				}
-
-				{
-					uint32_t count = 0;
-					result = spvReflectEnumerateInputVariables(&module, &count, NULL);
-					assert(result == SPV_REFLECT_RESULT_SUCCESS);
-
-					Array<SpvReflectInterfaceVariable*> input_vars(count);
-					result = spvReflectEnumerateInputVariables(&module, &count, input_vars.Data());
-					assert(result == SPV_REFLECT_RESULT_SUCCESS);
-				}
-
-				{
-					uint32_t count = 0;
-					result = spvReflectEnumerateDescriptorSets(&module, &count, NULL);
-					DEBUG_ASSERT(result == SPV_REFLECT_RESULT_SUCCESS);
-
-					Array<SpvReflectDescriptorSet*> sets(count);
-					result = spvReflectEnumerateDescriptorSets(&module, &count, sets.Data());
-					DEBUG_ASSERT(result == SPV_REFLECT_RESULT_SUCCESS);
-
-					for (size_t index = 0; index < sets.Size(); ++index)
-					{
-						auto p_set = sets[index];
-
-						DEBUG_ASSERT(result == SPV_REFLECT_RESULT_SUCCESS);
-
-						o_shader.descriptor_info.Resize(p_set->binding_count);
-
-						for (uint32_t i = 0; i < p_set->binding_count; ++i)
-						{
-							const SpvReflectDescriptorBinding& binding_obj = *(p_set->bindings)[i];
-							const SpvReflectBlockVariable& binding_obj_block = binding_obj.block;
-
-							o_shader.descriptor_info[i].binding = binding_obj.binding;
-							o_shader.descriptor_info[i].name = binding_obj.name;
-							o_shader.descriptor_info[i].type = static_cast<ShaderDescriptorType>(binding_obj.descriptor_type);
-							o_shader.descriptor_info[i].size = binding_obj_block.size;
-
-							DEBUG_ASSERT(binding_obj.array.dims_count == 0);
-							DEBUG_ASSERT(binding_obj.uav_counter_binding == nullptr);
-							DEBUG_ASSERT((binding_obj.type_description->type_name != nullptr) && (strlen(binding_obj.type_description->type_name) > 0));
-						}
-					}
-				}
-
-				spvReflectDestroyShaderModule(&module);
-			}
 
 			return ResultValue::Success;
 		}
 	};
-}}
+}

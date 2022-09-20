@@ -53,13 +53,13 @@ inline void SceneEntity::Init()
 		{
 			if ((*it)->owner == (*it2)->owner)
 			{
-				if ((*it2)->mesh_type == Resource::MeshType::Mesh)
+				if ((*it2)->mesh_type == MeshType::Mesh)
 				{
 					proxyhandler->meshes.PushBack((*it2)->mesh);
 				}
 				else
 				{
-					auto mesh = static_cast<Observer<Resource::Mesh>>((*it2)->mesh);
+					auto mesh = static_cast<Observer<Mesh>>((*it2)->mesh);
 					proxyhandler->meshes.PushBack(mesh);
 				}
 				proxyhandler->Init(static_cast<int>((*it2)->mesh_type), static_cast<int>(it2.GetIndex()));

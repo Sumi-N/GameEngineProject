@@ -10,7 +10,7 @@ namespace Tempest
 	{
 	public:
 
-		void Init(const Device& i_device, const SwapChain& i_swapchain, const Array<Resource::Shader>& shaders);
+		void Init(const Device& i_device, const SwapChain& i_swapchain, const Shader& i_shader);
 		void CleanUp();
 
 #ifdef ENGINE_GRAPHIC_VULKAN

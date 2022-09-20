@@ -25,7 +25,7 @@ namespace Tempest
 		Mat4f bones[NUM_MAX_BONES];
 
 	private:
-		Result InterpolateMatrixBetweenFrames(const Resource::AnimationClip&, const float, float&, Mat4f*, const bool&);
+		Result InterpolateMatrixBetweenFrames(const AnimationClip&, const float, float&, Mat4f*, const bool&);
 
 		Array<Owner<AnimationComponent>> list;
 		float animation_current_time = 0;

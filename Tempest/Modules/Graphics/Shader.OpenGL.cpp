@@ -1,5 +1,3 @@
-#include "Shader.h"
-
 #ifdef ENGINE_GRAPHIC_OPENGL
 
 void Shader::SetShader(const char* i_vert, const char* i_frag)

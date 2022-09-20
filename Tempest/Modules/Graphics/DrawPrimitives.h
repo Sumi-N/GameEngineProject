@@ -1,6 +1,5 @@
 #pragma once
 #include "Define.h"
-#include "Shader.h"
 
 class DrawPrimitive
 {
@@ -22,5 +21,5 @@ public:
 
 private:
 
-	static Shader shader_basic_green_line;
+	//static Shader shader_basic_green_line;
 };

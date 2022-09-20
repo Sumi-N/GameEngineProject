@@ -18,7 +18,7 @@ namespace Tempest
 	SwapChain swapchain;
 	Pipeline pipeline;
 	CommandBuffer commandbuffers[2];
-	Array<Tempest::Resource::Shader> shaders;
+	Shader shader;
 	FrameBuffer framebuffer;
 	VkSemaphore image_available_semaphores[2];
 	VkSemaphore render_finished_semaphores[2];
@@ -27,14 +27,11 @@ namespace Tempest
 
 	void Framework::Boot(Window* i_window)
 	{
-		shaders.Resize(2);
-		Tempest::Resource::Shader::Load("E:/repos/GameEngineProject/Assets/bin/shader/vert.spv", shaders[0]);
-		Tempest::Resource::Shader::Load("E:/repos/GameEngineProject/Assets/bin/shader/frag.spv", shaders[1]);
-
+		Shader::Load("D:/GameEngineProject/Assets/bin/shader/basic.ts", shader);
 		device.Init(i_window);
 		queue.Init(device);
 		swapchain.Init(device);
-		pipeline.Init(device, swapchain, shaders);
+		pipeline.Init(device, swapchain, shader);
 		framebuffer.Init(device, swapchain, pipeline);
 		commandbuffers[0].Init(device);
 		commandbuffers[1].Init(device);

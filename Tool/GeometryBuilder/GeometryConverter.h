@@ -12,7 +12,7 @@ enum class ExtensionType : uint8_t
 	FBX,
 };
 
-using namespace Tempest::Resource;
+using namespace Tempest;
 
 class GeometryConverter
 {

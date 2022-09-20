@@ -21,7 +21,7 @@ void SceneProxy::InitBuffer(const int i_type)
 {
 	if(i_type == 0)
 	{
-		auto mesh = static_cast<Observer<Resource::Mesh>>(meshes[meshes.Size() - 1]);
+		auto mesh = static_cast<Observer<Mesh>>(meshes[meshes.Size() - 1]);
 
 		VertexBuffer vbuffer;
 		vbuffer.InitData(VertexBufferType::Mesh, static_cast<uint32_t>(mesh->data.Size()) * sizeof(mesh->data[0]), mesh->data.Data());
@@ -36,7 +36,7 @@ void SceneProxy::InitBuffer(const int i_type)
 	}
 	else if(i_type == 1)
 	{
-		Observer<Resource::SkeletonMesh> skeleton_mesh = static_cast<Observer<Resource::SkeletonMesh>>(meshes[meshes.Size() - 1]);
+		Observer<SkeletonMesh> skeleton_mesh = static_cast<Observer<SkeletonMesh>>(meshes[meshes.Size() - 1]);
 
 		VertexBuffer vbuffer;
 		vbuffer.InitData(VertexBufferType::SkeletonMesh, static_cast<uint32_t>(skeleton_mesh->data.Size()) * sizeof(skeleton_mesh->data[0]), skeleton_mesh->data.Data());
@@ -53,10 +53,10 @@ void SceneProxy::InitBuffer(const int i_type)
 
 void SceneProxy::CheckDrawType(const Shader i_shader)
 {
-	if (i_shader.HasTessellationShader())
-		drawtype = DrawType::PATCHES;
-	else
-		drawtype = defaulttype;
+	//if (i_shader.HasTessellationShader())
+	//	drawtype = DrawType::PATCHES;
+	//else
+	//	drawtype = defaulttype;
 }
 
 void SceneProxy::CleanUpBuffer() const

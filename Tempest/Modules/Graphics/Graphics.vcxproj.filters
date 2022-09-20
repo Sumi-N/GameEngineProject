@@ -19,9 +19,6 @@
     <ClInclude Include="ConstantBuffer.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="SceneProxy.h">
       <Filter>Common</Filter>
     </ClInclude>

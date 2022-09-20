@@ -2,56 +2,57 @@
 
 namespace Tempest
 {
-	void Pipeline::Init(const Device& i_device, const SwapChain& i_swapchain, const Array<Resource::Shader>& shaders)
+	void Pipeline::Init(const Device& i_device, const SwapChain& i_swapchain, const Shader& i_shader)
 	{
 		device = &i_device;
 
 		Array<VkPipelineShaderStageCreateInfo> shader_stages;
-		shader_stages.Resize(shaders.Size());
+
+		for (int i = 0; i < static_cast<int>(ShaderType::Size); i++)
 		{
-			for (int i = 0; i < shaders.Size(); i++)
+			if (!i_shader.shader_exist[i])
+				continue;
+
+			VkShaderModuleCreateInfo shader_create_info{};
+			shader_create_info.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+			shader_create_info.codeSize = i_shader.shader_sizes[i];
+			shader_create_info.pCode = reinterpret_cast<const uint32_t*>(i_shader.shader_binaries[i].Data());
+			if (vkCreateShaderModule(device->logical_device, &shader_create_info, nullptr, &shader_module[i]) != VK_SUCCESS)
 			{
-				VkShaderModuleCreateInfo shader_create_info{};
-				shader_create_info.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-				shader_create_info.codeSize = shaders[i].shader_size;
-				shader_create_info.pCode = reinterpret_cast<const uint32_t*>(shaders[i].shader_binary.Data());
-				if (vkCreateShaderModule(device->logical_device, &shader_create_info, nullptr, &shader_module[i]) != VK_SUCCESS)
+				DEBUG_ASSERT(false);
+			}
+
+			VkPipelineShaderStageCreateInfo shader_stage_info{};
+			{
+				shader_stage_info.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+				switch (static_cast<ShaderType>(i))
 				{
+				case ShaderType::Vertex:
+					shader_stage_info.stage = VK_SHADER_STAGE_VERTEX_BIT;
+					break;
+				case ShaderType::Control:
+					shader_stage_info.stage = VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT;
+					break;
+				case ShaderType::Evaluation:
+					shader_stage_info.stage = VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
+					break;
+				case ShaderType::Geometry:
+					shader_stage_info.stage = VK_SHADER_STAGE_GEOMETRY_BIT;
+					break;
+				case ShaderType::Fragment:
+					shader_stage_info.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+					break;
+				case ShaderType::Compute:
+					shader_stage_info.stage = VK_SHADER_STAGE_COMPUTE_BIT;
+					break;
+				default:
 					DEBUG_ASSERT(false);
 				}
-
-				VkPipelineShaderStageCreateInfo shader_stage_info{};
-				{
-					shader_stage_info.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-					switch (shaders[i].type)
-					{
-					case ShaderType::Vertex:
-						shader_stage_info.stage = VK_SHADER_STAGE_VERTEX_BIT;
-						break;
-					case ShaderType::Control:
-						shader_stage_info.stage = VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT;
-						break;
-					case ShaderType::Evaluation:
-						shader_stage_info.stage = VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
-						break;
-					case ShaderType::Geometry:
-						shader_stage_info.stage = VK_SHADER_STAGE_GEOMETRY_BIT;
-						break;
-					case ShaderType::Fragment:
-						shader_stage_info.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-						break;
-					case ShaderType::Compute:
-						shader_stage_info.stage = VK_SHADER_STAGE_COMPUTE_BIT;
-						break;
-					default:
-						DEBUG_ASSERT(false);
-					}
-					shader_stage_info.module = shader_module[i];
-					shader_stage_info.pName = "main";
-				}
-
-				shader_stages[i] = shader_stage_info;
+				shader_stage_info.module = shader_module[i];
+				shader_stage_info.pName = "main";
 			}
+
+			shader_stages.PushBack(shader_stage_info);
 		}
 
 		VkPipelineVertexInputStateCreateInfo vertex_input_create_info{};

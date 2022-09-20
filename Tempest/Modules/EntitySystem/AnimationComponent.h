@@ -17,8 +17,8 @@ namespace Tempest
 		String skeleton_path;
 		String animation_clip_path;
 
-		Owner<Resource::Skeleton> skeleton;
-		Owner<Resource::AnimationClip> clip;
+		Owner<Skeleton> skeleton;
+		Owner<AnimationClip> clip;
 		Observer<MeshComponent> mesh;
 
 		virtual void Boot() override;
@@ -68,8 +68,8 @@ namespace Tempest
 			DEBUG_ASSERT(false);
 		}
 
-		skeleton = Owner<Resource::Skeleton>::Create(skeleton);
-		return Resource::Skeleton::Load(skeleton_path.c_str(), *skeleton);
+		skeleton = Owner<Skeleton>::Create(skeleton);
+		return Skeleton::Load(skeleton_path.c_str(), *skeleton);
 	}
 
 	inline Result AnimationComponent::LoadClip()
@@ -80,8 +80,8 @@ namespace Tempest
 			DEBUG_ASSERT(false);
 		}
 
-		clip = Owner<Resource::AnimationClip>::Create(clip);
-		return Resource::AnimationClip::Load(animation_clip_path.c_str(), *clip);
+		clip = Owner<AnimationClip>::Create(clip);
+		return AnimationClip::Load(animation_clip_path.c_str(), *clip);
 	}
 
 	inline bool AnimationComponent::IsSkeletonLoaded()

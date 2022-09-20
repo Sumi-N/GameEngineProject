@@ -14,8 +14,8 @@ namespace Tempest
 		~MeshComponent() = default;
 
 		String mesh_path;
-		Resource::MeshType mesh_type;
-		Owner<Resource::Mesh> mesh;
+		MeshType mesh_type;
+		Owner<Mesh> mesh;
 
 		Mat4f model_mat;
 		Mat4f model_inverse_transpose_mat;

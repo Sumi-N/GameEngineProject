@@ -4,11 +4,6 @@ out vec4 color;
 // Consta data
 const int MAX_POINT_LIGHT_NUM = 5;
 
-struct PointLight{
-	vec4 point_intensity;
-	vec4 point_position;
-};
-
 in VS_OUT{
 	// Normal vector of the object at world coordinate
 	vec3 world_normal;

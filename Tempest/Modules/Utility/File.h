@@ -14,7 +14,9 @@ namespace Tempest
 
 		enum class Format
 		{
+			Write,
 			BinaryWrite,
+			Read,
 			BinaryRead,
 			Default,
 		};
@@ -28,15 +30,18 @@ namespace Tempest
 
 		Result Open();
 		void   Close();
+		void   SetPosition(const size_t);
 		size_t GetFileSize();
+		String GetText() const;
 		Result Write(void*, size_t);
 		Result Read(void*, size_t);
 
-		static Array<String> GetAllFilePathsBelowTheDirectory(String);
-		static String ReplaceExtension(String, String);
-		static String GetExtensionName(String);
-		static String GetPathName     (String);
-		static String GetFileName     (String);
+		static Array<String> GetAllFilePathsBelowTheDirectory(const String&);
+		static String RemoveExtension (const String&);
+		static String ReplaceExtension(const String&, const String&);
+		static String GetExtensionName(const String&);
+		static String GetPathName     (const String&);
+		static String GetFileName     (const String&);
 
 	private:
 		std::filesystem::path filepath;
@@ -48,9 +53,12 @@ namespace Tempest
 
 	inline Result File::Open()
 	{
-		if (format == Format::BinaryRead)
+		if (format == Format::Read || format == Format::BinaryRead)
 		{
-			read_stream.open(filepath, std::ifstream::in | std::ifstream::binary);
+			std::ios_base::openmode openmode = std::ifstream::in;
+			if (format == Format::BinaryRead)
+				openmode = openmode | std::ifstream::binary;
+			read_stream.open(filepath, openmode);
 
 			if (!read_stream.is_open())
 			{
@@ -59,7 +67,7 @@ namespace Tempest
 
 			return ResultValue::Success;
 		}
-		else if (format == Format::BinaryWrite)
+		else if (format == Format::Write || format == Format::BinaryWrite)
 		{
 			//Create the file if the directory filepath doesn't exist
 			if (!std::filesystem::exists(filepath.parent_path()))
@@ -67,7 +75,10 @@ namespace Tempest
 				std::filesystem::create_directories(filepath.parent_path());
 			}
 
-			write_stream.open(filepath, std::ifstream::out | std::ifstream::binary);
+			std::ios_base::openmode openmode = std::ifstream::out;
+			if (format == Format::BinaryWrite)
+				openmode = openmode | std::ifstream::binary;
+			write_stream.open(filepath, openmode);
 
 			if (!write_stream.is_open())
 			{
@@ -94,6 +105,18 @@ namespace Tempest
 		}
 	}
 
+	inline void File::SetPosition(const size_t position)
+	{
+		if (format == Format::BinaryRead)
+		{
+			read_stream.seekg(position);
+		}
+		else if (format == Format::BinaryWrite)
+		{
+			write_stream.seekp(position);
+		}
+	}
+
 	inline size_t File::GetFileSize()
 	{
 		if (format == Format::BinaryRead)
@@ -109,6 +132,14 @@ namespace Tempest
 		}
 
 		return 0;
+	}
+
+	inline String File::GetText() const
+	{
+		DEBUG_ASSERT(format == Format::Read);
+		std::stringstream buffer;
+		buffer << read_stream.rdbuf();
+		return buffer.str();
 	}
 
 	inline Result File::Write(void* i_ptr, size_t i_size)
@@ -141,7 +172,7 @@ namespace Tempest
 		return ResultValue::Failure;
 	}
 
-	inline Array<String> File::GetAllFilePathsBelowTheDirectory(String i_pathname)
+	inline Array<String> File::GetAllFilePathsBelowTheDirectory(const String& i_pathname)
 	{
 		Array<String> filenames;
 		for (const auto& entry : std::filesystem::recursive_directory_iterator(i_pathname))
@@ -158,22 +189,29 @@ namespace Tempest
 		return filenames;
 	}
 
-	inline String File::ReplaceExtension(String i_path, String i_extension)
+	inline String File::RemoveExtension(const String& i_path)
+	{
+		size_t last_dot = i_path.find_last_of(".");
+		if (last_dot == std::string::npos) return i_path;
+		return i_path.substr(0, last_dot);
+	}
+
+	inline String File::ReplaceExtension(const String& i_path, const String& i_extension)
 	{
 		return std::filesystem::path(i_path).replace_extension(std::filesystem::path(i_extension)).string();
 	}
 
-	inline String File::GetExtensionName(String i_path)
+	inline String File::GetExtensionName(const String& i_path)
 	{
 		return std::filesystem::path(i_path).extension().string();
 	}
 
-	inline String File::GetPathName(String i_path)
+	inline String File::GetPathName(const String& i_path)
 	{
 		return std::filesystem::path(i_path).parent_path().string();
 	}
 
-	inline String File::GetFileName(String i_path)
+	inline String File::GetFileName(const String& i_path)
 	{
 		return std::filesystem::path(i_path).filename().string();
 	}

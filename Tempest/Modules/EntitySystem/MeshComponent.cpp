@@ -3,9 +3,9 @@
 
 namespace Tempest
 {
-	void ReplaceWithDummyMesh(OwningPointer<Resource::Mesh>& o_mesh)
+	void ReplaceWithDummyMesh(OwningPointer<Mesh>& o_mesh)
 	{
-		o_mesh = OwningPointer<Resource::Mesh>::Create(o_mesh);
+		o_mesh = OwningPointer<Mesh>::Create(o_mesh);
 		o_mesh->data.Resize(6);
 		o_mesh->index.Resize(6);
 		o_mesh->data[0].vertex = Vec3f( 10,  10, 0);
@@ -66,12 +66,12 @@ namespace Tempest
 		if (File::GetExtensionName(mesh_path) == ".tm")
 		{
 			mesh_type = MeshType::Mesh;
-			mesh = AssetManager<Resource::Mesh>::Load(mesh_path);
+			mesh = AssetManager<Mesh>::Load(mesh_path);
 		}
 		else if (File::GetExtensionName(mesh_path) == ".tsm")
 		{
 			mesh_type = MeshType::SkeletonMesh;
-			mesh = static_cast<Owner<Resource::Mesh>>(AssetManager<Resource::SkeletonMesh>::Load(mesh_path));
+			mesh = static_cast<Owner<Mesh>>(AssetManager<SkeletonMesh>::Load(mesh_path));
 		}
 
 		if (!mesh)

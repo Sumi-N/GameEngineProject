@@ -16,7 +16,7 @@ namespace Tempest
 			{
 				return it->second;
 			}
-			return OwningPointer<Resource::Mesh>();
+			return OwningPointer<Mesh>();
 		}
 
 		static OwningPointer<T> Load(U i_filename) {};
@@ -25,20 +25,20 @@ namespace Tempest
 	};
 
 	template <>
-	class AssetManager<Resource::Mesh, String>
+	class AssetManager<Mesh, String>
 	{
 	public:
-		static OwningPointer<Resource::Mesh>  Get(String i_filename)
+		static OwningPointer<Mesh>  Get(String i_filename)
 		{
 			auto it = table.find(i_filename);
 			if (it != table.end())
 			{
 				return it->second;
 			}
-			return OwningPointer<Resource::Mesh>();
+			return OwningPointer<Mesh>();
 		}
 
-		static OwningPointer<Resource::Mesh> Load(String i_filename)
+		static OwningPointer<Mesh> Load(String i_filename)
 		{
 			auto it = table.find(i_filename);
 			if (it != table.end())
@@ -49,8 +49,8 @@ namespace Tempest
 			}
 			else
 			{
-				OwningPointer<Resource::Mesh> mesh = OwningPointer<Resource::Mesh>::Create(mesh);
-				if (Resource::Mesh::Load(i_filename.c_str(), *mesh))
+				OwningPointer<Mesh> mesh = OwningPointer<Mesh>::Create(mesh);
+				if (Mesh::Load(i_filename.c_str(), *mesh))
 				{
 					table.insert({ i_filename, mesh });
 
@@ -60,29 +60,29 @@ namespace Tempest
 				}
 				else
 				{
-					return OwningPointer<Resource::Mesh>();
+					return OwningPointer<Mesh>();
 				}
 			}
 		}
 	private:
-		static std::map<String, OwningPointer<Resource::Mesh>> table;
+		static std::map<String, OwningPointer<Mesh>> table;
 	};
 
 	template <>
-	class AssetManager<Resource::SkeletonMesh, String>
+	class AssetManager<SkeletonMesh, String>
 	{
 	public:
-		static OwningPointer<Resource::SkeletonMesh>  Get(String i_filename)
+		static OwningPointer<SkeletonMesh>  Get(String i_filename)
 		{
 			auto it = table.find(i_filename);
 			if (it != table.end())
 			{
 				return it->second;
 			}
-			return OwningPointer<Resource::SkeletonMesh>();
+			return OwningPointer<SkeletonMesh>();
 		}
 
-		static OwningPointer<Resource::SkeletonMesh> Load(String i_filename)
+		static OwningPointer<SkeletonMesh> Load(String i_filename)
 		{
 			auto it = table.find(i_filename);
 			if (it != table.end())
@@ -93,8 +93,8 @@ namespace Tempest
 			}
 			else
 			{
-				OwningPointer<Resource::SkeletonMesh> smesh = OwningPointer<Resource::SkeletonMesh>::Create(smesh);
-				if (Resource::SkeletonMesh::Load(i_filename.c_str(), *smesh))
+				OwningPointer<SkeletonMesh> smesh = OwningPointer<SkeletonMesh>::Create(smesh);
+				if (SkeletonMesh::Load(i_filename.c_str(), *smesh))
 				{
 					table.insert({ i_filename, smesh });
 
@@ -104,18 +104,18 @@ namespace Tempest
 				}
 				else
 				{
-					return OwningPointer<Resource::SkeletonMesh>();
+					return OwningPointer<SkeletonMesh>();
 				}
 			}
 		}
 	private:
-		static std::map<String, OwningPointer<Resource::SkeletonMesh>> table;
+		static std::map<String, OwningPointer<SkeletonMesh>> table;
 	};
 
 	template <typename T, typename U>
 	std::map<U, OwningPointer<T>> AssetManager<T, U>::table;
 
-	std::map<String, OwningPointer<Resource::Mesh>> AssetManager<Resource::Mesh, String>::table;
-	std::map<String, OwningPointer<Resource::SkeletonMesh>> AssetManager<Resource::SkeletonMesh, String>::table;
+	std::map<String, OwningPointer<Mesh>> AssetManager<Mesh, String>::table;
+	std::map<String, OwningPointer<SkeletonMesh>> AssetManager<SkeletonMesh, String>::table;
 }
 

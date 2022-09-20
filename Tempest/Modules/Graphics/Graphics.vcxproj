@@ -139,7 +139,6 @@
     <ClInclude Include="RenderState.h" />
     <ClInclude Include="SceneEntity.h" />
     <ClInclude Include="SceneProxy.h" />
-    <ClInclude Include="Shader.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Window.win.h" />

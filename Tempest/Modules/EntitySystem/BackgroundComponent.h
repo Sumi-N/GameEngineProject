@@ -16,19 +16,19 @@ namespace Tempest
 
 		void RegisterMesh(const char*);
 		void RegisterShaderPath(const char** i_shader_paths);
-		void RegisterTexture(const Resource::TextureType&, const char*);
+		void RegisterTexture(const TextureType&, const char*);
 		void LoadMesh();
 		void LoadTexture();
 
 		String mesh_path;
-		Owner<Resource::Mesh> mesh;
-		Resource::MeshType mesh_type;
+		Owner<Mesh> mesh;
+		MeshType mesh_type;
 
 		String shader_paths[5];
 		String texture_path;
-		Resource::TextureType    texture_type;
-		Owner<Resource::Texture> texture;
-	}; 
+		TextureType    texture_type;
+		Owner<Texture> texture;
+	};
 
 	inline void BackgroundComponent::Boot()
 	{
@@ -48,7 +48,7 @@ namespace Tempest
 		shader_paths[4] = i_shader_paths[4];
 	}
 
-	inline void BackgroundComponent::RegisterTexture(const Resource::TextureType& i_type, const char* i_path)
+	inline void BackgroundComponent::RegisterTexture(const TextureType& i_type, const char* i_path)
 	{
 		texture_path = i_path;
 		texture_type = i_type;
@@ -60,8 +60,8 @@ namespace Tempest
 		if (File::GetExtensionName(mesh_path) == ".tm")
 		{
 			mesh_type = MeshType::Mesh;
-			mesh = Create<Resource::Mesh>();
-			auto result = Resource::Mesh::Load(mesh_path.c_str(), *mesh);
+			mesh = Create<Mesh>();
+			auto result = Mesh::Load(mesh_path.c_str(), *mesh);
 		}
 		else
 		{
@@ -80,9 +80,9 @@ namespace Tempest
 
 	inline void BackgroundComponent::LoadTexture()
 	{
-		texture = Create<Resource::Texture>();
+		texture = Create<Texture>();
 
-		Result result = Resource::Texture::Load(texture_path.c_str(), *texture);
+		Result result = Texture::Load(texture_path.c_str(), *texture);
 
 		if (result)
 		{

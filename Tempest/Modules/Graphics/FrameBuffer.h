@@ -1,6 +1,5 @@
 #pragma once
 #include "Define.h"
-#include "Shader.h"
 #include "Device.h"
 #include "SwapChain.h"
 #include "Pipeline.h"
@@ -27,7 +26,6 @@ namespace Tempest
 	public:
 
 		FrameType frametype = FrameType::UnInitialized;
-		Shader    shader;
 		int       unit_number = -1;
 		int       width = 0, height = 0;
 

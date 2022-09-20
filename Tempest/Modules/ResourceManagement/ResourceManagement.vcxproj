@@ -109,9 +109,6 @@
     <ClInclude Include="ResourceData.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\External\SPIRV-Reflect\SPIRV-Reflect.vcxproj">
-      <Project>{689526f1-cd33-4fd6-9c5c-5fd707a61f12}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Logging\Logging.vcxproj">
       <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>
     </ProjectReference>

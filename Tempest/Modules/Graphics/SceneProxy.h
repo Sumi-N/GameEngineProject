@@ -35,7 +35,7 @@ public:
 	void CleanUp();
 
 	Owner<RenderState> state;
-	Array<Observer<Resource::Mesh>> meshes;
+	Array<Observer<Mesh>> meshes;
 	Array<int> mesh_indexs;
 
 protected:
