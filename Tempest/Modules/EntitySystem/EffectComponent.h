@@ -23,7 +23,7 @@ namespace Tempest
 
 		std::array<String, 5>         texture_paths;
 		std::array<TextureType, 5>    texture_types;
-		std::array<Owner<Texture>, 5> textures;
+		std::array<Owner<TextureInfo>, 5> textures;
 	};
 
 	inline void EffectComponent::Boot()
@@ -64,9 +64,9 @@ namespace Tempest
 				continue;
 			}
 
-			textures[i] = Create<Texture>();
+			textures[i] = Create<TextureInfo>();
 
-			Result result = Texture::Load(texture_paths[i].c_str(), *textures[i]);
+			Result result = TextureInfo::Load(texture_paths[i].c_str(), *textures[i]);
 
 			if (result)
 			{

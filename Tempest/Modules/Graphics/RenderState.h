@@ -26,7 +26,7 @@ public:
 
 	void InitShader(const char**);
 	void InitShader(String*);
-	void InitTexture(const TextureType&, Owner<Texture>&);
+	void InitTexture(const TextureType&, Owner<TextureInfo>&);
 	void BindTextureUnit();
 	void BindShaderState();
 	void UnBindShaderState();

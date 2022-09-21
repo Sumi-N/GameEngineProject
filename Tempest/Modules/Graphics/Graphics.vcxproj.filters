@@ -64,6 +64,9 @@
     <ClInclude Include="UniformBuffer.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConstantBuffer.OpenGL.cpp">
@@ -127,6 +130,9 @@
       <Filter>Vulkan</Filter>
     </ClCompile>
     <ClCompile Include="UniformBuffer.Vulkan.cpp">
+      <Filter>Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.Vulkan.cpp">
       <Filter>Vulkan</Filter>
     </ClCompile>
   </ItemGroup>

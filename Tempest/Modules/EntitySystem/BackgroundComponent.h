@@ -27,7 +27,7 @@ namespace Tempest
 		String shader_paths[5];
 		String texture_path;
 		TextureType    texture_type;
-		Owner<Texture> texture;
+		Owner<TextureInfo> texture;
 	};
 
 	inline void BackgroundComponent::Boot()
@@ -80,9 +80,9 @@ namespace Tempest
 
 	inline void BackgroundComponent::LoadTexture()
 	{
-		texture = Create<Texture>();
+		texture = Create<TextureInfo>();
 
-		Result result = Texture::Load(texture_path.c_str(), *texture);
+		Result result = TextureInfo::Load(texture_path.c_str(), *texture);
 
 		if (result)
 		{

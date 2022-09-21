@@ -151,7 +151,6 @@ Result ConvertShaders(String* i_file_names)
 
 	// Open the destination file
 	String output_name = File::RemoveExtension(File::RemoveExtension(File::GetFileName(i_file_names[0])));
-	String output_name_with_shadertyp = File::RemoveExtension(File::GetFileName(i_file_names[0]));
 	String output_path = "..\\..\\" BIN_SHADER_PATH + output_name + ".ts";
 	File out(output_path, File::Format::BinaryWrite);
 	RETURN_IFNOT_SUCCESS(out.Open());
@@ -164,6 +163,8 @@ Result ConvertShaders(String* i_file_names)
 	// Iterate through shaders
 	for (int idx_type = 0; idx_type < static_cast<int>(ShaderType::Size); idx_type++)
 	{
+		String output_name_with_shadertyp = File::RemoveExtension(File::GetFileName(i_file_names[idx_type]));
+
 		// Skip the process if the shader type doesn't exist
 		if (i_file_names[idx_type].empty())
 			continue;
@@ -292,7 +293,7 @@ Result ConvertShaders(String* i_file_names)
 
 						DEBUG_ASSERT(binding_obj.array.dims_count == 0);
 						DEBUG_ASSERT(binding_obj.uav_counter_binding == nullptr);
-						DEBUG_ASSERT((binding_obj.type_description->type_name != nullptr) && (strlen(binding_obj.type_description->type_name) > 0));
+						//DEBUG_ASSERT((binding_obj.type_description->type_name != nullptr) && (strlen(binding_obj.type_description->type_name) > 0));
 					}
 				}
 
@@ -359,7 +360,16 @@ int main()
 		""
 	};
 
-	auto result = ConvertShaders(outlinehighlight_paths);
+	String albedomodel_paths[] = {
+	directory + "debug_purpose\\albedomodel.vert.glsl",
+	"",
+	"",
+	"",
+	directory + "debug_purpose\\albedomodel.frag.glsl",
+	""
+	};
+
+	auto result = ConvertShaders(albedomodel_paths);
 
 	DEBUG_ASSERT(result == ResultValue::Success);
 

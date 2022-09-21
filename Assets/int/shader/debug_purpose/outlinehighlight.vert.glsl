@@ -31,6 +31,5 @@ void main()
 	vec4 unscaled_coord = perspective_matrix * view_matrix * model_position_matrix * vec4(model_position, 1.0);
 	vec4 scaled_coord = perspective_matrix * view_matrix * scaled_matrix * vec4(model_position, 1.0);
 
-    //gl_Position = vec4(scaled_coord.x, scaled_coord.y, unscaled_coord.z + Z_BUFFER_BIAS, unscaled_coord.w);
-	gl_Position = unscaled_coord;
+    gl_Position = vec4(scaled_coord.x, scaled_coord.y, unscaled_coord.z + Z_BUFFER_BIAS, unscaled_coord.w);	
 }

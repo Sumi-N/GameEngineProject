@@ -1,13 +1,14 @@
 #pragma once
 #include "Define.h"
 #include "Device.h"
+#include "Texture.h"
 
 namespace Tempest
 {
 	class UniformBuffer
 	{
 	public:
-		void Init(const Device& i_device, const Shader& i_shader);
+		void Init(const Device& i_device, const Shader& i_shader, const Texture& i_texture);
 		void CleanUp();
 		void Update(int i_index, void* i_data, size_t i_size, size_t i_offset) const;
 

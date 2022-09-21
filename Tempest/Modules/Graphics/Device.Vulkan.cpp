@@ -156,6 +156,7 @@ namespace Tempest
 			device_qualified = (device_properties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU && device_features.geometryShader);
 
 			min_uniform_buffer_offset_alignment = device_properties.limits.minUniformBufferOffsetAlignment;
+			max_sampler_anisotropy = device_properties.limits.maxSamplerAnisotropy;
 
 			DEBUG_ASSERT(device_qualified);
 		}
@@ -229,6 +230,7 @@ namespace Tempest
 				queue_create_infos.PushBack(queue_create_info);
 			}
 
+			device_features.samplerAnisotropy = VK_TRUE;
 
 			VkDeviceCreateInfo device_create_info{};
 			device_create_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;

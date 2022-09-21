@@ -49,7 +49,7 @@ namespace
 
 namespace Tempest
 {
-	void UniformBuffer::Init(const Device& i_device, const Shader& i_shader)
+	void UniformBuffer::Init(const Device& i_device, const Shader& i_shader, const Texture& i_texture)
 	{
 		device = &i_device;
 		buffer_count = device->graphics_buffering_count;
@@ -113,14 +113,16 @@ namespace Tempest
 
 		// Create descriptor pool
 		{
-			VkDescriptorPoolSize pool_size{};
-			pool_size.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-			pool_size.descriptorCount = buffer_count;
+			Array<VkDescriptorPoolSize> pool_size(2);
+			pool_size[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+			pool_size[0].descriptorCount = buffer_count;
+			pool_size[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+			pool_size[1].descriptorCount = buffer_count;
 
 			VkDescriptorPoolCreateInfo pool_info{};
 			pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-			pool_info.poolSizeCount = 1;
-			pool_info.pPoolSizes = &pool_size;
+			pool_info.poolSizeCount = pool_size.Size();
+			pool_info.pPoolSizes = pool_size.Data();
 			pool_info.maxSets = buffer_count;
 
 			auto descriptor_pool_create_result = vkCreateDescriptorPool(device->logical_device, &pool_info, nullptr, &descriptor_pool);
@@ -154,23 +156,42 @@ namespace Tempest
 						continue;
 					for (int k = 0; k < i_shader.uniform_infos[j].Size(); k++)
 					{
-						VkDescriptorBufferInfo buffer_info{};
-						buffer_info.buffer = uniformbuffers[i];
-						buffer_info.offset = buffer_offset;
-						buffer_info.range = i_shader.uniform_infos[j][k].size;
+						if (static_cast<VkDescriptorType>(i_shader.uniform_infos[j][k].type) == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER)
+						{
+							VkDescriptorBufferInfo buffer_info{};
+							buffer_info.buffer = uniformbuffers[i];
+							buffer_info.offset = buffer_offset;
+							buffer_info.range = i_shader.uniform_infos[j][k].size;
 
-						VkWriteDescriptorSet descriptor_write{};
-						descriptor_write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-						descriptor_write.dstSet = descriptor_sets[i];
-						descriptor_write.dstBinding = i_shader.uniform_infos[j][k].binding;
-						descriptor_write.dstArrayElement = 0;
-						descriptor_write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-						descriptor_write.descriptorCount = 1;
-						descriptor_write.pBufferInfo = &buffer_info;
+							VkWriteDescriptorSet descriptor_write{};
+							descriptor_write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+							descriptor_write.dstSet = descriptor_sets[i];
+							descriptor_write.dstBinding = i_shader.uniform_infos[j][k].binding;
+							descriptor_write.dstArrayElement = 0;
+							descriptor_write.descriptorType = static_cast<VkDescriptorType>(i_shader.uniform_infos[j][k].type);
+							descriptor_write.descriptorCount = 1;
+							descriptor_write.pBufferInfo = &buffer_info;
 
-						vkUpdateDescriptorSets(device->logical_device, 1, &descriptor_write, 0, nullptr);
+							vkUpdateDescriptorSets(device->logical_device, 1, &descriptor_write, 0, nullptr);
+							buffer_offset += buffer_offset_alignment;
+						}
+						else if (static_cast<VkDescriptorType>(i_shader.uniform_infos[j][k].type) == VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER)
+						{
+							VkDescriptorImageInfo image_info{};
+							image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+							image_info.imageView =  i_texture.texture_image_view;
+							image_info.sampler = i_texture.texture_sampler;
 
-						buffer_offset += buffer_offset_alignment;
+							VkWriteDescriptorSet descriptor_write{};
+							descriptor_write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+							descriptor_write.dstSet = descriptor_sets[i];
+							descriptor_write.dstBinding = i_shader.uniform_infos[j][k].binding;
+							descriptor_write.dstArrayElement = 0;
+							descriptor_write.descriptorType = static_cast<VkDescriptorType>(i_shader.uniform_infos[j][k].type);
+							descriptor_write.descriptorCount = 1;
+							descriptor_write.pImageInfo = &image_info;
+							vkUpdateDescriptorSets(device->logical_device, 1, &descriptor_write, 0, nullptr);
+						}
 					}
 				}
 			}

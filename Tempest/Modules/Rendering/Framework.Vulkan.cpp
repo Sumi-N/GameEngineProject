@@ -16,6 +16,7 @@ namespace Tempest
 	VertexBuffer vertexbuffer;
 	UniformBuffer uniformbuffer;
 	FrameBuffer framebuffer;
+	Texture texture;
 	VkSemaphore image_available_semaphores[2];
 	VkSemaphore render_finished_semaphores[2];
 	VkFence in_flight_fences[2];
@@ -25,15 +26,19 @@ namespace Tempest
 	{
 		Mesh mesh;
 		Mesh::Load("D:/GameEngineProject/Assets/bin/mesh/SK_PlayerCharacter.tm", mesh);
+		TextureInfo texture_info;
+		TextureInfo::Load("D:/GameEngineProject/Assets/bin/texture/albedo/CharacterBody_BaseColor.tt", texture_info);
 
 		//Shader::Load("D:/GameEngineProject/Assets/bin/shader/basic.ts", shader);
-		Shader::Load("D:/GameEngineProject/Assets/bin/shader/outlinehighlight.ts", shader);
+		//Shader::Load("D:/GameEngineProject/Assets/bin/shader/outlinehighlight.ts", shader);
+		Shader::Load("D:/GameEngineProject/Assets/bin/shader/albedomodel.ts", shader);
 		device.Init(i_window);
 		queue.Init(device);
 		swapchain.Init(device);
 		vertexbuffer.Init(device, shader);
 		commandbuffer.Init(device);
-		uniformbuffer.Init(device, shader);
+		texture.Init(device, commandbuffer, texture_info);
+		uniformbuffer.Init(device, shader, texture);
 		pipeline.Init(device, swapchain, shader, vertexbuffer, uniformbuffer);
 		framebuffer.Init(device, swapchain, pipeline);
 
@@ -122,7 +127,8 @@ namespace Tempest
 			void* this_data = static_cast<void*>(&i_data->camera);
 			Mat4f* this_data2 = (Mat4f*)(this_data);
 			this_data2[0] = Mat4f{};
-			//this_data2[0].ele[14] = -50;
+			this_data2[0] = this_data2[0].Scale(0.35);
+			this_data2[0].ele[13] = -25;
 			this_data2[0].ele[14] = -70;
 
 			uniformbuffer.Update(current_frame, static_cast<void*>(&i_data->camera), sizeof(ConstantData::Model), 256);

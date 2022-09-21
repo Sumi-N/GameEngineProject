@@ -224,15 +224,15 @@ namespace Tempest
 		}
 	};
 
-	struct  Texture
+	struct  TextureInfo
 	{
-		Texture() = default;
-		~Texture() = default;
+		TextureInfo() = default;
+		~TextureInfo() = default;
 
 		int width, height;
-		Array<Vec3u8t> pixels;
+		Array<Vec4u8t> pixels;
 
-		static Result Load(const char* i_filepath, Texture& o_texture)
+		static Result Load(const char* i_filepath, TextureInfo& o_texture)
 		{
 			TextureType type;
 			o_texture.pixels.Clear();
@@ -254,7 +254,7 @@ namespace Tempest
 			else if(type < TextureType::Size)
 			{
 				o_texture.pixels.Resize(o_texture.width * o_texture.height);
-				RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_texture.pixels.Data()), o_texture.width * o_texture.height * sizeof(Vec3u8t)));
+				RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_texture.pixels.Data()), o_texture.width * o_texture.height * sizeof(Vec4u8t)));
 			}
 			else
 			{

@@ -12,6 +12,7 @@ namespace Tempest
 
 		static constexpr int graphics_buffering_count = GRAPHICS_BUFFERING_COUNT;
 		int min_uniform_buffer_offset_alignment;
+		float max_sampler_anisotropy;
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 		struct QueueFamilyIndices
