@@ -10,6 +10,9 @@ namespace Tempest
 		void Init(Window* i_window);
 		void CleanUp();
 
+		static constexpr int graphics_buffering_count = GRAPHICS_BUFFERING_COUNT;
+		int min_uniform_buffer_offset_alignment;
+
 #ifdef ENGINE_GRAPHIC_VULKAN
 		struct QueueFamilyIndices
 		{

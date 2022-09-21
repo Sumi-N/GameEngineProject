@@ -37,24 +37,13 @@ namespace Tempest
 		void BindTextureUnit();
 		void RenderOnce();
 
-#ifdef ENGINE_GRAPHIC_OPENGL
-
-		uint32_t GetBufferID() const;
-		uint32_t GetColorID() const;
-		uint32_t GetDepthID() const;
-
-		GLuint  bufferid = 0;
-
-		GLuint  textureid_color = 0;
-		GLuint  textureid_depth = 0;
-
-#else ENGINE_GRAPHIC_VULKAN
+#ifdef ENGINE_GRAPHIC_VULKAN
 
 		Tempest::Array<VkFramebuffer> framebuffers;
 
 	private:
 		const Device* device;
-#endif // ENGINE_GRAPHIC_OPENGL
+#endif // ENGINE_GRAPHIC_VULKAN
 
 	};
 }

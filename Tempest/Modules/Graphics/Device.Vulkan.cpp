@@ -109,7 +109,7 @@ namespace Tempest
 				VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
 				VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
 			debug_util_messenger_create_info.messageType =
-				VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
+				//VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
 				VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
 				VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
 			debug_util_messenger_create_info.pfnUserCallback = (PFN_vkDebugUtilsMessengerCallbackEXT)DebugCallback;
@@ -154,6 +154,8 @@ namespace Tempest
 
 			bool device_qualified = false;
 			device_qualified = (device_properties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU && device_features.geometryShader);
+
+			min_uniform_buffer_offset_alignment = device_properties.limits.minUniformBufferOffsetAlignment;
 
 			DEBUG_ASSERT(device_qualified);
 		}

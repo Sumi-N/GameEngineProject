@@ -70,9 +70,9 @@ namespace Tempest
 
 		VkViewport viewport;
 		viewport.x = 0.0f;
-		viewport.y = 0.0f;
+		viewport.y = static_cast<float>(i_swapchain.support_details.extent.height);
 		viewport.width = static_cast<float>(i_swapchain.support_details.extent.width);
-		viewport.height = static_cast<float>(i_swapchain.support_details.extent.height);
+		viewport.height = -1 * static_cast<float>(i_swapchain.support_details.extent.height);
 		viewport.minDepth = 0.0f;
 		viewport.maxDepth = 1.0f;
 
@@ -134,7 +134,7 @@ namespace Tempest
 			VkPipelineLayoutCreateInfo pipeline_layout_create_info{};
 			pipeline_layout_create_info.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 			pipeline_layout_create_info.setLayoutCount = 1;
-			pipeline_layout_create_info.pSetLayouts = &i_uniforbuffer.descriptorset_layout;
+			pipeline_layout_create_info.pSetLayouts = &i_uniforbuffer.GetDescriptorLayout();
 			pipeline_layout_create_info.pushConstantRangeCount = 0;
 			pipeline_layout_create_info.pPushConstantRanges = nullptr;
 

@@ -10,10 +10,10 @@ namespace Tempest
 	{
 		device = &i_device;
 
-		framebuffers.Resize(i_swapchain.swapchain_image_views.Size());
-		for (size_t i = 0; i < i_swapchain.swapchain_image_views.Size(); i++)
+		framebuffers.Resize(i_swapchain.GetImageViews().Size());
+		for (size_t i = 0; i < i_swapchain.GetImageViews().Size(); i++)
 		{
-			VkImageView attachments[] = { i_swapchain.swapchain_image_views[i] };
+			VkImageView attachments[] = { i_swapchain.GetImageView(i)};
 
 			VkFramebufferCreateInfo framebuffer_create_info{};
 			framebuffer_create_info.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;

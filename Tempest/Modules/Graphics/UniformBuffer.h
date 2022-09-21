@@ -9,19 +9,22 @@ namespace Tempest
 	public:
 		void Init(const Device& i_device, const Shader& i_shader);
 		void CleanUp();
-		void Update(int i_index, void* i_uniform_data, size_t i_uniform_size);
+		void Update(int i_index, void* i_data, size_t i_size, size_t i_offset) const;
 
-		static constexpr int MAX_FRAMES_IN_FLIGHT = 2;
+		const VkDescriptorSetLayout& GetDescriptorLayout() const { return descriptorset_layout; }
+		const VkDescriptorSet& GetDescriptorSet(int index) const { return descriptor_sets[index]; }
 
 #ifdef ENGINE_GRAPHIC_VULKAN
-		VkDescriptorSetLayout descriptorset_layout;
-		VkDescriptorPool descriptor_pool;
-		VkDescriptorSet descriptor_sets[MAX_FRAMES_IN_FLIGHT];
-
-		VkBuffer uniformbuffers[MAX_FRAMES_IN_FLIGHT];
-		VkDeviceMemory uniformbuffers_memory[MAX_FRAMES_IN_FLIGHT];
 	private:
 		const Device* device;
+		int buffer_count;
+		size_t buffer_offset_alignment;
+
+		VkDescriptorSetLayout descriptorset_layout;
+		Array<VkBuffer> uniformbuffers;
+		Array<VkDeviceMemory> uniformbuffers_memories;
+		VkDescriptorPool descriptor_pool;
+		Array<VkDescriptorSet> descriptor_sets;
 #endif // ENGINE_GRAPHIC_VULKAN
 	};
 }

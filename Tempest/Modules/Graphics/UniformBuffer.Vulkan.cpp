@@ -17,7 +17,7 @@ namespace
 			}
 		}
 
-		DEBUG_ASSERT(false);
+		DEBUG_ASSERT(false)
 		return 0;
 	}
 
@@ -30,7 +30,7 @@ namespace
 		buffer_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
 		auto create_result = vkCreateBuffer(logical_device, &buffer_info, nullptr, &buffer);
-		DEBUG_ASSERT(create_result == VK_SUCCESS);
+		DEBUG_ASSERT(create_result == VK_SUCCESS)
 
 		VkMemoryRequirements memory_requirements;
 		vkGetBufferMemoryRequirements(logical_device, buffer, &memory_requirements);
@@ -41,7 +41,7 @@ namespace
 		alloc_info.memoryTypeIndex = FindMemoryType(physical_device, memory_requirements.memoryTypeBits, properties);
 
 		auto allocate_result = vkAllocateMemory(logical_device, &alloc_info, nullptr, &buffer_memory);
-		DEBUG_ASSERT(allocate_result == VK_SUCCESS);
+		DEBUG_ASSERT(allocate_result == VK_SUCCESS)
 
 		vkBindBufferMemory(logical_device, buffer, buffer_memory, 0);
 	}
@@ -52,6 +52,8 @@ namespace Tempest
 	void UniformBuffer::Init(const Device& i_device, const Shader& i_shader)
 	{
 		device = &i_device;
+		buffer_count = device->graphics_buffering_count;
+		buffer_offset_alignment = device->min_uniform_buffer_offset_alignment;
 
 		// Create uniform buffer
 		{
@@ -62,18 +64,22 @@ namespace Tempest
 					continue;
 				for (int j = 0; j < i_shader.uniform_infos[i].Size(); j++)
 				{
-					buffer_size += i_shader.uniform_infos[i][j].size;
+					// Need to fix this later.
+					DEBUG_ASSERT(i_shader.uniform_infos[i][j].size <= buffer_offset_alignment)
+					buffer_size += buffer_offset_alignment;
 				}
 			}
 
-			for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
+			uniformbuffers.Resize(buffer_count);
+			uniformbuffers_memories.Resize(buffer_count);
+			for (size_t i = 0; i < buffer_count; i++)
 			{
 				CreateBuffer(device->physical_device,
 							 device->logical_device,
 							 buffer_size,
 							 VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
 							 uniformbuffers[i],
-							 uniformbuffers_memory[i]);
+							 uniformbuffers_memories[i]);
 			}
 		}
 
@@ -102,80 +108,92 @@ namespace Tempest
 			layout_info.bindingCount = static_cast<uint32_t>(ubo_layout_bindings.Size());
 			layout_info.pBindings = ubo_layout_bindings.Data();
 			auto descriptorset_layout_create_result = vkCreateDescriptorSetLayout(device->logical_device, &layout_info, nullptr, &descriptorset_layout);
-			DEBUG_ASSERT(descriptorset_layout_create_result == VK_SUCCESS);
+			DEBUG_ASSERT(descriptorset_layout_create_result == VK_SUCCESS)
 		}
 
 		// Create descriptor pool
 		{
 			VkDescriptorPoolSize pool_size{};
 			pool_size.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-			pool_size.descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+			pool_size.descriptorCount = buffer_count;
 
 			VkDescriptorPoolCreateInfo pool_info{};
 			pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
 			pool_info.poolSizeCount = 1;
 			pool_info.pPoolSizes = &pool_size;
-			pool_info.maxSets = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+			pool_info.maxSets = buffer_count;
 
-			if (vkCreateDescriptorPool(device->logical_device, &pool_info, nullptr, &descriptor_pool) != VK_SUCCESS)
-			{
-				throw std::runtime_error("failed to create descriptor pool!");
-			}
+			auto descriptor_pool_create_result = vkCreateDescriptorPool(device->logical_device, &pool_info, nullptr, &descriptor_pool);
+			DEBUG_ASSERT(descriptor_pool_create_result == VK_SUCCESS)
 		}
 
+		// Create descriptor set
 		{
-			VkDescriptorSetLayout layouts[MAX_FRAMES_IN_FLIGHT];
-			for (int i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
+			Array<VkDescriptorSetLayout> layouts;
+			layouts.Resize(buffer_count);
+			for (int i = 0; i < buffer_count; i++)
 			{
 				layouts[i] = descriptorset_layout;
 			}
 			VkDescriptorSetAllocateInfo alloc_info{};
 			alloc_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
 			alloc_info.descriptorPool = descriptor_pool;
-			alloc_info.descriptorSetCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
-			alloc_info.pSetLayouts = layouts;
+			alloc_info.descriptorSetCount = buffer_count;
+			alloc_info.pSetLayouts = layouts.Data();
 
-			auto alloc_info_result = vkAllocateDescriptorSets(device->logical_device, &alloc_info, descriptor_sets);
-			DEBUG_ASSERT(alloc_info_result == VK_SUCCESS);
+			descriptor_sets.Resize(buffer_count);
+			auto alloc_info_result = vkAllocateDescriptorSets(device->logical_device, &alloc_info, descriptor_sets.Data());
+			DEBUG_ASSERT(alloc_info_result == VK_SUCCESS)
 
-			for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
+			for (size_t i = 0; i < buffer_count; i++)
 			{
-				VkDescriptorBufferInfo buffer_info{};
-				buffer_info.buffer = uniformbuffers[i];
-				buffer_info.offset = 0;
-				buffer_info.range = VK_WHOLE_SIZE;
+				size_t buffer_offset = 0;
+				for (int j = 0; j < static_cast<int>(ShaderType::Size); j++)
+				{
+					if (i_shader.uniform_infos[j].Size() == 0)
+						continue;
+					for (int k = 0; k < i_shader.uniform_infos[j].Size(); k++)
+					{
+						VkDescriptorBufferInfo buffer_info{};
+						buffer_info.buffer = uniformbuffers[i];
+						buffer_info.offset = buffer_offset;
+						buffer_info.range = i_shader.uniform_infos[j][k].size;
 
-				VkWriteDescriptorSet descriptor_write{};
-				descriptor_write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-				descriptor_write.dstSet = descriptor_sets[i];
-				descriptor_write.dstBinding = 0;
-				descriptor_write.dstArrayElement = 0;
-				descriptor_write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-				descriptor_write.descriptorCount = 1;
-				descriptor_write.pBufferInfo = &buffer_info;
+						VkWriteDescriptorSet descriptor_write{};
+						descriptor_write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+						descriptor_write.dstSet = descriptor_sets[i];
+						descriptor_write.dstBinding = i_shader.uniform_infos[j][k].binding;
+						descriptor_write.dstArrayElement = 0;
+						descriptor_write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+						descriptor_write.descriptorCount = 1;
+						descriptor_write.pBufferInfo = &buffer_info;
 
-				vkUpdateDescriptorSets(device->logical_device, 1, &descriptor_write, 0, nullptr);
+						vkUpdateDescriptorSets(device->logical_device, 1, &descriptor_write, 0, nullptr);
+
+						buffer_offset += buffer_offset_alignment;
+					}
+				}
 			}
 		}
 	}
 
 	void UniformBuffer::CleanUp()
 	{
-		for (int i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
+		for (int i = 0; i < buffer_count; i++)
 		{
 			vkDestroyBuffer(device->logical_device, uniformbuffers[i], nullptr);
-			vkFreeMemory(device->logical_device, uniformbuffers_memory[i], nullptr);
+			vkFreeMemory(device->logical_device, uniformbuffers_memories[i], nullptr);
 		}
 		vkDestroyDescriptorPool(device->logical_device, descriptor_pool, nullptr);
 		vkDestroyDescriptorSetLayout(device->logical_device, descriptorset_layout, nullptr);
 	}
 
-	void UniformBuffer::Update(int i_index, void* i_uniform_data, size_t i_uniform_size)
+	void UniformBuffer::Update(int i_index, void* i_data, size_t i_size, size_t i_offset) const
 	{
-		void* data;
-		vkMapMemory(device->logical_device, uniformbuffers_memory[i_index], 0, i_uniform_size, 0, &data);
-		memcpy(data, i_uniform_data, i_uniform_size);
-		vkUnmapMemory(device->logical_device, uniformbuffers_memory[i_index]);
+		void* memory_data;
+		vkMapMemory(device->logical_device, uniformbuffers_memories[i_index], i_offset, i_size, 0, &memory_data);
+		memcpy(memory_data, i_data, i_size);
+		vkUnmapMemory(device->logical_device, uniformbuffers_memories[i_index]);
 	}
 }
 #endif // ENGINE_GRAPHIC_OPENGL

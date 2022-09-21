@@ -38,12 +38,12 @@ namespace Tempest
 			VkMemoryRequirements memory_requirements;
 			vkGetBufferMemoryRequirements(logical_device, buffer, &memory_requirements);
 
-			VkMemoryAllocateInfo allocInfo{};
-			allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-			allocInfo.allocationSize = memory_requirements.size;
-			allocInfo.memoryTypeIndex = FindMemoryType(physical_device, memory_requirements.memoryTypeBits, properties);
+			VkMemoryAllocateInfo alloc_info{};
+			alloc_info.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+			alloc_info.allocationSize = memory_requirements.size;
+			alloc_info.memoryTypeIndex = FindMemoryType(physical_device, memory_requirements.memoryTypeBits, properties);
 
-			auto allocate_result = vkAllocateMemory(logical_device, &allocInfo, nullptr, &buffer_memory);
+			auto allocate_result = vkAllocateMemory(logical_device, &alloc_info, nullptr, &buffer_memory);
 			DEBUG_ASSERT(allocate_result == VK_SUCCESS);
 
 			vkBindBufferMemory(logical_device, buffer, buffer_memory, 0);
@@ -56,8 +56,9 @@ namespace Tempest
 		stride = static_cast<uint32_t>(i_shader.vertex_stride);
 
 		binding_description.binding = 0;
-		binding_description.stride = static_cast<uint32_t>(i_shader.vertex_stride);
 		binding_description.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+		//binding_description.stride = static_cast<uint32_t>(i_shader.vertex_stride);
+		binding_description.stride = 14 * 4;
 
 		attribute_descriptions.Resize(i_shader.vertex_info.Size());
 		for (int i = 0; i < attribute_descriptions.Size(); i++)
@@ -71,6 +72,8 @@ namespace Tempest
 
 	void VertexBuffer::InitData(const CommandBuffer& i_commandbuffer, const void* i_vertex_data, uint32_t i_vertex_size, const void* i_index_data, uint32_t i_index_size)
 	{
+		index_coount = i_index_size / sizeof(uint32_t);
+
 		// Vertex attribute
 		{
 			VkBuffer stagingbuffer;
@@ -78,7 +81,8 @@ namespace Tempest
 			CreateBuffer(device->physical_device,
 						 device->logical_device,
 						 i_vertex_size,
-						 VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+						 VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+						 VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
 						 stagingbuffer,
 						 stagingbuffer_memory);
 
@@ -90,34 +94,39 @@ namespace Tempest
 			CreateBuffer(device->physical_device,
 						 device->logical_device,
 						 i_vertex_size,
-						 VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
+						 VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
+						 VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
 						 vertexbuffer,
 						 vertexbuffer_memory);
 
 			// Copy buffer
 			{
-				auto vk_commandbuffer = i_commandbuffer.commandbuffers[0];
+				auto vk_commandbuffer = i_commandbuffer.GetBuffer(0);
 
-				VkCommandBufferBeginInfo beginInfo{};
-				beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-				beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+				VkCommandBufferBeginInfo begin_info{};
+				begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+				begin_info.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
 
-				vkBeginCommandBuffer(vk_commandbuffer, &beginInfo);
+				auto begin_result = vkBeginCommandBuffer(vk_commandbuffer, &begin_info);
+				DEBUG_ASSERT(begin_result == VK_SUCCESS);
 
-				VkBufferCopy copyRegion{};
-				copyRegion.size = i_vertex_size;
-				vkCmdCopyBuffer(vk_commandbuffer, stagingbuffer, vertexbuffer, 1, &copyRegion);
+				VkBufferCopy copy_region{};
+				copy_region.srcOffset = 0;
+				copy_region.dstOffset = 0;
+				copy_region.size = i_vertex_size;
+				vkCmdCopyBuffer(vk_commandbuffer, stagingbuffer, vertexbuffer, 1, &copy_region);
 
-				vkEndCommandBuffer(vk_commandbuffer);
+				auto end_result = vkEndCommandBuffer(vk_commandbuffer);
+				DEBUG_ASSERT(end_result == VK_SUCCESS);
 
-				VkSubmitInfo submitInfo{};
-				submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-				submitInfo.commandBufferCount = 1;
-				submitInfo.pCommandBuffers = &vk_commandbuffer;
+				VkSubmitInfo submit_info{};
+				submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+				submit_info.commandBufferCount = 1;
+				submit_info.pCommandBuffers = &vk_commandbuffer;
 
 				VkQueue graphics_queue;
 				vkGetDeviceQueue(device->logical_device, device->queue_family_indices.graphics_family.value(), 0, &graphics_queue);
-				vkQueueSubmit(graphics_queue, 1, &submitInfo, VK_NULL_HANDLE);
+				vkQueueSubmit(graphics_queue, 1, &submit_info, VK_NULL_HANDLE);
 				vkQueueWaitIdle(graphics_queue);
 			}
 
@@ -132,7 +141,8 @@ namespace Tempest
 			CreateBuffer(device->physical_device,
 						 device->logical_device,
 						 i_index_size,
-						 VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+						 VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+						 VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
 						 stagingbuffer,
 						 stagingbuffer_memory);
 
@@ -144,34 +154,35 @@ namespace Tempest
 			CreateBuffer(device->physical_device,
 						 device->logical_device,
 						 i_index_size,
-						 VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
+						 VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
+						 VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
 						 indexbuffer,
 						 indexbuffer_memory);
 
 			// Copy buffer
 			{
-				auto vk_commandbuffer =  i_commandbuffer.commandbuffers[0];
+				auto vk_commandbuffer = i_commandbuffer.GetBuffer(0);
 
-				VkCommandBufferBeginInfo beginInfo{};
-				beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-				beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+				VkCommandBufferBeginInfo begin_info{};
+				begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+				begin_info.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
 
-				vkBeginCommandBuffer(vk_commandbuffer, &beginInfo);
+				vkBeginCommandBuffer(vk_commandbuffer, &begin_info);
 
-				VkBufferCopy copyRegion{};
-				copyRegion.size = i_index_size;
-				vkCmdCopyBuffer(vk_commandbuffer, stagingbuffer, vertexbuffer, 1, &copyRegion);
+				VkBufferCopy copy_region{};
+				copy_region.size = i_index_size;
+				vkCmdCopyBuffer(vk_commandbuffer, stagingbuffer, indexbuffer, 1, &copy_region);
 
 				vkEndCommandBuffer(vk_commandbuffer);
 
-				VkSubmitInfo submitInfo{};
-				submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-				submitInfo.commandBufferCount = 1;
-				submitInfo.pCommandBuffers = &vk_commandbuffer;
+				VkSubmitInfo submit_info{};
+				submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+				submit_info.commandBufferCount = 1;
+				submit_info.pCommandBuffers = &vk_commandbuffer;
 
 				VkQueue graphics_queue;
 				vkGetDeviceQueue(device->logical_device, device->queue_family_indices.graphics_family.value(), 0, &graphics_queue);
-				vkQueueSubmit(graphics_queue, 1, &submitInfo, VK_NULL_HANDLE);
+				vkQueueSubmit(graphics_queue, 1, &submit_info, VK_NULL_HANDLE);
 				vkQueueWaitIdle(graphics_queue);
 			}
 

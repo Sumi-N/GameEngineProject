@@ -18,21 +18,22 @@ namespace Tempest
 
 		uint32_t GetStride() const { return stride; };
 
-	private:
+	public:
 		uint32_t stride;
+		uint32_t index_coount;
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 	public:
 		VkVertexInputBindingDescription binding_description;
 		Array<VkVertexInputAttributeDescription> attribute_descriptions;
 
-	private:
-		const Device* device;
 		VkBuffer vertexbuffer;
 		VkDeviceMemory vertexbuffer_memory;
 
 		VkBuffer indexbuffer;
 		VkDeviceMemory indexbuffer_memory;
+	private:
+		const Device* device;
 #endif // ENGINE_GRAPHIC_VULKAN
 	};
 }

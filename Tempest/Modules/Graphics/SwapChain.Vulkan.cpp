@@ -81,13 +81,13 @@ namespace Tempest
 			create_swapchain_info.imageArrayLayers = 1;
 			create_swapchain_info.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
-			uint32_t queueFamilyIndices[] = { device->queue_family_indices.graphics_family.value(), device->queue_family_indices.present_family.value() };
+			uint32_t queue_family_indices[] = { device->queue_family_indices.graphics_family.value(), device->queue_family_indices.present_family.value() };
 
 			if (device->queue_family_indices.graphics_family != device->queue_family_indices.present_family)
 			{
 				create_swapchain_info.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
 				create_swapchain_info.queueFamilyIndexCount = 2;
-				create_swapchain_info.pQueueFamilyIndices = queueFamilyIndices;
+				create_swapchain_info.pQueueFamilyIndices = queue_family_indices;
 			}
 			else
 			{

@@ -10,14 +10,20 @@ namespace Tempest
 		void Init(const Device& i_device);
 		void CleanUp();
 
-		static constexpr int MAX_FRAMES_IN_FLIGHT = 2;
+		VkCommandBuffer& GetBuffer(int index) const
+		{
+			DEBUG_ASSERT(index < buffer_count);
+			return vk_commandbuffers[index];
+		};
+
+		const VkCommandPool& GetPool() const { return vk_commandpool; };
 
 #ifdef ENGINE_GRAPHIC_VULKAN
-		VkCommandPool commandpool;
-		VkCommandBuffer commandbuffers[MAX_FRAMES_IN_FLIGHT];
-
 	private:
 		const Device* device;
+		int buffer_count;
+		VkCommandPool vk_commandpool;
+		Array<VkCommandBuffer> vk_commandbuffers;
 #endif // ENGINE_GRAPHIC_VULKAN
 
 	};

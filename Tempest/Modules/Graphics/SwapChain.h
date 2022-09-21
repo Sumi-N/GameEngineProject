@@ -9,11 +9,13 @@ namespace Tempest{
 		void Init(const Device& i_device);
 		void CleanUp();
 
-#ifdef ENGINE_GRAPHIC_VULKAN
-		VkSwapchainKHR swapchain;
-		Array<VkImage> swapchain_images;
-		Array<VkImageView> swapchain_image_views;
+		const VkSwapchainKHR&     Get() const { return swapchain; }
+		const VkImage&            GetImage(int index) const { return swapchain_images[index]; }
+		const VkImageView&        GetImageView(int index) const { return swapchain_image_views[index]; }
+		const Array<VkImage>&     GetImages() const { return swapchain_images; }
+		const Array<VkImageView>& GetImageViews() const { return swapchain_image_views; }
 
+#ifdef ENGINE_GRAPHIC_VULKAN
 		struct SwapChainSupportDetails
 		{
 			VkSurfaceCapabilitiesKHR capabilities;
@@ -27,6 +29,9 @@ namespace Tempest{
 
 	private:
 		const Device* device;
+		VkSwapchainKHR swapchain;
+		Array<VkImage> swapchain_images;
+		Array<VkImageView> swapchain_image_views;
 #endif // ENGINE_GRAPHIC_VULKAN
 	};
 }
