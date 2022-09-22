@@ -1,66 +1,10 @@
 #pragma once
 
 #include "Define.h"
+#include "Format.h"
 
 namespace Tempest
 {
-	enum class LightType : uint8_t
-	{
-		Uninitialized = 0,
-		AmbientLight = 1,
-		PointLight = 2,
-		DirectionalLight = 3,
-		Size,
-	};
-
-	enum class TextureType : uint8_t
-	{
-		Default = 0,
-		SkyBox = 1,
-		Albedo = 2,
-		Normal = 3,
-		Roughness = 4,
-		Metalic = 5,
-		AmbientOcclusion = 6,
-		Size,
-	};
-
-	enum class MeshType : uint8_t
-	{
-		Mesh = 0,
-		SkeletonMesh = 1,
-		Size,
-	};
-
-	enum class ShaderType : uint8_t
-	{
-		Vertex     = 0,
-		Control    = 1,
-		Evaluation = 2,
-		Geometry   = 3,
-		Fragment   = 4,
-		Compute    = 5,
-		Size,
-	};
-
-	enum class ShaderDescriptorType : uint8_t
-	{
-		Sampler,
-		CombinedImageSampler,
-		SapmledImage,
-		StorageImage,
-		UniformTexelBuffer,
-		StorageTexelBuffer,
-		UniformBuffer,
-		StorageBuffer,
-		Size,
-	};
-}
-
-namespace Tempest
-{
-	using namespace Tempest;
-
 	struct MeshPoint
 	{
 		Vec3f vertex;
@@ -224,13 +168,22 @@ namespace Tempest
 		}
 	};
 
+	typedef uint32_t TextureInfoFlags;
+
 	struct  TextureInfo
 	{
 		TextureInfo() = default;
 		~TextureInfo() = default;
 
-		int width, height;
-		Array<Vec4u8t> pixels;
+		int width;
+		int height;
+		Array<char> pixels;
+		TextureFormat format;
+		TextureInfoFlags aspect_flag {};
+		TextureInfoFlags usage_flag {};
+		bool sampler_needed {false};
+		bool has_data {false};
+
 
 		static Result Load(const char* i_filepath, TextureInfo& o_texture)
 		{
@@ -247,19 +200,27 @@ namespace Tempest
 
 			if (type == TextureType::SkyBox)
 			{
-				size_t fixed_size = sizeof(float) * 3 / sizeof(Vec3u8t);
-				o_texture.pixels.Resize(o_texture.width * o_texture.height * fixed_size);
-				RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_texture.pixels.Data()), sizeof(float) * o_texture.width * o_texture.height * static_cast<size_t>(3)));
+				o_texture.format = TextureFormat::R32G32B32_SFLOAT;
+				o_texture.usage_flag |= TextureUsage::USAGE_TRANSFER_DST_BIT;
+				o_texture.usage_flag |= TextureUsage::USAGE_SAMPLED_BIT;
 			}
 			else if(type < TextureType::Size)
 			{
-				o_texture.pixels.Resize(o_texture.width * o_texture.height);
-				RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_texture.pixels.Data()), o_texture.width * o_texture.height * sizeof(Vec4u8t)));
+				o_texture.format = TextureFormat::R8G8B8A8_SRGB;
+				o_texture.usage_flag |= TextureUsage::USAGE_TRANSFER_DST_BIT;
+				o_texture.usage_flag |= TextureUsage::USAGE_SAMPLED_BIT;
 			}
 			else
 			{
 				DEBUG_ASSERT(false);
 			}
+
+			o_texture.has_data = true;
+			o_texture.sampler_needed = true;
+			o_texture.aspect_flag |= TextureAspect::COLOR_BIT_ASPECT;
+			size_t texture_size = o_texture.width * o_texture.height * static_cast<uint32_t>(o_texture.format);
+			o_texture.pixels.Resize(texture_size);
+			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_texture.pixels.Data()), texture_size));
 
 			in.Close();
 

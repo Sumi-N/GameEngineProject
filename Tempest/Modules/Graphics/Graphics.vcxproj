@@ -102,6 +102,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="RenderPass.Vulkan.cpp" />
     <ClCompile Include="Texture.Vulkan.cpp" />
     <ClCompile Include="UniformBuffer.Vulkan.cpp" />
     <ClCompile Include="VertexBuffer.OpenGL.cpp" />
@@ -129,6 +130,7 @@
     <ClCompile Include="Window.win.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RenderPass.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="UniformBuffer.h" />
     <ClInclude Include="VertexBuffer.h" />

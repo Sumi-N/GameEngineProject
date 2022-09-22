@@ -1,11 +1,43 @@
 #include "SwapChain.h"
 
 #ifdef ENGINE_GRAPHIC_VULKAN
+namespace
+{
+	uint32_t FindMemoryType(VkPhysicalDevice physical_device, uint32_t type_filter, VkMemoryPropertyFlags properties)
+	{
+
+		VkPhysicalDeviceMemoryProperties memory_properties;
+		vkGetPhysicalDeviceMemoryProperties(physical_device, &memory_properties);
+
+		for (uint32_t i = 0; i < memory_properties.memoryTypeCount; i++)
+		{
+			if ((type_filter & (1 << i)) && (memory_properties.memoryTypes[i].propertyFlags & properties) == properties)
+			{
+				return i;
+			}
+		}
+
+		DEBUG_ASSERT(false);
+		return 0;
+	}
+}
+
 namespace Tempest
 {
 	void SwapChain::Init(const Device& i_device)
 	{
 		device = &i_device;
+
+		struct SupportDetail
+		{
+			VkSurfaceCapabilitiesKHR capabilities;
+			Array<VkSurfaceFormatKHR> formats;
+			Array<VkPresentModeKHR> present_modes;
+			VkExtent2D extent;
+			uint32_t image_count;
+			uint32_t available_format_index;
+			uint32_t available_present_mode_index;
+		}support_details = {};
 
 		// Get infos related to swapchain
 		{
@@ -105,16 +137,17 @@ namespace Tempest
 
 			uint32_t image_count;
 			vkGetSwapchainImagesKHR(device->logical_device, swapchain, &image_count, nullptr);
-			swapchain_images.Resize(image_count);
-			vkGetSwapchainImagesKHR(device->logical_device, swapchain, &image_count, swapchain_images.Data());
+			color_images.Resize(image_count);
+			vkGetSwapchainImagesKHR(device->logical_device, swapchain, &image_count, color_images.Data());
 		}
 
-		swapchain_image_views.Resize(swapchain_images.Size());
-		for (int i = 0; i < swapchain_image_views.Size(); i++)
+		// Create color image view
+		color_image_views.Resize(color_images.Size());
+		for (int i = 0; i < color_image_views.Size(); i++)
 		{
 			VkImageViewCreateInfo create_view_image_info = {};
 			create_view_image_info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-			create_view_image_info.image = swapchain_images[i];
+			create_view_image_info.image = color_images[i];
 			create_view_image_info.viewType = VK_IMAGE_VIEW_TYPE_2D;
 			create_view_image_info.format = support_details.formats[support_details.available_format_index].format;
 			create_view_image_info.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
@@ -127,17 +160,71 @@ namespace Tempest
 			create_view_image_info.subresourceRange.baseArrayLayer = 0;
 			create_view_image_info.subresourceRange.layerCount = 1;
 
-			VkResult create_image_result = vkCreateImageView(device->logical_device, &create_view_image_info, nullptr, &swapchain_image_views[i]);
+			VkResult create_image_result = vkCreateImageView(device->logical_device, &create_view_image_info, nullptr, &color_image_views[i]);
 			DEBUG_ASSERT(create_image_result == VK_SUCCESS);
+		}
+
+		width = support_details.extent.width;
+		height = support_details.extent.height;
+		color_format = support_details.formats[support_details.available_format_index].format;
+		depth_format = VK_FORMAT_D32_SFLOAT;
+
+		{
+			VkImageCreateInfo image_info{};
+			image_info.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+			image_info.imageType = VK_IMAGE_TYPE_2D;
+			image_info.extent.width = width;
+			image_info.extent.height = height;
+			image_info.extent.depth = 1;
+			image_info.mipLevels = 1;
+			image_info.arrayLayers = 1;
+			image_info.format = depth_format;
+			image_info.tiling = VK_IMAGE_TILING_OPTIMAL;
+			image_info.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+			image_info.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+			image_info.samples = VK_SAMPLE_COUNT_1_BIT;
+			image_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+
+			auto image_create_result = vkCreateImage(device->logical_device, &image_info, nullptr, &depth_image);
+			DEBUG_ASSERT(image_create_result == VK_SUCCESS)
+
+			VkMemoryRequirements memory_requirements;
+			vkGetImageMemoryRequirements(device->logical_device, depth_image, &memory_requirements);
+
+			VkMemoryAllocateInfo allocInfo{};
+			allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+			allocInfo.allocationSize = memory_requirements.size;
+			allocInfo.memoryTypeIndex = FindMemoryType(device->physical_device, memory_requirements.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+
+			auto allocate_result = vkAllocateMemory(device->logical_device, &allocInfo, nullptr, &depth_image_memory);
+			DEBUG_ASSERT(allocate_result == VK_SUCCESS)
+			vkBindImageMemory(device->logical_device, depth_image, depth_image_memory, 0);
+
+			VkImageViewCreateInfo view_info{};
+			view_info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+			view_info.image = depth_image;
+			view_info.viewType = VK_IMAGE_VIEW_TYPE_2D;
+			view_info.format = depth_format;
+			view_info.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
+			view_info.subresourceRange.baseMipLevel = 0;
+			view_info.subresourceRange.levelCount = 1;
+			view_info.subresourceRange.baseArrayLayer = 0;
+			view_info.subresourceRange.layerCount = 1;
+
+			auto view_create_result = vkCreateImageView(device->logical_device, &view_info, nullptr, &depth_image_view);
+			DEBUG_ASSERT(view_create_result == VK_SUCCESS)
 		}
 	}
 
 	void SwapChain::CleanUp()
 	{
-		for (auto image_view : swapchain_image_views)
+		for (auto image_view : color_image_views)
 		{
 			vkDestroyImageView(device->logical_device, image_view, nullptr);
 		}
+
+		vkDestroyImage(device->logical_device, depth_image, nullptr);
+		vkDestroyImageView(device->logical_device, depth_image_view, nullptr);
 
 		vkDestroySwapchainKHR(device->logical_device, swapchain, nullptr);
 	}

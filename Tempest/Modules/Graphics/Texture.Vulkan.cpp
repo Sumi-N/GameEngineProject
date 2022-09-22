@@ -98,15 +98,46 @@ namespace
 
 namespace Tempest
 {
-	void Texture::Init(const Device& i_device, const CommandBuffer& i_commandbuffer, TextureInfo i_textuer_info)
+	static VkFormat GetFormat(TextureFormat i_format)
+	{
+		switch (i_format)
+		{
+		case TextureFormat::R8G8A8_SRGB:           return VK_FORMAT_R8G8B8_SRGB;
+		case TextureFormat::R8G8B8A8_SRGB:         return VK_FORMAT_R8G8B8A8_SRGB;
+		case TextureFormat::R16G16_SFLOAT:         return VK_FORMAT_R16G16_SFLOAT;
+		case TextureFormat::R32G32B32_SFLOAT:      return VK_FORMAT_R16G16B16_SFLOAT;
+		/*case TextureFormat::D32_SFLOAT:            return VK_FORMAT_D32_SFLOAT;
+		case TextureFormat::D32_SFLOAT_S8_UINT:    return VK_FORMAT_D32_SFLOAT_S8_UINT;
+		case TextureFormat::D24_UNORM_S8_UINT:     return VK_FORMAT_D24_UNORM_S8_UINT;*/
+		default:                                   DEBUG_ASSERT(false); break;
+		}
+
+		DEBUG_ASSERT(false);
+		return VK_FORMAT_R8G8B8A8_SRGB;
+	}
+
+	static VkImageAspectFlags GetAspect(TextureInfoFlags i_aspect)
+	{
+		return static_cast<VkImageAspectFlags>(i_aspect);
+	}
+
+	static VkImageUsageFlags GetUsage(TextureInfoFlags i_usage)
+	{
+		return static_cast<VkImageUsageFlags>(i_usage);
+	}
+
+	void Texture::Init(const Device& i_device, const CommandBuffer& i_commandbuffer, const TextureInfo& i_textuer_info)
 	{
 		device = &i_device;
-		TextureInfo& info = i_textuer_info;
-		image_size = info.width * info.height * sizeof(Vec4u8t);
+		const TextureInfo& info = i_textuer_info;
+		image_size = info.width * info.height * static_cast<uint32_t>(info.format);
+		width = info.width;
+		height = info.height;
 
-		VkBuffer stagingbuffer;
-		VkDeviceMemory stagingbuffer_memory;
+		VkBuffer stagingbuffer {};
+		VkDeviceMemory stagingbuffer_memory {};
 
+		if (info.has_data)
 		{
 			CreateBuffer(device->physical_device,
 						 device->logical_device,
@@ -120,7 +151,9 @@ namespace Tempest
 			vkMapMemory(device->logical_device, stagingbuffer_memory, 0, image_size, 0, &mapped_data);
 			memcpy(mapped_data, info.pixels.Data(), image_size);
 			vkUnmapMemory(device->logical_device, stagingbuffer_memory);
+		}
 
+		{
 			VkImageCreateInfo image_info{};
 			image_info.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
 			image_info.imageType = VK_IMAGE_TYPE_2D;
@@ -129,10 +162,10 @@ namespace Tempest
 			image_info.extent.depth = 1;
 			image_info.mipLevels = 1;
 			image_info.arrayLayers = 1;
-			image_info.format = VK_FORMAT_R8G8B8A8_SRGB;
+			image_info.format = GetFormat(info.format);
 			image_info.tiling = VK_IMAGE_TILING_OPTIMAL;
 			image_info.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-			image_info.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+			image_info.usage = GetUsage(info.usage_flag);
 			image_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 			image_info.samples = VK_SAMPLE_COUNT_1_BIT;
 			image_info.flags = 0;
@@ -153,6 +186,7 @@ namespace Tempest
 			vkBindImageMemory(device->logical_device, texture_image, texture_image_memory, 0);
 		}
 
+		if (info.has_data)
 		{
 			auto vk_commandbuffer = i_commandbuffer.GetBuffer(0);
 			VkCommandBufferBeginInfo begin_info{};
@@ -171,7 +205,7 @@ namespace Tempest
 				region.bufferOffset = 0;
 				region.bufferRowLength = 0;
 				region.bufferImageHeight = 0;
-				region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+				region.imageSubresource.aspectMask = GetAspect(info.aspect_flag);
 				region.imageSubresource.mipLevel = 0;
 				region.imageSubresource.baseArrayLayer = 0;
 				region.imageSubresource.layerCount = 1;
@@ -205,8 +239,8 @@ namespace Tempest
 			view_info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
 			view_info.image = texture_image;
 			view_info.viewType = VK_IMAGE_VIEW_TYPE_2D;
-			view_info.format = VK_FORMAT_R8G8B8A8_SRGB;
-			view_info.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+			view_info.format = GetFormat(info.format);;
+			view_info.subresourceRange.aspectMask = GetAspect(info.aspect_flag);
 			view_info.subresourceRange.baseMipLevel = 0;
 			view_info.subresourceRange.levelCount = 1;
 			view_info.subresourceRange.baseArrayLayer = 0;
@@ -216,6 +250,8 @@ namespace Tempest
 			DEBUG_ASSERT(image_view_create_result == VK_SUCCESS);
 		}
 
+		// Create sampler
+		if(info.sampler_needed)
 		{
 			VkSamplerCreateInfo sampler_info{};
 			sampler_info.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;

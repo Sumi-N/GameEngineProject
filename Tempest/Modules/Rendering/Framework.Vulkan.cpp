@@ -14,18 +14,27 @@ namespace Tempest
 	CommandBuffer commandbuffer;
 	Shader shader;
 	VertexBuffer vertexbuffer;
+	VertexBuffer vertexbuffer2;
 	UniformBuffer uniformbuffer;
-	FrameBuffer framebuffer;
+	RenderPass renderpass;
+	FrameBuffer framebuffers[3];
 	Texture texture;
 	VkSemaphore image_available_semaphores[2];
 	VkSemaphore render_finished_semaphores[2];
 	VkFence in_flight_fences[2];
 	uint32_t current_frame = 0;
 
+	Pipeline pipeline_ibl;
+	Shader shader_ibl;
+	Texture texture_ibl;
+
 	void Framework::Boot(Window* i_window)
 	{
 		Mesh mesh;
 		Mesh::Load("D:/GameEngineProject/Assets/bin/mesh/SK_PlayerCharacter.tm", mesh);
+
+		Mesh mesh2;
+		Mesh::Load("D:/GameEngineProject/Assets/bin/mesh/teapot.tm", mesh2);
 		TextureInfo texture_info;
 		TextureInfo::Load("D:/GameEngineProject/Assets/bin/texture/albedo/CharacterBody_BaseColor.tt", texture_info);
 
@@ -36,13 +45,18 @@ namespace Tempest
 		queue.Init(device);
 		swapchain.Init(device);
 		vertexbuffer.Init(device, shader);
+		vertexbuffer2.Init(device, shader);
 		commandbuffer.Init(device);
 		texture.Init(device, commandbuffer, texture_info);
 		uniformbuffer.Init(device, shader, texture);
-		pipeline.Init(device, swapchain, shader, vertexbuffer, uniformbuffer);
-		framebuffer.Init(device, swapchain, pipeline);
+		renderpass.Init(device, swapchain);
+		framebuffers[0].Init(device, renderpass, swapchain, 0);
+		framebuffers[1].Init(device, renderpass, swapchain, 1);
+		framebuffers[2].Init(device, renderpass, swapchain, 2);
+		pipeline.Init(device, swapchain, shader, vertexbuffer, uniformbuffer, renderpass);
 
 		vertexbuffer.InitData(commandbuffer, mesh.data.Data(), mesh.data.Size() * sizeof(mesh.data[0]), mesh.index.Data(), mesh.index.Size() * sizeof(mesh.index[0]));
+		vertexbuffer2.InitData(commandbuffer, mesh2.data.Data(), mesh2.data.Size() * sizeof(mesh2.data[0]), mesh2.index.Data(), mesh2.index.Size() * sizeof(mesh2.index[0]));
 
 		VkFenceCreateInfo fenceInfo{};
 		fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
@@ -74,7 +88,18 @@ namespace Tempest
 
 	void Framework::PreCompute()
 	{
-
+		Shader::Load("D:/GameEngineProject/Assets/bin/shader/brdf_integration_map.ts", shader_ibl);
+		TextureInfo texture_info_ibl{};
+		{
+			texture_info_ibl.width = 512;
+			texture_info_ibl.height = 512;
+			texture_info_ibl.sampler_needed = false;
+			texture_info_ibl.has_data = false;
+		}
+		//TextureInfo::Load("D:/GameEngineProject/Assets/bin/texture/hdr/Frozen_Waterfall_Ref.tt", texture_info_ibl);
+		//Mesh mesh_ibl;
+		//Mesh::Load("D:/GameEngineProject/Assets/bin/mesh/cubemap.tm", mesh_ibl);
+		//texture_ibl.Init(device, commandbuffer, texture_info_ibl);
 	}
 
 	void Framework::PreUpdate(GraphicRequiredData* i_data)
@@ -90,7 +115,7 @@ namespace Tempest
 		uint32_t image_index;
 		vkAcquireNextImageKHR(device.logical_device, swapchain.Get(), UINT64_MAX, image_available_semaphores[current_frame], VK_NULL_HANDLE, &image_index);
 
-		vkResetCommandBuffer(commandbuffer.GetBuffer(current_frame), /*VkCommandBufferResetFlagBits*/ 0);
+		vkResetCommandBuffer(commandbuffer.GetBuffer(current_frame), 0);
 
 		{
 			VkCommandBufferBeginInfo begin_info{};
@@ -103,40 +128,39 @@ namespace Tempest
 				DEBUG_ASSERT(false);
 			}
 
-			VkRenderPassBeginInfo renderpass_info{};
-			renderpass_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-			renderpass_info.renderPass = pipeline.render_pass;
-			renderpass_info.framebuffer = framebuffer.framebuffers[image_index];
-			renderpass_info.renderArea.offset = { 0, 0 };
-			renderpass_info.renderArea.extent = { 1920, 1080 };
+			//const VkRenderPassBeginInfo renderpassinfo = framebuffers[image_index].GetBeginInfo();
+			VkRenderPassBeginInfo renderpass_begin_info{};
+			renderpass_begin_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+			renderpass_begin_info.renderPass = renderpass.GetRenderPass();
+			renderpass_begin_info.framebuffer = framebuffers[image_index].GetBuffer();
+			renderpass_begin_info.renderArea.offset = { 0, 0 };
+			renderpass_begin_info.renderArea.extent = { 1920, 1080 };
 
-			VkClearValue clearcolor = { {{0.0f, 0.0f, 0.0f, 1.0f}} };
-			renderpass_info.clearValueCount = 1;
-			renderpass_info.pClearValues = &clearcolor;
+			VkClearValue clearcolor[2];
+			clearcolor[0].color = { {0.0f, 1.0f, 0.0f, 1.0f} };
+			clearcolor[1].depthStencil = { 1.0f, 0 };
 
-			vkCmdBeginRenderPass(commandbuffer.GetBuffer(current_frame), &renderpass_info, VK_SUBPASS_CONTENTS_INLINE);
-			vkCmdBindPipeline(commandbuffer.GetBuffer(current_frame), VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline.graphics_pipeline);
+			renderpass_begin_info.clearValueCount = 2;
+			renderpass_begin_info.pClearValues = clearcolor;
 
-			void* this_data3 = static_cast<void*>(&i_data->camera);
-			Mat4f* view = (Mat4f*)(this_data3);
-			view[0] = Mat4f::LookAt(Vec3f(0, 0, 0), Vec3f(0, 0, -1), Vec3f(0, 1, 0));
-			view[1] = Mat4f::Perspective(FieldOfView, (float)ScreenWidth / ScreenHeight, NearClip, FarClip);
+			vkCmdBeginRenderPass(commandbuffer.GetBuffer(current_frame), &renderpass_begin_info, VK_SUBPASS_CONTENTS_INLINE);
+			vkCmdBindPipeline(commandbuffer.GetBuffer(current_frame), VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline.GetPipeline());
 
 			uniformbuffer.Update(current_frame, static_cast<void*>(&i_data->camera), sizeof(ConstantData::Camera), 0);
 
-			void* this_data = static_cast<void*>(&i_data->camera);
-			Mat4f* this_data2 = (Mat4f*)(this_data);
-			this_data2[0] = Mat4f{};
-			this_data2[0] = this_data2[0].Scale(0.35);
-			this_data2[0].ele[13] = -25;
-			this_data2[0].ele[14] = -70;
-
-			uniformbuffer.Update(current_frame, static_cast<void*>(&i_data->camera), sizeof(ConstantData::Model), 256);
+			if (i_data->model_data.Size() != 0)
+			{
+				uniformbuffer.Update(current_frame, static_cast<void*>(&i_data->model_data[0]), sizeof(ConstantData::Model), 256);
+			}
 			VkDeviceSize offsets[] = { 0 };
 			vkCmdBindVertexBuffers(commandbuffer.GetBuffer(current_frame), 0, 1, &vertexbuffer.vertexbuffer, offsets);
 			vkCmdBindIndexBuffer(commandbuffer.GetBuffer(current_frame), vertexbuffer.indexbuffer, 0, VK_INDEX_TYPE_UINT32);
-			vkCmdBindDescriptorSets(commandbuffer.GetBuffer(current_frame), VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline.pipeline_layout, 0, 1, &uniformbuffer.GetDescriptorSet(current_frame), 0, nullptr);
+			vkCmdBindDescriptorSets(commandbuffer.GetBuffer(current_frame), VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline.GetPipelineLayout(), 0, 1, &uniformbuffer.GetDescriptorSet(current_frame), 0, nullptr);
 			vkCmdDrawIndexed(commandbuffer.GetBuffer(current_frame), vertexbuffer.index_coount, 1, 0, 0, 0);
+
+			vkCmdBindVertexBuffers(commandbuffer.GetBuffer(current_frame), 0, 1, &vertexbuffer2.vertexbuffer, offsets);
+			vkCmdBindIndexBuffer(commandbuffer.GetBuffer(current_frame), vertexbuffer2.indexbuffer, 0, VK_INDEX_TYPE_UINT32);			
+			vkCmdDrawIndexed(commandbuffer.GetBuffer(current_frame), vertexbuffer2.index_coount, 1, 0, 0, 0);
 
 			vkCmdEndRenderPass(commandbuffer.GetBuffer(current_frame));
 			if (vkEndCommandBuffer(commandbuffer.GetBuffer(current_frame)) != VK_SUCCESS)

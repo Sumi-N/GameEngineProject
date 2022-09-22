@@ -2,8 +2,8 @@
 #include "Define.h"
 #include "Device.h"
 #include "SwapChain.h"
-#include "Pipeline.h"
-#include "DrawPrimitives.h"
+#include "Texture.h"
+#include "RenderPass.h"
 
 namespace Tempest
 {
@@ -25,25 +25,27 @@ namespace Tempest
 	{
 	public:
 
-		FrameType frametype = FrameType::UnInitialized;
-		int       unit_number = -1;
-		int       width = 0, height = 0;
+		FrameBuffer() = default;
+		~FrameBuffer() = default;
 
-		void Init(const Device& i_Device, const SwapChain& i_swapchain, const Pipeline& i_pipeline);
-		void CleanUp();
-		void Init(FrameType i_type, int i_unitnum, int i_width, int i_height);
-		void Recreate(int i_width, int i_height);
-		void BindFrame();
-		void BindTextureUnit();
-		void RenderOnce();
+		void Init(const Device& i_device, const RenderPass& i_render_pass, const SwapChain& i_swapchain, int index);
+		void Init(const Device& i_device, const RenderPass& i_render_pass, const Texture& i_texture);
+		void CleanUp() const;
+
+		uint32_t width;
+		uint32_t height;
+
+	public:
+		const Device* device;
+		const RenderPass* render_pass;
 
 #ifdef ENGINE_GRAPHIC_VULKAN
-
-		Tempest::Array<VkFramebuffer> framebuffers;
+	public:
+		const VkFramebuffer& GetBuffer() const { return framebuffer; }
+		VkRenderPassBeginInfo GetBeginInfo() const;
 
 	private:
-		const Device* device;
+		VkFramebuffer framebuffer{};
 #endif // ENGINE_GRAPHIC_VULKAN
-
 	};
 }

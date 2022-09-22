@@ -67,6 +67,9 @@
     <ClInclude Include="Texture.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="RenderPass.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConstantBuffer.OpenGL.cpp">
@@ -133,6 +136,9 @@
       <Filter>Vulkan</Filter>
     </ClCompile>
     <ClCompile Include="Texture.Vulkan.cpp">
+      <Filter>Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPass.Vulkan.cpp">
       <Filter>Vulkan</Filter>
     </ClCompile>
   </ItemGroup>

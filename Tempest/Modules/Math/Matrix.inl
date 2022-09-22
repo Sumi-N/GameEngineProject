@@ -263,9 +263,15 @@ namespace Math {
 
 		o_m.ele[5] = static_cast<T>(1.0 / tanhalffov);
 
-		o_m.ele[10] = -1 * static_cast<T>((i_far + i_near) / range);
+		// This will clamp z from -1 to 1
+		/*o_m.ele[10] = -1 * static_cast<T>((i_far + i_near) / range);
 		o_m.ele[11] = -1.0;
-		o_m.ele[14] = -1 * static_cast<T>(2 * (i_near * i_far) / range);
+		o_m.ele[14] = -1 * static_cast<T>(2 * (i_near * i_far) / range);*/
+
+		// This will clamp z from 0 to 1
+		o_m.ele[10] = static_cast<T>(i_far / (i_near - i_far));
+		o_m.ele[11] = -1.0;
+		o_m.ele[14] = -1 * static_cast<T>((i_far * i_near) / (i_far - i_near));
 
 		o_m.ele[15] = 0;
 

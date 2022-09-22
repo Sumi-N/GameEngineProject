@@ -179,8 +179,8 @@ namespace Tempest
 						{
 							VkDescriptorImageInfo image_info{};
 							image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-							image_info.imageView =  i_texture.texture_image_view;
-							image_info.sampler = i_texture.texture_sampler;
+							image_info.imageView =  i_texture.GetImageView();
+							image_info.sampler = i_texture.GetImageSampler();
 
 							VkWriteDescriptorSet descriptor_write{};
 							descriptor_write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;

@@ -12,3 +12,4 @@
 #include <Graphics/CommandBuffer.h>
 #include <Graphics/VertexBuffer.h>
 #include <Graphics/UniformBuffer.h>
+#include <Graphics/RenderPass.h>

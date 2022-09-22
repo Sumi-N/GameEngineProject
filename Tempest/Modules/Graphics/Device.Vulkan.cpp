@@ -203,6 +203,7 @@ namespace Tempest
 			// Check if this graphics card is able to make a swapchain
 			bool requirement = false;
 			device_extensions.PushBack(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+			//device_extensions.PushBack(VK_EXT_DEPTH_RANGE_UNRESTRICTED_EXTENSION_NAME);
 			for (auto itr = availableExtensions.Begin(); itr != availableExtensions.End(); ++itr)
 			{
 				if (std::strcmp((*itr).extensionName, device_extensions.At(0)) == 0)

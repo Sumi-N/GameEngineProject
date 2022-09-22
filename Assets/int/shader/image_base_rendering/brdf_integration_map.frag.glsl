@@ -1,8 +1,8 @@
 #version 420 core
 
-// Output
-out vec2 color;
-in vec2 texcoord;
+layout (location = 0 ) in vec2 texcoord;
+
+layout (location = 0) out vec2 color;
 
 const float PI = 3.14159265359;
 

@@ -2,7 +2,7 @@
 
 namespace Tempest
 {
-	void Pipeline::Init(const Device& i_device, const SwapChain& i_swapchain, const Shader& i_shader, const VertexBuffer& i_vertexbuffer, const UniformBuffer& i_uniforbuffer)
+	void Pipeline::Init(const Device& i_device, const SwapChain& i_swapchain, const Shader& i_shader, const VertexBuffer& i_vertexbuffer, const UniformBuffer& i_uniforbuffer, const RenderPass& i_renderpass)
 	{
 		device = &i_device;
 
@@ -70,15 +70,15 @@ namespace Tempest
 
 		VkViewport viewport;
 		viewport.x = 0.0f;
-		viewport.y = static_cast<float>(i_swapchain.support_details.extent.height);
-		viewport.width = static_cast<float>(i_swapchain.support_details.extent.width);
-		viewport.height = -1 * static_cast<float>(i_swapchain.support_details.extent.height);
+		viewport.y = static_cast<float>(i_swapchain.height);
+		viewport.width = static_cast<float>(i_swapchain.width);
+		viewport.height = -1 * static_cast<float>(i_swapchain.height);
 		viewport.minDepth = 0.0f;
 		viewport.maxDepth = 1.0f;
 
 		VkRect2D scissor;
 		scissor.offset = { 0, 0 };
-		scissor.extent = i_swapchain.support_details.extent;
+		scissor.extent = VkExtent2D{ i_swapchain.width, i_swapchain.height };
 
 		VkPipelineViewportStateCreateInfo viewport_create_info{};
 		viewport_create_info.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
@@ -93,7 +93,7 @@ namespace Tempest
 		rasterizer_create_info.rasterizerDiscardEnable = VK_FALSE;
 		rasterizer_create_info.polygonMode = VK_POLYGON_MODE_FILL;
 		rasterizer_create_info.lineWidth = 1.0f;
-		rasterizer_create_info.cullMode = VK_CULL_MODE_BACK_BIT;
+		rasterizer_create_info.cullMode = VK_CULL_MODE_NONE;
 		rasterizer_create_info.frontFace = VK_FRONT_FACE_CLOCKWISE;
 		rasterizer_create_info.depthBiasEnable = VK_FALSE;
 		rasterizer_create_info.depthBiasConstantFactor = 0.0f;
@@ -108,6 +108,16 @@ namespace Tempest
 		multisampling_create_info.pSampleMask = nullptr;
 		multisampling_create_info.alphaToCoverageEnable = VK_FALSE;
 		multisampling_create_info.alphaToOneEnable = VK_FALSE;
+
+		VkPipelineDepthStencilStateCreateInfo depth_stencil{};
+		depth_stencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+		depth_stencil.depthTestEnable = VK_TRUE;
+		depth_stencil.depthWriteEnable = VK_TRUE;
+		depth_stencil.depthCompareOp = VK_COMPARE_OP_LESS;
+		depth_stencil.depthBoundsTestEnable = VK_FALSE;
+		depth_stencil.stencilTestEnable = VK_FALSE;
+		depth_stencil.minDepthBounds = 0.0f;
+		depth_stencil.maxDepthBounds = 1.0f;
 
 		VkPipelineColorBlendAttachmentState color_blend_attachment{};
 		color_blend_attachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
@@ -142,45 +152,6 @@ namespace Tempest
 			DEBUG_ASSERT(create_pipeline_layout_result == VK_SUCCESS);
 		}
 
-		VkAttachmentDescription color_attachment{};
-		color_attachment.format = i_swapchain.support_details.formats[i_swapchain.support_details.available_format_index].format;
-		color_attachment.samples = VK_SAMPLE_COUNT_1_BIT;
-		color_attachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-		color_attachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-		color_attachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-		color_attachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-		color_attachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-		color_attachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-
-		VkAttachmentReference color_attachment_ref{};
-		color_attachment_ref.attachment = 0;
-		color_attachment_ref.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-
-		VkSubpassDescription subpass{};
-		subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
-		subpass.colorAttachmentCount = 1;
-		subpass.pColorAttachments = &color_attachment_ref;
-
-		VkSubpassDependency dependency{};
-		dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
-		dependency.dstSubpass = 0;
-		dependency.srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-		dependency.srcAccessMask = 0;
-		dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-		dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-
-		VkRenderPassCreateInfo renderpass_info{};
-		renderpass_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
-		renderpass_info.attachmentCount = 1;
-		renderpass_info.pAttachments = &color_attachment;
-		renderpass_info.subpassCount = 1;
-		renderpass_info.pSubpasses = &subpass;
-		renderpass_info.dependencyCount = 1;
-		renderpass_info.pDependencies = &dependency;
-
-		auto create_renderpass_result = vkCreateRenderPass(device->logical_device, &renderpass_info, nullptr, &render_pass);
-		DEBUG_ASSERT(create_renderpass_result == VK_SUCCESS);
-
 		VkGraphicsPipelineCreateInfo pipeline_create_info{};
 		pipeline_create_info.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 		pipeline_create_info.stageCount = static_cast<uint32_t>(shader_stages.Size());
@@ -190,11 +161,11 @@ namespace Tempest
 		pipeline_create_info.pViewportState = &viewport_create_info;
 		pipeline_create_info.pRasterizationState = &rasterizer_create_info;
 		pipeline_create_info.pMultisampleState = &multisampling_create_info;
-		pipeline_create_info.pDepthStencilState = nullptr;
+		pipeline_create_info.pDepthStencilState = &depth_stencil;
 		pipeline_create_info.pColorBlendState = &color_blend_create_info;
 		pipeline_create_info.pDynamicState = nullptr;
 		pipeline_create_info.layout = pipeline_layout;
-		pipeline_create_info.renderPass = render_pass;
+		pipeline_create_info.renderPass = i_renderpass.GetRenderPass();
 		pipeline_create_info.subpass = 0;
 		pipeline_create_info.basePipelineHandle = VK_NULL_HANDLE;
 		pipeline_create_info.basePipelineIndex = -1;
@@ -206,7 +177,6 @@ namespace Tempest
 	void Pipeline::CleanUp()
 	{
 		vkDestroyPipeline(device->logical_device, graphics_pipeline, nullptr);
-		vkDestroyRenderPass(device->logical_device, render_pass, nullptr);
 		vkDestroyPipelineLayout(device->logical_device, pipeline_layout, nullptr);
 	}
 }

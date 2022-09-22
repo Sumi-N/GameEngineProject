@@ -201,7 +201,8 @@ Result ConvertShaders(String* i_file_names)
 
 		size_t num_errors = shaderc_result_get_num_errors(compile_result);
 		size_t num_warnings = shaderc_result_get_num_warnings(compile_result);
-		DEBUG_PRINT("\n%s", shaderc_result_get_error_message(compile_result));
+		if(num_errors != 0 || num_warnings != 0)
+			DEBUG_PRINT("\n%s", shaderc_result_get_error_message(compile_result));
 		DEBUG_ASSERT(num_errors == 0);
 		DEBUG_ASSERT(num_warnings == 0);
 
@@ -343,33 +344,26 @@ int main()
     String directory = "..\\..\\" + path_in;
 
 	String basic_paths[] = {
-		directory + "debug_purpose\\basic.vert.glsl",
-		"",
-		"",
-		"",
-		directory + "debug_purpose\\basic.frag.glsl",
-		""
+		directory + "debug_purpose\\basic.vert.glsl", "", "", "",
+		directory + "debug_purpose\\basic.frag.glsl", ""
 	};
 
 	String outlinehighlight_paths[] = {
-		directory + "debug_purpose\\outlinehighlight.vert.glsl",
-		"",
-		"",
-		"",
-		directory + "debug_purpose\\outlinehighlight.frag.glsl",
-		""
+		directory + "debug_purpose\\outlinehighlight.vert.glsl", "", "", "",
+		directory + "debug_purpose\\outlinehighlight.frag.glsl", ""
 	};
 
 	String albedomodel_paths[] = {
-	directory + "debug_purpose\\albedomodel.vert.glsl",
-	"",
-	"",
-	"",
-	directory + "debug_purpose\\albedomodel.frag.glsl",
-	""
+		directory + "debug_purpose\\albedomodel.vert.glsl", "", "", "",
+		directory + "debug_purpose\\albedomodel.frag.glsl", ""
 	};
 
-	auto result = ConvertShaders(albedomodel_paths);
+	String brdf_integration_map_paths[] = {
+		directory + "image_base_rendering\\brdf_integration_map.vert.glsl", "", "", "",
+		directory + "image_base_rendering\\brdf_integration_map.frag.glsl", ""
+	};
+
+	auto result = ConvertShaders(brdf_integration_map_paths);
 
 	DEBUG_ASSERT(result == ResultValue::Success);
 
