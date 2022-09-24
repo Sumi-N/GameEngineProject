@@ -2,7 +2,7 @@
 
 namespace Tempest
 {
-	void Pipeline::Init(const Device& i_device, const SwapChain& i_swapchain, const Shader& i_shader, const VertexBuffer& i_vertexbuffer, const UniformBuffer& i_uniforbuffer, const RenderPass& i_renderpass)
+	void Pipeline::Init(const Device& i_device, const SwapChain& i_swapchain, const Shader& i_shader, const VertexBuffer& i_vertexbuffer, const Descriptor& i_descriptor, const RenderPass& i_renderpass)
 	{
 		device = &i_device;
 
@@ -140,17 +140,15 @@ namespace Tempest
 		color_blend_create_info.blendConstants[2] = 0.0f;
 		color_blend_create_info.blendConstants[3] = 0.0f;
 
-		{
-			VkPipelineLayoutCreateInfo pipeline_layout_create_info{};
-			pipeline_layout_create_info.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-			pipeline_layout_create_info.setLayoutCount = 1;
-			pipeline_layout_create_info.pSetLayouts = &i_uniforbuffer.GetDescriptorLayout();
-			pipeline_layout_create_info.pushConstantRangeCount = 0;
-			pipeline_layout_create_info.pPushConstantRanges = nullptr;
+		VkPipelineLayoutCreateInfo pipeline_layout_create_info{};
+		pipeline_layout_create_info.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+		pipeline_layout_create_info.setLayoutCount = 1;
+		pipeline_layout_create_info.pSetLayouts = &i_descriptor.descriptorset_layout;
+		pipeline_layout_create_info.pushConstantRangeCount = 0;
+		pipeline_layout_create_info.pPushConstantRanges = nullptr;
 
-			auto create_pipeline_layout_result = vkCreatePipelineLayout(device->logical_device, &pipeline_layout_create_info, nullptr, &pipeline_layout);
-			DEBUG_ASSERT(create_pipeline_layout_result == VK_SUCCESS);
-		}
+		auto create_pipeline_layout_result = vkCreatePipelineLayout(device->logical_device, &pipeline_layout_create_info, nullptr, &pipeline_layout);
+		DEBUG_ASSERT(create_pipeline_layout_result == VK_SUCCESS);
 
 		VkGraphicsPipelineCreateInfo pipeline_create_info{};
 		pipeline_create_info.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
@@ -165,18 +163,18 @@ namespace Tempest
 		pipeline_create_info.pColorBlendState = &color_blend_create_info;
 		pipeline_create_info.pDynamicState = nullptr;
 		pipeline_create_info.layout = pipeline_layout;
-		pipeline_create_info.renderPass = i_renderpass.GetRenderPass();
+		pipeline_create_info.renderPass = i_renderpass.render_pass;
 		pipeline_create_info.subpass = 0;
 		pipeline_create_info.basePipelineHandle = VK_NULL_HANDLE;
 		pipeline_create_info.basePipelineIndex = -1;
 
-		auto create_graphics_pipelines_result = vkCreateGraphicsPipelines(device->logical_device, VK_NULL_HANDLE, 1, &pipeline_create_info, nullptr, &graphics_pipeline);
-		DEBUG_ASSERT(create_graphics_pipelines_result == VK_SUCCESS);
+		auto create_pipelines_result = vkCreateGraphicsPipelines(device->logical_device, VK_NULL_HANDLE, 1, &pipeline_create_info, nullptr, &pipeline);
+		DEBUG_ASSERT(create_pipelines_result == VK_SUCCESS);
 	}
 
 	void Pipeline::CleanUp()
 	{
-		vkDestroyPipeline(device->logical_device, graphics_pipeline, nullptr);
+		vkDestroyPipeline(device->logical_device, pipeline, nullptr);
 		vkDestroyPipelineLayout(device->logical_device, pipeline_layout, nullptr);
 	}
 }

@@ -7,23 +7,21 @@ namespace Tempest
 	class CommandBuffer
 	{
 	public:
+		CommandBuffer() = default;
+		~CommandBuffer() = default;
+
 		void Init(const Device& i_device);
 		void CleanUp();
 
-		VkCommandBuffer& GetBuffer(int index) const
-		{
-			DEBUG_ASSERT(index < buffer_count);
-			return vk_commandbuffers[index];
-		};
-
-		const VkCommandPool& GetPool() const { return vk_commandpool; };
+	private:
 
 #ifdef ENGINE_GRAPHIC_VULKAN
+	public:
+		const VkCommandBuffer& GetBuffer() const { return commandbuffer; };
+
 	private:
 		const Device* device;
-		int buffer_count;
-		VkCommandPool vk_commandpool;
-		Array<VkCommandBuffer> vk_commandbuffers;
+		VkCommandBuffer commandbuffer;
 #endif // ENGINE_GRAPHIC_VULKAN
 
 	};

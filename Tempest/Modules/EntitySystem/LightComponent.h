@@ -30,7 +30,7 @@ namespace Tempest
 			break;
 		case LightType::PointLight:
 		{
-			Mat4f light_projection = Mat4f::Perspective(90, 1, NearClip, FarClip);
+			Mat4f light_projection = Mat4f::Perspective(90, 1, Graphics::NearClip, Graphics::FarClip);
 			Mat4f light_view;
 			Vec3f pos = owner->pos;
 

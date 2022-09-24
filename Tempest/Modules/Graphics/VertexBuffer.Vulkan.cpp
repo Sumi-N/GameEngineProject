@@ -70,7 +70,7 @@ namespace Tempest
 		}
 	}
 
-	void VertexBuffer::InitData(const CommandBuffer& i_commandbuffer, const void* i_vertex_data, uint32_t i_vertex_size, const void* i_index_data, uint32_t i_index_size)
+	void VertexBuffer::InitData(const void* i_vertex_data, uint32_t i_vertex_size, const void* i_index_data, uint32_t i_index_size)
 	{
 		index_coount = i_index_size / sizeof(uint32_t);
 
@@ -101,7 +101,7 @@ namespace Tempest
 
 			// Copy buffer
 			{
-				auto vk_commandbuffer = i_commandbuffer.GetBuffer(0);
+				auto vk_commandbuffer = device->system_commandbuffer;
 
 				VkCommandBufferBeginInfo begin_info{};
 				begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -124,10 +124,8 @@ namespace Tempest
 				submit_info.commandBufferCount = 1;
 				submit_info.pCommandBuffers = &vk_commandbuffer;
 
-				VkQueue graphics_queue;
-				vkGetDeviceQueue(device->logical_device, device->queue_family_indices.graphics_family.value(), 0, &graphics_queue);
-				vkQueueSubmit(graphics_queue, 1, &submit_info, VK_NULL_HANDLE);
-				vkQueueWaitIdle(graphics_queue);
+				vkQueueSubmit(device->queue, 1, &submit_info, VK_NULL_HANDLE);
+				vkQueueWaitIdle(device->queue);
 			}
 
 			vkDestroyBuffer(device->logical_device, stagingbuffer, nullptr);
@@ -161,7 +159,7 @@ namespace Tempest
 
 			// Copy buffer
 			{
-				auto vk_commandbuffer = i_commandbuffer.GetBuffer(0);
+				auto vk_commandbuffer = device->system_commandbuffer;
 
 				VkCommandBufferBeginInfo begin_info{};
 				begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -180,10 +178,8 @@ namespace Tempest
 				submit_info.commandBufferCount = 1;
 				submit_info.pCommandBuffers = &vk_commandbuffer;
 
-				VkQueue graphics_queue;
-				vkGetDeviceQueue(device->logical_device, device->queue_family_indices.graphics_family.value(), 0, &graphics_queue);
-				vkQueueSubmit(graphics_queue, 1, &submit_info, VK_NULL_HANDLE);
-				vkQueueWaitIdle(graphics_queue);
+				vkQueueSubmit(device->queue, 1, &submit_info, VK_NULL_HANDLE);
+				vkQueueWaitIdle(device->queue);
 			}
 
 			vkDestroyBuffer(device->logical_device, stagingbuffer, nullptr);

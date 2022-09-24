@@ -8,24 +8,31 @@ namespace Tempest
 	class Texture
 	{
 	public:
-		void Init(const Device&, const CommandBuffer&, const TextureInfo&);
+		Texture() = default;
+		~Texture() = default;
+
+		void Init(const Device&, const TextureInfo&);
 		void CleanUp();
 
 		int width;
 		int height;
 
-#ifdef ENGINE_GRAPHIC_VULKAN
-	public:
-		const VkImage& GetImage() const { return texture_image; }
-		const VkImageView& GetImageView() const { return texture_image_view; }
-		const VkSampler& GetImageSampler() const { return texture_sampler; }
 	private:
 		const Device* device;
-		VkDeviceSize image_size;
-		VkImage texture_image;
-		VkImageView texture_image_view;
-		VkSampler texture_sampler;
+
+#ifdef ENGINE_GRAPHIC_VULKAN
+	public:
+		VkDeviceSize size;
+		VkFormat format;
+		VkImageAspectFlags aspect;
+
+		VkImage image;
+		VkImageView image_view;
+		VkSampler sampler;
+
+	private:
 		VkDeviceMemory texture_image_memory;
+
 #endif // ENGINE_GRAPHIC_VULKAN
 	};
 }

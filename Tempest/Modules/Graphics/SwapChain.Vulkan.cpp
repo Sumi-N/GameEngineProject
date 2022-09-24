@@ -90,8 +90,8 @@ namespace Tempest
 			}
 
 
-			support_details.extent.width = std::clamp(ScreenWidth, support_details.capabilities.minImageExtent.width, support_details.capabilities.maxImageExtent.width);
-			support_details.extent.height = std::clamp(ScreenHeight, support_details.capabilities.minImageExtent.height, support_details.capabilities.maxImageExtent.height);
+			support_details.extent.width = std::clamp(Graphics::InitialScreenWidth, support_details.capabilities.minImageExtent.width, support_details.capabilities.maxImageExtent.width);
+			support_details.extent.height = std::clamp(Graphics::InitialScreenHeight, support_details.capabilities.minImageExtent.height, support_details.capabilities.maxImageExtent.height);
 
 			support_details.image_count = support_details.capabilities.minImageCount + 1;
 
@@ -112,19 +112,7 @@ namespace Tempest
 			create_swapchain_info.imageExtent = support_details.extent;
 			create_swapchain_info.imageArrayLayers = 1;
 			create_swapchain_info.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
-
-			uint32_t queue_family_indices[] = { device->queue_family_indices.graphics_family.value(), device->queue_family_indices.present_family.value() };
-
-			if (device->queue_family_indices.graphics_family != device->queue_family_indices.present_family)
-			{
-				create_swapchain_info.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
-				create_swapchain_info.queueFamilyIndexCount = 2;
-				create_swapchain_info.pQueueFamilyIndices = queue_family_indices;
-			}
-			else
-			{
-				create_swapchain_info.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
-			}
+			create_swapchain_info.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
 			create_swapchain_info.preTransform = support_details.capabilities.currentTransform;
 			create_swapchain_info.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;

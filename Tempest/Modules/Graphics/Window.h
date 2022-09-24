@@ -10,7 +10,7 @@ namespace Tempest
 		unsigned int height;
 
 		WindowProperty(const std::string& i_title = "Tempest Engine")
-			: title(i_title), width(ScreenWidth), height(ScreenHeight)
+			: title(i_title), width(Graphics::InitialScreenWidth), height(Graphics::InitialScreenHeight)
 		{};
 	};
 

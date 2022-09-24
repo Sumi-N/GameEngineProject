@@ -1,19 +1,20 @@
 #pragma once
-
 #include "Define.h"
 #include "Device.h"
 #include "SwapChain.h"
 #include "VertexBuffer.h"
-#include "UniformBuffer.h"
 #include "RenderPass.h"
+#include "Descriptor.h"
 
 namespace Tempest
 {
 	class Pipeline
 	{
 	public:
+		Pipeline() = default;
+		~Pipeline() = default;
 
-		void Init(const Device&, const SwapChain&, const Shader&, const VertexBuffer&, const UniformBuffer&, const RenderPass&);
+		void Init(const Device&, const SwapChain&, const Shader&, const VertexBuffer&, const Descriptor&, const RenderPass&);
 		void CleanUp();
 
 	private:
@@ -21,11 +22,11 @@ namespace Tempest
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 	public:
-		const VkPipelineLayout& GetPipelineLayout() { return pipeline_layout; }
-		const VkPipeline& GetPipeline() { return graphics_pipeline; }
-	private:
 		VkPipelineLayout pipeline_layout;
-		VkPipeline graphics_pipeline;
+		VkPipeline pipeline;
+
+	private:
+
 #endif
 
 	};

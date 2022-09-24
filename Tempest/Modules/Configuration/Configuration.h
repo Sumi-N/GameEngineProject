@@ -18,10 +18,7 @@
 //  Graphic API configuration
 //----------------------------
 
-//#define ENGINE_GRAPHIC_OPENGL
-#define ENGINE_GRAPHIC_VULKAN
-
-#define GRAPHICS_BUFFERING_COUNT 2
+#define ENGINE_GRAPHIC_VULKAN 1
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 #ifdef _DEBUG
@@ -52,12 +49,16 @@
 //----------------------------
 //  Screen Setting
 //----------------------------
-constexpr uint32_t ScreenWidth = 1920;
-constexpr uint32_t ScreenHeight = 1080;
-constexpr float NearClip = 0.1f;
-constexpr float FarClip = 100.0f;
-constexpr float FieldOfView = 45.0f;
-constexpr float FramePerSecond = 60.0f;
+namespace Graphics
+{
+	constexpr uint32_t InitialScreenWidth = 1920;
+	constexpr uint32_t InitialScreenHeight = 1080;
+	constexpr uint32_t BufferingCount = 2;
+	constexpr float NearClip = 0.1f;
+	constexpr float FarClip = 100.0f;
+	constexpr float FieldOfView = 45.0f;
+	constexpr float FramePerSecond = 60.0f;
+}
 
 //----------------------------
 //  Graphics Setting

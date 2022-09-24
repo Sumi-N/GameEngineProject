@@ -1,31 +1,31 @@
 #pragma once
 #include "Define.h"
 #include "Device.h"
-#include "Texture.h"
+#include "Buffer.h"
 
 namespace Tempest
 {
-	class UniformBuffer
+	class UniformBuffer : public Buffer
 	{
 	public:
-		void Init(const Device& i_device, const Shader& i_shader, const Texture& i_texture);
+		UniformBuffer()  = default;
+		~UniformBuffer() = default;
+
+		void Init(const Device& i_device, BufferLayout i_buffer_layout);
 		void CleanUp();
+
 		void Update(int i_index, void* i_data, size_t i_size, size_t i_offset) const;
 
-		const VkDescriptorSetLayout& GetDescriptorLayout() const { return descriptorset_layout; }
-		const VkDescriptorSet& GetDescriptorSet(int index) const { return descriptor_sets[index]; }
-
-#ifdef ENGINE_GRAPHIC_VULKAN
 	private:
 		const Device* device;
-		int buffer_count;
-		size_t buffer_offset_alignment;
 
-		VkDescriptorSetLayout descriptorset_layout;
-		Array<VkBuffer> uniformbuffers;
-		Array<VkDeviceMemory> uniformbuffers_memories;
-		VkDescriptorPool descriptor_pool;
-		Array<VkDescriptorSet> descriptor_sets;
+#ifdef ENGINE_GRAPHIC_VULKAN
+	public:
+		VkBuffer       uniformbuffers[Graphics::BufferingCount];
+
+	private:
+		VkDeviceMemory uniformbuffers_memories[Graphics::BufferingCount];
+
 #endif // ENGINE_GRAPHIC_VULKAN
 	};
 }

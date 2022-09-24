@@ -36,9 +36,9 @@ namespace Tempest
 
 	struct Joint
 	{
-		Mat4f       inversed{}; // inversed bind pose translation matrix
-		Vec3f       coord{};
-		int         parent_index;
+		Mat4f inversed{}; // inversed bind pose translation matrix
+		Vec3f coord{};
+		int   parent_index;
 	};
 
 	struct Skeleton
@@ -175,14 +175,14 @@ namespace Tempest
 		TextureInfo() = default;
 		~TextureInfo() = default;
 
-		int width;
-		int height;
-		Array<char> pixels;
-		TextureFormat format;
+		uint32_t         width;
+		uint32_t         height;
+		Array<char>      pixels;
+		TextureFormat    format;
 		TextureInfoFlags aspect_flag {};
 		TextureInfoFlags usage_flag {};
-		bool sampler_needed {false};
-		bool has_data {false};
+		bool             sampler_needed {false};
+		bool             has_data {false};
 
 
 		static Result Load(const char* i_filepath, TextureInfo& o_texture)
@@ -195,8 +195,8 @@ namespace Tempest
 			RETURN_IFNOT_SUCCESS(in.Open());
 
 			RETURN_IFNOT_SUCCESS(in.Read(&type, sizeof(uint8_t)));
-			RETURN_IFNOT_SUCCESS(in.Read(&o_texture.width, sizeof(int)));
-			RETURN_IFNOT_SUCCESS(in.Read(&o_texture.height, sizeof(int)));
+			RETURN_IFNOT_SUCCESS(in.Read(&o_texture.width, sizeof(uint32_t)));
+			RETURN_IFNOT_SUCCESS(in.Read(&o_texture.height, sizeof(uint32_t)));
 
 			if (type == TextureType::SkyBox)
 			{
@@ -218,7 +218,7 @@ namespace Tempest
 			o_texture.has_data = true;
 			o_texture.sampler_needed = true;
 			o_texture.aspect_flag |= TextureAspect::COLOR_BIT_ASPECT;
-			size_t texture_size = o_texture.width * o_texture.height * static_cast<uint32_t>(o_texture.format);
+			size_t texture_size = o_texture.width * o_texture.height * GetTextureFormatSize(o_texture.format);
 			o_texture.pixels.Resize(texture_size);
 			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(o_texture.pixels.Data()), texture_size));
 
@@ -259,11 +259,11 @@ namespace Tempest
 
 	struct Shader
 	{
-		bool   shader_exist[static_cast<int>(ShaderType::Size)];
-		size_t shader_sizes[static_cast<int>(ShaderType::Size)];
-		Array<char> shader_binaries[static_cast<int>(ShaderType::Size)];
-		Array<VertexInfo> vertex_info;
-		size_t vertex_stride;
+		bool               shader_exist[static_cast<int>(ShaderType::Size)];
+		size_t             shader_sizes[static_cast<int>(ShaderType::Size)];
+		Array<char>        shader_binaries[static_cast<int>(ShaderType::Size)];
+		Array<VertexInfo>  vertex_info;
+		size_t             vertex_stride;
 		Array<UniformInfo> uniform_infos[static_cast<int>(ShaderType::Size)];
 
 		static Result Load(const char* i_filepath, Shader& o_shader)

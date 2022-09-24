@@ -30,8 +30,11 @@ namespace Tempest
 		// target is equal to forwardvector + position;
 		view = Mat4f::LookAt(owner->pos, owner->pos + forwardvec, upvec);
 
-		perspective = Mat4f::Perspective(FieldOfView, (float)ScreenWidth / ScreenHeight, NearClip, FarClip);
-		orthographics = Mat4f::Orthographic(-10.0f, 10.0f, -10.0f, 10.0f, NearClip, FarClip);
+		perspective = Mat4f::Perspective(Graphics::FieldOfView,
+										 (float)Graphics::InitialScreenWidth / Graphics::InitialScreenHeight,
+										 Graphics::NearClip,
+										 Graphics::FarClip);
+		orthographics = Mat4f::Orthographic(-10.0f, 10.0f, -10.0f, 10.0f, Graphics::NearClip, Graphics::FarClip);
 	}
 
 	inline void CameraComponent::Update(float i_dt)

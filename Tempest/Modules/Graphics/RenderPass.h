@@ -2,6 +2,7 @@
 #include "Define.h"
 #include "Device.h"
 #include "SwapChain.h"
+#include "Texture.h"
 
 namespace Tempest
 {
@@ -12,15 +13,18 @@ namespace Tempest
 		~RenderPass() = default;
 
 		void Init(const Device& i_device, const SwapChain& i_swapchain);
+		void Init(const Device& i_device, const Texture& i_texture);
 		void CleanUp();
-
-#ifdef ENGINE_GRAPHIC_VULKAN
-	public:
-		const VkRenderPass& GetRenderPass() const { return render_pass; }
 
 	private:
 		const Device* device;
-		VkRenderPass render_pass{};
+
+#ifdef ENGINE_GRAPHIC_VULKAN
+	public:
+		VkRenderPass render_pass;
+
+	private:
+
 #endif // ENGINE_GRAPHIC_VULKAN
 	};
 }

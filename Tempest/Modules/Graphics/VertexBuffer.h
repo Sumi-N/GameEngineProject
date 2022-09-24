@@ -12,7 +12,7 @@ namespace Tempest
 		~VertexBuffer() = default;
 
 		void Init(const Device&, const Shader&);
-		void InitData(const CommandBuffer&, const void*, uint32_t, const void*, uint32_t);
+		void InitData(const void*, uint32_t, const void*, uint32_t);
 		void CleanUp() const;
 		void CleanUpData() const;
 

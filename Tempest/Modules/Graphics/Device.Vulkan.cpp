@@ -131,8 +131,11 @@ namespace Tempest
 			DEBUG_ASSERT(result == VK_SUCCESS);
 		}
 
+		VkPhysicalDeviceProperties device_properties;
+		VkPhysicalDeviceFeatures device_features;
 		// Get physical device info
 		{
+
 			uint32_t device_count = 0;
 			vkEnumeratePhysicalDevices(instance, &device_count, nullptr);
 
@@ -155,7 +158,7 @@ namespace Tempest
 			bool device_qualified = false;
 			device_qualified = (device_properties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU && device_features.geometryShader);
 
-			min_uniform_buffer_offset_alignment = device_properties.limits.minUniformBufferOffsetAlignment;
+			min_buffer_offset_alignment = device_properties.limits.minUniformBufferOffsetAlignment;
 			max_sampler_anisotropy = device_properties.limits.maxSamplerAnisotropy;
 
 			DEBUG_ASSERT(device_qualified);
@@ -170,26 +173,26 @@ namespace Tempest
 			queue_families.Resize(queue_family_count);
 			vkGetPhysicalDeviceQueueFamilyProperties(physical_device, &queue_family_count, queue_families.Data());
 
-			int i = 0;
-			for (const auto& queue_family : queue_families)
+			bool has_adequate_queue = false;
+			for (int i = 0; i < queue_families.Size(); i++)
 			{
 
-				if (queue_family.queueFlags & VK_QUEUE_GRAPHICS_BIT)
+				if (queue_families[i].queueFlags & VK_QUEUE_GRAPHICS_BIT)
 				{
-					queue_family_indices.graphics_family = i;
+					VkBool32 present_support = false;
+					vkGetPhysicalDeviceSurfaceSupportKHR(physical_device, i, surface, &present_support);
+					if (present_support)
+					{
+						queue_family_index = i;
+						has_adequate_queue = true;
+					}
 				}
-
-				VkBool32 present_support = false;
-				vkGetPhysicalDeviceSurfaceSupportKHR(physical_device, i, surface, &present_support);
-				if (present_support)
-				{
-					queue_family_indices.present_family = i;
-				}
-
-				i++;
 			}
+			DEBUG_ASSERT(has_adequate_queue);
 		}
 
+		Array<const char*> device_extensions;
+		Array<VkExtensionProperties> availableExtensions{};
 		// Extensions related
 		{
 			// Check what type of extension does this graphics card has
@@ -218,7 +221,7 @@ namespace Tempest
 		// Create logical device
 		{
 			Array<VkDeviceQueueCreateInfo>  queue_create_infos;
-			std::set<uint32_t> unique_queue_families = { queue_family_indices.graphics_family.value(), queue_family_indices.present_family.value() };
+			std::set<uint32_t> unique_queue_families = { queue_family_index };
 
 			float queue_priority = 1.0f;
 			for (uint32_t queue_family : unique_queue_families)
@@ -243,11 +246,36 @@ namespace Tempest
 
 			VkResult create_device_result = vkCreateDevice(physical_device, &device_create_info, nullptr, &logical_device);
 			DEBUG_ASSERT(create_device_result == VK_SUCCESS);
+
+			// Get queue
+			vkGetDeviceQueue(logical_device, queue_family_index, 0, &queue);
+		}
+
+		// Create CommandPool and system command buffer
+		{
+			VkCommandPoolCreateInfo pool_create_info{};
+			pool_create_info.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+			pool_create_info.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+			pool_create_info.queueFamilyIndex = queue_family_index;
+
+			VkResult create_commandpool_result = vkCreateCommandPool(logical_device, &pool_create_info, nullptr, &commandpool);
+			DEBUG_ASSERT(create_commandpool_result == VK_SUCCESS);
+
+			VkCommandBufferAllocateInfo commandbuffer_allocate_info{};
+			commandbuffer_allocate_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+			commandbuffer_allocate_info.commandPool = commandpool;
+			commandbuffer_allocate_info.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+			commandbuffer_allocate_info.commandBufferCount = 1;
+
+			VkResult create_commandbuffer_result = vkAllocateCommandBuffers(logical_device, &commandbuffer_allocate_info, &system_commandbuffer);
+			DEBUG_ASSERT(create_commandbuffer_result == VK_SUCCESS);
 		}
 	}
 
 	void Device::CleanUp()
 	{
+		vkDestroyCommandPool(logical_device, commandpool, nullptr);
+
 		vkDestroyDevice(logical_device, nullptr);
 
 #ifdef ENABLE_VULKAN_VALIDATION_LAYERS

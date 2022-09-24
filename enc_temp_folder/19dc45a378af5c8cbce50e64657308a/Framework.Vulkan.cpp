@@ -61,7 +61,7 @@ namespace Tempest
 		vertexbuffer.InitData(mesh.data.Data(), mesh.data.Size() * sizeof(mesh.data[0]), mesh.index.Data(), mesh.index.Size() * sizeof(mesh.index[0]));
 		vertexbuffer2.InitData(mesh2.data.Data(), mesh2.data.Size() * sizeof(mesh2.data[0]), mesh2.index.Data(), mesh2.index.Size() * sizeof(mesh2.index[0]));
 
-		BufferUnit const_camera1{ BufferFormat::Mat3, "view_matrix"};
+		BufferUnit const_camera1{BufferFormat::Mat3, "view_matrix"};
 		BufferUnit const_camera2{ BufferFormat::Mat4, "perspective_matrix" };
 		BufferUnit const_camera3{ BufferFormat::Float3, "camera_position_vector" };
 		BufferUnit const_camera4{ BufferFormat::Float, "camera_padding" };

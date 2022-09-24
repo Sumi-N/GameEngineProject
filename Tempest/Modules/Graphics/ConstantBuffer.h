@@ -105,11 +105,7 @@ namespace Tempest
 		ConstantBuffer() = default;
 		~ConstantBuffer() = default;
 
-#ifdef  ENGINE_GRAPHIC_OPENGL
-		GLuint bufferid = 0;
-		GLuint index = 0;
-		GLsizeiptr size = 0;
-#else ENGINE_GRAPHIC_VULKAN
+#ifdef ENGINE_GRAPHIC_VULKAN
 
 #endif // ENGINE_GRAPHIC_OPENGL
 

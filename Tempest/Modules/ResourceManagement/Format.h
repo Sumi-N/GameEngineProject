@@ -56,15 +56,31 @@ namespace Tempest
 
 	enum class TextureFormat : uint32_t
 	{
-		R8G8A8_SRGB = 3,
-		R8G8B8A8_SRGB = 4,
-		R16G16_SFLOAT = 8,
-		R32G32B32_SFLOAT = 12,
-		D32_SFLOAT = 8,
-		D32_SFLOAT_S8_UINT = 10,
-		D24_UNORM_S8_UINT = 8,
+		R8G8A8_SRGB,
+		R8G8B8A8_SRGB,
+		R16G16_SFLOAT,
+		R32G32B32_SFLOAT,
+		D32_SFLOAT,
+		D32_SFLOAT_S8_UINT,
+		D24_UNORM_S8_UINT,
 		Size,
 	};
+
+	static uint32_t GetTextureFormatSize(TextureFormat i_format)
+	{
+		switch (i_format)
+		{
+		case TextureFormat::R8G8A8_SRGB:           return 3;
+		case TextureFormat::R8G8B8A8_SRGB:         return 4;
+		case TextureFormat::R16G16_SFLOAT:         return 8;
+		case TextureFormat::R32G32B32_SFLOAT:      return 12;
+		case TextureFormat::D32_SFLOAT:            return 8;
+		case TextureFormat::D32_SFLOAT_S8_UINT:    return 10;
+		case TextureFormat::D24_UNORM_S8_UINT:     return 8;
+		}
+		DEBUG_ASSERT(false);
+		return 0;
+	}
 
 	enum TextureAspect
 	{

@@ -52,9 +52,6 @@
     <ClInclude Include="Pipeline.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Queue.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="SwapChain.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -68,6 +65,12 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="RenderPass.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Descriptor.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffer.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
@@ -111,9 +114,6 @@
     <ClCompile Include="Window.win.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="Queue.Vulkan.cpp">
-      <Filter>Vulkan</Filter>
-    </ClCompile>
     <ClCompile Include="CommandBuffer.Vulkan.cpp">
       <Filter>Vulkan</Filter>
     </ClCompile>
@@ -139,6 +139,9 @@
       <Filter>Vulkan</Filter>
     </ClCompile>
     <ClCompile Include="RenderPass.Vulkan.cpp">
+      <Filter>Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="Descriptor.Vulkan.cpp">
       <Filter>Vulkan</Filter>
     </ClCompile>
   </ItemGroup>

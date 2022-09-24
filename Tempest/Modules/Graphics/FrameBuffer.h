@@ -24,7 +24,6 @@ namespace Tempest
 	class FrameBuffer
 	{
 	public:
-
 		FrameBuffer() = default;
 		~FrameBuffer() = default;
 
@@ -42,10 +41,10 @@ namespace Tempest
 #ifdef ENGINE_GRAPHIC_VULKAN
 	public:
 		const VkFramebuffer& GetBuffer() const { return framebuffer; }
-		VkRenderPassBeginInfo GetBeginInfo() const;
 
 	private:
 		VkFramebuffer framebuffer{};
+
 #endif // ENGINE_GRAPHIC_VULKAN
 	};
 }
