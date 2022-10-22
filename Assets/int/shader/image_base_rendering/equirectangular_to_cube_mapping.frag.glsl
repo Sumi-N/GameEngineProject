@@ -1,8 +1,8 @@
 #version 430 core
 
-out vec4 color;
+layout (location = 0) in vec4 fragpos;
 
-in vec4 fragpos;
+layout (location = 0) out vec4 color;
 
 layout(binding = 2) uniform sampler2D equirectangularmap;
 

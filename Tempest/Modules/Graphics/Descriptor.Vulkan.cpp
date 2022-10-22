@@ -28,6 +28,18 @@ namespace Tempest
 
 		uint32_t descriptor_type_counts[static_cast<int>(ShaderDescriptorType::Size)] = {};
 
+		// Create attribute descriptor
+		{
+			attribute_descriptions.Resize(i_shader.vertex_info.Size());
+			for (int i = 0; i < attribute_descriptions.Size(); i++)
+			{
+				attribute_descriptions[i].binding = i_shader.vertex_info[i].binding;
+				attribute_descriptions[i].location = i_shader.vertex_info[i].location;
+				attribute_descriptions[i].format = static_cast<VkFormat>(i_shader.vertex_info[i].format);
+				attribute_descriptions[i].offset = i_shader.vertex_info[i].offset;
+			}
+		}
+
 		// Create descriptor layout
 		{
 			Array<VkDescriptorSetLayoutBinding> layout_bindings{};
@@ -61,15 +73,21 @@ namespace Tempest
 		// Create descriptor pool
 		{
 			VkDescriptorPoolSize pool_sizes[static_cast<int>(ShaderDescriptorType::Size)];
+			int descriptor_index_count = 0;
 			for (int i = 0; i < static_cast<int>(ShaderDescriptorType::Size); i++)
 			{
-				pool_sizes[i].type = GetDescriptorType(static_cast<ShaderDescriptorType>(i));
-				pool_sizes[i].descriptorCount = descriptor_type_counts[i];
+				if (descriptor_type_counts[i] == 0)
+				{
+					continue;
+				}
+				pool_sizes[descriptor_index_count].type = GetDescriptorType(static_cast<ShaderDescriptorType>(i));
+				pool_sizes[descriptor_index_count].descriptorCount = descriptor_type_counts[i];
+				descriptor_index_count++;
 			}
 
 			VkDescriptorPoolCreateInfo pool_info{};
 			pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-			pool_info.poolSizeCount = static_cast<int>(ShaderDescriptorType::Size);
+			pool_info.poolSizeCount = descriptor_index_count;
 			pool_info.pPoolSizes = pool_sizes;
 			pool_info.maxSets = Graphics::BufferingCount;
 
@@ -99,6 +117,11 @@ namespace Tempest
 	{
 		vkDestroyDescriptorPool(device->logical_device, descriptor_pool, nullptr);
 		vkDestroyDescriptorSetLayout(device->logical_device, descriptorset_layout, nullptr);
+	}
+
+	void Descriptor::Bind(const VertexBuffer& i_vertex)
+	{
+		vertex_stride = i_vertex.layout.stride;
 	}
 
 	void Descriptor::Bind(const UniformBuffer& i_uniform, uint32_t i_binding)

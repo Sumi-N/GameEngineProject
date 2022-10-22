@@ -94,10 +94,14 @@
     </ClCompile>
     <ClCompile Include="Framework.OpenGL.cpp" />
     <ClCompile Include="Framework.Vulkan.cpp" />
+    <ClCompile Include="PrimitiveDrawer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h" />
     <ClInclude Include="Framework.h" />
+    <ClInclude Include="Image_DiffuseIrradianceIBL.h" />
+    <ClInclude Include="PrimitiveDrawer.h" />
+    <ClInclude Include="Image_SpecularIBL.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Graphics\Graphics.vcxproj">

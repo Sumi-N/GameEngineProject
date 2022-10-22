@@ -2,7 +2,7 @@
 
 namespace Tempest
 {
-	void Pipeline::Init(const Device& i_device, const SwapChain& i_swapchain, const Shader& i_shader, const VertexBuffer& i_vertexbuffer, const Descriptor& i_descriptor, const RenderPass& i_renderpass)
+	void Pipeline::Init(const Device& i_device, const Shader& i_shader, const Descriptor& i_descriptor, const RenderPass& i_renderpass, uint32_t i_vertex_stride)
 	{
 		device = &i_device;
 
@@ -56,12 +56,17 @@ namespace Tempest
 			shader_stages.PushBack(shader_stage_info);
 		}
 
+		VkVertexInputBindingDescription binding_description;
+		binding_description.binding = 0;
+		binding_description.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+		binding_description.stride = i_vertex_stride;
+
 		VkPipelineVertexInputStateCreateInfo vertex_input_create_info{};
 		vertex_input_create_info.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 		vertex_input_create_info.vertexBindingDescriptionCount = 1;
-		vertex_input_create_info.pVertexBindingDescriptions = &i_vertexbuffer.binding_description;
-		vertex_input_create_info.vertexAttributeDescriptionCount = static_cast<uint32_t>(i_vertexbuffer.attribute_descriptions.Size());
-		vertex_input_create_info.pVertexAttributeDescriptions = i_vertexbuffer.attribute_descriptions.Data();
+		vertex_input_create_info.pVertexBindingDescriptions = &binding_description;
+		vertex_input_create_info.vertexAttributeDescriptionCount = static_cast<uint32_t>(i_descriptor.attribute_descriptions.Size());
+		vertex_input_create_info.pVertexAttributeDescriptions = i_descriptor.attribute_descriptions.Data();
 
 		VkPipelineInputAssemblyStateCreateInfo input_assembly_create_info{};
 		input_assembly_create_info.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
@@ -70,15 +75,15 @@ namespace Tempest
 
 		VkViewport viewport;
 		viewport.x = 0.0f;
-		viewport.y = static_cast<float>(i_swapchain.height);
-		viewport.width = static_cast<float>(i_swapchain.width);
-		viewport.height = -1 * static_cast<float>(i_swapchain.height);
+		viewport.y = static_cast<float>(Graphics::InitialScreenHeight);
+		viewport.width = static_cast<float>(Graphics::InitialScreenHeight);
+		viewport.height = -1 * static_cast<float>(Graphics::InitialScreenHeight);
 		viewport.minDepth = 0.0f;
 		viewport.maxDepth = 1.0f;
 
 		VkRect2D scissor;
 		scissor.offset = { 0, 0 };
-		scissor.extent = VkExtent2D{ i_swapchain.width, i_swapchain.height };
+		scissor.extent = VkExtent2D{ Graphics::InitialScreenWidth, Graphics::InitialScreenHeight };
 
 		VkPipelineViewportStateCreateInfo viewport_create_info{};
 		viewport_create_info.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
@@ -150,6 +155,13 @@ namespace Tempest
 		auto create_pipeline_layout_result = vkCreatePipelineLayout(device->logical_device, &pipeline_layout_create_info, nullptr, &pipeline_layout);
 		DEBUG_ASSERT(create_pipeline_layout_result == VK_SUCCESS);
 
+		constexpr int dynamic_states_count = 2;
+		VkDynamicState dynamic_states[] = { VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR};
+		VkPipelineDynamicStateCreateInfo dynamic_state{};
+		dynamic_state.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+		dynamic_state.dynamicStateCount = static_cast<uint32_t>(dynamic_states_count);
+		dynamic_state.pDynamicStates = dynamic_states;
+
 		VkGraphicsPipelineCreateInfo pipeline_create_info{};
 		pipeline_create_info.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 		pipeline_create_info.stageCount = static_cast<uint32_t>(shader_stages.Size());
@@ -161,9 +173,9 @@ namespace Tempest
 		pipeline_create_info.pMultisampleState = &multisampling_create_info;
 		pipeline_create_info.pDepthStencilState = &depth_stencil;
 		pipeline_create_info.pColorBlendState = &color_blend_create_info;
-		pipeline_create_info.pDynamicState = nullptr;
+		pipeline_create_info.pDynamicState = &dynamic_state;
 		pipeline_create_info.layout = pipeline_layout;
-		pipeline_create_info.renderPass = i_renderpass.render_pass;
+		pipeline_create_info.renderPass = i_renderpass.renderpass;
 		pipeline_create_info.subpass = 0;
 		pipeline_create_info.basePipelineHandle = VK_NULL_HANDLE;
 		pipeline_create_info.basePipelineIndex = -1;

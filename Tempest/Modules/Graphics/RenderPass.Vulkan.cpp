@@ -59,7 +59,7 @@ namespace Tempest
 		renderpass_info.dependencyCount = 1;
 		renderpass_info.pDependencies = &dependency;
 
-		auto create_renderpass_result = vkCreateRenderPass(device->logical_device, &renderpass_info, nullptr, &render_pass);
+		auto create_renderpass_result = vkCreateRenderPass(device->logical_device, &renderpass_info, nullptr, &renderpass);
 		DEBUG_ASSERT(create_renderpass_result == VK_SUCCESS);
 	}
 
@@ -78,7 +78,7 @@ namespace Tempest
 			color_attachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 			color_attachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
 			color_attachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-			color_attachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+			color_attachment.finalLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
 			color_attachment_ref.attachment = 0;
 			color_attachment_ref.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
@@ -126,13 +126,13 @@ namespace Tempest
 		renderpass_info.dependencyCount = 1;
 		renderpass_info.pDependencies = &dependency;
 
-		auto create_renderpass_result = vkCreateRenderPass(device->logical_device, &renderpass_info, nullptr, &render_pass);
+		auto create_renderpass_result = vkCreateRenderPass(device->logical_device, &renderpass_info, nullptr, &renderpass);
 		DEBUG_ASSERT(create_renderpass_result == VK_SUCCESS);
 	}
 
 	void RenderPass::CleanUp()
 	{
-		vkDestroyRenderPass(device->logical_device, render_pass, nullptr);
+		vkDestroyRenderPass(device->logical_device, renderpass, nullptr);
 	}
 }
 #endif // ENGINE_GRAPHIC_VULKAN

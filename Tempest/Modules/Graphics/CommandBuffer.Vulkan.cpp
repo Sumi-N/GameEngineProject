@@ -20,5 +20,98 @@ namespace Tempest
 	void CommandBuffer::CleanUp()
 	{
 	}
+
+	void CommandBuffer::BeginCommand() const
+	{
+		vkResetCommandBuffer(commandbuffer, 0);
+
+		VkCommandBufferBeginInfo begin_info{};
+		begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+		begin_info.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+		begin_info.pInheritanceInfo = nullptr;
+
+		auto begin_command_result = vkBeginCommandBuffer(commandbuffer, &begin_info);
+		DEBUG_ASSERT(begin_command_result == VK_SUCCESS);
+	}
+
+	void CommandBuffer::BindFrameBuffer(const FrameBuffer& i_framebuffer, const RenderPass& i_renderpass) const
+	{
+		VkRenderPassBeginInfo renderpass_begin_info{};
+		{
+			renderpass_begin_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+			renderpass_begin_info.renderPass = i_renderpass.renderpass;
+			renderpass_begin_info.framebuffer = i_framebuffer.framebuffer;
+			renderpass_begin_info.renderArea.offset = { 0, 0 };
+			renderpass_begin_info.renderArea.extent = { i_framebuffer.width, i_framebuffer.height };
+
+			VkClearValue clearcolor[2];
+			clearcolor[0].color = { {0.0f, 0.0f, 0.0f, 1.0f} };
+			clearcolor[1].depthStencil = { 1.0f, 0 };
+
+			renderpass_begin_info.clearValueCount = 2;
+			renderpass_begin_info.pClearValues = clearcolor;
+		}
+
+		vkCmdBeginRenderPass(commandbuffer, &renderpass_begin_info, VK_SUBPASS_CONTENTS_INLINE);
+
+		{
+			VkViewport viewport{};
+			viewport.x = 0.0f;
+			viewport.y = (float)i_framebuffer.height;
+			viewport.width = (float)i_framebuffer.width;
+			viewport.height = -1 * (float)i_framebuffer.height;
+			viewport.minDepth = 0.0f;
+			viewport.maxDepth = 1.0f;
+			vkCmdSetViewport(commandbuffer, 0, 1, &viewport);
+
+			VkRect2D scissor{};
+			scissor.offset = { 0, 0 };
+			scissor.extent = VkExtent2D{ i_framebuffer.width, i_framebuffer.height };
+			vkCmdSetScissor(commandbuffer, 0, 1, &scissor);
+		}
+	}
+
+	void CommandBuffer::BindDescriptor(int i_index, const Descriptor& i_descriptor, const Pipeline& i_pipeline) const
+	{
+		vkCmdBindPipeline(commandbuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, i_pipeline.pipeline);
+
+		vkCmdBindDescriptorSets(commandbuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, i_pipeline.pipeline_layout, 0, 1, &i_descriptor.descriptor_sets[i_index], 0, nullptr);
+	}
+
+	void CommandBuffer::Draw(const VertexBuffer& i_vertexbuffer) const
+	{
+		VkDeviceSize offsets[] = { 0 };
+		vkCmdBindVertexBuffers(commandbuffer, 0, 1, &i_vertexbuffer.vertexbuffer, offsets);
+		vkCmdBindIndexBuffer(commandbuffer, i_vertexbuffer.indexbuffer, 0, VK_INDEX_TYPE_UINT32);
+		vkCmdDrawIndexed(commandbuffer, i_vertexbuffer.indecies_count, 1, 0, 0, 0);
+	}
+
+	void CommandBuffer::EndCommand() const
+	{
+		vkCmdEndRenderPass(commandbuffer);
+		auto end_command_result = vkEndCommandBuffer(commandbuffer);
+		DEBUG_ASSERT(end_command_result == VK_SUCCESS);
+	}
+
+	void CommandBuffer::Submit() const
+	{
+		//VkSubmitInfo submitInfo{};
+		//submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+
+		//VkSemaphore wait_semaphores[] = { image_available_semaphores[current_frame] };
+		//VkPipelineStageFlags wait_stages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+		//submitInfo.waitSemaphoreCount = 1;
+		//submitInfo.pWaitSemaphores = wait_semaphores;
+		//submitInfo.pWaitDstStageMask = wait_stages;
+		//submitInfo.commandBufferCount = 1;
+		//submitInfo.pCommandBuffers = &commandbuffer;
+
+		//VkSemaphore signal_semaphores[] = { render_finished_semaphores[current_frame] };
+		//submitInfo.signalSemaphoreCount = 1;
+		//submitInfo.pSignalSemaphores = signal_semaphores;
+
+		//auto queue_submi_result = vkQueueSubmit(device->queue, 1, &submitInfo, in_flight_fences[current_frame]);
+		//DEBUG_ASSERT(queue_submi_result == VK_SUCCESS);
+	}
 }
 #endif // ENGINE_GRAPHIC_VULKAN

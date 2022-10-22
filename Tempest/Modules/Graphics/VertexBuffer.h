@@ -1,39 +1,38 @@
 #pragma once
 #include "Define.h"
 #include "Device.h"
-#include "CommandBuffer.h"
+#include "Buffer.h"
 
 namespace Tempest
 {
-	class VertexBuffer
+	class VertexBuffer : public Buffer
 	{
 	public:
 		VertexBuffer() = default;
 		~VertexBuffer() = default;
 
-		void Init(const Device&, const Shader&);
-		void InitData(const void*, uint32_t, const void*, uint32_t);
+		void Init(const Device& i_device,
+				  BufferLayout i_buffer_layout,
+				  const void* i_vertex_data,
+				  uint32_t i_vertex_size,
+				  const void * i_index_data,
+				  uint32_t i_index_size);
 		void CleanUp() const;
-		void CleanUpData() const;
 
-		uint32_t GetStride() const { return stride; };
+		uint32_t indecies_count;
 
-	public:
-		uint32_t stride;
-		uint32_t index_coount;
+	private:
+		const Device* device;
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 	public:
-		VkVertexInputBindingDescription binding_description;
-		Array<VkVertexInputAttributeDescription> attribute_descriptions;
-
 		VkBuffer vertexbuffer;
-		VkDeviceMemory vertexbuffer_memory;
-
 		VkBuffer indexbuffer;
-		VkDeviceMemory indexbuffer_memory;
+
 	private:
-		const Device* device;
+		VkDeviceMemory vertexbuffer_memory;
+		VkDeviceMemory indexbuffer_memory;
+
 #endif // ENGINE_GRAPHIC_VULKAN
 	};
 }

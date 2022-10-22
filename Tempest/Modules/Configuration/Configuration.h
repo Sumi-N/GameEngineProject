@@ -86,7 +86,7 @@ namespace Graphics
 #define FONT_PATH        "Assets\\bin\\font\\"
 
 //----------------------------
-// Mesh Data
+// Vertices's Data
 //----------------------------
 
 #define FILENAME_CUBEMAP "cubemap.tm"

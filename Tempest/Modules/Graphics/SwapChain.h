@@ -6,6 +6,9 @@ namespace Tempest{
 	class SwapChain
 	{
 	public:
+		SwapChain() = default;
+		~SwapChain() = default;
+
 		void Init(const Device& i_device);
 		void CleanUp();
 
@@ -35,6 +38,7 @@ namespace Tempest{
 		VkImageView depth_image_view;
 		VkDeviceMemory depth_image_memory;
 		VkFormat depth_format;
+
 #endif // ENGINE_GRAPHIC_VULKAN
 	};
 }

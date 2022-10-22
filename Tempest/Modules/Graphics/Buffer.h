@@ -54,19 +54,22 @@ namespace Tempest
 		}
 	};
 
-	enum BufferType
-	{
-		Vetex, Index, Uniform
-	};
-
 	class BufferLayout
 	{
 	public:
-		BufferLayout() {}
-		BufferLayout(const Device& i_device, BufferType i_type, std::initializer_list<BufferUnit> i_units)
+		BufferLayout() = default;
+		~BufferLayout() = default;
+
+		BufferLayout(std::initializer_list<BufferUnit> i_units)
 		{
 			units.Convert(i_units);
-			CalculateOffsetsAndStride(i_device, i_type);
+			CalculateOffsetsAndStride();
+		}
+
+		void Init(std::initializer_list<BufferUnit> i_units)
+		{
+			units.Convert(i_units);
+			CalculateOffsetsAndStride();
 		}
 
 		Array<BufferUnit> units;
@@ -81,19 +84,13 @@ namespace Tempest
 		}
 
 	private:
-		void CalculateOffsetsAndStride(const Device& i_device, BufferType i_type)
+		void CalculateOffsetsAndStride()
 		{
 			size_t offset = 0;
 			stride = 0;
 
 			for (auto unit = units.Begin(); unit != units.End(); ++unit)
 			{
-				if (i_type == Uniform)
-				{
-					// TODO : This is not strictly correct, need to fix later
-					offset = (offset / i_device.min_buffer_offset_alignment + 1) * i_device.min_buffer_offset_alignment;
-				}
-
 				unit->offset = offset;
 				offset += unit->size;
 				stride += unit->size;

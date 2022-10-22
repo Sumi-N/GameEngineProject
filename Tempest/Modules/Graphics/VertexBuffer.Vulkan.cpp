@@ -1,78 +1,18 @@
 #include "VertexBuffer.h"
 
+#ifdef ENGINE_GRAPHIC_VULKAN
 namespace Tempest
 {
-#ifdef ENGINE_GRAPHIC_VULKAN
-
-	namespace
-	{
-		uint32_t FindMemoryType(VkPhysicalDevice physical_device, uint32_t type_filter, VkMemoryPropertyFlags properties)
-		{
-
-			VkPhysicalDeviceMemoryProperties memory_properties;
-			vkGetPhysicalDeviceMemoryProperties(physical_device, &memory_properties);
-
-			for (uint32_t i = 0; i < memory_properties.memoryTypeCount; i++)
-			{
-				if ((type_filter & (1 << i)) && (memory_properties.memoryTypes[i].propertyFlags & properties) == properties)
-				{
-					return i;
-				}
-			}
-
-			DEBUG_ASSERT(false);
-			return 0;
-		}
-
-		void CreateBuffer(VkPhysicalDevice physical_device, VkDevice logical_device, VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& buffer_memory)
-		{
-			VkBufferCreateInfo bufferInfo{};
-			bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-			bufferInfo.size = size;
-			bufferInfo.usage = usage;
-			bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-
-			auto create_result = vkCreateBuffer(logical_device, &bufferInfo, nullptr, &buffer);
-			DEBUG_ASSERT(create_result == VK_SUCCESS);
-
-			VkMemoryRequirements memory_requirements;
-			vkGetBufferMemoryRequirements(logical_device, buffer, &memory_requirements);
-
-			VkMemoryAllocateInfo alloc_info{};
-			alloc_info.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-			alloc_info.allocationSize = memory_requirements.size;
-			alloc_info.memoryTypeIndex = FindMemoryType(physical_device, memory_requirements.memoryTypeBits, properties);
-
-			auto allocate_result = vkAllocateMemory(logical_device, &alloc_info, nullptr, &buffer_memory);
-			DEBUG_ASSERT(allocate_result == VK_SUCCESS);
-
-			vkBindBufferMemory(logical_device, buffer, buffer_memory, 0);
-		}
-	}
-
-	void VertexBuffer::Init(const Device& i_device, const Shader& i_shader)
+	void VertexBuffer::Init(const Device& i_device,
+							BufferLayout i_buffer_layout,
+							const void* i_vertex_data,
+							uint32_t i_vertex_size,
+							const void* i_index_data,
+							uint32_t i_index_size)
 	{
 		device = &i_device;
-		stride = static_cast<uint32_t>(i_shader.vertex_stride);
-
-		binding_description.binding = 0;
-		binding_description.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-		//binding_description.stride = static_cast<uint32_t>(i_shader.vertex_stride);
-		binding_description.stride = 14 * 4;
-
-		attribute_descriptions.Resize(i_shader.vertex_info.Size());
-		for (int i = 0; i < attribute_descriptions.Size(); i++)
-		{
-			attribute_descriptions[i].binding = i_shader.vertex_info[i].binding;
-			attribute_descriptions[i].location = i_shader.vertex_info[i].location;
-			attribute_descriptions[i].format = static_cast<VkFormat>(i_shader.vertex_info[i].format);
-			attribute_descriptions[i].offset = i_shader.vertex_info[i].offset;
-		}
-	}
-
-	void VertexBuffer::InitData(const void* i_vertex_data, uint32_t i_vertex_size, const void* i_index_data, uint32_t i_index_size)
-	{
-		index_coount = i_index_size / sizeof(uint32_t);
+		layout = i_buffer_layout;
+		indecies_count = i_index_size / sizeof(uint32_t);
 
 		// Vertex attribute
 		{
@@ -133,6 +73,7 @@ namespace Tempest
 		}
 
 		// Index buffer
+		if(i_index_data)
 		{
 			VkBuffer stagingbuffer;
 			VkDeviceMemory stagingbuffer_memory;
@@ -189,17 +130,11 @@ namespace Tempest
 
 	void VertexBuffer::CleanUp() const
 	{
-	}
-
-	void VertexBuffer::CleanUpData() const
-	{
 		vkDestroyBuffer(device->logical_device, vertexbuffer, nullptr);
 		vkFreeMemory(device->logical_device, vertexbuffer_memory, nullptr);
 
 		vkDestroyBuffer(device->logical_device, indexbuffer, nullptr);
 		vkFreeMemory(device->logical_device, indexbuffer_memory, nullptr);
 	}
-
-#endif // ENGINE_GRAPHIC_OPENGL
-
 }
+#endif // ENGINE_GRAPHIC_OPENGL

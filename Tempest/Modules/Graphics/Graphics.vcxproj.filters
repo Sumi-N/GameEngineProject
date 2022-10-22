@@ -31,9 +31,6 @@
     <ClInclude Include="RenderState.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="DrawPrimitives.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="Define.h">
       <Filter>Precompiled Header</Filter>
     </ClInclude>
@@ -102,9 +99,6 @@
     <ClCompile Include="Define.cpp">
       <Filter>Precompiled Header</Filter>
     </ClCompile>
-    <ClCompile Include="VertexBuffer.OpenGL.cpp">
-      <Filter>OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="Device.Vulkan.cpp">
       <Filter>Vulkan</Filter>
     </ClCompile>
@@ -124,9 +118,6 @@
       <Filter>Vulkan</Filter>
     </ClCompile>
     <ClCompile Include="FrameBuffer.Vulkan.cpp">
-      <Filter>Vulkan</Filter>
-    </ClCompile>
-    <ClCompile Include="ConstantBuffer.Vulkan.cpp">
       <Filter>Vulkan</Filter>
     </ClCompile>
     <ClCompile Include="VertexBuffer.Vulkan.cpp">

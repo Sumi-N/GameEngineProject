@@ -1,5 +1,3 @@
-#include "DrawPrimitives.h"
-
 #ifdef  ENGINE_GRAPHIC_OPENGL
 namespace
 {

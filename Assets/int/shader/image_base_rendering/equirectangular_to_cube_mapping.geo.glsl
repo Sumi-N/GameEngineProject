@@ -1,9 +1,9 @@
 #version 430 core
 
 layout (triangles) in;
-layout (triangle_strip, max_vertices=18) out;
+layout (triangle_strip, max_vertices = 18) out;
 
-out vec4 fragpos;
+layout (location = 0) out vec4 fragpos;
 
 // Const data
 const int CUBE_FACE_NUM = 6;

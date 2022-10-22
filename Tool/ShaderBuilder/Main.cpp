@@ -358,12 +358,18 @@ int main()
 		directory + "debug_purpose\\albedomodel.frag.glsl", ""
 	};
 
-	String brdf_integration_map_paths[] = {
-		directory + "image_base_rendering\\brdf_integration_map.vert.glsl", "", "", "",
-		directory + "image_base_rendering\\brdf_integration_map.frag.glsl", ""
+	String specular_ibl[] = {
+		directory + "image_base_rendering\\specular_ibl.vert.glsl", "", "", "",
+		directory + "image_base_rendering\\specular_ibl.frag.glsl", ""
 	};
 
-	auto result = ConvertShaders(brdf_integration_map_paths);
+	String equirectangular_to_cube_mapping[] = {
+	directory + "image_base_rendering\\equirectangular_to_cube_mapping.vert.glsl", "", "",
+	directory + "image_base_rendering\\equirectangular_to_cube_mapping.geo.glsl",
+	directory + "image_base_rendering\\equirectangular_to_cube_mapping.frag.glsl", ""
+	};
+
+	auto result = ConvertShaders(equirectangular_to_cube_mapping);
 
 	DEBUG_ASSERT(result == ResultValue::Success);
 

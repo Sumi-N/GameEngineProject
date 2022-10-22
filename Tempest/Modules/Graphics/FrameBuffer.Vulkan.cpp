@@ -13,7 +13,7 @@ namespace Tempest
 		VkImageView image_views[] = {i_swapchain.GetImageView(index), i_swapchain.GetDepthImageView() };
 		VkFramebufferCreateInfo framebuffer_create_info{};
 		framebuffer_create_info.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-		framebuffer_create_info.renderPass = render_pass->render_pass;
+		framebuffer_create_info.renderPass = render_pass->renderpass;
 		framebuffer_create_info.attachmentCount = 2;
 		framebuffer_create_info.pAttachments = image_views;
 		framebuffer_create_info.width = i_swapchain.width;
@@ -33,7 +33,7 @@ namespace Tempest
 
 		VkFramebufferCreateInfo framebuffer_create_info{};
 		framebuffer_create_info.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-		framebuffer_create_info.renderPass = i_render_pass.render_pass;
+		framebuffer_create_info.renderPass = i_render_pass.renderpass;
 		framebuffer_create_info.attachmentCount = 1;
 		framebuffer_create_info.pAttachments = &i_texture.image_view;
 		framebuffer_create_info.width = width;

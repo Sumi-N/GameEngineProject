@@ -177,12 +177,14 @@ namespace Tempest
 
 		uint32_t         width;
 		uint32_t         height;
+		uint32_t         count;
 		Array<char>      pixels;
 		TextureFormat    format;
-		TextureInfoFlags aspect_flag {};
-		TextureInfoFlags usage_flag {};
-		bool             sampler_needed {false};
-		bool             has_data {false};
+		TextureInfoFlags aspect_flag{};
+		TextureInfoFlags usage_flag{};
+		uint32_t         additional_flag{};
+		bool             need_samper{false};
+		bool             has_data{false};
 
 
 		static Result Load(const char* i_filepath, TextureInfo& o_texture)
@@ -216,7 +218,8 @@ namespace Tempest
 			}
 
 			o_texture.has_data = true;
-			o_texture.sampler_needed = true;
+			o_texture.need_samper = true;
+			o_texture.count = 1;
 			o_texture.aspect_flag |= TextureAspect::COLOR_BIT_ASPECT;
 			size_t texture_size = o_texture.width * o_texture.height * GetTextureFormatSize(o_texture.format);
 			o_texture.pixels.Resize(texture_size);

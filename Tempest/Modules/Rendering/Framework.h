@@ -1,5 +1,6 @@
 #pragma once
 #include "Define.h"
+#include "PrimitiveDrawer.h"
 
 namespace Tempest
 {
@@ -28,42 +29,46 @@ namespace Tempest
 		static void Update(GraphicRequiredData*);
 		static void PostUpdate(GraphicRequiredData*);
 		static void ChangeViewportSize(uint32_t, uint32_t);
+
+		static const Device&    GetDevice()    { return device; };
+		static const SwapChain& GetSwapChain() { return swapchain; };
+
+	private:
+		static Device device;
+		static SwapChain swapchain;
+		static RenderPass renderpass;
+		static FrameBuffer framebuffers[3];
+
 	};
 
-	inline void Framework::Init(uint32_t i_width, uint32_t i_height)
-	{
-		//// Init viewport size for OpenGL
-		//ViewportWidth = i_width;
-		//ViewportHeight = i_height;
+	//inline void Framework::Init(uint32_t i_width, uint32_t i_height)
+	//{
+	//	// Init viewport size for OpenGL
+	//	ViewportWidth = i_width;
+	//	ViewportHeight = i_height;
 
-		//// Init uniform buffers
-		//ConstBufferCamera.Init(ConstantData::Index::Camera);
-		//ConstBufferModel.Init(ConstantData::Index::Model);
-		//ConstBufferMaterial.Init(ConstantData::Index::Material);
-		//ConstBufferLight.Init(ConstantData::Index::Light);
-		//ConstBufferSkybox.Init(ConstantData::Index::SkyBox);
-		//ConstBufferCubeMap.Init(ConstantData::Index::CubeMap);
-		//ConstBufferAnimationBone.Init(ConstantData::Index::AnimationBone);
+	//	// Init uniform buffers
+	//	ConstBufferCamera.Init(ConstantData::Index::Camera);
+	//	ConstBufferModel.Init(ConstantData::Index::Model);
+	//	ConstBufferMaterial.Init(ConstantData::Index::Material);
+	//	ConstBufferLight.Init(ConstantData::Index::Light);
+	//	ConstBufferSkybox.Init(ConstantData::Index::SkyBox);
+	//	ConstBufferCubeMap.Init(ConstantData::Index::CubeMap);
+	//	ConstBufferAnimationBone.Init(ConstantData::Index::AnimationBone);
 
-		//// Init frame buffers
-		//for (int i = 0; i < NUM_MAX_POINT_LIGHT; i++)
-		//{
-		//	FrameBufferShadowMaps[i].Init(FrameType::ShadowCubeMap, SHADOWMAP_BINDING_UNIT1 + i, BASIC_TEXTURE_SIZE, BASIC_TEXTURE_SIZE);
-		//}
-		//FrameBufferCubeMap.Init(FrameType::EquirectangularMap, SKYBOX_BINDING_UNIT, HALF_TEXTURE_SIZE, HALF_TEXTURE_SIZE);
-		//FrameBufferIrradiance.Init(FrameType::IrradianceMap, IRRADIANCEMAP_BINDING_UNIT, MINI_TEXTURE_SIZE, MINI_TEXTURE_SIZE);
-		//FrameBufferSpecular.Init(FrameType::Specular, SPECULAR_BINDING_UNIT, 128, 128);
-		//FrameBufferBrdf.Init(FrameType::BRDF, BRDF_BINDING_UNIT, 512, 512);
-		//FrameBufferImage.Init(FrameType::Image, IMAGE_BINDING_UNIT, ViewportWidth, ViewportHeight);
+	//	// Init frame buffers
+	//	for (int i = 0; i < NUM_MAX_POINT_LIGHT; i++)
+	//	{
+	//		FrameBufferShadowMaps[i].Init(FrameType::ShadowCubeMap, SHADOWMAP_BINDING_UNIT1 + i, BASIC_TEXTURE_SIZE, BASIC_TEXTURE_SIZE);
+	//	}
+	//	FrameBufferCubeMap.Init(FrameType::EquirectangularMap, SKYBOX_BINDING_UNIT, HALF_TEXTURE_SIZE, HALF_TEXTURE_SIZE);
+	//	FrameBufferIrradiance.Init(FrameType::IrradianceMap, IRRADIANCEMAP_BINDING_UNIT, MINI_TEXTURE_SIZE, MINI_TEXTURE_SIZE);
+	//	FrameBufferSpecular.Init(FrameType::Specular, SPECULAR_BINDING_UNIT, 128, 128);
+	//	FrameBufferBrdf.Init(FrameType::BRDF, BRDF_BINDING_UNIT, 512, 512);
+	//	FrameBufferImage.Init(FrameType::Image, IMAGE_BINDING_UNIT, ViewportWidth, ViewportHeight);
 
-		//// This class holds some of the basic geometry shapes (like cube line and quad) that will be used during the rendering
-		//DrawPrimitive::Init();
-		//DrawPrimitive::DebugInit();
-	}
-
-	inline void Framework::ChangeViewportSize(uint32_t i_width, uint32_t i_height)
-	{
-		/*ViewportWidth = i_width;
-		ViewportHeight = i_height;*/
-	}
+	//	// This class holds some of the basic geometry shapes (like cube line and quad) that will be used during the rendering
+	//	DrawPrimitive::Init();
+	//	DrawPrimitive::DebugInit();
+	//}
 }

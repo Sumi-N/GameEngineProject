@@ -106,10 +106,8 @@
     <ClCompile Include="RenderPass.Vulkan.cpp" />
     <ClCompile Include="Texture.Vulkan.cpp" />
     <ClCompile Include="UniformBuffer.Vulkan.cpp" />
-    <ClCompile Include="VertexBuffer.OpenGL.cpp" />
     <ClCompile Include="CommandBuffer.Vulkan.cpp" />
     <ClCompile Include="ConstantBuffer.OpenGL.cpp" />
-    <ClCompile Include="ConstantBuffer.Vulkan.cpp" />
     <ClCompile Include="Define.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -140,7 +138,6 @@
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Device.h" />
-    <ClInclude Include="DrawPrimitives.h" />
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="Pipeline.h" />
     <ClInclude Include="RenderState.h" />

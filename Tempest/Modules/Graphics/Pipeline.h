@@ -1,8 +1,6 @@
 #pragma once
 #include "Define.h"
 #include "Device.h"
-#include "SwapChain.h"
-#include "VertexBuffer.h"
 #include "RenderPass.h"
 #include "Descriptor.h"
 
@@ -14,7 +12,11 @@ namespace Tempest
 		Pipeline() = default;
 		~Pipeline() = default;
 
-		void Init(const Device&, const SwapChain&, const Shader&, const VertexBuffer&, const Descriptor&, const RenderPass&);
+		void Init(const Device& i_device,
+				  const Shader& i_shader,
+				  const Descriptor& i_descriptor,
+				  const RenderPass& i_renderpass,
+				  uint32_t vertex_stride);
 		void CleanUp();
 
 	private:

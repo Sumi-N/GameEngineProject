@@ -40,10 +40,9 @@ namespace Tempest
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 	public:
-		const VkFramebuffer& GetBuffer() const { return framebuffer; }
+		VkFramebuffer framebuffer{};
 
 	private:
-		VkFramebuffer framebuffer{};
 
 #endif // ENGINE_GRAPHIC_VULKAN
 	};

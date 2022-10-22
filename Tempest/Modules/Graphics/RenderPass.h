@@ -21,7 +21,7 @@ namespace Tempest
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 	public:
-		VkRenderPass render_pass;
+		VkRenderPass renderpass;
 
 	private:
 

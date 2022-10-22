@@ -105,7 +105,8 @@ namespace Tempest
 		case TextureFormat::R8G8A8_SRGB:           return VK_FORMAT_R8G8B8_SRGB;
 		case TextureFormat::R8G8B8A8_SRGB:         return VK_FORMAT_R8G8B8A8_SRGB;
 		case TextureFormat::R16G16_SFLOAT:         return VK_FORMAT_R16G16_SFLOAT;
-		case TextureFormat::R32G32B32_SFLOAT:      return VK_FORMAT_R16G16B16_SFLOAT;
+		case TextureFormat::R16G16B16A16_SFLOAT:   return VK_FORMAT_R16G16B16A16_SFLOAT;
+		case TextureFormat::R32G32B32_SFLOAT:      return VK_FORMAT_R32G32B32_SFLOAT;
 		case TextureFormat::D32_SFLOAT:            return VK_FORMAT_D32_SFLOAT;
 		case TextureFormat::D32_SFLOAT_S8_UINT:    return VK_FORMAT_D32_SFLOAT_S8_UINT;
 		case TextureFormat::D24_UNORM_S8_UINT:     return VK_FORMAT_D24_UNORM_S8_UINT;
@@ -129,7 +130,7 @@ namespace Tempest
 	{
 		device = &i_device;
 		const TextureInfo& info = i_textuer_info;
-		size = info.width * info.height * GetTextureFormatSize(info.format);
+		size = info.width * info.height * GetTextureFormatSize(info.format) * info.count;
 		format = GetFormat(info.format);
 		width = info.width;
 		height = info.height;
@@ -155,21 +156,28 @@ namespace Tempest
 		}
 
 		{
+			VkImageFormatProperties image_format_properties;
+			vkGetPhysicalDeviceImageFormatProperties(device->physical_device, format,
+													 VK_IMAGE_TYPE_2D, VK_IMAGE_TILING_OPTIMAL,
+													 GetUsage(info.usage_flag), info.additional_flag, &image_format_properties);
+
+			bool has_tiling_optimal = image_format_properties.maxResourceSize != 0;
+
 			VkImageCreateInfo image_info{};
 			image_info.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
 			image_info.imageType = VK_IMAGE_TYPE_2D;
-			image_info.extent.width = static_cast<uint32_t>(info.width);
-			image_info.extent.height = static_cast<uint32_t>(info.width);
+			image_info.extent.width = info.width;
+			image_info.extent.height = info.width;
 			image_info.extent.depth = 1;
 			image_info.mipLevels = 1;
-			image_info.arrayLayers = 1;
+			image_info.arrayLayers = info.count;
 			image_info.format = format;
-			image_info.tiling = VK_IMAGE_TILING_OPTIMAL;
+			image_info.tiling = has_tiling_optimal ?  VK_IMAGE_TILING_OPTIMAL : VK_IMAGE_TILING_LINEAR;
 			image_info.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 			image_info.usage = GetUsage(info.usage_flag);
 			image_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 			image_info.samples = VK_SAMPLE_COUNT_1_BIT;
-			image_info.flags = 0;
+			image_info.flags = info.additional_flag;
 
 			auto image_create_result = vkCreateImage(device->logical_device, &image_info, nullptr, &image);
 			DEBUG_ASSERT(image_create_result == VK_SUCCESS);
@@ -209,7 +217,7 @@ namespace Tempest
 				region.imageSubresource.aspectMask = aspect;
 				region.imageSubresource.mipLevel = 0;
 				region.imageSubresource.baseArrayLayer = 0;
-				region.imageSubresource.layerCount = 1;
+				region.imageSubresource.layerCount = info.count;
 				region.imageOffset = { 0, 0, 0 };
 				region.imageExtent = { static_cast<uint32_t>(info.width), static_cast<uint32_t>(info.height), 1 };
 
@@ -230,6 +238,9 @@ namespace Tempest
 
 			vkQueueSubmit(device->queue, 1, &submit_info, VK_NULL_HANDLE);
 			vkQueueWaitIdle(device->queue);
+
+			vkDestroyBuffer(device->logical_device, stagingbuffer, nullptr);
+			vkFreeMemory(device->logical_device, stagingbuffer_memory, nullptr);
 		}
 
 		// Create image view
@@ -237,20 +248,20 @@ namespace Tempest
 			VkImageViewCreateInfo view_info{};
 			view_info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
 			view_info.image = image;
-			view_info.viewType = VK_IMAGE_VIEW_TYPE_2D;
+			view_info.viewType = info.count == 1 ? VK_IMAGE_VIEW_TYPE_2D : VK_IMAGE_VIEW_TYPE_CUBE;
 			view_info.format = format;
 			view_info.subresourceRange.aspectMask = aspect;
 			view_info.subresourceRange.baseMipLevel = 0;
 			view_info.subresourceRange.levelCount = 1;
 			view_info.subresourceRange.baseArrayLayer = 0;
-			view_info.subresourceRange.layerCount = 1;
+			view_info.subresourceRange.layerCount = info.count;
 
 			auto image_view_create_result = vkCreateImageView(device->logical_device, &view_info, nullptr, &image_view);
 			DEBUG_ASSERT(image_view_create_result == VK_SUCCESS);
 		}
 
 		// Create sampler
-		if(info.sampler_needed)
+		if(info.need_samper)
 		{
 			VkSamplerCreateInfo sampler_info{};
 			sampler_info.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
