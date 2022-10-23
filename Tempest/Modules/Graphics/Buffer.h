@@ -143,7 +143,7 @@ namespace Tempest
 			auto create_result = vkCreateBuffer(logical_device, &buffer_info, nullptr, &buffer);
 			DEBUG_ASSERT(create_result == VK_SUCCESS)
 
-				VkMemoryRequirements memory_requirements;
+			VkMemoryRequirements memory_requirements;
 			vkGetBufferMemoryRequirements(logical_device, buffer, &memory_requirements);
 
 			VkMemoryAllocateInfo alloc_info{};
@@ -154,7 +154,8 @@ namespace Tempest
 			auto allocate_result = vkAllocateMemory(logical_device, &alloc_info, nullptr, &buffer_memory);
 			DEBUG_ASSERT(allocate_result == VK_SUCCESS)
 
-				vkBindBufferMemory(logical_device, buffer, buffer_memory, 0);
+			auto bind_result = vkBindBufferMemory(logical_device, buffer, buffer_memory, 0);
+			DEBUG_ASSERT(bind_result == VK_SUCCESS);
 		}
 #endif
 	};

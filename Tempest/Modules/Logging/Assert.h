@@ -28,8 +28,8 @@ namespace DEBUG
 		}\
 	}
 #else
-#define DEBUG_ASSERT(i_assertion) void(0)
-#define DEBUG_ASSERT_WITHMESSAGE(i_assertion, i_messagetodisplay, ...) void(0)
+#define DEBUG_ASSERT(i_assertion) void(0);
+#define DEBUG_ASSERT_WITHMESSAGE(i_assertion, i_messagetodisplay, ...) void(0);
 #endif //  defined(_DEBUG)
 
 

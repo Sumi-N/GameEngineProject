@@ -21,9 +21,9 @@
 #define ENGINE_GRAPHIC_VULKAN 1
 
 #ifdef ENGINE_GRAPHIC_VULKAN
-#ifdef _DEBUG
+//#ifdef _DEBUG
 	#define ENABLE_VULKAN_VALIDATION_LAYERS
-#endif
+//#endif
 #endif
 
 //  Asking GLEW to compile with static library
