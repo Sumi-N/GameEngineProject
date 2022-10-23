@@ -38,7 +38,7 @@ namespace Tempest
 		framebuffer_create_info.pAttachments = &i_texture.image_view;
 		framebuffer_create_info.width = width;
 		framebuffer_create_info.height = height;
-		framebuffer_create_info.layers = 1;
+		framebuffer_create_info.layers = i_texture.count;
 
 		const VkResult& result = vkCreateFramebuffer(device->logical_device, &framebuffer_create_info, nullptr, &framebuffer);
 		DEBUG_ASSERT(result == VK_SUCCESS);

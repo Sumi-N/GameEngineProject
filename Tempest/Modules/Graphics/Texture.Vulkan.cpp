@@ -105,6 +105,7 @@ namespace Tempest
 		case TextureFormat::R8G8A8_SRGB:           return VK_FORMAT_R8G8B8_SRGB;
 		case TextureFormat::R8G8B8A8_SRGB:         return VK_FORMAT_R8G8B8A8_SRGB;
 		case TextureFormat::R16G16_SFLOAT:         return VK_FORMAT_R16G16_SFLOAT;
+		case TextureFormat::R16G16B16_SFLOAT:      return VK_FORMAT_R16G16B16_SFLOAT;
 		case TextureFormat::R16G16B16A16_SFLOAT:   return VK_FORMAT_R16G16B16A16_SFLOAT;
 		case TextureFormat::R32G32B32_SFLOAT:      return VK_FORMAT_R32G32B32_SFLOAT;
 		case TextureFormat::D32_SFLOAT:            return VK_FORMAT_D32_SFLOAT;
@@ -134,6 +135,7 @@ namespace Tempest
 		format = GetFormat(info.format);
 		width = info.width;
 		height = info.height;
+		count = info.count;
 		aspect = GetAspect(info.aspect_flag);
 
 		VkBuffer stagingbuffer {};
@@ -167,7 +169,7 @@ namespace Tempest
 			image_info.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
 			image_info.imageType = VK_IMAGE_TYPE_2D;
 			image_info.extent.width = info.width;
-			image_info.extent.height = info.width;
+			image_info.extent.height = info.height;
 			image_info.extent.depth = 1;
 			image_info.mipLevels = 1;
 			image_info.arrayLayers = info.count;

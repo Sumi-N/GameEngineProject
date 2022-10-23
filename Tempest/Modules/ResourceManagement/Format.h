@@ -75,6 +75,7 @@ namespace Tempest
 		case TextureFormat::R8G8A8_SRGB:           return 3;
 		case TextureFormat::R8G8B8A8_SRGB:         return 4;
 		case TextureFormat::R16G16_SFLOAT:         return 8;
+		case TextureFormat::R16G16B16_SFLOAT:      return 12;
 		case TextureFormat::R16G16B16A16_SFLOAT:   return 16;
 		case TextureFormat::R32G32B32_SFLOAT:      return 24;
 		case TextureFormat::D32_SFLOAT:            return 8;

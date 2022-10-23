@@ -13,8 +13,9 @@ namespace Tempest
 		void Init(const Device&, const TextureInfo&);
 		void CleanUp();
 
-		int width;
-		int height;
+		uint32_t width;
+		uint32_t height;
+		uint32_t count;
 
 	private:
 		const Device* device;

@@ -129,14 +129,31 @@ namespace Tempest
 	void Framework::PreCompute()
 	{
 		specular_ibl_image.Init(device);
-
-		diffuse_irradiance_ibl_image.Init(device);
-
 		{
 			commandbuffers[current_frame].BeginCommand();
 
-			specular_ibl_image.SetCommandBuffer(commandbuffers[current_frame]);
-			diffuse_irradiance_ibl_image.SetCommandBuffer(commandbuffers[current_frame]);
+			specular_ibl_image.BindFrameBuffer(commandbuffers[current_frame]);
+			specular_ibl_image.BindDescriptor(commandbuffers[current_frame]);
+			PrimitiveDrawer::DrawQuad(commandbuffers[current_frame]);
+
+			commandbuffers[current_frame].EndCommand();
+
+			VkSubmitInfo submit_info{};
+			submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+			submit_info.commandBufferCount = 1;
+			submit_info.pCommandBuffers = &commandbuffers[current_frame].commandbuffer;
+
+			auto queue_submi_result = vkQueueSubmit(device.queue, 1, &submit_info, nullptr);
+			DEBUG_ASSERT(queue_submi_result == VK_SUCCESS);
+		}
+
+		diffuse_irradiance_ibl_image.Init(device);
+		{
+			commandbuffers[current_frame].BeginCommand();
+
+			diffuse_irradiance_ibl_image.BindFrameBuffer(commandbuffers[current_frame]);
+			diffuse_irradiance_ibl_image.BindDescriptor(commandbuffers[current_frame]);
+			PrimitiveDrawer::DrawCube(commandbuffers[current_frame]);
 
 			commandbuffers[current_frame].EndCommand();
 

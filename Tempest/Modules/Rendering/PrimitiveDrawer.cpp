@@ -139,7 +139,7 @@ namespace Tempest
 
 	void PrimitiveDrawer::DrawCube(const CommandBuffer& i_commandbuffer)
 	{
-		i_commandbuffer.Draw(VertexBufferQuad);
+		i_commandbuffer.Draw(VertexBufferCube);
 	}
 
 	void PrimitiveDrawer::DrawQuad(const CommandBuffer& i_commandbuffer)

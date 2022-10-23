@@ -68,16 +68,17 @@ namespace Tempest
 			descriptor.Init(i_device, shader);
 			descriptor.Bind(equirectangular_texture, 2);
 			descriptor.Bind(cubemap_uniform, 5);
-			pipeline.Init(i_device, shader, descriptor, renderpass, 20);
+			pipeline.Init(i_device, shader, descriptor, renderpass, 32);
 		}
 
-		void SetCommandBuffer(const CommandBuffer& i_commandbuffer)
+		void BindFrameBuffer(const CommandBuffer& i_commandbuffer)
 		{
 			i_commandbuffer.BindFrameBuffer(framebuffer, renderpass);
+		}
 
+		void BindDescriptor(const CommandBuffer& i_commandbuffer)
+		{
 			i_commandbuffer.BindDescriptor(0, descriptor, pipeline);
-
-			PrimitiveDrawer::DrawCube(i_commandbuffer);
 		}
 
 		void CleanUp()
