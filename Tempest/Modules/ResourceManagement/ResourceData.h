@@ -243,7 +243,7 @@ namespace Tempest
 	{
 		int binding;
 		size_t size;
-		String name;
+		//String name;
 		ShaderDescriptorType type;
 		int stage;
 	};

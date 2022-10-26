@@ -108,7 +108,7 @@ namespace Tempest
 
 		BufferUnit const_model1{ BufferFormat::Mat4, "model_position_matrix" };
 		BufferUnit const_model2{ BufferFormat::Mat4, "model_view_perspevtive_matrix" };
-		BufferUnit const_model3{ BufferFormat::Mat3, "model_inverse_transpose_matrix" };
+		BufferUnit const_model3{ BufferFormat::Mat4, "model_inverse_transpose_matrix" };
 		model_uniform_layout.Init({ const_model1, const_model2, const_model3 });
 		uniformbuffer_model.Init(device, model_uniform_layout);
 

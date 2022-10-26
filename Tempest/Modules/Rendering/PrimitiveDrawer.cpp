@@ -93,8 +93,8 @@ namespace Tempest
 
 		const Device& device = Framework::GetDevice();
 
-		uint32_t vetex_size = static_cast<uint32_t>(sizeof(vertices) * sizeof(float));
-		uint32_t index_size = static_cast<uint32_t>(sizeof(indices) * sizeof(uint32_t));
+		uint32_t vetex_size = static_cast<uint32_t>(sizeof(vertices));
+		uint32_t index_size = static_cast<uint32_t>(sizeof(indices));
 		VertexBufferCube.Init(device, VertexLayoutCube, vertices, vetex_size, indices, index_size);
 	}
 
@@ -115,8 +115,8 @@ namespace Tempest
 
 		const Device& device = Framework::GetDevice();
 
-		uint32_t vetex_size = static_cast<uint32_t>(sizeof(vertices) * sizeof(float));
-		uint32_t index_size = static_cast<uint32_t>(sizeof(indices) * sizeof(uint32_t));
+		uint32_t vetex_size = static_cast<uint32_t>(sizeof(vertices));
+		uint32_t index_size = static_cast<uint32_t>(sizeof(indices));
 		VertexBufferQuad.Init(device, VertexLayoutQuad, vertices, vetex_size, indices, index_size);
 	}
 
