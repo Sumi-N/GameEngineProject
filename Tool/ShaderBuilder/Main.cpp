@@ -144,13 +144,13 @@ static uint32_t FormatSize(VkFormat format)
 
 using namespace Tempest;
 
-Result ConvertShaders(String* i_file_names)
+Result ConvertShaders(String output_file_name, String* i_file_names)
 {
 	// Initialize compiler
 	shaderc_compiler_t compiler = shaderc_compiler_initialize();
 
 	// Open the destination file
-	String output_name = File::RemoveExtension(File::RemoveExtension(File::GetFileName(i_file_names[0])));
+	String output_name = output_file_name;
 	String output_path = "..\\..\\" BIN_SHADER_PATH + output_name + ".ts";
 	File out(output_path, File::Format::BinaryWrite);
 	RETURN_IFNOT_SUCCESS(out.Open());
@@ -287,7 +287,7 @@ Result ConvertShaders(String* i_file_names)
 						const SpvReflectBlockVariable& binding_obj_block = binding_obj.block;
 
 						uniform_infos[i].binding = binding_obj.binding;
-						uniform_infos[i].name = binding_obj.name;
+						//uniform_infos[i].name = binding_obj.name;
 						uniform_infos[i].type = static_cast<ShaderDescriptorType>(binding_obj.descriptor_type);
 						uniform_infos[i].stage = static_cast<int>(module.shader_stage);
 						uniform_infos[i].size = binding_obj_block.size;
@@ -369,7 +369,21 @@ int main()
 	directory + "image_base_rendering\\equirectangular_to_cube_mapping.frag.glsl", ""
 	};
 
-	auto result = ConvertShaders(equirectangular_to_cube_mapping);
+	String cubemap_diffuse_convolution[] = {
+	directory + "image_base_rendering\\equirectangular_to_cube_mapping.vert.glsl", "", "",
+	directory + "image_base_rendering\\equirectangular_to_cube_mapping.geo.glsl",
+	directory + "image_base_rendering\\cubemap_diffuse_convolution.frag.glsl", ""
+	};
+
+	String cubemap_specular_convolution[] = {
+	directory + "image_base_rendering\\equirectangular_to_cube_mapping.vert.glsl", "", "",
+	directory + "image_base_rendering\\equirectangular_to_cube_mapping.geo.glsl",
+	directory + "image_base_rendering\\cubemap_specular_convolution.frag.glsl", ""
+	};
+
+	//auto result = ConvertShaders("equirectangular_to_cube_mapping", equirectangular_to_cube_mapping);
+	//auto result = ConvertShaders("cubemap_diffuse_convolution", cubemap_diffuse_convolution);
+	auto result = ConvertShaders("cubemap_specular_convolution", cubemap_specular_convolution);
 
 	DEBUG_ASSERT(result == ResultValue::Success);
 

@@ -24,8 +24,9 @@ namespace Tempest
 			texture.Init(i_device, texture_info);
 			renderpass.Init(i_device, texture);
 			framebuffer.Init(i_device, renderpass, texture);
+			descriptor.Bind(PrimitiveDrawer::VertexBufferQuad);
 			descriptor.Init(i_device, shader);
-			pipeline.Init(i_device, shader, descriptor, renderpass, 20);
+			pipeline.Init(i_device, shader, descriptor, renderpass);
 		}
 
 		void BindFrameBuffer(const CommandBuffer& i_commandbuffer)

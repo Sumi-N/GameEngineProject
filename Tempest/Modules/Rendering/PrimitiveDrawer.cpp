@@ -5,19 +5,16 @@
 #ifdef  ENGINE_GRAPHIC_VULKAN
 namespace Tempest
 {
-	namespace
-	{
-		VertexBuffer VertexBufferCube;
-		VertexBuffer VertexBufferQuad;
+	VertexBuffer PrimitiveDrawer::VertexBufferCube;
+	VertexBuffer PrimitiveDrawer::VertexBufferQuad;
 
-		BufferLayout VertexLayoutCube({
-			BufferUnit(BufferFormat::Float3, "vertex"),
-			BufferUnit(BufferFormat::Float3, "normal"),
-			BufferUnit(BufferFormat::Float2, "texcoord") });
-		BufferLayout VertexLayoutQuad({
-			BufferUnit(BufferFormat::Float3, "vertex"),
-			BufferUnit(BufferFormat::Float2, "texcoord") });
-	}
+	BufferLayout VertexLayoutCube({
+		BufferUnit(BufferFormat::Float3, "vertex"),
+		BufferUnit(BufferFormat::Float3, "normal"),
+		BufferUnit(BufferFormat::Float2, "texcoord") });
+	BufferLayout VertexLayoutQuad({
+		BufferUnit(BufferFormat::Float3, "vertex"),
+		BufferUnit(BufferFormat::Float2, "texcoord") });
 
 	void PrimitiveDrawer::Init()
 	{

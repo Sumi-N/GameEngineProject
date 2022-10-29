@@ -2,9 +2,9 @@
 
 const float PI = 3.14159265359;
 
-out vec4 color;
+layout (location = 0) in vec4 fragpos;
 
-in vec4 fragpos;
+layout (location = 0) out vec4 color;
 
 layout(binding = 0) uniform samplerCube equirectangularmap;
 

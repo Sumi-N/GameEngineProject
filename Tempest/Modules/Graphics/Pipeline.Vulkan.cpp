@@ -2,7 +2,7 @@
 
 namespace Tempest
 {
-	void Pipeline::Init(const Device& i_device, const Shader& i_shader, const Descriptor& i_descriptor, const RenderPass& i_renderpass, uint32_t i_vertex_stride)
+	void Pipeline::Init(const Device& i_device, const Shader& i_shader, const Descriptor& i_descriptor, const RenderPass& i_renderpass)
 	{
 		device = &i_device;
 
@@ -59,7 +59,7 @@ namespace Tempest
 		VkVertexInputBindingDescription binding_description;
 		binding_description.binding = 0;
 		binding_description.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-		binding_description.stride = i_vertex_stride;
+		binding_description.stride = i_descriptor.vertex_stride;
 
 		VkPipelineVertexInputStateCreateInfo vertex_input_create_info{};
 		vertex_input_create_info.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;

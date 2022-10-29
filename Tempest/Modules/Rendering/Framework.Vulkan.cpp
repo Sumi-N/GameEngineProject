@@ -114,11 +114,12 @@ namespace Tempest
 
 		texture.Init(device, texture_info);
 
+		descriptor.Bind(vertexbuffer);
 		descriptor.Bind(uniformbuffer_camera, 0);
 		descriptor.Bind(uniformbuffer_model, 1);
 		descriptor.Bind(texture, 2);
 
-		pipeline.Init(device, shader, descriptor, renderpass, sizeof(MeshPoint));
+		pipeline.Init(device, shader, descriptor, renderpass);
 	}
 
 	void Framework::CleanUp()
@@ -128,45 +129,47 @@ namespace Tempest
 
 	void Framework::PreCompute()
 	{
-		//specular_ibl_image.Init(device);
-		//{
-		//	commandbuffers[current_frame].BeginCommand();
+		specular_ibl_image.Init(device);
+		{
+			commandbuffers[current_frame].BeginCommand();
 
-		//	specular_ibl_image.BindFrameBuffer(commandbuffers[current_frame]);
-		//	specular_ibl_image.BindDescriptor(commandbuffers[current_frame]);
-		//	PrimitiveDrawer::DrawQuad(commandbuffers[current_frame]);
+			specular_ibl_image.BindFrameBuffer(commandbuffers[current_frame]);
+			specular_ibl_image.BindDescriptor(commandbuffers[current_frame]);
+			PrimitiveDrawer::DrawQuad(commandbuffers[current_frame]);
 
-		//	commandbuffers[current_frame].EndCommand();
+			commandbuffers[current_frame].EndCommand();
 
-		//	VkSubmitInfo submit_info{};
-		//	submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-		//	submit_info.commandBufferCount = 1;
-		//	submit_info.pCommandBuffers = &commandbuffers[current_frame].commandbuffer;
+			VkSubmitInfo submit_info{};
+			submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+			submit_info.commandBufferCount = 1;
+			submit_info.pCommandBuffers = &commandbuffers[current_frame].commandbuffer;
 
-		//	auto queue_submi_result = vkQueueSubmit(device.queue, 1, &submit_info, nullptr);
-		//	DEBUG_ASSERT(queue_submi_result == VK_SUCCESS);
+			auto queue_submi_result = vkQueueSubmit(device.queue, 1, &submit_info, nullptr);
+			DEBUG_ASSERT(queue_submi_result == VK_SUCCESS);
 
-		//	vkQueueWaitIdle(device.queue);
-		//}
+			vkQueueWaitIdle(device.queue);
+		}
 
-		//diffuse_irradiance_ibl_image.Init(device);
-		//{
-		//	commandbuffers[current_frame].BeginCommand();
+		diffuse_irradiance_ibl_image.Init(device);
+		{
+			commandbuffers[current_frame].BeginCommand();
 
-		//	diffuse_irradiance_ibl_image.BindFrameBuffer(commandbuffers[current_frame]);
-		//	diffuse_irradiance_ibl_image.BindDescriptor(commandbuffers[current_frame]);
-		//	PrimitiveDrawer::DrawCube(commandbuffers[current_frame]);
+			diffuse_irradiance_ibl_image.BindFrameBuffer(commandbuffers[current_frame]);
+			diffuse_irradiance_ibl_image.BindDescriptor(commandbuffers[current_frame]);
+			PrimitiveDrawer::DrawCube(commandbuffers[current_frame]);
 
-		//	commandbuffers[current_frame].EndCommand();
+			commandbuffers[current_frame].EndCommand();
 
-		//	VkSubmitInfo submit_info{};
-		//	submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-		//	submit_info.commandBufferCount = 1;
-		//	submit_info.pCommandBuffers = &commandbuffers[current_frame].commandbuffer;
+			VkSubmitInfo submit_info{};
+			submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+			submit_info.commandBufferCount = 1;
+			submit_info.pCommandBuffers = &commandbuffers[current_frame].commandbuffer;
 
-		//	auto queue_submi_result = vkQueueSubmit(device.queue, 1, &submit_info, nullptr);
-		//	DEBUG_ASSERT(queue_submi_result == VK_SUCCESS);
-		//}
+			auto queue_submi_result = vkQueueSubmit(device.queue, 1, &submit_info, nullptr);
+			DEBUG_ASSERT(queue_submi_result == VK_SUCCESS);
+
+			vkQueueWaitIdle(device.queue);
+		}
 	}
 
 	void Framework::PreUpdate(GraphicRequiredData* i_data)

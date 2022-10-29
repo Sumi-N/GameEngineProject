@@ -14,9 +14,9 @@ namespace Tempest
 		void Init(const Device& i_device,
 				  BufferLayout i_buffer_layout,
 				  const void* i_vertex_data,
-				  uint32_t i_vertex_size,
+				  size_t i_vertex_size,
 				  const void * i_index_data,
-				  uint32_t i_index_size);
+				  size_t i_index_size);
 		void CleanUp() const;
 
 		uint32_t indecies_count;

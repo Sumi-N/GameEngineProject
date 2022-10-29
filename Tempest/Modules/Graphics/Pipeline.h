@@ -15,8 +15,7 @@ namespace Tempest
 		void Init(const Device& i_device,
 				  const Shader& i_shader,
 				  const Descriptor& i_descriptor,
-				  const RenderPass& i_renderpass,
-				  uint32_t vertex_stride);
+				  const RenderPass& i_renderpass);
 		void CleanUp();
 
 	private:

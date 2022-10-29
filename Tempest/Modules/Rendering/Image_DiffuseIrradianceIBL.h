@@ -34,7 +34,6 @@ namespace Tempest
 
 			// Create uniform date for 6 directions of the cube map
 			{
-				Mat4f pv_mats[6];
 				Mat4f view[6];
 				Mat4f projection = Mat4f::Perspective(90, 1, Graphics::NearClip, Graphics::FarClip);
 
@@ -47,7 +46,7 @@ namespace Tempest
 
 				for (int i = 0; i < 6; i++)
 				{
-					pv_mats[i] = projection * view[i];
+					projection_matrxs[i] = projection * view[i];
 				}
 
 				BufferUnit const_shadow1{ BufferFormat::Mat4, "view_perspective_matrix0" };
@@ -60,15 +59,16 @@ namespace Tempest
 				BufferLayout cubemap_uniform_layout;
 				cubemap_uniform_layout.Init({ const_shadow1, const_shadow2, const_shadow3, const_shadow4, const_shadow5, const_shadow6, const_shadow7});
 				cubemap_uniform.Init(i_device, cubemap_uniform_layout);
-				cubemap_uniform.Update(0, pv_mats, sizeof(Mat4f) * 6, 0);
+				cubemap_uniform.Update(0, projection_matrxs, sizeof(Mat4f) * 6, 0);
 			}
 
 			renderpass.Init(i_device, cubemap_texture);
 			framebuffer.Init(i_device, renderpass, cubemap_texture);
 			descriptor.Init(i_device, shader);
+			descriptor.Bind(PrimitiveDrawer::VertexBufferCube);
 			descriptor.Bind(equirectangular_texture, 2);
 			descriptor.Bind(cubemap_uniform, 5);
-			pipeline.Init(i_device, shader, descriptor, renderpass, 32);
+			pipeline.Init(i_device, shader, descriptor, renderpass);
 		}
 
 		void BindFrameBuffer(const CommandBuffer& i_commandbuffer)
@@ -96,5 +96,7 @@ namespace Tempest
 		RenderPass renderpass;
 		FrameBuffer framebuffer;
 		Descriptor descriptor;
+
+		Mat4f projection_matrxs[6];
 	};
 }

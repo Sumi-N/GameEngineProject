@@ -1,11 +1,14 @@
 #version 430 core
 
-out vec4 color;
+layout (location = 0) in vec4 fragpos;
 
-in vec4 fragpos;
+layout (location = 0) out vec4 color;
 
 layout(binding = 0) uniform samplerCube equirectangularmap;
-uniform float roughness;
+layout(std140, binding = 1) uniform const_roughness
+{
+    float roughness;
+};
 
 const float PI = 3.14159265359;
 

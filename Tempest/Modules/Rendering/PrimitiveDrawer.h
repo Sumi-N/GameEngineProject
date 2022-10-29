@@ -11,6 +11,9 @@ namespace Tempest
 		static void DrawCube(const CommandBuffer& i_commandbuffer);
 		static void DrawQuad(const CommandBuffer& i_commandbuffer);
 
+		static VertexBuffer VertexBufferCube;
+		static VertexBuffer VertexBufferQuad;
+
 	private:
 		static void InitCube();
 		static void InitQuad();
