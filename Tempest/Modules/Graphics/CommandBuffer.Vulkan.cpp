@@ -36,6 +36,10 @@ namespace Tempest
 
 	void CommandBuffer::BindFrameBuffer(const FrameBuffer& i_framebuffer, const RenderPass& i_renderpass) const
 	{
+		VkClearValue clearcolor[2];
+		clearcolor[0].color = { {0.0f, 0.0f, 0.0f, 1.0f} };
+		clearcolor[1].depthStencil = { 1.0f, 0 };
+
 		VkRenderPassBeginInfo renderpass_begin_info{};
 		{
 			renderpass_begin_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
@@ -43,11 +47,6 @@ namespace Tempest
 			renderpass_begin_info.framebuffer = i_framebuffer.framebuffer;
 			renderpass_begin_info.renderArea.offset = { 0, 0 };
 			renderpass_begin_info.renderArea.extent = { i_framebuffer.width, i_framebuffer.height };
-
-			VkClearValue clearcolor[2];
-			clearcolor[0].color = { {0.0f, 0.0f, 0.0f, 1.0f} };
-			clearcolor[1].depthStencil = { 1.0f, 0 };
-
 			renderpass_begin_info.clearValueCount = 2;
 			renderpass_begin_info.pClearValues = clearcolor;
 		}
