@@ -87,17 +87,17 @@ namespace Tempest
 	void Framework::Init(uint32_t, uint32_t)
 	{
 		Mesh skybox;
-		Mesh::Load("D:/GameEngineProject/Assets/bin/mesh/cubemap.tm", skybox);
+		Mesh::Load(PATH_SUFFIX BIN_MESH_PATH "cubemap.tm", skybox);
 
 		Mesh mesh;
-		Mesh::Load("D:/GameEngineProject/Assets/bin/mesh/SK_PlayerCharacter.tm", mesh);
+		Mesh::Load(PATH_SUFFIX BIN_MESH_PATH "SK_PlayerCharacter.tm", mesh);
 
 		Mesh mesh2;
-		Mesh::Load("D:/GameEngineProject/Assets/bin/mesh/teapot.tm", mesh2);
+		Mesh::Load(PATH_SUFFIX BIN_MESH_PATH "teapot.tm", mesh2);
 		TextureInfo texture_info;
-		TextureInfo::Load("D:/GameEngineProject/Assets/bin/texture/albedo/CharacterBody_BaseColor.tt", texture_info);
+		TextureInfo::Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo/CharacterBody_BaseColor.tt", texture_info);
 
-		Shader::Load("D:/GameEngineProject/Assets/bin/shader/albedomodel.ts", shader);
+		Shader::Load(PATH_SUFFIX BIN_SHADER_PATH "albedomodel.ts", shader);
 
 		descriptor.Init(device, shader);
 
@@ -231,7 +231,7 @@ namespace Tempest
 		skybox_uniform_layout.Init({ const_skybox });
 		uniformbuffer_skybox.Init(device, skybox_uniform_layout);
 
-		Shader::Load("D:/GameEngineProject/Assets/bin/shader/skybox.ts", skybox_shader);
+		Shader::Load(PATH_SUFFIX BIN_SHADER_PATH "skybox.ts", skybox_shader);
 		skybox_descriptor.Init(device, skybox_shader);
 		skybox_descriptor.Bind(skyboxvertexbuffer);
 		skybox_descriptor.Bind(cubemap_image.cubemap_texture, 0);

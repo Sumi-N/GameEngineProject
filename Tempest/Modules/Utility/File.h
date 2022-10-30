@@ -27,6 +27,7 @@ namespace Tempest
 		String GetExtensionName() const {return filepath.extension().string(); }
 		String GetPathName()      const {return filepath.parent_path().string(); }
 		String GetFileName()      const {return filepath.filename().string(); }
+		void   SetFileName(String i_filename) { filepath = i_filename; };
 
 		Result Open();
 		void   Close();

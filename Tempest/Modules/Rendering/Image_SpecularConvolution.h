@@ -16,7 +16,7 @@ namespace Tempest
 				cubemap_texture_info.width = 512;
 				cubemap_texture_info.height = 512;
 				cubemap_texture_info.count = 6;
-				cubemap_texture_info.mip_count = 10;
+				cubemap_texture_info.mip_count = 1;
 				cubemap_texture_info.need_samper = true;
 				cubemap_texture_info.has_data = false;
 				cubemap_texture_info.format = TextureFormat::R16G16B16A16_SFLOAT;

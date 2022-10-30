@@ -49,7 +49,12 @@ namespace Tempest
 		{
 			File in(i_filepath, File::Format::BinaryRead);
 
-			RETURN_IFNOT_SUCCESS(in.Open())
+			auto result = in.Open();
+			if (result != ResultValue::Success)
+			{
+				in.SetFileName(PATH_SUFFIX_FROM_EXE + String(i_filepath));
+				RETURN_IFNOT_SUCCESS(in.Open());
+			}
 
 			size_t num_joint;
 			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(&num_joint), sizeof(size_t)));
@@ -87,7 +92,12 @@ namespace Tempest
 		{
 			File in(i_filepath, File::Format::BinaryRead);
 
-			RETURN_IFNOT_SUCCESS(in.Open())
+			auto result = in.Open();
+			if (result != ResultValue::Success)
+			{
+				in.SetFileName(PATH_SUFFIX_FROM_EXE + String(i_filepath));
+				RETURN_IFNOT_SUCCESS(in.Open());
+			}
 
 			size_t num_sample;
 			size_t num_joint;
@@ -119,7 +129,12 @@ namespace Tempest
 		{
 			File in(i_filepath, File::Format::BinaryRead);
 
-			RETURN_IFNOT_SUCCESS(in.Open())
+			auto result = in.Open();
+			if (result != ResultValue::Success)
+			{
+				in.SetFileName(PATH_SUFFIX_FROM_EXE + String(i_filepath));
+				RETURN_IFNOT_SUCCESS(in.Open());
+			}
 
 			size_t data_size;
 			size_t index_size;
@@ -148,7 +163,12 @@ namespace Tempest
 		{
 			File in(i_filepath, File::Format::BinaryRead);
 
-			RETURN_IFNOT_SUCCESS(in.Open())
+			auto result = in.Open();
+			if (result != ResultValue::Success)
+			{
+				in.SetFileName(PATH_SUFFIX_FROM_EXE + String(i_filepath));
+				RETURN_IFNOT_SUCCESS(in.Open());
+			}
 
 			size_t data_size;
 			size_t index_size;
@@ -195,7 +215,12 @@ namespace Tempest
 
 			File in(i_filepath, File::Format::BinaryRead);
 
-			RETURN_IFNOT_SUCCESS(in.Open());
+			auto result = in.Open();
+			if (result != ResultValue::Success)
+			{
+				in.SetFileName(PATH_SUFFIX_FROM_EXE + String(i_filepath));
+				RETURN_IFNOT_SUCCESS(in.Open());
+			}
 
 			RETURN_IFNOT_SUCCESS(in.Read(&type, sizeof(uint8_t)));
 			RETURN_IFNOT_SUCCESS(in.Read(&o_texture.width, sizeof(uint32_t)));
@@ -275,7 +300,12 @@ namespace Tempest
 		{
 			File in(i_filepath, File::Format::BinaryRead);
 
-			RETURN_IFNOT_SUCCESS(in.Open());
+			auto result = in.Open();
+			if (result != ResultValue::Success)
+			{
+				in.SetFileName(PATH_SUFFIX_FROM_EXE + String(i_filepath));
+				RETURN_IFNOT_SUCCESS(in.Open());
+			}
 
 			ShaderInfo shader_info;
 			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(&shader_info), sizeof(ShaderInfo)));

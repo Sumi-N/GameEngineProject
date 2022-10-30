@@ -75,15 +75,16 @@ namespace Graphics
 //----------------------------
 //  General Asset Path
 //----------------------------
-#define PATH_SUFFIX      "..\\"
-#define SHADER_PATH      "Assets\\shaders\\"
-#define INT_SHADER_PATH  "Assets\\int\\shader\\"
-#define BIN_SHADER_PATH  "Assets\\bin\\shader\\"
-#define INT_MESH_PATH    "Assets\\int\\mesh\\"
-#define BIN_MESH_PATH    "Assets\\bin\\mesh\\"
-#define INT_TEXTURE_PATH "Assets\\int\\texture\\"
-#define BIN_TEXTURE_PATH "Assets\\bin\\texture\\"
-#define FONT_PATH        "Assets\\bin\\font\\"
+#define PATH_SUFFIX_FROM_EXE "..\\"
+#define PATH_SUFFIX          "..\\"
+#define SHADER_PATH          "Assets\\shaders\\"
+#define INT_SHADER_PATH      "Assets\\int\\shader\\"
+#define BIN_SHADER_PATH      "Assets\\bin\\shader\\"
+#define INT_MESH_PATH        "Assets\\int\\mesh\\"
+#define BIN_MESH_PATH        "Assets\\bin\\mesh\\"
+#define INT_TEXTURE_PATH     "Assets\\int\\texture\\"
+#define BIN_TEXTURE_PATH     "Assets\\bin\\texture\\"
+#define FONT_PATH            "Assets\\bin\\font\\"
 
 //----------------------------
 // Vertices's Data
