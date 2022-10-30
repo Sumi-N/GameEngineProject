@@ -46,7 +46,7 @@ namespace
 			vkBindBufferMemory(logical_device, buffer, buffer_memory, 0);
 	}
 
-	void TransitionImageLayout(VkImage image, VkImageLayout old_layout, VkImageLayout new_layout, VkCommandBuffer commandbuffer)
+	void TransitionImageLayout(VkImage image, uint32_t array_count, uint32_t mip_count, VkImageLayout old_layout, VkImageLayout new_layout, VkCommandBuffer commandbuffer)
 	{
 		VkImageMemoryBarrier barrier{};
 		barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
@@ -57,9 +57,9 @@ namespace
 		barrier.image = image;
 		barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 		barrier.subresourceRange.baseMipLevel = 0;
-		barrier.subresourceRange.levelCount = 1;
+		barrier.subresourceRange.levelCount = mip_count;
 		barrier.subresourceRange.baseArrayLayer = 0;
-		barrier.subresourceRange.layerCount = 1;
+		barrier.subresourceRange.layerCount = array_count;
 
 		VkPipelineStageFlags sourceStage;
 		VkPipelineStageFlags destinationStage;
@@ -171,7 +171,7 @@ namespace Tempest
 			image_info.extent.width = info.width;
 			image_info.extent.height = info.height;
 			image_info.extent.depth = 1;
-			image_info.mipLevels = 1;
+			image_info.mipLevels = info.mip_count;
 			image_info.arrayLayers = info.count;
 			image_info.format = format;
 			image_info.tiling = has_tiling_optimal ?  VK_IMAGE_TILING_OPTIMAL : VK_IMAGE_TILING_LINEAR;
@@ -207,6 +207,8 @@ namespace Tempest
 			vkBeginCommandBuffer(vk_commandbuffer, &begin_info);
 
 			TransitionImageLayout(image,
+								  info.count,
+								  info.mip_count,
 								  VK_IMAGE_LAYOUT_UNDEFINED,
 								  VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
 								  vk_commandbuffer);
@@ -227,6 +229,8 @@ namespace Tempest
 			}
 
 			TransitionImageLayout(image,
+								  info.count,
+								  info.mip_count,
 								  VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
 								  VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
 								  vk_commandbuffer);
@@ -254,7 +258,7 @@ namespace Tempest
 			view_info.format = format;
 			view_info.subresourceRange.aspectMask = aspect;
 			view_info.subresourceRange.baseMipLevel = 0;
-			view_info.subresourceRange.levelCount = 1;
+			view_info.subresourceRange.levelCount = info.mip_count;
 			view_info.subresourceRange.baseArrayLayer = 0;
 			view_info.subresourceRange.layerCount = info.count;
 

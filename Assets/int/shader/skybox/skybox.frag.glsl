@@ -1,8 +1,8 @@
 #version 430 core
 
-out vec4 color;
+layout(location = 0) in vec3 texcoord;
 
-in vec3 texcoord;
+layout(location = 0) out vec4 color;
 
 layout(binding = 0) uniform samplerCube skybox;
 

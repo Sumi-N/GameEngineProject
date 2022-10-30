@@ -4,21 +4,19 @@
 
 namespace Tempest
 {
-	class DiffuseIrradianceIBLImage
+	class SpecularConvolutionImage
 	{
 	public:
 		void Init(const Device& i_device)
 		{
-			Shader::Load(PATH_SUFFIX BIN_SHADER_PATH "equirectangular_to_cube_mapping.ts", shader);
-			TextureInfo equirectangular_texture_info{};
-			TextureInfo::Load(PATH_SUFFIX BIN_TEXTURE_PATH SKYBOX_HDR_FROZEN_WATERFALL, equirectangular_texture_info);
-			equirectangular_texture.Init(i_device, equirectangular_texture_info);
+			Shader::Load(PATH_SUFFIX BIN_SHADER_PATH "cubemap_specular_convolution.ts", shader);
 
 			TextureInfo cubemap_texture_info{};
 			{
 				cubemap_texture_info.width = 512;
 				cubemap_texture_info.height = 512;
 				cubemap_texture_info.count = 6;
+				cubemap_texture_info.mip_count = 10;
 				cubemap_texture_info.need_samper = true;
 				cubemap_texture_info.has_data = false;
 				cubemap_texture_info.format = TextureFormat::R16G16B16A16_SFLOAT;
@@ -57,18 +55,25 @@ namespace Tempest
 				BufferUnit const_shadow6{ BufferFormat::Mat4, "view_perspective_matrix5" };
 				BufferUnit const_shadow7{ BufferFormat::Float4, "position" };
 				BufferLayout cubemap_uniform_layout;
-				cubemap_uniform_layout.Init({ const_shadow1, const_shadow2, const_shadow3, const_shadow4, const_shadow5, const_shadow6, const_shadow7});
+				cubemap_uniform_layout.Init({ const_shadow1, const_shadow2, const_shadow3, const_shadow4, const_shadow5, const_shadow6, const_shadow7 });
 				cubemap_uniform.Init(i_device, cubemap_uniform_layout);
 				cubemap_uniform.Update(0, projection_matrxs, sizeof(Mat4f) * 6, 0);
+			}
+
+			{
+				BufferUnit const_roughness{ BufferFormat::Float, "roughness" };
+				BufferLayout roughness_uniform_layout;
+				roughness_uniform_layout.Init({const_roughness});
+				roughness_uniform.Init(i_device, roughness_uniform_layout);
 			}
 
 			renderpass.Init(i_device, cubemap_texture);
 			framebuffer.Init(i_device, renderpass, cubemap_texture);
 			descriptor.Init(i_device, shader);
 			descriptor.Bind(PrimitiveDrawer::VertexBufferCube);
-			descriptor.Bind(equirectangular_texture, 2);
+			descriptor.Bind(roughness_uniform, 1);
 			descriptor.Bind(cubemap_uniform, 5);
-			pipeline.Init(i_device, shader, descriptor, renderpass);
+			//pipeline.Init(i_device, shader, descriptor, renderpass);
 		}
 
 		void BindFrameBuffer(const CommandBuffer& i_commandbuffer)
@@ -86,10 +91,10 @@ namespace Tempest
 
 		}
 
-	private:
-		Texture equirectangular_texture;
+	public:
 		Texture cubemap_texture;
 		UniformBuffer cubemap_uniform;
+		UniformBuffer roughness_uniform;
 
 		Pipeline pipeline;
 		Shader shader;

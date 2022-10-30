@@ -27,7 +27,7 @@ Tempest::Application* Tempest::Create()
 	Owner<Object> model = Create<Object>();
 	model->Translate(Vec3f(0, -20, -70));
 	model->scale = 0.35f;
-	Owner<MeshComponent> mesh_component= Create<MeshComponent>();
+	Owner<MeshComponent> mesh_component = Create<MeshComponent>();
 	mesh_component->owner = model;
 	Entity::RegisterMeshComponent(mesh_component);
  	Entity::Register(model);

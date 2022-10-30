@@ -15,6 +15,7 @@ namespace Tempest
 				texture_info.width = 512;
 				texture_info.height = 512;
 				texture_info.count = 1;
+				texture_info.mip_count = 1;
 				texture_info.need_samper = true;
 				texture_info.has_data = false;
 				texture_info.format = TextureFormat::R16G16_SFLOAT;

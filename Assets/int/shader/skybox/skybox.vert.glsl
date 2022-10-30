@@ -1,7 +1,9 @@
 #version 420 core
+
 layout (location = 0) in vec3 model_position;
 
-out vec3 texcoord;
+layout (location = 0) out vec3 texcoord;
+
 layout (std140, binding = 4) uniform const_skybox
 {
     mat4 view_perspective_matrix;

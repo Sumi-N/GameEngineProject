@@ -6,7 +6,7 @@ namespace Tempest {
 	extern EntityInfo::ComponentFlags SelectingComponent;
 	extern Object SelectedObject;
 	extern CameraComponent SelectedCamera;
-	extern LightComponent SelectedLight; 
+	extern LightComponent SelectedLight;
 	extern MeshComponent SelectedMesh;
 	extern EffectComponent SelecctedEffect;
 	extern Observer<EffectComponent> SelectingDebugEffect;

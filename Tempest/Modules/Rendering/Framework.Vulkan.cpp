@@ -1,7 +1,9 @@
 #include "Define.h"
 #include "Framework.h"
 #include "Image_SpecularIBL.h"
-#include "Image_DiffuseIrradianceIBL.h"
+#include "Image_Cubemap.h"
+#include "Image_DiffuseConvolution.h"
+#include "Image_SpecularConvolution.h"
 
 #include <vulkan/vulkan.h>
 
@@ -21,8 +23,10 @@ namespace Tempest
 
 	VertexBuffer vertexbuffer;
 	VertexBuffer vertexbuffer2;
+	VertexBuffer skyboxvertexbuffer;
 	UniformBuffer uniformbuffer_camera;
 	UniformBuffer uniformbuffer_model;
+	UniformBuffer uniformbuffer_skybox;
 	Texture texture;
 
 	VkSemaphore image_available_semaphores[2];
@@ -31,11 +35,18 @@ namespace Tempest
 	uint32_t current_frame = 0;
 
 	SpecularIBLImage specular_ibl_image;
-	DiffuseIrradianceIBLImage diffuse_irradiance_ibl_image;
+	CubemapImage cubemap_image;
+	DiffuseConvolutionImage diffuse_convolution_image;
+	SpecularConvolutionImage specular_convolution_image;
 
 	BufferLayout vertex_layout;
 	BufferLayout camera_uniform_layout;
 	BufferLayout model_uniform_layout;
+	BufferLayout skybox_uniform_layout;
+
+	Pipeline skybox_pipeline;
+	Shader skybox_shader;
+	Descriptor skybox_descriptor;
 
 	void Framework::Boot(Window* i_window)
 	{
@@ -75,6 +86,9 @@ namespace Tempest
 
 	void Framework::Init(uint32_t, uint32_t)
 	{
+		Mesh skybox;
+		Mesh::Load("D:/GameEngineProject/Assets/bin/mesh/cubemap.tm", skybox);
+
 		Mesh mesh;
 		Mesh::Load("D:/GameEngineProject/Assets/bin/mesh/SK_PlayerCharacter.tm", mesh);
 
@@ -83,8 +97,6 @@ namespace Tempest
 		TextureInfo texture_info;
 		TextureInfo::Load("D:/GameEngineProject/Assets/bin/texture/albedo/CharacterBody_BaseColor.tt", texture_info);
 
-		//Shader::Load("D:/GameEngineProject/Assets/bin/shader/basic.ts", shader);
-		//Shader::Load("D:/GameEngineProject/Assets/bin/shader/outlinehighlight.ts", shader);
 		Shader::Load("D:/GameEngineProject/Assets/bin/shader/albedomodel.ts", shader);
 
 		descriptor.Init(device, shader);
@@ -98,6 +110,7 @@ namespace Tempest
 
 		vertexbuffer.Init(device, vertex_layout, mesh.data.Data(), mesh.data.Size() * sizeof(mesh.data[0]), mesh.index.Data(), mesh.index.Size() * sizeof(mesh.index[0]));
 		vertexbuffer2.Init(device, vertex_layout, mesh2.data.Data(), mesh2.data.Size() * sizeof(mesh2.data[0]), mesh2.index.Data(), mesh2.index.Size() * sizeof(mesh2.index[0]));
+		skyboxvertexbuffer.Init(device, vertex_layout, skybox.data.Data(), skybox.data.Size() * sizeof(skybox.data[0]), skybox.index.Data(), skybox.index.Size() * sizeof(skybox.index[0]));
 
 		BufferUnit const_camera1{ BufferFormat::Mat4, "view_matrix" };
 		BufferUnit const_camera2{ BufferFormat::Mat4, "perspective_matrix" };
@@ -130,13 +143,13 @@ namespace Tempest
 	void Framework::PreCompute()
 	{
 		specular_ibl_image.Init(device);
+		cubemap_image.Init(device);
 		{
-			commandbuffers[current_frame].BeginCommand();
 
+			commandbuffers[current_frame].BeginCommand();
 			specular_ibl_image.BindFrameBuffer(commandbuffers[current_frame]);
 			specular_ibl_image.BindDescriptor(commandbuffers[current_frame]);
 			PrimitiveDrawer::DrawQuad(commandbuffers[current_frame]);
-
 			commandbuffers[current_frame].EndCommand();
 
 			VkSubmitInfo submit_info{};
@@ -150,14 +163,11 @@ namespace Tempest
 			vkQueueWaitIdle(device.queue);
 		}
 
-		diffuse_irradiance_ibl_image.Init(device);
 		{
 			commandbuffers[current_frame].BeginCommand();
-
-			diffuse_irradiance_ibl_image.BindFrameBuffer(commandbuffers[current_frame]);
-			diffuse_irradiance_ibl_image.BindDescriptor(commandbuffers[current_frame]);
+			cubemap_image.BindFrameBuffer(commandbuffers[current_frame]);
+			cubemap_image.BindDescriptor(commandbuffers[current_frame]);
 			PrimitiveDrawer::DrawCube(commandbuffers[current_frame]);
-
 			commandbuffers[current_frame].EndCommand();
 
 			VkSubmitInfo submit_info{};
@@ -170,6 +180,63 @@ namespace Tempest
 
 			vkQueueWaitIdle(device.queue);
 		}
+
+		specular_convolution_image.Init(device);
+		specular_convolution_image.descriptor.Bind(cubemap_image.cubemap_texture, 0);
+		specular_convolution_image.pipeline.Init(device, specular_convolution_image.shader,
+												 specular_convolution_image.descriptor,
+												 specular_convolution_image.renderpass);
+		{
+			commandbuffers[current_frame].BeginCommand();
+			specular_convolution_image.BindFrameBuffer(commandbuffers[current_frame]);
+			specular_convolution_image.BindDescriptor(commandbuffers[current_frame]);
+			PrimitiveDrawer::DrawCube(commandbuffers[current_frame]);
+			commandbuffers[current_frame].EndCommand();
+
+			VkSubmitInfo submit_info{};
+			submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+			submit_info.commandBufferCount = 1;
+			submit_info.pCommandBuffers = &commandbuffers[current_frame].commandbuffer;
+
+			auto queue_submi_result = vkQueueSubmit(device.queue, 1, &submit_info, nullptr);
+			DEBUG_ASSERT(queue_submi_result == VK_SUCCESS);
+
+			vkQueueWaitIdle(device.queue);
+		}
+
+		diffuse_convolution_image.Init(device);
+		diffuse_convolution_image.descriptor.Bind(cubemap_image.cubemap_texture, 0);
+		diffuse_convolution_image.pipeline.Init(device, diffuse_convolution_image.shader,
+												diffuse_convolution_image.descriptor,
+												diffuse_convolution_image.renderpass);
+		{
+			commandbuffers[current_frame].BeginCommand();
+			diffuse_convolution_image.BindFrameBuffer(commandbuffers[current_frame]);
+			diffuse_convolution_image.BindDescriptor(commandbuffers[current_frame]);
+			PrimitiveDrawer::DrawCube(commandbuffers[current_frame]);
+			commandbuffers[current_frame].EndCommand();
+
+			VkSubmitInfo submit_info2{};
+			submit_info2.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+			submit_info2.commandBufferCount = 1;
+			submit_info2.pCommandBuffers = &commandbuffers[current_frame].commandbuffer;
+
+			auto queue_submi_result = vkQueueSubmit(device.queue, 1, &submit_info2, nullptr);
+			DEBUG_ASSERT(queue_submi_result == VK_SUCCESS);
+
+			vkQueueWaitIdle(device.queue);
+		}
+
+		BufferUnit const_skybox{ BufferFormat::Mat4, "view_perspective_matrix" };
+		skybox_uniform_layout.Init({ const_skybox });
+		uniformbuffer_skybox.Init(device, skybox_uniform_layout);
+
+		Shader::Load("D:/GameEngineProject/Assets/bin/shader/skybox.ts", skybox_shader);
+		skybox_descriptor.Init(device, skybox_shader);
+		skybox_descriptor.Bind(skyboxvertexbuffer);
+		skybox_descriptor.Bind(cubemap_image.cubemap_texture, 0);
+		skybox_descriptor.Bind(uniformbuffer_skybox, 4);
+		skybox_pipeline.Init(device, skybox_shader, skybox_descriptor, renderpass);
 	}
 
 	void Framework::PreUpdate(GraphicRequiredData* i_data)
@@ -191,6 +258,13 @@ namespace Tempest
 			commandbuffers[current_frame].BeginCommand();
 
 			commandbuffers[current_frame].BindFrameBuffer(framebuffers[image_index], renderpass);
+
+			//{
+			//	commandbuffers[current_frame].BindDescriptor(current_frame, skybox_descriptor, skybox_pipeline);
+			//	Mat4f skybox_view_perspective_matrix = i_data->camera.perspective_matrix * Mat4f::TruncateToMat3(i_data->camera.view_matrix);
+			//	uniformbuffer_skybox.Update(current_frame, static_cast<void*>(&skybox_view_perspective_matrix), sizeof(Mat4f), 0);
+			//	commandbuffers[current_frame].Draw(skyboxvertexbuffer);
+			//}
 
 			commandbuffers[current_frame].BindDescriptor(current_frame, descriptor, pipeline);
 

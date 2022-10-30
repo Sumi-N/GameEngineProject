@@ -381,9 +381,12 @@ int main()
 	directory + "image_base_rendering\\cubemap_specular_convolution.frag.glsl", ""
 	};
 
-	//auto result = ConvertShaders("equirectangular_to_cube_mapping", equirectangular_to_cube_mapping);
-	//auto result = ConvertShaders("cubemap_diffuse_convolution", cubemap_diffuse_convolution);
-	auto result = ConvertShaders("cubemap_specular_convolution", cubemap_specular_convolution);
+	String skybox[] = {
+	directory + "skybox\\skybox.vert.glsl", "", "", "",
+	directory + "skybox\\skybox.frag.glsl", ""
+	};
+
+	auto result = ConvertShaders("cubemap_diffuse_convolution", cubemap_diffuse_convolution);
 
 	DEBUG_ASSERT(result == ResultValue::Success);
 

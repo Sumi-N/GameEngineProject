@@ -82,14 +82,12 @@ namespace Tempest
 			instance_create_info.ppEnabledExtensionNames = extensions.Data();
 
 #ifdef ENABLE_VULKAN_VALIDATION_LAYERS
-			const char* layer_names = "VK_LAYER_KHRONOS_validation";
+			const char* layer_names[] = {
+				"VK_LAYER_KHRONOS_validation",
+				""
+			};
 			instance_create_info.enabledLayerCount = 1;
-			instance_create_info.ppEnabledLayerNames = &layer_names;
-
-			if (!CheckValidationLayerSupport(layer_names))
-			{
-				DEBUG_ASSERT_WITHMESSAGE(false, "There is a chance that you haven't installed Vulkan SDK");
-			}
+			instance_create_info.ppEnabledLayerNames = layer_names;
 #else
 		instance_create_info.enabledLayerCount = 0;
 		instance_create_info.pNext = nullptr;

@@ -1,12 +1,12 @@
 #version 430 core
 
-const float PI = 3.14159265359;
-
 layout (location = 0) in vec4 fragpos;
 
 layout (location = 0) out vec4 color;
 
 layout(binding = 0) uniform samplerCube equirectangularmap;
+
+const float PI = 3.14159265359;
 
 void main()
 {
@@ -18,7 +18,7 @@ void main()
     vec3 right = cross(up, normal);
     up         = cross(normal, right);
 
-    float sampleDelta = 0.0125;
+    float sampleDelta = 0.025;
     float nrSamples = 0.0; 
     for(float phi = 0.0; phi < 2.0 * PI; phi += sampleDelta)
     {

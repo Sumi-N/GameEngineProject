@@ -178,6 +178,7 @@ namespace Tempest
 		uint32_t         width;
 		uint32_t         height;
 		uint32_t         count;
+		uint32_t         mip_count;
 		Array<char>      pixels;
 		TextureFormat    format;
 		TextureInfoFlags aspect_flag{};
@@ -220,6 +221,7 @@ namespace Tempest
 			o_texture.has_data = true;
 			o_texture.need_samper = true;
 			o_texture.count = 1;
+			o_texture.mip_count = 1;
 			o_texture.aspect_flag |= TextureAspect::COLOR_BIT_ASPECT;
 			size_t texture_size = o_texture.width * o_texture.height * GetTextureFormatSize(o_texture.format);
 			o_texture.pixels.Resize(texture_size);
