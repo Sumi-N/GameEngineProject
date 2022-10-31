@@ -252,18 +252,24 @@ namespace Tempest
 		// Create image view
 		{
 			VkImageViewCreateInfo view_info{};
-			view_info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-			view_info.image = image;
-			view_info.viewType = info.count == 1 ? VK_IMAGE_VIEW_TYPE_2D : VK_IMAGE_VIEW_TYPE_CUBE;
-			view_info.format = format;
-			view_info.subresourceRange.aspectMask = aspect;
-			view_info.subresourceRange.baseMipLevel = 0;
-			view_info.subresourceRange.levelCount = info.mip_count;
-			view_info.subresourceRange.baseArrayLayer = 0;
-			view_info.subresourceRange.layerCount = info.count;
+			for (uint32_t i = 0; i < info.mip_count; i++)
+			{
+				view_info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+				view_info.image = image;
+				view_info.viewType = (info.count == 6) ? VK_IMAGE_VIEW_TYPE_CUBE : VK_IMAGE_VIEW_TYPE_2D;
+				view_info.format = format;
+				view_info.subresourceRange.aspectMask = aspect;
+				view_info.subresourceRange.baseMipLevel = i;
+				view_info.subresourceRange.levelCount = info.mip_count - i;
+				view_info.subresourceRange.baseArrayLayer = 0;
+				view_info.subresourceRange.layerCount = info.count;
 
-			auto image_view_create_result = vkCreateImageView(device->logical_device, &view_info, nullptr, &image_view);
-			DEBUG_ASSERT(image_view_create_result == VK_SUCCESS);
+				VkImageView image_view;
+				auto image_view_create_result = vkCreateImageView(device->logical_device, &view_info, nullptr, &image_view);
+				DEBUG_ASSERT(image_view_create_result == VK_SUCCESS);
+
+				image_views.PushBack(image_view);
+			}
 		}
 
 		// Create sampler
@@ -292,7 +298,10 @@ namespace Tempest
 	void Texture::CleanUp()
 	{
 		vkDestroySampler(device->logical_device, sampler, nullptr);
-		vkDestroyImageView(device->logical_device, image_view, nullptr);
+		for (int i = 0; i < image_views.Size(); i++)
+		{
+			vkDestroyImageView(device->logical_device, image_views[i], nullptr);
+		}
 		vkDestroyImage(device->logical_device, image, nullptr);
 		vkFreeMemory(device->logical_device, texture_image_memory, nullptr);
 	}

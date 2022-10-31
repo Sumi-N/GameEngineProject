@@ -16,7 +16,7 @@ namespace Tempest
 				cubemap_texture_info.width = 512;
 				cubemap_texture_info.height = 512;
 				cubemap_texture_info.count = 6;
-				cubemap_texture_info.mip_count = 1;
+				cubemap_texture_info.mip_count = 5;
 				cubemap_texture_info.need_samper = true;
 				cubemap_texture_info.has_data = false;
 				cubemap_texture_info.format = TextureFormat::R16G16B16A16_SFLOAT;
@@ -68,7 +68,7 @@ namespace Tempest
 			}
 
 			renderpass.Init(i_device, cubemap_texture);
-			framebuffer.Init(i_device, renderpass, cubemap_texture);
+			framebuffer.Init(i_device, renderpass, cubemap_texture, 1);
 			descriptor.Init(i_device, shader);
 			descriptor.Bind(PrimitiveDrawer::VertexBufferCube);
 			descriptor.Bind(roughness_uniform, 1);

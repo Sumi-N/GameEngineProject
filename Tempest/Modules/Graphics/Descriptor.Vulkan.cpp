@@ -148,13 +148,13 @@ namespace Tempest
 		}
 	}
 
-	void Descriptor::Bind(const Texture& i_texture, uint32_t i_binding)
+	void Descriptor::Bind(const Texture& i_texture, uint32_t i_binding, uint32_t i_miplevel)
 	{
 		for (int idx_count = 0; idx_count < Graphics::BufferingCount; idx_count++)
 		{
 			VkDescriptorImageInfo descriptor_image_info{};
 			descriptor_image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-			descriptor_image_info.imageView = i_texture.image_view;
+			descriptor_image_info.imageView = i_texture.image_views[i_miplevel];
 			descriptor_image_info.sampler = i_texture.sampler;
 
 			VkWriteDescriptorSet descriptor_write{};

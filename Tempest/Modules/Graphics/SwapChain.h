@@ -21,8 +21,8 @@ namespace Tempest{
 #ifdef ENGINE_GRAPHIC_VULKAN
 	public:
 		const VkSwapchainKHR& Get() const { return swapchain; }
-		const VkImage& GetImage(int index) const { return color_images[index]; }
-		const VkImageView& GetImageView(int index) const { return color_image_views[index]; }
+		const VkImage& GetImage(uint32_t index) const { return color_images[index]; }
+		const VkImageView& GetImageView(uint32_t index) const { return color_image_views[index]; }
 		const Array<VkImage>& GetImages() const { return color_images; }
 		const Array<VkImageView>& GetImageViews() const { return color_image_views; }
 		const VkImageView& GetDepthImageView() const { return depth_image_view; }

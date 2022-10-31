@@ -27,7 +27,7 @@ namespace Tempest
 		VkImageAspectFlags aspect;
 
 		VkImage image;
-		VkImageView image_view;
+		Array<VkImageView> image_views;
 		VkSampler sampler;
 
 	private:

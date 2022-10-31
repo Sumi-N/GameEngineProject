@@ -27,8 +27,8 @@ namespace Tempest
 		FrameBuffer() = default;
 		~FrameBuffer() = default;
 
-		void Init(const Device& i_device, const RenderPass& i_render_pass, const SwapChain& i_swapchain, int index);
-		void Init(const Device& i_device, const RenderPass& i_render_pass, const Texture& i_texture);
+		void Init(const Device& i_device, const RenderPass& i_render_pass, const SwapChain& i_swapchain, uint32_t index);
+		void Init(const Device& i_device, const RenderPass& i_render_pass, const Texture& i_texture, uint32_t i_miplevel = 0);
 		void CleanUp() const;
 
 		uint32_t width;

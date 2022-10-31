@@ -18,7 +18,7 @@ namespace Tempest
 
 		void Bind(const VertexBuffer& i_vertex);
 		void Bind(const UniformBuffer& i_uniform, uint32_t i_binding);
-		void Bind(const Texture& i_texture, uint32_t i_binding);
+		void Bind(const Texture& i_texture, uint32_t i_binding, uint32_t i_miplevel = 0);
 
 		uint32_t vertex_stride;
 
