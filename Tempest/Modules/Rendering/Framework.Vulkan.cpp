@@ -142,89 +142,54 @@ namespace Tempest
 
 	void Framework::PreCompute()
 	{
-		specular_ibl_image.Init(device);
+		CommandBuffer onetime_commandbuffer;
+		onetime_commandbuffer.Init(device);
+
 		cubemap_image.Init(device);
 		{
+			onetime_commandbuffer.ResetCommand();
+			onetime_commandbuffer.BeginCommand();
 
-			commandbuffers[current_frame].BeginCommand();
-			specular_ibl_image.BindFrameBuffer(commandbuffers[current_frame]);
-			specular_ibl_image.BindDescriptor(commandbuffers[current_frame]);
-			PrimitiveDrawer::DrawQuad(commandbuffers[current_frame]);
-			commandbuffers[current_frame].EndCommand();
+			cubemap_image.BeginRenderPass(onetime_commandbuffer);
+			cubemap_image.BindDescriptor(onetime_commandbuffer);
+			PrimitiveDrawer::DrawCube(onetime_commandbuffer);
+			onetime_commandbuffer.EndRenderPass();
 
-			VkSubmitInfo submit_info{};
-			submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-			submit_info.commandBufferCount = 1;
-			submit_info.pCommandBuffers = &commandbuffers[current_frame].commandbuffer;
+			onetime_commandbuffer.EndCommand();
 
-			auto queue_submi_result = vkQueueSubmit(device.queue, 1, &submit_info, nullptr);
-			DEBUG_ASSERT(queue_submi_result == VK_SUCCESS);
-
-			vkQueueWaitIdle(device.queue);
+			onetime_commandbuffer.SubmitAndWait();
 		}
 
+		specular_ibl_image.Init(device);
+		specular_convolution_image.Init(device, cubemap_image.cubemap_texture);
+		diffuse_convolution_image.Init(device, cubemap_image.cubemap_texture);
 		{
-			commandbuffers[current_frame].BeginCommand();
-			cubemap_image.BindFrameBuffer(commandbuffers[current_frame]);
-			cubemap_image.BindDescriptor(commandbuffers[current_frame]);
-			PrimitiveDrawer::DrawCube(commandbuffers[current_frame]);
-			commandbuffers[current_frame].EndCommand();
+			onetime_commandbuffer.ResetCommand();
+			onetime_commandbuffer.BeginCommand();
 
-			VkSubmitInfo submit_info{};
-			submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-			submit_info.commandBufferCount = 1;
-			submit_info.pCommandBuffers = &commandbuffers[current_frame].commandbuffer;
+			specular_ibl_image.BeginRenderPass(onetime_commandbuffer);
+			specular_ibl_image.BindDescriptor(onetime_commandbuffer);
+			PrimitiveDrawer::DrawQuad(onetime_commandbuffer);
+			onetime_commandbuffer.EndRenderPass();
 
-			auto queue_submi_result = vkQueueSubmit(device.queue, 1, &submit_info, nullptr);
-			DEBUG_ASSERT(queue_submi_result == VK_SUCCESS);
+			for (int i = 0; i < 5; i++)
+			{
+				float roughness = 0.0f;
+				specular_convolution_image.BeginRenderPass(onetime_commandbuffer, i);
+				specular_convolution_image.BindDescriptor(onetime_commandbuffer);
+				specular_convolution_image.roughness_uniform.Update(0, static_cast<void*>(&roughness), sizeof(float), 0);
+				PrimitiveDrawer::DrawCube(onetime_commandbuffer);
+				onetime_commandbuffer.EndRenderPass();
+			}
 
-			vkQueueWaitIdle(device.queue);
-		}
+			diffuse_convolution_image.BeginRenderPass(onetime_commandbuffer);
+			diffuse_convolution_image.BindDescriptor(onetime_commandbuffer);
+			PrimitiveDrawer::DrawCube(onetime_commandbuffer);
+			onetime_commandbuffer.EndRenderPass();
 
-		specular_convolution_image.Init(device);
-		specular_convolution_image.descriptor.Bind(cubemap_image.cubemap_texture, 0);
-		specular_convolution_image.pipeline.Init(device, specular_convolution_image.shader,
-												 specular_convolution_image.descriptor,
-												 specular_convolution_image.renderpass);
-		{
-			commandbuffers[current_frame].BeginCommand();
-			specular_convolution_image.BindFrameBuffer(commandbuffers[current_frame]);
-			specular_convolution_image.BindDescriptor(commandbuffers[current_frame]);
-			PrimitiveDrawer::DrawCube(commandbuffers[current_frame]);
-			commandbuffers[current_frame].EndCommand();
+			onetime_commandbuffer.EndCommand();
 
-			VkSubmitInfo submit_info{};
-			submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-			submit_info.commandBufferCount = 1;
-			submit_info.pCommandBuffers = &commandbuffers[current_frame].commandbuffer;
-
-			auto queue_submi_result = vkQueueSubmit(device.queue, 1, &submit_info, nullptr);
-			DEBUG_ASSERT(queue_submi_result == VK_SUCCESS);
-
-			vkQueueWaitIdle(device.queue);
-		}
-
-		diffuse_convolution_image.Init(device);
-		diffuse_convolution_image.descriptor.Bind(cubemap_image.cubemap_texture, 0);
-		diffuse_convolution_image.pipeline.Init(device, diffuse_convolution_image.shader,
-												diffuse_convolution_image.descriptor,
-												diffuse_convolution_image.renderpass);
-		{
-			commandbuffers[current_frame].BeginCommand();
-			diffuse_convolution_image.BindFrameBuffer(commandbuffers[current_frame]);
-			diffuse_convolution_image.BindDescriptor(commandbuffers[current_frame]);
-			PrimitiveDrawer::DrawCube(commandbuffers[current_frame]);
-			commandbuffers[current_frame].EndCommand();
-
-			VkSubmitInfo submit_info2{};
-			submit_info2.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-			submit_info2.commandBufferCount = 1;
-			submit_info2.pCommandBuffers = &commandbuffers[current_frame].commandbuffer;
-
-			auto queue_submi_result = vkQueueSubmit(device.queue, 1, &submit_info2, nullptr);
-			DEBUG_ASSERT(queue_submi_result == VK_SUCCESS);
-
-			vkQueueWaitIdle(device.queue);
+			onetime_commandbuffer.SubmitAndWait();
 		}
 
 		BufferUnit const_skybox{ BufferFormat::Mat4, "view_perspective_matrix" };
@@ -255,9 +220,10 @@ namespace Tempest
 
 
 		{
+			commandbuffers[current_frame].ResetCommand();
 			commandbuffers[current_frame].BeginCommand();
 
-			commandbuffers[current_frame].BindFrameBuffer(framebuffers[image_index], renderpass);
+			commandbuffers[current_frame].BeginRenderPass(framebuffers[image_index], renderpass);
 
 			//{
 			//	commandbuffers[current_frame].BindDescriptor(current_frame, skybox_descriptor, skybox_pipeline);
@@ -274,6 +240,7 @@ namespace Tempest
 			commandbuffers[current_frame].Draw(vertexbuffer);
 			commandbuffers[current_frame].Draw(vertexbuffer2);
 
+			commandbuffers[current_frame].EndRenderPass();
 			commandbuffers[current_frame].EndCommand();
 		}
 
@@ -316,8 +283,6 @@ namespace Tempest
 
 	void Framework::ChangeViewportSize(uint32_t i_width, uint32_t i_height)
 	{
-		/*ViewportWidth = i_width;
-		ViewportHeight = i_height;*/
 	}
 }
 

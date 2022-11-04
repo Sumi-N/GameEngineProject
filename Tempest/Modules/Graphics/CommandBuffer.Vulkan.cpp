@@ -21,10 +21,13 @@ namespace Tempest
 	{
 	}
 
-	void CommandBuffer::BeginCommand() const
+	void CommandBuffer::ResetCommand() const
 	{
 		vkResetCommandBuffer(commandbuffer, 0);
+	}
 
+	void CommandBuffer::BeginCommand() const
+	{
 		VkCommandBufferBeginInfo begin_info{};
 		begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 		begin_info.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
@@ -34,7 +37,7 @@ namespace Tempest
 		DEBUG_ASSERT(begin_command_result == VK_SUCCESS);
 	}
 
-	void CommandBuffer::BindFrameBuffer(const FrameBuffer& i_framebuffer, const RenderPass& i_renderpass) const
+	void CommandBuffer::BeginRenderPass(const FrameBuffer& i_framebuffer, const RenderPass& i_renderpass) const
 	{
 		VkClearValue clearcolor[2];
 		clearcolor[0].color = { {0.0f, 0.0f, 0.0f, 1.0f} };
@@ -85,32 +88,26 @@ namespace Tempest
 		vkCmdDrawIndexed(commandbuffer, i_vertexbuffer.indecies_count, 1, 0, 0, 0);
 	}
 
-	void CommandBuffer::EndCommand() const
+	void CommandBuffer::EndRenderPass() const
 	{
 		vkCmdEndRenderPass(commandbuffer);
+	}
+
+	void CommandBuffer::EndCommand() const
+	{
 		auto end_command_result = vkEndCommandBuffer(commandbuffer);
 		DEBUG_ASSERT(end_command_result == VK_SUCCESS);
 	}
 
-	void CommandBuffer::Submit() const
+	void CommandBuffer::SubmitAndWait() const
 	{
-		//VkSubmitInfo submitInfo{};
-		//submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+		VkSubmitInfo submitInfo{};
+		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+		submitInfo.commandBufferCount = 1;
+		submitInfo.pCommandBuffers = &commandbuffer;
 
-		//VkSemaphore wait_semaphores[] = { image_available_semaphores[current_frame] };
-		//VkPipelineStageFlags wait_stages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
-		//submitInfo.waitSemaphoreCount = 1;
-		//submitInfo.pWaitSemaphores = wait_semaphores;
-		//submitInfo.pWaitDstStageMask = wait_stages;
-		//submitInfo.commandBufferCount = 1;
-		//submitInfo.pCommandBuffers = &commandbuffer;
-
-		//VkSemaphore signal_semaphores[] = { render_finished_semaphores[current_frame] };
-		//submitInfo.signalSemaphoreCount = 1;
-		//submitInfo.pSignalSemaphores = signal_semaphores;
-
-		//auto queue_submi_result = vkQueueSubmit(device->queue, 1, &submitInfo, in_flight_fences[current_frame]);
-		//DEBUG_ASSERT(queue_submi_result == VK_SUCCESS);
+		auto queue_submi_result = vkQueueSubmit(device->queue, 1, &submitInfo, nullptr);
+		DEBUG_ASSERT(queue_submi_result == VK_SUCCESS);
 	}
 }
 #endif // ENGINE_GRAPHIC_VULKAN

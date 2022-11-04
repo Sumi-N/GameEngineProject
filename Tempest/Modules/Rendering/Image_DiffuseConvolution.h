@@ -7,7 +7,7 @@ namespace Tempest
 	class DiffuseConvolutionImage
 	{
 	public:
-		void Init(const Device& i_device)
+		void Init(const Device& i_device, const Texture& i_cubemap_texture)
 		{
 			Shader::Load(PATH_SUFFIX BIN_SHADER_PATH "cubemap_diffuse_convolution.ts", shader);
 
@@ -65,12 +65,13 @@ namespace Tempest
 			descriptor.Init(i_device, shader);
 			descriptor.Bind(PrimitiveDrawer::VertexBufferCube);
 			descriptor.Bind(cubemap_uniform, 5);
-			//pipeline.Init(i_device, shader, descriptor, renderpass);
+			descriptor.Bind(i_cubemap_texture, 0);
+			pipeline.Init(i_device, shader, descriptor, renderpass);
 		}
 
-		void BindFrameBuffer(const CommandBuffer& i_commandbuffer)
+		void BeginRenderPass(const CommandBuffer& i_commandbuffer)
 		{
-			i_commandbuffer.BindFrameBuffer(framebuffer, renderpass);
+			i_commandbuffer.BeginRenderPass(framebuffer, renderpass);
 		}
 
 		void BindDescriptor(const CommandBuffer& i_commandbuffer)

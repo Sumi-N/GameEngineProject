@@ -7,7 +7,7 @@ namespace Tempest
 	class SpecularConvolutionImage
 	{
 	public:
-		void Init(const Device& i_device)
+		void Init(const Device& i_device, const Texture& i_cubemap_texture)
 		{
 			Shader::Load(PATH_SUFFIX BIN_SHADER_PATH "cubemap_specular_convolution.ts", shader);
 
@@ -68,17 +68,21 @@ namespace Tempest
 			}
 
 			renderpass.Init(i_device, cubemap_texture);
-			framebuffer.Init(i_device, renderpass, cubemap_texture, 1);
+			for (int i = 0; i < 5; i++)
+			{
+				framebuffers[i].Init(i_device, renderpass, cubemap_texture, i);
+			}
 			descriptor.Init(i_device, shader);
 			descriptor.Bind(PrimitiveDrawer::VertexBufferCube);
 			descriptor.Bind(roughness_uniform, 1);
 			descriptor.Bind(cubemap_uniform, 5);
-			//pipeline.Init(i_device, shader, descriptor, renderpass);
+			descriptor.Bind(i_cubemap_texture, 0);
+			pipeline.Init(i_device, shader, descriptor, renderpass);
 		}
 
-		void BindFrameBuffer(const CommandBuffer& i_commandbuffer)
+		void BeginRenderPass(const CommandBuffer& i_commandbuffer, uint32_t i_frame_index)
 		{
-			i_commandbuffer.BindFrameBuffer(framebuffer, renderpass);
+			i_commandbuffer.BeginRenderPass(framebuffers[i_frame_index], renderpass);
 		}
 
 		void BindDescriptor(const CommandBuffer& i_commandbuffer)
@@ -99,7 +103,7 @@ namespace Tempest
 		Pipeline pipeline;
 		Shader shader;
 		RenderPass renderpass;
-		FrameBuffer framebuffer;
+		FrameBuffer framebuffers[5];
 		Descriptor descriptor;
 
 		Mat4f projection_matrxs[6];

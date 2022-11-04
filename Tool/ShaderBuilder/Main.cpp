@@ -386,7 +386,12 @@ int main()
 	directory + "skybox\\skybox.frag.glsl", ""
 	};
 
-	auto result = ConvertShaders("cubemap_diffuse_convolution", cubemap_diffuse_convolution);
+	String disney_pbr[] = {
+	directory + "disney_pbr_model\\disney_pbr.vert.glsl", "", "", "",
+	directory + "disney_pbr_model\\disney_pbr.frag.glsl", ""
+	};
+
+	auto result = ConvertShaders("disney_pbr", disney_pbr);
 
 	DEBUG_ASSERT(result == ResultValue::Success);
 

@@ -30,9 +30,9 @@ namespace Tempest
 			pipeline.Init(i_device, shader, descriptor, renderpass);
 		}
 
-		void BindFrameBuffer(const CommandBuffer& i_commandbuffer)
+		void BeginRenderPass(const CommandBuffer& i_commandbuffer)
 		{
-			i_commandbuffer.BindFrameBuffer(framebuffer, renderpass);
+			i_commandbuffer.BeginRenderPass(framebuffer, renderpass);
 		}
 
 		void BindDescriptor(const CommandBuffer& i_commandbuffer)

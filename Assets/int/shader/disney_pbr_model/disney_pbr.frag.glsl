@@ -8,12 +8,9 @@ const float PI = 3.14159265359;
 const float ROUGHNESS_BIAS = 0.005;
 const float MAX_REFLECTION_LOD = 4.0;
 
-// Output
-out vec4 color;
-
 //------------------------------------------------------------------------------
 
-in VS_OUT{
+struct VS_OUT{
 	// Object world position
 	vec4 world_position;
 	// Normal vector of the object at model coordinate
@@ -26,7 +23,12 @@ in VS_OUT{
 	vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
 	// tangent bitangent normal matrix
 	mat3 tangent_bitangent_matrix;
-} fs_in;
+} ;
+
+layout (location = 0) in VS_OUT fs_in;
+
+// Output
+layout (location = 0) out vec4 color;
 
 //------------------------------------------------------------------------------
 // Structure define
@@ -157,11 +159,11 @@ vec4 CalcPointLightShading(PointLight pointlight, vec3 world_normal, vec3 pointl
 	vec4 color = vec4(0, 0, 0, 1.0);
 
 	//Calculate albedo based on texture
-	vec4 albedotexel = texture2D(texturealbedo, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t));
+	vec4 albedotexel = texture(texturealbedo, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t));
 	// Calculate roughness based on texture
-	float roughnesstexel = texture2D(textureroughness, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).x;
+	float roughnesstexel = texture(textureroughness, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).x;
 	// Calculate metali based on texture
-	float metallictexel  = texture2D(texturemetallic, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).x;
+	float metallictexel  = texture(texturemetallic, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).x;
 
 
 	// Cos theta term
@@ -205,11 +207,11 @@ void main()
 	world_normal = normalize( fs_in.tangent_bitangent_matrix * world_normal);
 
 	//Calculate albedo based on texture
-	vec4 albedotexel = texture2D(texturealbedo, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t));
+	vec4 albedotexel = texture(texturealbedo, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t));
 	// Calculate roughness based on texture
-	float roughnesstexel = texture2D(textureroughness, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).x;
+	float roughnesstexel = texture(textureroughness, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).x;
 	// Calculate metali based on texture
-	float metallictexel  = texture2D(texturemetallic, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).x;
+	float metallictexel  = texture(texturemetallic, vec2(fs_in.texcoord.s, 1.0 - fs_in.texcoord.t)).x;
 
 	vec3 f0 = vec3(0.04); 
     f0 = mix(f0, vec3(albedotexel), metallictexel);
@@ -224,7 +226,7 @@ void main()
 	vec3 reflect          = reflect(-1 * fs_in.world_view_direction, world_normal);
 	vec3 prefilteredcolor = textureLod(specularmap, reflect, roughnesstexel * MAX_REFLECTION_LOD).rgb;
 	vec3 f                = FresnelSchlickRoughness(max(dot(world_normal, fs_in.world_view_direction), 0.0), f0, roughnesstexel); 
-	vec2 environment_brdf = texture2D(texturebrdf, vec2(max(dot(world_normal, fs_in.world_view_direction), 0.0), roughnesstexel)).rg;
+	vec2 environment_brdf = texture(texturebrdf, vec2(max(dot(world_normal, fs_in.world_view_direction), 0.0), roughnesstexel)).rg;
 	vec3 specular         = prefilteredcolor * (f * environment_brdf.x + environment_brdf.y);
 
 	color   = vec4(kd, 1.0) * diffuse + vec4(specular, 1.0);

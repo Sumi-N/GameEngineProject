@@ -3,12 +3,31 @@
 // Const data
 const int MAX_POINT_LIGHT_NUM = 5;
 
+//------------------------------------------------------------------------------
+
 // Input
 layout (location = 0) in vec3 model_position;
 layout (location = 1) in vec3 model_normal;
 layout (location = 2) in vec2 model_texcoord;
 layout (location = 3) in vec3 model_tangent_vec;
 layout (location = 4) in vec3 model_bitangent_vec;
+
+struct VS_OUT{
+	// Object world position
+	vec4 world_position;
+	// Normal vector of the object at model coordinate
+	vec3 model_normal;
+	// Texture coordinate
+	vec2 texcoord;
+	// view direction vector at world coordinate
+	vec3 world_view_direction;
+	// Point light direction vector at world coordinate
+	vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
+	// tangent bitangent normal matrix
+	mat3 tangent_bitangent_matrix;
+};
+
+layout (location = 0) out VS_OUT vs_out;
 
 // Structure define
 //------------------------------------------------------------------------------
@@ -43,21 +62,6 @@ layout (std140, binding = 3) uniform const_light
 	PointLight pointlights[MAX_POINT_LIGHT_NUM];
 	int  point_num;
 };
-
-out VS_OUT{
-	// Object world position
-	vec4 world_position;
-	// Normal vector of the object at model coordinate
-	vec3 model_normal;
-	// Texture coordinate
-	vec2 texcoord;
-	// view direction vector at world coordinate
-	vec3 world_view_direction;
-	// Point light direction vector at world coordinate
-	vec3 world_pointlight_direction[MAX_POINT_LIGHT_NUM];
-	// tangent bitangent normal matrix
-	mat3 tangent_bitangent_matrix;
-} vs_out;
 
 //------------------------------------------------------------------------------
 void main()
