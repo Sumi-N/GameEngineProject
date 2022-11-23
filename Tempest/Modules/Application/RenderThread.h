@@ -5,7 +5,7 @@
 
 namespace Tempest
 {
-	extern Window* window;
+	extern Window* ApplicationWindow;
 
 	class RenderThread : public Thread
 	{

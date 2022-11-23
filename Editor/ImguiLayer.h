@@ -4,18 +4,18 @@
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 
+#include <GL/glew.h>
+
 #include <Input/Delegate.h>
 #include <Input/Input.h>
 #include <Layer/Layer.h>
 #include <Graphics/Define.h>
 #include <Graphics/Window.h>
-#include <Graphics/Graphic.h>
 
 #include "EntityInfo.h"
 
 namespace Tempest
 {
-	extern Window* window;
 	extern Delegate<> GameThreadOnReset;
 	extern Delegate<> RenderThreadOnReset;
 

@@ -88,14 +88,14 @@ namespace Tempest
 
 		SceneCamera.view = Mat4f::LookAt(SceneCamera.pos, SceneCamera.pos + SceneCamera.forward, SceneCamera.up);
 
-		SceneCamera.perspective = Mat4f::Perspective(FieldOfView, (float)ScreenWidth / ScreenHeight, NearClip, FarClip);
+		SceneCamera.perspective = Mat4f::Perspective(Graphics::FieldOfView, (float)Graphics::InitialScreenWidth / Graphics::InitialScreenHeight, Graphics::NearClip, Graphics::FarClip);
 	}
 
 	void ImguiLayer::ViewportPanel()
 	{
 		ImGui::Begin("Viewport");
 		ImVec2 imgui_viewport_panel_size = ImGui::GetContentRegionAvail();
-		ImGui::Image(reinterpret_cast<void*>(Graphic::FrameBufferImage.GetColorID()), imgui_viewport_panel_size, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+		//ImGui::Image(reinterpret_cast<void*>(Graphic::FrameBufferImage.GetColorID()), imgui_viewport_panel_size, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
 		if (ImGui::IsWindowFocused())
 		{

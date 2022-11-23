@@ -11,17 +11,17 @@ namespace Tempest
 	void RenderThread::Boot()
 	{
 		// Create window and init glfw
-		window = new Window();
+		ApplicationWindow = new Window();
 		WindowProperty property;
-		window->Init(property);
+		ApplicationWindow->Init(property);
 
-		WindowsHanlder = window->GetNaitiveWindowsHandler();
+		WindowsHanlder = ApplicationWindow->GetNaitiveWindowsHandler();
 
 		// Bind event callbacks including the callbacks that are in imgui layer and other layers
 		BindEvent();
 
 		// Initialize OpenGL
-		Framework::Boot(window);
+		Framework::Boot(ApplicationWindow);
 	}
 
 	void RenderThread::Init()
@@ -29,7 +29,7 @@ namespace Tempest
 		// Init scene Entity
 		//SceneEntity::Init();
 
-		Framework::Init(window->data.width, window->data.height);
+		Framework::Init(ApplicationWindow->data.width, ApplicationWindow->data.height);
 
 		LayerStack::Init();
 
@@ -46,7 +46,7 @@ namespace Tempest
 
 	void RenderThread::NonCriticalSection()
 	{
-		if (!window->CheckShutdown())
+		if (!ApplicationWindow->CheckShutdown())
 		{
 			brunning = false;
 		}
@@ -55,11 +55,9 @@ namespace Tempest
 
 		Framework::Update(&GraphicsData);
 
-		LayerStack::Update();
-
 		Framework::PostUpdate(&GraphicsData);
 
-		window->SwapBuffer();
+		LayerStack::Update();
 	}
 
 	void RenderThread::CriticalSection()
@@ -72,13 +70,13 @@ namespace Tempest
 	{
 		LayerStack::CleanUp();
 		Framework::CleanUp();
-		window->Shutdown();
-		delete window;
+		ApplicationWindow->Shutdown();
+		delete ApplicationWindow;
 	}
 
 	void RenderThread::BindEvent()
 	{
-		window->data.eventcallback = std::bind(&RenderThread::OnEvent, this, std::placeholders::_1);
+		ApplicationWindow->data.eventcallback = std::bind(&RenderThread::OnEvent, this, std::placeholders::_1);
 
 		RenderThreadOnReset = Delegate<>::Create<RenderThread, &RenderThread::Reset>(this);
 	}
@@ -94,14 +92,14 @@ namespace Tempest
 
 	bool RenderThread::OnWindowClose(WindowCloseEvent i_event)
 	{
-		window->OnWindowClose(i_event);
+		ApplicationWindow->OnWindowClose(i_event);
 		return true;
 	}
 
 	bool RenderThread::OnWindowResize(WindowResizeEvent i_event)
 	{
-		Framework::ChangeViewportSize(window->data.width, window->data.height);
-		window->OnWindowResize(i_event);
+		Framework::ChangeViewportSize(ApplicationWindow->data.width, ApplicationWindow->data.height);
+		ApplicationWindow->OnWindowResize(i_event);
 		return true;
 	}
 

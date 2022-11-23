@@ -7,6 +7,7 @@ public:
 
 	void Init(const WindowProperty& property);
 	bool CheckShutdown();
+	void SetContext();
 	void SwapBuffer();
 	void Shutdown();
 

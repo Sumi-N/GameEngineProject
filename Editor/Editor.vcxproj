@@ -67,7 +67,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>yaml-cppd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>;$(SolutionDir)External\yaml-cpp\build\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)External\yaml-cpp\build\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -105,23 +105,23 @@
     <ClInclude Include="Serializer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tempest\Application\Application.vcxproj">
-      <Project>{a4a992b0-4300-4d9f-bd91-9ba6afe44d21}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Tempest\Core\Input\Input.vcxproj">
-      <Project>{725cccc9-d908-4257-b0e5-54bebf75b3ef}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Tempest\Core\Layer\Layer.vcxproj">
-      <Project>{2b52b2e4-d107-4ec2-ac23-3c3dcdb1ddfb}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Tempest\Core\Logging\Logging.vcxproj">
-      <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Tempest\External\imgui\imgui.vcxproj">
       <Project>{1ffca871-4d34-497d-bf09-db6a91f02bf2}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Tempest\Graphics\Graphics.vcxproj">
+    <ProjectReference Include="..\Tempest\Modules\Application\Application.vcxproj">
+      <Project>{a4a992b0-4300-4d9f-bd91-9ba6afe44d21}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Tempest\Modules\Graphics\Graphics.vcxproj">
       <Project>{6809ac33-2d2c-4a2f-9a7f-c187a9307703}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Tempest\Modules\Input\Input.vcxproj">
+      <Project>{725cccc9-d908-4257-b0e5-54bebf75b3ef}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Tempest\Modules\Layer\Layer.vcxproj">
+      <Project>{2b52b2e4-d107-4ec2-ac23-3c3dcdb1ddfb}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Tempest\Modules\Logging\Logging.vcxproj">
+      <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

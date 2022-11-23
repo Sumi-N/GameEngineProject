@@ -101,6 +101,7 @@
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Image_Cubemap.h" />
     <ClInclude Include="Image_DiffuseConvolution.h" />
+    <ClInclude Include="Image_Shadowmap.h" />
     <ClInclude Include="Image_SpecularConvolution.h" />
     <ClInclude Include="PrimitiveDrawer.h" />
     <ClInclude Include="Image_SpecularIBL.h" />

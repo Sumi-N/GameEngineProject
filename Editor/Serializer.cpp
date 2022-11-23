@@ -56,29 +56,29 @@ namespace YAML
 	};
 
 	template<>
-	struct convert<Tempest::Resource::LightType>
+	struct convert<Tempest::LightType>
 	{
-		static Node encode(const Tempest::Resource::LightType& i_res)
+		static Node encode(const Tempest::LightType& i_res)
 		{
 			Node node;
 			node.push_back(i_res);
 			return node;
 		}
 
-		static bool decode(const Node& node, Tempest::Resource::LightType& io_res)
+		static bool decode(const Node& node, Tempest::LightType& io_res)
 		{
 			auto data = node.as<Tempest::String>();
 			if (data == "AmbientLight")
 			{
-				io_res = Tempest::Resource::LightType::AmbientLight;
+				io_res = Tempest::LightType::AmbientLight;
 			}
 			else if (data == "PointLight")
 			{
-				io_res = Tempest::Resource::LightType::PointLight;
+				io_res = Tempest::LightType::PointLight;
 			}
 			else if (data == "DirectionalLight")
 			{
-				io_res = Tempest::Resource::LightType::DirectionalLight;
+				io_res = Tempest::LightType::DirectionalLight;
 			}
 
 			return true;
@@ -86,25 +86,25 @@ namespace YAML
 	};
 
 	template<>
-	struct convert<Tempest::Resource::MeshType>
+	struct convert<Tempest::MeshType>
 	{
-		static Node encode(const Tempest::Resource::MeshType& i_res)
+		static Node encode(const Tempest::MeshType& i_res)
 		{
 			Node node;
 			node.push_back(i_res);
 			return node;
 		}
 
-		static bool decode(const Node& node, Tempest::Resource::MeshType& io_res)
+		static bool decode(const Node& node, Tempest::MeshType& io_res)
 		{
 			auto data = node.as<Tempest::String>();
 			if (data == "Mesh")
 			{
-				io_res = Tempest::Resource::MeshType::Mesh;
+				io_res = Tempest::MeshType::Mesh;
 			}
 			else if (data == "SkeletonMesh")
 			{
-				io_res = Tempest::Resource::MeshType::SkeletonMesh;
+				io_res = Tempest::MeshType::SkeletonMesh;
 			}
 
 			return true;
@@ -128,7 +128,7 @@ namespace Tempest
 		return io_emitter;
 	}
 
-	YAML::Emitter& operator<<(YAML::Emitter& io_emitter, const Resource::LightType& type)
+	YAML::Emitter& operator<<(YAML::Emitter& io_emitter, const LightType& type)
 	{
 		io_emitter << YAML::Flow;
 
@@ -150,16 +150,16 @@ namespace Tempest
 		return io_emitter;
 	}
 
-	YAML::Emitter& operator<<(YAML::Emitter& io_emitter, const Resource::MeshType& type)
+	YAML::Emitter& operator<<(YAML::Emitter& io_emitter, const MeshType& type)
 	{
 		io_emitter << YAML::Flow;
 
 		switch (type)
 		{
-		case Resource::MeshType::Mesh:
+		case MeshType::Mesh:
 			io_emitter << "Mesh";
 			break;
-		case Resource::MeshType::SkeletonMesh:
+		case MeshType::SkeletonMesh:
 			io_emitter << "SkeletonMesh";
 			break;
 		}
@@ -351,7 +351,7 @@ namespace Tempest
 					background_component->shader_paths[0] = background_data["VertexShader"].as<String>();
 					background_component->shader_paths[4] = background_data["FragmentShader"].as<String>();
 					background_component->texture_path = background_data["TexturePath"].as<String>();
-					background_component->texture_type = Resource::TextureType::SkyBox;
+					background_component->texture_type = TextureType::SkyBox;
 				}
 
 				auto light_data = object_data["LightComponent"];
@@ -408,25 +408,25 @@ namespace Tempest
 						if (texture_data["Albedo"])
 						{
 							effect_component->texture_paths[0] = texture_data["Albedo"].as<String>();
-							effect_component->texture_types[0] = Resource::TextureType::Albedo;
+							effect_component->texture_types[0] = TextureType::Albedo;
 						}
 
 						if (texture_data["Normal"])
 						{
 							effect_component->texture_paths[1] = texture_data["Normal"].as<String>();
-							effect_component->texture_types[1] = Resource::TextureType::Normal;
+							effect_component->texture_types[1] = TextureType::Normal;
 						}
 
 						if (texture_data["Roughness"])
 						{
 							effect_component->texture_paths[2] = texture_data["Roughness"].as<String>();
-							effect_component->texture_types[2] = Resource::TextureType::Roughness;
+							effect_component->texture_types[2] = TextureType::Roughness;
 						}
 
 						if (texture_data["Metalic"])
 						{
 							effect_component->texture_paths[3] = texture_data["Metalic"].as<String>();
-							effect_component->texture_types[3] = Resource::TextureType::Metalic;
+							effect_component->texture_types[3] = TextureType::Metalic;
 						}
 					}
 				}

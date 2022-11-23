@@ -40,14 +40,7 @@ struct PointLight{
 };
 //------------------------------------------------------------------------------
 
-layout (std140, binding = 1) uniform const_model
-{
-	mat4 model_position_matrix;
-	mat4 model_view_perspective_matrix;
-	mat4 model_inverse_transpose_matrix;
-};
-
-layout (std140, binding = 3) uniform const_light
+layout (std140, binding = 4) uniform const_light
 {
 	vec4 ambient_intensity;
 	vec4 directional_intensity;
@@ -56,19 +49,19 @@ layout (std140, binding = 3) uniform const_light
 	int  point_num;
 };
 
-layout(binding = 0) uniform samplerCube skybox;
-layout(binding = 1) uniform samplerCube irradiancemap;
-layout(binding = 2) uniform samplerCube shadowmap0;
-layout(binding = 3) uniform samplerCube shadowmap1;
-layout(binding = 4) uniform samplerCube shadowmap2;
-layout(binding = 5) uniform samplerCube shadowmap3;
-layout(binding = 6) uniform samplerCube shadowmap4;
-layout(binding = 7) uniform samplerCube specularmap;
-layout(binding = 8) uniform sampler2D texturebrdf; 
-layout(binding = 10) uniform sampler2D texturealbedo;
-layout(binding = 11) uniform sampler2D texturenormal;
-layout(binding = 12) uniform sampler2D textureroughness;
-layout(binding = 13) uniform sampler2D texturemetallic;
+layout(binding = 32) uniform samplerCube skybox;
+layout(binding = 33) uniform samplerCube irradiancemap;
+layout(binding = 34) uniform samplerCube shadowmap0;
+layout(binding = 35) uniform samplerCube shadowmap1;
+layout(binding = 36) uniform samplerCube shadowmap2;
+layout(binding = 37) uniform samplerCube shadowmap3;
+layout(binding = 38) uniform samplerCube shadowmap4;
+layout(binding = 39) uniform samplerCube specularmap;
+layout(binding = 40) uniform sampler2D texturebrdf; 
+layout(binding = 41) uniform sampler2D texturealbedo;
+layout(binding = 42) uniform sampler2D texturenormal;
+layout(binding = 43) uniform sampler2D textureroughness;
+layout(binding = 44) uniform sampler2D texturemetallic;
 
 //------------------------------------------------------------------------------
 

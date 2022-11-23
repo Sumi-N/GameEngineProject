@@ -9,8 +9,15 @@ namespace Tempest
 		unsigned int width;
 		unsigned int height;
 
+		enum GraphicsApiType
+		{
+			OpenGL,
+			Vulkan,
+			Size,
+		} graphics_type;
+
 		WindowProperty(const std::string& i_title = "Tempest Engine")
-			: title(i_title), width(Graphics::InitialScreenWidth), height(Graphics::InitialScreenHeight)
+			: title(i_title), width(Graphics::InitialScreenWidth), height(Graphics::InitialScreenHeight), graphics_type(GraphicsApiType::Vulkan)
 		{};
 	};
 

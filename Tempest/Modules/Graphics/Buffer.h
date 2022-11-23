@@ -5,7 +5,7 @@ namespace Tempest
 {
 	enum class BufferFormat
 	{
-		None = 0, Float, Float2, Float3, Float4, Mat3, Mat4, Int, Int2, Int3, Int4, Bool
+		None = 0, Float, Float2, Float3, Float4, Float4x3, Mat3, Mat4, Int, Int2, Int3, Int4, Bool
 	};
 
 	static uint32_t GetBufferLayoutTypeSize(BufferFormat i_type)
@@ -16,6 +16,7 @@ namespace Tempest
 		case BufferFormat::Float2:   return 4 * 2;
 		case BufferFormat::Float3:   return 4 * 3;
 		case BufferFormat::Float4:   return 4 * 4;
+		case BufferFormat::Float4x3: return 4 * 4 * 3;
 		case BufferFormat::Mat3:     return 4 * 3 * 3;
 		case BufferFormat::Mat4:     return 4 * 4 * 4;
 		case BufferFormat::Int:      return 4;

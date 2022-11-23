@@ -15,6 +15,10 @@
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)External\glfw-3.3.bin.WIN64\include\;$(SolutionDir)External\glew-2.1.0\include\;$(SolutionDir)External\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)External\glfw-3.3.bin.WIN64\lib-vc2019\Debug\;$(SolutionDir)External\glew-2.1.0\lib\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>

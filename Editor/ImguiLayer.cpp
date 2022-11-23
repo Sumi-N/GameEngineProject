@@ -3,6 +3,8 @@
 
 namespace Tempest
 {
+	Window* EditorWindow;
+
 	bool isEntityModifies{false};
 	bool isObjectModified{false};
 	int SelectedObjectIndex = -1;
@@ -19,7 +21,18 @@ namespace Tempest
 
 	void ImguiLayer::OnAttach()
 	{
-		glfw_window = window->GetGLFWWindow();
+		EditorWindow = new Window();
+		WindowProperty property;
+		{
+			property.title = "Editor Window";
+			property.graphics_type = WindowProperty::GraphicsApiType::OpenGL;
+		}
+		EditorWindow->Init( property );
+		glfw_window = EditorWindow->GetGLFWWindow();
+		DEBUG_ASSERT(glfw_window);
+		glewExperimental = GL_TRUE;
+		auto glew_init_result = glewInit();
+		DEBUG_ASSERT(glew_init_result == GLEW_OK);
 
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
@@ -41,12 +54,6 @@ namespace Tempest
 			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 		}
 
-
-		if (!glfw_window)
-		{
-			DEBUG_ASSERT(false);
-		}
-
 		// Setup Platform/Renderer backends
 		ImGui_ImplGlfw_InitForOpenGL(glfw_window, true);
 		ImGui_ImplOpenGL3_Init("#version 420");
@@ -62,6 +69,8 @@ namespace Tempest
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
+
+		delete EditorWindow;
 	}
 
 	void ImguiLayer::OnUpdate()
@@ -88,6 +97,8 @@ namespace Tempest
 
 	void ImguiLayer::Begin()
 	{
+		EditorWindow->SetContext();
+
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
@@ -107,6 +118,8 @@ namespace Tempest
 			ImGui::RenderPlatformWindowsDefault();
 			glfwMakeContextCurrent(backup_current_context);
 		}
+
+		EditorWindow->SwapBuffer();
 	}
 
 	void ImguiLayer::Docking()

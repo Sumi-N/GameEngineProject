@@ -25,33 +25,36 @@ namespace Tempest
 		data.width = property.width;
 		data.height = property.height;
 
-		if (glfwInit() == GL_FALSE)
-		{
-			DEBUG_PRINT("Cannot initialize GLFW");
-			return;
-		}
+		auto glfw_init_result = glfwInit();
+		DEBUG_ASSERT_WITHMESSAGE(glfw_init_result == GL_TRUE, "Cannot initialize glfw");
 
 		atexit(glfwTerminate);
 
 		//Select OpenGL Version
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
-#ifdef ENGINE_GRAPHIC_VULKAN
-		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-#elif ENGINE_GRAPHIC_OPENGL
-		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#endif
+
+		switch (property.graphics_type)
+		{
+		case WindowProperty::GraphicsApiType::Vulkan:
+			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+			break;
+		case WindowProperty::GraphicsApiType::OpenGL:
+			glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
+			glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+			break;
+		default:
+			break;
+		}
 
 		// Creating a window
 		glfwwindow = glfwCreateWindow(data.width, data.height, data.title.c_str(), NULL, NULL);
 
 		if (!glfwwindow)
 		{
-			// If the window is not created
-			DEBUG_PRINT("Cannot create GLFW window");
 			glfwTerminate();
-			return;
+			DEBUG_ASSERT_WITHMESSAGE(false, "Cannot create GLFW window");
 		}
 
 		// Attached the OpenGL to this window
@@ -68,6 +71,10 @@ namespace Tempest
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(i_window);
 			data.width = i_width;
 			data.height = i_height;
+			if (!data.eventcallback)
+			{
+				return;
+			}
 
 			WindowResizeEvent event(i_width, i_height);
 			data.eventcallback(event);
@@ -76,6 +83,10 @@ namespace Tempest
 		glfwSetWindowCloseCallback(glfwwindow, [](GLFWwindow* i_window)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(i_window);
+			if (!data.eventcallback)
+			{
+				return;
+			}
 
 			WindowCloseEvent event;
 			data.eventcallback(event);
@@ -84,6 +95,10 @@ namespace Tempest
 		glfwSetKeyCallback(glfwwindow, [](GLFWwindow* i_window, int i_key, int i_scancode, int i_action, int i_mods)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(i_window);
+			if (!data.eventcallback)
+			{
+				return;
+			}
 
 			switch (i_action)
 			{
@@ -111,6 +126,10 @@ namespace Tempest
 		glfwSetMouseButtonCallback(glfwwindow, [](GLFWwindow* i_window, int i_button, int i_action, int i_mods)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(i_window);
+			if (!data.eventcallback)
+			{
+				return;
+			}
 
 			switch (i_action)
 			{
@@ -132,20 +151,13 @@ namespace Tempest
 		glfwSetCursorPosCallback(glfwwindow, [](GLFWwindow* i_window, double i_xpos, double i_ypos)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(i_window);
-
+			if (!data.eventcallback)
+			{
+				return;
+			}
 			MouseMovedEvent event(static_cast<float>(i_xpos), static_cast<float>(i_ypos));
 			data.eventcallback(event);
 		});
-
-		// Initialize GLEW
-#ifdef ENGINE_GRAPHIC_OPENGL
-		glewExperimental = GL_TRUE;
-		if (glewInit() != GLEW_OK)
-		{
-			DEBUG_PRINT("Cannot initialize GLEW");
-			return;
-		}
-#endif // ENGINE_GRAPHIC_OPENGL
 	}
 
 	bool Window::CheckShutdown()
@@ -156,6 +168,11 @@ namespace Tempest
 		glfwPollEvents();
 
 		return true;
+	}
+
+	void Window::SetContext()
+	{
+		glfwMakeContextCurrent(glfwwindow);
 	}
 
 	void Window::SwapBuffer()

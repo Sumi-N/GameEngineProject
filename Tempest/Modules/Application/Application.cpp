@@ -5,7 +5,7 @@ namespace Tempest
 
 	GameThread Thread_Game;
 	RenderThread Thread_Render;
-	Window* window;
+	Window* ApplicationWindow;
 
 	void Application::Invoke()
 	{

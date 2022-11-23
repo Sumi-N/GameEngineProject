@@ -49,5 +49,8 @@
     <ClInclude Include="Image_SpecularConvolution.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Image_Shadowmap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

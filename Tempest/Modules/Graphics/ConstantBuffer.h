@@ -105,10 +105,6 @@ namespace Tempest
 		ConstantBuffer() = default;
 		~ConstantBuffer() = default;
 
-#ifdef ENGINE_GRAPHIC_VULKAN
-
-#endif // ENGINE_GRAPHIC_OPENGL
-
 		void Init(ConstantData::Index);
 		void Update(const void* const);
 	};

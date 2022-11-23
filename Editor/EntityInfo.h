@@ -1,6 +1,6 @@
 #pragma once
 #include <EntitySystem/Entity.h>
-#include <Core/Math/Vector.h>
+#include <Modules/Math/Vector.h>
 
 namespace Tempest
 {

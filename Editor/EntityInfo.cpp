@@ -57,10 +57,12 @@ namespace Tempest {
 				if (object == Entity::EffectComponentList[i]->owner) {
 					result = static_cast<ComponentFlags>(result | ComponentFlags::EffectFlag);
 					SelecctedEffect = *Entity::EffectComponentList[i];
+#ifdef ENGINE_USE_EDITOR
 					if (Entity::EffectComponentList[i]->is_debug_function)
 					{
 						SelectingDebugEffect = Entity::EffectComponentList[i];
 					}
+#endif
 				}
 			}
 

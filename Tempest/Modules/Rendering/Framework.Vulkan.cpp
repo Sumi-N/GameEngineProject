@@ -2,6 +2,7 @@
 #include "Framework.h"
 #include "Image_SpecularIBL.h"
 #include "Image_Cubemap.h"
+#include "Image_Shadowmap.h"
 #include "Image_DiffuseConvolution.h"
 #include "Image_SpecularConvolution.h"
 
@@ -26,8 +27,12 @@ namespace Tempest
 	VertexBuffer skyboxvertexbuffer;
 	UniformBuffer uniformbuffer_camera;
 	UniformBuffer uniformbuffer_model;
+	UniformBuffer uniformbuffer_light;
 	UniformBuffer uniformbuffer_skybox;
 	Texture texture;
+	Texture normal;
+	Texture metallic;
+	Texture roughness;
 
 	VkSemaphore image_available_semaphores[2];
 	VkSemaphore render_finished_semaphores[2];
@@ -36,12 +41,14 @@ namespace Tempest
 
 	SpecularIBLImage specular_ibl_image;
 	CubemapImage cubemap_image;
+	ShadowmapImage shadowmap_image;
 	DiffuseConvolutionImage diffuse_convolution_image;
 	SpecularConvolutionImage specular_convolution_image;
 
 	BufferLayout vertex_layout;
 	BufferLayout camera_uniform_layout;
 	BufferLayout model_uniform_layout;
+	BufferLayout light_uniform_layout;
 	BufferLayout skybox_uniform_layout;
 
 	Pipeline skybox_pipeline;
@@ -95,9 +102,15 @@ namespace Tempest
 		Mesh mesh2;
 		Mesh::Load(PATH_SUFFIX BIN_MESH_PATH "teapot.tm", mesh2);
 		TextureInfo texture_info;
-		TextureInfo::Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo/CharacterBody_BaseColor.tt", texture_info);
+		TextureInfo::Load(PATH_SUFFIX BIN_TEXTURE_PATH "albedo/rustediron.tt", texture_info);
+		TextureInfo normal_info;
+		TextureInfo::Load(PATH_SUFFIX BIN_TEXTURE_PATH "normal/rustediron.tt", normal_info);
+		TextureInfo roughness_info;
+		TextureInfo::Load(PATH_SUFFIX BIN_TEXTURE_PATH "roughness/rustediron.tt", roughness_info);
+		TextureInfo metallic_info;
+		TextureInfo::Load(PATH_SUFFIX BIN_TEXTURE_PATH "metallic/rustediron.tt", metallic_info);
 
-		Shader::Load(PATH_SUFFIX BIN_SHADER_PATH "albedomodel.ts", shader);
+		Shader::Load(PATH_SUFFIX BIN_SHADER_PATH "disney_pbr.ts", shader);
 
 		descriptor.Init(device, shader);
 
@@ -125,12 +138,31 @@ namespace Tempest
 		model_uniform_layout.Init({ const_model1, const_model2, const_model3 });
 		uniformbuffer_model.Init(device, model_uniform_layout);
 
+		BufferUnit const_light1{ BufferFormat::Float4, "ambient_intensity" };
+		BufferUnit const_light2{ BufferFormat::Float4, "directional_intensity" };
+		BufferUnit const_light3{ BufferFormat::Float4x3, "pointlight_1" };
+		BufferUnit const_light4{ BufferFormat::Float4x3, "pointlight_2" };
+		BufferUnit const_light5{ BufferFormat::Float4x3, "pointlight_3" };
+		BufferUnit const_light6{ BufferFormat::Float4x3, "pointlight_4" };
+		BufferUnit const_light7{ BufferFormat::Float4x3, "pointlight_5" };
+		BufferUnit const_light8{ BufferFormat::Int, "pointlight_num" };
+		light_uniform_layout.Init({ const_light1, const_light2, const_light3, const_light4, const_light5, const_light6, const_light7, const_light8});
+		uniformbuffer_light.Init(device, light_uniform_layout);
+
 		texture.Init(device, texture_info);
+		normal.Init(device, normal_info);
+		roughness.Init(device, roughness_info);
+		metallic.Init(device, metallic_info);
 
 		descriptor.Bind(vertexbuffer);
 		descriptor.Bind(uniformbuffer_camera, 0);
 		descriptor.Bind(uniformbuffer_model, 1);
-		descriptor.Bind(texture, 2);
+		descriptor.Bind(uniformbuffer_light, 3);
+		descriptor.Bind(uniformbuffer_light, 4);
+		descriptor.Bind(texture, 41);
+		descriptor.Bind(normal, 42);
+		descriptor.Bind(roughness, 43);
+		descriptor.Bind(metallic, 44);
 
 		pipeline.Init(device, shader, descriptor, renderpass);
 	}
@@ -146,12 +178,18 @@ namespace Tempest
 		onetime_commandbuffer.Init(device);
 
 		cubemap_image.Init(device);
+		shadowmap_image.Init(device);
 		{
 			onetime_commandbuffer.ResetCommand();
 			onetime_commandbuffer.BeginCommand();
 
 			cubemap_image.BeginRenderPass(onetime_commandbuffer);
 			cubemap_image.BindDescriptor(onetime_commandbuffer);
+			PrimitiveDrawer::DrawCube(onetime_commandbuffer);
+			onetime_commandbuffer.EndRenderPass();
+
+			shadowmap_image.BeginRenderPass(onetime_commandbuffer);
+			shadowmap_image.BindDescriptor(onetime_commandbuffer);
 			PrimitiveDrawer::DrawCube(onetime_commandbuffer);
 			onetime_commandbuffer.EndRenderPass();
 
@@ -202,6 +240,15 @@ namespace Tempest
 		skybox_descriptor.Bind(cubemap_image.cubemap_texture, 0);
 		skybox_descriptor.Bind(uniformbuffer_skybox, 4);
 		skybox_pipeline.Init(device, skybox_shader, skybox_descriptor, renderpass);
+
+		descriptor.Bind(specular_ibl_image.texture, 40);
+		descriptor.Bind(diffuse_convolution_image.cubemap_texture, 33);
+		descriptor.Bind(shadowmap_image.cubemap_texture, 34);
+		descriptor.Bind(shadowmap_image.cubemap_texture, 35);
+		descriptor.Bind(shadowmap_image.cubemap_texture, 36);
+		descriptor.Bind(shadowmap_image.cubemap_texture, 37);
+		descriptor.Bind(shadowmap_image.cubemap_texture, 38);
+		descriptor.Bind(specular_convolution_image.cubemap_texture, 39);
 	}
 
 	void Framework::PreUpdate(GraphicRequiredData* i_data)
@@ -222,7 +269,6 @@ namespace Tempest
 		{
 			commandbuffers[current_frame].ResetCommand();
 			commandbuffers[current_frame].BeginCommand();
-
 			commandbuffers[current_frame].BeginRenderPass(framebuffers[image_index], renderpass);
 
 			//{
@@ -235,7 +281,12 @@ namespace Tempest
 			commandbuffers[current_frame].BindDescriptor(current_frame, descriptor, pipeline);
 
 			uniformbuffer_camera.Update(current_frame, static_cast<void*>(&i_data->camera), sizeof(ConstantData::Camera), 0);
-			if (i_data->model_data.Size() != 0) { uniformbuffer_model.Update(current_frame, static_cast<void*>(&i_data->model_data[0]), sizeof(ConstantData::Model), 0); }
+			uniformbuffer_light.Update(current_frame, static_cast<void*>(&i_data->light), sizeof(ConstantData::Light), 0);
+			if (i_data->model_data.Size() != 0)
+			{
+				i_data->model_data[0].model_view_perspective_matrix = i_data->camera.perspective_matrix * i_data->camera.view_matrix * i_data->model_data[0].model_position_matrix;
+				uniformbuffer_model.Update(current_frame, static_cast<void*>(&i_data->model_data[0]), sizeof(ConstantData::Model), 0);
+			}
 
 			commandbuffers[current_frame].Draw(vertexbuffer);
 			commandbuffers[current_frame].Draw(vertexbuffer2);

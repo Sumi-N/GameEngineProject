@@ -45,7 +45,7 @@ namespace Tempest
 
 		}
 
-	private:
+	public:
 		Pipeline pipeline;
 		Shader shader;
 		Texture texture;

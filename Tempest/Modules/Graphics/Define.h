@@ -33,7 +33,7 @@
 	#define GLFW_EXPOSE_NATIVE_WIN32
 	#include <GLFW/glfw3native.h>
 
-#endif // ENGINE_GRAPHIC_OPENGL
+#endif // ENGINE_GRAPHIC_VULKAN
 
 // Texture unit
 ///////////////////

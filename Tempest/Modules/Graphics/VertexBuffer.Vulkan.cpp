@@ -137,4 +137,4 @@ namespace Tempest
 		vkFreeMemory(device->logical_device, indexbuffer_memory, nullptr);
 	}
 }
-#endif // ENGINE_GRAPHIC_OPENGL
+#endif // ENGINE_GRAPHIC_VULKAN
