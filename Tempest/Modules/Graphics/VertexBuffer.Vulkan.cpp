@@ -12,7 +12,7 @@ namespace Tempest
 	{
 		device = &i_device;
 		layout = i_buffer_layout;
-		indecies_count = i_index_size / sizeof(uint32_t);
+		indecies_count = static_cast<uint32_t>(i_index_size) / sizeof(uint32_t);
 
 		// Vertex attribute
 		{
