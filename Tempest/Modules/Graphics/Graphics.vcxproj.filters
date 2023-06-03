@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="OpenGL">
-      <UniqueIdentifier>{b86c5cc1-6f0d-4c0f-9224-e08eb070ac5e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
@@ -19,16 +16,7 @@
     <ClInclude Include="ConstantBuffer.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="SceneProxy.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneEntity.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="FrameBuffer.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderState.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Define.h">
@@ -70,32 +58,11 @@
     <ClInclude Include="Buffer.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Sync.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ConstantBuffer.OpenGL.cpp">
-      <Filter>OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.OpenGL.cpp">
-      <Filter>OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneProxy.OpenGL.cpp">
-      <Filter>OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneProxy.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneEntity.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameBuffer.OpenGL.cpp">
-      <Filter>OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderState.OpenGL.cpp">
-      <Filter>OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawPrimitives.OpenGL.cpp">
-      <Filter>OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="Define.cpp">
       <Filter>Precompiled Header</Filter>
     </ClCompile>

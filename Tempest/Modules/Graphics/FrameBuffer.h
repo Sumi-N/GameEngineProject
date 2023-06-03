@@ -7,20 +7,6 @@
 
 namespace Tempest
 {
-	// The number of enum also represents the texture unit number
-	enum class FrameType : uint8_t
-	{
-		ShadowCubeMap = 0,
-		EquirectangularMap = 1,
-		IrradianceMap = 2,
-		Specular = 3,
-		BRDF = 4,
-		Image = 5,
-		ShadowMap = 6,
-
-		UnInitialized = 255,
-	};
-
 	class FrameBuffer
 	{
 	public:
@@ -35,8 +21,8 @@ namespace Tempest
 		uint32_t height;
 
 	public:
-		const Device* device;
-		const RenderPass* render_pass;
+		const Device* p_device;
+		const RenderPass* p_render_pass;
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 	public:

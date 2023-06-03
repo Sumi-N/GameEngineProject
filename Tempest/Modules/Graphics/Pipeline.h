@@ -13,13 +13,12 @@ namespace Tempest
 		~Pipeline() = default;
 
 		void Init(const Device& i_device,
-				  const Shader& i_shader,
 				  const Descriptor& i_descriptor,
 				  const RenderPass& i_renderpass);
 		void CleanUp();
 
 	private:
-		const Device* device;
+		const Device* p_device;
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 	public:

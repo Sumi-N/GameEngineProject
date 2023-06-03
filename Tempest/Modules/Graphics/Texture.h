@@ -18,7 +18,7 @@ namespace Tempest
 		uint32_t count;
 
 	private:
-		const Device* device;
+		const Device* p_device;
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 	public:

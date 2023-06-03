@@ -1,4 +1,10 @@
 #pragma once
+#include <functional>
+
+#include <Input/ApplicationEvent.h>
+#include <Input/KeyEvent.h>
+#include <Input/MouseEvent.h>
+
 #include "Define.h"
 
 namespace Tempest

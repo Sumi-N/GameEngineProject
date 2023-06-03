@@ -26,7 +26,7 @@ namespace Tempest
 {
 	void SwapChain::Init(const Device& i_device)
 	{
-		device = &i_device;
+		p_device = &i_device;
 
 		struct SupportDetail
 		{
@@ -41,22 +41,22 @@ namespace Tempest
 
 		// Get infos related to swapchain
 		{
-			vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device->physical_device, device->surface, &support_details.capabilities);
+			vkGetPhysicalDeviceSurfaceCapabilitiesKHR(p_device->physical_device, p_device->surface, &support_details.capabilities);
 
 			uint32_t format_count;
-			vkGetPhysicalDeviceSurfaceFormatsKHR(device->physical_device, device->surface, &format_count, nullptr);
+			vkGetPhysicalDeviceSurfaceFormatsKHR(p_device->physical_device, p_device->surface, &format_count, nullptr);
 			if (format_count != 0)
 			{
 				support_details.formats.Resize(format_count);
-				vkGetPhysicalDeviceSurfaceFormatsKHR(device->physical_device, device->surface, &format_count, support_details.formats.Data());
+				vkGetPhysicalDeviceSurfaceFormatsKHR(p_device->physical_device, p_device->surface, &format_count, support_details.formats.Data());
 			}
 
 			uint32_t presetn_mode_count;
-			vkGetPhysicalDeviceSurfacePresentModesKHR(device->physical_device, device->surface, &presetn_mode_count, nullptr);
+			vkGetPhysicalDeviceSurfacePresentModesKHR(p_device->physical_device, p_device->surface, &presetn_mode_count, nullptr);
 			if (presetn_mode_count != 0)
 			{
 				support_details.present_modes.Resize(presetn_mode_count);
-				vkGetPhysicalDeviceSurfacePresentModesKHR(device->physical_device, device->surface, &presetn_mode_count, support_details.present_modes.Data());
+				vkGetPhysicalDeviceSurfacePresentModesKHR(p_device->physical_device, p_device->surface, &presetn_mode_count, support_details.present_modes.Data());
 			}
 
 			bool swapchain_adequate = false;
@@ -78,7 +78,6 @@ namespace Tempest
 			DEBUG_ASSERT(has_avaiable_surface_format);
 
 			int available_present_mode_index = 0;
-			VkPresentModeKHR present_mode = VK_PRESENT_MODE_FIFO_KHR;
 			for (const auto& available_present_mode : support_details.present_modes)
 			{
 				if (available_present_mode == VK_PRESENT_MODE_MAILBOX_KHR)
@@ -88,7 +87,6 @@ namespace Tempest
 				}
 				available_present_mode_index++;
 			}
-
 
 			support_details.extent.width = std::clamp(Graphics::InitialScreenWidth, support_details.capabilities.minImageExtent.width, support_details.capabilities.maxImageExtent.width);
 			support_details.extent.height = std::clamp(Graphics::InitialScreenHeight, support_details.capabilities.minImageExtent.height, support_details.capabilities.maxImageExtent.height);
@@ -101,13 +99,21 @@ namespace Tempest
 			}
 		}
 
+		// Set member data
+		width = support_details.extent.width;
+		height = support_details.extent.height;
+		surface_format = support_details.formats[support_details.available_format_index];
+		present_mode = support_details.present_modes[support_details.available_present_mode_index];
+		color_format = support_details.formats[support_details.available_format_index].format;
+		depth_format = VK_FORMAT_D32_SFLOAT;
+
 		// Create Swapchain
 		{
 			VkSwapchainCreateInfoKHR create_swapchain_info{};
 			create_swapchain_info.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-			create_swapchain_info.surface = device->surface;
+			create_swapchain_info.surface = p_device->surface;
 			create_swapchain_info.minImageCount = support_details.image_count;
-			create_swapchain_info.imageFormat = support_details.formats[support_details.available_format_index].format;
+			create_swapchain_info.imageFormat = color_format;
 			create_swapchain_info.imageColorSpace = support_details.formats[support_details.available_format_index].colorSpace;
 			create_swapchain_info.imageExtent = support_details.extent;
 			create_swapchain_info.imageArrayLayers = 1;
@@ -116,17 +122,17 @@ namespace Tempest
 
 			create_swapchain_info.preTransform = support_details.capabilities.currentTransform;
 			create_swapchain_info.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
-			create_swapchain_info.presentMode = support_details.present_modes[support_details.available_present_mode_index];
+			create_swapchain_info.presentMode = present_mode;
 			create_swapchain_info.clipped = VK_TRUE;
 			create_swapchain_info.oldSwapchain = VK_NULL_HANDLE;
 
-			VkResult create_swapchain_result = vkCreateSwapchainKHR(device->logical_device, &create_swapchain_info, nullptr, &swapchain);
+			VkResult create_swapchain_result = vkCreateSwapchainKHR(p_device->logical_device, &create_swapchain_info, nullptr, &swapchain);
 			DEBUG_ASSERT(create_swapchain_result == VK_SUCCESS);
 
 			uint32_t image_count;
-			vkGetSwapchainImagesKHR(device->logical_device, swapchain, &image_count, nullptr);
+			vkGetSwapchainImagesKHR(p_device->logical_device, swapchain, &image_count, nullptr);
 			color_images.Resize(image_count);
-			vkGetSwapchainImagesKHR(device->logical_device, swapchain, &image_count, color_images.Data());
+			vkGetSwapchainImagesKHR(p_device->logical_device, swapchain, &image_count, color_images.Data());
 		}
 
 		// Create color image view
@@ -137,7 +143,7 @@ namespace Tempest
 			create_view_image_info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
 			create_view_image_info.image = color_images[i];
 			create_view_image_info.viewType = VK_IMAGE_VIEW_TYPE_2D;
-			create_view_image_info.format = support_details.formats[support_details.available_format_index].format;
+			create_view_image_info.format = color_format;
 			create_view_image_info.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
 			create_view_image_info.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
 			create_view_image_info.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
@@ -148,14 +154,9 @@ namespace Tempest
 			create_view_image_info.subresourceRange.baseArrayLayer = 0;
 			create_view_image_info.subresourceRange.layerCount = 1;
 
-			VkResult create_image_result = vkCreateImageView(device->logical_device, &create_view_image_info, nullptr, &color_image_views[i]);
+			VkResult create_image_result = vkCreateImageView(p_device->logical_device, &create_view_image_info, nullptr, &color_image_views[i]);
 			DEBUG_ASSERT(create_image_result == VK_SUCCESS);
 		}
-
-		width = support_details.extent.width;
-		height = support_details.extent.height;
-		color_format = support_details.formats[support_details.available_format_index].format;
-		depth_format = VK_FORMAT_D32_SFLOAT;
 
 		{
 			VkImageCreateInfo image_info{};
@@ -173,20 +174,20 @@ namespace Tempest
 			image_info.samples = VK_SAMPLE_COUNT_1_BIT;
 			image_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
-			auto image_create_result = vkCreateImage(device->logical_device, &image_info, nullptr, &depth_image);
+			auto image_create_result = vkCreateImage(p_device->logical_device, &image_info, nullptr, &depth_image);
 			DEBUG_ASSERT(image_create_result == VK_SUCCESS)
 
 			VkMemoryRequirements memory_requirements;
-			vkGetImageMemoryRequirements(device->logical_device, depth_image, &memory_requirements);
+			vkGetImageMemoryRequirements(p_device->logical_device, depth_image, &memory_requirements);
 
 			VkMemoryAllocateInfo allocInfo{};
 			allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 			allocInfo.allocationSize = memory_requirements.size;
-			allocInfo.memoryTypeIndex = FindMemoryType(device->physical_device, memory_requirements.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+			allocInfo.memoryTypeIndex = FindMemoryType(p_device->physical_device, memory_requirements.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
-			auto allocate_result = vkAllocateMemory(device->logical_device, &allocInfo, nullptr, &depth_image_memory);
+			auto allocate_result = vkAllocateMemory(p_device->logical_device, &allocInfo, nullptr, &depth_image_memory);
 			DEBUG_ASSERT(allocate_result == VK_SUCCESS)
-			vkBindImageMemory(device->logical_device, depth_image, depth_image_memory, 0);
+			vkBindImageMemory(p_device->logical_device, depth_image, depth_image_memory, 0);
 
 			VkImageViewCreateInfo view_info{};
 			view_info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
@@ -199,7 +200,7 @@ namespace Tempest
 			view_info.subresourceRange.baseArrayLayer = 0;
 			view_info.subresourceRange.layerCount = 1;
 
-			auto view_create_result = vkCreateImageView(device->logical_device, &view_info, nullptr, &depth_image_view);
+			auto view_create_result = vkCreateImageView(p_device->logical_device, &view_info, nullptr, &depth_image_view);
 			DEBUG_ASSERT(view_create_result == VK_SUCCESS)
 		}
 	}
@@ -208,13 +209,20 @@ namespace Tempest
 	{
 		for (auto image_view : color_image_views)
 		{
-			vkDestroyImageView(device->logical_device, image_view, nullptr);
+			vkDestroyImageView(p_device->logical_device, image_view, nullptr);
 		}
 
-		vkDestroyImage(device->logical_device, depth_image, nullptr);
-		vkDestroyImageView(device->logical_device, depth_image_view, nullptr);
+		vkDestroyImage(p_device->logical_device, depth_image, nullptr);
+		vkDestroyImageView(p_device->logical_device, depth_image_view, nullptr);
 
-		vkDestroySwapchainKHR(device->logical_device, swapchain, nullptr);
+		vkDestroySwapchainKHR(p_device->logical_device, swapchain, nullptr);
+	}
+
+	uint32_t SwapChain::AcquireNextImage(const Semaphore& semaphore)
+	{
+		uint32_t image_index;
+		vkAcquireNextImageKHR(p_device->logical_device, swapchain, UINT64_MAX, semaphore.semaphore, VK_NULL_HANDLE, &image_index);
+		return image_index;
 	}
 }
 #endif

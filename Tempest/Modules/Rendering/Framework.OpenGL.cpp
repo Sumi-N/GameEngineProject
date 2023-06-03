@@ -1,6 +1,6 @@
 #pragma once
 #include "Define.h"
-#include "Framework.h"
+#include "GraphicsFramework.h"
 
 #ifdef  ENGINE_GRAPHIC_OPENGL
 

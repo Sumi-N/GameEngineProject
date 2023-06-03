@@ -4,6 +4,11 @@
 
 namespace Tempest
 {
+	class CommandBuffer;
+	class Fence;
+	class SwapChain;
+	class Semaphore;
+
 	class Device
 	{
 	public:
@@ -12,6 +17,11 @@ namespace Tempest
 
 		void Init(Window* i_window);
 		void CleanUp();
+		void SubmitToQueue(const CommandBuffer& commandbuffer,
+					const Fence* p_fence,
+					const Semaphore* p_wait_semaphore,
+					const Semaphore* p_signal_semaphore);
+		void Present(SwapChain& swapchain, uint32_t image_index, Semaphore& semaphore);
 
 		int   min_buffer_offset_alignment;
 		float max_sampler_anisotropy;

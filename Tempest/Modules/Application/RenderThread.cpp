@@ -2,7 +2,7 @@
 
 namespace Tempest
 {
-	extern HWND WindowsHanlder;
+	extern HWND g_WindowsHanlder;
 	GraphicRequiredData  GraphicsData;
 	Delegate<> RenderThreadOnReset;
 
@@ -11,51 +11,47 @@ namespace Tempest
 	void RenderThread::Boot()
 	{
 		// Create window and init glfw
-		ApplicationWindow = new Window();
+		pWindow = new Window();
 		WindowProperty property;
-		ApplicationWindow->Init(property);
+		pWindow->Init(property);
 
-		WindowsHanlder = ApplicationWindow->GetNaitiveWindowsHandler();
+		g_WindowsHanlder = pWindow->GetNaitiveWindowsHandler();
 
 		// Bind event callbacks including the callbacks that are in imgui layer and other layers
 		BindEvent();
 
-		// Initialize OpenGL
-		Framework::Boot(ApplicationWindow);
+		// Initialize graphics framework
+		pGraphicsFramework = new GraphicsFramework();
+		pGraphicsFramework->Boot(pWindow);
 	}
 
 	void RenderThread::Init()
 	{
-		// Init scene Entity
-		//SceneEntity::Init();
-
-		Framework::Init(ApplicationWindow->data.width, ApplicationWindow->data.height);
+		pGraphicsFramework->Init(pWindow->data.width, pWindow->data.height);
 
 		LayerStack::Init();
 
-		Framework::PreCompute();
+		pGraphicsFramework->PreCompute();
 	}
 
 	void RenderThread::Reset()
 	{
-		//SceneEntity::List.Clear();
-		//SceneEntity::Init();
-		Framework::PreCompute();
+		pGraphicsFramework->PreCompute();
 		WriteDataToOwningThread(&GraphicsData);
 	}
 
 	void RenderThread::NonCriticalSection()
 	{
-		if (!ApplicationWindow->CheckShutdown())
+		if (!pWindow->CheckShutdown())
 		{
-			brunning = false;
+			is_alive = false;
 		}
 
-		Framework::PreUpdate(&GraphicsData);
+		pGraphicsFramework->PreUpdate(&GraphicsData);
 
-		Framework::Update(&GraphicsData);
+		pGraphicsFramework->Update(&GraphicsData);
 
-		Framework::PostUpdate(&GraphicsData);
+		pGraphicsFramework->PostUpdate(&GraphicsData);
 
 		LayerStack::Update();
 	}
@@ -69,14 +65,18 @@ namespace Tempest
 	void RenderThread::CleanUp()
 	{
 		LayerStack::CleanUp();
-		Framework::CleanUp();
-		ApplicationWindow->Shutdown();
-		delete ApplicationWindow;
+		pGraphicsFramework->CleanUp();
+
+		pGraphicsFramework->CleanUp();
+		delete pGraphicsFramework;
+
+		pWindow->Shutdown();
+		delete pWindow;
 	}
 
 	void RenderThread::BindEvent()
 	{
-		ApplicationWindow->data.eventcallback = std::bind(&RenderThread::OnEvent, this, std::placeholders::_1);
+		pWindow->data.eventcallback = std::bind(&RenderThread::OnEvent, this, std::placeholders::_1);
 
 		RenderThreadOnReset = Delegate<>::Create<RenderThread, &RenderThread::Reset>(this);
 	}
@@ -92,14 +92,14 @@ namespace Tempest
 
 	bool RenderThread::OnWindowClose(WindowCloseEvent i_event)
 	{
-		ApplicationWindow->OnWindowClose(i_event);
+		pWindow->OnWindowClose(i_event);
 		return true;
 	}
 
 	bool RenderThread::OnWindowResize(WindowResizeEvent i_event)
 	{
-		Framework::ChangeViewportSize(ApplicationWindow->data.width, ApplicationWindow->data.height);
-		ApplicationWindow->OnWindowResize(i_event);
+		pGraphicsFramework->ChangeViewportSize(pWindow->data.width, pWindow->data.height);
+		pWindow->OnWindowResize(i_event);
 		return true;
 	}
 

@@ -13,7 +13,7 @@ namespace Tempest
 		Descriptor() = default;
 		~Descriptor() = default;
 
-		void Init(const Device& i_device, const Shader& i_shader);
+		void Init(const Device& i_device, const ShaderInfo& i_shader);
 		void CleanUp();
 
 		void Bind(const VertexBuffer& i_vertex);
@@ -23,10 +23,13 @@ namespace Tempest
 		uint32_t vertex_stride;
 
 	private:
-		const Device* device;
+		const Device* p_device;
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 	public:
+		bool           shader_exist[static_cast<int>(ShaderType::Size)];
+		VkShaderModule shader_module[static_cast<int>(ShaderType::Size)];
+
 		VkDescriptorSetLayout descriptorset_layout;
 		VkDescriptorPool descriptor_pool;
 		VkDescriptorSet descriptor_sets[Graphics::BufferingCount];

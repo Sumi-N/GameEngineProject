@@ -3,6 +3,8 @@
 #include <shaderc/shaderc.h>
 #include <External/SPIRV-Reflect/spirv_reflect.h>
 
+#define TOOL_ASSERT(x) _ASSERT(x)
+
 #include <vulkan/vulkan.h>
 // Returns the size in bytes of the provided VkFormat.
 // As this is only intended for vertex attribute formats, not all VkFormats are supported.
@@ -156,9 +158,9 @@ Result ConvertShaders(String output_file_name, String* i_file_names)
 	RETURN_IFNOT_SUCCESS(out.Open());
 
 	// Shader info struct
-	ShaderInfo shader_info{};
-	RETURN_IFNOT_SUCCESS(out.Write(reinterpret_cast<void*>(&shader_info), sizeof(ShaderInfo)));
-	size_t shader_info_current_offset = sizeof(ShaderInfo);
+	ShaderFile shader_file{};
+	RETURN_IFNOT_SUCCESS(out.Write(reinterpret_cast<void*>(&shader_file), sizeof(ShaderFile)));
+	size_t shader_file_current_offset = sizeof(ShaderFile);
 
 	// Iterate through shaders
 	for (int idx_type = 0; idx_type < static_cast<int>(ShaderType::Size); idx_type++)
@@ -191,7 +193,7 @@ Result ConvertShaders(String output_file_name, String* i_file_names)
 			case 5:
 				return shaderc_compute_shader;
 			default:
-				DEBUG_ASSERT(false);}
+				TOOL_ASSERT(false);}
 			return shaderc_vertex_shader;
 		};
 
@@ -203,8 +205,8 @@ Result ConvertShaders(String output_file_name, String* i_file_names)
 		size_t num_warnings = shaderc_result_get_num_warnings(compile_result);
 		if(num_errors != 0 || num_warnings != 0)
 			DEBUG_PRINT("\n%s", shaderc_result_get_error_message(compile_result));
-		DEBUG_ASSERT(num_errors == 0);
-		DEBUG_ASSERT(num_warnings == 0);
+		TOOL_ASSERT(num_errors == 0);
+		TOOL_ASSERT(num_warnings == 0);
 
 		// Get reflection data
 		{
@@ -213,19 +215,19 @@ Result ConvertShaders(String output_file_name, String* i_file_names)
 
 			SpvReflectShaderModule module = {};
 			SpvReflectResult reflection_result = spvReflectCreateShaderModule(shader_size, shader_binary, &module);
-			DEBUG_ASSERT(reflection_result == SPV_REFLECT_RESULT_SUCCESS);
+			TOOL_ASSERT(reflection_result == SPV_REFLECT_RESULT_SUCCESS);
 
 			// Set vertex data
 			if (idx_type == static_cast<int>(ShaderType::Vertex))
 			{
 				uint32_t vertex_count = 0;
 				SpvReflectResult result = spvReflectEnumerateInputVariables(&module, &vertex_count, NULL);
-				DEBUG_ASSERT(result == SPV_REFLECT_RESULT_SUCCESS);
+				TOOL_ASSERT(result == SPV_REFLECT_RESULT_SUCCESS);
 
 				std::vector<VertexInfo> vertex_infos(vertex_count);
 				std::vector<SpvReflectInterfaceVariable*> input_vars(vertex_count);
 				result = spvReflectEnumerateInputVariables(&module, &vertex_count, input_vars.data());
-				DEBUG_ASSERT(result == SPV_REFLECT_RESULT_SUCCESS);
+				TOOL_ASSERT(result == SPV_REFLECT_RESULT_SUCCESS);
 
 				for (int i = 0; i < input_vars.size(); i++)
 				{
@@ -240,6 +242,8 @@ Result ConvertShaders(String output_file_name, String* i_file_names)
 					vertex_infos[i].binding = 0;
 					vertex_infos[i].format = static_cast<int>(refl_var.format);
 					vertex_infos[i].offset = 0;
+					TOOL_ASSERT(strlen(refl_var.name) <= MAX_NAME_LENGTH);
+					strcpy(vertex_infos[i].name, refl_var.name);
 				}
 
 				std::sort(std::begin(vertex_infos), std::end(vertex_infos),
@@ -255,29 +259,29 @@ Result ConvertShaders(String output_file_name, String* i_file_names)
 					stride += format_size;
 				}
 
-				shader_info.vertex_count = vertex_count;
-				shader_info.vertex_stride = stride;
-				shader_info.vertex_info_offset = shader_info_current_offset;
+				shader_file.vertex_count = vertex_count;
+				shader_file.vertex_stride = stride;
+				shader_file.vertex_info_offset = shader_file_current_offset;
 
 				RETURN_IFNOT_SUCCESS(out.Write(vertex_infos.data(), vertex_count * sizeof(VertexInfo)));
 
-				shader_info_current_offset += vertex_count * sizeof(VertexInfo);
+				shader_file_current_offset += vertex_count * sizeof(VertexInfo);
 			}
 
 			// Set uniform data
 			{
 				uint32_t uniform_count = 0;
 				SpvReflectResult result = spvReflectEnumerateDescriptorSets(&module, &uniform_count, NULL);
-				DEBUG_ASSERT(result == SPV_REFLECT_RESULT_SUCCESS);
+				TOOL_ASSERT(result == SPV_REFLECT_RESULT_SUCCESS);
 
 				Array<SpvReflectDescriptorSet*> sets(uniform_count);
 				result = spvReflectEnumerateDescriptorSets(&module, &uniform_count, sets.Data());
-				DEBUG_ASSERT(result == SPV_REFLECT_RESULT_SUCCESS);
+				TOOL_ASSERT(result == SPV_REFLECT_RESULT_SUCCESS);
 
 				Array<UniformInfo> uniform_infos;
 				for (size_t index = 0; index < sets.Size(); ++index)
 				{
-					DEBUG_ASSERT(index == 0);
+					TOOL_ASSERT(index == 0);
 
 					auto p_set = sets[index];
 					uniform_infos.Resize(p_set->binding_count);
@@ -287,23 +291,24 @@ Result ConvertShaders(String output_file_name, String* i_file_names)
 						const SpvReflectBlockVariable& binding_obj_block = binding_obj.block;
 
 						uniform_infos[i].binding = binding_obj.binding;
-						//uniform_infos[i].name = binding_obj.name;
+						TOOL_ASSERT(strlen(binding_obj.name) <= MAX_NAME_LENGTH);
+						strcpy(uniform_infos[i].name, binding_obj.name);
 						uniform_infos[i].type = static_cast<ShaderDescriptorType>(binding_obj.descriptor_type);
 						uniform_infos[i].stage = static_cast<int>(module.shader_stage);
 						uniform_infos[i].size = binding_obj_block.size;
 
-						DEBUG_ASSERT(binding_obj.array.dims_count == 0);
-						DEBUG_ASSERT(binding_obj.uav_counter_binding == nullptr);
+						TOOL_ASSERT(binding_obj.array.dims_count == 0);
+						TOOL_ASSERT(binding_obj.uav_counter_binding == nullptr);
 						//DEBUG_ASSERT((binding_obj.type_description->type_name != nullptr) && (strlen(binding_obj.type_description->type_name) > 0));
 					}
 				}
 
-				shader_info.uniform_sizes[idx_type] = uniform_infos.Size();
-				shader_info.uniform_offsets[idx_type] = shader_info_current_offset;
+				shader_file.uniform_sizes[idx_type] = uniform_infos.Size();
+				shader_file.uniform_offsets[idx_type] = shader_file_current_offset;
 
 				RETURN_IFNOT_SUCCESS(out.Write(uniform_infos.Data(), uniform_infos.Size() * sizeof(UniformInfo)));
 
-				shader_info_current_offset += uniform_infos.Size() * sizeof(UniformInfo);
+				shader_file_current_offset += uniform_infos.Size() * sizeof(UniformInfo);
 			}
 
 			// Set shader binary
@@ -311,13 +316,13 @@ Result ConvertShaders(String output_file_name, String* i_file_names)
 				size_t shader_size = shaderc_result_get_length(compile_result);
 				const char* shader_binary = shaderc_result_get_bytes(compile_result);
 
-				shader_info.shader_exist[idx_type] = true;
-				shader_info.shader_sizes[idx_type] = shader_size;
-				shader_info.shader_offsets[idx_type] = shader_info_current_offset;
+				shader_file.shader_exist[idx_type] = true;
+				shader_file.shader_sizes[idx_type] = shader_size;
+				shader_file.shader_offsets[idx_type] = shader_file_current_offset;
 
 				RETURN_IFNOT_SUCCESS(out.Write((void*)(shader_binary), shader_size));
 
-				shader_info_current_offset += shader_size;
+				shader_file_current_offset += shader_size;
 			}
 
 			spvReflectDestroyShaderModule(&module);
@@ -327,7 +332,7 @@ Result ConvertShaders(String output_file_name, String* i_file_names)
 	}
 
 	out.SetPosition(0);
-	RETURN_IFNOT_SUCCESS(out.Write(reinterpret_cast<void*>(&shader_info), sizeof(ShaderInfo)));
+	RETURN_IFNOT_SUCCESS(out.Write(reinterpret_cast<void*>(&shader_file), sizeof(ShaderFile)));
 
 	// Close the destination file
 	out.Close();
@@ -391,9 +396,60 @@ int main()
 	directory + "disney_pbr_model\\disney_pbr.frag.glsl", ""
 	};
 
-	auto result = ConvertShaders("disney_pbr", disney_pbr);
+	String shadowmap[] = {
+	directory + "shadow_mapping\\shadowmap.vert.glsl", "", "", "",
+	directory + "shadow_mapping\\shadowmap.frag.glsl", ""
+	};
 
-	DEBUG_ASSERT(result == ResultValue::Success);
+	{
+		auto result = ConvertShaders("basic_paths", basic_paths);
+		TOOL_ASSERT(result == ResultValue::Success);
+	}
+
+	{
+		auto result = ConvertShaders("outlinehighlight_paths", outlinehighlight_paths);
+		TOOL_ASSERT(result == ResultValue::Success);
+	}
+
+	{
+		auto result = ConvertShaders("albedomodel_paths", albedomodel_paths);
+		TOOL_ASSERT(result == ResultValue::Success);
+	}
+
+	{
+		auto result = ConvertShaders("specular_ibl", specular_ibl);
+		TOOL_ASSERT(result == ResultValue::Success);
+	}
+
+	{
+		auto result = ConvertShaders("equirectangular_to_cube_mapping", equirectangular_to_cube_mapping);
+		TOOL_ASSERT(result == ResultValue::Success);
+	}
+
+	{
+		auto result = ConvertShaders("cubemap_diffuse_convolution", cubemap_diffuse_convolution);
+		TOOL_ASSERT(result == ResultValue::Success);
+	}
+
+	{
+		auto result = ConvertShaders("cubemap_specular_convolution", cubemap_specular_convolution);
+		TOOL_ASSERT(result == ResultValue::Success);
+	}
+
+	{
+		auto result = ConvertShaders("skybox", skybox);
+		TOOL_ASSERT(result == ResultValue::Success);
+	}
+
+	{
+		auto result = ConvertShaders("disney_pbr", disney_pbr);
+		TOOL_ASSERT(result == ResultValue::Success);
+	}
+
+	{
+		auto result = ConvertShaders("shadowmap", shadowmap);
+		TOOL_ASSERT(result == ResultValue::Success);
+	}
 
 	return 0;
 }

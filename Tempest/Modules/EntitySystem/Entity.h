@@ -8,6 +8,7 @@
 #include "CameraComponent.h"
 #include "BackgroundComponent.h"
 #include "AnimationComponent.h"
+#include "Layer/Layer.h"
 
 namespace Tempest
 {
@@ -53,7 +54,7 @@ namespace Tempest
 		}
 	};
 
-	class Entity
+	class Entity : Layer
 	{
 
 	public:
@@ -79,6 +80,12 @@ namespace Tempest
 		static void Update(float i_dt);
 		static void CleanUp();
 		static void Reset();
+
+		virtual void OnAttach() override;
+		virtual void OnDetach() override;
+		virtual void OnBoot() override;
+		virtual void OnUpdate() override;
+		virtual void OnCriticalSection() override;
 	};
 
 }

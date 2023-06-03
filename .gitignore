@@ -271,7 +271,7 @@ __pycache__/
 Assets/bin/**
 
 
-# Due to copyrights, we want to exclude certain directories
-#Assets/models/NotFree/
-#Assets/textures/NotFree/
+# Due to copyrights issue, excluding certain directories are required
+# Assets/models/NotFree/
+# Assets/textures/NotFree/
 *.tmd

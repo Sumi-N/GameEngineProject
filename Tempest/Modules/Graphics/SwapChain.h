@@ -1,6 +1,6 @@
 #pragma once
-#include "Define.h"
 #include "Device.h"
+#include "Sync.h"
 
 namespace Tempest{
 	class SwapChain
@@ -11,12 +11,13 @@ namespace Tempest{
 
 		void Init(const Device& i_device);
 		void CleanUp();
+		uint32_t AcquireNextImage(const Semaphore&);
 
 		uint32_t width;
 		uint32_t height;
 
 	private:
-		const Device* device;
+		const Device* p_device;
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 	public:
@@ -29,15 +30,19 @@ namespace Tempest{
 		VkFormat GetColorFormat() const { return color_format; }
 		VkFormat GetDepthFormat() const { return depth_format; }
 
-	private:
+	public:
 		VkSwapchainKHR swapchain;
+		VkPresentModeKHR present_mode;
+		VkSurfaceFormatKHR surface_format;
+
+	private:
 		Array<VkImage> color_images;
 		Array<VkImageView> color_image_views;
 		VkFormat color_format;
 		VkImage depth_image;
 		VkImageView depth_image_view;
-		VkDeviceMemory depth_image_memory;
 		VkFormat depth_format;
+		VkDeviceMemory depth_image_memory;
 
 #endif // ENGINE_GRAPHIC_VULKAN
 	};

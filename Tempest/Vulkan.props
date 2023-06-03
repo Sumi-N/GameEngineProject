@@ -5,12 +5,24 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(VK_SDK_PATH)\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VK_SDK_PATH)\include\;$(SolutionDir)External\glfw\include\;$(SolutionDir)External\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(VK_SDK_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(VK_SDK_PATH)\lib;$(SolutionDir)External\glfw\build\src\Release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command />
+    </PreBuildEvent>
+    <PreLinkEvent>
+      <Command>if not exist "$(SolutionDir)\External\glfw\build\" (
+  cmake -G "Visual Studio 17 2022" -A x64 -S $(SolutionDir)\External\glfw  -B $(SolutionDir)\External\glfw\build\
+)
+
+if not exist "$(SolutionDir)\External\glfw\build\src\Release\" (
+  cmake --build $(SolutionDir)\External\glfw\build --config Release
+) </Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>

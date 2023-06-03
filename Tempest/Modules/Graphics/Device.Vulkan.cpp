@@ -1,11 +1,16 @@
+#include <set>
+
+#include "CommandBuffer.h"
 #include "Device.h"
+#include "SwapChain.h"
+#include "Sync.h"
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 namespace Tempest
 {
 	namespace
 	{
-		bool CheckValidationLayerSupport(const char* layer_name)
+		bool CheckLayerSupport(const char* layer_name)
 		{
 			uint32_t layer_count;
 			vkEnumerateInstanceLayerProperties(&layer_count, nullptr);
@@ -81,17 +86,17 @@ namespace Tempest
 			instance_create_info.enabledExtensionCount = static_cast<uint32_t>(extensions.Size());
 			instance_create_info.ppEnabledExtensionNames = extensions.Data();
 
-#ifdef ENABLE_VULKAN_VALIDATION_LAYERS
 			const char* layer_names[] = {
+#ifdef ENABLE_VULKAN_VALIDATION_LAYERS
 				"VK_LAYER_KHRONOS_validation",
-				""
+#endif
+#ifdef ENABLE_RENDERDOC_CAPTURE
+				"VK_LAYER_RENDERDOC_Capture",
+#endif
 			};
-			instance_create_info.enabledLayerCount = 1;
-			instance_create_info.ppEnabledLayerNames = layer_names;
-#else
-		instance_create_info.enabledLayerCount = 0;
-		instance_create_info.pNext = nullptr;
-#endif // ENABLE_VULKAN_VALIDATION_LAYERS
+			instance_create_info.enabledLayerCount = sizeof(layer_names) / sizeof(layer_names[0]);
+			instance_create_info.ppEnabledLayerNames =
+				instance_create_info.enabledExtensionCount != 0 ? layer_names : nullptr;
 
 			// The second argument is for custom allocator, might need to change it later
 			VkResult create_instance_result = vkCreateInstance(&instance_create_info, nullptr, &instance);
@@ -156,7 +161,7 @@ namespace Tempest
 			bool device_qualified = false;
 			device_qualified = (device_properties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU && device_features.geometryShader);
 
-			min_buffer_offset_alignment = device_properties.limits.minUniformBufferOffsetAlignment;
+			min_buffer_offset_alignment = static_cast<int>(device_properties.limits.minUniformBufferOffsetAlignment);
 			max_sampler_anisotropy = device_properties.limits.maxSamplerAnisotropy;
 
 			DEBUG_ASSERT(device_qualified);
@@ -201,19 +206,23 @@ namespace Tempest
 				vkEnumerateDeviceExtensionProperties(physical_device, nullptr, &extension_count, availableExtensions.Data());
 			}
 
-			// Check if this graphics card is able to make a swapchain
-			bool requirement = false;
 			device_extensions.PushBack(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
-			//device_extensions.PushBack(VK_EXT_DEPTH_RANGE_UNRESTRICTED_EXTENSION_NAME);
-			for (auto itr = availableExtensions.Begin(); itr != availableExtensions.End(); ++itr)
+			//device_extensions.PushBack(VK_EXT_DESCRIPTOR_BUFFER_EXTENSION_NAME);
+
+			// Check if this graphics card is supporting exntensions
+			for (int i = 0; i < device_extensions.Size(); i++)
 			{
-				if (std::strcmp((*itr).extensionName, device_extensions.At(0)) == 0)
+				bool available = false;
+				for (auto itr = availableExtensions.Begin(); itr != availableExtensions.End(); ++itr)
 				{
-					requirement = true;
-					break;
+					if (std::strcmp((*itr).extensionName, device_extensions.At(i)) == 0)
+					{
+						available = true;
+						break;
+					}
 				}
+				DEBUG_ASSERT(available);
 			}
-			DEBUG_ASSERT(requirement);
 		}
 
 		// Create logical device
@@ -282,6 +291,44 @@ namespace Tempest
 		vkDestroySurfaceKHR(instance, surface, nullptr);
 
 		vkDestroyInstance(instance, nullptr);
+	}
+
+	void Device::SubmitToQueue(const CommandBuffer& commandbuffer, const Fence* p_fence, const Semaphore* p_wait_semaphore, const Semaphore* p_signal_semaphore)
+	{
+		VkSubmitInfo submitInfo{};
+		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+		submitInfo.commandBufferCount = 1;
+		submitInfo.pCommandBuffers = &commandbuffer.commandbuffer;
+		if (p_wait_semaphore)
+		{
+			submitInfo.waitSemaphoreCount = 1;
+			VkSemaphore wait_semaphore[] = { p_wait_semaphore->semaphore };
+			submitInfo.pWaitSemaphores = wait_semaphore;
+			VkPipelineStageFlags wait_stages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+			submitInfo.pWaitDstStageMask = wait_stages;
+		}
+		if (p_signal_semaphore)
+		{
+			submitInfo.signalSemaphoreCount = 1;
+			VkSemaphore signal_semaphore[] = { p_signal_semaphore->semaphore };
+			submitInfo.pSignalSemaphores = signal_semaphore;
+		}
+
+		auto queue_submi_result = vkQueueSubmit(queue, 1, &submitInfo, p_fence->fence);
+		DEBUG_ASSERT(queue_submi_result == VK_SUCCESS);
+	}
+
+	void Device::Present(SwapChain& swapchain, uint32_t image_index, Semaphore& wait_semaphore)
+	{
+		VkPresentInfoKHR presentInfo{};
+		presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+		presentInfo.waitSemaphoreCount = 1;
+		presentInfo.pWaitSemaphores = &wait_semaphore.semaphore;
+		presentInfo.swapchainCount = 1;
+		presentInfo.pSwapchains = &swapchain.swapchain;
+		presentInfo.pImageIndices = &image_index;
+
+		vkQueuePresentKHR(queue, &presentInfo);
 	}
 }
 #endif

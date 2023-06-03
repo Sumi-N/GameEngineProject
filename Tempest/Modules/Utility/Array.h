@@ -87,7 +87,7 @@ namespace Tempest
 		size_t capacity   { 0 };
 		size_t size       { 0 };
 		size_t granularity{ InitialGranularity };
-		T*     data       {nullptr};
+		T*     data       { nullptr };
 	};
 #else
 	template <typename T>

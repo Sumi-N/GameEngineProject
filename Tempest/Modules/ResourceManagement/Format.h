@@ -57,6 +57,7 @@ namespace Tempest
 	enum class TextureFormat : uint32_t
 	{
 		R8G8A8_SRGB,
+		R8G8B8A8_UNORM,
 		R8G8B8A8_SRGB,
 		R16G16_SFLOAT,
 		R16G16B16_SFLOAT,
@@ -73,6 +74,7 @@ namespace Tempest
 		switch (i_format)
 		{
 		case TextureFormat::R8G8A8_SRGB:           return 3;
+		case TextureFormat::R8G8B8A8_UNORM:        return 4;
 		case TextureFormat::R8G8B8A8_SRGB:         return 4;
 		case TextureFormat::R16G16_SFLOAT:         return 8;
 		case TextureFormat::R16G16B16_SFLOAT:      return 12;

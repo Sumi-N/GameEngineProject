@@ -1,6 +1,6 @@
 #include "Define.h"
 #include "PrimitiveDrawer.h"
-#include "Framework.h"
+#include "GraphicsFramework.h"
 
 #ifdef  ENGINE_GRAPHIC_VULKAN
 namespace Tempest
@@ -16,11 +16,11 @@ namespace Tempest
 		BufferUnit(BufferFormat::Float3, "vertex"),
 		BufferUnit(BufferFormat::Float2, "texcoord") });
 
-	void PrimitiveDrawer::Init()
+	void PrimitiveDrawer::Init(const Device* pDevice)
 	{
-		InitCube();
-		InitQuad();
-		InitLine();
+		InitCube(pDevice);
+		InitQuad(pDevice);
+		InitLine(pDevice);
 	}
 
 
@@ -32,7 +32,7 @@ namespace Tempest
 	//	shader_basic_green_line.LoadShader();
 	//}
 
-	void PrimitiveDrawer::InitCube()
+	void PrimitiveDrawer::InitCube(const Device* pDevice)
 	{
 		static float vertices[] = {
 			// back face
@@ -88,14 +88,12 @@ namespace Tempest
 			30, 31, 32, 33, 34, 35
 		};
 
-		const Device& device = Framework::GetDevice();
-
 		uint32_t vetex_size = static_cast<uint32_t>(sizeof(vertices));
 		uint32_t index_size = static_cast<uint32_t>(sizeof(indices));
-		VertexBufferCube.Init(device, VertexLayoutCube, vertices, vetex_size, indices, index_size);
+		VertexBufferCube.Init(*pDevice, VertexLayoutCube, vertices, vetex_size, indices, index_size);
 	}
 
-	void PrimitiveDrawer::InitQuad()
+	void PrimitiveDrawer::InitQuad(const Device* pDevice)
 	{
 		constexpr float vertices[] = {
 			// positions
@@ -110,14 +108,12 @@ namespace Tempest
 			1, 2, 3  // second triangle
 		};
 
-		const Device& device = Framework::GetDevice();
-
 		uint32_t vetex_size = static_cast<uint32_t>(sizeof(vertices));
 		uint32_t index_size = static_cast<uint32_t>(sizeof(indices));
-		VertexBufferQuad.Init(device, VertexLayoutQuad, vertices, vetex_size, indices, index_size);
+		VertexBufferQuad.Init(*pDevice, VertexLayoutQuad, vertices, vetex_size, indices, index_size);
 	}
 
-	void PrimitiveDrawer::InitLine()
+	void PrimitiveDrawer::InitLine(const Device* pDevice)
 	{
 		constexpr GLfloat linevertex[] =
 		{

@@ -13,3 +13,5 @@
 #include <Utility/Array.h>
 
 #include <External/loadpng/lodepng.h>
+
+#define MAX_NAME_LENGTH 64

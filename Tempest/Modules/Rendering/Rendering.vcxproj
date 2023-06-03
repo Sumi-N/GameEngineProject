@@ -39,13 +39,11 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\..\EngineDefaults.props" />
-    <Import Project="..\..\OpenGL_Debug.props" />
     <Import Project="..\..\Vulkan.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\..\EngineDefaults.props" />
-    <Import Project="..\..\OpenGL.props" />
     <Import Project="..\..\Vulkan.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -93,18 +91,18 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Framework.OpenGL.cpp" />
-    <ClCompile Include="Framework.Vulkan.cpp" />
+    <ClCompile Include="GraphicsFramework.Vulkan.cpp" />
     <ClCompile Include="PrimitiveDrawer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h" />
-    <ClInclude Include="Framework.h" />
-    <ClInclude Include="Image_Cubemap.h" />
-    <ClInclude Include="Image_DiffuseConvolution.h" />
-    <ClInclude Include="Image_Shadowmap.h" />
-    <ClInclude Include="Image_SpecularConvolution.h" />
+    <ClInclude Include="GraphicsFramework.h" />
+    <ClInclude Include="RenderPass_Cubemap.h" />
+    <ClInclude Include="RenderPass_DiffuseConvolution.h" />
+    <ClInclude Include="RenderPass_Shadowmap.h" />
+    <ClInclude Include="RenderPass_SpecularConvolution.h" />
     <ClInclude Include="PrimitiveDrawer.h" />
-    <ClInclude Include="Image_SpecularIBL.h" />
+    <ClInclude Include="RenderPass_SpecularIBL.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Graphics\Graphics.vcxproj">

@@ -22,7 +22,7 @@ namespace Tempest
 		uint32_t indecies_count;
 
 	private:
-		const Device* device;
+		const Device* p_device;
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 	public:

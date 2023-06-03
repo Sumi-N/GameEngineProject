@@ -5,15 +5,15 @@ namespace Tempest
 {
 	void CommandBuffer::Init(const Device& i_device)
 	{
-		device = &i_device;
+		p_device = &i_device;
 
 		VkCommandBufferAllocateInfo commandbuffer_allocate_info{};
 		commandbuffer_allocate_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-		commandbuffer_allocate_info.commandPool = device->commandpool;
+		commandbuffer_allocate_info.commandPool = p_device->commandpool;
 		commandbuffer_allocate_info.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 		commandbuffer_allocate_info.commandBufferCount = 1;
 
-		VkResult create_commandbuffer_result = vkAllocateCommandBuffers(device->logical_device, &commandbuffer_allocate_info, &commandbuffer);
+		VkResult create_commandbuffer_result = vkAllocateCommandBuffers(p_device->logical_device, &commandbuffer_allocate_info, &commandbuffer);
 		DEBUG_ASSERT(create_commandbuffer_result == VK_SUCCESS);
 	}
 
@@ -97,17 +97,6 @@ namespace Tempest
 	{
 		auto end_command_result = vkEndCommandBuffer(commandbuffer);
 		DEBUG_ASSERT(end_command_result == VK_SUCCESS);
-	}
-
-	void CommandBuffer::SubmitAndWait() const
-	{
-		VkSubmitInfo submitInfo{};
-		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-		submitInfo.commandBufferCount = 1;
-		submitInfo.pCommandBuffers = &commandbuffer;
-
-		auto queue_submi_result = vkQueueSubmit(device->queue, 1, &submitInfo, nullptr);
-		DEBUG_ASSERT(queue_submi_result == VK_SUCCESS);
 	}
 }
 #endif // ENGINE_GRAPHIC_VULKAN

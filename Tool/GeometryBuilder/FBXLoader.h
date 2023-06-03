@@ -29,7 +29,7 @@ namespace FBXLoader
 	FbxString GetAttributeTypeName(FbxNodeAttribute::EType);
 	FbxAMatrix GetGeometryTransformation(FbxNode* inNode);
 
-	void ProcessSkeletonHierarchyRecursively(FbxNode* inNode, int inDepth, int myIndex, int inParentIndex, Resource::Skeleton& skeleton, std::map<String, int>& joint_map);
+	void ProcessSkeletonHierarchyRecursively(FbxNode* inNode, int inDepth, int myIndex, int inParentIndex, Skeleton& skeleton, std::map<String, int>& joint_map);
 	void ProcessAnimationSampleRecursively(FbxNode* inNode, int inDepth, int myIndex, int inParentIndex, AnimationSample& sample, FbxTime time);
 
 	int FindJointIndexUsingName(std::string name, const std::map<String, int>& joint_map);

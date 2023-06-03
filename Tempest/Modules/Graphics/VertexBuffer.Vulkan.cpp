@@ -10,7 +10,7 @@ namespace Tempest
 							const void* i_index_data,
 							size_t i_index_size)
 	{
-		device = &i_device;
+		p_device = &i_device;
 		layout = i_buffer_layout;
 		indecies_count = static_cast<uint32_t>(i_index_size) / sizeof(uint32_t);
 
@@ -18,8 +18,8 @@ namespace Tempest
 		{
 			VkBuffer stagingbuffer;
 			VkDeviceMemory stagingbuffer_memory;
-			CreateBuffer(device->physical_device,
-						 device->logical_device,
+			CreateBuffer(p_device->physical_device,
+						 p_device->logical_device,
 						 i_vertex_size,
 						 VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
 						 VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
@@ -27,12 +27,12 @@ namespace Tempest
 						 stagingbuffer_memory);
 
 			void* data;
-			vkMapMemory(device->logical_device, stagingbuffer_memory, 0, i_vertex_size, 0, &data);
+			vkMapMemory(p_device->logical_device, stagingbuffer_memory, 0, i_vertex_size, 0, &data);
 			memcpy(data, i_vertex_data, i_vertex_size);
-			vkUnmapMemory(device->logical_device, stagingbuffer_memory);
+			vkUnmapMemory(p_device->logical_device, stagingbuffer_memory);
 
-			CreateBuffer(device->physical_device,
-						 device->logical_device,
+			CreateBuffer(p_device->physical_device,
+						 p_device->logical_device,
 						 i_vertex_size,
 						 VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
 						 VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
@@ -41,7 +41,7 @@ namespace Tempest
 
 			// Copy buffer
 			{
-				auto vk_commandbuffer = device->system_commandbuffer;
+				auto vk_commandbuffer = p_device->system_commandbuffer;
 
 				VkCommandBufferBeginInfo begin_info{};
 				begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -64,12 +64,12 @@ namespace Tempest
 				submit_info.commandBufferCount = 1;
 				submit_info.pCommandBuffers = &vk_commandbuffer;
 
-				vkQueueSubmit(device->queue, 1, &submit_info, VK_NULL_HANDLE);
-				vkQueueWaitIdle(device->queue);
+				vkQueueSubmit(p_device->queue, 1, &submit_info, VK_NULL_HANDLE);
+				vkQueueWaitIdle(p_device->queue);
 			}
 
-			vkDestroyBuffer(device->logical_device, stagingbuffer, nullptr);
-			vkFreeMemory(device->logical_device, stagingbuffer_memory, nullptr);
+			vkDestroyBuffer(p_device->logical_device, stagingbuffer, nullptr);
+			vkFreeMemory(p_device->logical_device, stagingbuffer_memory, nullptr);
 		}
 
 		// Index buffer
@@ -77,8 +77,8 @@ namespace Tempest
 		{
 			VkBuffer stagingbuffer;
 			VkDeviceMemory stagingbuffer_memory;
-			CreateBuffer(device->physical_device,
-						 device->logical_device,
+			CreateBuffer(p_device->physical_device,
+						 p_device->logical_device,
 						 i_index_size,
 						 VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
 						 VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
@@ -86,12 +86,12 @@ namespace Tempest
 						 stagingbuffer_memory);
 
 			void* data;
-			vkMapMemory(device->logical_device, stagingbuffer_memory, 0, i_index_size, 0, &data);
+			vkMapMemory(p_device->logical_device, stagingbuffer_memory, 0, i_index_size, 0, &data);
 			memcpy(data, i_index_data, i_index_size);
-			vkUnmapMemory(device->logical_device, stagingbuffer_memory);
+			vkUnmapMemory(p_device->logical_device, stagingbuffer_memory);
 
-			CreateBuffer(device->physical_device,
-						 device->logical_device,
+			CreateBuffer(p_device->physical_device,
+						 p_device->logical_device,
 						 i_index_size,
 						 VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
 						 VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
@@ -100,7 +100,7 @@ namespace Tempest
 
 			// Copy buffer
 			{
-				auto vk_commandbuffer = device->system_commandbuffer;
+				auto vk_commandbuffer = p_device->system_commandbuffer;
 
 				VkCommandBufferBeginInfo begin_info{};
 				begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -119,22 +119,22 @@ namespace Tempest
 				submit_info.commandBufferCount = 1;
 				submit_info.pCommandBuffers = &vk_commandbuffer;
 
-				vkQueueSubmit(device->queue, 1, &submit_info, VK_NULL_HANDLE);
-				vkQueueWaitIdle(device->queue);
+				vkQueueSubmit(p_device->queue, 1, &submit_info, VK_NULL_HANDLE);
+				vkQueueWaitIdle(p_device->queue);
 			}
 
-			vkDestroyBuffer(device->logical_device, stagingbuffer, nullptr);
-			vkFreeMemory(device->logical_device, stagingbuffer_memory, nullptr);
+			vkDestroyBuffer(p_device->logical_device, stagingbuffer, nullptr);
+			vkFreeMemory(p_device->logical_device, stagingbuffer_memory, nullptr);
 		}
 	}
 
 	void VertexBuffer::CleanUp() const
 	{
-		vkDestroyBuffer(device->logical_device, vertexbuffer, nullptr);
-		vkFreeMemory(device->logical_device, vertexbuffer_memory, nullptr);
+		vkDestroyBuffer(p_device->logical_device, vertexbuffer, nullptr);
+		vkFreeMemory(p_device->logical_device, vertexbuffer_memory, nullptr);
 
-		vkDestroyBuffer(device->logical_device, indexbuffer, nullptr);
-		vkFreeMemory(device->logical_device, indexbuffer_memory, nullptr);
+		vkDestroyBuffer(p_device->logical_device, indexbuffer, nullptr);
+		vkFreeMemory(p_device->logical_device, indexbuffer_memory, nullptr);
 	}
 }
 #endif // ENGINE_GRAPHIC_VULKAN

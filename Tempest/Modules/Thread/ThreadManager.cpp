@@ -1,15 +1,17 @@
-#pragma once
+﻿#pragma once
 #include "ThreadManager.h"
 
 namespace Tempest
 {
-	uint8_t ThreadCount{ 0 };
+	uint8_t ThreadCount{0};
 
 	uint8_t ThreadManager::RegisterThread()
 	{
 		return ThreadCount++;
 	}
 
+	// TODO RegisterThred で導入した数の　Thread　しか SyncPoint で待てない。
+	// 将来的に3つ以上のスレッドが動作した時の、どのスレッドとどのスレッドが同期するのか等を指定できるようにする
 	void ThreadManager::SyncPoint1(uint8_t thread_id)
 	{
 		static std::mutex mtx;

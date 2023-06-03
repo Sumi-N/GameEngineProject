@@ -22,7 +22,7 @@
 #include <Graphics/Window.h>
 #include <Graphics/ConstantBuffer.h>
 
-#include <Rendering/Framework.h>
+#include <Rendering/GraphicsFramework.h>
 
 #include <Input/Delegate.h>
 

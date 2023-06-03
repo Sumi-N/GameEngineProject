@@ -5,8 +5,6 @@
 
 namespace Tempest
 {
-	extern Window* ApplicationWindow;
-
 	class RenderThread : public Thread
 	{
 	public:
@@ -25,5 +23,9 @@ namespace Tempest
 		void OnEvent(Event& i_event);
 		bool OnWindowClose(WindowCloseEvent i_event);
 		bool OnWindowResize(WindowResizeEvent i_event);
+
+	private:
+		Window* pWindow;
+		GraphicsFramework* pGraphicsFramework;
 	};
 }

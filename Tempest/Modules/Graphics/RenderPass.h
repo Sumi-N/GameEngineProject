@@ -17,7 +17,7 @@ namespace Tempest
 		void CleanUp();
 
 	private:
-		const Device* device;
+		const Device* p_device;
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 	public:

@@ -25,10 +25,9 @@ namespace Tempest
 		void Draw(const VertexBuffer& i_vertexbuffer) const;
 		void EndRenderPass() const;
 		void EndCommand() const;
-		void SubmitAndWait() const;
 
 	private:
-		const Device* device;
+		const Device* p_device;
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 	public:

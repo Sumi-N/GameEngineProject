@@ -53,6 +53,7 @@ namespace Tempest
 			if (result != ResultValue::Success)
 			{
 				in.SetFileName(PATH_SUFFIX_FROM_EXE + String(i_filepath));
+				DEBUG::ConsolePrint("Failed to load skeleton: %s", i_filepath);
 				RETURN_IFNOT_SUCCESS(in.Open());
 			}
 
@@ -96,6 +97,7 @@ namespace Tempest
 			if (result != ResultValue::Success)
 			{
 				in.SetFileName(PATH_SUFFIX_FROM_EXE + String(i_filepath));
+				DEBUG::ConsolePrint("Failed to load animation clip: %s", i_filepath);
 				RETURN_IFNOT_SUCCESS(in.Open());
 			}
 
@@ -133,6 +135,7 @@ namespace Tempest
 			if (result != ResultValue::Success)
 			{
 				in.SetFileName(PATH_SUFFIX_FROM_EXE + String(i_filepath));
+				DEBUG::ConsolePrint("Failed to load mesh: %s", i_filepath);
 				RETURN_IFNOT_SUCCESS(in.Open());
 			}
 
@@ -167,6 +170,7 @@ namespace Tempest
 			if (result != ResultValue::Success)
 			{
 				in.SetFileName(PATH_SUFFIX_FROM_EXE + String(i_filepath));
+				DEBUG::ConsolePrint("Failed to load skeleton mesh: %s", i_filepath);
 				RETURN_IFNOT_SUCCESS(in.Open());
 			}
 
@@ -219,6 +223,7 @@ namespace Tempest
 			if (result != ResultValue::Success)
 			{
 				in.SetFileName(PATH_SUFFIX_FROM_EXE + String(i_filepath));
+				DEBUG::ConsolePrint("Failed to load texture: %s", i_filepath);
 				RETURN_IFNOT_SUCCESS(in.Open());
 			}
 
@@ -234,7 +239,7 @@ namespace Tempest
 			}
 			else if(type < TextureType::Size)
 			{
-				o_texture.format = TextureFormat::R8G8B8A8_SRGB;
+				o_texture.format = TextureFormat::R8G8B8A8_UNORM;
 				o_texture.usage_flag |= TextureUsage::USAGE_TRANSFER_DST_BIT;
 				o_texture.usage_flag |= TextureUsage::USAGE_SAMPLED_BIT;
 			}
@@ -264,18 +269,19 @@ namespace Tempest
 		int binding;
 		int format;
 		int offset;
+		char name[MAX_NAME_LENGTH];
 	};
 
 	struct  UniformInfo
 	{
 		int binding;
 		size_t size;
-		//String name;
 		ShaderDescriptorType type;
 		int stage;
+		char name[MAX_NAME_LENGTH];
 	};
 
-	struct ShaderInfo
+	struct ShaderFile
 	{
 		bool   shader_exist   [static_cast<int>(ShaderType::Size)];
 		size_t shader_sizes   [static_cast<int>(ShaderType::Size)];
@@ -287,7 +293,7 @@ namespace Tempest
 		size_t uniform_offsets[static_cast<int>(ShaderType::Size)];
 	};
 
-	struct Shader
+	struct ShaderInfo
 	{
 		bool               shader_exist[static_cast<int>(ShaderType::Size)];
 		size_t             shader_sizes[static_cast<int>(ShaderType::Size)];
@@ -296,7 +302,7 @@ namespace Tempest
 		size_t             vertex_stride;
 		Array<UniformInfo> uniform_infos[static_cast<int>(ShaderType::Size)];
 
-		static Result Load(const char* i_filepath, Shader& o_shader)
+		static Result Load(const char* i_filepath, ShaderInfo& o_shader)
 		{
 			File in(i_filepath, File::Format::BinaryRead);
 
@@ -304,40 +310,41 @@ namespace Tempest
 			if (result != ResultValue::Success)
 			{
 				in.SetFileName(PATH_SUFFIX_FROM_EXE + String(i_filepath));
+				DEBUG::ConsolePrint("Failed to load shader: %s", i_filepath);
 				RETURN_IFNOT_SUCCESS(in.Open());
 			}
 
-			ShaderInfo shader_info;
-			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(&shader_info), sizeof(ShaderInfo)));
+			ShaderFile shader_file;
+			RETURN_IFNOT_SUCCESS(in.Read(static_cast<void*>(&shader_file), sizeof(ShaderFile)));
 
 			for (int i = 0; i < static_cast<int>(ShaderType::Size); i++)
 			{
-				o_shader.shader_exist[i] = shader_info.shader_exist[i];
-				o_shader.shader_sizes[i] = shader_info.shader_sizes[i];
+				o_shader.shader_exist[i] = shader_file.shader_exist[i];
+				o_shader.shader_sizes[i] = shader_file.shader_sizes[i];
 
-				if(shader_info.shader_exist[i] == false)
-					DEBUG_ASSERT(shader_info.shader_sizes[i] == 0);
+				if(shader_file.shader_exist[i] == false)
+					DEBUG_ASSERT(shader_file.shader_sizes[i] == 0);
 
-				if (shader_info.shader_sizes[i] != 0)
+				if (shader_file.shader_sizes[i] != 0)
 				{
-					o_shader.shader_binaries[i].Resize(shader_info.shader_sizes[i]);
-					in.SetPosition(shader_info.shader_offsets[i]);
-					RETURN_IFNOT_SUCCESS(in.Read(o_shader.shader_binaries[i].Data(), shader_info.shader_sizes[i]));
+					o_shader.shader_binaries[i].Resize(shader_file.shader_sizes[i]);
+					in.SetPosition(shader_file.shader_offsets[i]);
+					RETURN_IFNOT_SUCCESS(in.Read(o_shader.shader_binaries[i].Data(), shader_file.shader_sizes[i]));
 				}
 
-				if (shader_info.uniform_sizes[i] != 0)
+				if (shader_file.uniform_sizes[i] != 0)
 				{
-					o_shader.uniform_infos[i].Resize(shader_info.uniform_sizes[i]);
-					in.SetPosition(shader_info.uniform_offsets[i]);
-					RETURN_IFNOT_SUCCESS(in.Read(o_shader.uniform_infos[i].Data(), shader_info.uniform_sizes[i] * sizeof(UniformInfo)));
+					o_shader.uniform_infos[i].Resize(shader_file.uniform_sizes[i]);
+					in.SetPosition(shader_file.uniform_offsets[i]);
+					RETURN_IFNOT_SUCCESS(in.Read(o_shader.uniform_infos[i].Data(), shader_file.uniform_sizes[i] * sizeof(UniformInfo)));
 				}
 
-				if (i == static_cast<int>(ShaderType::Vertex) && shader_info.vertex_count != 0)
+				if (i == static_cast<int>(ShaderType::Vertex) && shader_file.vertex_count != 0)
 				{
-					o_shader.vertex_stride = shader_info.vertex_stride;
-					o_shader.vertex_info.Resize(shader_info.vertex_count);
-					in.SetPosition(shader_info.vertex_info_offset);
-					RETURN_IFNOT_SUCCESS(in.Read(o_shader.vertex_info.Data(), shader_info.vertex_count * sizeof(VertexInfo)));
+					o_shader.vertex_stride = shader_file.vertex_stride;
+					o_shader.vertex_info.Resize(shader_file.vertex_count);
+					in.SetPosition(shader_file.vertex_info_offset);
+					RETURN_IFNOT_SUCCESS(in.Read(o_shader.vertex_info.Data(), shader_file.vertex_count * sizeof(VertexInfo)));
 				}
 			}
 

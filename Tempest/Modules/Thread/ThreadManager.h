@@ -3,6 +3,8 @@
 
 namespace Tempest
 {
+	class Thread;
+
 	class ThreadManager
 	{
 	public:

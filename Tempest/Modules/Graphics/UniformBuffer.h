@@ -17,7 +17,7 @@ namespace Tempest
 		void Update(int i_index, void* i_data, size_t i_size, size_t i_offset) const;
 
 	private:
-		const Device* device;
+		const Device* p_device;
 
 #ifdef ENGINE_GRAPHIC_VULKAN
 	public:

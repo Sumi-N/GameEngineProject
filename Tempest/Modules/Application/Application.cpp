@@ -3,71 +3,53 @@
 namespace Tempest
 {
 
-	GameThread Thread_Game;
-	RenderThread Thread_Render;
-	Window* ApplicationWindow;
+	GameThread g_GameThread;
+	RenderThread g_RenderThread;
 
 	void Application::Invoke()
 	{
-		Thread_Game.Create();
-		Thread_Render.Create();
+		g_GameThread.Create(InvokeGameThread);
+		g_RenderThread.Create(InvokeRenderThread);
 
-		std::thread gamethread(InvokeGameThread);
-		gamethread.detach();
-
-		InvokeRenderThread();
+		g_GameThread.WaitThreadFinish();
+		g_RenderThread.WaitThreadFinish();
 
 		return;
-	}
-
-	void Application::Run()
-	{
-		// Run render thread
-		RunRenderThread();
 	}
 
 	void Application::InvokeRenderThread()
 	{
 		// Start boot process for render thread
 		{
-			Thread_Render.Boot();
-			ThreadManager::SyncPoint1(Thread_Render.thread_id);
+			g_RenderThread.Boot();
+			ThreadManager::SyncPoint1(g_RenderThread.id);
 		}
 		// Wait until both game and render thread finish boot process
 		// Start init process for render thread
 		{
-			Thread_Render.Init();
-			ThreadManager::SyncPoint2(Thread_Render.thread_id);
+			g_RenderThread.Init();
+			ThreadManager::SyncPoint2(g_RenderThread.id);
 		}
 		// Wait until both game and render thread finish init process
+
+		g_RenderThread.Run();
 	}
 
 	void Application::InvokeGameThread()
 	{
 		// Start boot process for game thread
 		{
-			Thread_Game.Boot();
-			ThreadManager::SyncPoint1(Thread_Game.thread_id);
+			g_GameThread.Boot();
+			ThreadManager::SyncPoint1(g_GameThread.id);
 		}
 		// Wait until both game and render thread finish boot process
 		// Start init process for game thread
 		{
-			Thread_Game.Init();
-			ThreadManager::SyncPoint2(Thread_Game.thread_id);
+			g_GameThread.Init();
+			ThreadManager::SyncPoint2(g_GameThread.id);
 		}
 		// Wait until both game and render thread finish init process
 
-		RunGameThread();
+		g_GameThread.Run();
 	}
-
-	void Application::RunGameThread()
-	{
-		Thread_Game.Run();
-	}
-
-	void Application::RunRenderThread()
-	{
-		Thread_Render.Run();
-	}
-
 }

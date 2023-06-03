@@ -38,13 +38,11 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\..\EngineDefaults.props" />
-    <Import Project="..\..\OpenGL_Debug.props" />
     <Import Project="..\..\Vulkan.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\..\EngineDefaults.props" />
-    <Import Project="..\..\OpenGL.props" />
     <Import Project="..\..\Vulkan.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -107,21 +105,13 @@
     <ClCompile Include="Texture.Vulkan.cpp" />
     <ClCompile Include="UniformBuffer.Vulkan.cpp" />
     <ClCompile Include="CommandBuffer.Vulkan.cpp" />
-    <ClCompile Include="ConstantBuffer.OpenGL.cpp" />
     <ClCompile Include="Define.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Device.Vulkan.cpp" />
-    <ClCompile Include="DrawPrimitives.OpenGL.cpp" />
-    <ClCompile Include="FrameBuffer.OpenGL.cpp" />
     <ClCompile Include="FrameBuffer.Vulkan.cpp" />
     <ClCompile Include="Pipeline.Vulkan.cpp" />
-    <ClCompile Include="RenderState.OpenGL.cpp" />
-    <ClCompile Include="SceneEntity.cpp" />
-    <ClCompile Include="SceneProxy.cpp" />
-    <ClCompile Include="SceneProxy.OpenGL.cpp" />
-    <ClCompile Include="Shader.OpenGL.cpp" />
     <ClCompile Include="SwapChain.Vulkan.cpp" />
     <ClCompile Include="VertexBuffer.Vulkan.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -130,6 +120,7 @@
   <ItemGroup>
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="Descriptor.h" />
+    <ClInclude Include="Sync.h" />
     <ClInclude Include="RenderPass.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="UniformBuffer.h" />
@@ -140,9 +131,6 @@
     <ClInclude Include="Device.h" />
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="Pipeline.h" />
-    <ClInclude Include="RenderState.h" />
-    <ClInclude Include="SceneEntity.h" />
-    <ClInclude Include="SceneProxy.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Window.win.h" />

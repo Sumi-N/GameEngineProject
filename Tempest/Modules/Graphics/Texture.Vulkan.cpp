@@ -103,6 +103,7 @@ namespace Tempest
 		switch (i_format)
 		{
 		case TextureFormat::R8G8A8_SRGB:           return VK_FORMAT_R8G8B8_SRGB;
+		case TextureFormat::R8G8B8A8_UNORM:        return VK_FORMAT_R8G8B8A8_UNORM;
 		case TextureFormat::R8G8B8A8_SRGB:         return VK_FORMAT_R8G8B8A8_SRGB;
 		case TextureFormat::R16G16_SFLOAT:         return VK_FORMAT_R16G16_SFLOAT;
 		case TextureFormat::R16G16B16_SFLOAT:      return VK_FORMAT_R16G16B16_SFLOAT;
@@ -114,7 +115,7 @@ namespace Tempest
 		}
 
 		DEBUG_ASSERT(false);
-		return VK_FORMAT_R8G8B8A8_SRGB;
+		return VK_FORMAT_R8G8B8A8_UNORM;
 	}
 
 	static VkImageAspectFlags GetAspect(TextureInfoFlags i_aspect)
@@ -129,7 +130,7 @@ namespace Tempest
 
 	void Texture::Init(const Device& i_device, const TextureInfo& i_textuer_info)
 	{
-		device = &i_device;
+		p_device = &i_device;
 		const TextureInfo& info = i_textuer_info;
 		size = info.width * info.height * GetTextureFormatSize(info.format) * info.count;
 		format = GetFormat(info.format);
@@ -143,8 +144,8 @@ namespace Tempest
 
 		if (info.has_data)
 		{
-			CreateBuffer(device->physical_device,
-						 device->logical_device,
+			CreateBuffer(p_device->physical_device,
+						 p_device->logical_device,
 						 size,
 						 VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
 						 VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
@@ -152,14 +153,14 @@ namespace Tempest
 						 stagingbuffer_memory);
 
 			void* mapped_data;
-			vkMapMemory(device->logical_device, stagingbuffer_memory, 0, size, 0, &mapped_data);
+			vkMapMemory(p_device->logical_device, stagingbuffer_memory, 0, size, 0, &mapped_data);
 			memcpy(mapped_data, info.pixels.Data(), size);
-			vkUnmapMemory(device->logical_device, stagingbuffer_memory);
+			vkUnmapMemory(p_device->logical_device, stagingbuffer_memory);
 		}
 
 		{
 			VkImageFormatProperties image_format_properties;
-			vkGetPhysicalDeviceImageFormatProperties(device->physical_device, format,
+			vkGetPhysicalDeviceImageFormatProperties(p_device->physical_device, format,
 													 VK_IMAGE_TYPE_2D, VK_IMAGE_TILING_OPTIMAL,
 													 GetUsage(info.usage_flag), info.additional_flag, &image_format_properties);
 
@@ -181,25 +182,25 @@ namespace Tempest
 			image_info.samples = VK_SAMPLE_COUNT_1_BIT;
 			image_info.flags = info.additional_flag;
 
-			auto image_create_result = vkCreateImage(device->logical_device, &image_info, nullptr, &image);
+			auto image_create_result = vkCreateImage(p_device->logical_device, &image_info, nullptr, &image);
 			DEBUG_ASSERT(image_create_result == VK_SUCCESS);
 
 			VkMemoryRequirements memory_requirements;
-			vkGetImageMemoryRequirements(device->logical_device, image, &memory_requirements);
+			vkGetImageMemoryRequirements(p_device->logical_device, image, &memory_requirements);
 
 			VkMemoryAllocateInfo alloc_info{};
 			alloc_info.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 			alloc_info.allocationSize = memory_requirements.size;
-			alloc_info.memoryTypeIndex = FindMemoryType(device->physical_device, memory_requirements.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+			alloc_info.memoryTypeIndex = FindMemoryType(p_device->physical_device, memory_requirements.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
-			auto alloc_info_result = vkAllocateMemory(device->logical_device, &alloc_info, nullptr, &texture_image_memory);
+			auto alloc_info_result = vkAllocateMemory(p_device->logical_device, &alloc_info, nullptr, &texture_image_memory);
 			DEBUG_ASSERT(alloc_info_result == VK_SUCCESS);
-			vkBindImageMemory(device->logical_device, image, texture_image_memory, 0);
+			vkBindImageMemory(p_device->logical_device, image, texture_image_memory, 0);
 		}
 
 		if (info.has_data)
 		{
-			auto vk_commandbuffer = device->system_commandbuffer;
+			auto vk_commandbuffer = p_device->system_commandbuffer;
 			VkCommandBufferBeginInfo begin_info{};
 			begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 			begin_info.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
@@ -242,11 +243,11 @@ namespace Tempest
 			submit_info.commandBufferCount = 1;
 			submit_info.pCommandBuffers = &vk_commandbuffer;
 
-			vkQueueSubmit(device->queue, 1, &submit_info, VK_NULL_HANDLE);
-			vkQueueWaitIdle(device->queue);
+			vkQueueSubmit(p_device->queue, 1, &submit_info, VK_NULL_HANDLE);
+			vkQueueWaitIdle(p_device->queue);
 
-			vkDestroyBuffer(device->logical_device, stagingbuffer, nullptr);
-			vkFreeMemory(device->logical_device, stagingbuffer_memory, nullptr);
+			vkDestroyBuffer(p_device->logical_device, stagingbuffer, nullptr);
+			vkFreeMemory(p_device->logical_device, stagingbuffer_memory, nullptr);
 		}
 
 		// Create image view
@@ -265,7 +266,7 @@ namespace Tempest
 				view_info.subresourceRange.layerCount = info.count;
 
 				VkImageView image_view;
-				auto image_view_create_result = vkCreateImageView(device->logical_device, &view_info, nullptr, &image_view);
+				auto image_view_create_result = vkCreateImageView(p_device->logical_device, &view_info, nullptr, &image_view);
 				DEBUG_ASSERT(image_view_create_result == VK_SUCCESS);
 
 				image_views.PushBack(image_view);
@@ -283,27 +284,27 @@ namespace Tempest
 			sampler_info.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
 			sampler_info.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
 			sampler_info.anisotropyEnable = VK_TRUE;
-			sampler_info.maxAnisotropy = device->max_sampler_anisotropy;
+			sampler_info.maxAnisotropy = p_device->max_sampler_anisotropy;
 			sampler_info.borderColor = VK_BORDER_COLOR_INT_OPAQUE_BLACK;
 			sampler_info.unnormalizedCoordinates = VK_FALSE;
 			sampler_info.compareEnable = VK_FALSE;
 			sampler_info.compareOp = VK_COMPARE_OP_ALWAYS;
 			sampler_info.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
 
-			auto sampler_create_result = vkCreateSampler(device->logical_device, &sampler_info, nullptr, &sampler);
+			auto sampler_create_result = vkCreateSampler(p_device->logical_device, &sampler_info, nullptr, &sampler);
 			DEBUG_ASSERT(sampler_create_result == VK_SUCCESS);
 		}
 	}
 
 	void Texture::CleanUp()
 	{
-		vkDestroySampler(device->logical_device, sampler, nullptr);
+		vkDestroySampler(p_device->logical_device, sampler, nullptr);
 		for (int i = 0; i < image_views.Size(); i++)
 		{
-			vkDestroyImageView(device->logical_device, image_views[i], nullptr);
+			vkDestroyImageView(p_device->logical_device, image_views[i], nullptr);
 		}
-		vkDestroyImage(device->logical_device, image, nullptr);
-		vkFreeMemory(device->logical_device, texture_image_memory, nullptr);
+		vkDestroyImage(p_device->logical_device, image, nullptr);
+		vkFreeMemory(p_device->logical_device, texture_image_memory, nullptr);
 	}
 }
 #endif

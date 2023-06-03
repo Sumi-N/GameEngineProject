@@ -3,7 +3,9 @@
 
 namespace Tempest
 {
-	Window* EditorWindow;
+	Window* EditorWindow{};
+	VkDescriptorPool DescriptorPool{};
+	Device* g_pDevice;
 
 	bool isEntityModifies{false};
 	bool isObjectModified{false};
@@ -17,7 +19,24 @@ namespace Tempest
 	EffectComponent SelecctedEffect{};
 	Observer<EffectComponent> SelectingDebugEffect{};
 
+	extern EntityInfo::ComponentFlags SelectingComponent;
+	extern Object SelectedObject;
+	extern CameraComponent SelectedCamera;
+	extern LightComponent SelectedLight;
+	extern MeshComponent SelectedMesh;
+	extern EffectComponent SelecctedEffect;
+	extern Observer<EffectComponent> SelectingDebugEffect;
+
 	Serializer SceneSerializer;
+
+	static void check_vk_result(VkResult err)
+	{
+		if (err == 0)
+			return;
+		fprintf(stderr, "[Editor] [vulkan] Error: VkResult = %d\n", err);
+		if (err < 0)
+			abort();
+	}
 
 	void ImguiLayer::OnAttach()
 	{
@@ -25,14 +44,16 @@ namespace Tempest
 		WindowProperty property;
 		{
 			property.title = "Editor Window";
-			property.graphics_type = WindowProperty::GraphicsApiType::OpenGL;
+			property.graphics_type = WindowProperty::GraphicsApiType::Vulkan;
 		}
 		EditorWindow->Init( property );
-		glfw_window = EditorWindow->GetGLFWWindow();
-		DEBUG_ASSERT(glfw_window);
-		glewExperimental = GL_TRUE;
-		auto glew_init_result = glewInit();
-		DEBUG_ASSERT(glew_init_result == GLEW_OK);
+
+		//g_pDevice = const_cast<Device *>(&Framework::GetDevice());
+		g_pDevice = &graphics_device;
+		g_pDevice->Init(EditorWindow);
+
+		ImGui_ImplVulkanH_Window* wd = &imgui_windows_data;
+		SetupVulkanWindow(wd, g_pDevice->surface, EditorWindow->data.width, EditorWindow->data.height);
 
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
@@ -55,18 +76,86 @@ namespace Tempest
 		}
 
 		// Setup Platform/Renderer backends
-		ImGui_ImplGlfw_InitForOpenGL(glfw_window, true);
-		ImGui_ImplOpenGL3_Init("#version 420");
+		glfw_window = EditorWindow->GetGLFWWindow();
+		ImGui_ImplGlfw_InitForVulkan(glfw_window, true);
+		ImGui_ImplVulkan_InitInfo init_info = {};
+		{
+			init_info.Instance = g_pDevice->instance;
+			init_info.PhysicalDevice = g_pDevice->physical_device;
+			init_info.Device = g_pDevice->logical_device;
+			init_info.QueueFamily = g_pDevice->queue_family_index;
+			init_info.Queue = g_pDevice->queue;
+			init_info.PipelineCache = nullptr;
+			// Create Descriptor Pool
+			{
+				VkDescriptorPoolSize pool_sizes[] =
+				{
+					{ VK_DESCRIPTOR_TYPE_SAMPLER, 1000 },
+					{ VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1000 },
+					{ VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1000 },
+					{ VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1000 },
+					{ VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1000 },
+					{ VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1000 },
+					{ VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1000 },
+					{ VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1000 },
+					{ VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1000 },
+					{ VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, 1000 },
+					{ VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1000 }
+				};
+				VkDescriptorPoolCreateInfo pool_info = {};
+				pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+				pool_info.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
+				pool_info.maxSets = 1000 * IM_ARRAYSIZE(pool_sizes);
+				pool_info.poolSizeCount = (uint32_t)IM_ARRAYSIZE(pool_sizes);
+				pool_info.pPoolSizes = pool_sizes;
+				auto result = vkCreateDescriptorPool(g_pDevice->logical_device, &pool_info, nullptr, &DescriptorPool);
+				check_vk_result(result);
+			}
+			init_info.DescriptorPool = DescriptorPool;
+			init_info.Allocator = nullptr;
+			init_info.MinImageCount = wd->ImageCount;
+			init_info.ImageCount = wd->ImageCount;
+			init_info.CheckVkResultFn = check_vk_result;
+		}
+		ImGui_ImplVulkan_Init(&init_info, wd->RenderPass);
 
 		// Loading font
-		io.Fonts->AddFontFromFileTTF(PATH_SUFFIX FONT_PATH "Karla-Regular.ttf", 25);
+		{
+			//io.Fonts->AddFontFromFileTTF(PATH_SUFFIX FONT_PATH "Karla-Regular.ttf", 25);
+			// Use any command queue
+			VkCommandPool command_pool = wd->Frames[wd->FrameIndex].CommandPool;
+			VkCommandBuffer command_buffer = wd->Frames[wd->FrameIndex].CommandBuffer;
+
+			auto err = vkResetCommandPool(g_pDevice->logical_device, command_pool, 0);
+			check_vk_result(err);
+			VkCommandBufferBeginInfo begin_info = {};
+			begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+			begin_info.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+			err = vkBeginCommandBuffer(command_buffer, &begin_info);
+			check_vk_result(err);
+
+			ImGui_ImplVulkan_CreateFontsTexture(command_buffer);
+
+			VkSubmitInfo end_info = {};
+			end_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+			end_info.commandBufferCount = 1;
+			end_info.pCommandBuffers = &command_buffer;
+			err = vkEndCommandBuffer(command_buffer);
+			check_vk_result(err);
+			err = vkQueueSubmit(g_pDevice->queue, 1, &end_info, VK_NULL_HANDLE);
+			check_vk_result(err);
+
+			err = vkDeviceWaitIdle(g_pDevice->logical_device);
+			check_vk_result(err);
+			ImGui_ImplVulkan_DestroyFontUploadObjects();
+		}
 
 		OnAttach_ViewportPanel();
 	}
 
 	void ImguiLayer::OnDetach()
 	{
-		ImGui_ImplOpenGL3_Shutdown();
+		ImGui_ImplVulkan_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 
@@ -99,7 +188,7 @@ namespace Tempest
 	{
 		EditorWindow->SetContext();
 
-		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplVulkan_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 	}
@@ -109,7 +198,14 @@ namespace Tempest
 		ImGuiIO& io = ImGui::GetIO();
 
 		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		ImGui_ImplVulkanH_Window* wd = &imgui_windows_data;
+		ImDrawData* main_draw_data = ImGui::GetDrawData();
+		ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+		wd->ClearValue.color.float32[0] = clear_color.x * clear_color.w;
+		wd->ClearValue.color.float32[1] = clear_color.y * clear_color.w;
+		wd->ClearValue.color.float32[2] = clear_color.z * clear_color.w;
+		wd->ClearValue.color.float32[3] = clear_color.w;
+		FrameRender(wd, main_draw_data);
 
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
@@ -119,7 +215,7 @@ namespace Tempest
 			glfwMakeContextCurrent(backup_current_context);
 		}
 
-		EditorWindow->SwapBuffer();
+		FramePresent(wd);
 	}
 
 	void ImguiLayer::Docking()
@@ -247,9 +343,9 @@ namespace Tempest
 		if (isEntityModifies)
 		{
 			Entity::Reset();
-			SceneSerializer.Deserialize("../Assets/bin/scene/PBR_9Balls.tyml");
-			//SceneSerializer.Deserialize("../Assets/bin/scene/SkeletonAnimation.tyml");
-			//SceneSerializer.Deserialize("../Assets/bin/scene/Hexagon.tyml");
+			SceneSerializer.Deserialize("../Assets/int/scene/PBR_9Balls.tyml");
+			//SceneSerializer.Deserialize("../Assets/int/scene/SkeletonAnimation.tyml");
+			//SceneSerializer.Deserialize("../Assets/int/scene/Hexagon.tyml");
 			GameThreadOnReset.ExecuteIfBound();
 			RenderThreadOnReset.ExecuteIfBound();
 			isEntityModifies = false;
@@ -282,5 +378,119 @@ namespace Tempest
 		}
 
 		isObjectModified = false;
+	}
+
+	void ImguiLayer::FrameRender(ImGui_ImplVulkanH_Window* wd, ImDrawData* draw_data)
+	{
+		VkResult err;
+
+		VkSemaphore image_acquired_semaphore = wd->FrameSemaphores[wd->SemaphoreIndex].ImageAcquiredSemaphore;
+		VkSemaphore render_complete_semaphore = wd->FrameSemaphores[wd->SemaphoreIndex].RenderCompleteSemaphore;
+		err = vkAcquireNextImageKHR(g_pDevice->logical_device, wd->Swapchain, UINT64_MAX, image_acquired_semaphore, VK_NULL_HANDLE, &wd->FrameIndex);
+		if (err == VK_ERROR_OUT_OF_DATE_KHR || err == VK_SUBOPTIMAL_KHR)
+		{
+			DEBUG_ASSERT(false);
+			return;
+		}
+		check_vk_result(err);
+
+		ImGui_ImplVulkanH_Frame* fd = &wd->Frames[wd->FrameIndex];
+		{
+			err = vkWaitForFences(g_pDevice->logical_device, 1, &fd->Fence, VK_TRUE, UINT64_MAX);    // wait indefinitely instead of periodically checking
+			check_vk_result(err);
+
+			err = vkResetFences(g_pDevice->logical_device, 1, &fd->Fence);
+			check_vk_result(err);
+		}
+		{
+			err = vkResetCommandPool(g_pDevice->logical_device, fd->CommandPool, 0);
+			check_vk_result(err);
+			VkCommandBufferBeginInfo info = {};
+			info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+			info.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+			err = vkBeginCommandBuffer(fd->CommandBuffer, &info);
+			check_vk_result(err);
+		}
+		{
+			VkRenderPassBeginInfo info = {};
+			info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+			info.renderPass = wd->RenderPass;
+			info.framebuffer = fd->Framebuffer;
+			info.renderArea.extent.width = wd->Width;
+			info.renderArea.extent.height = wd->Height;
+			info.clearValueCount = 1;
+			info.pClearValues = &wd->ClearValue;
+			vkCmdBeginRenderPass(fd->CommandBuffer, &info, VK_SUBPASS_CONTENTS_INLINE);
+		}
+
+		// Record dear imgui primitives into command buffer
+		ImGui_ImplVulkan_RenderDrawData(draw_data, fd->CommandBuffer);
+
+		// Submit command buffer
+		vkCmdEndRenderPass(fd->CommandBuffer);
+		{
+			VkPipelineStageFlags wait_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+			VkSubmitInfo info = {};
+			info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+			info.waitSemaphoreCount = 1;
+			info.pWaitSemaphores = &image_acquired_semaphore;
+			info.pWaitDstStageMask = &wait_stage;
+			info.commandBufferCount = 1;
+			info.pCommandBuffers = &fd->CommandBuffer;
+			info.signalSemaphoreCount = 1;
+			info.pSignalSemaphores = &render_complete_semaphore;
+
+			err = vkEndCommandBuffer(fd->CommandBuffer);
+			check_vk_result(err);
+			err = vkQueueSubmit(g_pDevice->queue, 1, &info, fd->Fence);
+			check_vk_result(err);
+		}
+	}
+
+	void ImguiLayer::FramePresent(ImGui_ImplVulkanH_Window* wd)
+	{
+		VkSemaphore render_complete_semaphore = wd->FrameSemaphores[wd->SemaphoreIndex].RenderCompleteSemaphore;
+		VkPresentInfoKHR info = {};
+		info.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+		info.waitSemaphoreCount = 1;
+		info.pWaitSemaphores = &render_complete_semaphore;
+		info.swapchainCount = 1;
+		info.pSwapchains = &wd->Swapchain;
+		info.pImageIndices = &wd->FrameIndex;
+		VkResult err = vkQueuePresentKHR(g_pDevice->queue, &info);
+		if (err == VK_ERROR_OUT_OF_DATE_KHR || err == VK_SUBOPTIMAL_KHR)
+		{
+			//g_SwapChainRebuild = true;
+			return;
+		}
+		check_vk_result(err);
+		wd->SemaphoreIndex = (wd->SemaphoreIndex + 1) % wd->ImageCount; // Now we can use the next set of semaphores
+	}
+
+	void ImguiLayer::SetupVulkanWindow(ImGui_ImplVulkanH_Window* wd, VkSurfaceKHR surface, int width, int height)
+	{
+		wd->Surface = surface;
+
+		// Check for WSI support
+		VkBool32 res;
+		vkGetPhysicalDeviceSurfaceSupportKHR(g_pDevice->physical_device, g_pDevice->queue_family_index, wd->Surface, &res);
+		if (res != VK_TRUE)
+		{
+			fprintf(stderr, "Error no WSI support on physical device 0\n");
+			exit(-1);
+		}
+
+		// Select Surface Format
+		const VkFormat requestSurfaceImageFormat[] = { VK_FORMAT_B8G8R8A8_UNORM, VK_FORMAT_R8G8B8A8_UNORM, VK_FORMAT_B8G8R8_UNORM, VK_FORMAT_R8G8B8_UNORM };
+		const VkColorSpaceKHR requestSurfaceColorSpace = VK_COLORSPACE_SRGB_NONLINEAR_KHR;
+		wd->SurfaceFormat = ImGui_ImplVulkanH_SelectSurfaceFormat(g_pDevice->physical_device, wd->Surface, requestSurfaceImageFormat, (size_t)IM_ARRAYSIZE(requestSurfaceImageFormat), requestSurfaceColorSpace);
+
+		VkPresentModeKHR present_modes[] = { VK_PRESENT_MODE_FIFO_KHR };
+
+		wd->PresentMode = ImGui_ImplVulkanH_SelectPresentMode(g_pDevice->physical_device, wd->Surface, &present_modes[0], IM_ARRAYSIZE(present_modes));
+		//printf("[vulkan] Selected PresentMode = %d\n", wd->PresentMode);
+
+		// Create SwapChain, RenderPass, Framebuffer, etc.
+		ImGui_ImplVulkanH_CreateOrResizeWindow(g_pDevice->instance, g_pDevice->physical_device, g_pDevice->logical_device, wd, g_pDevice->queue_family_index, nullptr, width, height, 2);
 	}
 }

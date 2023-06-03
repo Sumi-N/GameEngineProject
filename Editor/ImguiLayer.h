@@ -2,15 +2,17 @@
 
 #define IMGUI_IMPL_API
 #include "backends/imgui_impl_glfw.h"
-#include "backends/imgui_impl_opengl3.h"
-
-#include <GL/glew.h>
+#include "backends/imgui_impl_vulkan.h"
 
 #include <Input/Delegate.h>
 #include <Input/Input.h>
 #include <Layer/Layer.h>
 #include <Graphics/Define.h>
 #include <Graphics/Window.h>
+#include <Graphics/Device.h>
+#include <Graphics/SwapChain.h>
+#include <Graphics/RenderPass.h>
+#include <Rendering/Framework.h>
 
 #include "EntityInfo.h"
 
@@ -62,8 +64,14 @@ namespace Tempest
 		void OnCriticalSection_ControlPanel();
 		void OnCriticalSection_SceneEditorPanel();
 
+		void FrameRender(ImGui_ImplVulkanH_Window* wd, ImDrawData* draw_data);
+		void FramePresent(ImGui_ImplVulkanH_Window* wd);
+		void SetupVulkanWindow(ImGui_ImplVulkanH_Window* wd, VkSurfaceKHR surface, int width, int height);
+
 	private:
 		GLFWwindow* glfw_window = nullptr;
+		ImGui_ImplVulkanH_Window imgui_windows_data{};
+		Device graphics_device;
 	};
 
 }

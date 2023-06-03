@@ -3,48 +3,33 @@
 
 namespace Tempest
 {
-	void Thread::Create()
-	{
-		thread_id = ThreadManager::RegisterThread();
-	}
+	void Thread::Boot() {}
 
-	void Thread::Boot()
-	{
-	}
-
-	void Thread::Init()
-	{
-	}
+	void Thread::Init() {}
 
 	void Thread::Run()
 	{
-		while (brunning)
+		while (is_alive)
 		{
 			{
 				NonCriticalSection();
 			}
 
-			ThreadManager::SyncPoint1(thread_id);
+			ThreadManager::SyncPoint1(id);
 
 			{
 				CriticalSection();
 			}
 
-			ThreadManager::SyncPoint2(thread_id);
+			ThreadManager::SyncPoint2(id);
 		}
 
 		CleanUp();
 	}
 
-	void Thread::CleanUp()
-	{
-	}
+	void Thread::CleanUp() {}
 
-	void Thread::CriticalSection()
-	{
-	}
+	void Thread::CriticalSection() {}
 
-	void Thread::NonCriticalSection()
-	{
-	}
+	void Thread::NonCriticalSection() {}
 }

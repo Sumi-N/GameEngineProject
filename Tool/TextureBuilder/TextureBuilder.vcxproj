@@ -93,6 +93,9 @@
     <ProjectReference Include="..\..\Tempest\Modules\Logging\Logging.vcxproj">
       <Project>{a9b67582-b453-4236-bdab-b2d210e321e5}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\Tempest\Modules\MemoryManagement\MemoryManagement.vcxproj">
+      <Project>{4de6446c-e0a9-4b48-9d06-821a246ef395}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Tempest\Modules\Utility\Utility.vcxproj">
       <Project>{883f681d-4804-427d-9fff-d4c138b37281}</Project>
     </ProjectReference>

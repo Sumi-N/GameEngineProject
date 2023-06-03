@@ -3,8 +3,8 @@
 
 namespace Tempest
 {
-	HWND WindowsHanlder;
-	Time GameThreadTime;
+	HWND g_WindowsHanlder;
+	Time g_GameThreadTime;
 
 	Delegate<> GameThreadOnReset;
 
@@ -22,7 +22,7 @@ namespace Tempest
 		Entity::Init();
 
 #ifdef ENGINE_PLATFORM_WINDOWS
-		UserInput.GetWindowsHandler(WindowsHanlder);
+		UserInput.GetWindowsHandler(g_WindowsHanlder);
 #endif // ENGINE_PLATFORM_WINDOWS
 	}
 
@@ -35,8 +35,8 @@ namespace Tempest
 	void GameThread::NonCriticalSection()
 	{
 		UserInput.Populate();
-		Time::Update(GameThreadTime);
-		Entity::Update(static_cast<float>(GameThreadTime.dt));
+		Time::Update(g_GameThreadTime);
+		Entity::Update(static_cast<float>(g_GameThreadTime.dt));
 	}
 
 	void GameThread::CriticalSection()

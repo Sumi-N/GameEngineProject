@@ -22,12 +22,29 @@ namespace Tempest
 		return VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 	}
 
-	void Descriptor::Init(const Device& i_device, const Shader& i_shader)
+	void Descriptor::Init(const Device& i_device, const ShaderInfo& i_shader)
 	{
-		device = &i_device;
+		p_device = &i_device;
+
+		// Create shader module
+
+		for (int i = 0; i < static_cast<int>(ShaderType::Size); i++)
+		{
+			shader_exist[i] = i_shader.shader_exist[i];
+			if (!shader_exist[i])
+				continue;
+
+			VkShaderModuleCreateInfo shader_create_info{};
+			shader_create_info.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+			shader_create_info.codeSize = i_shader.shader_sizes[i];
+			shader_create_info.pCode = reinterpret_cast<const uint32_t*>(i_shader.shader_binaries[i].Data());
+			if (vkCreateShaderModule(p_device->logical_device, &shader_create_info, nullptr, &shader_module[i]) != VK_SUCCESS)
+			{
+				DEBUG_ASSERT(false);
+			}
+		}
 
 		uint32_t descriptor_type_counts[static_cast<int>(ShaderDescriptorType::Size)] = {};
-
 		// Create attribute descriptor
 		{
 			attribute_descriptions.Resize(i_shader.vertex_info.Size());
@@ -66,7 +83,7 @@ namespace Tempest
 			layout_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
 			layout_info.bindingCount = static_cast<uint32_t>(layout_bindings.Size());
 			layout_info.pBindings = layout_bindings.Data();
-			auto descriptorset_layout_create_result = vkCreateDescriptorSetLayout(device->logical_device, &layout_info, nullptr, &descriptorset_layout);
+			auto descriptorset_layout_create_result = vkCreateDescriptorSetLayout(p_device->logical_device, &layout_info, nullptr, &descriptorset_layout);
 			DEBUG_ASSERT(descriptorset_layout_create_result == VK_SUCCESS)
 		}
 
@@ -91,7 +108,7 @@ namespace Tempest
 			pool_info.pPoolSizes = pool_sizes;
 			pool_info.maxSets = Graphics::BufferingCount;
 
-			auto descriptor_pool_create_result = vkCreateDescriptorPool(device->logical_device, &pool_info, nullptr, &descriptor_pool);
+			auto descriptor_pool_create_result = vkCreateDescriptorPool(p_device->logical_device, &pool_info, nullptr, &descriptor_pool);
 			DEBUG_ASSERT(descriptor_pool_create_result == VK_SUCCESS)
 		}
 
@@ -108,15 +125,15 @@ namespace Tempest
 			alloc_info.descriptorSetCount = Graphics::BufferingCount;
 			alloc_info.pSetLayouts = layouts;
 
-			auto alloc_info_result = vkAllocateDescriptorSets(device->logical_device, &alloc_info, descriptor_sets);
+			auto alloc_info_result = vkAllocateDescriptorSets(p_device->logical_device, &alloc_info, descriptor_sets);
 			DEBUG_ASSERT(alloc_info_result == VK_SUCCESS)
 		}
 	}
 
 	void Descriptor::CleanUp()
 	{
-		vkDestroyDescriptorPool(device->logical_device, descriptor_pool, nullptr);
-		vkDestroyDescriptorSetLayout(device->logical_device, descriptorset_layout, nullptr);
+		vkDestroyDescriptorPool(p_device->logical_device, descriptor_pool, nullptr);
+		vkDestroyDescriptorSetLayout(p_device->logical_device, descriptorset_layout, nullptr);
 	}
 
 	void Descriptor::Bind(const VertexBuffer& i_vertex)
@@ -144,7 +161,7 @@ namespace Tempest
 			descriptor_write.descriptorCount = 1;
 			descriptor_write.pBufferInfo = &descriptor_buffer_info;
 
-			vkUpdateDescriptorSets(device->logical_device, 1, &descriptor_write, 0, nullptr);
+			vkUpdateDescriptorSets(p_device->logical_device, 1, &descriptor_write, 0, nullptr);
 		}
 	}
 
@@ -165,7 +182,7 @@ namespace Tempest
 			descriptor_write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 			descriptor_write.descriptorCount = 1;
 			descriptor_write.pImageInfo = &descriptor_image_info;
-			vkUpdateDescriptorSets(device->logical_device, 1, &descriptor_write, 0, nullptr);
+			vkUpdateDescriptorSets(p_device->logical_device, 1, &descriptor_write, 0, nullptr);
 		}
 	}
 }

@@ -14,7 +14,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Framework.Vulkan.cpp">
+    <ClCompile Include="GraphicsFramework.Vulkan.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Define.cpp">
@@ -28,7 +28,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Framework.h">
+    <ClInclude Include="GraphicsFramework.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Define.h">
@@ -37,19 +37,19 @@
     <ClInclude Include="PrimitiveDrawer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Image_SpecularIBL.h">
+    <ClInclude Include="RenderPass_SpecularIBL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Image_Cubemap.h">
+    <ClInclude Include="RenderPass_Cubemap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Image_DiffuseConvolution.h">
+    <ClInclude Include="RenderPass_DiffuseConvolution.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Image_SpecularConvolution.h">
+    <ClInclude Include="RenderPass_SpecularConvolution.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Image_Shadowmap.h">
+    <ClInclude Include="RenderPass_Shadowmap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

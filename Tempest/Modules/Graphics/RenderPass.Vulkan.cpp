@@ -5,7 +5,7 @@ namespace Tempest
 {
 	void RenderPass::Init(const Device& i_device, const SwapChain& i_swapchain)
 	{
-		device = &i_device;
+		p_device = &i_device;
 
 		VkAttachmentDescription color_attachment{};
 		color_attachment.format = i_swapchain.GetColorFormat();
@@ -59,13 +59,13 @@ namespace Tempest
 		renderpass_info.dependencyCount = 1;
 		renderpass_info.pDependencies = &dependency;
 
-		auto create_renderpass_result = vkCreateRenderPass(device->logical_device, &renderpass_info, nullptr, &renderpass);
+		auto create_renderpass_result = vkCreateRenderPass(p_device->logical_device, &renderpass_info, nullptr, &renderpass);
 		DEBUG_ASSERT(create_renderpass_result == VK_SUCCESS);
 	}
 
 	void RenderPass::Init(const Device& i_device, const Texture& i_texture)
 	{
-		device = &i_device;
+		p_device = &i_device;
 
 		VkAttachmentDescription color_attachment{};
 		VkAttachmentReference color_attachment_ref{};
@@ -126,13 +126,13 @@ namespace Tempest
 		renderpass_info.dependencyCount = 1;
 		renderpass_info.pDependencies = &dependency;
 
-		auto create_renderpass_result = vkCreateRenderPass(device->logical_device, &renderpass_info, nullptr, &renderpass);
+		auto create_renderpass_result = vkCreateRenderPass(p_device->logical_device, &renderpass_info, nullptr, &renderpass);
 		DEBUG_ASSERT(create_renderpass_result == VK_SUCCESS);
 	}
 
 	void RenderPass::CleanUp()
 	{
-		vkDestroyRenderPass(device->logical_device, renderpass, nullptr);
+		vkDestroyRenderPass(p_device->logical_device, renderpass, nullptr);
 	}
 }
 #endif // ENGINE_GRAPHIC_VULKAN

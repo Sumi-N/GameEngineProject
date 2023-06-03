@@ -2,26 +2,15 @@
 
 namespace Tempest
 {
-	void Pipeline::Init(const Device& i_device, const Shader& i_shader, const Descriptor& i_descriptor, const RenderPass& i_renderpass)
+	void Pipeline::Init(const Device& i_device, const Descriptor& i_descriptor, const RenderPass& i_renderpass)
 	{
-		device = &i_device;
+		p_device = &i_device;
 
 		Array<VkPipelineShaderStageCreateInfo> shader_stages;
-
-		VkShaderModule shader_module[static_cast<int>(ShaderType::Size)];
 		for (int i = 0; i < static_cast<int>(ShaderType::Size); i++)
 		{
-			if (!i_shader.shader_exist[i])
+			if (!i_descriptor.shader_exist[i])
 				continue;
-
-			VkShaderModuleCreateInfo shader_create_info{};
-			shader_create_info.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-			shader_create_info.codeSize = i_shader.shader_sizes[i];
-			shader_create_info.pCode = reinterpret_cast<const uint32_t*>(i_shader.shader_binaries[i].Data());
-			if (vkCreateShaderModule(device->logical_device, &shader_create_info, nullptr, &shader_module[i]) != VK_SUCCESS)
-			{
-				DEBUG_ASSERT(false);
-			}
 
 			VkPipelineShaderStageCreateInfo shader_stage_info{};
 			{
@@ -49,7 +38,7 @@ namespace Tempest
 				default:
 					DEBUG_ASSERT(false);
 				}
-				shader_stage_info.module = shader_module[i];
+				shader_stage_info.module = i_descriptor.shader_module[i];
 				shader_stage_info.pName = "main";
 			}
 
@@ -152,7 +141,7 @@ namespace Tempest
 		pipeline_layout_create_info.pushConstantRangeCount = 0;
 		pipeline_layout_create_info.pPushConstantRanges = nullptr;
 
-		auto create_pipeline_layout_result = vkCreatePipelineLayout(device->logical_device, &pipeline_layout_create_info, nullptr, &pipeline_layout);
+		auto create_pipeline_layout_result = vkCreatePipelineLayout(p_device->logical_device, &pipeline_layout_create_info, nullptr, &pipeline_layout);
 		DEBUG_ASSERT(create_pipeline_layout_result == VK_SUCCESS);
 
 		constexpr int dynamic_states_count = 2;
@@ -180,13 +169,13 @@ namespace Tempest
 		pipeline_create_info.basePipelineHandle = VK_NULL_HANDLE;
 		pipeline_create_info.basePipelineIndex = -1;
 
-		auto create_pipelines_result = vkCreateGraphicsPipelines(device->logical_device, VK_NULL_HANDLE, 1, &pipeline_create_info, nullptr, &pipeline);
+		auto create_pipelines_result = vkCreateGraphicsPipelines(p_device->logical_device, VK_NULL_HANDLE, 1, &pipeline_create_info, nullptr, &pipeline);
 		DEBUG_ASSERT(create_pipelines_result == VK_SUCCESS);
 	}
 
 	void Pipeline::CleanUp()
 	{
-		vkDestroyPipeline(device->logical_device, pipeline, nullptr);
-		vkDestroyPipelineLayout(device->logical_device, pipeline_layout, nullptr);
+		vkDestroyPipeline(p_device->logical_device, pipeline, nullptr);
+		vkDestroyPipelineLayout(p_device->logical_device, pipeline_layout, nullptr);
 	}
 }
