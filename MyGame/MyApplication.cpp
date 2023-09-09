@@ -2,7 +2,7 @@
 
 #include <Application/Application.h>
 #include <Application/EntryPoint.h>
-#include "TestScenes.h"
+#include "MyCameraObject.h"
 
 
 
@@ -15,20 +15,22 @@ public:
 
 MyApplication::MyApplication()
 {
-	//TestScene::PBR_9Balls();
-	//TestScene::PBR_Red_Balls();
-	//TestScene::PhoneBlinn_Teapots();
-	//TestScene::PhoneBlinn_Lights();
-	//TestScene::Normal_Debug_Plane();
-
-	//TestScene::Two_Cameras();
-	TestScene::SkeletonAnimation();
-
 	Tempest::Application::Execute();
 }
 
 
 Tempest::Application* Tempest::Create()
 {
+	Owner<Object> camera = Create<MyCameraObject>();
+	Entity::Register(camera);
+
+	Owner<Object> model = Create<Object>();
+	model->Translate(Vec3f(0, -20, -70));
+	model->scale = 0.35f;
+	Owner<MeshComponent> mesh_component = Create<MeshComponent>();
+	mesh_component->owner = model;
+	Entity::RegisterMeshComponent(mesh_component);
+ 	Entity::Register(model);
+
 	return new MyApplication();
 }

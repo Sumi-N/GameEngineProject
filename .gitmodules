@@ -3,3 +3,15 @@
 	url = https://github.com/ocornut/imgui.git
 	branch = docking
 	update = rebase
+[submodule "External/yaml-cpp"]
+	path = External/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp.git
+[submodule "External/cyCodeBase"]
+	path = External/cyCodeBase
+	url = https://github.com/cemyuksel/cyCodeBase.git
+[submodule "External/SPIRV-Reflect"]
+	path = External/SPIRV-Reflect
+	url = https://github.com/KhronosGroup/SPIRV-Reflect.git
+[submodule "External/glfw"]
+	path = External/glfw
+	url = https://github.com/glfw/glfw.git

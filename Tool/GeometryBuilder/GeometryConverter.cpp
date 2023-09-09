@@ -1,7 +1,7 @@
 #include "GeometryConverter.h"
 #include "FBXLoader.h"
 
-using namespace Resource;
+using namespace Tempest;
 
 Tempest::Result GeometryConverter::ConvertMesh(const char* i_filename, const char* o_filename)
 {
@@ -61,7 +61,7 @@ Tempest::Result GeometryConverter::ConvertSkeletonAndSkeletonMesh(const char* i_
 
 		size_t num_joint = skeleton.joints.Size();
 		RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&num_joint), sizeof(size_t)));
-		
+
 		for (int i = 0; i < num_joint; i++)
 		{
 			RETURN_IFNOT_SUCCESS(out.Write(static_cast<void*>(&skeleton.joints[i]), sizeof(Joint)));
@@ -108,7 +108,7 @@ Tempest::Result GeometryConverter::ConvertAnimationClip(const char* i_filename, 
 	Tempest::File out(o_filename, Tempest::File::Format::BinaryWrite);
 
 	size_t num_samples = animation_clip.samples.Size();
-	size_t num_joints = animation_clip.samples[0].jointposes.Size();	
+	size_t num_joints = animation_clip.samples[0].jointposes.Size();
 
 	if (num_samples == 0)
 	{
@@ -167,8 +167,8 @@ Tempest::Result GeometryConverter::ReadMesh(ExtensionType i_extension, const cha
 			// Vertex Face
 			cy::TriMesh::TriFace vertexFace = tmpdata.F((int)i);
 			for (size_t j = 0; j < 3; j++)
-			{				
-				vertexMap[vertexFace.v[j]] = tmpdata.V(vertexFace.v[j]);				
+			{
+				vertexMap[vertexFace.v[j]] = tmpdata.V(vertexFace.v[j]);
 			}
 
 			// Normal Face
@@ -177,7 +177,7 @@ Tempest::Result GeometryConverter::ReadMesh(ExtensionType i_extension, const cha
 				cy::TriMesh::TriFace normalFace = tmpdata.FN((int)i);
 				for (size_t j = 0; j < 3; j++)
 				{
-					normalMap[normalFace.v[j]] = tmpdata.VN(normalFace.v[j]);					
+					normalMap[normalFace.v[j]] = tmpdata.VN(normalFace.v[j]);
 				}
 			}
 
@@ -187,7 +187,7 @@ Tempest::Result GeometryConverter::ReadMesh(ExtensionType i_extension, const cha
 				cy::TriMesh::TriFace textureFace = tmpdata.FT((int)i);
 				for (size_t j = 0; j < 3; j++)
 				{
-					textCoordMap[textureFace.v[j]] = cy::Point2f(tmpdata.VT(textureFace.v[j]));					
+					textCoordMap[textureFace.v[j]] = cy::Point2f(tmpdata.VT(textureFace.v[j]));
 				}
 			}
 		}
@@ -209,7 +209,7 @@ Tempest::Result GeometryConverter::ReadMesh(ExtensionType i_extension, const cha
 				p[j].vertex.x = vertexMap[vertexFace.v[j]].x;
 				p[j].vertex.y = vertexMap[vertexFace.v[j]].y;
 				p[j].vertex.z = vertexMap[vertexFace.v[j]].z;
-			}			
+			}
 
 			if (tmpdata.HasNormals())
 			{
@@ -220,7 +220,7 @@ Tempest::Result GeometryConverter::ReadMesh(ExtensionType i_extension, const cha
 					p[j].normal.x = normalMap[normalFace.v[j]].x;
 					p[j].normal.y = normalMap[normalFace.v[j]].y;
 					p[j].normal.z = normalMap[normalFace.v[j]].z;
-				}				
+				}
 			}
 
 			if (tmpdata.HasTextureVertices())
@@ -231,7 +231,7 @@ Tempest::Result GeometryConverter::ReadMesh(ExtensionType i_extension, const cha
 				{
 					p[j].uv.x = textCoordMap[textureFace.v[j]].x;
 					p[j].uv.y = textCoordMap[textureFace.v[j]].y;
-				}				
+				}
 			}
 
 			o_data.PushBack(p[0]);
@@ -288,7 +288,7 @@ Tempest::Result GeometryConverter::ReadMesh(ExtensionType i_extension, const cha
 		if (!FBXLoader::Init(i_filename))
 		{
 			return Tempest::ResultValue::Failure;
-		}		
+		}
 
 		if (!FBXLoader::LoadMesh(o_data, o_index))
 		{
@@ -322,7 +322,7 @@ Tempest::Result GeometryConverter::ReadSkeletonMesh(ExtensionType i_extension, c
 
 		return Tempest::ResultValue::Success;
 	}
-	
+
 	return Tempest::ResultValue::Failure;
 }
 

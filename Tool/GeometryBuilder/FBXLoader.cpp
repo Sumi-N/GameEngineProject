@@ -15,7 +15,7 @@ namespace FBXLoader
 	}
 
 	namespace
-	{		
+	{
 		int numTabs = 0;
 
 		struct BlendingWeight
@@ -69,7 +69,7 @@ namespace FBXLoader
 		return true;
 	}
 
-	bool LoadMesh(Array<Resource::MeshPoint>& mesh, Array<int>& index)
+	bool LoadMesh(Array<MeshPoint>& mesh, Array<int>& index)
 	{
 		//Get mesh in the scene
 		int meshCount = lScene->GetSrcObjectCount<FbxMesh>();
@@ -137,7 +137,7 @@ namespace FBXLoader
 				index.PushBack(n + 3 * j + 1);
 				index.PushBack(n + 3 * j + 2);
 
-				Resource::MeshPoint p[3];
+				MeshPoint p[3];
 
 				FbxVector2 uv[3];
 				bool flag[3];
@@ -154,11 +154,11 @@ namespace FBXLoader
 				{
 					p[k].vertex.x = (float)vertex_array[index_array[3 * j + k]].mData[0];
 					p[k].vertex.y = (float)vertex_array[index_array[3 * j + k]].mData[1];
-					p[k].vertex.z = (float)vertex_array[index_array[3 * j + k]].mData[2];					
+					p[k].vertex.z = (float)vertex_array[index_array[3 * j + k]].mData[2];
 
 					p[k].normal.x = (float)normal_array[3 * j + k].mData[0];
 					p[k].normal.y = (float)normal_array[3 * j + k].mData[1];
-					p[k].normal.z = (float)normal_array[3 * j + k].mData[2];					
+					p[k].normal.z = (float)normal_array[3 * j + k].mData[2];
 
 					p[k].vertex = Vec3f(model_matrix * Vec4f(p[k].vertex.x, p[k].vertex.y, p[k].vertex.z, 1.0));
 					p[k].normal = Vec3f(model_inverse_transpose_matrix * Vec4f(p[k].normal.x, p[k].normal.y, p[k].normal.z, 1.0));
@@ -209,7 +209,7 @@ namespace FBXLoader
 		return true;
 	}
 
-	bool LoadSkeletonMesh(Array<Resource::SkeletonMeshPoint>& mesh, Array<int>& index, const std::map<String, int>& i_joint_map)
+	bool LoadSkeletonMesh(Array<SkeletonMeshPoint>& mesh, Array<int>& index, const std::map<String, int>& i_joint_map)
 	{
 		// Get mesh in the scene
 		int meshCount = lScene->GetSrcObjectCount<FbxMesh>();
@@ -298,7 +298,7 @@ namespace FBXLoader
 				index.PushBack(n + 3 * j + 1);
 				index.PushBack(n + 3 * j + 2);
 
-				Resource::SkeletonMeshPoint p[3];
+				SkeletonMeshPoint p[3];
 
 				FbxVector2 uv[3];
 				bool flag[3];
@@ -325,7 +325,7 @@ namespace FBXLoader
 					p[k].normal = Vec3f(model_inverse_transpose_matrix * Vec4f(p[k].normal.x, p[k].normal.y, p[k].normal.z, 1.0));
 
 					p[k].uv.x = (float)uv[k].mData[0];
-					p[k].uv.y = (float)uv[k].mData[1];					
+					p[k].uv.y = (float)uv[k].mData[1];
 				}
 
 				// Get skin info from WidhtMap
@@ -358,7 +358,7 @@ namespace FBXLoader
 						}
 					}
 				}
-				
+
 				{
 					Vec3f edge[2];
 					edge[0] = p[1].vertex - p[0].vertex;
@@ -403,7 +403,7 @@ namespace FBXLoader
 		return true;
 	}
 
-	bool LoadSkeleton(Resource::Skeleton& o_skeleton, std::map<String, int>& o_joint_map)
+	bool LoadSkeleton(Skeleton& o_skeleton, std::map<String, int>& o_joint_map)
 	{
 		int num_skeleton = lScene->GetSrcObjectCount<FbxSkeleton>();
 		for (int childIndex = 0; childIndex < lRootNode->GetChildCount(); ++childIndex)
@@ -502,7 +502,7 @@ namespace FBXLoader
 		for (int i = 0; i < numTabs; i++)
 			printf("\t");
 	}
-	
+
 	void PrintAttribute(FbxNodeAttribute* pAttribute)
 	{
 		if (!pAttribute) return;
@@ -556,12 +556,12 @@ namespace FBXLoader
 		return FbxAMatrix(lT, lR, lS);
 	}
 
-	void ProcessSkeletonHierarchyRecursively(FbxNode* inNode, int inDepth, int myIndex, int inParentIndex, Resource::Skeleton& o_skeleton, std::map<String, int>& o_joint_map)
+	void ProcessSkeletonHierarchyRecursively(FbxNode* inNode, int inDepth, int myIndex, int inParentIndex, Skeleton& o_skeleton, std::map<String, int>& o_joint_map)
 	{
 		if (inNode->GetNodeAttribute() && inNode->GetNodeAttribute()->GetAttributeType() && inNode->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eSkeleton)
 		{
 			Joint currJoint;
-			currJoint.parent_index = inParentIndex;			
+			currJoint.parent_index = inParentIndex;
 
 			double* elements_double = inNode->EvaluateGlobalTransform().Inverse();
 			float elements_float[16];
