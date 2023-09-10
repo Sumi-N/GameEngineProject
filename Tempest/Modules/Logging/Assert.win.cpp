@@ -2,7 +2,7 @@
 
 #ifdef ENGINE_PLATFORM_WINDOWS
 
-bool DEBUG::AssertionCheckPlatoformSpecific(std::ostringstream& io_message, bool& i_ignorethisinthefuture)
+bool LOG::AssertionCheckPlatoformSpecific(std::ostringstream& io_message, bool& i_ignorethisinthefuture)
 {
 
 	io_message << "\n\n"

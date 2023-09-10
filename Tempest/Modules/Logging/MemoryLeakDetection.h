@@ -21,7 +21,6 @@
 #define new DEBUG_NEW
 #endif
 
-
 #define MEMORY_LEAK_DETECTION\
 	{\
 		int _flag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);\

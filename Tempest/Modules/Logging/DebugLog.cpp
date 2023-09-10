@@ -1,6 +1,7 @@
 #include "DebugLog.h"
 
-namespace DEBUG{
+namespace LOG
+{
 
 	void ConsolePrint(const char *i_fmt, ...) {
 		assert(i_fmt);
