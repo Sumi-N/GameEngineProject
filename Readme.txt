@@ -1,1 +1,0 @@
-This game engine is the game engine I made from the scrach.

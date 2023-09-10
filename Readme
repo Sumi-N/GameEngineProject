@@ -1,0 +1,8 @@
+How to compile and run
+
+1. Get submodules
+    git submodule update --init --recursive
+2. Build resource convertes and convert resources
+    Build/ConvertResource.bat
+3. Build game engin and run game
+    Build/BuildAndRunGame.bat

@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Game", "Game", "{D59A1962-9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTest", "UnitTest", "{CE2AE061-D19B-455F-8642-6DF02FA6C8AD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CustomeGame", "MyGame\CustomeGame.vcxproj", "{55D3B31D-D3E3-47EB-9761-F7E828A67680}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CustomGame", "MyGame\CustomGame.vcxproj", "{55D3B31D-D3E3-47EB-9761-F7E828A67680}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Animation", "Tempest\Modules\Animation\Animation.vcxproj", "{CC303B10-D7FA-4ACD-B85D-44B6B282193B}"
 EndProject
