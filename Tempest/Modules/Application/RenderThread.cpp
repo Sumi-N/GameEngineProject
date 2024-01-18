@@ -92,6 +92,7 @@ namespace Tempest
 
 	bool RenderThread::OnWindowClose(WindowCloseEvent i_event)
 	{
+		ThreadManager::PropagateEndSignal();
 		pWindow->OnWindowClose(i_event);
 		return true;
 	}

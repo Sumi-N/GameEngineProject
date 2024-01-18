@@ -9,7 +9,7 @@ namespace Tempest
 		{
 		case ShaderDescriptorType::Sampler:              return VK_DESCRIPTOR_TYPE_SAMPLER;
 		case ShaderDescriptorType::CombinedImageSampler: return VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-		case ShaderDescriptorType::SapmledImage:         return VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE;
+		case ShaderDescriptorType::SampledImage:         return VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE;
 		case ShaderDescriptorType::StorageImage:         return VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
 		case ShaderDescriptorType::UniformTexelBuffer:   return VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER;
 		case ShaderDescriptorType::StorageTexelBuffer:   return VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER;

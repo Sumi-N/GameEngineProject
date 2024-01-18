@@ -2,19 +2,6 @@
 #include <stdint.h>
 
 //----------------------------
-//  Custom heap allocator
-//----------------------------
-#define ENABLE_CUSTOM_ALLOCATOR
-
-#ifndef ENABLE_CUSTOM_ALLOCATOR
-	#define USE_STANDARD_ARRAY
-#else
-	#define HEAP_SIZE     2ll * 1024ll * 1024ll * 1024ll
-	#define NUM_DESCRIPTOR 2048
-
-#endif // ENABLE_CUSTOM_ALLOCATOR
-
-//----------------------------
 //  Graphic API configuration
 //----------------------------
 

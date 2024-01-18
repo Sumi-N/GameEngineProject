@@ -1,13 +1,27 @@
 ﻿#pragma once
 #include "ThreadManager.h"
+#include "Thread.h"
 
 namespace Tempest
 {
 	uint8_t ThreadCount{0};
+	Thread* Threads[s_MaxThreadCount];
 
-	uint8_t ThreadManager::RegisterThread()
+	uint8_t ThreadManager::RegisterThread(Thread* p_thread)
 	{
-		return ThreadCount++;
+		Threads[ThreadCount] = p_thread;
+		uint8_t ret_id = ThreadCount;
+		ThreadCount++;
+		DEBUG_ASSERT(ThreadCount <= s_MaxThreadCount);
+		return ret_id;
+	}
+
+	void ThreadManager::PropagateEndSignal()
+	{
+		for (int i = 0; i < ThreadCount; i++)
+		{
+			Threads[i]->is_alive = false;
+		}
 	}
 
 	// TODO RegisterThred で導入した数の　Thread　しか SyncPoint で待てない。

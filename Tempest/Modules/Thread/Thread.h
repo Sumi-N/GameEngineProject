@@ -18,7 +18,7 @@ namespace Tempest
 		template<typename Callable, typename ... Args>
 		void Create(Callable&& function, Args&& ... args)
 		{
-			id = ThreadManager::RegisterThread();
+			id = ThreadManager::RegisterThread(this);
 			future = value.get_future();
 			std::thread t([=]
 						  {

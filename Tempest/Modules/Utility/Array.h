@@ -4,7 +4,6 @@
 
 namespace Tempest
 {
-#ifndef USE_STANDARD_ARRAY
 	template <typename T>
 	class Array
 	{
@@ -28,8 +27,8 @@ namespace Tempest
 			const Array* GetArray() const {return array; }
 			T*           Get()      const {return &(array->At(index)); }
 
-			bool operator==(const Iterator& i_iterator);
-			bool operator!=(const Iterator& i_iterator);
+			bool operator==(const Iterator& i_iterator) const;
+			bool operator!=(const Iterator& i_iterator) const;
 
 		private:
 			const Array* array;
@@ -58,14 +57,14 @@ namespace Tempest
 		size_t      Granularity() const {return this->granularity; }
 		T*          Data       () const {return this->data; };
 
-		void		Resize   (size_t);
-		bool		Empty    ();
+		void		Resize (size_t);
+		bool		Empty  () const;
 		//void		Reserve(size_t);
 		//void		ShrinkToFit();
 
 		T&	operator[](size_t) const;
 		T&	At        (size_t) const;
-		T&  UnsafeAt  (size_t);
+		T&  UnsafeAt  (size_t) const;
 		//T&     Front();
 		//T&     Back();
 
@@ -89,7 +88,8 @@ namespace Tempest
 		size_t granularity{ InitialGranularity };
 		T*     data       { nullptr };
 	};
-#else
+
+#if 0
 	template <typename T>
 	class Array
 	{

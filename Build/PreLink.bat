@@ -1,5 +1,7 @@
 call SetEnvironment.bat
 
+set EXTERNAL_DIRECTORY=%~dp0..\External
+
 if not exist "%EXTERNAL_DIRECTORY%\glfw\build\" (
     cmake -G "Visual Studio 17 2022" -A x64 -S %EXTERNAL_DIRECTORY%\glfw -B %EXTERNAL_DIRECTORY%\glfw\build\
 )

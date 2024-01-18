@@ -91,8 +91,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Define.h" />
-    <ClInclude Include="FixedSizeAllocator.h" />
-    <ClInclude Include="HeapManager.h" />
+    <ClInclude Include="MemoryChunk.h" />
     <ClInclude Include="MemorySystem.h" />
     <ClInclude Include="SmartPointer.h" />
   </ItemGroup>
@@ -105,13 +104,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Allocator.cpp" />
-    <ClCompile Include="BitArray.cpp" />
     <ClCompile Include="Define.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="HeapManager.cpp" />
+    <ClCompile Include="MemoryChunk.cpp" />
     <ClCompile Include="MemorySystem.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -7,10 +7,7 @@
     <ClInclude Include="SmartPointer.h">
       <Filter>SmartPointer</Filter>
     </ClInclude>
-    <ClInclude Include="FixedSizeAllocator.h">
-      <Filter>MemoryManager</Filter>
-    </ClInclude>
-    <ClInclude Include="HeapManager.h">
+    <ClInclude Include="MemoryChunk.h">
       <Filter>MemoryManager</Filter>
     </ClInclude>
     <ClInclude Include="MemorySystem.h">
@@ -32,13 +29,7 @@
     <ClCompile Include="Define.cpp">
       <Filter>Precompiled Header</Filter>
     </ClCompile>
-    <ClCompile Include="Allocator.cpp">
-      <Filter>MemoryManager</Filter>
-    </ClCompile>
-    <ClCompile Include="BitArray.cpp">
-      <Filter>MemoryManager</Filter>
-    </ClCompile>
-    <ClCompile Include="HeapManager.cpp">
+    <ClCompile Include="MemoryChunk.cpp">
       <Filter>MemoryManager</Filter>
     </ClCompile>
     <ClCompile Include="MemorySystem.cpp">

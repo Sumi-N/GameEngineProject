@@ -2,8 +2,8 @@
 
 #ifdef _DEBUG
 #define HEAP_ACCESS_VIOLATION_CHECK(i_block) \
-	DEBUG_ASSERT(i_block->headguardbanding != '\0'); \
-	DEBUG_ASSERT(i_block->tailguardbanding != '\0');
+	DEBUG_ASSERT(i_block->headguardbanding == '\0'); \
+	DEBUG_ASSERT(i_block->tailguardbanding == '\0');
 #endif
 
 namespace Tempest
@@ -62,6 +62,12 @@ namespace Tempest
 	{
 		DEBUG_ASSERT(i_size > 0);
 
+		if (!is_alive)
+		{
+			DEBUG_PRINT("Memory Allcoated Before Initialize");
+			return new char[i_size];
+		}
+
 		FindSpaceAndInsertblock_(i_size);
 
 		return SplitToTwoBlocks_(i_size);
@@ -86,6 +92,13 @@ namespace Tempest
 	bool MemoryChunk::Free(void* i_ptr)
 	{
 		DEBUG_ASSERT(i_ptr);
+
+		if (!is_alive)
+		{
+			DEBUG_PRINT("Memory Freed After Finalize");
+			delete i_ptr;
+			return true;
+		}
 
 		void* freeing = reinterpret_cast<void*>(reinterpret_cast<size_t>(i_ptr) - sizeof(Block));
 		Block* freeing_block = static_cast<Block*>(freeing);

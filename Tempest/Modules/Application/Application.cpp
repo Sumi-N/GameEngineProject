@@ -8,11 +8,13 @@ namespace Tempest
 
 	void Application::Invoke()
 	{
+		MemorySystem::Initialize();
 		g_GameThread.Create(InvokeGameThread);
 		g_RenderThread.Create(InvokeRenderThread);
 
-		g_GameThread.WaitThreadFinish();
 		g_RenderThread.WaitThreadFinish();
+		g_GameThread.WaitThreadFinish();
+		MemorySystem::Finalize();
 
 		return;
 	}

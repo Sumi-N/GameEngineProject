@@ -1,5 +1,5 @@
 #pragma once
-#include "FixedSizeAllocator.h"
+#include "MemoryChunk.h"
 
 namespace Tempest
 {
@@ -7,5 +7,8 @@ namespace Tempest
 	{
 		void Initialize();
 		void Finalize();
+		void* Allocate(size_t i_size);
+		void* Reallocate(void* i_ptr, size_t i_size);
+		void  Free(void* i_ptr);
 	}
 }

@@ -53,7 +53,7 @@ namespace Tempest
 			if (result != ResultValue::Success)
 			{
 				in.SetFileName(PATH_SUFFIX_FROM_EXE + String(i_filepath));
-				DEBUG::ConsolePrint("Failed to load skeleton: %s", i_filepath);
+				LOG::ConsolePrint("Failed to load skeleton: %s", i_filepath);
 				RETURN_IFNOT_SUCCESS(in.Open());
 			}
 
@@ -97,7 +97,7 @@ namespace Tempest
 			if (result != ResultValue::Success)
 			{
 				in.SetFileName(PATH_SUFFIX_FROM_EXE + String(i_filepath));
-				DEBUG::ConsolePrint("Failed to load animation clip: %s", i_filepath);
+				LOG::ConsolePrint("Failed to load animation clip: %s", i_filepath);
 				RETURN_IFNOT_SUCCESS(in.Open());
 			}
 
@@ -135,7 +135,7 @@ namespace Tempest
 			if (result != ResultValue::Success)
 			{
 				in.SetFileName(PATH_SUFFIX_FROM_EXE + String(i_filepath));
-				DEBUG::ConsolePrint("Failed to load mesh: %s", i_filepath);
+				LOG::ConsolePrint("Failed to load mesh: %s", i_filepath);
 				RETURN_IFNOT_SUCCESS(in.Open());
 			}
 
@@ -170,7 +170,7 @@ namespace Tempest
 			if (result != ResultValue::Success)
 			{
 				in.SetFileName(PATH_SUFFIX_FROM_EXE + String(i_filepath));
-				DEBUG::ConsolePrint("Failed to load skeleton mesh: %s", i_filepath);
+				LOG::ConsolePrint("Failed to load skeleton mesh: %s", i_filepath);
 				RETURN_IFNOT_SUCCESS(in.Open());
 			}
 
@@ -223,7 +223,7 @@ namespace Tempest
 			if (result != ResultValue::Success)
 			{
 				in.SetFileName(PATH_SUFFIX_FROM_EXE + String(i_filepath));
-				DEBUG::ConsolePrint("Failed to load texture: %s", i_filepath);
+				LOG::ConsolePrint("Failed to load texture: %s", i_filepath);
 				RETURN_IFNOT_SUCCESS(in.Open());
 			}
 
@@ -310,7 +310,7 @@ namespace Tempest
 			if (result != ResultValue::Success)
 			{
 				in.SetFileName(PATH_SUFFIX_FROM_EXE + String(i_filepath));
-				DEBUG::ConsolePrint("Failed to load shader: %s", i_filepath);
+				LOG::ConsolePrint("Failed to load shader: %s", i_filepath);
 				RETURN_IFNOT_SUCCESS(in.Open());
 			}
 

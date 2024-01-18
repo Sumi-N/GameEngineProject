@@ -302,19 +302,17 @@ namespace Tempest
 		submitInfo.pCommandBuffers = &commandbuffer.commandbuffer;
 
 		VkPipelineStageFlags wait_stages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
-		VkSemaphore wait_semaphore[] = { p_wait_semaphore->semaphore };
 		if (p_wait_semaphore)
 		{
 			submitInfo.waitSemaphoreCount = 1;
-			submitInfo.pWaitSemaphores = wait_semaphore;
+			submitInfo.pWaitSemaphores = &(p_wait_semaphore->semaphore);
 			submitInfo.pWaitDstStageMask = wait_stages;
 		}
 
-		VkSemaphore signal_semaphore[] = { p_signal_semaphore->semaphore };
 		if (p_signal_semaphore)
 		{
 			submitInfo.signalSemaphoreCount = 1;
-			submitInfo.pSignalSemaphores = signal_semaphore;
+			submitInfo.pSignalSemaphores = &(p_signal_semaphore->semaphore);
 		}
 
 		auto queue_submi_result = vkQueueSubmit(queue, 1, &submitInfo, p_fence->fence);

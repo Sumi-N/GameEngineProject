@@ -1,38 +1,32 @@
 
 namespace Tempest
 {
-#ifndef USE_STANDARD_ARRAY
-
 	template <typename T>
-	inline bool Array<T>::Iterator::operator==(const Array<T>::Iterator& i_iterator)
+	inline bool Array<T>::Iterator::operator==(const Array<T>::Iterator& i_iterator) const
 	{
-		if (!i_iterator.GetArray())
+		const Array* iterator_array = i_iterator.GetArray();
+		size_t iterator_index = i_iterator.GetIndex();
+
+		if (!iterator_array)
 		{
 			return !array ? true : false;
 		}
 
-		if (index == i_iterator.GetIndex() && array == i_iterator.GetArray())
-		{
-			return true;
-		}
-
-		return false;
+		return ((index == iterator_index) && (array == iterator_array));
 	}
 
 	template <typename T>
-	inline bool Array<T>::Iterator::operator!=(const Array<T>::Iterator& i_iterator)
+	inline bool Array<T>::Iterator::operator!=(const Array<T>::Iterator& i_iterator) const
 	{
-		if (!i_iterator.GetArray())
+		const Array* iterator_array = i_iterator.GetArray();
+		size_t iterator_index = i_iterator.GetIndex();
+
+		if (!iterator_array)
 		{
 			return index >= array->Size() ? false : true;
 		}
 
-		if (index != i_iterator.GetIndex() && array != i_iterator.GetArray())
-		{
-			return true;
-		}
-
-		return false;
+		return ((index != iterator_index) && (array != iterator_array));
 	}
 
 	template <typename T>
@@ -57,7 +51,7 @@ namespace Tempest
 		capacity = i_array.Capacity();
 		granularity = i_array.Granularity();
 		size = i_array.Size();
-		data = reinterpret_cast<T*>(AllocMemory(capacity * sizeof(T)));
+		data = reinterpret_cast<T*>(MemorySystem::Allocate(capacity * sizeof(T)));
 		memset(static_cast<void*>(&data[0]), 0, (capacity) * sizeof(T));
 		for (size_t i = 0; i < size; i++)
 		{
@@ -73,8 +67,11 @@ namespace Tempest
 		{
 			(*it).~T();
 		}
+
 		if (data)
-			FreeMemory(data);
+		{
+			MemorySystem::Free(data);
+		}
 	}
 
 	template <typename T>
@@ -87,7 +84,7 @@ namespace Tempest
 		capacity = i_array.Capacity();
 		granularity = i_array.Granularity();
 		size = i_array.Size();
-		data = reinterpret_cast<T*>(AllocMemory(capacity * sizeof(T)));
+		data = reinterpret_cast<T*>(MemorySystem::Allocate(capacity * sizeof(T)));
 		memset(static_cast<void*>(&data[0]), 0, (capacity) * sizeof(T));
 		for (size_t i = 0; i < size; i++)
 		{
@@ -114,7 +111,7 @@ namespace Tempest
 	{
 		if (capacity == 0 || !data)
 		{
-			data = reinterpret_cast<T*>(AllocMemory(i_resize * sizeof(T)));
+			data = reinterpret_cast<T*>(MemorySystem::Allocate(i_resize * sizeof(T)));
 			capacity = i_resize;
 			memset(static_cast<void*>(&data[size]), 0, (i_resize - size) * sizeof(T));
 
@@ -129,7 +126,7 @@ namespace Tempest
 
 		if (i_resize > capacity)
 		{
-			data = reinterpret_cast<T*>(ReallocMemory(reinterpret_cast<void*>(data), i_resize * sizeof(T)));
+			data = reinterpret_cast<T*>(MemorySystem::Reallocate(reinterpret_cast<void*>(data), i_resize * sizeof(T)));
 			capacity = i_resize;
 			memset(static_cast<void*>(&data[size]), 0, (i_resize - size) * sizeof(T));
 		}
@@ -142,34 +139,32 @@ namespace Tempest
 	}
 
 	template <typename T>
-	inline bool Array<T>::Empty()
+	inline bool Array<T>::Empty() const
 	{
-		if (capacity == 0 || size == 0)
-			return true;
-		return false;
+		return (capacity == 0 || size == 0);
 	}
 
 	template <typename T>
 	inline T& Array<T>::operator[](size_t i_size) const
 	{
-		if (i_size >= size || !data)
-			DEBUG_ASSERT(false);
+		DEBUG_ASSERT(data);
+		DEBUG_ASSERT(i_size < size);
 		return data[i_size];
 	}
 
 	template <typename T>
 	inline T& Array<T>::At(size_t i_size) const
 	{
-		if (i_size >= size || !data)
-			DEBUG_ASSERT(false);
+		DEBUG_ASSERT(data);
+		DEBUG_ASSERT(i_size < size);
 		return data[i_size];
 	}
 
 	template <typename T>
-	inline T& Array<T>::UnsafeAt(size_t i_size)
+	inline T& Array<T>::UnsafeAt(size_t i_size) const
 	{
-		if (i_size >= capacity || !data)
-			DEBUG_ASSERT(false);
+		DEBUG_ASSERT(data);
+		DEBUG_ASSERT(i_size < capacity);
 		return data[i_size];
 	}
 
@@ -178,7 +173,7 @@ namespace Tempest
 	{
 		if (capacity == 0 || !data)
 		{
-			data = reinterpret_cast<T*>(AllocMemory(granularity * sizeof(T)));
+			data = reinterpret_cast<T*>(MemorySystem::Allocate(granularity * sizeof(T)));
 			capacity += granularity;
 			memset(static_cast<void*>(&data[size]), 0, (capacity) * sizeof(T));
 			data[size] = std::move(T());
@@ -190,7 +185,7 @@ namespace Tempest
 
 		if (size >= capacity)
 		{
-			data = reinterpret_cast<T*>(ReallocMemory(reinterpret_cast<void*>(data), (capacity + granularity) * sizeof(T)));
+			data = reinterpret_cast<T*>(MemorySystem::Reallocate(reinterpret_cast<void*>(data), (capacity + granularity) * sizeof(T)));
 			capacity += granularity;
 			memset(static_cast<void*>(&data[size]), 0, (capacity - size) * sizeof(T));
 			data[size] = std::move(T());
@@ -210,7 +205,7 @@ namespace Tempest
 	{
 		if (capacity == 0 || !data)
 		{
-			data = reinterpret_cast<T*>(AllocMemory(granularity * sizeof(T)));
+			data = reinterpret_cast<T*>(MemorySystem::Allocate(granularity * sizeof(T)));
 			capacity += granularity;
 			data[size] = std::move(i_data);
 			size++;
@@ -220,7 +215,7 @@ namespace Tempest
 
 		if (size >= capacity)
 		{
-			data = reinterpret_cast<T*>(ReallocMemory(reinterpret_cast<void*>(data), (capacity + granularity) * sizeof(T)));
+			data = reinterpret_cast<T*>(MemorySystem::Reallocate(reinterpret_cast<void*>(data), (capacity + granularity) * sizeof(T)));
 			capacity += granularity;
 			data[size] = std::move(i_data);
 			size++;
@@ -235,20 +230,14 @@ namespace Tempest
 	template <typename T>
 	inline void Array<T>::PopBack()
 	{
-		if (size <= 0)
-		{
-			DEBUG_ASSERT(false);
-		}
+		DEBUG_ASSERT(size != 0);
 		size--;
 	}
 
 	template <typename T>
 	inline typename Array<T>::Iterator Array<T>::Insert(typename const Array<T>::Iterator i_iterator, const T& i_data)
 	{
-		if (i_iterator.GetArray() != this)
-		{
-			DEBUG_ASSERT(false);
-		}
+		DEBUG_ASSERT(i_iterator->GetArray() == this);
 
 		if (capacity == size)
 		{
@@ -280,7 +269,7 @@ namespace Tempest
 			(*it).~T();
 		}
 
-		FreeMemory(data);
+		MemorySystem::Free(data);
 		capacity = 0;
 		size = 0;
 		data = nullptr;
@@ -295,7 +284,4 @@ namespace Tempest
 			return (i_last.GetIndex() - i_first.GetIndex() >= 0) ? distance : -distance;
 		}
 	}
-
-#endif // !USE_STANDARD_ARRAY
-
 }

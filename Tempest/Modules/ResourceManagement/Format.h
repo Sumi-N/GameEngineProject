@@ -45,7 +45,7 @@ namespace Tempest
 	{
 		Sampler,
 		CombinedImageSampler,
-		SapmledImage,
+		SampledImage,
 		StorageImage,
 		UniformTexelBuffer,
 		StorageTexelBuffer,
