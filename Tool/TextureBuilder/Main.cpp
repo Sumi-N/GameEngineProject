@@ -1,3 +1,5 @@
+#define ENABLE_STD_LIBRARY
+
 #include "TextureConverter.h"
 #include <Utility/File.h>
 

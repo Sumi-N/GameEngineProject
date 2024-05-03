@@ -1,3 +1,5 @@
+#define ENABLE_STD_LIBRARY
+
 #include <Utility/File.h>
 #include <ResourceManagement/ResourceData.h>
 #include <shaderc/shaderc.h>
@@ -196,10 +198,12 @@ Result ConvertShaders(String output_file_name, String* i_file_names)
 				TOOL_ASSERT(false);}
 			return shaderc_vertex_shader;
 		};
+		shaderc_compile_options_t shader_option = shaderc_compile_options_initialize();
+		shaderc_compile_options_set_generate_debug_info(shader_option);
 
 		shaderc_compilation_result_t compile_result = shaderc_compile_into_spv(
 			compiler, shader_text.c_str(), shader_text.size(),
-			GetCompilerShaderType(idx_type), output_name_with_shadertyp.c_str(), "main", nullptr);
+			GetCompilerShaderType(idx_type), output_name_with_shadertyp.c_str(), "main", shader_option);
 
 		size_t num_errors = shaderc_result_get_num_errors(compile_result);
 		size_t num_warnings = shaderc_result_get_num_warnings(compile_result);
@@ -274,7 +278,8 @@ Result ConvertShaders(String output_file_name, String* i_file_names)
 				SpvReflectResult result = spvReflectEnumerateDescriptorSets(&module, &uniform_count, NULL);
 				TOOL_ASSERT(result == SPV_REFLECT_RESULT_SUCCESS);
 
-				Array<SpvReflectDescriptorSet*> sets(uniform_count);
+				Array<SpvReflectDescriptorSet*> sets;
+				sets.Resize(uniform_count);
 				result = spvReflectEnumerateDescriptorSets(&module, &uniform_count, sets.Data());
 				TOOL_ASSERT(result == SPV_REFLECT_RESULT_SUCCESS);
 

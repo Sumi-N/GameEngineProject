@@ -4,6 +4,7 @@
 
 namespace Tempest
 {
+#ifndef ENABLE_STD_LIBRARY
 	template <typename T>
 	class Array
 	{
@@ -89,7 +90,7 @@ namespace Tempest
 		T*     data       { nullptr };
 	};
 
-#if 0
+#else
 	template <typename T>
 	class Array
 	{
@@ -129,4 +130,6 @@ namespace Tempest
 #endif
 }
 
+#ifndef ENABLE_STD_LIBRARY
 #include "Array.inl"
+#endif

@@ -1,3 +1,5 @@
+#define ENABLE_STD_LIBRARY
+
 #include "GeometryConverter.h"
 #include <Utility/File.h>
 
